@@ -1,0 +1,73 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=festvox-ru
+pkgver=0.5
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Russian language support for Festival project"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Русский в Festival. http://festlang.berlios.de/docu/doku.php?id=russianru"
+)
+
+source=("http://download.berlios.de/festlang/msu_ru_nsh_clunits-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-libs utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="festival"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=usr/share/festival/voices/*
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+  cd $srcdir/msu_ru_nsh_clunits
+  mkdir -p $pkgdir/usr/share/festival/voices/russian/msu_ru_nsh_clunits
+  mv * $pkgdir/usr/share/festival/voices/russian/msu_ru_nsh_clunits
+
+rm -fv $pkgdir/usr/share/festival/voices/russian/msu_ru_nsh_clunits/{README,COPYING}
+}

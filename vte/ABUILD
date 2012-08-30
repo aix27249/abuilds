@@ -1,0 +1,128 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=vte
+pkgver=0.28.2
+tree=`echo $pkgver | cut -d . -f 1-2`
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GNOME terminal widget"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The VTE library inserts terminal capability strings into a trie, and then uses it to determine if data received from a pseudo-terminal is a control sequence  or just random data. The sample program interpret illustrates more or less what the widget sees after it filters incoming data."
+)
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/$pkgname/$tree/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs x11-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+#gnome3 part
+#adddep="vte-common=$pkgver"
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+#commented for future GNOME 3 support, uncomment when using gtk+3-terminals
+#pkglist="vte3 vte-common"
+
+#vte3()
+#{
+#	pkgname=vte3
+#	shortdesc="GTK+3 vte widget"
+#}
+#vte-common()
+#{
+#	pkgname=vte-common
+#	shortdesc="Common VTE files"
+#}
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+	go_src_dir
+	burn_patches
+	mkdir build-gtk2
+	cd build-gtk2
+	../configure --prefix=/usr \
+		--libdir=/usr/lib$LIBDIRSUFFIX \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--enable-introspection \
+		--with-gtk=2.0 \
+		--enable-gtk-doc
+	make -j${numjobs}
+cd ..
+
+#mkdir build-gtk3
+#cd  build-gtk3
+#../configure --prefix=/usr \
+#	--libdir=/usr/lib$LIBDIRSUFFIX \
+#	--sysconfdir=/etc \
+#	--localstatedir=/var \
+#	--disable-static \
+#	--enable-introspection \
+#	--with-gtk=3.0 \
+#	--enable-gtk-doc
+#make
+#cd ..
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+go_src_dir
+cd build-gtk2
+make DESTDIR=$pkgdir install
+# this is for extracting vte-common
+#rm $pkgdir/usr/libexec/vte/gnome-pty-helper
+}
+
+# All here is GNOME 3 parti
+
+#vte3_prep()
+#{
+#	go_src_dir
+#	cd build-gtk3
+#	make DESTDIR=$pkgdir install
+#	rm $pkgdir/usr/libexec/vte/gnome-pty-helper
+#}
+#vte-common_prep()
+#{
+#	go_src_dir
+#	cd build-gtk3
+#	make -C gnome-pty-helper DESTDIR=$pkgdir install
+#}
+

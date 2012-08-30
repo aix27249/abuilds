@@ -1,0 +1,29 @@
+pkgname=gvfs
+pkgver=1.9.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Userspace virtual filesystem implemented as a pluggable module for gio"
+
+source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="gnome gnome-base"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/gvfs \
+--disable-static \
+--mandir=/usr/man \
+--with-bash-completion-dir=/etc/bash_completion.d"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  cat ${filedir}/doinst.sh | sed -e "s:usr/lib/:usr/lib${LIBDIRSUFFIX}/:g" > ${pkgdir}/install/doinst.sh
+}

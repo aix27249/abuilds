@@ -1,0 +1,80 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=happy
+pkgver=1.18.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="happy (Parser generator for Haskell)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Happy is a parser generator system for Haskell, similar to the tool \`yacc\' for C.  Like \`yacc\', it takes a file containing an annotated BNF specification of a grammar and produces a Haskell module containing a parser for the grammar."
+	  ""
+	  "Homepage: http://hackage.haskell.org/package/happy"
+)
+
+source=("http://hackage.haskell.org/packages/archive/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-haskell"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+runhaskell Setup configure \
+--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-shared \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+-p --enable-split-objs
+
+runhaskell Setup build
+runhaskell Setup haddock
+runhaskell Setup copy --destdir=${pkgdir}
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

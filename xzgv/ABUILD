@@ -1,0 +1,73 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xzgv
+pkgver=0.9.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="picture viewer for X with a thumbnail-based selector"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("xzgv is a picture viewer for X, with a thumbnail-based file selector. Most file formats are supported, and the thumbnails used are compatible with xv, zgv, and the Gimp. It can also be used with 'xzgv file(s)', to effectively bypass the file selector. For more on how xzgv works and how to use it, do 'man xzgv' once it's installed."
+"Home Page: http://sourceforge.net/projects/xzgv"
+)
+
+
+source=("http://sourceforge.net/projects/${pkgname}/files/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz/download")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-gfx"
+
+#dependencies only needed to build package
+#build_deps=""
+
+#provides=""
+#conflicts=""
+
+#adddep=""
+#removedep=""
+
+#for multi pkg abuild
+#pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="INSTALL"
+#gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+#custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+    #No prefix for me.
+    sed -i -e 's/X=\/usr\/local/X=${DESTDIR}\/usr/' ${srcdir}/${pkgname}-${pkgver}/config.mk
+}
+
+build()
+{
+    go_src_dir
+    burn_patches
+    make
+    cd doc && make info && cd ..
+    make install DESTDIR=${pkgdir}
+}
+
+
+#ran after function build()
+#после сборки
+after_build()
+{
+    echo ""
+}

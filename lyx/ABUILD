@@ -1,0 +1,34 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+
+pkgname=lyx
+pkgver=2.0.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An advanced open-source document processor."
+source=("ftp://ftp.lyx.org/pub/lyx/stable/2.0.x/lyx-${pkgver}.tar.xz")
+tags="xapps app-office"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build()
+#после сборки
+after_build()
+{
+echo ""
+install -Dm644 "${filedir}/lyx.desktop" "${pkgdir}/usr/share/applications/lyx.desktop"
+}
+

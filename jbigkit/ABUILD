@@ -1,0 +1,51 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=jbigkit
+pkgver=2.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Data compression library/utilities for bi-level high-resolution images"
+
+source=("http://www.cl.cam.ac.uk/~mgk25/download/jbigkit-$pkgver.tar.gz")
+
+#short and long tags / длинный и короткий тег
+tags="console media-libs"
+
+build_deps="gcc"
+adddep="glibc"
+
+#provides="jbig"
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=("ANNOUNCE CHANGES INSTALL")
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+build() {
+  go_src_dir
+  make || return 1
+#  make test || return 1
+}
+
+#после сборки
+after_build()
+{
+  install -D -m644 $srcdir/$pkgname/libjbig/libjbig.a $pkgdir/usr/lib${LIBDIRSUFFIX}/libjbig.a
+  install -D -m644 $srcdir/$pkgname/libjbig/libjbig85.a $pkgdir/usr/lib${LIBDIRSUFFIX}/libjbig85.a
+  install -D -m644 $srcdir/$pkgname/libjbig/jbig.h $pkgdir/usr/include/jbig.h
+  install -D -m644 $srcdir/$pkgname/libjbig/jbig_ar.h $pkgdir/usr/include/jbig_ar.h
+  install -D -m644 $srcdir/$pkgname/libjbig/jbig85.h $pkgdir/usr/include/jbig85.h
+
+  install -d -m755 $pkgdir/usr/share/man/man1
+  install -d -m755 $pkgdir/usr/share/man/man5
+  install -m644 $srcdir/$pkgname/pbmtools/*.1* $pkgdir/usr/share/man/man1
+  install -m644 $srcdir/$pkgname/pbmtools/*.5* $pkgdir/usr/share/man/man5
+
+  install -D -m755 $srcdir/$pkgname/pbmtools/jbgtopbm $pkgdir/usr/bin/jbgtopbm
+  install -D -m755 $srcdir/$pkgname/pbmtools/pbmtojbg $pkgdir/usr/bin/pbmtojbg
+  install -D -m755 $srcdir/$pkgname/pbmtools/jbgtopbm85 $pkgdir/usr/bin/jbgtopbm85
+  install -D -m755 $srcdir/$pkgname/pbmtools/pbmtojbg85 $pkgdir/usr/bin/pbmtojbg85
+  install -D -m755 $srcdir/$pkgname/libjbig/tstcodec $pkgdir/usr/bin/tstcodec
+  install -D -m755 $srcdir/$pkgname/libjbig/tstcodec85 $pkgdir/usr/bin/tstcodec85
+}

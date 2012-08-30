@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=vala
+pkgver=0.17.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Vala (Compiler for the GObject type system)"
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
+tags="develop sys-devel"
+
+build_deps="make gcc pkg-config libxslt flex bison"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-vapigen"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

@@ -1,0 +1,45 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xdm-theme-fluxbox
+pkgver=0.3
+pkgbuild=8
+arch=('noarch')
+
+shortdesc="xdm theme for Fluxbox"
+
+tags="x11-themes themes"
+
+config_files="etc/X11/xdm/xdm-config"
+
+adddep="xdm feh xrdb xsetroot xclock xmessage xwininfo sessreg"
+
+build() {
+	set -e
+	cd $pkgdir
+
+	mkdir -p $pkgdir/etc/X11/xdm/theme
+	mkdir -p $pkgdir/etc/skel
+	cp -a $filedir/theme/*   $pkgdir/etc/X11/xdm/theme
+
+	chmod 755 $pkgdir/etc/X11/xdm/theme/Xsession
+	chmod 755 $pkgdir/etc/X11/xdm/theme/Xsetup	
+	chmod 755 $pkgdir/etc/X11/xdm/theme/Xstartup
+	chmod 755 $pkgdir/etc/X11/xdm/theme/buttons
+	chmod 644 $pkgdir/etc/X11/xdm/theme/Xservers
+	chmod 644 $pkgdir/etc/X11/xdm/theme/Xresources
+	chmod 644 $pkgdir/etc/X11/xdm/theme/Flux.jpg
+
+	# Default config file
+	install -m0644 $filedir/xdm-config  $pkgdir/etc/X11/xdm/xdm-config
+
+
+	cp -a $filedir/.dmrc $pkgdir/etc/skel
+	chmod 644 $pkgdir/etc/skel/.dmrc
+	set +e
+
+}
+
+
+
+
+

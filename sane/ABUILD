@@ -1,0 +1,39 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=sane
+pkgver=1.0.22
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Scanner Access Now Easy"
+
+source="ftp://ftp2.sane-project.org/pub/sane/$pkgname-backends-$pkgver/$pkgname-backends-$pkgver.tar.gz"
+
+tags="xapps media-gfx"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-docdir=/usr/doc/sane \
+--enable-avahi \
+--disable-locking"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	# fix hp officejets
+	echo "#hpaio" >> "${pkgdir}/etc/sane.d/dll.conf"
+	# install udev files
+	install -D -m0644 tools/udev/libsane.rules ${pkgdir}/etc/udev/rules.d/99-sane.rules
+	# fix udev rules
+	sed -i 's|NAME="%k", ||g' ${pkgdir}/etc/udev/rules.d/99-sane.rules
+}

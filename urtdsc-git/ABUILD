@@ -1,0 +1,13 @@
+pkgname=urtdsc-git
+pkgver=0.3
+pkgbuild=1
+arch=('auto')
+shortdesc="Urban Terror Demo-Screenshot C0nc4t3n4t0r"
+longdesc=("Urban Terror Demo-Screenshot C0nc4t3n4t0r was developed for Urban Terror players, who playing on tournaments like Clanbase and Urban-Zone, which requires uploading demos and screenshots into match summary."
+	  ""
+	  "Homepage: http://dev.pztrn.ru/projects/urtdsc"
+)
+source=("git:git://github.com/pztrn/urtdsc")
+tags="games games-util"
+
+BUILD_SYSTEM="python"

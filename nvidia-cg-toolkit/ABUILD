@@ -1,0 +1,35 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=nvidia-cg-toolkit
+pkgver=3.1
+date="February2012"
+pkgbuild=1
+arch=('auto')
+
+shortdesc="NVIDIA Cg libraries"
+
+if [ "${LIBDIRSUFFIX}" = "64" ]; then
+     source=("http://developer.download.nvidia.com/cg/Cg_${pkgver}/Cg-${pkgver}_${date}_x86_64.tgz")
+else
+     source=("http://developer.download.nvidia.com/cg/Cg_${pkgver}/Cg-${pkgver}_${date}_x86.tgz")
+fi
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="libs media-gfx"
+
+#----------------------------- Make PKG --------------------------------------
+build()
+{
+  go_src_dir
+  
+  mkdir -p ${pkgdir}/usr/ ${pkgdir}/usr/share/
+  
+  cp -r ./bin/ ${pkgdir}/usr/
+  cp -r ./include/ ${pkgdir}/usr/
+  cp -r ./local/Cg/ ${pkgdir}/usr/share/
+  if [ "${LIBDIRSUFFIX}" = "64" ]; then
+    cp -r ./lib64/ ${pkgdir}/usr/
+  else
+    cp -r ./lib/ ${pkgdir}/usr/
+  fi
+}

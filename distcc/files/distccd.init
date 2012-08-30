@@ -1,0 +1,20 @@
+#!/sbin/runscript
+# Copyright 1999-2010 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License, v2 or later
+# $Header: /var/cvsroot/gentoo-x86/sys-apps/hal/files/0.5.14-hald.rc,v 1.1 2010/01/20 13:42:14 dang Exp $
+
+depend() {
+	need network
+}
+
+start() {
+	ebegin "Starting DISTCC daemon"
+	start-stop-daemon --start --exec '/usr/bin/distccd' --pidfile /var/run/distccd/distccd.pid -- -j $numjobs --user=nobody --allow 127.0.0.1 --pid-file /var/run/distccd/distccd.pid --daemon ${DISTCCD_ARGS}
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping DISTCC daemon"
+	start-stop-daemon --stop --pidfile /var/run/distccd/distccd.pid
+	eend 0
+}

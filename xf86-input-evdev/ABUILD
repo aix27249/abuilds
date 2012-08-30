@@ -1,0 +1,18 @@
+pkgname=xf86-input-evdev
+pkgver=2.7.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-input-evdev')
+longdesc=('xf86-input-evdev is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-input-evdev-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

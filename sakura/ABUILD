@@ -1,0 +1,77 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=sakura
+pkgver=2.4.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="a terminal emulator based on GTK and VTE"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("It's a terminal emulator with few dependencies, so you don't need a full GNOME desktop installed to have a decent terminal emulator. Current terminal emulators based on VTE are  gnome-terminal, XFCE Terminal, TermIt and a small sample program included in the vte sources. Homepage: http://pleyades.net/david/sakura.php"
+)
+
+source=("http://pleyades.net/david/projects/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-terms xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# extract the keybindings from the installed documentation, rest is only relevant during build time
+  awk '/^Keybindings/{f="'${pkgdir}'/usr/doc/'${pkgname}'-'${pkgver}'/KEYBINDINGS"} f{print > f} /^END/' \
+        ${pkgdir}/usr/share/doc/${pkgname}/INSTALL
+  rm ${pkgdir}/usr/share/doc/${pkgname}/INSTALL
+
+rmdir ${pkgdir}/usr/share/doc/${pkgname}
+rmdir -v ${pkgdir}/usr/share/doc/
+
+echo ""
+}

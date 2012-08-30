@@ -1,0 +1,33 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tremulous-community-update
+pkgver=1.1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The community update build of Tremulous, a free FPS/RTS mix game."
+
+source=("http://releases.mercenariesguild.net/client/mgclient_source_Release_1.011.tar.gz"
+	"http://projects.mercenariesguild.net/attachments/download/109/game.qvm")
+
+adddep="tremulous-data"
+
+tags="games games-fps"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	arch=x86
+	[ "$LIBDIRSUFFIX" == "64" ] && arch=x86_64
+	make
+
+	# Install game data
+	install -Dm644 $srcache/game.qvm $pkgdir/opt/tremulous/game.qvm
+	install -Dm755 build/release-linux-$arch/tremulous.$arch $pkgdir/opt/tremulous/tremulous
+
+	# Install launchers
+	install -D -m755 $filedir/tremulous.sh $pkgdir/usr/bin/tremulous
+	install -D -m644 $filedir/tremulous.xpm $pkgdir/usr/share/pixmaps/tremulous.xpm
+	install -D -m644 $filedir/tremulous.desktop $pkgdir/usr/share/applications/tremulous.desktop
+}
+

@@ -1,0 +1,37 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=testdisk
+pkgver=6.12
+pkgbuild=2
+arch=('auto')
+
+shortdesc="TestDisk (free data recovery software)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" "
+)
+
+source=("http://www.cgsecurity.org/${pkgname}-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="utils app-admin"     			#short and long tags / длинный и короткий тег
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

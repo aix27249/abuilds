@@ -1,0 +1,38 @@
+pkgname=gnome-control-center
+pkgver=2.32.1
+pkgbuild=3
+arch=('auto')
+
+shortdesc="utilities for setting GNOME desktop"
+longdesc=("This is GNOME Control Center, set of applications for setting all aspects of GNOME Desktop"
+)
+
+source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.32/${pkgname}-${pkgver}.tar.bz2")
+
+
+tags="gnome-base gnome"     			#short and long tags / длинный и короткий тег
+
+adddep="sound-theme-freedesktop"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--enable-aboutme \
+	--disable-docs \
+	--disable-scrollkeeper \
+	--disable-update-mimedb"
+after_build() {
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gnome-control-center-2.0 ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+
+	# --disable-update-mimedb?
+	rm -f "${pkgdir}/usr/share/applications/mimeinfo.cache"
+}

@@ -1,0 +1,43 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hplip-plugin
+pkgver=3.11.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Binary plugin for HPs hplip printer driver library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("http://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-$pkgver-plugin.run")
+
+#short and long tags / длинный и короткий тег
+tags="net-print drivers"
+
+build()
+{
+go_src_dir
+
+sh $srcache/hplip-$pkgver-plugin.run --tar xvf
+
+sed -i 's!$HOMEDIR!'$pkgdir'/usr/share/hplip!g' plugin.spec
+sed -i 's!$RULESDIR!'$pkgdir'/etc/udev/rules.d!g' plugin.spec
+
+sed -i 's!if mode == INTERACTIVE_MODE:!installPlugin()\nsys.exit(0)\n\0!' \
+plugin_install.py
+sed -i 's!sys.exit(1)!raise!' \
+plugin_install.py
+
+python plugin_install.py
+
+while IFS= read -r -d '' link; do
+    linkdir="`dirname $link`"
+    linkdir="`readlink -e $linkdir`"
+    linktarget="`readlink -e $link`"
+    relpath="`python -c 'import sys,os.path; print os.path.relpath(sys.argv[1],sys.argv[2])' $linktarget $linkdir`"
+    ln -sf "$relpath" "$link"
+  done < <(find "$pkgdir" -type l -print0)
+
+}
+

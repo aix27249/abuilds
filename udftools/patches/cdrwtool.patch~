@@ -1,0 +1,10 @@
+--- ./udftools-1.0.0b3/cdrwtool/cdrwtool.c.old	2012-01-20 21:53:15.511005469 +0400
++++ udftools-1.0.0b3/cdrwtool/cdrwtool.c	2012-01-20 21:53:34.812005538 +0400
+@@ -27,6 +27,7 @@
+ #include <unistd.h>
+ #include <getopt.h>
+ #include <signal.h>
++#include <limits.h>
+ 
+ #include <sys/ioctl.h>
+ #include <asm/param.h>

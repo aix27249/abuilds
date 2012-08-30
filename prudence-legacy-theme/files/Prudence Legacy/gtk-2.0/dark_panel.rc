@@ -1,0 +1,33 @@
+style "murrine-panel"
+{
+
+	xthickness = 0
+	ythickness = 1
+
+	bg_pixmap[NORMAL]	= "png/general/blank.png"
+	bg[NORMAL]		= "#333333"
+	bg[PRELIGHT]		= "#454545"
+	bg[SELECTED]		= "#252525"
+	bg[ACTIVE]		= "#252525"
+	bg[INSENSITIVE]		= "#333333"
+
+	fg[NORMAL]		= "#DFD8C8"
+	fg[PRELIGHT]		= "#F7F4F1"
+	fg[ACTIVE]		= "#99948A"
+
+  engine "murrine"
+  {
+		gradient_shades		= {1.2,1.0,1.0,0.7} # default: {1.1,1.0,1.0,1.1}
+		lightborder_shade	= 1.4
+  }
+
+}
+
+# Theme panel elements
+widget "*PanelWidget*" 					style "murrine-panel"
+widget "*PanelApplet*" 					style "murrine-panel"
+widget "*fast-user-switch*"				style "murrine-panel" # workaround for Fast User Switch applet
+class "PanelApp*" 					style "murrine-panel"
+class "PanelToplevel*" 					style "murrine-panel"
+widget_class "*notif*" 					style "murrine-panel"
+widget_class "*Notif*" 					style "murrine-panel"

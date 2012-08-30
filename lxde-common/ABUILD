@@ -1,0 +1,95 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lxde-common
+pkgver=0.5.0
+pkgbuild=5
+arch=('any')
+shortdesc="Common files of the LXDE Desktop"
+longdesc=("LXDE Common, the default settings configuration file "
+"for integrating the different components of LXDE. "
+"LXDE Common manages the system behavior and functions to integrate icons and artwork."
+)
+
+#source=("http://downloads.sourceforge.net/sourceforge/lxde/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/lxde/lxde-common%20%28default%20config%29/${pkgname}%20${pkgver}/${pkgname}-${pkgver}.tar.gz")
+#source=("${pkgname}-${pkgver}.tar.bz2")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+
+tags="lxde lxde-base"    #short and long tags / длинный и короткий тег
+adddep="lxappearance lxlauncher lxmenu-data lxpanel lxsession menu-cache pcmanfm openbox obconf"
+removedep=""
+
+author=FreeArcher
+email=archer@programist.ru
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= "
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+                  
+
+
+after_build() 
+{
+# Add support for KDM:
+if [ -d /usr/share/apps/kdm/sessions ]; then
+    mkdir -p $pkgdir/usr/share/apps/kdm/sessions
+    cp  $srcdir/$pkgname-$pkgver/LXDE.desktop $pkgdir/usr/share/apps/kdm/sessions/LXDE.desktop || exit 1
+fi
+
+# Add support for GDM:
+mkdir -p $pkgdir/etc/X11/dm/Sessions
+   cp $srcdir/$pkgname-$pkgver/LXDE.desktop $pkgdir/etc/X11/dm/Sessions/LXDE.deskop || exit 1
+
+# Add xinitrc
+mkdir -p $pkgdir/etc/X11/xinit
+install -m755 $filedir/xinitrc.lxde $pkgdir/etc/X11/xinit/
+
+# fix lxde-logout on lxpanel
+mkdir -p $pkgdir/usr/share/applications
+cat $filedir/lxde-logout.desktop > $pkgdir/usr/share/applications/lxde-logout.desktop || exit 1
+# add lock screen
+cat $filedir/lxde-lock-screen.desktop > $pkgdir/usr/share/applications/lxde-lock-screen.desktop || exit 1
+
+# add new lxde wallpapers
+tar -xvjf $filedir/lxde-new-wallpapers.tar.bz2 -C $pkgdir/usr/share/lxde/wallpapers || exit 1
+mv $pkgdir/usr/share/lxde/wallpapers/lxde-new-wallpapers/* $pkgdir/usr/share/lxde/wallpapers/ || exit 1
+rm -rf $pkgdir/usr/share/lxde/wallpapers/lxde-new-wallpapers || exit 1
+# set default wallpaper
+sed -i "s/^wallpaper\=.*$/wallpaper\=\/usr\/share\/lxde\/wallpapers\/lxde_green.jpg/" $pkgdir/usr/share/lxde/pcmanfm/main.lxde || exit 1
+
+# fix default terminal
+echo -e "[General] \nterminal=lxterminal" >> $pkgdir/usr/share/lxde/pcmanfm/main.lxde || exit 1
+sed -i 's/^Terminal=xterm -e/Terminal=lxterminal -e/' $pkgdir/usr/share/lxpanel/profile/LXDE/config  || exit 1
+
+#Set default lxpanel setting
+cp ${filedir}/panel ${pkgdir}/usr/share/lxpanel/profile/LXDE/panels/panel || exit 1
+
+# replace banner with my banner
+# mv $pkgdir/usr/share/lxde/images/logout-banner.png $pkgdir/usr/share/lxde/images/logout-banner.png.orig
+# cat "$filedir"/my-logout-banner.png > $pkgdir/usr/share/lxde/images/logout-banner.png
+
+#replace /etc/xdg/lxsession/LXDE/autostart for PcManFM-0.9.7 (pcmanfm2)
+cp ${filedir}/autostart ${pkgdir}/etc/xdg/lxsession/LXDE/autostart || exit 1
+
+}

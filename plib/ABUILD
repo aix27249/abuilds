@@ -1,0 +1,65 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plib
+pkgver=1.8.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PLIB: A Suite of Portable Game Libraries"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("PLIB includes sound effects, music, a complete 3D engine, font rendering, a simple Windowing library, a game scripting language, a GUI, networking, 3D math library and a collection of handy utility functions. Homepage: http://plib.sourceforge.net/"
+)
+
+source=("http://plib.sourceforge.net/dist/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="media-libs libs"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

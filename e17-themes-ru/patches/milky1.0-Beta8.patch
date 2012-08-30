@@ -1,0 +1,132 @@
+diff -uNrp milky1.0-Beta8.orig/milky.edc milky1.0-Beta8/milky.edc
+--- milky1.0-Beta8.orig/milky.edc	2010-10-18 23:53:08.836000000 +0800
++++ milky1.0-Beta8/milky.edc	2010-10-19 02:21:42.041000001 +0800
+@@ -86,10 +86,11 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -97,6 +98,7 @@ spectra {
+     color: 0 0 0 0 1;
+   }
+ }
++#endif
+ data
+  {
+    item: "theme/name"     "Milky's";
+diff -uNrp milky1.0-Beta8.orig/milky_efm_nav.edc milky1.0-Beta8/milky_efm_nav.edc
+--- milky1.0-Beta8.orig/milky_efm_nav.edc	2010-10-18 23:53:08.836000000 +0800
++++ milky1.0-Beta8/milky_efm_nav.edc	2010-10-19 02:25:05.061000001 +0800
+@@ -131,7 +131,7 @@
+ 
+ fonts 
+ {
+-   font: "Vera.ttf" "Vera";
++   font: "DejaVuSans.ttf" "Vera";
+ }
+ 
+ images 
+diff -uNrp milky1.0-Beta8.orig/milky_icons.edc milky1.0-Beta8/milky_icons.edc
+--- milky1.0-Beta8.orig/milky_icons.edc	2010-10-18 23:53:08.843000000 +0800
++++ milky1.0-Beta8/milky_icons.edc	2010-10-19 02:24:05.215000002 +0800
+@@ -1985,6 +1985,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2007,6 +2008,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -2026,6 +2028,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2044,6 +2047,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -2063,6 +2067,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2085,6 +2090,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -2104,6 +2110,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2126,6 +2133,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -2145,6 +2153,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2167,6 +2176,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+diff -uNrp milky1.0-Beta8.orig/milky_weather.edc milky1.0-Beta8/milky_weather.edc
+--- milky1.0-Beta8.orig/milky_weather.edc	2010-10-18 23:53:08.842000000 +0800
++++ milky1.0-Beta8/milky_weather.edc	2010-10-19 02:22:23.463000003 +0800
+@@ -143,7 +143,7 @@
+ 			    offset:   -1  -1;
+ 			 }
+ 		       color:  255 255 255 255;
+-		       color3:   0   0   0  60;
++		       color:   0   0   0  60;
+ 		    }
+ 		  description
+ 		    {

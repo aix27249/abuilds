@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Wine Registry editor
+Name[ru]=Wine - редактор реестра
+Exec=regedit
+Terminal=false
+Type=Application
+Icon=wine.png
+StartupNotify=true
+Categories=Application;Emulator;Utility

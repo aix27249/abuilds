@@ -1,0 +1,16 @@
+pkgname=printproto
+pkgver=1.0.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('printproto')
+longdesc=('printproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-protos xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/proto/printproto-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

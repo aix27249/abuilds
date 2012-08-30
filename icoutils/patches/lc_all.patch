@@ -1,0 +1,22 @@
+diff -uNr icoutils-0.29.1.orig/icotool/main.c icoutils-0.29.1/icotool/main.c
+--- icoutils-0.29.1.orig/icotool/main.c	2010-02-13 17:44:05.000000000 +0000
++++ icoutils-0.29.1/icotool/main.c	2011-01-21 17:38:55.000000000 +0000
+@@ -23,6 +23,7 @@
+ #include <getopt.h>		/* Gnulib/GNU Libc */
+ #include <string.h>		/* C89 */
+ #include <stdlib.h>		/* C89 */
++#include <locale.h>
+ #include "gettext.h"
+ #include "configmake.h"
+ #define _(s) gettext(s)
+diff -uNr icoutils-0.29.1.orig/wrestool/main.c icoutils-0.29.1/wrestool/main.c
+--- icoutils-0.29.1.orig/wrestool/main.c	2010-01-02 19:39:16.000000000 +0000
++++ icoutils-0.29.1/wrestool/main.c	2011-01-21 17:41:53.000000000 +0000
+@@ -17,6 +17,7 @@
+  */
+ 
+ #include <config.h>
++#include <locale.h>
+ #include "gettext.h"			/* Gnulib */
+ #include "configmake.h"
+ #define _(s) gettext(s)

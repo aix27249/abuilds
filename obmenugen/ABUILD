@@ -1,0 +1,57 @@
+pkgname=obmenugen
+pkgver=0.4.3
+pkgbuild=5
+arch=('auto')
+
+shortdesc="fast static/dinamic menu generator for the Openbox Window Manager"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Features: "
+	  "- Generates full menu using the information present in *.desktop files "
+	  "(with static content or dinamically generated). "
+	  "- No dependencies (it is statically compiled in a <400kb binary)"
+	  "- In a relative modest machine with ~200 *.desktop files it generates "
+	  "the full menu in ~90ms. In mine's it takes 14-19ms. "
+	  "- Internalization (i18n) support through standard .PO files. "
+	  "- Absolute control of the menu layout through obmenugen SCHEMA's file. "
+	  "- Support to exclude menu items throught a really simple (yet "
+	  "confortable and powerfull enough) regular expressions subset. "
+	  "- Support to exclude menu items based on the directive OnlyShowIn "
+	  "present in *.desktop files. "
+	  "- Easy access to edit OpenBox and obmenugen configuration files through "
+	  "a submenu. "
+	  "- Very configurable and simple to use. With the combination of the config, "
+	  "exclusions and menu schema files, you can get exactly the menu layout you want.")
+
+source=("http://launchpad.net/${pkgname}/0.4/${pkgver}/+download/${pkgname}-${pkgver}-r56.tar.bz2")
+
+tags="x11-misc xapps"
+
+if [ "$(uname -m)" == "x86_64" ] ; then
+    tags="$tags x86"
+fi
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	mkdir -p ${pkgdir}/usr/bin
+	mkdir -p ${pkgdir}/usr/share/${pkgname}
+	mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+
+
+	cp bin/${pkgname}.i386 $pkgdir/usr/bin/$pkgname
+	
+	# Patch localization
+	( cd translations/ru/LC_MESSAGES && cat $filedir/fix_ru_translation.patch | patch -p0 --verbose )
+
+	cp -r translations/ ${pkgdir}/usr/share/${pkgname}/
+	cp -r html/ ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
+
+	cat $filedir/exclusions > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/exclusions
+	cat $filedir/obmenugen.cfg > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/obmenugen.cfg
+	cat $filedir/obmenugen.schema > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/obmenugen.schema
+	set +e
+
+
+}
+

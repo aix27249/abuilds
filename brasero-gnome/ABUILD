@@ -1,0 +1,68 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=brasero-gnome
+name=brasero
+pkgver=2.32.1
+pkgbuild=3
+arch=('auto')
+
+shortdesc="GNOME disc burning application"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Brasero is easy-to-use GNOME burning program which provides many useful things such as ripping DVD-Video or burning ISO images"
+)
+
+source=("http://ftp.gnome.org/pub/gnome/sources/brasero/2.32/$name-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="app-cdr xapps"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides="brasero"
+conflicts=""
+
+adddep="dconf"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-caches \
+--disable-schemas-compile"
+
+INSTALL_KEYS="DESTDIR=$pkgdir GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

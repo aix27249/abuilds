@@ -1,0 +1,24 @@
+#ABUILD created by/создан: drakmail, coder at iso-art.ru 
+pkgname=adom
+pkgver=1.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A roguelike game with a quest-centric, plot driven structure"
+longdesc=("A roguelike game with a quest-centric, plot driven structure")
+
+source=("http://www.adom.de/adom/download/linux/${pkgname}-111-elf.tar.gz")
+
+tags="games games-roguelike"
+
+build()
+{
+  cd ${srcdir}/${pkgname}
+
+  install -m755 -D $pkgname ${pkgdir}/usr/bin/$pkgname
+  #doc files
+  install -d ${pkgdir}/usr/share/doc/${pkgname}/ || return 1
+  install -D -m644 *.* ${pkgdir}/usr/share/doc/${pkgname}/ || return 1
+
+}
+

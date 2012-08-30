@@ -1,0 +1,35 @@
+#ABUILD created by/создан: Coldead, firedead117 at gmail.com 
+#Maintainer: Stanislav N. aka pztrn <pztrn@pztrn.ru>
+pkgname=liferea-unstable
+_shortname=liferea
+pkgver=1.8-RC1
+pkgbuild=1
+arch=('auto')
+shortdesc="A desktop news aggregator for online news feeds and weblogs"
+longdesc=("Liferea (Linux Feed Reader) is an aggregator for online news 
+feeds. There are many other news readers available, but these others are 
+not available for Linux or require many extra libraries to be installed. 
+Liferea tries to fill this gap by creating a fast, easy to use, easy to 
+install news aggregator for GTK."
+)
+source=("http://downloads.sourceforge.net/sourceforge/${_shortname}/${_shortname}-${pkgver}.tar.gz")
+tags="xapps net-news"
+build_deps="webkit"
+
+build()
+{
+go_src_dir
+#patch -Np1 -i "$filedir/libnotify-0.7.patch"
+./configure --prefix=/usr \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-schemas-install \
+  --libdir=/usr/lib$LIBDIRSUFFIX
+make
+make DESTDIR=$pkgdir install
+mkdir -p ${pkgdir}/usr/share/gconf/schemas
+install -d "${pkgdir}/usr/share/gconf/schemas"
+mkdir -p ${pkgdir}/etc/gconf/schemas/
+gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" "${pkgdir}"/etc/gconf/schemas/*.schemas
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

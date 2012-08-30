@@ -1,0 +1,32 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=reaver
+pkgver=1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="brute force attack tool against an access point's WiFi Protected Setup pin number"
+
+source=("http://reaver-wps.googlecode.com/files/$pkgname-$pkgver.tar.gz")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="network net-wireless"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+cd ${srcdir}/${pkgname}-${pkgver}/src
+}
+
+build()
+{
+./configure --prefix=/usr
+make
+}
+
+after_build()
+{
+install -D -m755 ${srcdir}/${pkgname}-${pkgver}/src/reaver $pkgdir/usr/bin/reaver
+install -D -m755 ${srcdir}/${pkgname}-${pkgver}/src/wash ${pkgdir}/usr/bin/wash
+install -D -m644 ${srcdir}/${pkgname}-${pkgver}/docs/reaver.1.gz ${pkgdir}/usr/share/man/man1/reaver.1.gz
+}

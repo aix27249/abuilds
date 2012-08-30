@@ -1,0 +1,22 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=ttf-ptsans
+pkgver=1.0
+pkgbuild=1
+arch=('noarch')
+shortdesc="Cyrillic Sans-serif font family by ParaType"
+build_deps="fontconfig"
+tags="xserver media-fonts"
+source=("http://www.fontstock.com/public/PTSans.zip")
+adddep="fontconfig"
+
+build() {
+  mkdir -p $pkgdir/usr/share/fonts/TTF/
+  mkdir -p $pkgdir/usr/share/licenses/${pkgname}/
+  # Font installation
+  install -m644 $srcdir/*.ttf $pkgdir/usr/share/fonts/TTF/
+
+  # License installation
+  install -D -m644 $srcdir/license_ru.txt $pkgdir/usr/share/licenses/${pkgname}/
+  install -D -m644 $srcdir/license_eng.txt $pkgdir/usr/share/licenses/${pkgname}/
+}

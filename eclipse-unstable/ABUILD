@@ -1,0 +1,45 @@
+# Lots of thanks to ArchLinux maintainers :)
+pkgname=eclipse-unstable
+_pkgname=eclipse
+pkgver=3.7
+_pkgver="3.7M7"
+pkgbuild=1
+_date=201104280848
+arch=('auto')
+
+shortdesc="An IDE for Java and other languages"
+longdesc="Eclipse is a flexible and extendible IDE for Java, C++ and more."
+
+tags="develop dev-java"
+
+source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops/S-${_pkgver}-${_date}/${_pkgname}-SDK-${_pkgver}-linux-gtk.tar.gz")
+[ "${LIBDIRSUFFIX}" = "64" ] && source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops/S-${_pkgver}-${_date}/${_pkgname}-SDK-${_pkgver}-linux-gtk-x86_64.tar.gz")
+
+provides="eclipse"
+conflicts="eclipse"
+
+adddep="jre gtk+2 xulrunner"
+
+build() {
+  cd "${srcdir}/eclipse"
+
+  # install eclipse
+  install -m755 -d "${pkgdir}/usr/share"
+  mv "${srcdir}/eclipse" "${pkgdir}/usr/share/"
+
+  # install misc
+  install -d ${pkgdir}/usr/bin ${pkgdir}/usr/share/applications \
+    ${pkgdir}/usr/share/icons/hicolor/{16x16,32x32,48x48}/apps
+  install -m755 "${filedir}/eclipse.sh" "${pkgdir}/usr/bin/eclipse"
+  install -m644 "${filedir}/eclipse.desktop" "${pkgdir}/usr/share/applications/"
+  ln -s /usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse.png \
+    "${pkgdir}/usr/share/icons/hicolor/16x16/apps/eclipse.png"
+  ln -s /usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse32.png \
+    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/eclipse.png"
+  ln -s /usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse48.png \
+    "${pkgdir}/usr/share/icons/hicolor/48x48/apps/eclipse.png"
+
+  # install icon
+  install -Dm644 ${filedir}/eclipse.svg \
+    ${pkgdir}/usr/share/icons/hicolor/scalable/apps/eclipse.svg
+}

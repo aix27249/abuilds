@@ -1,0 +1,70 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rpmextract
+pkgver=1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="rpm extracting"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Script to convert or extract RPM archives (contains rpm2cpio)."
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-util"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bash cpio"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+# thanks goes to Archlinux
+install -d ${pkgdir}/usr/bin
+install -m755 ${filedir}/rpmextract.sh ${pkgdir}/usr/bin/rpmextract
+install -m755 ${filedir}/rpm2cpio ${pkgdir}/usr/bin/
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

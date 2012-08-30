@@ -1,0 +1,31 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=arora
+pkgver=0.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Easy browser can work with a proxy, block web content"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("git:git://github.com/Arora/arora.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc
+xapps"
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+

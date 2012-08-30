@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=stellarium
+pkgver=0.11.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Stellarium is a free open source planetarium for your computer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=${shortdesc}
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="xapps app-misc"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep="nvidia-driver"
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+
+rm -rf build
+mkdir -p build
+cd build
+cmake make -DCMAKE_INSTALL_PREFIX=/usr ../                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

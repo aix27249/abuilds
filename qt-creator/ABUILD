@@ -1,0 +1,63 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qt-creator
+pkgver=2.3.1
+pkgbuild=1
+arch=('auto')
+_qtver=4.7.4
+shortdesc="Qt Creator is a cross-platform integrated development environment (IDE) tailored to the needs of Qt developers."
+
+source=(
+"http://get.qt.nokia.com/qtcreator/${pkgname}-${pkgver}-src.tar.gz"
+"http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${_qtver}.tar.gz"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="dev-util develop"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it''ll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#pkglist="autotoolsplugin"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+
+build() {
+go_src_dir
+burn_patches
+cp -a /usr/include/Qt/qconfig.h ${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.7.4/src/corelib/global/qconfig.h
+qmake PREFIX=/usr -r "QT_PRIVATE_HEADERS=${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.7.4/include" IDE_LIBRARY_BASENAME=lib${LIBDIRSUFFIX}
+
+make -j${numjobs}
+
+make install INSTALL_ROOT=${pkgdir}/usr
+}
+

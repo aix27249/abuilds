@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=iz
+pkgver=0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ImageZero, a fast image compressor/decompressor"
+
+source="git:git://gitorious.org/imagezero/imagezero.git"
+
+tags="console media-gfx"
+
+before_build() {
+    go_src_dir
+    autoreconf -fi
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

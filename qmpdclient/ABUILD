@@ -1,0 +1,78 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qmpdclient
+pkgver=1.1.3
+pkgbuild=2
+arch=('auto')
+
+shortdesc="QMPDClient (MPD music client)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("An MPD client written with Qt 4.x. Works on both Linux and Windows."
+	  ""
+	  "http://bitcheese.net/wiki/QMPDClient"
+)
+
+source=("http://dump.bitcheese.net/files/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="mpd"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="Changelog INSTALL THANKSTO"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+for i in ./*.pro; do sed 's|^\(PREFIX *=\).*|\1/usr|' $i > `basename $i.tmp`; mv $i.tmp $i; done
+
+qmake
+make
+make install INSTALL_ROOT=$pkgdir
+make translate
+make install_translations INSTALL_ROOT=$pkgdir
+
+lrelease lang/*.ts 
+cp lang/*.qm $pkgdir/usr/share/QMPDClient/translations/ 
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+install -d ${pkgdir}/usr/share/pixmaps/
+install -m644 ${srcdir}/${pkgname}/icons/qmpdclient{16,22,64}.png ${pkgdir}/usr/share/pixmaps/ || return 1
+}

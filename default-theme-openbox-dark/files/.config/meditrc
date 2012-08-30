@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prefs>
+  <Editor>
+    <font>Droid Sans Mono 10</font>
+    <save_session>FALSE</save_session>
+    <color_scheme>oblivion</color_scheme>
+    <show_line_numbers>TRUE</show_line_numbers>
+    <wrapping_enable>TRUE</wrapping_enable>
+  </Editor>
+</Prefs>

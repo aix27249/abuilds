@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=vhba-module-uksm
+provides=vhba-module
+KERNEL=${KERNEL:-$(uname -r)}
+KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
+
+pkgver=20100822
+FINAL_VER=${pkgver}_$(echo $KERNEL | tr - _)
+pkgbuild=3
+arch=('auto')
+_pkgver=${pkgver}
+pkgver=${FINAL_VER}
+shortdesc="CDEmu kernel module"
+longdesc=("$shortdesc")
+
+adddep="kernel==${KERNEL}"
+
+source=("http://downloads.sourceforge.net/sourceforge/cdemu/vhba-module-${_pkgver}.tar.gz")
+
+tags="drivers sys-fs"
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	git apply -p2 $filedir/fix.patch
+	make KDIR=${KERNELPATH} -j${numjobs}
+	install -D vhba.ko "$pkgdir/lib/modules/${KERNEL}/extra/vhba.ko"
+	set +e
+}
+

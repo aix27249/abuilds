@@ -1,0 +1,28 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=virtualgl
+pkgver=2.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Redirects 3D commands from an OpenGL application onto a server-side 3D graphics card."
+
+source=("http://downloads.sourceforge.net/project/virtualgl/VirtualGL/$pkgver/VirtualGL-$pkgver.tar.gz")
+
+# Yeah. They did it. They made cmake fail w/ccache.
+export CC="gcc"
+export CXX="g++"
+
+tags="libs x11-libs"
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/opt/VirtualGL \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DVGL_LIBDIR=/usr/lib${LIBDIRSUFFIX} \
+-DVGL_BINDIR=/usr/bin \
+-DTJPEG_LIBRARY=/usr/lib${LIBDIRSUFFIX}/libturbojpeg.so \
+../"
+
+after_build() {
+    mv $pkgdir/usr/bin/glxinfo $pkgdir/usr/bin/vglxinfo
+}

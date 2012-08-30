@@ -1,0 +1,13 @@
+pkgname=compizconfig-backend-gconf
+pkgver=0.8.8
+pkgbuild=1
+arch=('auto')
+shortdesc="Compizconfig backend for gconf"
+source=("http://releases.compiz-fusion.org/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+tags="libs x11-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

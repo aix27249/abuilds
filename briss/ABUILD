@@ -1,0 +1,35 @@
+# ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com
+
+pkgname=briss
+pkgver=0.0.13
+pkgbuild=1
+arch=('auto')
+
+build_deps="imagemagick"
+
+shortdesc="simple cross-platform application for cropping PDF files"
+longdesc=("This project aims to offer a simple cross-platform application for cropping PDF files. A simple user interface lets you define exactly the
+crop-region by fitting a rectangle on the visually overlaid pages.")
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}-bin.tar.gz")
+
+adddep="jre"
+tags="utils app-office"
+
+build() {
+	go_src_dir
+	burn_patches
+	mkdir -p ${pkgdir}/usr/share/${pkgname}
+	cp * ${pkgdir}/usr/share/${pkgname}/
+	mkdir -p ${pkgdir}/usr/bin
+
+	cat >> ${pkgdir}/usr/bin/${pkgname} << EOF
+#!/bin/bash
+java -jar /usr/share/${pkgname}/${pkgname}-${pkgver}.jar
+exit 0
+EOF
+
+	chmod a+x ${pkgdir}/usr/bin/${pkgname}
+	mkdir -p ${pkgdir}/usr/share/applications
+
+}

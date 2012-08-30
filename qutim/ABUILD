@@ -1,0 +1,89 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qutim
+pkgver=0.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="qutIM instant multiprotocol messenger written in Qt4."
+#-ruler---|--------------------------------------------------------------------------|
+
+source=("http://qutim.org/dwnl/34/qutim-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-im"
+
+#dependencies only needed to build package
+build_deps="libjreen"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist="kdei"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#cd ${srcache}/${pkgname}
+#go_src_dir
+#git submodule update --init --recursive
+#git submodule foreach 'git submodule update --init'
+#go_src_dir
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DMULTIMEDIABACKEND=0 \
+-DQUETZAL=OFF \
+-DSYSTEM_JREEN=ON \
+-DFILETRANSFER=ON \
+DFILETRANSFERSETTINGS=1 \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+_pg=${pkgdir}/usr/lib${LIBDIRSUFFIX}/qutim/plugins
+#only for symbian
+rm -f ${_pg}/libqrcicons.so
+#only for mobile
+rm -f ${_pg}/*mobile*.so
+rm -f ${_pg}/libstackedchatform.so
+}
+
+kdei()
+{
+pkg_files=kdei
+pkgname=qutim-plugins-kde-integration
+shortdesc="qutIM KDE integration"
+adddep="qutim"
+}
+
+kdei_prep() {
+mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/qutim/plugins
+mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/qutim/plugins/libkdeintegration.so ${pkgdir}/usr/lib${LIBDIRSUFFIX}/qutim/plugins
+}

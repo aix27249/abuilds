@@ -1,0 +1,7 @@
+meta-chat() {
+	pkgname="leechcraft-chat"
+	shortdesc="Leechcraft plugins for chatting"
+	adddep="leechcraft-azoth leechcraft-historyholder leechcraft-poshuku leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}

@@ -1,0 +1,116 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=e_modules-full
+pkgver=0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="e_modules-full"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Virtual package. Extra gadgets for Enlightenment DR17."
+	  ""
+	  "Homepage: http://www.enlightenment.org/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="virtual x11-utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="e_modules-alarm
+e_modules-calendar
+e_modules-cpu
+e_modules-deskshow
+e_modules-diskio
+e_modules-drawer
+e_modules-efm_nav
+e_modules-efm_path
+e_modules-efm_pathbar
+e_modules-empris
+e_modules-eooorg
+e_modules-everything-mpris
+e_modules-everything-pidgin
+e_modules-everything-places
+e_modules-everything-skel
+e_modules-everything-tracker
+e_modules-everything-wallpaper
+e_modules-everything-websearch
+e_modules-eweather
+e_modules-exalt-client
+e_modules-exebuf
+e_modules-execwatch
+e_modules-flame
+e_modules-forecasts
+e_modules-iiirk
+e_modules-itask
+e_modules-itask-ng
+e_modules-language
+e_modules-mail
+e_modules-mem
+e_modules-moon
+e_modules-mpdule
+e_modules-net
+e_modules-news
+e_modules-notification
+e_modules-penguins
+e_modules-photo
+e_modules-places
+e_modules-quickaccess
+e_modules-rain
+e_modules-screenshot
+e_modules-skel
+e_modules-slideshow
+e_modules-snow
+e_modules-taskbar
+e_modules-tclock
+e_modules-tiling
+e_modules-uptime
+e_modules-winlist-ng
+e_modules-winselector
+e_modules-wlan"
+#e_modules-weather
+
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+echo ""
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

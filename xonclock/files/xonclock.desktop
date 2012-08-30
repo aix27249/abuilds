@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Xonclock
+Comment=On-screen analog clock
+Exec=xonclock
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Application;AudioVideo;X-Red-Hat-Base;
+Encoding=UTF-8
+X-Desktop-File-Install-Version=0.9

@@ -1,0 +1,12 @@
+pkgname=kvpnc
+pkgver=0.9.6a
+pkgbuild=1
+shortdesc="KVpnc is a KDE Desktop Environment frontend for various vpn clients"
+longdesc="KVpnc is a KDE Desktop Environment frontend for various vpn clients. Homepage: http://home.gna.org/kvpnc"
+arch=("auto")
+tags=("xapps net-misc")
+source=(http://download.gna.org/$pkgname/$pkgname-${pkgver}-kde4.tar.bz2)
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=${LIBDIRSUFFIX}"
+

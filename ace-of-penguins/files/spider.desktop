@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Penguins Spider
+GenericName=
+Comment=
+Icon=
+Exec=/usr/bin/spider
+Terminal=false
+Categories=Game;CardGame;

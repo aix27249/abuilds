@@ -1,0 +1,98 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lazarus
+pkgver=0.9.31
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Delphi-like IDE for FreePascal"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Lazarus is a free and open source Rapid Application Development tool for "
+"the FreePascal compiler using the Lazarus component library - LCL. The LCL "
+"is included in this package. http://www.lazarus.freepascal.org/")
+
+source=("svn:http://svn.freepascal.org/svn/lazarus/trunk")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-util"
+
+#dependencies only needed to build package
+build_deps="subversion fpc"
+
+adddep="fpc fpc-src gdk-pixbuf gtk+2"
+removedep=""
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#для для пересборки lazarus нужен fpc-src 2.5.1 !!!
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+#для сборки и работы lazarus нужен fpc 2.5.1
+  system_pkg_ver=`sqlite3 /var/mpkg/packages.db "select package_version from packages where package_name='fpc' and package_installed='1';"`
+  if [ -z "${system_pkg_ver}" ]; then
+     system_pkg_ver=`sqlite3 /var/mpkg/packages.db "select package_version from packages where package_provides='fpc' and package_installed='1';"`
+  fi
+  if [ -z "${system_pkg_ver}" ]; then
+     show_message BUILD_DEP_NOT_FOUND fpc
+     exit
+  fi
+  find_pkg_ver=`echo "${system_pkg_ver}" | grep -o 2.5.1`
+  if  [ -z "${find_pkg_ver}" ]; then
+      show_message BUILD_DEP_UNRESOLVED fpc ${system_pkg_ver}
+      exit
+  fi
+}
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+build() {
+  go_src_dir
+  make FPC=/usr/bin/fpc clean all || exit 1
+  echo "build завершен"
+}
+
+#ran after function build()(после сборки) 
+after_build()
+{
+
+# создаем нужные директории
+  mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/lazarus ${pkgdir}/usr/bin ${pkgdir}/usr/man/man1 || exit 1
+
+# копируем все в /usr/lib${LIBDIRSUFFIX}/lazarus
+  cp -R . $pkgdir/usr/lib${LIBDIRSUFFIX}/lazarus || exit 1
+
+# копируем man
+  cp -a install/man/man1/*.1 ${pkgdir}/usr/man/man1 || exit 1
+
+# исправим ярлык и переименуем иконку
+  sed -e 's|\(Categories\).*|\1=IDE;Development;|' \
+      -i install/lazarus.desktop || exit 1
+  install -Dm644 install/lazarus.desktop ${pkgdir}/usr/share/applications/lazarus.desktop || exit 1
+  install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png || exit 1
+
+# удалим install и debian он нам не нужен, как же docs и создадим ссылку
+  rm -r ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/install \
+  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/debian || return 1
+
+# создадим символические ссылки
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/docs ${pkgdir}/usr/doc/lazarus-${pkgver}/docs || return 1
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazarus ${pkgdir}/usr/bin/lazarus || exit 1
+# ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazbuild ${pkgdir}/usr/bin/lazbuild || exit 1
+
+# для исправления зависания при первом запуске от обычного пользователя
+  sed '/startlazarus/s|lib|lib'${LIBDIRSUFFIX}'|g' -i ${filedir}/startlazarus
+  install -Dm777 ${filedir}/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
+
+# если есть bmp с правами 755 изменим на 644
+  find ${pkgdir} -name \*.bmp -type f -exec chmod 644 {} \;
+  echo "after_build завершен"
+  echo "Версия пакета ${pkgver}"
+}

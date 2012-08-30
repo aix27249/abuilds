@@ -1,0 +1,113 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pyfa
+pkgver=0.9
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="Python Fitting Assistant, a fitting tool for eve online written in python"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("pyfa is the Python Fitting Assistant, a standalone application to create fittings for the EVE-Online SciFi MMORPG. The application is available for many platforms, see the download page for further details. The layout of pyfa heavily based on EFT, the EVE fitting tool. Although it is a complete rewrite and replacement for EFT, the fittings are still compatible with EFT."
+""
+"pyfa is written in Python and uses PyGTK for the GUI."
+""
+"Homepage: http://pyfa.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/pyfa/${pkgver}/${pkgname}-${pkgver}-src.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-util games"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+  #install -d ${pkgdir}/usr/share/{applications,pixmaps,pyfa} || exit 1
+install -d ${pkgdir}/usr/share/{applications,pyfa} || exit 1
+
+  install -d ${pkgdir}/usr/bin || exit 1
+
+# Launch pyfa
+cat << EOF > ${pkgdir}/usr/bin/pyfa 
+#!/bin/sh
+
+python /usr/share/pyfa/launch.py
+EOF
+chmod +x ${pkgdir}/usr/bin/pyfa 
+
+# Data
+  cp -R ${srcdir}/pyfa/* ${pkgdir}/usr/share/pyfa || exit 1
+
+# Icon
+
+#cd ${srcdir}/pyfa/
+#convert pyfa.ico pyfa.png || exit 1
+#mogrify -geometry 48x48 pyfa.png
+#install -m 644 ${srcdir}/pyfa/gui/icons/cpu.png \
+#	${pkgdir}/usr/share/pixmaps/pyfa.png || exit 1
+
+cat << EOF > $pkgdir/usr/share/applications/pyfa.desktop
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Pyfa
+Exec=/usr/bin/pyfa
+Terminal=false
+Icon=/usr/share/pyfa/pyfa.ico
+Type=Application
+Categories=Application;Game;
+Comment=Python Fitting Assistant
+EOF
+
+# rm doc, because /usr/doc
+cd ${pkgdir}/usr/share/pyfa/
+rm -v LICENSE.txt 
+rm -v README.txt
+}

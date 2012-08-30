@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Penguin Golf
+GenericName=
+Comment=
+Icon=
+Exec=/usr/bin/golf
+Terminal=false
+Categories=Game;CardGame;

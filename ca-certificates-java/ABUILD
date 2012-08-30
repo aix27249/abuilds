@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ca-certificates-java
+pkgver=20110912
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Common CA certificates for Java."
+
+source="http://ftp.debian.org/debian/pool/main/c/${pkgname}/${pkgname}_${pkgver}.tar.gz"
+
+tags="network net-misc"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	javac UpdateCertificates.java
+	install -d -m755 ${pkgdir}/etc/ssl/certs/java
+	install -D -m600 debian/default ${pkgdir}/etc/default/cacerts
+	install -D -m755 UpdateCertificates.class ${pkgdir}/usr/share/ca-certificates-java/UpdateCertificates.class
+	install -D -m755 ${filedir}/init-jks-keystore ${pkgdir}/usr/sbin/init-jks-keystore
+}

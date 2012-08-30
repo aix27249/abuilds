@@ -1,0 +1,75 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=avidemux
+pkgver=2.5.6
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Avidemux (Video editor)"
+
+source=("http://download.berlios.de/${pkgname}/${pkgname}_${pkgver}.tar.gz")
+
+numjobs=1
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="xapps media-video"     			#short and long tags / длинный и короткий тег
+
+build_deps="sdl libdca libmad faad2 opencore-amr libvorbis faac lame twolame libmpeg2 xvidcore x264"
+
+adddep="sdl libdca libmad faad2 opencore-amr libvorbis faac lame twolame libmpeg2 xvidcore x264"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+  go_src_dir
+  
+  if [ $ARCH == x86_64 ]; then
+  echo "Start edit source"
+  sed -ri 's|const\s+char\s+\*startDir=\"lib\"|const char \*startDir=\"lib64\"|' avidemux/ADM_core/src/ADM_fileio.cpp || exit 1
+  sed -ri 's|const\s+char\s+\*startDir=\"lib\"|const char \*startDir=\"lib64\"|' avidemux/main.cpp || exit 1
+  echo "Edit source complete"
+  fi
+  
+  sed -i "s/\[\$e\]//" ${pkgname}2-gtk.desktop
+(
+  mkdir -p build
+  cd build
+  cmake \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DLIB_SUFFIX:STRING=${LIBDIRSUFFIX} \
+  -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} \
+  -DAVIDEMUX_INSTALL_PREFIX=/usr .. || exit 1
+  make -j${numjobs} || exit 1
+  make install DESTDIR=${pkgdir} || exit 1
+)
+
+(
+  mkdir -p buildplugins
+  cd buildplugins
+  cmake \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DAVIDEMUX_INSTALL_PREFIX=/usr \
+  -DLIB_SUFFIX:STRING=${LIBDIRSUFFIX} \
+  -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} \
+  -DAVIDEMUX_LIB_DIR=${pkgdir}/usr/lib${LIBDIRSUFFIX} \
+  -DAVIDEMUX_SOURCE_DIR=${srcdir}/${pkgname}_${pkgver}/ \
+  -DAVIDEMUX_CORECONFIG_DIR=${srcdir}/${pkgname}_${pkgver}/build/config ../plugins || exit 1
+  make -j${numjobs} || exit 1
+  make install DESTDIR=${pkgdir} || exit 1
+)
+  mkdir -p ${pkgdir}/usr/man/man1
+  cat man/avidemux.1 | gzip -9c > ${pkgdir}/usr/man/man1/avidemux.1.gz
+
+  mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
+  cat avidemux2-gtk.desktop > ${pkgdir}/usr/share/applications/avidemux2-gtk.desktop
+  cat avidemux2-gtk.desktop > ${pkgdir}/usr/share/applications/avidemux2-qt.desktop
+  cat avidemux_icon.png > ${pkgdir}/usr/share/pixmaps/avidemux.png
+  sed -i 's/avidemux2_gtk/avidemux2_qt4/' ${pkgdir}/usr/share/applications/avidemux2-qt.desktop
+  sed -i 's/GTK+/Qt/g' ${pkgdir}/usr/share/applications/avidemux2-qt.desktop
+  sed -i 's/GTK/Qt/' ${pkgdir}/usr/share/applications/avidemux2-qt.desktop
+}
+

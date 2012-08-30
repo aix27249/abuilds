@@ -1,0 +1,16 @@
+# Sets terminal emulator for 'Run in terminal' programms
+terminal=sakura
+# Show icon in systray
+systray=false
+# Set rounded corners. You can set it value to 0 for much more faster drawing
+rounded=0
+# Width of menu
+menu_width=450
+# Background color
+# bg_color=#DCDCDC
+# Borders color
+border_color=#333333
+# Hide GNOME or KDE or LXDE or ROX or XFCE or Old items from menu. Default: None
+# hide_list=GNOME,KDE,Old
+# Use click to category change (If false mouse move action will be used for category change)
+category_click=true

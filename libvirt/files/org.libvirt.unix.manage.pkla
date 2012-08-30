@@ -1,0 +1,6 @@
+[Allow a user to manage virtual machines]
+Identity=unix-user:<paste_your_username_here>
+Action=org.libvirt.unix.manage
+ResultAny=yes
+ResultInactive=yes
+ResultActive=yes

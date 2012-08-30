@@ -1,0 +1,64 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pmount
+pkgver=0.9.23
+pkgbuild=1
+arch=('auto')
+
+shortdesc="монтирование переносимых устройств с правами обычного пользователя"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("pmount - это надстройка над стандартной программой mount, которая позволяет обычным пользователям подключать (монтировать) переносимые устройства без наличия соответствующей записи в файле /etc/fstab. Это обеспечивает быструю работу таких служб автоподключения как Utopia project для среды GNOME и позволяет снизить количество кода, выполняемого от имени суперпользователя. В пакет также включена надстройка pmount-hal, которая считывает метки и параметры монтирования устройств через hal и передает в pmount. Чтобы использовать эту возможность, необходимо установить пакет hal. pmount также поддерживает прозрачное монтирование разделов, зашифрованных при помощи криптографического пакета LUKS.")
+
+source=("https://alioth.debian.org/frs/download.php/3293/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="sys-apps console"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-nls \
+--enable-fast-install \
+--disable-hal \
+--enable-ruid-root-cryptsetup"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

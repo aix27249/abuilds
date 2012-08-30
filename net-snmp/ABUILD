@@ -1,0 +1,54 @@
+pkgname=net-snmp
+pkgver=5.7.1
+pkgbuild=2
+shortdesc="A suite of applications used to implement SNMP v1, SNMP v2c and SNMP v3 using both IPv4 and IPv6"
+longdesc=("Various tools relating to the Simple Network Management Protocol:
+
+ An extensible agent
+ An SNMP library
+ Tools to request or set information from SNMP agents
+ Tools to generate and handle SNMP traps
+ A version of the unix 'netstat' command using SNMP
+ A graphical Perl/Tk/SNMP based mib browser
+")
+
+
+arch=("auto")
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+tags="network net-misc"
+config_files="etc/conf.d/snmpd
+etc/conf.d/snmptrapd"
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	sed -i -e "s:\(install --basedir=\$\$dir\):\1 --root='${pkgdir}':" Makefile.in || exit 1
+
+	./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man \
+		--libdir=/usr/lib$LIBDIRSUFFIX \
+		--enable-ucd-snmp-compatibility \
+		--enable-ipv6 \
+		--with-libwrap \
+		--with-python-modules \
+		--without-rpm \
+		--with-default-snmp-version="3" \
+		--with-sys-contact="root@localhost" \
+		--with-sys-location="Unknown" \
+		--with-logfile="/var/log/snmpd.log" \
+		--with-mib-modules="host misc/ipfwacc ucd-snmp/diskio tunnel ucd-snmp/dlmod" \
+		--with-persistent-directory="/var/net-snmp"
+
+	make NETSNMP_DONT_CHECK_VERSION=1 LDFLAGS+="-Wl,-rpath -Wl,/usr/lib/perl5/core_perl/CORE" -j${numjobs}
+
+	make DESTDIR="${pkgdir}" INSTALL_PREFIX="${pkgdir}" INSTALLDIRS=vendor install
+	mkdir -p ${pkgdir}/etc/{init.d,conf.d}
+
+	install -D -m755 "${filedir}/init.d/snmpd" "${pkgdir}/etc/init.d/snmpd"
+	install -D -m755 "${filedir}/init.d/snmptrapd" "${pkgdir}/etc/init.d/snmptrapd"
+	install -D -m755 "${filedir}/conf.d/snmpd" "${pkgdir}/etc/conf.d/snmpd"
+	install -D -m755 "${filedir}/conf.d/snmptrapd" "${pkgdir}/etc/conf.d/snmptrapd"
+
+	install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+	set +e
+}

@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dropbox-servicemenu
+pkgver=0.15.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A servicemenu for using Dropbox in Dolphin"
+longdesc=("A servicemenu for using Dropbox in Dolphin. Uses dropbox command line client.")
+
+source="http://kde-look.org/CONTENT/content-files/124416-DropboxServiceMenu-${pkgver}.tar.gz"
+
+tags="kde4 kde-misc"
+
+adddep="dropbox dropbox-cli kdebase-workspace xdg-utils sqlite python"
+
+build() {
+	cd "$srcdir/DropboxServiceMenu-${pkgver}/"
+	mkdir -p ${pkgdir}/"`kde4-config --prefix`/share/kde4/services/ServiceMenus/"
+	mkdir -p ${pkgdir}/"/usr/bin/"
+	install -m 755 dropbox-scripts/dropbox.py ${pkgdir}/"/usr/bin/"
+	install -m 755 dropbox-scripts/dropbox-notify.py ${pkgdir}/"/usr/bin/"
+	install -m 755 dropbox-scripts/dropbox_menu.sh ${pkgdir}/"/usr/bin/"
+	install -m 755 dropbox-scripts/dropbox_menu_translations.sh ${pkgdir}/"/usr/bin/"
+	install -m 755 dropbox-scripts/pyndexer.py ${pkgdir}/"/usr/bin/"
+	install -m 644 dropbox_all.desktop ${pkgdir}/"`kde4-config --prefix`/share/kde4/services/ServiceMenus/"
+	install -m 644 dropbox_files.desktop ${pkgdir}/"`kde4-config --prefix`/share/kde4/services/ServiceMenus/"
+	install -m 644 dropbox_directories.desktop ${pkgdir}/"`kde4-config --prefix`/share/kde4/services/ServiceMenus/"
+}											 

@@ -1,0 +1,81 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xchat
+pkgver=2.8.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="X-Chat is a GTK+-based IRC (Internet Relay Chat) client"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("XChat is an IRC chat program. It allows you to join multiple IRC channels (chat rooms) at the same time, talk publicly, private one-on-one conversations etc. Even file transfers are possible."
+""
+"Homepage: http://xchat.org"
+)
+
+source=("http://xchat.org/files/source/2.8/${pkgname}-${pkgver}.tar.xz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="net-irc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-tcl=/usr/lib${LIBDIRSUFFIX} \
+--enable-ipv6 \
+--enable-xft \
+--enable-openssl \
+--enable-textfe \
+--enable-shm \
+--enable-dbus"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

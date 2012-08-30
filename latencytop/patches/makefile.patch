@@ -1,0 +1,19 @@
+--- ./Makefile.orig	2009-04-28 13:37:54.000000000 +0000
++++ ./Makefile	2011-05-27 00:36:01.000000000 +0000
+@@ -3,7 +3,7 @@
+ 
+ DESTDIR =
+ SBINDIR = /usr/sbin
+-XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
++XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare -I/usr/include/ncursesw
+ LDF = -Wl,--as-needed `pkg-config --libs glib-2.0`   -lncursesw 
+ 
+ OBJS= latencytop.o text_display.o translate.o fsync.o
+@@ -36,6 +36,7 @@
+ 
+ install: latencytop
+ 	mkdir -p $(DESTDIR)/usr/share/latencytop
++	mkdir -p $(DESTDIR)$(SBINDIR)
+ 	install -m 0644 latencytop.trans $(DESTDIR)/usr/share/latencytop/latencytop.trans
+ 	install -m 0644 *.png $(DESTDIR)/usr/share/latencytop/
+ 	install -m 0755 latencytop $(DESTDIR)$(SBINDIR)/

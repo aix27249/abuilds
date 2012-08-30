@@ -1,0 +1,83 @@
+#ABUILD created by/создан: Coldead, firedead117 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tcc
+pkgver=0.9.25
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tiny C Compiler"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tiny C Compiler")
+
+source=("http://download.savannah.nongnu.org/releases/tinycc/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="sys-devel develop"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+sed -i -e 's|$(INSTALL) -s|$(INSTALL)|' Makefile
+sed -i -e '1{
+  i#! /usr/bin/tcc -run
+  /^#!/d
+}' examples/ex*.c
+sed -i -e '1s/$/ -lX11/' examples/ex4.c
+./configure --prefix=/usr \
+ --libdir=/usr/lib$LIBDIRSUFFIX
+make || return 1
+make tccdir=${pkgdir}/usr/lib$LIBDIRSUFFIX/tcc libdir=${pkgdir}/usr/lib$LIBDIRSUFFIX \
+  mandir=${pkgdir}/usr/share/man bindir=${pkgdir}/usr/bin \
+  includedir=${pkgdir}/usr/include \
+  docdir=${pkgdir}/usr/share/doc/tcc \
+  install
+make clean
+make CFLAGS="-fPIC" libtcc.o || return 1
+ld -shared -soname libtcc.so -o libtcc.so libtcc.o || return 1
+install -D -m 755 libtcc.so "${pkgdir}/usr/lib$LIBDIRSUFFIX/libtcc.so"
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

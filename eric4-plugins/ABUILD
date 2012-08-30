@@ -1,0 +1,91 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=eric4-plugins
+pkgver=4.4.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Collection of plugins for eric4 Pythin IDE"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Список плагинов для Eric4/List of plugins:"
+"Checker_PyLint 4.2.1"
+"Django 2.1.2"
+"Packager_CxFreeze 4.3.0"
+"CVS 4.1.12"
+"Assistant_Eric 1.2.3"
+"Pylons 1.0.0"
+"Refactoring Rope 1.1.5"
+"wxPython 1.0.3"
+"TurboGears 1.0.5"
+"Tools_CharTables 4.1.4"
+)
+source=("http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Checker_PyLint-4.2.1.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Project_Django-2.1.2.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Packager_CxFreeze-4.3.0.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Vcs_CVS-4.1.12.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Assistant_Eric-1.2.3.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Project_Pylons-1.0.0.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Refactoring_Rope-1.1.5.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Project_wxPython-1.0.3.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Project_TurboGears-1.0.5.tar.gz n"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/Plugin_Tools_CharTables-4.1.4.tar.gz n")
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-util"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="eric4"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+_plug_dir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/eric4plugins
+mkdir -p ${_plug_dir}
+for _plug in `seq 0 $((${#loc_source_arr[@]}-1))`; do
+cd ${srcdir}
+__file=${loc_source_arr[_plug]%.tar.gz}
+tar --wildcards '*.zip' -xf ${srcache}/${loc_source_arr[_plug]}
+unzip -o ${__file}/*.zip -d ${_plug_dir}
+done
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+rm -f ${_plug_dir}/VERSION
+find ${pkgdir} -type d -exec chmod 755 {} \;
+find ${pkgdir} -perm 666 -exec chmod 655 {} \;
+}

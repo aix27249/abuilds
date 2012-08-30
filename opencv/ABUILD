@@ -1,0 +1,79 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=opencv
+pkgver=2.3.1a
+pkgbuild=3
+arch=('auto')
+
+shortdesc="OpenCV (Open Source Computer Vision) "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("a library of programming functions for real time computer vision. "
+)
+
+source=("http://downloads.sourceforge.net/opencvlibrary/OpenCV-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DLIBDIR=/usr/lib${LIBDIRSUFFIX} \
+-DWITH_XINE=ON \
+-DWITH_GSTREAMER=OFF \
+-DBUILD_TESTS=OFF \
+-DENABLE_SSE=ON \
+-DENABLE_SSE2=ON \
+-DENABLE_SSE3=OFF \
+-DENABLE_SSSE3=OFF \
+-DENABLE_SSE41=OFF \
+-DENABLE_SSE42=OFF \
+-DBUILD_EXAMPLES=OFF \
+-DWITH_QT=ON \
+-DWITH_QT_OPENGL=ON \
+-DWITH_UNICAP=OFF \
+-DWITH_PVAPI=OFF \
+-DWITH_OPENNI=OFF \
+-DWITH_TBB=OFF \
+-DWITH_IPP=OFF \
+-DWITH_CUDA=OFF \
+-D BUILD_PYTHON_SUPPORT=ON \
+-DUSE_FAST_MATH=ON \
+-DWITH_V4L=OFF \
+../"
+
+if [ "${ARCH}" == "x86_64" ]; then
+    BUILD_KEYS=${BUILD_KEYS/ENABLE_SSE3=OFF/ENABLE_SSE3=ON}
+fi
+

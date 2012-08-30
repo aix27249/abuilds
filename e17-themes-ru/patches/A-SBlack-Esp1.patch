@@ -1,0 +1,121 @@
+diff -uNrp A-SBlack-Esp1.orig/milky.edc A-SBlack-Esp1/milky.edc
+--- A-SBlack-Esp1.orig/milky.edc	2010-10-15 01:03:26.654279000 +0800
++++ A-SBlack-Esp1/milky.edc	2010-10-15 04:36:19.310279951 +0800
+@@ -81,10 +81,11 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -92,7 +93,7 @@ spectra {
+     color: 0 0 0 0 1;
+   }
+ }
+-
++#endif
+ 
+ collections {
+ #include "milky_background.edc"
+diff -uNrp A-SBlack-Esp1.orig/milky_icons.edc A-SBlack-Esp1/milky_icons.edc
+--- A-SBlack-Esp1.orig/milky_icons.edc	2010-10-15 01:03:26.661279000 +0800
++++ A-SBlack-Esp1/milky_icons.edc	2010-10-15 05:27:36.795279620 +0800
+@@ -1725,6 +1725,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1747,6 +1748,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1767,6 +1769,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1785,6 +1788,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1805,6 +1809,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1827,6 +1832,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1847,6 +1853,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1869,6 +1876,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1889,6 +1897,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1911,6 +1920,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+diff -uNrp A-SBlack-Esp1.orig/milky_weather.edc A-SBlack-Esp1/milky_weather.edc
+--- A-SBlack-Esp1.orig/milky_weather.edc	2010-10-15 01:03:26.660279000 +0800
++++ A-SBlack-Esp1/milky_weather.edc	2010-10-15 05:19:58.381279607 +0800
+@@ -143,7 +143,7 @@
+ 			    offset:   -1  -1;
+ 			 }
+ 		       color:  255 255 255 255;
+-		       color3:   0   0   0  60;
++		       color:   0   0   0  60;
+ 		    }
+ 		  description
+ 		    {

@@ -1,0 +1,24 @@
+--- openrc-0.8.3/init.d/network.in.orig	2011-09-21 19:54:28.000000000 +0000
++++ openrc-0.8.3/init.d/network.in	2012-03-12 19:21:48.538599012 +0000
+@@ -39,17 +39,16 @@
+ 
+ sys_interfaces()
+ {
++	local _ifaces="`cat /proc/net/dev | grep ':' | sed 's/:.*//g' | sed 's/\s//g'`"
+ 	case "$RC_UNAME" in
+ 	Linux)
+-		local w= rest= i= cmd=$1
+-		while read w rest; do
+-			i=${w%%:*}
+-			[ "$i" != "$w" ] || continue
++		local cmd=$1
++		for i in $_ifaces ; do
+ 			if [ "$cmd" = u ]; then
+ 				ifconfig "$i" | grep -q "[ ]*UP" || continue
+ 			fi
+ 			printf "%s " "$i"
+-		done </proc/net/dev
++		done
+ 		;;
+ 	*)
+ 		ifconfig -l$1

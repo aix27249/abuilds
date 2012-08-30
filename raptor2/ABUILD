@@ -1,0 +1,31 @@
+pkgname=raptor2
+pkgver=2.0.5
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("raptor (RDF Parser & Serializer)")
+longdesc=("Raptor is a free software/Open Source C library that provides a set of parsers and serializers that generate Resource Description Framework (RDF) triples by parsing syntaxes or serialize the triples into a syntax. The supported parsing syntaxes are RDF/XML, N-Triples, TRiG, Turtle, RSS tag soup including all versions of RSS, Atom 1.0 and 0.3, GRDDL and microformats for HTML, XHTML and XML. Homepage: http://librdf.org/")
+
+tags=("libs media-libs")
+
+source=("http://download.librdf.org/source/${pkgname}-${pkgver}.tar.gz")
+
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --mandir=/usr/man --docdir=/usr/doc --enable-gtk-doc-html=no"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	set -e
+	# Rename rapper to rapper2 (it conflicts with old raptor1) and appropriate man page
+	mv ${pkgdir}/usr/bin/rapper ${pkgdir}/usr/bin/rapper2
+	mv ${pkgdir}/usr/man/man1/rapper.1 ${pkgdir}/usr/man/man1/rapper2.1
+
+	
+	# Seems that configure ignores --enable-gtk-doc-html=no, so we will remove it manually:
+	rm -rf ${pkgdir}/usr/share/gtk-doc
+	rmdir ${pkgdir}/usr/share
+
+	set +e
+}

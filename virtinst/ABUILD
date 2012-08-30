@@ -1,0 +1,66 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=virtinst
+pkgver=0.600.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Programs to create and clone virtual machines"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Virtinst is a set of commandline tools to create virtual machines using libvirt: virt-install: provision new virtual machines virt-clone: clone existing virtual machines virt-image: create virtual machines from an image description virt-convert: convert virtual machines between formats")
+
+source=("http://virt-manager.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-emulation utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

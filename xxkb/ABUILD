@@ -1,0 +1,33 @@
+pkgname=xxkb
+pkgver=1.11
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Keyboard state indicator and switcher for xkb"
+longdesc=("This program is a keyboard state indicator and switcher for xkb. Features: - shows current xkb group (pixmap in its own window) - allows switch group by mouse click - allows individual state for every window - can install its own button (indicator/mouse switcher) on every window's title bar - can restrict keyboard states for every window to only two ('main group' - 'alternative group') if xkb set up for more than two groups.")
+
+source=("http://downloads.sourceforge.net/xxkb/xxkb-$pkgver-src.tar.gz")
+
+tags="xapps x11-apps"
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	xmkmf
+	make -j${numjobs} PROJECTROOT=/usr PIXMAPDIR=/usr/share/$pkgname LOCAL_LIBRARIES='-lXext -lXt -lXpm'
+
+	install -d $pkgdir/usr/bin
+	install -d $pkgdir/usr/share/$pkgname
+	install -d $pkgdir/usr/man/man1
+	install -d $pkgdir/usr/share/X11/app-defaults
+	
+	install -m 0755 xxkb $pkgdir/usr/bin && \
+	install -m 0644 ${filedir}/XXkb $pkgdir/usr/share/X11/app-defaults/XXkb && \
+	install -m 0644 pixmaps/*.xpm $pkgdir/usr/share/$pkgname && \
+	install -m 0644 $pkgname.man $pkgdir/usr/man/man1/$pkgname.1 && \
+	install -m 0644 ${filedir}/*.xpm $pkgdir/usr/share/$pkgname/
+
+	set +e
+}
+

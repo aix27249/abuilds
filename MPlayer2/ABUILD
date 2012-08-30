@@ -1,0 +1,37 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=MPlayer2
+pkgver=2.0
+pkgbuild=3
+realver=`echo $pkgver | sed s/_/-/g`
+arch=('auto')
+
+shortdesc="A fork of MPlayer with some patches."
+longdesc=("A fork of MPlayer with some patches and features added, including MKV segment linking. For anime fans :)")
+
+source="http://ftp.mplayer2.org/pub/release/mplayer2-build-${realver}.tar.xz"
+
+tags="xapps media-video"
+
+provides="MPlayer"
+
+build()
+{
+	go_src_dir
+	echo "--enable-libmp3lame
+       	--enable-libx264
+       	--enable-libvpx" >> ffmpeg_options
+	echo "--disable-pulse
+	--enable-translation" >> mplayer_options
+	echo "--enable-runtime-cpudetection" >> mplayer_options
+	make -j$numjobs
+	make DESTDIR="$pkgdir" install
+}
+
+after_build()
+{
+	mkdir -p $pkgdir/usr/
+	mv $pkgdir/usr/local/* $pkgdir/usr
+	rm -rf $pkgdir/usr/local
+	rm -rf $pkgdir/usr/etc
+	rm -rf $pkgdir/usr/lib
+}

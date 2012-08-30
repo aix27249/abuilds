@@ -1,0 +1,26 @@
+pkgname=pokerth
+pkgver=0.9
+pkgbuild=1
+shortdesc="Poker game written in C++/QT4"
+longdesc=("PokerTH is an open source Texas hold 'em simulator")
+tags="games games-board"
+arch=('auto')
+ 
+build_deps="boost gsasl tinyxml libircclient"
+source=("http://citylan.dl.sourceforge.net/project/pokerth/pokerth/0.9/PokerTH-${pkgver}-src.tar.bz2")
+ 
+build() {
+  go_src_dir
+  burn_patches
+ 
+  qmake $pkgname.pro
+  make
+ 
+  make INSTALL_ROOT="$pkgdir" install
+ 
+  install -D -m755 $pkgname "$pkgdir/usr/bin/$pkgname"
+  install -D -m644 docs/pokerth.1 "$pkgdir/usr/share/man/man1/pokerth.1"
+ 
+  install -D -m644 data/data-copyright.txt "$pkgdir/usr/share/licenses/pokerth/data-copyright.txt" 
+  rm -f "$pkgdir/usr/share/pokerth/data/data-copyright.txt"
+}

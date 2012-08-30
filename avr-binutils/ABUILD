@@ -1,0 +1,96 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+
+tcname=avr
+tcvariant=""
+
+pkgname=avr-binutils
+pkgver=2.22
+pkgbuild=3
+arch=('auto')
+
+shortdesc="GNU Binary Utilities for ATMEL AVR architecture"
+#longdesc=(""
+#)
+
+
+
+source=("http://ftp.gnu.org/gnu/binutils/binutils-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-embedded"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=8
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+unset LD_LIBRARY_PATH
+unset CC
+unset CXX
+env > /tmp/env_mpkg
+mkdir build
+cd build
+# CC="gcc -L$(pwd)/bfd/.libs/"
+#Compiler cache doesn't work good with avr compilation
+#So we have to unset CC to avoid probs
+if [ "64" == "${LIBDIRSUFFIX}" ]; then
+echo "!!! 64 bit rock'n'roll !!!"
+../configure 	--target=avr --disable-nls \
+                 	--prefix=/opt/toolchains/${tcname}${tcvariant}
+else
+../configure 	--target=avr --disable-nls \
+                 	--prefix=/opt/toolchains/${tcname}${tcvariant}
+fi
+
+make -j8
+make  DESTDIR=${pkgdir} install
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+rm -f ${pkgdir}/opt/toolchains/${tcname}${tcvariant}/lib${LIBDIRSUFFIX}/libiberty.a
+mv ${pkgdir}/usr/doc ${pkgdir}/opt/toolchains/${tcname}${tcvariant}/usr/
+}

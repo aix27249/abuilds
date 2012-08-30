@@ -1,0 +1,87 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lightmediascanner
+pkgver=0.4.1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="lightmediascanner (A lightweight library to scan media)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Lightweight media scanner meant to be used in not-so-powerful devices, like embedded systems or old machines."
+	  ""
+	  "http://lms.garage.maemo.org/"
+)
+
+source=("https://garage.maemo.org/frs/download.php/8852/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-dummy \
+--enable-jpeg \
+--enable-png \
+--enable-video-dummy \
+--enable-audio-dummy \
+--enable-m3u \
+--enable-ogg \
+--enable-pls \
+--enable-asf \
+--enable-rm \
+--enable-mp4 \
+--enable-id3 \
+--enable-flac"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

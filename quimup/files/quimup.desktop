@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Quimup
+Type=Application
+Exec=quimup
+Icon=quimup
+Categories=Qt;AudioVideo;Player;Audio;
+Comment=An MPD client
+GenericName=MPD Client

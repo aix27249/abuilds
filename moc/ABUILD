@@ -1,0 +1,51 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=moc
+pkgver=2.5.1
+#srcver=2.5.0-alpha4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="MOC (music on console)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("MOC is a console audio player for LINUX/UNIX designed to be powerful and easy to use."
+	  ""
+	  "Homepage: http://moc.daper.net"
+)
+
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${srcver}.tar.bz2")
+source=("svn:svn://daper.net/moc/trunk")
+tags="console media-sound"
+before_build()
+{
+	go_src_dir
+	burn_patches
+	autoreconf -i
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+cp -a $pkgdir/usr/share/doc/moc/* $pkgdir/usr/doc/$pkgname-$pkgver/
+rm -rf $pkgdir/usr/share/doc
+}

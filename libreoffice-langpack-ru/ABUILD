@@ -1,0 +1,96 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libreoffice-langpack-ru
+pkgver=3.5.4
+_bpkgver=3.5
+pkgbuild=1
+arch=('auto')
+_lang="ru"
+_int=rc2
+
+shortdesc="Libreoffice russian localization and help"
+#-ruler---|--------------------------------------------------------------------------|
+
+if [ "${ARCH}" == "x86_64" ]; then
+    _ooa="x86-64"
+    _oARCH="x86_64"
+else
+    _ooa=x86
+    _oARCH="x86"
+fi
+
+source=("http://download.documentfoundation.org/libreoffice/stable/${pkgver}/rpm/${_oARCH}/LibO_${pkgver}_Linux_${_ooa}_langpack-rpm_${_lang}.tar.gz"
+"http://download.documentfoundation.org/libreoffice/stable/${pkgver}/rpm/${_oARCH}/LibO_${pkgver}_Linux_${_ooa}_helppack-rpm_${_lang}.tar.gz"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-i18n"
+
+#dependencies only needed to build package
+build_deps="rpmextract"
+
+provides=""
+conflicts=""
+
+adddep="libreoffice=${pkgver}"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+_rpm=${srcdir}/RPMS
+mkdir -p ${_rpm}
+
+mv ${srcdir}/LibO_${pkgver}${_int}_Linux_${_ooa}_{lang,help}pack-rpm_${_lang}/RPMS/*.rpm ${_rpm}
+
+cd ${_rpm}
+rm libreoffice${_bpkgver}-dict-*.rpm
+for file in `ls -1 *.rpm`; do
+    echo "Processing ${file}"
+#    rpm2cpio ${file} > ${file}.cpio 2>/dev/null
+#    cpio -i -m -d < ${file}.cpio  2>/dev/null
+    rpmextract ${file}
+done
+cd ${_rpm}/opt/libreoffice${_bpkgver}
+mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libreoffice
+mv * ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libreoffice || exit 1
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

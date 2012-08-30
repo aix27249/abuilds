@@ -1,0 +1,83 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dzen2
+pkgver=0.8.5
+pkgbuild=2
+arch=('auto')
+
+shortdesc="dzen2 (General purpose messaging and notification program)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Dzen is a general purpose messaging, notification, and menuing application."
+	  ""
+	  "Homepage: http://gotmor.googlepages.com/dzen"
+)
+
+source=("http://gotmor.googlepages.com/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs="gadgets/*.sh  gadgets/README*"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+sed -s -i \
+    -e "s/^LIBS = -L\/usr\/lib/LIBS = -L\/usr\/lib${LIBDIRSUFFIX}/" \
+    -e "s/^CFLAGS = -Os/CFLAGS = ${SLKCFLAGS}/" \
+    config.mk \
+    gadgets/config.mk
+
+make X11INC=/usr/include X11LIB=/usr/lib${LIBDIRSUFFIX} || return 1
+make PREFIX=/usr MANPREFIX=/usr/man DESTDIR=$pkgdir install || return 1
+
+cd $srcdir/dzen2-$pkgver/gadgets
+sed -i "s/CFLAGS = /CFLAGS = ${CFLAGS} /" config.mk
+make X11INC=/usr/include X11LIB=/usr/lib${LIBDIRSUFFIX} || return 1
+make PREFIX=/usr MANPREFIX=/usr/man DESTDIR=$pkgdir install || return 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

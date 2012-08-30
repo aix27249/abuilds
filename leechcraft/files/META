@@ -1,0 +1,11 @@
+pkgname=leechcraft-all
+pkgver=0.4.99
+pkgbuild=1
+arch=('noarch')
+shortdesc="LeechCraft meta packages"
+tags="virtual x11-misc"
+
+build()
+{
+	echo "Meta package, move along, nothing to see here."
+}

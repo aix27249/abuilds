@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=customizable-weather-plasmoid
+pkgver=1.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An alternative weather plasmoid for KDE"
+
+source="http://www.kde-look.org/CONTENT/content-files/98925-cwp-$pkgver.tar.bz2"
+
+tags="kde4 kde-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

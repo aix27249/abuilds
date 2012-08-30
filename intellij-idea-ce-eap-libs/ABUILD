@@ -1,0 +1,83 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=jetbrains-ides
+pkgver=111.41_idea-eap-ce
+
+# HAAAAACKS >>>
+if [ "$filedir" == "" ]; then
+	filedir=files
+fi
+
+FOUND=false
+for i in $(ls $filedir/products/); do
+	if [ "$(echo $pkgver | cut -d_ -f2)" == "$i" ]; then
+		pkgver=$(echo $pkgver | sed "s/_$i//")
+		.  $filedir/products/$i
+		if [ "$provides" ]; then
+			libprovides=$provides-libs
+		fi
+		FOUND=true
+	fi
+done
+
+if [ "$FOUND" == "false" ]; then
+	echo "I don't know what that is."
+	exit 1
+fi
+# END HAAAAACKS
+
+
+pkgbuild=1
+arch=('noarch')
+
+tags="develop dev-util"
+
+adddep="jdk $pkgname-libs=$pkgver"
+
+pkglist="libs"
+
+libs()
+{
+	pkgname=$p_pkgname-libs
+	shortdesc="Arch-dependent libraries for $prodname"
+	arch=('x86_64')
+}
+
+libs_prep()
+{
+	go_src_dir
+	install -Dm755 bin/fsnotifier$LIBDIRSUFFIX $pkgdir/usr/share/$p_pkgname/bin/fsnotifier$LIBDIRSUFFIX || echo "No fsnotifier"
+	install -Dm644 bin/libbreakgen$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libbreakgen$LIBDIRSUFFIX.so || echo "No libbreakgen"
+	install -Dm644 bin/libyjpagent$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libyjpagent$LIBDIRSUFFIX.so || echo "No libyjpagent"
+}
+
+build()
+{
+	go_src_dir
+	mkdir -p $pkgdir/usr/{bin,share/{$pkgname,applications}}
+	cp -a * $pkgdir/usr/share/$pkgname
+
+	# these go into libs
+	rm -f $pkgdir/usr/share/$pkgname/bin/{fsnotifier,libbreakgen,libyjpagent}*
+
+	chown -R root:root "$pkgdir/usr/share"
+	
+	# launcher
+	# This makes it shut up when running on OpenJDK
+	sed "s/read IGNORE//g" -i $pkgdir/usr/share/$pkgname/bin/$launcher
+	echo "#!/bin/sh
+exec /usr/share/$pkgname/bin/$launcher $*" > $pkgdir/usr/bin/$pkgname
+	chmod +x $pkgdir/usr/bin/$pkgname
+
+	# desktop entry
+	echo "[Desktop Entry]
+Name=$prodname
+Comment=$shortdesc
+Exec=$pkgname %u
+Icon=$pkgname
+Terminal=false
+Type=Application
+Categories=Development;IDE;" > $pkgdir/usr/share/applications/$pkgname.desktop
+
+	# icon
+	install -D -m644 $(ls $pkgdir/usr/share/$pkgname/bin/*128.png | tail -n 1) $pkgdir/usr/share/pixmaps/$pkgname.png
+}

@@ -1,0 +1,65 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=easytag
+pkgver=2.1.6
+pkgbuild=3
+arch=('any')
+shortdesc="Tag editor for MP3 and Ogg Vorbis files. (Редактор тегов)"
+longdesc=("Easytag — это программа для просмотра редактирования тегов."
+"Имеет возможность автоматически конвертировать теги с одной кодировки в другую,"
+"например, из CP1251 (windows) в UTF-8 (Linux)."
+"А также формирования тегов из имени фала. Используя при этом настраиваемые шаблоны."
+"EasyTAG is a utility for viewing and editing tags for MP3, MP2, FLAC Ogg Vorbis,"
+"MP4/AAC, MusePack and Monkey's Audio files."
+"Its simple and nice GTK2 interface makes tagging easier under GNU/Linux."
+"Easytag home: http://easytag.sourceforge.net"
+)
+
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source=("${pkgname}-${pkgver}.tar.bz2")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+
+tags="xapps media-sound"    #short and long tags / длинный и короткий тег
+adddep=""
+removedep=""
+
+author=FreeArcher
+email=archer@programist.ru
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+
+before_build()
+{
+echo ""
+}
+
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-mp4 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+after_build()
+{
+ echo ""
+}

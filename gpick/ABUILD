@@ -1,0 +1,67 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gpick
+pkgver=0.2.4
+pkgbuild=1
+arch=('auto')
+
+# Broken scons installation script
+pkgdir=/tmp/mkpkg_tmp.${USER}/${pkgname}/${pkgname}/
+
+shortdesc="Advanced color picker"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Advanced color picker written in C++ using GTK+ toolkit"
+)
+
+source=("http://${pkgname}.googlecode.com/files/${pkgname}_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-gfx"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="gtk+2 dbus-glib"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="scons"
+BUILD_KEYS="DESTDIR=${pkgdir}/usr PREFIX=/usr"
+INSTALL_KEYS+="DESTDIR=${pkgdir}/usr PREFIX=/usr"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

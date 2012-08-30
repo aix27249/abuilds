@@ -1,0 +1,13 @@
+#!/bin/bash
+
+arch=$(uname -m)
+libsuffix=
+
+if [ ${arch} == "x86_64" ]; then
+	libsuffix=64
+fi
+
+cd /usr/lib${libsuffix}/firefox
+./firefox $*
+cd -
+

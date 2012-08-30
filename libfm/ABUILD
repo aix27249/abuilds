@@ -1,0 +1,65 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libfm
+pkgver=0.1.17
+pkgbuild=1
+arch=('auto')
+
+shortdesc="file management support - core library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("LibFM provides file management functions built on top of Glib/GIO, giving a convenient higher-level API. Features: * Desktop-independent, following FreeDesktop standards; * Fast, light on memory usage, and responsive - well suited to less powerful hardware such as netbooks and thin clients; * Uses GIO/GVFS (like Nautilus) for Trash support and access to remote file systems (FTP, SFTP, WebDAV, Windows shares, etc.); * Clipboard operations are compatible with GTK+/GNOME and Qt/KDE; * Supports both Drag-and-Drop, and the X Direct Save protocol; * Reusable design with the core functions separated out to simplify porting to other GUIs.")
+
+source=("http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/libfm%20%28required%20by%20PCManFM%29/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs lxde-base"
+
+#dependencies only needed to build package
+build_deps="gtk-doc>=1.14"
+
+provides=""
+conflicts=""
+
+adddep="udisks>=1.0.1 ConsoleKit>=0.4.1 gvfs>=1.6.7"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+BUILD_SYSTEM="autotools"
+# custom_opts="no_strip"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--enable-shared \
+--mandir=/usr/man \
+--enable-largefile \
+--enable-nls \
+--enable-udisks \
+--disable-gtk-doc \
+--disable-gtk-doc-html \
+--disable-gtk-doc-pdf \
+--disable-demo \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

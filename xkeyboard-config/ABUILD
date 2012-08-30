@@ -1,0 +1,28 @@
+# xkeyboard-config
+pkgname=xkeyboard-config
+pkgver=2.6
+pkgbuild=1
+arch=('noarch')
+
+shortdesc=('xkeyboard-config: X keyboard configuration files')
+longdesc=('xkeyboard-config is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-datas xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--infodir=/usr/info \
+	--mandir=/usr/man \
+	--disable-static \
+	--enable-xkbcomp-symlink \
+	--enable-compat-rules=yes \
+	--with-xkb-base=/usr/share/X11/xkb \
+	--with-xkb-rules-symlink=xorg"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

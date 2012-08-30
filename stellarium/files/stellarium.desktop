@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name[ru]=Stellarium Вируальный планетарий
+Name=Stellarium
+Exec=stellarium
+Icon=stellarium.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=KDE;Education;

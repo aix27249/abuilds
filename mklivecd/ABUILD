@@ -1,0 +1,24 @@
+# Package metadata
+pkgname=mklivecd
+pkgver=1.0
+pkgbuild=1
+arch=("noarch")
+
+# Package description
+shortdesc=("AgiliaLinux LiveCD build scripts")
+longdesc=("This package contains mkpkg-like scripts to build LiveCDs from ISOBUILD specifications. For more info, see wiki page.")
+
+# Source URL
+source=("svn:svn://agilialinux.ru/mpkg/mpkg/trunk/chroot_installer")
+
+# Tags
+tags="xapps sys-apps"
+
+# Many additional dependencies which are used indirectly during setup process.
+adddep="bash>=4.0 wget rsync syslinux>=4.0 cdrtools fakeroot fakechroot mpkg-console>=0.16_svn290 squashfs-tools>=4.1"
+
+# Build system
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
+
+

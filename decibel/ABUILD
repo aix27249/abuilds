@@ -1,0 +1,66 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=decibel
+pkgver=1.06
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="lightweight GTK+ player written on Python"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Decibel Audio Player is a GTK+ open-source (GPL) audio player for GNU/Linux. It is very straightforward to use thanks to a clean and user-friendly interface. It is especially targeted at Gnome and follows the Gnome HIG."
+)
+
+source=("http://decibel.silent-blade.org/uploads/Main/decibel-audio-player-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pygtk gst-python dbus-python mutagen notify-python"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+	go_src_dir
+	make prefix=/usr DESTDIR=$pkgdir install
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

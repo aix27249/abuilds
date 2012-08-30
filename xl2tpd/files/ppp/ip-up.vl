@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+/sbin/route del default
+/sbin/route add default  ppp0

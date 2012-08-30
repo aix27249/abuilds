@@ -1,0 +1,44 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=sdl
+pkgver=1.2.15
+pkgbuild=2
+arch=('auto')
+
+shortdesc="sdl (Simple DirectMedia Layer library)"
+
+source=("http://www.libsdl.org/release/SDL-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+tags="media-libs libs"
+
+build_deps="libtool alsa-lib mesa"
+
+adddep="sdl_net sdl_mixer sdl_image"
+
+pkglist=
+
+docs=
+gendeps_blacklist=
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--disable-nasm \
+	--enable-alsa  \
+	--enable-esd \
+	--with-x \
+	--disable-rpath \
+	--disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

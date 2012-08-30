@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xerces2-java
+pkgver=2.11.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Fast Java XML parser"
+
+source="http://www.sai.msu.su/apache/xerces/j/Xerces-J-bin.${pkgver}.tar.gz"
+
+tags="libs dev-java"
+
+build()
+{
+	go_src_dir
+	install -m755 -d ${pkgdir}/usr/share/java
+	rm -f xercesSamples.jar
+	install -m644 *.jar ${pkgdir}/usr/share/java/
+}

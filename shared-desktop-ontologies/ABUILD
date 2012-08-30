@@ -1,0 +1,16 @@
+pkgname=shared-desktop-ontologies
+pkgver=0.8.1
+pkgbuild=1
+arch="noarch"
+shortdesc=("Shared desktop ontologies")
+
+source=("http://downloads.sourceforge.net/project/oscaf/shared-desktop-ontologies/${pkgver}/shared-desktop-ontologies-${pkgver}.tar.bz2")
+
+tags="libs x11-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=Release \
+-DMAN_INSTALL_DIR=/usr/man \
+-DLIB_SUFFIX=${LIBDIRSUFFIX}"
+

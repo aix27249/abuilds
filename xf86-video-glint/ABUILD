@@ -1,0 +1,17 @@
+pkgname=xf86-video-glint
+pkgver=1.2.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-glint: X11 driver for GLINT/Permedia cards')
+longdesc=('X.org driver for GLINT/Permedia video cards.')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-glint-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

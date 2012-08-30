@@ -1,0 +1,90 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=eterm
+svnrev=53304
+pkgver=svn
+pkgbuild=1
+arch=('auto')
+
+shortdesc="eterm (An X11 VT102 emulator with Enlightenment features)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Eterm is a vt102 terminal emulator intended as a replacement for xterm. It is designed with a Freedom of Choice philosophy, leaving as much power, flexibility, and freedom as possible in the hands of the user. It is designed to look good and work well, but takes a feature-rich approach rather than one of minimalism. Current features include color support, background images (all Imlib-supported formats), theme support, and pseudo-transparency."
+	  ""
+	  "Homepage: http://www.enlightenment.org/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-terms"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+if [ -d /tmp/e17 ]; then
+	cp -r /tmp/e17/eterm/Eterm $srcdir
+else
+	cd ${srcdir}
+	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/eterm/Eterm
+fi
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./autogen.sh \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix=
+
+pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2-`.$svnrev
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

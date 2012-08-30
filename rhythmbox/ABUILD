@@ -1,0 +1,83 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rhythmbox
+pkgver=0.13.3
+pkgbuild=3
+arch=('auto')
+
+shortdesc="iTunes-like music player/library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Rhythmbox is a very easy to use music playing and management program which supports a wide range of audio formats (including mp3 and ogg). Originally inspired by Apple's iTunes, the current version also supports Internet Radio, iPod integration and generic portable audio player support, Audio CD burning, Audio CD playback, music sharing, and Podcasts."
+)
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+cd "${srcdir}/${pkgname}-${pkgver}"
+sed -i 's|libdmapsharing-2.0|libdmapsharing-2.2|g' configure
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/rhythmbox \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-daap \
+--enable-python \
+--with-mdns=avahi \
+--disable-scrollkeeper"
+
+INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain rhythmbox ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

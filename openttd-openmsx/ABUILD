@@ -1,0 +1,74 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openttd-openmsx
+pkgver=0.3.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Open Music set for OpenTTD"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("OpenMSX is an open source replacement for the original Transport Tycoon Deluxe
+(TTD) music. All contributions are licensed under the GPL v2. http://wiki.openttd.org/OpenMSX"
+)
+
+source=("http://bundles.openttdcoop.org/openmsx/releases/${pkgver}/openmsx-${pkgver}.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="openttd timidity++"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="*.txt"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+	cd ${srcdir}/openmsx-${pkgver}
+	chmod 0644 * ||  exit 1
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+mkdir -p ${pkgdir}/usr/share/openttd/gm   
+cp -v openmsx.* ${pkgdir}/usr/share/openttd/gm/ || exit 1
+cp -v *.mid ${pkgdir}/usr/share/openttd/gm/ || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

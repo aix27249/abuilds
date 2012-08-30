@@ -1,0 +1,91 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mailman
+pkgver=2.1.14
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mailing list manager with built in web access"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Mailing list manager with built in web access"
+)
+
+source=("http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tgz")
+
+patch_opts=("")
+
+config_files="usr/lib$LIBDIRSUFFIX/mailman/Mailman/mm_cfg.py"
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-mail"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr/lib$LIBDIRSUFFIX/mailman \
+--without-permcheck \
+--with-var-prefix=/var/lib/mailman \
+--with-mail-gid=mailman \
+--with-username=mailman \
+--with-groupname=mailman \
+--with-cgi-gid=http"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# Here is Archlinux advice.
+# let's follow Fedora FHS way; Gentoo does it the other way round
+
+# Create a link so that the config file mm_cfg.py appears in config
+# directory /etc/mailman. We don't put mm_cfg.py in the config directory
+# because its executable code (python file) and the security policy wants
+# to keep executable code out of /etc and inside of a lib directory instead,
+# and because traditionally mm_cfg.py was in the Mailman subdirectory and
+# experienced mailman admins will expect to find it there. But having it
+# "appear" in the config directory is good practice and heading in the
+# right direction for FHS compliance.
+install -d -m755 ${pkgdir}/etc/${pkgname}
+ln -sv /usr/lib$LIBDIRSUFFIX/mailman/Mailman/mm_cfg.py ${pkgdir}/etc/${pkgname}/mm_cfg.py
+
+# fix some permissions to satisfy check_perms
+chown -R 83:83 $pkgdir/{usr/lib$LIBDIRSUFFIX/mailman,var/lib/mailman,etc/mailman/*} || exit 1
+chown 80:83 ${pkgdir}/var/lib/mailman/archives/private || exit 1
+chmod 2770 ${pkgdir}/var/lib/mailman/archives/private
+chmod 2755 ${pkgdir}/usr/lib$LIBDIRSUFFIX/mailman/cgi-bin/* || exit 1
+chmod 2755 ${pkgdir}/usr/lib$LIBDIRSUFFIX/mailman/mail/mailman || exit 1
+
+# OpenRC script
+install -D -m755 $filedir/mailmand $pkgdir/etc/init.d/mailman || return 1
+}

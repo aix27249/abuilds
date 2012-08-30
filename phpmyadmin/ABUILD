@@ -1,0 +1,32 @@
+#ABUILD created  by /создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#ABUILD modified by/изменен: drakmail, drakmail at gmail.com 
+
+pkgname=phpmyadmin
+pkgver=3.4.10.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="phpmyadmin (MySQL administration over the web)"
+source=("http://downloads.sourceforge.net/${pkgname}/phpMyAdmin-${pkgver}-all-languages.tar.bz2")
+tags="network dev-db"
+
+adddep="mysql php"
+
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+mkdir -p ${pkgdir}/var/www/htdocs/phpmyadmin
+cp -a * ${pkgdir}/var/www/htdocs/phpmyadmin/
+}
+
+after_build()
+{
+echo ""
+}

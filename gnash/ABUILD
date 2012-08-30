@@ -1,0 +1,37 @@
+# $Id: PKGBUILD 82896 2010-06-18 18:30:20Z ibiru $
+# Maintainer: Jan "heftig" Steffens <jan.steffens@gmail.com>
+# Modified for AgiliaLinux: aix27249@gmail.com
+
+pkgname=gnash
+pkgver=0.8.10
+pkgbuild=1
+arch=('auto')
+url="http://www.gnu.org/software/gnash/"
+
+shortdesc="A GNU Flash movie player"
+longdesc="A GNU Flash movie player"
+source=(http://ftp.gnu.org/gnu/gnash/${pkgver}/gnash-${pkgver}.tar.bz2)
+tags="xapps www-plugins"
+# Config files, will be enabled later
+#config_files='etc/gnashrc
+#etc/gnashpluginrc'
+
+build() {
+  cd "$srcdir/gnash-$pkgver"
+
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libdir=/usr/lib$LIBDIRSUFFIX \
+    --with-plugins-install=system \
+    --with-npapi-plugindir=/usr/lib${LIBDIRSUFFIX}/mozilla/plugins \
+    --enable-gui=sdl,gtk \
+    --enable-renderer=agg \
+    --enable-media=gst,ffmpeg \
+    --enable-hwaccel=vaapi || exit 1
+
+  make -j${numjobs}
+  make DESTDIR="$pkgdir" install
+  make DESTDIR="$pkgdir" install-plugin
+
+}

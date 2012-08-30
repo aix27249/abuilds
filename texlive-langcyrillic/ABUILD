@@ -1,0 +1,89 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=texlive-langcyrillic
+pkgver=2010.18835
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="TexLive - Cyrillic module"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("TeXLive - Fonts and macro packages to typeset Cyrillic texts"
+)
+
+source=("ftp://ftp.archlinux.org/other/texlive/$pkgname-$pkgver-src.zip n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="tex app-text"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="texlive-core"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcache
+unzip $pkgname-$pkgver-src.zip -d $srcdir
+cd $srcdir
+for p in *.tar.xz ; do
+	tar xfv $p
+done
+rm -rf {tlpkg,doc,source} || true
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+install -m755 -d $pkgdir/var/lib/texmf/agilia/installedpkgs
+sed -i '/^#/d' CONTENTS
+_revnr=`echo $pkgver | sed 's/2010\.//'`
+install -m644 CONTENTS $pkgdir/var/lib/texmf/agilia/installedpkgs/$pkgname-$_revnr.pkgs
+install -m644 $filedir/$pkgname.maps $pkgdir/var/lib/texmf/agilia/installedpkgs/
+install -m755 -d $pkgdir/usr/share
+wanteddirs=$(for d in *; do test -d $d && [[ $d != texmf* ]] && echo $d; done) || true
+for dir in $wanteddirs; do
+	find $dir -type d -exec install -d -m755 $pkgdir/usr/share/texmf-dist/'{}' \;
+	find $dir -type f -exec install -m644 '{}' $pkgdir/usr/share/texmf-dist/'{}' \;
+done
+if [[ -d texmf-dist ]]; then
+	find texmf-dist -type d -exec install -d -m755 $pkgdir/usr/share/'{}' \
+	find texmf-dist -type f -exec install -m644 '{}' $pkgdir/usr/share/'{}' \;
+fi
+if [[ -d $pkgdir/usr/share/texmf-dist/scripts ]]; then
+	find $pkgdir/usr/share/texmf-dist/scripts -type f -exec chmod a+x '{}' \;
+fi
+}

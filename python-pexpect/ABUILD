@@ -1,0 +1,12 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=python-pexpect
+pkgver=2.3
+pkgbuild=1
+shortdesc="A pure Python Expect-like module"
+arch=('auto')
+build_deps="python"
+tags="network net-libs"
+source=(http://downloads.sourceforge.net/sourceforge/pexpect/pexpect-$pkgver.tar.gz)
+
+BUILD_SYSTEM="python"

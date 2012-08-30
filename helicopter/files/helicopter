@@ -1,0 +1,108 @@
+#/bin/bash
+#
+# Helicopter 0.1
+# Small script which helps you to easily update your custom remote repo.
+# Author: Valdos fat0troll Sinus
+# License: GPLv3 and above
+# Copyright 2010 AgiliaLinux
+
+if [ -z $1 ] ; then
+	echo "You hasn't provide any repo."
+	echo "You can read help at http://wiki.agilialinux.ru/howto/helicopter."
+	exit 1
+else
+	if [ -d $HOME/.helicopter/$1/ ] ; then
+		. $HOME/.helicopter/$1/repo
+	else
+		echo "Can't find your repo: missing repo-file?" && exit 1
+	fi
+fi
+# Helper functions
+die_no_dir()
+{
+	echo "Can't find directory with repo or repo's part. Is your repo and config files still consistent?"
+	exit 1
+}
+make_index()
+{
+	#This is separated to function for some custom enviroments, which have custom base generator (such as, for example, main repo)
+	mpkg-index
+}
+check_repo_consistense()
+{
+	if [ -f $HOME/.helicopter/$i/listing ] ; then
+		. $HOME/.helicopter/$i/listing
+	else
+		VERSION_ROOT=$ROOT/$VERSION
+		I686_IN=$ROOT/$VERSION/i686
+		X64_IN=$ROOT/$VERSION/x86_64
+	fi
+	if [ -d $ROOT ] ; then
+		if [ -d $I686_IN ] ; then
+			if [ -d $X64_IN ] ; then
+				echo "Repo's directories checked, nothing missed!"
+			else
+				die_no_dir
+			fi
+		else
+			die_no_dir
+		fi
+	else
+		die_no_dir
+	fi
+}
+rsync_sync()
+{
+	if [ -z $RSYNCOPTS ] ; then
+		`which rsync` -av --progress --delete --inplace $ROOT/ $REMOTE_USER@$HOST:$REMOTE_ROOT
+	else
+		`which rsync` $RSYNCOPTS --inplace $ROOT/ $REMOTE_USER@$HOST:$REMOTE_ROOT
+	fi
+}
+check_repo_consistense
+if [ "$GRAB_FROM_MKPKG" = "yes" ] ; then
+	if [ -z $MKPKG_CUSTOM_PO ] ; then
+		MKPKG_PO=$HOME/.mkpkg/packages
+	else
+		MKPKG_PO=$MKPKG_CUSTOM_PO
+	fi
+	echo "Moving packages: you has been warned!"
+	mv $MKPKG_PO/*i686* $I686_IN
+	mv $MKPKG_PO/*x86_64* $X64_IN
+	for i in noarch fw
+	do
+		mv $MKPKG_PO/*$i* $I686_IN
+		ln $I686_IN/*$i* $X64_IN || cp $I686_IN/*$i* $I686_IN
+	done
+	echo "Packages moved sucessfully!"
+fi
+if [ "$UPDATE_INDEX" = "yes" ] ; then
+	echo "Making indexes"
+	cd $ROOT
+	make_index
+	cd $VERSION_ROOT
+	make_index
+	cd $I686_IN
+	make_index
+	cd $X64_IN
+	make_index
+	echo "Indexes successfully created!"
+else
+	echo "Indexing skipped..."
+fi
+case $TYPE in
+	rsync)
+		echo "Starting $TYPE syncing..."
+		rsync_sync
+		;;
+	ssh)
+		echo "Syncing via $TYPE not implemented yet, sorry..." && exit 2
+		;;
+	ftp)
+		echo "Syncing via $TYPE not implemented yet, sorry..." && exit 2
+		;;
+	*)
+		echo "Unknown syncing type, aborting!" && exit 1
+		;;
+esac
+

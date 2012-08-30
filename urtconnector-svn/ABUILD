@@ -1,0 +1,28 @@
+pkgname=urtconnector-svn
+pkgver=1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Advanced UrbanTerror launcher program."
+source=("svn:http://urtconnector.googlecode.com/svn/trunk/")
+tags="games games-util"
+adddep="qstat"
+provides="urtconnector"
+
+before_build()
+{
+echo ""
+go_src_dir
+sh versionfix.sh linux
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+../"
+
+after_build()
+{
+echo ""
+}

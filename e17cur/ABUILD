@@ -1,0 +1,66 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=e17cur
+pkgver=0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="e17cur"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A set of X11 icons matching the default (black end white) theme for e17."
+	  ""
+	  "Homepage: http://e17-stuff.org/"
+)
+
+source=("http://e17-stuff.org/CONTENT/content-files/112877-$pkgname.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir
+mkdir -p $pkgdir/usr/share/icons/
+cp -a $pkgname $pkgdir/usr/share/icons/$pkgname
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

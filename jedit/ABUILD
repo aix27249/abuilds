@@ -1,0 +1,75 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=jedit
+pkgver=4.4.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="jEdit is a mature programmer's text editor"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("jEdit is a mature programmer's text editor with hundreds (counting the time developing plugins) of person-years of development behind it. "
+)
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}${pkgver}install.jar n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-editors"
+
+#dependencies only needed to build package
+build_deps="jdk"
+
+provides=""
+conflicts=""
+
+adddep="jre"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+java -jar ${srcache}/${pkgname}${pkgver}install.jar auto \
+		${pkgdir}/usr/share/java/${pkgname}/ \
+		unix-script=${pkgdir}/usr/bin/ \
+		unix-man=${pkgdir}/usr/share/man/man1 || return 1
+
+	install -m755 ${filedir}/jedit-bin ${pkgdir}/usr/bin/jedit || return 1
+	install -Dm755 ${filedir}/jedit.desktop \
+		${pkgdir}/usr/share/applications/jedit.desktop || return 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

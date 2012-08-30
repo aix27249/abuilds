@@ -1,0 +1,23 @@
+pkgname=fontforge
+pkgver=20110222
+pkgbuild=1
+shortdesc=('Outline and bitmap font editor')
+arch=("auto")
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}_full-${pkgver}.tar.bz2")
+tags="xapps media-gfx"
+build() {
+	go_src_dir
+	burn_patches
+	export CFLAGS="${CFLAGS// -O2 / -O1 }" # on i686, -O2 yields FS#20430 (see archlinux bug tracker)
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/man \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--enable-type3 \
+		--enable-devicetables \
+		--with-regular-link \
+		--enable-pyextension \
+
+	make -j${numjobs}
+	make DESTDIR="${pkgdir}" install
+}

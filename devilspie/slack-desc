@@ -1,0 +1,7 @@
+devilspie: window-matching utility
+devilspie:
+devilspie: Devil's Pie can be configured to detect windows as they are created, and 
+devilspie: match the window to a set of rules. If the window matches the rules, it 
+devilspie: can perform a series of actions on that window. For example, I can make 
+devilspie: all windows created by X-Chat appear on all workspaces, and the main 
+devilspie: Gkrellm1 window does not appear in the pager or task list.

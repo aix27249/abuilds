@@ -1,0 +1,210 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=e17-themes-ru
+pkgver=0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="e17-themes-ru"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Themes for E17 desklock from exchange.enlightenment.org with Russian language support."
+	  ""
+	  "Homepage: http://exchange.enlightenment.org/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="e"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir
+
+# Base URL for the themes.
+_themesbase="http://exchange.enlightenment.org/theme/get"
+
+# Array of "id:name" values,
+# where id is the theme id at http://exchange.enlightenment.org/.
+# Use '_' instead of ' ' in names;
+# they will be replaced when printed to stdout.
+
+_themes=(
+394:Apple17
+2084:Bling
+404:Bloody_Imago
+1114:Blue_Eyed
+1044:Camou
+294:Cerium
+4:Chrome
+604:ClearLooks
+1034:Crude
+274:Cthulhain
+1074:Dali
+1064:Dark_Revolution
+1104:DarkSide
+934:Dukes
+204:Fireball
+624:Gant
+154:Grunge
+184:Iceball
+384:Imago_Colored
+1594:Milky
+1054:Night_Bling
+2094:Pink_Apple
+584:Smoke
+884:Steampunk
+614:Winter
+534:Japan_2007
+2333:Blue_Grass
+2373:Black_and_Blue
+)
+
+# Get the themes
+for _theme in ${_themes[@]}
+do
+	# Separate name and theme id.
+	_name=${_theme#*:} # Remove theme "id:"
+	_name=${_theme//_/ } # Replace '_' by ' '
+	_id=${_theme%%:*} # Remove theme ":name"
+
+	echo "----------------------------------------------------------------"
+	echo "*** Downloading theme '${_name}'..."
+	echo
+
+	wget -N -c "${_themesbase}/${_id}" || echo 2>&1 "### Error downloading theme '${_name}'."
+done
+
+mkdir rus
+cd rus
+
+# "Decompiling modules..."
+for i in ../*.edj; do
+	edje_decc $i 
+done
+ 
+# "Rebuilding modules..."
+for i in *; do
+	if [ -d $i ]; then
+		cd $i
+		cp -a /usr/share/fonts/TTF/{DejaVuSans.ttf,DejaVuSans-Bold.ttf} ./
+		patch -p1 -i $patchdir/$i.patch --verbose -t || exit 1		
+		if [ "$i" == "blue_eyed_0.6.5.g_ma" ]; then
+			mv -f parts edjes
+			mv -f programs edjes
+			mv -f scripts edjes
+		fi
+		if [ "$i" == "clearlooks_0_1_3a" ]; then
+			cp -a /usr/share/fonts/TTF/DejaVuSans-Oblique.ttf ./
+		fi
+		if [ "$i" == "cthulhain-0.5.8" ]; then
+			cp -a /usr/share/fonts/TTF/DejaVuSansMono.ttf ./
+		fi
+		if [ "$i" == "dark_revolution" ]; then
+			mv -f pager*.edc modules/
+		fi
+		if [ "$i" == "Dukes" ]; then
+			mv -f menu_* menu/
+		fi
+		if [ "$i" == "japan2007" ]; then
+			mv -f button_macro.edc edc/
+		fi
+		if [ "$i" == "winter-e17_0.1" ]; then
+			mv -f button_macro.edc edc/
+			mv pager_main_parts.edc edc/
+			mv snowflakes.edc edc/
+			mv fileman_default_* edc/
+			cp -a /usr/share/fonts/TTF/DejaVuSansMono.ttf ./
+			cp -a /usr/share/fonts/TTF/DejaVuSansMono-Bold.ttf ./
+			cp -a /usr/share/fonts/TTF/DejaVuSans-Oblique.ttf ./
+		fi
+		./build.sh || return 1
+		mv -f  *.edj ../ && cd ..
+	fi
+done
+
+_themes=(
+444:Darkness
+304:Simply_White
+2164:PCE17OS
+2234:Detour_Glossy_Red
+2383:A-Wood-Grey
+2393:Red-Black
+2413:A-Special-Green
+2433:A-Ice-Blue
+2443:A-Wood-Nogal
+2473:A-BlackLuxe-Blue
+2493:A-Japan_2010
+2513:A-Cappuccino-Cream
+2503:Pastel_Blue
+2523:A-Lynx_Pardinus
+2543:A-Egypt_A.D
+2533:HandiTheme
+2563:A-Genesis
+2573:Beautiful_Blue
+2601:A-Siglo_XIX
+2607:A-Unity-BG
+2613:A-Mare_Nostrum
+)
+
+for _theme in ${_themes[@]}
+do
+	# Separate name and theme id.
+	_name=${_theme#*:} # Remove theme "id:"
+	_name=${_theme//_/ } # Replace '_' by ' '
+	_id=${_theme%%:*} # Remove theme ":name"
+
+	echo "----------------------------------------------------------------"
+	echo "*** Downloading theme '${_name}'..."
+	echo
+
+	wget -N -c "${_themesbase}/${_id}" || echo 2>&1 "### Error downloading theme '${_name}'."
+done
+
+# "Prepare package directory structure"
+mkdir -p ${pkgdir}/usr/share/enlightenment/data/themes
+
+# "Install the edjs"
+install -m644 ${srcdir}/rus/*.edj "${pkgdir}/usr/share/enlightenment/data/themes" || return 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

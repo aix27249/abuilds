@@ -1,0 +1,80 @@
+#http://projects.archlinux.org/svntogit/packages.git/tree/lpsolve/trunk/PKGBUILD
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lpsolve
+pkgver=5.5.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mixed Integer Linear Programming (MILP) solver"
+#-ruler---|--------------------------------------------------------------------------|
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/lp_solve_${pkgver}_source.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs sci-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+# taken from Fedora spec
+cd lpsolve55
+sh -x ccc
+rm bin/ux*/liblpsolve55.a
+cd ../lp_solve
+sh -x ccc
+cd ..
+# install
+install -d ${pkgdir}/usr/{bin,lib${LIBDIRSUFFIX},include/lpsolve}
+install -m 755 lp_solve/bin/ux*/lp_solve ${pkgdir}/usr/bin/
+install -m 755 lpsolve55/bin/ux*/liblpsolve55.so ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+install -m 644 lp*.h ${pkgdir}/usr/include/lpsolve/
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

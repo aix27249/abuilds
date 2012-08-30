@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfce-theme-bluebird
+pkgbuild=1
+pkgver=0.4.1
+arch=('noarch')
+_pkgname=Bluebird
+
+shortdesc="The GTK and xfwm blue theme for Xfce"
+
+source=("git:git://github.com/shimmerproject/${_pkgname}.git")
+
+tags="x11-themes themes"
+
+adddep="xfwm4"
+
+build(){
+  go_src_dir
+  install -d -m755 ${pkgdir}/usr/share/themes/Bluebird
+  install -d -m755 ${pkgdir}/usr/share/backgrounds/xfce
+  cp -f backdrops/bluebird-2010-08-1920x1440-notext.png ${pkgdir}/usr/share/backgrounds/xfce/${_pkgname}.png
+  cp -rf {gtk-2.0/,gtk-3.0/,metacity-1/,xfwm4/} ${pkgdir}/usr/share/themes/Bluebird
+}

@@ -1,0 +1,28 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.su 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=arping
+pkgver=2.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Broadcasts a who-has ARP packet on the network and prints answers"
+
+source=("http://www.habets.pp.se/synscan/files/${pkgname}-${pkgver}.tar.gz")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-analyzer"
+
+
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

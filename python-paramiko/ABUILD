@@ -1,0 +1,12 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=python-paramiko
+pkgver=1.7.7.1
+pkgbuild=2
+shortdesc="Python module that implements the SSH2 protocol"
+arch=('auto')
+build_deps="python pycrypto"
+tags="network net-libs"
+source=(http://www.lag.net/paramiko/download/paramiko-$pkgver.tar.gz)
+
+BUILD_SYSTEM="python"

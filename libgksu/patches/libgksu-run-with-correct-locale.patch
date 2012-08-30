@@ -1,0 +1,29 @@
+--- libgksu-2.0.12/libgksu/gksu-run-helper.c.orig	2010-09-08 21:45:39.528000002 +0400
++++ libgksu-2.0.12/libgksu/gksu-run-helper.c	2010-09-09 01:00:06.408000071 +0400
+@@ -82,6 +82,14 @@
+ int
+ main (int argc, char **argv)
+ {
++
++  setlocale("LC_ALL", "");
++  const char *_locale = getenv("LANG");
++  gchar *locale_str = NULL;
++
++  if (_locale) locale_str = g_strdup_printf("%s", _locale);
++  else locale_str = g_strdup_printf("%s", "en_US.UTF-8"); // Falling back to english locale in case of null one
++
+   gchar *command = NULL;
+ 
+   gchar *xauth_dirtemplate = g_strdup ("/tmp/" PACKAGE_NAME "-XXXXXX");
+@@ -176,7 +184,10 @@
+ 
+     system (command);
+ 
+-    return_code = system (argv[1]);
++    gchar *requested_command = NULL;
++    requested_command =
++       g_strdup_printf ("LC_ALL=%s LANG=%s %s",locale_str, locale_str, argv[1]);
++    return_code = system (requested_command);
+     
+     clean_dir (xauth_dir);
+     g_string_free(s, TRUE);

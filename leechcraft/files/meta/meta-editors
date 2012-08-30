@@ -1,0 +1,7 @@
+meta-editors() {
+	pkgname="leechcraft-editors"
+	shortdesc="Leechcraft plugins for text and code editing"
+	adddep="leechcraft-juffed leechcraft-popishu leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}

@@ -1,0 +1,32 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#updated by Pavel Vyazovoi, vyazovoi at googlemail.com
+
+pkgname=mysql-workbench
+pkgver=5.2.34
+pkgbuild=2
+arch=('auto')
+
+shortdesc="MySQL gui administrative tool"
+
+source=("ftp://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQLGUITools/${pkgname}-gpl-${pkgver}-src.tar.gz")
+
+adddep="python-pexpect python-paramiko"
+
+patch_opts=("agi.patch 0")
+
+tags="xapps app-admin"
+
+build() {
+go_src_dir
+cp ${filedir}/AgiliaLinux.xml res/mysql.profiles
+rm -rf ext/curl
+rm -rf ext/yassl
+rm -rf ext/boost
+rm -rf ext/libsigc++
+export CPPFLAGS=$(pkg-config --cflags sigc++-2.0)
+unset LDFLAGS
+./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --disable-debug --enable-python-modules --disable-static
+burn_patches
+make -j${numjobs} || exit 1
+make DESTDIR="$pkgdir" install
+}

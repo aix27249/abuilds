@@ -1,0 +1,62 @@
+style "lightgreyv2-window" {
+bg[NORMAL] = "#444444" 
+XfceNotifyWindow::border-color = "#545454"
+XfceNotifyWindow::border-radius = 5.0
+XfceNotifyWindow::border-width = 4.0
+}
+class "XfceNotifyWindow" style "lightgreyv2-window"
+
+style "lightgreyv2-button" {
+fg[NORMAL] = "#efefef"
+fg[PRELIGHT] = "#efefef"
+engine "pixmap" {
+image
+{
+function = BOX
+detail = "buttondefault"
+recolorable	= TRUE
+file = "notify-normal.png"
+border = {5,5,5,5}
+stretch	= TRUE
+}
+image
+{
+function = BOX
+state = PRELIGHT
+recolorable	= TRUE
+file = "notify-prelight.png"
+border = {5,5,5,5}
+stretch	= TRUE
+}
+image
+{
+function = BOX
+state = ACTIVE
+file = "notify-pressed.png"
+border = {5,5,5,5}
+stretch	= TRUE
+}
+image 
+{
+function = BOX
+state = INSENSITIVE
+file = "notify-normal.png"
+border = {5,5,5,5}
+stretch	= TRUE
+}
+image 
+{
+function = BOX
+file = "notify-normal.png"
+border = {5,5,5,5}
+stretch	= TRUE
+}
+}
+}
+widget_class "XfceNotifyWindow.*.GtkButton*" style "lightgreyv2-button"
+style "lightgreyv2-text" {
+fg[NORMAL] = "#efefef"
+GtkWidget::link-color = "#0083b7"
+GtkWidget::visited-link-color = "#bc1449"
+}
+widget_class "XfceNotifyWindow.*.<GtkLabel>" style "lightgreyv2-text"

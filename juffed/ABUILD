@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=juffed
+pkgver=0.8.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="JuffEd - an advanced yet clear text editor"
+longdesc=("You don't need to learn tonns of documentation to start working with JuffEd, you just launch it and start working. It does exactly what you expect it to do. If you think something should happen after you press somewhere — it'll most probably happen.")
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}_${pkgver}.tar.bz2")
+
+tags="app-editors xapps"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+  -DCMAKE_BUILD_TYPE=RELEASE \
+  -DLIB_DIR=lib${LIBDIRSUFFIX} \
+  -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+  ../"

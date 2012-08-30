@@ -1,0 +1,30 @@
+pkgname=boost-build
+pkgver=2.0_m12
+srcver=${pkgver//_/-}
+pkgbuild=2
+shortdesc="Boost build system. Includes BJAM."
+arch=('auto')
+tags="develop dev-util"
+source=("http://downloads.sourceforge.net/sourceforge/boost/${pkgname}-${srcver}.tar.bz2")
+
+build() {
+	set -e
+	cd $srcdir/boost-build/jam_src
+	./build.sh gcc
+
+	mkdir -p ${pkgdir}/usr/bin
+	mkdir -p ${pkgdir}/usr/share
+	mkdir -p ${pkgdir}/etc
+
+	if [ "$ARCH" = "x86_64" ]; then
+		cp bin.linuxx86_64/bjam ${pkgdir}/usr/bin
+	else
+		cp bin.linuxx86/bjam ${pkgdir}/usr/bin
+	fi
+    
+	rm -Rf $srcdir/boost-build/jam_src
+	cp -R $srcdir/boost-build ${pkgdir}/usr/share
+
+	echo "using gcc ;" > ${pkgdir}/etc/site-config.jam
+	set +e
+}

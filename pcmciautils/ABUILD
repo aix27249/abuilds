@@ -1,0 +1,52 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pcmciautils
+pkgver=018
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Utilities for inserting and removing PCMCIA cards"
+
+source=("http://kernel.org/pub/linux/utils/kernel/pcmcia/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="sys-apps base"
+
+#dependencies only needed to build package
+build_deps="bison>=2.4.1"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+go_src_dir
+burn_patches
+sed -i -e 's,/usr/bin/install,/bin/install,g' Makefile
+make
+make DESTDIR=${pkgdir} install
+}

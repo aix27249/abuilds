@@ -1,0 +1,37 @@
+pkgname=ntfs-3g
+pkgver=2011.4.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Free and open source NTFS driver for Linux."
+
+source="http://tuxera.com/opensource/ntfs-3g_ntfsprogs-${pkgver}.tgz"
+
+tags="base sys-fs"
+
+pkglist="progs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	ac_cv_path_LDCONFIG=/bin/true ./configure --prefix=/usr --with-fuse=external --disable-static --mandir=/usr/man --docdir=/usr/doc --libdir=/usr/lib${LIBDIRSUFFIX}
+	make -j${numjobs}
+
+	for dir in src libntfs-3g include; do
+		make -C $dir DESTDIR=$pkgdir install
+	done
+	
+	ln -s /bin/ntfs-3g $pkgdir/sbin/mount.ntfs
+}
+
+progs()
+{
+	pkgname=ntfsprogs
+	shortdesc="NTFS filesystem utilities"
+}
+progs_prep() {
+	go_src_dir
+	make -C ntfsprogs DESTDIR=$pkgdir install
+}

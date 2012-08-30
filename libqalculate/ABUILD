@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=libqalculate
+pkgver=0.9.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A multi-purpose calculator library"
+
+source=("http://downloads.sourceforge.net/sourceforge/qalculate/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs sci-mathematics"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

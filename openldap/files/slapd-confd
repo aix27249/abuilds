@@ -1,0 +1,2 @@
+# To specify any additional arguments for slapd, uncomment line below and add these options.
+#OPTS=""

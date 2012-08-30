@@ -1,0 +1,72 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=kicad-libs-leaf
+pkgver=20111010
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Kicad libraries by LeafLabs"
+#longdesc=(""
+#)
+
+source=("git:https://github.com/leaflabs/hardware-lib.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs dev-embedded"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="kicad"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+mkdir -p ${pkgdir}/usr/share/kicad/library
+mkdir -p ${pkgdir}/usr/share/kicad/modules
+mkdir -p ${pkgdir}/usr/share/doc/kicad-libs-leaf/
+cp README ${pkgdir}/usr/share/doc/kicad-libs-leaf/
+cp leaf.lib ${pkgdir}/usr/share/kicad/library
+cp leaf.mod ${pkgdir}/usr/share/kicad/modules
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

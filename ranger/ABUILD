@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=ranger
+pkgver=1.5.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A vim-inspired filemanager for the console"
+longdesc=("Ranger is a free console file manager that gives you greater flexibility
+and a good overview of your files without having to leave your *nix console.
+It visualizes the directory tree in two dimensions: the directory hierarchy
+on one, lists of files on the other, with a preview to the right so you know
+where you'll be going.")
+
+source=("http://ranger.nongnu.org/ranger-stable.tar.gz")
+
+tags="console app-misc"
+
+BUILD_SYSTEM="python"

@@ -1,0 +1,36 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=doublecmd
+pkgver=0.5.4
+pkgbuild=1
+arch=('auto')
+helpver=0.5.1
+
+shortdesc="Double Commander is a cross platform open source file manager with two panels side by side."
+
+source=("http://sourceforge.net/projects/doublecmd/files/Double%20Commander%20Source/${pkgname}-${pkgver}-src.tar.gz"
+"http://sourceforge.net/projects/doublecmd/files/Double%20Commander%20Source/${pkgname}-help-${helpver}-src.tar.gz")
+
+tags="app-misc xapps"
+
+build_deps="fpc>=2.4.0 lazarus>=0.9.29"
+
+
+build()
+{
+  go_src_dir
+  ./build.sh all
+
+  echo "End build"
+}
+
+after_build()
+{
+  rm -r ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  ln -sf /usr/share/doublecmd/doc/ ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+
+  install/linux/install.sh --install-prefix=${pkgdir}
+  cp -a ${srcdir}/${pkgname}-help-${helpver}/* ${pkgdir}/usr/share/doublecmd/doc/
+
+  echo "End after_build"
+}

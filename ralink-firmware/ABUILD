@@ -1,0 +1,23 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+pkgname=ralink-firmware
+pkgver=0.29
+pkgbuild=1
+arch=('fw')
+
+shortdesc="ralink firmware for wireless devices"
+
+longdesc=("Микрокод для модулей wifi карты компании ralink"
+)
+
+source=("http://ftp.ru.debian.org/debian/pool/non-free/f/firmware-nonfree/firmware-ralink_${pkgver}_all.deb n")
+
+tags="network net-wireless"
+
+build()
+{
+go_src_dir
+burn_patches
+ar -x ${srcache}/firmware-ralink_${pkgver}_all.deb
+tar -xvf data.tar.gz
+mv lib ${pkgdir}/
+}

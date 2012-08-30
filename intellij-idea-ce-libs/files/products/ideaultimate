@@ -1,0 +1,9 @@
+pkgname=intellij-idea-ultimate
+
+prodname="Intellij IDEA Ultimate Edition"
+shortdesc="IDE for Java, Groovy, Android, Python, Ruby and more"
+provides="intellij-idea"
+source="http://download.jetbrains.com/idea/ideaIU-$pkgver.tar.gz"
+
+
+launcher="idea.sh"

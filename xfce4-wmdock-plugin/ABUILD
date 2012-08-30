@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfce4-wmdock-plugin
+pkgver=0.3.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="WMdock plugin is a compatibility layer for Window Maker dockapps for XFCE"
+
+source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-extra"
+
+build_deps="make gcc intltool perl perl-xml-parser pkg-config"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

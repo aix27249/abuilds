@@ -1,0 +1,29 @@
+# Apache Portable Runtime ABUILD
+pkgname=apr
+pkgver=1.4.5
+pkgbuild=1
+shortdesc="The Apache Portable Runtime"
+longdesc="The Apache Portable Runtime"
+arch=('auto')
+source=(http://www.apache.org/dist/apr/apr-${pkgver}.tar.bz2)
+tags="libs dev-libs"
+before_build() {
+	go_src_dir
+  	export apr_cv_epoll_create1=no
+	export apr_cv_dup3=no
+	export apr_cv_accept4=no
+	export apr_cv_sock_cloexec=no
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--includedir=/usr/include/apr-1 \
+	--with-installbuilddir=/usr/share/apr-1/build \
+	--enable-nonportable-atomics \
+	--with-devrandom=/dev/urandom \
+	$ARCH-slackware-linux"
+	
+INSTALL_KEYS="DESTDIR=${pkgdir}"

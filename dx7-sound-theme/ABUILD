@@ -1,0 +1,68 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dx7-sound-theme
+pkgver=1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DX7 GNOME sound theme from gnome-look.org"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("http://bit.ly/c1bdRb"
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/126143-DX7.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir
+mkdir -p $pkgdir/usr/share/sounds
+mv $srcdir/DX7 $pkgdir/usr/share/sounds/
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

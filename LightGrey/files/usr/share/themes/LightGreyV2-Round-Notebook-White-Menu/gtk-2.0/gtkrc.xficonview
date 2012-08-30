@@ -1,0 +1,14 @@
+style "xfdesktop-icon-view" {
+XfdesktopIconView::label-alpha = 0
+XfdesktopIconView::shadow-color = "#efefef"
+XfdesktopIconView::shadow-x-offset = 1
+XfdesktopIconView::shadow-y-offset = 1
+XfdesktopIconView::selected-shadow-x-offset = 1
+XfdesktopIconView::selected-shadow-y-offset = 1
+XfdesktopIconView::selected-shadow-color = "#efefef"
+fg[NORMAL] = "#444444"
+fg[PRELIGHT] = "#444444"
+fg[SELECTED] = "#444444"
+fg[ACTIVE] = "#444444"
+}
+widget_class "*XfdesktopIconView*" style "xfdesktop-icon-view"

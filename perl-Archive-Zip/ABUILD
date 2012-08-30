@@ -1,0 +1,25 @@
+pkgname=perl-Archive-Zip
+pkgver=1.30
+pkgbuild=4
+arch=('auto')
+shortdesc="perl interface to zip archives"
+source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/Archive-Zip-${pkgver}.tar.gz")
+tags="libs dev-libs"
+
+build()
+{
+	set -e
+	go_src_dir
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make install DESTDIR=$pkgdir
+	set +e
+}
+
+after_build()
+{
+	set -e
+	find $pkgdir -name perllocal.pod -delete
+	find $pkgdir -name .packlist -delete
+	set +e
+}

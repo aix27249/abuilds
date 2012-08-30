@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tremulous-data
+pkgver=1.1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Data files for Tremulous"
+
+source=("http://downloads.sourceforge.net/tremulous/tremulous-$pkgver.zip")
+
+tags="games games-fps"
+custom_opts="skip_gendeps no_strip"
+
+build()
+{
+	go_src_dir
+	rm CC GPL tremulous.* tremded.* tremulous-$pkgver-src.tar.gz
+	mkdir -p $pkgdir/opt/tremulous/
+	cp -r base $pkgdir/opt/tremulous/base/
+}

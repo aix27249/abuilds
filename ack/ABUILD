@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ack
+pkgver=1.94
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A source code search tool that is better than grep."
+source="http://betterthangrep.com/ack-standalone"
+
+tags="develop dev-perl"
+
+adddep="perl"
+
+build() {
+	# A bad thing to do, really.
+	mkdir -p $pkgdir/usr/bin
+	cp $srcache/ack-standalone $pkgdir/usr/bin/ack
+	chmod +x $pkgdir/usr/bin/ack
+}

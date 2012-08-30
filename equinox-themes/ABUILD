@@ -1,0 +1,75 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=equinox-themes
+pkgver=1.50
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Default Equinox themes"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Common themes which uses Equinox GTK+ engine"
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/140449-equinox-themes-${pkgver}.tar.gz n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+mkdir -p ${pkgdir}/usr/share/themes
+tar xzf $srcache/$loc_source_arr -C ${pkgdir}/usr/share/themes
+mv "${pkgdir}/usr/share/themes/Equinox Evolution.crx" \
+	"${pkgdir}/usr/share/themes/Equinox Evolution"
+for theme in Dawn Dusk Midnight; do
+	mv "${pkgdir}/usr/share/themes/Equinox Evolution ${theme}.crx" \
+		"${pkgdir}/usr/share/themes/Equinox Evolution ${theme}"
+done
+cd "${pkgdir}"/usr/share/themes/
+find -type f -name "gtkrc" -exec sed -i 's/#include/include/g' {} \;
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

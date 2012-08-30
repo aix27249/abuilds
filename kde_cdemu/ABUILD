@@ -1,0 +1,21 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kde_cdemu
+pkgver=0.3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="KDE GUI for CDEmu"
+longdesc=("$shortdesc")
+
+source="http://kde-apps.org/CONTENT/content-files/99752-kde_cdemu-0.3.1.tar.bz2"
+
+adddep="cdemu-daemon"
+
+tags="xapps x11-utils"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

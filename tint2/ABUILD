@@ -1,0 +1,69 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tint2
+pkgver=0.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="lightweight taskbar for X11"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tint is a simple panel/taskbar intentionally made for openbox3, but should also work with other window managers. The taskbar includes transparency and color settings for the font, icons, border, and background. It also supports multihead setups, customized mouse actions, and a built-in clock. Tint was originally based on ttm code. The goal is to keep a clean and unintrusive look with code lightweight and compliance with freedesktop specification."
+	  ""
+	  "Homepage: http://code.google.com/p/tint2/"
+)
+
+source=("http://${pkgname}.googlecode.com/files/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="AUTHORS COPYING ChangeLog INSTALL.txt README README.source"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DENABLE_BATTERY=ON \
+-DENABLE_TINT2CONF=ON \
+-DENABLE_EXAMPLES=ON \
+-DDOCDIR=/usr/doc/${pkgname}-${pkgver} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

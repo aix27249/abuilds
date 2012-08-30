@@ -1,0 +1,11 @@
+--- syslinux-4.04/Makefile.orig	2011-05-06 21:10:37.000000000 +0400
++++ syslinux-4.04/Makefile	2011-05-06 21:12:23.899752727 +0400
+@@ -53,7 +53,7 @@
+ # files that depend only on the B phase, but may have to be regenerated
+ # for "make installer".
+ BSUBDIRS = codepage com32 lzo core memdisk modules mbr memdump gpxe sample \
+-	   diag libinstaller dos win32 win64 dosutil
++	   libinstaller
+ ITARGET  =
+ IOBJECTS = $(ITARGET) \
+ 	utils/gethostip utils/isohybrid utils/mkdiskimage \

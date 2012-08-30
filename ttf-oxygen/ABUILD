@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ttf-oxygen
+pkgver=0.1
+pkgbuild=1
+arch=noarch
+
+source="git:git://anongit.kde.org/oxygen-fonts"
+
+shortdesc="Oxygen Font is a project to design a desktop/gui font for integrated use with the KDE desktop."
+
+tags="xserver media-fonts"
+build()
+{
+	go_src_dir
+	mkdir -p $pkgdir/usr/share/fonts/TTF
+	for item in $(find -name *.ttf); do
+		cp $item $pkgdir/usr/share/fonts/TTF
+	done
+}

@@ -1,0 +1,64 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=valkyrie
+pkgver=2.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Valkyrie is an open-source graphical user interface for the Valgrind "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Графическая оболочка для Valgrind"
+)
+
+source=("http://www.valgrind.org/downloads//${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("vk_config.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="dev-util develop"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="valgrind>=3.6.0"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

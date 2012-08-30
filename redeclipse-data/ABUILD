@@ -1,0 +1,54 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=redeclipse
+pkgver=1.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A first-person shooter game based on Cube engine"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}_${pkgver}_linux_bsd.tar.bz2")
+
+tags="games games-fps"
+
+build_deps="make gcc libtool sdl sdl_image sdl_mixer"
+
+pkglist="data"
+
+build(){
+ go_src_dir
+ burn_patches
+
+ # compile binaries
+ cd src
+ make
+
+ # copy binaries
+ path=${pkgdir}/usr/share/redeclipse/bin
+ mkdir -p ${path}
+ cp {reserver,reclient} ${path}
+
+ # copy launcher scripts
+ install -D -m755 ${filedir}/redeclipse ${pkgdir}/usr/bin/redeclipse
+ install -D -m755 ${filedir}/redeclipse-server ${pkgdir}/usr/bin/redeclipse-server
+
+ # install desktop icon
+ install -D -m644 ${filedir}/redeclipse.desktop ${pkgdir}/usr/share/applications/redeclipse.desktop
+
+ # extract icon
+ mkdir -p ${pkgdir}/usr/share/pixmaps/
+ convert -resize 48x48 "redeclipse.ico[2]" ${pkgdir}/usr/share/pixmaps/redeclipse.png
+}
+
+data(){
+ pkgname=${p_pkgname}-data
+ pkgver=${p_pkgver}
+ arch=('noarch')
+ adddep="redeclipse=${pkgver}"
+ shortdesc="Data files for Red Eclipse"
+}
+
+data_prep(){
+ go_src_dir
+ mkdir -p ${pkgdir}/usr/share/redeclipse
+ cp -r data ${pkgdir}/usr/share/redeclipse
+}

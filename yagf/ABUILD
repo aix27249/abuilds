@@ -1,0 +1,14 @@
+pkgname=yagf
+pkgver=0.8.9
+pkgbuild=1
+arch=('auto')
+shortdesc="Qt4-based GUI for Cuneiform OCR"
+source=("http://symmetrica.net/cuneiform-linux/${pkgname}-${pkgver}.tar.gz")
+tags="xapps app-text"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

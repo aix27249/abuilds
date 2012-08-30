@@ -1,0 +1,76 @@
+#!/sbin/runscript
+# Copyright 1999-2006 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+
+
+depend()
+{
+after modules
+}
+
+PSENSORS=$(type -p sensors)
+prog="lm_sensors"
+
+# This functions checks if sensor support is compiled into the kernel, if
+# sensors are configured, and loads the config file
+check_sensors() {
+	CONFIG=/etc/conf.d/lm_sensors
+	if ! [ -r "$CONFIG" ] || ! grep '^HWMON_MODULES' $CONFIG >/dev/null 2>&1; then
+		echo -n "$1 $prog: not configured, run sensors-detect"
+		exit 6
+	fi
+
+	# Load config file
+	. "$CONFIG"
+}
+
+start() {
+	check_sensors || exit 1
+
+	ebegin "Starting $prog "
+
+	mount | grep sysfs >/dev/null 2>&1
+		if [ ${?} = 0 ]; then
+			if ! ( [ -e /sys/i2c ] || [ -e /sys/bus/i2c ] ); then
+				ebegin "  Loading i2c-core"
+				modprobe i2c-core >/dev/null 2>&1
+				if [ ${?} != 0 ]; then
+					eerror "    Could not load i2c-core!"
+					eend 1
+				fi
+				( [ -e /sys/i2c ] || [ -e /sys/bus/i2c ] ) || return 1
+				eend 0
+			fi
+		elif ! [ -e /proc/sys/dev/sensors ]; then
+			ebegin "  Loading i2c-proc"
+			modprobe i2c-proc >/dev/null 2>&1
+			if [ ${?} != 0 ]; then
+				eerror "    Could not load i2c-proc!"
+				eend 1
+			fi
+			[ -e /proc/sys/dev/sensors ] || return 1
+			eend 0
+		fi
+
+
+	for module in $BUS_MODULES $HWMON_MODULES ; do
+		echo  "loading module ${module} "
+		/sbin/modprobe $module >/dev/null 2>&1
+		eend 0
+	done
+	eend $?
+}
+
+stop() {
+	check_sensors
+
+	ebegin "Stopping $prog: "
+
+	for module in $HWMON_MODULES $BUS_MODULES ; do
+		/sbin/modprobe -r $module >/dev/null 2>&1
+		eend 0
+	done
+	eend $?
+}
+

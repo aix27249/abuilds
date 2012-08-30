@@ -1,0 +1,87 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=sfml
+pkgver=2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple, fast, cross-platform and object-oriented multimedia API."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A simple, fast, cross-platform and object-oriented multimedia API."
+)
+
+source=("svn:https://sfml.svn.sourceforge.net/svnroot/sfml/branches/sfml2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps="soil openal"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+msg "Applying patches"
+sed -e 's/<SOIL\/SOIL.h>/<SOIL.h>/g' -i src/SFML/Graphics/ImageLoader.cpp
+
+msg "Starting make."
+cmake -DCMAKE_INSTALL_PREFIX=/usr .
+make
+
+go_src_dir
+make DESTDIR=${pkgdir} install
+
+mkdir -p ${pkgdir}/usr/share/sfml
+cp -r doc ${pkgdir}/usr/share/sfml
+
+install -Dm 644 license.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+# Samples currently broken >.<
+#LDFLAGS="-L${pkgdir}/usr/lib" make samples || return 1
+#cp -r samples ${pkgdir}/usr/share/sfml
+#find "${pkgdir}/usr/share/sfml/samples" -name "*.o" -exec rm {} \;
+
+mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib$LIBDIRSUFFIX
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

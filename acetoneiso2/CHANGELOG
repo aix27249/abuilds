@@ -1,0 +1,374 @@
+
+Version 2.3
+- added utility to burn ISO/TOC/CUE images to CD-R/RW optical discs
+- added utility to burn ISO images to DVD-+R/RW optical discs (including DL)
+- AcetoneISO can now burn the raw images it generates when creating an image from CD-Audio (toc support)
+- fixed segmentation fault in erase cd/dvd function when no cd/dvd device is found
+- notice user if mounting an UDF ISO image providing him correct linux command to mount the image as root user (tested with M$ Windows7 isos)
+- small gui changes, most important is that the gui window size is not locked anymore to a minimum value
+- updated some i18n translations
+
+
+Version 2.2.2 19/06/2010
+- added support for Lxde(PCManFM) file manager. Patch provided from Andrea Florio.
+- splitting an image in multiple parts no longer uses compression algorithm (Dominik Dera)
+- fixed a bug that prevented database from listing images when the path had accented characters in it
+- fixed bug that ignored saved path destination when downloading a video from Youtube (Guido Cordaro)
+- fixed utube.h warnings that occured when compiling sources
+- fixed some filters in qdialogs
+- removed useless qmessagebox warning when mounting an image and file manager was set to none
+- updated AcetoneISO.desktop file according to the freedesktop.org desktop-entry-spec-1.1 Thanks to Anatoly Lyutin
+
+
+Version 2.2.1 04/11/2009
+- fixed segmentation fault that occured if ~/.acetoneiso folder didn't exist
+
+
+Version 2.2 01/11/2009
+- added utility to format a CD-RW fast/complete with full support to dbus, automatic media detection and usage of phonon technology
+- added utility to format a DVD-RW and DVD+RW fast/complete with full support to dbus, automatic media detection and usage of phonon technology
+- added utility to calculate shasums of images in 128,256 and 384 bits
+- when downloading a video from Youtube, AcetoneISO will now download video in High Quality if available
+- when downloading a video from Youtube, AcetoneISO will automatically retrieve the videos name and set the saved filename with it
+- acetoneiso will now delete ~/virtual-drives folder when not needed
+- fixed a bug preventing database from showing images that had a suffix in upper case
+- fixed a bug in context menu of mount display that cut the image's name if it had spaces in its file name
+- fixed some extension filters in qdialogs
+- unmount button now specifies the current selected image if one is selected and enables it, otherwise is disabled
+
+
+Version 2.1.1 16/09/2009
+- all processes that have output have now a real time display instead of a fake redundant progress bar
+- when converting a dvd to xvid avi, it is now possible to decide if audio should be encoded in mp3 or left to the original one
+- fixed a bug that caused AcetoneISO to go in segmentation fault after a process ends and it was placed in tray icon
+- when starting a process all buttons that can call another process get disabled to avoid mixing processes at the same time
+- removed obsolete eltorito features
+- it is now possible to convert or extract from cue sheet files
+- fixed a segmentation fault that occured if acetoneiso.conf file for some reasons didn't have "DB =" string (Jochen Fähnlein patch)
+
+
+Version 2.1 08/09/2009
+- added a new History display that will automatically list all images you mount in time and be quickly mountable
+- added option to scan subdirectories for database
+- added tray icon support
+- added advanced option for tray icon and history settings
+- added context menu in mount display
+- added label in main window that shows current database root folder and its recursive flag
+- clicking on option button from database will now open option ui directly in database toolbox section
+- fixed a severe bug that caused mounting an image not working under some circumstances
+- explicitly warn user when doing an action on an image from database that doesn't exist anymore
+- warn the user after mounting or opening an already mounted image if he set file manager to none
+- some gui fixes and enhancements
+- a lot of repetitive functions in the source code have been reduced to single generic ones
+- updated italian translation
+- updated czech translation
+
+
+Version 2.0.4 30/08/2009
+- added feature to quickly convert any video for Sony PSP Playstation Portable
+- added support for Thunar as file manager and option to set file manager to None
+- enhancements in the gui
+- updated and added new icons
+- updated Italian language
+- ask confirmation when unmounting an image
+
+
+Version 2.0.3.2 20/07/2009
+- fixed severe UI issue that prevented user to see mount and unmount buttons
+- updated dependencies: instead of pinentry-qt, it's pinentry-qt4 now
+- added updated German local files
+- updated and fixed czech local files
+- added quick unmount button at top menu
+
+
+Version 2.0.3.1 10/06/2009
+- fixed Youtube bug, it didn't update anymore due to a server change of the author
+- fixed a mount bug that occured when mounting an image of this type: "abc.xyz.iso"
+- small GUI restyle with a better News browser
+- the default size of the manual widget has been resized to standard 640*480 avoiding nasty things on netbooks and similar
+- added Simplified Chinese locale files
+- added czech local files
+
+
+Version 2.0.3 09/04/2009
+- at first launch ($HOME/.acetoneiso/acetoneiso.conf doesn't exist), AcetoneISO will open option window before actually loading the program
+- added option button in main GUI
+- removed paypal button in main GUI
+- updated manual
+- removed pornotube feature
+
+
+Version 2.0.3 Release Candidate 1 04/12/2008
+- updated poweriso link to 1.3 release
+- enhanced database with search field and context menu
+- enhanced general GUI look
+- added support for input through command line (beta feature). You can now click on an *iso and "Open With AcetoneISO"
+- added Exract Audio from video file feature
+- added login download from youtube
+- added pornotube and metacafe download
+- added saving log $HOME/.acetoneiso/acetoneiso.log where it is supported from process
+- added a news section in main window GUI which will show any message we want through http
+- split feature now uses 7z method of division
+- added feature to extract a *.rar that has a password
+- generating iso from cd/dvd now supports multiple devices
+- setting of database is now done through option menu
+- removed mount UDF feature
+- a lot of small bugfixes and better output messages
+- the executable has been renamed to "acetoneiso"
+
+
+Version 2.0.2 01/05/2008
+- added utility to quickly rip a DVD movie 2 Xvid AVI
+- added utility to quickly convert a generic video (mpeg,mov,asf,wmv,avi) to Xvid AVI
+- added utility to quickly convert a FLV video to AVI
+- added utility to quickly download videos from YouTube
+- added 2 Methods to view a DVD-Movie. If one fails, the other should work
+- added support for UDF ISO images
+- added d3lhpin service menu support (tested only on Ubuntu system path)
+- added translations for: french, russian, hungarian and romanian (thanks to contributors)
+- updated installer file, fuse is now activated automatically. this affects *.run and *.deb package
+- complete detailed rewrite of manual, current revision: 0.0.2.1
+- changed splash screen to the software's default logo
+- fixed a lot of output messages for warnings and error issues
+- fixed a bug in the umount code that occurred very rarely
+- some minor fixes
+
+
+Version 2.0.1 08/02/2008
+- complete redesign of GUI. smaller, more intuitive and powerful
+- restyling of the option window
+- restyling of the about window
+- manual is an inside browser now
+- removed obsolete eltorito DOS support
+- some internal changes of how the code and files are structured
+- the progress bar is now an external window
+- some bugfixes
+- added option to save the dvd-film cover
+
+
+Version 2.0.0  24/01/2008
+- all code ported to C++/QT4
+- introduced realtime progress bar for all feature
+- print exit error status on all features
+- the mount display is now realtime. you can click directly on it to browse the mounted image
+- the mount display reports the file size of the image
+- add button to directly delete an image set on database display
+- manual mount now uses fuseiso like automount
+- default icons changed, added paypal button
+- crypting an image is now very simple gets in input a qtdialog instead of konsole
+- added support for localitazion languages: english,italian,polish(jarek),spanish(david palacio)
+- added Backup CD-Audio function
+- removed burning functions | will be back in future?
+- code has been cleaned and splitted into headers
+- service menu support for konqueror
+- kde is no longer a dependencie
+- added a new "options" tab
+- added option to let the user set an ID when creating an ISO from folder
+- added option to set nautilus file manager as default
+- when setting kde in "options" tab,acetoneiso2 will use kde's default file manager
+- updated poweriso URL download to the official website @ version 1.2
+- full convert/extract support for *.dmg MacOS images
+- added smplayer support for play dvd-image film
+- gui is not locked anymore and will take desktop default style
+- mount has been drastically improved and code reduced at least two times with a better algorithm
+- creation of an indipendent distribution installer
+- tons of bugfixes too many to list here
+- there are some things changed that we can't remember :)
+
+
+
+Version 1.0.2  21/08/2007
+- change: AcetoneISO2 is now released under the GPL3 License. Enjoy!
+- change: GUI totally changed due to "instability" of qt4 designer (they like changing every version)
+- bugfix: installing in ubuntu Gutsy now works.
+- bugfix: play dvd movie had problems. there are now 2 methods to correctly view the movie.
+          we had to quit mplayer,kmplayer,smplayer support due to their bad support for
+          viewing a dvd folder.
+- bugfix: creating iso of a folder now makes correct Joliet format
+- change: database display now has the option to do recursive scanning
+- added: tool to extract the boot image from a CD/DVD and ISO
+
+
+ Version 1.0.1 10/08/2007
+ -bugfix: solved a problem when using AcetoneISO2 with QT4.3.0. No more messed displays
+  and working "+" button for more options in the menubar.
+
+
+Version 1.0 07/06/2007
+    - added support to mount ISO NRG BIN IMG MDF 
+    - automatic mount, no destination required, no password
+    - added database
+    - added  cover downloader for play movie dvd
+    - added support for Mac OS *.dmg images
+    - added support to retrieve information of images
+    - added support for eltorito
+    - automatic DOS bootable iso creation
+    - burn iso/cue, format cd/dvd, now without k3b
+    - a LOT of bugfix, so much impossible to list here
+    - gui ported to QT4
+    - added display for mount/database
+    - a lot of other things impossible to list here
+    - AcetoneISO2 is now distributed under new license: Creative Commons Licence
+    - and still many other changes
+
+
+
+#######################################  OLD VERSION  ################################################
+
+
+Version 6.7 Advance 05/03/2007
+         - NEW FEATURE: ability to extract and browse ISO,MDF,BIN,IMG,DAA,NRG without mounting them
+         - NEW FEATURE: added support for mounting NRG images(if iso9660 standard)
+         - NEW FEATURE: added support for viewing an MDF/NRG dvd movie image (if iso9660 standard)
+         - NEW FEATURE: it is now possible to convert DAA/BIN/IMG files larger than 4gb
+         - CHANGE: added more images in filters of all gui features
+         - CHANGE: Removed bchunk,ccd2iso and replaced with poweriso
+         - CHANGE: creating an iso will now result in a more standard LEVEL 3
+         - FIX: creating an ISO from a cdrom is now more clear, added fake progbar from konsole
+
+
+Version 6.6 Advance 28/11/2006
+ - NEW FEATURE: ability to directly extract an iso to a folder without mounting it
+ - NEW FEATURE: ability to browse and view files of an iso
+ - NEW FEATURE: ability to convert *.daa image files
+ - NEW FEATURE: ability to generate a cue file from a BIN/IMG image
+ - NEW FEATURE: ability to rip a PSX cd to a bin file 
+ - NEW FEATURE: the 8 convert buttons have been reduced to a one OMNI button
+ - CHANGE: default directory in kdialogs is now /home/youruser/
+ - CHANGE: all converters will now install in /opt/acetoneiso/bin/ avoiding conlict with the other packages
+ - bug fix: almost all the code has been rewritten, correct and simply works better
+ - bug fix: the savefile filters have been corrected
+ - bug fix: making an iso of a folder that had files with space in it's name were cut
+ - bug fix: service menu have been updated to the new code
+ - last note: the gui has a fresh and new look :)
+
+
+Version 6.5.1 Nano 06/11/2006
+  - bugfix all files are executable now :)
+  - bugfix create iso from cd-rom works again.
+
+
+  Version 6.5 Nano 30/10/2006
+  - Total rewrite of AcetoneISO
+  - GUI has been totally changed, now it's faster and better
+  - All convertion tools have now their own progress bar accurate 100%, removed annoying messages
+  - When creating an ISO from folder, the user will now see it's progress bar, both in the GUI and Service Menu
+  - In the Play ISO tab, to add more security there has been inserted a real-time msg that lets the user know 
+   if there is an ISO mounted
+  - when compressing with 7zip, the user will now be able to choose in Ultra High Mode and Normal Compression.
+  - Finally the Mount ISO and Turbo Mount buttons won't get stucked anymore!
+  - ADDED new option: you can now Encrypt and Decrypt an ISO
+  - mdf2iso should now correctly convert your mdf files to ISO
+
+
+  Version 6.1 Nano 06/10/2006
+  -New GUI
+  -sounds have been inserted in turbo mount and in standard mount
+  -mdf2iso patched with Yuri van Oers patch
+  -some changes in umount code
+ Version 6.0 Moonlight Shadow
+  -This version is a major BUGFix release.All users are encoureged to update to the 6.0
+  -Added Service Menu Turbo Button
+  -Changed GUI
+  -Added option to Compress an ISO to 7z in ULTRA High Mode
+  and button to Extract it
+  -Mount has been improved.It will now avoid mounting 2 times in the same folder
+  asking the user if he wants to unmount if first
+  -Unmount has been improved, more error controls plus error controls improved
+  -turbo mount has been improved as well
+  -web button will now open it with firefox,if not present in konqueror
+  -play dvd iso and unmount dvd have been drastically improved,there isnt no more
+  the risk of mounting more than one iso.That would have created serious problems
+  -services menu have been improved and updated to the gui code
+  -other small but not less important bug-fixes
+
+
+  Version 5.5 Space Trooper 14/09/2006
+  - Finally Fixed the Path and ISO name Space problem. It is now possible to mount an ISO that has spaces in it's file name and it's path. This affect   100% the GUI in all the features of the program
+  - Service Menu has been improved for the "Space" bug. As of now it affect 70% of cases.When it isnt' possible
+    to mount with spaces there will be a notice on top of the kdialog message.
+  - Drastically Improved the Turbo Mount/Umount. The code has been rewritten and just works ok.
+
+
+ Version 5.1 Ultimate 13/09/2006
+  - Finally corrected all scripts fixing the "cancel" button.If now selected the program will
+    stop immediately. This was very annoying...:)
+  - Added New button: Quick Mount/Umount! This cool utility,recycled from the old AcetoneISO 0.2 script, once clicked will 
+    Quickly Mount the first ISO found on Desktop and mount it allways n your desktop in a folder called Acetone
+
+
+ Version 5.0 Ultimate 12/09/2006
+  - New GUI. It is now good looking,more functional.
+  - Split ISO totally rewritten. It is now possible to choose exactly in MegaByte the dimension
+    of the splitted files. You can also choose the KiloByte measure
+  - fixed bug in Burn Image with K3b. Now it correctly writes the image and lets the user choose to write
+    to a CD or DVD media
+  - added button to Blank a CD/DVD directly in K3b
+  - added button to Generate a Md5sum File of an ISO
+  - Added two new Conversions: PDI and B5I/BWI are now supported and can be converted to ISO
+  - The code of Create ISO from Folder has been improved.Now it lets the user first select 
+    the folder to be converted and then choose the *.iso file name
+  - Play DVD-Movie ISO now supports another player: Kmplayer
+  - added button in GUI to connect directly to AcetoneISO Official HomePage
+
+
+  Version 4.1 Movie Lover 10/09/2006
+  - in this version you can choose the player in "Play DVD-Movie ISO" (supported players: Kaffeine,Mplayer and VLC)
+  - some changes in gui
+
+
+  Version 4.0 Movie Lover 09/09/2006
+  - added possibility to play an ISO of a DVD-Movie direcly with kaffeine by simply pressing a button or from servicemenu
+  - program is now able to split an iso in smaller files of 649Mb or 125Mb and merge them again into an ISO
+  - added ability to force the mount/eject of a cd/dvd in media device
+  - some changes in GUI 
+
+
+  Version 3.0 Plus 02/09/2006
+  - service menu added  to mount, umount and create iso from folder or CD/DVD
+  - more CD/DVD formats supported to convert to iso
+  - created installer and uninstaller scripts to easily install service menu and program 
+
+
+  version 2.0 Unlimited 31/08/2006
+  - GUI has been totally changed, now it looks better ;)
+  - totally rewrite of the scripts.
+  - removed the force acetone folder on desktop.(now you can give the folder's name)
+  - it is now possible to mount unlimited ISOs.
+  - now you can give the name to the ISO when converting them
+  - removed OPEN MOUNTED FOLDER. It will automatically open after Mount
+
+
+  version 1.6   31/08/2006
+  - added `Open Mounted Folder` button
+
+
+  version 1.5.2 30/08/2006
+  -  corrected ALL files with the "Superstoned" bug
+
+
+  version 1.5.1 30/08/2006
+  - bugfix(reported by Superstoned )
+
+
+  version 1.5 30/08/2006
+  - added ability to verify md5sum of image files
+  - ability to create ISO from Folder and CD/DVD
+  - GUI has been updated
+
+
+  version 1.0 30/08/2006
+  - totally rewrite of the scripts.
+  - introduction of a nice GUI
+  - now it is possible to mount an ISO from any location (thanks to xTitus)
+  - ability to mount and unmount ISO and MDF(if iso-9660 standard), Convert BIN, MDF, DAT, NRG to ISO, Burn Your ISO, CUE, TOC images directly in K3b
+
+
+  version 0.2 29/08/2006
+  - the 2 scripts were reduced to only one. it mounts and unmounts.
+  if the iso is mounted it will unmount it else mount.
+
+
+  version 0.1 29/08/2006
+  - created scripts to mount & unmount iso (no bugs known)
+

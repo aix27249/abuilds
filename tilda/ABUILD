@@ -1,0 +1,83 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tilda
+pkgver=0.9.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tilda, a Linux terminal"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tilda is a Linux terminal taking after the likeness of many classic"
+	  "terminals from first person shooter games, Quake, Doom and Half-Life to"
+	  "name a few, where the terminal has no border and is hidden from the"
+	  "desktop till a key or keys are pressed."
+""
+"Homepage: http://sourceforge.net/projects/tilda/"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/tilda/tilda/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-terms xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+P=`cat $pkgdir/usr/share/applications/tilda.desktop | grep Icon=/usr/share/pixmaps`
+if [ "$P" = "" ]; then
+ sed -i 's|Icon=/usr/share/applications/tilda.png|Icon=/usr/share/pixmaps/tilda.png|' \
+	$pkgdir/usr/share/applications/tilda.desktop || exit 1
+fi
+}

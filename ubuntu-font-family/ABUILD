@@ -1,0 +1,39 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=ubuntu-font-family
+pkgver=0.80
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Ubuntu Font Family"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("http://archive.ubuntu.com/ubuntu/pool/main/u/ubuntu-font-family-sources/ubuntu-font-family-sources_$pkgver.orig.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-fonts xserver"
+
+docs=*.txt
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+go_src_dir
+install -dm755 ${pkgdir}/usr/share/fonts/TTF
+for file in *
+do
+install -m644 ${file} ${pkgdir}/usr/share/fonts/TTF
+done
+install -D -m644 .txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
+}
+
+

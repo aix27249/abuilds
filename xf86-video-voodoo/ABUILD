@@ -1,0 +1,17 @@
+pkgname=xf86-video-voodoo
+pkgver=1.2.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-voodoo: X11 driver for 3Dfx Voodoo video cards')
+longdesc=('xf86-video-voodoo: X11 driver for 3Dfx Voodoo video cards')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-voodoo-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

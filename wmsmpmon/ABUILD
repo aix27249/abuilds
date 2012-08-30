@@ -1,0 +1,22 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=wmsmpmon
+pkgver=3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="wmSMPmon is a Window Maker applet for monitoring the CPUs, memory, and swap of SMP systems"
+
+source=("http://lancre.ribbrock.org/uploads/TRi/wmSMPmon/wmSMPmon-${pkgver}.tar.gz")
+
+tags="x11-wm xapps"
+
+build_deps="make gcc"
+
+build(){
+  cd ${srcdir}/wmSMPmon-${pkgver}/wmSMPmon || return 1
+  install -m 755 -d ${pkgdir}/usr/{bin,man}
+  make
+  make BINDIR=${pkgdir}/usr/bin MANDIR=${pkgdir}/usr/man install
+  echo "End build"
+}

@@ -1,0 +1,32 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mrim-prpl
+pkgver=0.1.29
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Plugin for libpurple for support Mail.ru Agent protocol"
+source=("git:https://code.google.com/p/mrim-prpl")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-im"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+go_src_dir
+./configure --gtk --files || return 1
+make || return 1
+
+make FULL_LIBDIR=/usr/lib${LIBDIRSUFFIX} DESTDIR="$pkgdir" install || return 1
+
+}
+

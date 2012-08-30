@@ -1,0 +1,22 @@
+# Package metadata
+pkgname=agilia-text-installer
+pkgver=2.0
+pkgbuild=1
+arch=("auto")
+
+# Package description
+shortdesc=("AgiliaLinux ncurses-based text mode system installer")
+longdesc=("This is text version of AgiliaLinux installer.")
+
+# Source URL
+source=("svn:svn://agilialinux.ru/mpkg/mpkg/trunk/textinstaller")
+
+# Tags
+tags="xapps sys-apps"
+# Many additional dependencies which are used indirectly during setup process.
+
+# Build system
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
+
+

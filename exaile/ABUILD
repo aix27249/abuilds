@@ -1,0 +1,78 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=exaile
+pkgver=0.3.2.0
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Music Player for GTK+"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Exaile is a music manager and player for GTK+ written in Python. It"
+	  "incorporates automatic fetching of album art, lyrics fetching, Last.fm"
+	  "scrobbling, support for many portable media players, internet radio such"
+	  "as shoutcast, and tabbed playlists."
+""
+"Homepage: http://exaile.org"
+)
+
+source=("http://launchpad.net/exaile/0.3.2/$pkgver/+download/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="mutagen gst-python gst-plugins-base gst-plugins-good gstreamer dbus-python pygtk gst-plugins-ugly gst-ffmpeg"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="DEPS"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+make -j${numjobs} || exit 1
+
+make PREFIX=/usr \
+	LIBINSTALLDIR=/lib${LIBDIRSUFFIX} \
+	install DESTDIR=$pkgdir || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,102 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=kid3
+pkgver=1.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Kid3 - ID3 Tagger"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Программа-редактор аудио-тегов. http://kid3.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/kid3/kid3/${pkgver}/kid3-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="linuxdoc-tools"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# doc
+go_src_dir
+mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+cp -v ../{AUTHORS,ChangeLog,COPYING,LICENSE,README} ${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
+
+}
+
+src_subdir=${pkgname}-qt
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-debug \
+--without-kde \
+--without-musicbrainz \
+--with-xsl-stylesheet='/usr/share/xml/docbook/xsl-stylesheets-1.75.2/html/docbook.xsl'"
+
+#--without-arts \
+
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# doc
+if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
+ rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
+fi
+
+# icon
+if [ -n `cat ${pkgdir}/usr/share/applications/${pkgname}-qt.desktop | grep "Name=Kid3-qt"` ]; then
+ sed -i "/^Name/s|-qt||" ${pkgdir}/usr/share/applications/${pkgname}-qt.desktop
+fi
+
+}

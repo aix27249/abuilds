@@ -1,0 +1,50 @@
+#----------------------------- General vars --------------------------------------
+pkgname=lxde
+pkgver=0.5.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Meta-package for instal LXDE"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Installs: lxappearance, lxde-common, agilia-lxde-theme, lxde-icon-theme, lxinput, lxlauncher, lxmenu-data, lxpanel, lxrandr, lxsession, lxsession-edit, lxshortcut, lxtask, lxterminal, menu-cache, pcmanfm-lxde>=0.6, openbox, obconf"
+)
+
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#tags="virtual lxde-base"      			#short and long tags / длинный и короткий тег
+tags="virtual lxde-base"  
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="lxappearance lxde-common lxde-icon-theme agilia-lxde-theme lxinput lxlauncher lxmenu-data lxpanel lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal menu-cache pcmanfm openbox obconf"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#ran before function build()
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+build() 
+{
+echo ""
+}
+
+#ran after function build() 
+after_build()
+{
+ echo ""
+}

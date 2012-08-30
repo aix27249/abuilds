@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plasma-glassified
+pkgver=4.1.0
+pkgbuild=1
+arch=('noarch') #auto')
+
+shortdesc="Glassified (Plasma Theme)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("http://kde-look.org/content/show.php/Glassified?content=81388"
+)
+
+source=("http://kde-look.org/CONTENT/content-files/81388-Glassified.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="x11-themes kde4"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NK
+email=nk-man@yandex.ru
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/Glassified
+
+burn_patches
+
+mkdir -p $startdir/pkg/usr/share/apps/desktoptheme
+cd $startdir/src
+cp -R Glassified $startdir/pkg/usr/share/apps/desktoptheme || exit 1
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

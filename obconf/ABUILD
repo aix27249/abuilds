@@ -1,0 +1,62 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=obconf
+pkgver=2.0.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ObConf is a GTK+ tool to assist with the configuration of the Openbox window manager"
+
+source=("git:git://git.openbox.org/dana/${pkgname}.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-wm xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./bootstrap && ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--bindir=/usr/bin \
+--sbindir=/usr/sbin \
+--libexecdir=/usr/libexec \
+--sysconfdir=/usr/etc \
+--localstatedir=/usr/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--infodir=/usr/info \
+--enable-nls"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

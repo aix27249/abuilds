@@ -1,0 +1,17 @@
+pkgname=xf86-video-siliconmotion
+pkgver=1.7.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-siliconmotion: X11 driver for Silicon Motion video cards')
+longdesc=('xf86-video-siliconmotion: X11 driver for Silicon Motion video cards')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-siliconmotion-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

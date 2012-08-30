@@ -1,0 +1,29 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=powertop
+pkgver=2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Linux tool to diagnose issues with power consumption and power management."
+
+source=("https://01.org/${pkgname}/sites/default/files/downloads/${pkgname}-${pkgver}.tar.gz")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="utils sys-power"
+
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh && ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,21 @@
+#!/sbin/runscript
+
+PIDFILE=/var/run/pipslited.pid
+
+if [ "$(uname -m)" == "x86_64" ]; then
+   LIBDIRSUFFIX=64
+fi
+
+depend() {
+  need cupsd
+}
+
+start() {
+ ebegin "Starting pipslited"
+ start-stop-daemon --start --pidfile ${PIDFILE} --exec /usr/lib${LIBDIRSUFFIX}/pipslite/pipslited
+}
+
+stop() {
+ ebegin "Stopping pipslited"
+ start-stop-daemon --stop --pidfile ${PIDFILE}
+}

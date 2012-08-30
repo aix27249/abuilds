@@ -1,0 +1,80 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=webkit-efl
+#pkgver=svn`svn info http://svn.webkit.org/repository/webkit/trunk | grep "Revision:" | cut -f2 -d ' '`
+pkgver=69562
+pkgbuild=1
+arch=('auto')
+
+shortdesc="webkit-efl"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("WebKit/EFL is the port of the portable web rendering engine WebKit to the Enlightenment Foundation Libraries."
+	  ""
+	  "Homepage: http://trac.webkit.org/wiki/EFLWebKit"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+if [ -d /tmp/$pkgname ]; then
+	cp -r /tmp/$pkgname $srcdir
+else
+	cd ${srcdir}
+	svn checkout --revision $pkgver http://svn.webkit.org/repository/webkit/trunk $pkgname
+fi
+pkgver=r$pkgver
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DPORT=Efl \
+-DNETWORK_BACKEND=curl \
+-DENABLE_GLIB_SUPPORT=OFF \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+if [ $ARCH = "x86_64" ]; then
+	mv $pkgdir/usr/lib $pkgdir/usr/lib64
+fi
+}

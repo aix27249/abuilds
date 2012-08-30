@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ttf-roboto
+pkgver=4.0.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Android 4.0's new default system font."
+
+source=(
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-Bold.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-BoldCondensed.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-BoldCondensedItalic.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-BoldItalic.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-Condensed.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-CondensedItalic.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-Italic.ttf"
+"https://github.com/CyanogenMod/android_frameworks_base/raw/ics/data/fonts/Roboto-Regular.ttf"
+)
+
+tags="xserver media-fonts"
+
+build()
+{
+	for item in Bold BoldCondensed BoldCondensedItalic BoldItalic Condensed CondensedItalic Italic Regular; do
+		install -Dm644 $srcache/Roboto-$item.ttf $pkgdir/usr/share/fonts/TTF/Roboto-$item.ttf
+	done
+}

@@ -1,0 +1,43 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=libzen
+pkgver=0.4.26
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Small C++ derivate class to have a simpler life"
+
+source=("http://downloads.sourceforge.net/zenlib/${pkgname}_${pkgver}.tar.bz2")
+
+tags="dev-libs libs"
+
+#dependencies only needed to build package
+build_deps="libtool automake autoconf"
+adddep=""
+
+docs="ReadMe.txt History.txt"
+
+build()
+{
+  cd ${srcdir}/ZenLib/Project/GNU/Library
+  [ -x configure ] || sh ./autogen
+  [ -f Makefile ] || ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --enable-shared
+  make clean
+  make
+  echo "End build"
+}
+
+after_build()
+{
+  cd ${srcdir}/ZenLib/Project/GNU/Library
+  make DESTDIR=${pkgdir} install
+  install -dm 755 ${pkgdir}/usr/include/ZenLib
+  install -m 644 ${srcdir}/ZenLib/Source/ZenLib/*.h ${pkgdir}/usr/include/ZenLib
+
+  for i in HTTP_Client Format/Html Format/Http; do
+     install -dm 0755 ${pkgdir}/usr/include/ZenLib/${i}
+     install -m0 644 ${srcdir}/ZenLib/Source/ZenLib/${i}/*.h ${pkgdir}/usr/include/ZenLib/${i}
+  done
+  sed '/Version:/c\Version: '${pkgver} -i ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/libzen.pc
+  echo "End after_build"
+}

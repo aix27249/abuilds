@@ -1,0 +1,187 @@
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_calendar.edc cthulhain-0.5.8/cthulhain_calendar.edc
+--- cthulhain-0.5.8.orig/cthulhain_calendar.edc	2010-10-15 01:06:46.346279000 +0800
++++ cthulhain-0.5.8/cthulhain_calendar.edc	2010-10-15 22:48:09.827000001 +0800
+@@ -5,8 +5,8 @@ images
+ 
+ fonts
+ {
+-	font: "VeraMono.ttf" "VeraMono";
+-	font: "VeraBd.ttf"   "VeraBold";
++	font: "DejaVuSansMono.ttf" "VeraMono";
++	font: "DejaVuSans-Bold.ttf"   "VeraBold";
+ }
+ 
+ 
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_default.edc cthulhain-0.5.8/cthulhain_default.edc
+--- cthulhain-0.5.8.orig/cthulhain_default.edc	2010-10-15 01:06:46.340279000 +0800
++++ cthulhain-0.5.8/cthulhain_default.edc	2010-10-15 22:39:59.310000002 +0800
+@@ -17,10 +17,11 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -34,6 +35,7 @@ spectra {
+ 	color: 255 249 231 127 1;
+      }
+ }
++#endif
+ 
+ 
+ collections {
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_fileman.edc cthulhain-0.5.8/cthulhain_fileman.edc
+--- cthulhain-0.5.8.orig/cthulhain_fileman.edc	2010-10-15 01:06:46.343279000 +0800
++++ cthulhain-0.5.8/cthulhain_fileman.edc	2010-10-15 22:42:54.997000001 +0800
+@@ -9292,6 +9292,7 @@ group 
+ 		    }
+ 	       }
+ 	  }
++#if 0
+ 	part 
+ 	  {
+ 	     name: "grad";
+@@ -9308,6 +9309,7 @@ group 
+ 		  gradient.rel2.offset: -1 0;
+ 	       }
+ 	  }
++#endif
+      }
+ }
+ 
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_forecasts.edc cthulhain-0.5.8/cthulhain_forecasts.edc
+--- cthulhain-0.5.8.orig/cthulhain_forecasts.edc	2010-10-15 01:06:46.346279000 +0800
++++ cthulhain-0.5.8/cthulhain_forecasts.edc	2010-10-15 22:48:49.968000002 +0800
+@@ -1,6 +1,6 @@
+ fonts {
+-   font: "Vera.ttf"   "Vera";
+-   font: "VeraBd.ttf" "Vera Bold";
++   font: "DejaVuSans.ttf"   "Vera";
++   font: "DejaVuSans-Bold.ttf" "Vera Bold";
+ }
+ 
+ #define ORIENT_TARGETS \
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_icons.edc cthulhain-0.5.8/cthulhain_icons.edc
+--- cthulhain-0.5.8.orig/cthulhain_icons.edc	2010-10-15 01:06:46.342279000 +0800
++++ cthulhain-0.5.8/cthulhain_icons.edc	2010-10-15 22:42:14.862000003 +0800
+@@ -1819,6 +1819,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1841,6 +1842,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1861,6 +1863,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1879,6 +1882,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1899,6 +1903,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1921,6 +1926,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1941,6 +1947,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1963,6 +1970,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1983,6 +1991,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2005,6 +2014,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_itask-ng.edc cthulhain-0.5.8/cthulhain_itask-ng.edc
+--- cthulhain-0.5.8.orig/cthulhain_itask-ng.edc	2010-10-15 01:06:46.346279000 +0800
++++ cthulhain-0.5.8/cthulhain_itask-ng.edc	2010-10-15 22:49:12.675000002 +0800
+@@ -4,7 +4,7 @@
+ 
+ fonts
+ {
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
+ images
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_mail.edc cthulhain-0.5.8/cthulhain_mail.edc
+--- cthulhain-0.5.8.orig/cthulhain_mail.edc	2010-10-15 01:06:46.346279000 +0800
++++ cthulhain-0.5.8/cthulhain_mail.edc	2010-10-15 22:49:26.480000003 +0800
+@@ -1,6 +1,6 @@
+ fonts
+ {
+-   font: "VeraBd.ttf" "VeraBold";
++   font: "DejaVuSans-Bold.ttf" "VeraBold";
+ }
+ images
+ {
+diff -uNrp cthulhain-0.5.8.orig/cthulhain_tclock.edc cthulhain-0.5.8/cthulhain_tclock.edc
+--- cthulhain-0.5.8.orig/cthulhain_tclock.edc	2010-10-15 01:06:46.346279000 +0800
++++ cthulhain-0.5.8/cthulhain_tclock.edc	2010-10-15 22:49:43.178000003 +0800
+@@ -1,6 +1,6 @@
+ fonts 
+ {
+-   font: "VeraMono.ttf" "VeraMono";
++   font: "DejaVuSansMono.ttf" "VeraMono";
+ }
+ 
+ images 

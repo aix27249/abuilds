@@ -1,0 +1,80 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=nautilus-elementary
+pkgver=2.32.2.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="GNOME File manager (elementary patched"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Nautilus is standart file manager for GNOME which support all of features which needed for file operations"
+)
+
+source=("bzr:lp:nautilus-elementary")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome gnome-base"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides="nautilus"
+conflicts=""
+
+adddep="udisks"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+patch -Np1 -i ${filedir}/no_zeitgeist.patch
+
+./autogen.sh && ./configure --prefix=/usr --sysconfdir=/etc \
+      --localstatedir=/var --disable-static \
+      --libdir=/usr/lib${LIBDIRSUFFIX} \
+      --libexecdir=/usr/lib${LIBDIRSUFFIX}/nautilus \
+      --disable-update-mimedb
+make || exit 1
+make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=${pkgdir} install
+
+install -dm755 ${pkgdir}/usr/share/gconf/schemas
+gconf-merge-schema ${pkgdir}/usr/share/gconf/schemas/${_realname}.schemas \
+	--domain ${_realname} ${pkgdir}/etc/gconf/schemas/*.schemas
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain nautilus ${pkgdir}/etc/gconf/schemas/*.schemas
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

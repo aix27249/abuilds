@@ -1,0 +1,96 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=beep
+pkgver=1.3 #.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Advanced PC speaker beeping program"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("http://www.johnath.com/beep/"
+)
+
+source=("http://www.johnath.com/beep/${pkgname}-${pkgver}.tar.gz")
+#source=("git:https://github.com/johnath/beep.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+# Fix from Arch
+sed -i "s:-Wall:${CFLAGS}:" Makefile || exit 1
+
+make || exit 1
+
+#install -D -m755 beep "${pkgdir}/usr/bin/beep"
+
+#strip --strip-unneeded beep || exit 1
+
+strip_binaries || exit 1
+go_src_dir
+
+##  http://slackbuilds.org/repository/13.1/misc/beep/
+# See the manpage for more information on why, but you will need to install
+# beep with the suid bit set in order to have full functionality  in all 
+# instances. The default is NO, but it *should* be safe to change it to YES
+
+# https://github.com/johnath/beep/blob/master/README
+
+SET_SUID= #YES
+
+if [ "$SET_SUID" = "YES" ]; then
+  install -D -m 4755 beep ${pkgdir}/usr/bin/beep
+else
+   install -D -m 0755 beep ${pkgdir}/usr/bin/beep
+fi
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

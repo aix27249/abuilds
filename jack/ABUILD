@@ -1,0 +1,74 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=jack
+pkgver=1.9.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="JACK (Low latency audio server)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("JACK is system for handling real-time, low  latency audio and MIDI. It can connect a number of different applications to an audio device, as well as allowing them to share audio between themselves."
+	  ""
+	  "Homepage: http://jackaudio.org/"
+)
+
+source=("http://www.grame.fr/~letz/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="libs media-sound"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+# fix doxygen building
+sed -i 's:build/default/html:html:' wscript
+
+./waf configure \
+--prefix=/usr \
+--libdir=/lib${LIBDIRSUFFIX} \
+--dbus \
+--doxygen \
+--alsa \
+--firewire \
+--enable-pkg-config-dbus-service-dir \
+--mandir=/usr/man/man1
+
+./waf build
+./waf install --destdir=$pkgdir
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,98 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=wgetpaste
+pkgver=2.18
+pkgbuild=3
+arch=('noarch')
+
+shortdesc="A Script that automates pasting to a number of pastebin services"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A Script that automates pasting to a number of pastebin services relying only on bash, sed, coreutils (mktemp/sort/tr/wc/whoami/tee) and wget."
+""
+"Distributed in the public domain. Do with it whatever you want."
+""
+"Homepage: http://wgetpaste.zlin.dk"
+)
+
+source=("http://wgetpaste.zlin.dk/${pkgname}-${pkgver}.tar.bz2"
+"http://wgetpaste.zlin.dk/wgetpaste.example")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-text console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bash sed coreutils wget"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+go_src_dir
+
+#sed -i 's|emerge x11|install x11|' ${pkgname} || exit 1
+patch ${pkgname} < ${filedir}/${pkgname}_help-info.diff || exit 1
+
+sed -i \
+	-e 's|emerge --info||' \
+	-e 's|\-\-ignore-default-opts||' \
+	${pkgname} || exit 1
+
+#bin
+  install -D -m755 ${pkgname} ${pkgdir}/usr/bin/${pkgname} || exit 1
+
+#zsh
+  #install -D -m644 _${pkgname} $pkgdir/usr/share/zsh/site-functions/_${pkgname}
+  
+#example 
+  install -D -m644 ${srcache}/${pkgname}.example \
+	  ${pkgdir}/usr/doc/${pkgname}-${pkgver}/${pkgname}.example || exit 1
+
+#install -D -m644 ${filedir}/wgetpaste.conf ${pkgdir}/etc/skel/.wgetpaste.conf || exit 1
+
+install -D -m644 ${filedir}/wgetpaste.conf ${pkgdir}/etc/wgetpaste.conf || exit 1
+mv -v ${pkgdir}/etc/wgetpaste.conf ${pkgdir}/etc/wgetpaste.conf.new || exit 1
+
+}

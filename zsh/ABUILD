@@ -1,0 +1,47 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=zsh
+pkgver=4.3.17
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Z Shell is a very powerful shell replacement for Unix."
+
+source="ftp://ftp.zsh.org/pub/${pkgname}-${pkgver}.tar.bz2"
+
+tags="console app-shells"
+
+config_files="usr/share/zsh/zshrc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--bindir=/bin \
+--mandir=/usr/man \
+--libdir=/usr/lib$LIBDIRSUFFIX \
+--enable-etcdir=/etc/zsh \
+--enable-zshenv=/etc/zsh/zshenv \
+--enable-zlogin=/etc/zsh/zlogin \
+--enable-zlogout=/etc/zsh/zlogout \
+--enable-zprofile=/etc/zprofile \
+--enable-zshrc=/etc/zsh/zshrc \
+--enable-maildir-support \
+--with-term-lib='ncursesw' \
+--enable-multibyte \
+--enable-function-subdirs \
+--enable-fndir=/usr/share/zsh/functions \
+--enable-scriptdir=/usr/share/zsh/scripts \
+--with-tcsetpgrp \
+--enable-pcre \
+--enable-cap \
+--enable-zsh-secure-free"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+    mkdir -p $pkgdir/etc/
+    echo "# This is the zsh profile file. It is set to call /etc/profile by default." > $pkgdir/etc/zprofile
+    echo "emulate sh -c 'source /etc/profile'" >> $pkgdir/etc/zprofile
+	echo "# This is your global zshrc file. Add whatever you need to be available to all users in here." > $pkgdir/usr/share/zsh/zshrc
+}

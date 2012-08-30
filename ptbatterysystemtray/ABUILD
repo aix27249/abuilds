@@ -1,0 +1,51 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=ptbatterysystemtray
+pkgver=0.8.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple battery monitor in the system tray, in Qt."
+
+source=("git:git://gitorious.org/${pkgname}/${pkgname}.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-laptop xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="ucpufreq>=0.1"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+go_src_dir
+burn_patches
+qmake "INSTALL_PREFIX=/usr"
+make "INSTALL_ROOT=$pkgdir" install
+}

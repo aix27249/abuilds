@@ -1,0 +1,32 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=transmission-remote-gui
+pkgver=4.0.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A feature rich cross platform front-end to remotely control Transmission daemon."
+
+source=("https://transmisson-remote-gui.googlecode.com/files/transgui-${pkgver}-src.zip")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="network net-p2p"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+  go_src_dir
+}
+
+build()
+{
+  lazbuild transgui.lpi || exit 1
+}
+
+after_build()
+{
+  mkdir -p ${pkgdir}/usr/bin/
+  cp ./units/transgui ${pkgdir}/usr/bin/
+  mkdir -p ${pkgdir}/usr/share/pixmaps/
+  cp ./transgui.png ${pkgdir}/usr/share/pixmaps/
+}

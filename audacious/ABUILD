@@ -1,0 +1,27 @@
+pkgname=audacious
+pkgver=2.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Lightweight, GTK2-based advanced audio player focused on audio quality"
+longdesc=("Audacious is a media player, based on Beep Media Player, which is in turn based on the X Multimedia System (XMMS). It is used to play audio and other kinds of media files. By default 
+Audacious can play MPEG audio, Ogg Vorbis, RIFF wav, most module formats, and a few other formats. Audacious can be extended through plugins to play a number of other audio and video formats."
+)
+
+source=("http://distfiles.audacious-media-player.org/$pkgname-$pkgver.tar.bz2")
+
+tags="xapps media-sound"
+
+before_build()
+{
+	[[ $ARCH == x86_64 ]] && extraopts='' || extraopts='--disable-sse2'
+}
+
+build(){
+	go_src_dir
+	./configure --prefix=/usr $extraopts \
+		--libdir=/usr/lib$LIBDIRSUFFIX
+	make -j${numjobs}
+	make DESTDIR=$pkgdir install        
+}
+

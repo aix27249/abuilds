@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfconf
+pkgver=4.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple client-server configuration storage and query system"
+
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make pkg-config intltool gcc gtk-doc perl perl-xml-parser perl-glib perl-extutils-pkgconfig perl-extutils-depends chrpath"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/xfce4 \
+--disable-static \
+--mandir=/usr/man \
+--enable-gtk-doc \
+--with-perl-options=INSTALLDIRS="vendor" \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Xfce4/Xfconf/{.packlist,Xfconf.bs}
+  #fix insecure rpath, http://bugs.archlinux.org/task/19980
+  chrpath -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Xfce4/Xfconf/Xfconf.so
+}

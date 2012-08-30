@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gksu
+pkgver=2.0.2
+pkgbuild=9
+arch=('auto')
+
+shortdesc="GTK graphical su front-end"
+longdesc=("GKSu is a simple program-frontend for su/sudo which works around libgksu"
+)
+
+source=("http://people.debian.org/~kov/gksu/${pkgname}-${pkgver}.tar.gz")
+
+tags="x11-libs libs"
+
+pkglist="nautilus"
+
+nautilus()
+{
+	pkgname=gksu-gnome
+	shortdesc="GNOME extension from GKSU"
+	longdesc="GKSu is a simple program-frontend for su/sudo. This package contains Nautilus extension for gksu"
+	tags="gnome gnome-extra"
+	pkg_files=gnome
+	adddep="gksu==$pkgver"
+}
+
+build()
+{
+	go_src_dir
+	burn_patches
+	sed -i -e 's|/usr/bin/x-terminal-emulator|-l gnome-terminal|g' gksu.desktop || exit 1
+	echo "TryExec=gnome-terminal" >> gksu.desktop
+	libtoolize --force || exit 1
+	aclocal || exit 1
+	autoconf || exit 1
+	automake || exit 1
+	#SLKCFLAGS="$SLKCFLAGS -DHAVE_GNOME"
+	CFLAGS="$SLKCFLAGS" ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib${LIBDIRSUFFIX} \
+	--localstatedir=/var --disable-static --libexecdir=/usr/lib$LIBDIRSUFFIX/libgksu \
+	--enable-nautilus-extension || exit 1
+	make -j${numjobs} || exit 1
+	make DESTDIR="${pkgdir}" install || exit 1
+
+      	# Locale
+      	for i in po/*.po ; do
+		L_FILE=`echo $i | sed -e 's/\.po$//g'`
+		msgfmt -o $L_FILE.gmo $L_FILE.po
+		mkdir -p ${pkgdir}/usr/share/locale/`basename $L_FILE`/LC_MESSAGES || exit 1
+		cp -v $L_FILE.gmo ${pkgdir}/usr/share/locale/`basename $L_FILE`/LC_MESSAGES/gksu.mo || exit 1
+	done
+}
+
+after_build()
+{
+	mkdir -p $startdir/gnome/usr/lib${LIBDIRSUFFIX}
+	mkdir -p $startdir/gnome/usr/share/applications
+	mv -f $pkgdir/usr/lib${LIBDIRSUFFIX}/nautilus \
+		$startdir/gnome/usr/lib${LIBDIRSUFFIX}
+	mv -f $pkgdir/usr/share/applications/gksu.desktop \
+		$startdir/gnome/usr/share/applications/
+}
+                   

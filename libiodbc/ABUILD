@@ -1,0 +1,29 @@
+# $Id: PKGBUILD 4453 2009-10-23 09:11:19Z spupykin $
+# Maintainer: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+
+pkgname=libiodbc
+pkgver=3.52.7
+pkgbuild=3
+shortdesc='Independent Open DataBase Connectivity for Linux'
+longdesc='Independent Open DataBase Connectivity for Linux'
+arch=('auto')
+url="http://www.iodbc.org/dataspace/iodbc/wiki/iODBC/"
+license=('LGPL')
+depends=('glibc')
+source=("http://downloads.sourceforge.net/iodbc/${pkgname}-${pkgver}.tar.gz")
+md5sums=('ddbd274cb31d65be6a78da58fc09079a')
+tags=('dev-db libs')
+build() {
+	cd ${srcdir}/${pkgname}-${pkgver}
+	./configure --prefix=/usr \
+		--disable-static \
+		--includedir=/usr/include/libiodbc \
+		--libdir=/usr/lib$LIBDIRSUFFIX \
+		--disable-gui \
+		--disable-libodbc || return 1
+	make -j4 || return 1
+	make DESTDIR=${pkgdir} install || return 1
+	rm -rf ${pkgdir}/usr/share/libiodbc/
+}

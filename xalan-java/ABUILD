@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xalan-java
+pkgver=2.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Java XSLT preprocessor."
+
+source="http://www.sai.msu.su/apache/xml/xalan-j/xalan-j_${pkgver//./_}-bin-2jars.tar.gz"
+
+tags="libs dev-java"
+
+build()
+{
+	go_src_dir
+	install -m755 -d ${pkgdir}/usr/share/java
+	install -m644 xalan.jar ${pkgdir}/usr/share/java/
+	install -m644 xsltc.jar ${pkgdir}/usr/share/java/
+}

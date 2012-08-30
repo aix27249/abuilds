@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Lock Screen
+Name[de_DE]=Bildschirm sperren
+Icon=system-lock-screen
+Exec=xdg-screensaver lock
+Comment=Lock Screen
+Comment[de_DE]=Bildschirm vor unbefugtem Zugriff sperren
+StartupNotify=false
+NoDisplay=true

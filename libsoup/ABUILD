@@ -1,0 +1,33 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=libsoup
+pkgver=2.38.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Gnome HTTP Library"
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
+tags="libs net-libs"
+
+build_deps="make gcc pkg-config libtool"
+provides=""
+adddep=""
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--disable-tls-check"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

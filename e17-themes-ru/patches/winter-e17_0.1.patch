@@ -1,0 +1,50 @@
+diff -uNrp winter-e17_0.1.orig/edc/fileman.edc winter-e17_0.1/edc/fileman.edc
+--- winter-e17_0.1.orig/edc/fileman.edc	2010-10-18 23:54:21.789000000 +0800
++++ winter-e17_0.1/edc/fileman.edc	2010-10-19 03:08:52.962000001 +0800
+@@ -219,6 +219,7 @@ group
+ 		}
+ 	  }
+ 	}
++#if 0
+ 	part
+ 	{
+ 	  name: "grad";
+@@ -235,6 +236,7 @@ group
+ 		gradient.rel2.offset: -1 0;
+ 	  }
+ 	}
++#endif
+   }
+ }
+ 
+diff -uNrp winter-e17_0.1.orig/winter-e17.edc winter-e17_0.1/winter-e17.edc
+--- winter-e17_0.1.orig/winter-e17.edc	2010-10-18 23:54:21.784000000 +0800
++++ winter-e17_0.1/winter-e17.edc	2010-10-19 03:18:46.275000003 +0800
+@@ -31,13 +31,14 @@ images {
+ }
+ 
+ fonts {
+-  font: "Vera.ttf"            "Winter";
+-  font: "VeraBd.ttf"          "WinterBold";
+-  font: "fonts/VeraMono.ttf"  "WinterMono";
+-  font: "fonts/VeraMoBd.ttf"  "WinterMonoBold";
+-  font: "fonts/VeraIt.ttf"    "WinterItalic";
++  font: "DejaVuSans.ttf"            "Winter";
++  font: "DejaVuSans-Bold.ttf"          "WinterBold";
++  font: "DejaVuSansMono.ttf"  "WinterMono";
++  font: "DejaVuSansMono-Bold.ttf"  "WinterMonoBold";
++  font: "DejaVuSans-Oblique.ttf"    "WinterItalic";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+ 	name: "rubberband";
+@@ -45,6 +46,7 @@ spectra {
+ 	color: 244 243 242 127 1;
+   }
+ }
++#endif
+ 
+ collections {
+ #include "./edc/border.edc"

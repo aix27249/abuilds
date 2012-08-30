@@ -1,0 +1,30 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=auctex
+pkgver=11.86
+pkgbuild=1
+arch=('auto')
+
+shortdesc="AUCTEX is an extensible package for writing and formatting TEX files in GNU Emacs and XEmacs."
+longdesc=("AUCTEX is an extensible package for writing and formatting TEX files in GNU Emacs and XEmacs. It supports many different TEX macro packages, including AMS-TEX, LATEX, Texinfo, ConTEXt, and docTEX (dtx files).
+AUCTEX includes preview-latex which makes LATEX a tightly integrated component of your editing workflow by visualizing selected source chunks (such as single formulas or graphics) directly as images in the source buffer.")
+
+source=("http://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="xapps app-editors"
+
+adddep="emacs texlive-bin texlive-core"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

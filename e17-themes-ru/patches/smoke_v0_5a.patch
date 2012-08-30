@@ -1,0 +1,14 @@
+diff -uNrp smoke_v0_5a.orig/smoke.edc smoke_v0_5a/smoke.edc
+--- smoke_v0_5a.orig/smoke.edc	2010-10-15 01:11:54.168279000 +0800
++++ smoke_v0_5a/smoke.edc	2010-10-19 02:48:45.987000001 +0800
+@@ -37,8 +37,8 @@ data {
+ }
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
+ #define LTGRAY 206 206 206

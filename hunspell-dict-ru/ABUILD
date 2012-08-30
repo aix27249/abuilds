@@ -1,0 +1,72 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hunspell-dict-ru
+pkgver=1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Russian dictonaries for hunspell, includes Spelling,Hyphenation,Thesaurus"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Russian dictonaries for hunspell, includes Spelling,Hyphenation,Thesaurus"
+)
+
+source=("http://ftp.services.openoffice.org/pub/OpenOffice.org/contrib/dictionaries/ru_RU.zip"
+"http://ftp.services.openoffice.org/pub/OpenOffice.org/contrib/dictionaries/ru_RU_ye.zip"
+"http://ftp.services.openoffice.org/pub/OpenOffice.org/contrib/dictionaries/ru_RU_yo.zip"
+"http://ftp.services.openoffice.org/pub/OpenOffice.org/contrib/dictionaries/hyph_ru_RU.zip"
+"http://download.i-rs.ru/pub/openoffice/dict/thes_ru_RU_v2.zip")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils app-dicts"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="hunspell"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+mkdir -p ${pkgdir}/usr/share/hunspell
+mv ${srcdir}/*.* ${pkgdir}/usr/share/hunspell/
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

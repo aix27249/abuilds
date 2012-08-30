@@ -1,0 +1,378 @@
+Fix BadDrawable errors on certain Wine programs
+diff '--exclude=.git' -Nur a/ChangeLog.txt b/ChangeLog.txt
+--- a/ChangeLog.txt	2011-12-15 17:56:55.000000000 +0100
++++ b/ChangeLog.txt	2011-12-20 11:14:54.086087744 +0100
+@@ -4,6 +4,13 @@
+ [1]
+ Work around seg fault that occurred when running CoreBreach.
+ -------------------------------------------------------------------------------
++[2]
++VirtualGL now properly handles implicit deletion of windows/subwindows via
++XCloseDisplay(), implicit deletion of subwindows via XDestroyWindow(), and
++explicit deletion of subwindows via XDestroySubwindows().  This specifically
++addresses BadDrawable errors that occurred when running certain applications
++in WINE 1.3.34 and later.
++-------------------------------------------------------------------------------
+ 
+ 
+ ===============================================================================
+diff '--exclude=.git' -Nur a/rr/faker.cpp b/rr/faker.cpp
+--- a/rr/faker.cpp	2011-08-23 19:24:43.000000000 +0200
++++ b/rr/faker.cpp	2011-12-20 11:14:54.086087744 +0100
+@@ -385,6 +385,22 @@
+ 	return dpy;
+ }
+ 
++int XCloseDisplay(Display *dpy)
++{
++	int retval=0;
++	TRY();
++
++		opentrace(XCloseDisplay);  prargd(dpy);  starttrace();
++
++	winh.remove(dpy);
++	retval=_XCloseDisplay(dpy);
++
++		stoptrace();  closetrace();
++
++	CATCH();
++	return retval;
++}
++
+ Window XCreateWindow(Display *dpy, Window parent, int x, int y,
+ 	unsigned int width, unsigned int height, unsigned int border_width,
+ 	int depth, unsigned int c_class, Visual *visual, unsigned long valuemask,
+@@ -437,6 +453,18 @@
+ 	return win;
+ }
+ 
++static void DeleteWindow(Display *dpy, Window win, bool subonly=false)
++{
++	Window root, parent, *children=NULL;  unsigned int n=0;
++
++	if(!subonly) winh.remove(dpy, win);
++	if(XQueryTree(dpy, win, &root, &parent, &children, &n)
++		&& children && n>0)
++	{
++		for(unsigned int i=0; i<n; i++) DeleteWindow(dpy, children[i]);
++	}
++}
++
+ int XDestroyWindow(Display *dpy, Window win)
+ {
+ 	int retval=0;
+@@ -444,7 +472,7 @@
+ 
+ 		opentrace(XDestroyWindow);  prargd(dpy);  prargx(win);  starttrace();
+ 
+-	winh.remove(dpy, win);
++	DeleteWindow(dpy, win);
+ 	retval=_XDestroyWindow(dpy, win);
+ 
+ 		stoptrace();  closetrace();
+@@ -453,6 +481,23 @@
+ 	return retval;
+ }
+ 
++int XDestroySubwindows(Display *dpy, Window win)
++{
++	int retval=0;
++	TRY();
++
++		opentrace(XDestroySubwindows);  prargd(dpy);  prargx(win);  starttrace();
++
++	DeleteWindow(dpy, win, true);
++	retval=_XDestroySubwindows(dpy, win);
++
++		stoptrace();  closetrace();
++
++	CATCH();
++	return retval;
++}
++
++
+ Status XGetGeometry(Display *display, Drawable drawable, Window *root, int *x,
+ 	int *y, unsigned int *width, unsigned int *height,
+ 	unsigned int *border_width, unsigned int *depth)
+diff '--exclude=.git' -Nur a/rr/faker-mapfile.c b/rr/faker-mapfile.c
+--- a/rr/faker-mapfile.c	2011-08-23 19:08:05.000000000 +0200
++++ b/rr/faker-mapfile.c	2011-12-20 11:14:54.086087744 +0100
+@@ -106,10 +106,12 @@
+ 		XCheckTypedEvent;
+ 		XCheckTypedWindowEvent;
+ 		XCheckWindowEvent;
++		XCloseDisplay;
+ 		XConfigureWindow;
+ 		XCopyArea;
+ 		XCreateWindow;
+ 		XCreateSimpleWindow;
++		XDestroySubwindows;
+ 		XDestroyWindow;
+ 		XFree;
+ 		XGetGeometry;
+diff '--exclude=.git' -Nur a/rr/faker-sym.cpp b/rr/faker-sym.cpp
+--- a/rr/faker-sym.cpp	2011-08-13 08:28:59.000000000 +0200
++++ b/rr/faker-sym.cpp	2011-12-20 11:14:54.086087744 +0100
+@@ -247,10 +247,12 @@
+ 	lsym(XCheckTypedEvent);
+ 	lsym(XCheckTypedWindowEvent);
+ 	lsym(XCheckWindowEvent);
++	lsym(XCloseDisplay);
+ 	lsym(XConfigureWindow);
+ 	lsym(XCopyArea);
+ 	lsym(XCreateWindow);
+ 	lsym(XCreateSimpleWindow);
++	lsym(XDestroySubwindows);
+ 	lsym(XDestroyWindow);
+ 	lsym(XFree);
+ 	lsym(XGetGeometry);
+diff '--exclude=.git' -Nur a/rr/faker-sym.h b/rr/faker-sym.h
+--- a/rr/faker-sym.h	2011-08-13 08:28:59.000000000 +0200
++++ b/rr/faker-sym.h	2011-12-20 11:14:54.086087744 +0100
+@@ -322,6 +322,8 @@
+ funcdef4(Bool, XCheckWindowEvent, Display *, dpy, Window, win, long, event_mask,
+ 	XEvent *, xe, return);
+ 
++funcdef1(int, XCloseDisplay, Display *, dpy, return);
++
+ funcdef4(int, XConfigureWindow, Display *, dpy, Window, win,
+ 	unsigned int, value_mask, XWindowChanges *, values, return);
+ 
+@@ -338,6 +340,8 @@
+ 	int, depth, unsigned int, c_class, Visual *, visual, unsigned long, value_mask,
+ 	XSetWindowAttributes *, attributes, return);
+ 
++funcdef2(int, XDestroySubwindows, Display *, dpy, Window, win, return);
++
+ funcdef2(int, XDestroyWindow, Display *, dpy, Window, win, return);
+ 
+ funcdef1(int, XFree, void *, data, return);
+diff '--exclude=.git' -Nur a/rr/faker-winhash.h b/rr/faker-winhash.h
+--- a/rr/faker-winhash.h	2011-12-15 17:56:55.000000000 +0100
++++ b/rr/faker-winhash.h	2011-12-20 11:14:54.086087744 +0100
+@@ -128,6 +128,21 @@
+ 			_winhash::remove(DisplayString(dpy), d);
+ 		}
+ 
++		void remove(Display *dpy)
++		{
++			if(!dpy) _throw("Invalid argument");
++			_winhashstruct *ptr=NULL, *next=NULL;
++			rrcs::safelock l(mutex);
++			ptr=start;
++			while(ptr!=NULL)
++			{
++				pbwin *pbw=ptr->value;
++				next=ptr->next;
++				if(pbw && pbw!=(pbwin *)-1 && dpy==pbw->get2ddpy()) killentry(ptr);
++				ptr=next;
++			}
++		}
++
+ 	private:
+ 
+ 		~winhash(void)
+diff '--exclude=.git' -Nur a/rr/pbwin.cpp b/rr/pbwin.cpp
+--- a/rr/pbwin.cpp	2011-08-23 19:01:32.000000000 +0200
++++ b/rr/pbwin.cpp	2011-12-20 11:14:54.086087744 +0100
+@@ -95,7 +95,7 @@
+ 				rrout.println("[VGL] WARNING: %s", e.getMessage());
+ 		}
+ 	}
+-	if(_eventdpy) {XCloseDisplay(_eventdpy);  _eventdpy=NULL;}
++	if(_eventdpy) {_XCloseDisplay(_eventdpy);  _eventdpy=NULL;}
+ 	_mutex.unlock(false);
+ }
+ 
+diff '--exclude=.git' -Nur a/rr/rrfakerut.cpp b/rr/rrfakerut.cpp
+--- a/rr/rrfakerut.cpp	2011-08-23 00:04:40.000000000 +0200
++++ b/rr/rrfakerut.cpp	2011-12-20 11:14:54.090085745 +0100
+@@ -2225,86 +2225,6 @@
+ #endif
+ 
+ 
+-// Put the display hash through its paces
+-#define NDPY 15
+-int dpyhashtest(void)
+-{
+-	int glxattrib[]={GLX_DOUBLEBUFFER, GLX_RGBA, GLX_RED_SIZE, 8, GLX_GREEN_SIZE, 8,
+-		GLX_BLUE_SIZE, 8, None};
+-	Display *_dpy[NDPY], *dpy=NULL;  int i, dpyw, dpyh, retval=1;
+-	XVisualInfo *v=NULL;  Window win=0;
+-	XSetWindowAttributes swa;  GLXContext ctx=0;
+-	for(i=0; i<NDPY; i++) _dpy[i]=NULL;
+-
+-	printf("Display hash test:\n\n");
+-
+-	try
+-	{
+-		for(i=0; i<NDPY; i++)
+-		{
+-			if((_dpy[i]=XOpenDisplay(0))==NULL)
+-				_throw("Could not open display");
+-		}
+-		for(i=0; i<NDPY; i++)
+-		{
+-			XCloseDisplay(_dpy[i]);  _dpy[i]=NULL;
+-		}
+-		for(i=0; i<5; i++)
+-		{
+-			if((_dpy[i]=XOpenDisplay(0))==NULL)
+-				_throw("Could not open display");
+-		}
+-		for(i=0; i<3; i++)
+-		{
+-			XCloseDisplay(_dpy[i]);  _dpy[i]=NULL;
+-		}
+-
+-		for(i=3; i<5; i++)
+-		{
+-			dpy=_dpy[i];
+-			dpyw=DisplayWidth(dpy, DefaultScreen(dpy));
+-			dpyh=DisplayHeight(dpy, DefaultScreen(dpy));
+-			if((v=glXChooseVisual(dpy, DefaultScreen(dpy), glxattrib))==NULL)
+-				_throw("Could not find a suitable visual");
+-			Window root=RootWindow(dpy, DefaultScreen(dpy));
+-			swa.colormap=XCreateColormap(dpy, root, v->visual, AllocNone);
+-			swa.border_pixel=0;
+-			swa.event_mask=0;
+-			if((win=XCreateWindow(dpy, root, 0, 0, dpyw/2, dpyh/2, 0, v->depth,
+-				InputOutput, v->visual, CWBorderPixel|CWColormap|CWEventMask,
+-				&swa))==0)
+-				_throw("Could not create window");
+-			XMapWindow(dpy, win);
+-			if((ctx=glXCreateContext(dpy, v, 0, True))==NULL)
+-				_throw("Could not establish GLX context");
+-			XFree(v);  v=NULL;
+-			if(!glXMakeCurrent(dpy, win, ctx))
+-				_throw("Could not make context current");
+-			checkcurrent(dpy, win, win, ctx);
+-			glClearBuffer(GL_BACK, 1., 1., 1., 0.);
+-			glXSwapBuffers(dpy, win);
+-			checkwindowcolor(win, 0xffffff, false);
+-			glXMakeCurrent(dpy, 0, 0);
+-			glXDestroyContext(dpy, ctx);  ctx=0;
+-			XDestroyWindow(dpy, win);  win=0;
+-		}
+-		for(i=3; i<5; i++) {XCloseDisplay(_dpy[i]);  _dpy[i]=NULL;}
+-
+-		printf("SUCCESS!\n");
+-	}	
+-	catch(rrerror &e)
+-	{
+-		printf("Failed! (%s)\n", e.getMessage());  retval=0;
+-	}
+-	fflush(stdout);
+-	if(ctx && dpy) {glXMakeCurrent(dpy, 0, 0);  glXDestroyContext(dpy, ctx);  ctx=0;}
+-	if(win && dpy) {XDestroyWindow(dpy, win);  win=0;}
+-	if(v) {XFree(v);  v=NULL;}
+-	for(i=0; i<NDPY; i++) {if(_dpy[i]) {XCloseDisplay(_dpy[i]);  _dpy[i]=NULL;}}
+-	return retval;
+-}
+-
+-
+ // Test whether glXMakeCurrent() can handle mismatches between the FB config
+ // of the context and the Pbuffer
+ 
+@@ -2393,6 +2313,92 @@
+ }
+ 
+ 
++// Test whether VirtualGL properly handles explicit and implicit destruction of
++// subwindows
++
++int subwintest(void)
++{
++	Display *dpy=NULL;  Window win=0, win1=0, win2=0;
++	testcolor clr(false, 0);
++	int dpyw, dpyh, retval=1, lastframe=0;
++	int glxattrib[]={GLX_DOUBLEBUFFER, GLX_RGBA, GLX_RED_SIZE, 8, GLX_GREEN_SIZE,
++		8, GLX_BLUE_SIZE, 8, None};
++	XVisualInfo *v=NULL;
++	GLXContext ctx=0;
++	XSetWindowAttributes swa;
++
++	printf("Subwindow destruction test:\n\n");
++
++	try
++	{
++		try
++		{
++			for(int i=0; i<20; i++)
++			{
++				if(!dpy && !(dpy=XOpenDisplay(0))) _throw("Could not open display");
++				dpyw=DisplayWidth(dpy, DefaultScreen(dpy));
++				dpyh=DisplayHeight(dpy, DefaultScreen(dpy));
++
++				if((v=glXChooseVisual(dpy, DefaultScreen(dpy), glxattrib))
++					==NULL) _throw("Could not find a suitable visual");
++
++				Window root=RootWindow(dpy, DefaultScreen(dpy));
++				swa.colormap=XCreateColormap(dpy, root, v->visual, AllocNone);
++				swa.border_pixel=0;
++				swa.background_pixel=0;
++				swa.event_mask = 0;
++				if(!win && (win=XCreateWindow(dpy, root, 0, 0, dpyw/2, dpyh/2, 0,
++					v->depth, InputOutput, v->visual,
++					CWBorderPixel|CWColormap|CWEventMask, &swa))==0)
++					_throw("Could not create window");
++				if((win1=XCreateWindow(dpy, win, 0, 0, dpyw/2, dpyh/2, 0, v->depth,
++					InputOutput, v->visual, CWBorderPixel|CWColormap|CWEventMask,
++					&swa))==0)
++					_throw("Could not create subwindow");
++				if((win2=XCreateWindow(dpy, win1, 0, 0, dpyw/2, dpyh/2, 0, v->depth,
++					InputOutput, v->visual, CWBorderPixel|CWColormap|CWEventMask,
++					&swa))==0)
++					_throw("Could not create subwindow");
++				XMapSubwindows(dpy, win);
++				XMapWindow(dpy, win);
++
++				lastframe=0;
++				if(!(ctx=glXCreateContext(dpy, v, NULL, True)))
++					_throw("Could not create context");
++				XFree(v);  v=NULL;
++				if(!(glXMakeCurrent(dpy, win2, ctx)))
++					_error("Could not make context current");
++				clr.clear(GL_BACK);
++				glXSwapBuffers(dpy, win2);
++				checkframe(win2, 1, lastframe);
++				checkwindowcolor(win2, clr.bits(-1), false);
++				glXMakeCurrent(dpy, 0, 0);
++				glXDestroyContext(dpy, ctx);  ctx=0;
++
++				if(i%3==0) {XCloseDisplay(dpy);  dpy=NULL;  win=0;}
++				else if(i%3==1) {XDestroyWindow(dpy, win);  win=0;}
++				else XDestroySubwindows(dpy, win);
++			}
++			printf("SUCCESS\n");
++		}
++		catch(rrerror &e)
++		{
++			printf("Failed! (%s)\n", e.getMessage());  retval=0;
++		}
++		fflush(stdout);
++	}
++	catch(rrerror &e)
++	{
++		printf("Failed! (%s)\n", e.getMessage());  retval=0;
++	}
++	if(ctx && dpy) {glXMakeCurrent(dpy, 0, 0);  glXDestroyContext(dpy, ctx);  ctx=0;}
++	if(win && dpy) {XDestroyWindow(dpy, win);  win=0;}
++	if(v) {XFree(v);  v=NULL;}
++	if(dpy) {XCloseDisplay(dpy);  dpy=NULL;}
++	return retval;
++}
++
++
+ int querytest(void)
+ {
+ 	Display *dpy=NULL;  int retval=1;
+@@ -2532,7 +2538,7 @@
+ 	printf("\n");
+ 	if(!pbtest()) ret=-1;
+ 	printf("\n");
+-	if(!dpyhashtest()) ret=-1;
++	if(!subwintest()) ret=-1;
+ 	printf("\n");
+ 	return ret;
+ }

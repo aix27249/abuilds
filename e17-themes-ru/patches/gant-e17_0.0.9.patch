@@ -1,0 +1,127 @@
+diff -uNrp gant-e17_0.0.9.orig/edc/gant-e17_fileman.edc gant-e17_0.0.9/edc/gant-e17_fileman.edc
+--- gant-e17_0.0.9.orig/edc/gant-e17_fileman.edc	2010-10-15 01:08:58.279279000 +0800
++++ gant-e17_0.0.9/edc/gant-e17_fileman.edc	2010-10-16 02:16:10.801000001 +0800
+@@ -9034,6 +9034,7 @@ group
+ 	 }
+        }	   
+      }
++#if 0
+      part
+      {
+        name: "grad";
+@@ -9051,6 +9052,7 @@ group
+  	 gradient.rel2.offset: -1 0;
+        }
+      }
++#endif
+    }
+ }
+ 								  
+diff -uNrp gant-e17_0.0.9.orig/edc/gant-e17_icons.edc gant-e17_0.0.9/edc/gant-e17_icons.edc
+--- gant-e17_0.0.9.orig/edc/gant-e17_icons.edc	2010-10-15 01:08:58.278279000 +0800
++++ gant-e17_0.0.9/edc/gant-e17_icons.edc	2010-10-16 02:15:29.519000003 +0800
+@@ -1822,6 +1822,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1844,6 +1845,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1864,6 +1866,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1882,6 +1885,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1902,6 +1906,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1924,6 +1929,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1944,6 +1950,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1966,6 +1973,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1986,6 +1994,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2008,6 +2017,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+diff -uNrp gant-e17_0.0.9.orig/gant-e17.edc gant-e17_0.0.9/gant-e17.edc
+--- gant-e17_0.0.9.orig/gant-e17.edc	2010-10-15 01:08:58.276279000 +0800
++++ gant-e17_0.0.9/gant-e17.edc	2010-10-16 02:11:40.754000003 +0800
+@@ -17,10 +17,11 @@
+ #endif
+ 
+ fonts {
+-   font: "./fonts/Vera.ttf"   "Edje-Vera";
+-   font: "./fonts/VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -34,6 +35,7 @@ spectra {
+      color: 255 255 255  127 1;
+   }				     
+ }
++#endif
+ 
+ 
+ collections {

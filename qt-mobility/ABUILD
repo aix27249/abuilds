@@ -1,0 +1,24 @@
+pkgname=qt-mobility
+pkgver=1.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Qt APIs for mobile devices"
+
+source=(http://get.qt.nokia.com/qt/add-ons/$pkgname-opensource-src-$pkgver.tar.gz)
+
+tags="libs dev-libs"
+
+before_build()
+{
+	go_src_dir
+	bash
+}
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="-prefix /usr -silent -release -libdir /usr/lib64 \
+-plugindir /usr/lib${LIBDIRSUFFIX}/qt/plugins "
+
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"

@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ttf-paratype
+pkgver=1.0
+pkgbuild=1
+arch=noarch
+
+shortdesc="All free ParaType fonts (PT Sans, PT Serif, PT Mono)"
+
+source=("http://www.fontstock.com/public/PTSans.zip n"
+"http://www.fontstock.com/public/PTSerif.zip n"
+"http://www.fontstock.com/public/PTMono.zip n")
+
+tags="xserver media-fonts"
+
+conflicts="ttf-ptsans"
+
+build()
+{
+	go_src_dir
+	for item in PTSans PTSerif PTMono; do
+		unzip $srcache/$item.zip\
+		# I actually had to do this to make it build unattended
+		rm -f *.txt
+	done
+	mkdir -p $pkgdir/usr/share/fonts/TTF
+	cp $srcdir/*.ttf $pkgdir/usr/share/fonts/TTF
+}

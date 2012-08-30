@@ -1,0 +1,156 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=samsung-mfp-base
+pkgver=3.00.71
+pkgbuild=2
+arch=('auto')
+
+shortdesc="samsung mfp driver - base files"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is part of Samsing MFP Drivers for Samsung print-and-scan devices"
+)
+
+source=("http://downloadcenter.samsung.com/content/DR/201101/20110131105016886/UnifiedLinuxDriver_1.12.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="drivers net-print"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist="printer scanner"
+
+printer()
+{
+	pkgname=samsung-mfp-printer
+	shortdesc="samsung mfp driver - printer"
+	adddep="samsung-mfp-base=$pkgver"
+}
+scanner()
+{
+	pkgname=samsung-mfp-scanner
+	shortdesc="samsung mfp driver - scanner"
+	adddep="samsung-mfp-base=$pkgver"
+	tags="drivers media-gfx"
+}
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+cd $srcdir
+if [ "$ARCH" = "x86_64" ]; then
+	CARCHCUSTOM="x86_64"
+	LIBDIRCUSTOM="lib64"
+else
+	CARCHCUSTOM="i386"
+	LIBDIRCUSTOM="lib"
+fi
+
+install -d "${pkgdir}/usr/lib$LIBDIRSUFFIX"
+install -d "${pkgdir}/etc/udev/rules.d/"
+
+install -m 755 "${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/usr/${LIBDIRCUSTOM}/libmfp.so.1.0.1" \
+	"${pkgdir}/usr/lib$LIBDIRSUFFIX/libmfp.so.1.0.1"
+install -m 755 "${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/opt/smfp-common/${LIBDIRCUSTOM}/libnetsnmp.so.10.0.2" \
+	"${pkgdir}/usr/lib$LIBDIRSUFFIX/libnetsnmp.so.10.0.2"
+
+install -m 644 "${filedir}/99_smfpautoconf.rules" "${pkgdir}/etc/udev/rules.d/99_smfpautoconf.rules"
+
+ln -s /usr/lib$LIBDIRSUFFIX/libmfp.so.1.0.1 $pkgdir/usr/lib$LIBDIRSUFFIX/libmfp.so.1
+ln -s /usr/lib$LIBDIRSUFFIX/libmfp.so.1.0.1 $pkgdir/usr/lib$LIBDIRSUFFIX/libmfp.so
+ln -s /usr/lib$LIBDIRSUFFIX/libnetsnmp.so.10.0.2 $pkgdir/usr/lib$LIBDIRSUFFIX/libnetsnmp.so.10
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+printer_prep()
+{
+	set -e
+	if [ "$ARCH" = "x86_64" ]; then
+		CARCHCUSTOM="x86_64"
+		LIBDIRCUSTOM="lib64"
+	else
+		CARCHCUSTOM="i386"
+		LIBDIRCUSTOM="lib"
+	fi
+	install -d "${pkgdir}/usr/lib$LIBDIRSUFFIX/cups/filter"
+	install -d "${pkgdir}/usr/lib$LIBDIRSUFFIX/cups/backend/"
+	install -d "${pkgdir}/etc/cups/"
+	install -d "${pkgdir}/usr/share/cups/model/samsung/cms"
+
+	install -m 444 -t "${pkgdir}/usr/share/cups/model/samsung/cms/" ${srcdir}/cdroot/Linux/noarch/at_opt/share/ppd/cms/*
+
+	install -m 644 -t "${pkgdir}/usr/share/cups/model/" ${srcdir}/cdroot/Linux/noarch/at_opt/share/ppd/*.ppd
+
+	install -m 755 "${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/usr/${LIBDIRCUSTOM}/cups/backend/mfp" \
+		"${pkgdir}/usr/lib$LIBDIRSUFFIX/cups/backend/mfp"
+	install -m 755 -t "${pkgdir}/usr/lib$LIBDIRSUFFIX/cups/filter/" ${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/usr/${LIBDIRCUSTOM}/cups/filter/*
+
+	install -m 755 "${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/usr/${LIBDIRCUSTOM}/cups/filter/smfpautoconf" \
+		"${pkgdir}/usr/lib$LIBDIRSUFFIX/cups/filter/smfpautoconf"
+
+	install -m 644 -t "${pkgdir}/etc/cups/" ${srcdir}/cdroot/Linux/noarch/at_root/etc/cups/*
+	set +e
+}
+
+scanner_prep()
+{
+	set -e
+	if [ "$ARCH" = "x86_64" ]; then
+		CARCHCUSTOM="x86_64"
+		LIBDIRCUSTOM="lib64"
+	else
+		CARCHCUSTOM="i386"
+		LIBDIRCUSTOM="lib"
+	fi
+
+	install -d "${pkgdir}/usr/lib$LIBDIRSUFFIX/sane/"
+	install -d "${pkgdir}/etc/sane.d/dll.d"
+
+	install -m 644 "${srcdir}/cdroot/Linux/noarch/at_root/etc/sane.d/smfp.conf" \
+		"${pkgdir}/etc/sane.d/smfp.conf"
+	install -m 644 "${filedir}/smfp" \
+		"${pkgdir}/etc/sane.d/dll.d"
+
+	install -m 755 "${srcdir}/cdroot/Linux/${CARCHCUSTOM}/at_root/usr/${LIBDIRCUSTOM}/sane/libsane-smfp.so.1.0.1" \
+		"${pkgdir}/usr/lib$LIBDIRSUFFIX/sane/libsane-smfp.so.1.0.1"
+	set +e
+}

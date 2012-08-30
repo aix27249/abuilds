@@ -1,0 +1,26 @@
+##LightGreyV2 published by PUNX69(http://sixsixfive.deviantart.com)
+##under cc-by-sa-v3(http://creativecommons.org/licenses/by-sa/3.0/)
+background_style        stretch
+input_panel_x           50%
+input_panel_y           50%
+input_name_x            65
+input_name_y            242
+input_pass_x            65
+input_pass_y            297
+input_font          	Sans:size=14:bold:dpi=96
+input_color		#616161
+input_bgcolor		#efefef
+welcome_font          	Sans:size=16:bold:dpi=96
+welcome_color          	#616161
+welcome_x              	50%
+welcome_y              	168
+welcome_msg             %host
+username_x              -1
+username_y              -1
+password_x              -1
+password_y              -1
+msg_color               #616161
+msg_font                Sans:size=12:bold:dpi=96
+#does not work
+#msg_x                   50%
+#msg_y                   80%

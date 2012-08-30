@@ -1,0 +1,20 @@
+pkgname=gajim-hg
+pkgver=1
+pkgbuild=1
+arch=('auto')
+shortdesc="Gajim, a Jabber client"
+longdesc=("The goal of Gajim is to provide a full featured and easy to use Jabber client. Gajim works nicely with GNOME, but does not require it to run. It is released under the GNU General Public License. Homepage: http://www.gajim.org
+
+This version is unstable and built from Gajim's Mercurial repository. If you want stable application - install package 'gajim'.")
+source=("hg:http://hg.gajim.org/gajim")
+tags="net-im xapps"
+build_deps="perl-xml-parser"
+adddep="pyOpenSSL pygobject pycairo pygtk dbus-python gtkspell aspell aspell-en aspell-ru pycrypto"
+provides="gajim"
+ 
+build() {
+    go_src_dir
+    ./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+    make
+    make DESTDIR="${pkgdir}" install
+}

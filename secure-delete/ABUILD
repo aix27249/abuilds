@@ -1,0 +1,82 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=secure-delete
+pkgver=3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="secure-delete (Secure file, disk, swap, memory erasure utilities)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is the best secure data deletion toolkit! If you overwrite a file for 10+ times, it can still be recovered. Read why and use the programs included (w/src!). These tools can wipe files, free disk space, swap and memory! Changes: Linux LKM for secure file deletion included, small bufixes."
+	  ""
+	  "Homepage: http://www.thc.org/"
+)
+
+source=("http://www.thc.org/releases/secure_delete-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils app-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="glibc-solibs"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+chmod u+w .
+
+sed -ie 's/mktemp/mkstemp/g' sfill.c
+sed -ie "s/sswap smem sdel-mod.o/sswap smem/" Makefile
+
+make || return 1
+make INSTALL_DIR=$pkgdir/usr/bin \
+LIB_DIR=lib${LIBDIRSUFFIX} \
+MAN_DIR=$pkgdir/usr/share/man \
+DOC_DIR=$pkgdir/usr/doc/$pkgname-$pkgver \
+install
+
+chmod a+r $pkgdir/usr/bin/*
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

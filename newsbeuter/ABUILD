@@ -1,0 +1,51 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=newsbeuter
+pkgver=2.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Newsbeuter is an open-source RSS/Atom feed reader for text terminals with Google Reader support."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Newsbeuter is an open-source RSS/Atom feed reader for text terminals. It runs on Linux, FreeBSD, Mac OS X and other Unix-like operating systems. Newsbeuter's great configurability and vast number of features make it a perfect choice for people that need a slick and fast feed reader that can be completely controlled via keyboard."
+""
+"A summary of some of its features:"
+""
+"- Subscribe to RSS 0.9x, 1.0, 2.0 and Atom feeds"
+"- Download podcasts"
+"- Freely configure your keyboard shortcuts"
+"- Search through all downloaded articles"
+"- Categorize and query your subscriptions with a flexible tag system"
+"- Integrate any data source through a flexible filter and plugin system"
+"- Automatically remove unwanted articles through a killfile"
+"- Define meta feeds using a powerful query language"
+"- Import and exporting your subscriptions with the widely used OPML format"
+"- Freely define newsbeuter's look'n'feel through free color configurability and format strings"
+"- Keep all your feeds in sync with Google Reader"
+""
+"Newsbeuter is the Mutt of RSS feed readers."
+"http://www.newsbeuter.org"
+)
+
+source=("http://www.newsbeuter.org/downloads/${pkgname}-${pkgver}.tar.gz")
+
+tags="network net-news"
+
+before_build() {
+	sed -i 's/\/usr\/local/\/usr/' Makefile
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="echo ''"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

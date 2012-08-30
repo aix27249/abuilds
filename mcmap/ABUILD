@@ -1,0 +1,70 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mcmap
+pkgver=2.0g
+pkgbuild=1
+arch=('auto')
+
+shortdesc="mcmap is a tiny map visualizer for Minecraft. Maps are drawn from an isometric perspective."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("mcmap is a tiny map visualizer for Minecraft. Maps are drawn from an isometric perspective."
+)
+
+source=("git:https://github.com/Zahl/mcmap.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-util"
+
+#dependencies only needed to build package
+build_deps="zlib libpng"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+make
+mkdir -p ${pkgdir}/usr/bin/
+cp mcmap ${pkgdir}/usr/bin/
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

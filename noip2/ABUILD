@@ -1,0 +1,91 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=noip2
+pkgver=2.1.9
+pkgbuild=3
+arch=('auto')
+
+shortdesc="No-IP 2 (Dynamic Update Cient provided by No-IP.com)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Keep your current IP address in sync with your No-IP host or domain with"
+	  "No-IP.com. The dynamic DNS update client contiually checks forIP address"
+	  "changes in the background and automatically updates DNS whenever it"
+	  "changes."
+)
+
+source=("http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="net-dns network"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="gawk"
+removedep=""
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs="COPYING README.FIRST" #* LEEME.PRIMERO LISEZMOI.ENPREMIER"
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+cd $srcdir/noip-$pkgver-1
+
+# http://slackbuilds.org/repository/13.1/network/noip2/
+
+echo "Rewrite CFLAGS"
+if [ "$ARCH" = "i686" ]; then
+    sed -i 's#-Wall -g#-O2 -march=i686 -mtune=i686#' Makefile
+elif [ "$ARCH" = "x86_64" ]; then
+  sed -i 's#-Wall -g#-O2 -fPIC#' Makefile
+fi
+
+echo "eliminate configuration process"
+sed -i '/\${BINDIR}\/\${TGT} -C -c/d' Makefile
+sed -i '/mv \/tmp\/no-ip2\.conf/d' Makefile
+}
+
+build()
+{
+#go_src_dir
+cd $srcdir/noip-$pkgver-1
+
+#burn_patches
+patch Makefile < ${filedir}/Makefile.diff || exit 1
+patch noip2.c < ${filedir}/noip2.c.diff || exit 1
+
+make
+make install PREFIX=${pkgdir}/usr CONFDIR=${pkgdir}/etc
+}
+                                                                                                    
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+install -Dm755 \
+	${filedir}/noip2.start ${pkgdir}/etc/init.d/noip2 || exit 1
+
+R_F (){
+	cd ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+	rm -fv README.FIRST{-,.,_}* && \
+		sed -i 's|/local||' README.FIRST && \
+		sed -i 's|/usr/etc|/etc|' README.FIRST || exit 1
+}
+#R_F
+}

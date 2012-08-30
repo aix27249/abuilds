@@ -1,0 +1,67 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=caffeine
+pkgver=2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A system applet that allows you to inhibit the screensaver and "sleep" power saving mode in an easy way."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A system applet that allows you to inhibit the screensaver and "sleep" power saving mode in an easy way."
+)
+
+source=("bzr:lp:$pkgname")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pyxdg dbus-python gnome-python gtk+2 pygobject python-notify python-xlib"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

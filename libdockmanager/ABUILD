@@ -1,0 +1,22 @@
+pkgname=libdockmanager
+pkgver=0.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A collection of helpers for different docks"
+longdesc="$shortdesc"
+
+source="bzr:lp:dockmanager"
+
+tags="gnome-extra libs"
+
+build()
+{
+	go_src_dir
+	./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-pymod-checks --libdir=/usr/lib${LIBDIRSUFFIX}
+	make -j$numjobs
+	make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+	mkdir -p "$pkgdir/usr/share/gconf/schemas"
+	gconf-merge-schema "$pkgdir/usr/share/gconf/schemas/dockmanager.schemas" "$pkgdir"/etc/gconf/schemas/*.schemas
+	rm -rf "$pkgdir/etc/gconf"
+}

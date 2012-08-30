@@ -1,0 +1,77 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=freepats
+pkgver=20060219
+pkgbuild=1
+arch=('noarch') #auto')
+
+shortdesc="FreePats - a set of sound fonts for use in audio synths"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Freepats is a project to create a free and open set of instrument patches, in any format, that can be used with softsynths. Free and open instrument sets, samples, sound synthesis, music... Homepage: http://freepats.zenvoid.org/"
+)
+
+source=("http://freepats.zenvoid.org/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="deadbeef"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+PKG=$pkgdir
+PRGNAM=$pkgname
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+mkdir -p $PKG/usr/share/sounds/$PRGNAM $PKG/etc/timidity
+cp -a Drum_000 Tone_000 $PKG/usr/share/sounds/$PRGNAM
+cat crude.cfg > $PKG/etc/timidity/crude.cfg.new
+cat freepats.cfg > $PKG/etc/timidity/freepats.cfg.new
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# Modify the sample TiMidity++ configuration files so that
+# TiMidity++ will be able to find the patch files.
+sed -i "4idir /usr/share/sounds/$PRGNAM\n" $PKG/etc/timidity/freepats.cfg.new
+sed -i "10idir /usr/share/sounds/$PRGNAM\n" $PKG/etc/timidity/crude.cfg.new
+}

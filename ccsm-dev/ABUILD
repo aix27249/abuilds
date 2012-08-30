@@ -1,0 +1,67 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=ccsm-dev
+pkgver=0.9.5.92
+pkgbuild=1
+arch=('auto')
+
+shortdesc="CompizConfig Settings Manager"
+#longdesc=(""
+#)
+
+source=("http://releases.compiz.org/$pkgver/ccsm-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-apps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides="ccsm"
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="python"
+
+MAKE_WORD="python setup.py build --prefix='/usr'"
+
+INSTALL_WORD="python setup.py install --prefix='/usr' --root=${pkgdir}"
+
+#ran after function build() 
+#после сборки
+#after_build()
+{
+# Bug of my hands or some else?
+mv $pkgdir/usr/local/* $pkgdir/usr/
+rmdir $pkgdir/usr/local/
+}

@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=prison
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Qt barcode generation library"
+
+source="ftp://ftp.kde.org/pub/kde/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.gz"
+
+tags="kde4 kde-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

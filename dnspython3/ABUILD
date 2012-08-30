@@ -1,0 +1,15 @@
+pkgname=dnspython3
+pkgver=1.9.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python3 API for DNS)"
+source=("hg:http://hg.louiz.org/dnspython")
+
+tags="libs dev-python"
+build() {
+	go_src_dir
+	burn_patches
+	python3 setup.py build
+	python3 setup.py install --root=${pkgdir}
+}

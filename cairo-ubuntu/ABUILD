@@ -1,0 +1,28 @@
+#ABUILD created by/создан: Coldead, firedead117 at gmail.com 
+pkgname=cairo-ubuntu
+pkgver=1.10.2
+ubver=$pkgver-2ubuntu2
+pkgbuild=1
+arch=('auto')
+shortdesc="Cairo vector graphics library, with Ubuntu's LCD rendering patches"
+source=("http://cairographics.org/releases/cairo-$pkgver.tar.gz"
+"http://archive.ubuntu.com/ubuntu/pool/main/c/cairo/cairo_$ubver.debian.tar.gz")
+patch_opts=("")
+tags="media-libs libs"
+build_deps=""
+adddep=""
+removedep=""
+provides="cairo"
+build()
+{
+go_src_dir
+for _f in $(cat $srcdir/debian/patches/series) ; do    
+  patch -Np1 -i $srcdir/debian/patches/$_f    
+done
+patch -Np1 -i $filedir/cairo-respect-fontconfig.patch
+./configure --prefix=/usr -enable-tee --sysconfdir=/etc --disable-static --libdir=/usr/lib$LIBDIRSUFFIX
+make
+make DESTDIR=$pkgdir install
+install -d $pkgdir/usr/share/doc/cairo/
+install -m644 -t $pkgdir/usr/share/doc/cairo/ NEWS README
+}

@@ -1,0 +1,81 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=telepathy-mission-control
+pkgver=5.9.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="management daemon for Telepathy real-time communication framework"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Telepathy Mission Control 5 is an account manager and channel dispatcher for the Telepathy framework, allowing user interfaces and other clients to share connections to real-time communication services without conflicting. It implements the AccountManager and ChannelDispatcher D-Bus APIs as described by telepathy-spec.
+
+The account manager part stores real time communication account details, connects to the stored accounts on request, and sets the accounts' presence, nickname and avatar according to requests from Telepathy user interfaces and other components.
+
+The channel dispatcher part responds to incoming communication channels (message streams, voice/video calls, file transfers etc.) by dispatching them to suitable user interfaces, and requests outgoing communication channels according to requests from a Telepathy UI."
+)
+
+source=("http://telepathy.freedesktop.org/releases/telepathy-mission-control/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-im"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/telepathy \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-gnome-keyring"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

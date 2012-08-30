@@ -1,0 +1,37 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=a52dec
+pkgver=0.7.4
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A free library for decoding ATSC A/52 streams"
+
+source=("http://liba52.sourceforge.net/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs media-libs"
+
+build_deps="make gcc libtool"
+
+docs="HISTORY doc/liba52.txt"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"-fPIC\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-shared"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+ install -m644 liba52/a52_internal.h "${pkgdir}/usr/include/a52dec/"
+ echo "End after_build"
+}

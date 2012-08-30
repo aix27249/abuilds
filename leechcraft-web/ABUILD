@@ -1,0 +1,48 @@
+pkgname=leechcraft-all
+pkgver=0.4.99
+pkgbuild=1
+arch=('noarch')
+shortdesc="LeechCraft meta packages"
+tags="virtual x11-misc"
+
+build()
+{
+	echo "Meta package, move along, nothing to see here."
+}
+adddep=" leechcraft-advancednotifications leechcraft-aggregator leechcraft-anhero leechcraft-auscrie leechcraft-azoth leechcraft-bittorrent leechcraft-blackdash leechcraft-choroid leechcraft-cstp leechcraft-dbusmanager leechcraft-deadlyrics leechcraft-glance leechcraft-gmailnotifier leechcraft-historyholder leechcraft-juffed leechcraft-kinotify leechcraft-knowhow leechcraft-lackman leechcraft-lcftp leechcraft-lmp leechcraft-netstoremanager leechcraft-networkmonitor leechcraft-newlife leechcraft-otzerkalu leechcraft-popishu leechcraft-poshuku leechcraft-qrosp leechcraft-secman leechcraft-seekthru leechcraft-shellopen leechcraft-sidebar leechcraft-summary leechcraft-syncer leechcraft-tabpp leechcraft-tabsessmanager leechcraft-tabslist leechcraft-vgrabber"
+meta-chat() {
+	pkgname="leechcraft-chat"
+	shortdesc="Leechcraft plugins for chatting"
+	adddep="leechcraft-azoth leechcraft-historyholder leechcraft-poshuku leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}
+meta-editors() {
+	pkgname="leechcraft-editors"
+	shortdesc="Leechcraft plugins for text and code editing"
+	adddep="leechcraft-juffed leechcraft-popishu leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}
+meta-media() {
+	pkgname="leechcraft-media"
+	shortdesc="Leechcraft plugins for multimedia"
+	adddep="leechcraft-lmp leechcraft-vgrabber leechcraft-deadlyrics leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}
+meta-util() {
+	pkgname="leechcraft-util"
+	shortdesc="Leechcraft utility plugins"
+	adddep="leechcraft-secman leechcraft-glance leechcraft-tabslist leechcraft-cstp leechcraft-advancednotifications leechcraft-qrosp leechcraft-lackman leechcraft-summary"
+	tags="virtual x11-misc"
+	arch="noarch"
+}
+meta-web() {
+	pkgname="leechcraft-web"
+	shortdesc="Leechcraft plugins for Web"
+	adddep="leechcraft-aggregator leechcraft-bittorrent leechcraft-gmailnotifier leechcraft-poshuku leechcraft-shellopen leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}
+pkglist=" meta-chat meta-editors meta-media meta-util meta-web"

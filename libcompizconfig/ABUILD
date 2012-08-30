@@ -1,0 +1,21 @@
+pkgname=libcompizconfig
+pkgver=0.8.8
+pkgbuild=2
+arch=('auto')
+
+shortdesc="compiz configuration library"
+longdesc=("Library for Compiz configuration backends")
+
+source=("http://releases.compiz.org/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+tags="x11-libs libs"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+

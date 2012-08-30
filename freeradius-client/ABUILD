@@ -1,0 +1,22 @@
+
+pkgname=freeradius-client
+pkgver=1.1.6
+pkgbuild=1
+shortdesc=("FreeRADIUS Client Software")
+longdesc=("FreeRADIUS Client is a framework and library for writing RADIUS Clients which additionally includes radlogin, a flexible RADIUS aware login replacement, a command line program to send RADIUS accounting records, an utility allowing to send RADIUS AAA requests from command line or from shell scripts and a utility to query the status of a (Merit) RADIUS server. All these programs are based on a library which lets you develop a RADIUS-aware application in less than 50 lines of C code. It is highly portable and runs on Linux, many BSD variants and Solaris.")
+arch=("auto")
+source=(ftp://ftp.freeradius.org/pub/radius/$pkgname-$pkgver.tar.bz2)
+tags=("network net-dialup")
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	install -D -m0644 COPYRIGHT $pkgdir/usr/share/licenses/$pkgname/license
+
+	./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib${LIBDIRSUFFIX}
+	make -j${numjobs}
+	make DESTDIR=$pkgdir install
+
+	mv $pkgdir/etc/radiusclient $pkgdir/etc/radiusclient.default
+	set +e
+}

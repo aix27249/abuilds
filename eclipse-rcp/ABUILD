@@ -1,0 +1,78 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=eclipse-rcp
+pkgver=3.6.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Eclipse IDE for RCP and RAP"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Среда разработки Eclipse с набором модулей для создания приложений с помощью технологий RCP и RAP"
+)
+if [ "${ARCH}" == "x86_64" ]; then 
+    dwn_suff=-$ARCH
+fi
+source=("http://eclipse.mirror.garr.it/mirrors/eclipse//technology/epp/downloads/release/helios/SR2/eclipse-rcp-helios-SR2-linux-gtk${dwn_suff}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-java"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="jre gtk+2"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+edir=${pkgdir}/opt/eclipse-rcp
+mkdir -p ${edir}
+cd ..
+mv eclipse/* ${edir}
+#make symlink
+mkdir -p ${pkgdir}/usr/bin || exit 1
+cd ${pkgdir}/usr/bin || exit 1
+ln -s ../../opt/eclipse-rcp/eclipse eclipse-rcp
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

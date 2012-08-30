@@ -1,0 +1,39 @@
+--- config/gmrunrc.orig	2003-11-16 20:43:41.000000000 +1000
++++ config/gmrunrc	2011-01-25 19:44:16.371000025 +1000
+@@ -3,7 +3,7 @@
+ # GPL v2.0 applies
+ 
+ # Set terminal
+-Terminal = gnome-terminal --start-factory-server --use-factory
++Terminal = sakura
+ TermExec = ${Terminal} -e
+ AlwaysInTerm = ssh telnet ftp lynx mc vi vim pine centericq perldoc man
+ 
+@@ -12,6 +12,9 @@
+ Top = 100
+ Left = 200
+ 
++# Set window centered
++Centrize = 1
++
+ # History size
+ History = 256
+ 
+@@ -37,13 +40,13 @@
+ URL_man = ${TermExec} 'man %s'
+ URL_info = ${TermExec} 'info %s'
+ URL_pd = ${TermExec} 'perldoc %s'
+-URL_file = nautilus %s
++URL_file = pcmanfm %s
+ URL_readme = ${TermExec} 'less /usr/doc/%s/README'
+ URL_info = ${TermExec} 'info %s'
+ URL_sh = sh -c '%s'
+ 
+ # extension handlers
+-EXT:doc,rtf = AbiWord %s
+-EXT:txt,cc,cpp,h,java,html,htm,epl,tex,latex,js,css,xml,xsl,am = emacs %s
++EXT:doc,rtf = swriter %s
++EXT:txt,cc,cpp,h,java,html,htm,epl,tex,latex,js,css,xml,xsl,am = medit %s
+ EXT:ps = gv %s
+-EXT:pdf = xpdf %s
++EXT:pdf = epdfview %s

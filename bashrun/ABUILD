@@ -1,0 +1,85 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=bashrun
+pkgver=0.16
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="X11 application launcher based on bash"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("* Bashrun provides a powerful application launcher by running a specialized "
+	  "bash session in a small terminal window, conveniently providing bash "
+	  "features like tab-completion and history. "
+	  "* Additional features include user configurable rules for automatically "
+	  "launching certain commands in a new terminal window, looking up manual "
+	  "and info pages, performing dict and google queries, defining bookmarks for "
+	  "webpages or piping command output to the clipboard. "
+	  "* Users can add new functionality by defining arbitrary rules for rewriting "
+	  "commandlines based on regular expression matches and file test operators. "
+	  "This makes new features like file associations or web shortcuts trivial to "
+	  "implement.")
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/Bashrun/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="x11-apps xapps"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep="xdotool>=20090815"
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+mkdir -p $pkgdir/usr/bin
+mkdir -p $pkgdir/usr/share/man/man1
+mkdir -p $pkgdir/usr/share/bashrun
+
+cp ./bashrun $pkgdir/usr/bin/
+chmod 755 $pkgdir/usr/bin/bashrun
+cp ./bashrun.1 $pkgdir/usr/share/man/man1
+chmod 644 $pkgdir/usr/share/man/man1/bashrun.1
+cp ./bashrc $pkgdir/usr/share/bashrun
+chmod 644 $pkgdir/usr/share/bashrun/bashrc
+cp ./CHANGELOG $pkgdir/usr/share/bashrun
+chmod 644 $pkgdir/usr/share/bashrun/CHANGELOG
+cp ./COPYING $pkgdir/usr/share/bashrun
+chmod 644 $pkgdir/usr/share/bashrun/COPYING
+cp ./INSTALL $pkgdir/usr/share/bashrun
+chmod 644 $pkgdir/usr/share/bashrun/INSTALL
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

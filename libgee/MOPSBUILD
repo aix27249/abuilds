@@ -1,0 +1,68 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libgee
+pkgver=0.5.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GObject collection library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GObject collection library."
+"Library for Shotwell"
+)
+
+source=("http://download.gnome.org/sources/libgee/0.5/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="xapps media-gfx"     
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=FreeArcher
+email=archer@programist.ru
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+before_build()
+{
+echo ""
+}
+
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+after_build()
+{
+ echo ""
+}

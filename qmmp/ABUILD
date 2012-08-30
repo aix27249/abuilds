@@ -1,0 +1,14 @@
+pkgname=qmmp
+pkgver=0.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="qmmp is an audio-player, written with help of Qt library. The user interface is similar to winamp or xmms. Alternative user interfaces also are available."
+#source=("svn:http://qmmp.googlecode.com/svn/trunk/")
+source=("http://qmmp.googlecode.com/files/qmmp-${pkgver}.tar.bz2")
+
+tags="xapps media-sound"
+build_deps="cmake>=2.4.8"
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RELEASE -DLIB_DIR=lib${LIBDIRSUFFIX}"
+

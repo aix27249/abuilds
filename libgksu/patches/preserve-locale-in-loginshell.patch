@@ -1,0 +1,24 @@
+--- libgksu-2.0.12/libgksu/libgksu.c.orig	2009-06-29 21:48:24.000000000 +0400
++++ libgksu-2.0.12/libgksu/libgksu.c	2010-09-09 01:34:36.977000059 +0400
+@@ -1933,6 +1933,12 @@
+ 	        gint8 *exit_status,
+ 	        GError **error)
+ {
++  const char *_locale = getenv("LANG");
++  gchar *locale_str = NULL;
++
++  if (_locale) locale_str = g_strdup_printf("%s", _locale);
++  else locale_str = g_strdup_printf("%s", "en_US.UTF-8"); // Falling back to english locale in case of null one
++
+   GQuark gksu_quark;
+   int i = 0;
+ 
+@@ -1993,7 +1999,7 @@
+       cmd[i] = g_strdup ("-c"); i++;
+ 
+       /* needs to get X authorization prior to running the program */
+-      cmd[i] = g_strdup_printf ("%s \"%s\"", auxcommand,
++      cmd[i] = g_strdup_printf ("%s \"LC_ALL=%s LANG=%s %s\"", auxcommand, locale_str, locale_str,
+ 				context->command); i++;
+ 
+       cmd[i] = NULL;

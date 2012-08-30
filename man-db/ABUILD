@@ -1,0 +1,77 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=man-db
+pkgver=2.5.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="man (format and display the on-line manual pages)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The man package is a collection of tools used for searching and reading the online system documentation. In fact, on most UNIX-like operating systems it is the primary means of finding out how programs on the system work. For example, 'man man' will display the documentation for man itself. Man requires the groff text processing package.")
+
+source=("http://savannah.nongnu.org/download/man-db/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console sys-base"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides="man"
+conflicts=""
+
+adddep="groff zlib gdbm"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+  cd ${srcdir}/${pkgname}-${pkgver}
+  
+  ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib${LIBDIRSUFFIX} \
+        --with-db=gdbm --disable-setuid --enable-mandirs=GNU \
+        --with-sections="1 n l 8 3 0 2 5 4 9 6 7"
+  make || exit 1
+  make DESTDIR=${pkgdir} install || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+  # part of groff pkg
+  rm -f ${pkgdir}/usr/bin/zsoelim
+
+  # script from LFS to convert manpages, see
+  # http://www.linuxfromscratch.org/lfs/view/6.4/chapter06/man-db.html
+  install -D -m755 ${filedir}/convert-mans  ${pkgdir}/usr/bin/convert-mans 
+
+  #install whatis cron script
+  install -D -m744 ${filedir}/man-db.cron.daily ${pkgdir}/etc/cron.daily/man-db
+  #installign cache directory
+  mkdir -p $pkgdir/var/cache/man
+}

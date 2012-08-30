@@ -1,0 +1,24 @@
+# Contributor: Roman Timushev <romikt@gmail.com>
+pkgname=gnome-defaults-list
+pkgver=0.15.1.7
+pkgbuild=1
+ubuntuver=0.15-1ubuntu7
+shortdesc="default file associations for GNOME environment"
+longdesc="This package contains default file assotiations for GNOME environment"
+arch=('noarch')
+url="http://packages.ubuntu.com/source/jaunty/desktop-file-utils"
+license=('GPL')
+source=(http://archive.ubuntu.com/ubuntu/pool/main/d/desktop-file-utils/desktop-file-utils_$ubuntuver.diff.gz)
+md5sums=('caeb6316f0bada6d364c89bbf960bf50')
+tags="gnome x11-misc"
+build() {
+  install -d "$pkgdir/etc/gnome"
+  install -d "$pkgdir/usr/share/applications"
+  ( cd $startdir/src ; wget $source )
+  gunzip "$startdir/src/desktop-file-utils_$ubuntuver.diff.gz" || exit 1
+  sed -n '/^\+\[Default.*$/,/^-.*$/ { s/^\+//g; /^-/d; s/openoffice\.org-/openoffice.org3-/; s/totem\.desktop/smplayer.desktop/; s/rythmbox/deadbeef/; s/eog\.desktop/mirage.desktop/; p }' "$startdir/src/desktop-file-utils_$ubuntuver.diff" > "$pkgdir/etc/gnome/defaults.list"
+  ln -s "/etc/gnome/defaults.list" "$pkgdir/usr/share/applications/"
+  cat $pkgdir/usr/share/applications/defaults.list
+}
+
+# vim:set ts=2 sw=2 et:

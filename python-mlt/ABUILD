@@ -1,0 +1,50 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=mlt
+pkgver=0.8.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Media Lovin' Tools"
+longdesc=("MLT is an open source multimedia framework")
+
+source=("http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz")
+tags="develop dev-libs"
+pkglist="python_bindings"
+
+pyver=2.6
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--qimage-libdir=/usr/lib${LIBDIRSUFFIX} \
+--qimage-includedir=/usr/include/Qt \
+--enable-gpl \
+--avformat-vdpau \
+--avformat-swscale"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+python_bindings() {
+	pkgname=python-mlt
+	shortdesc=("Python bindings for MLT")
+	longdesc=("Python bindings for MLT")
+}
+
+python_bindings_prep() {
+	set -e
+	cd $srcdir/mlt-$pkgver/src/swig/python
+	./build
+	mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/python${pyver}/
+	install -m755 mlt.py $pkgdir/usr/lib${LIBDIRSUFFIX}/python${pyver}/
+	install -m755 _mlt.so $pkgdir/usr/lib${LIBDIRSUFFIX}/python${pyver}/
+	install -m755 mlt_wrap.o $pkgdir/usr/lib${LIBDIRSUFFIX}/python${pyver}/
+	set +e
+
+}

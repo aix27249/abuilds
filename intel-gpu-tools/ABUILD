@@ -1,0 +1,19 @@
+pkgname=intel-gpu-tools
+pkgver=1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('intel-gpu-tools (Intel DRM Driver Testing Tools)')
+longdesc=('This is a collection of tools for development and testing of the Intel DRM driver. There are many macro-level test suites including xtest, rendercheck, piglit, and oglconform.')
+
+tags=('x11-apps xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/app/intel-gpu-tools-${pkgver}.tar.bz2")
+
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

@@ -1,0 +1,21 @@
+#!/sbin/runscript
+# Copyright 2010 Agilia Linux
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+opts="reload"
+
+depend() {
+	need net
+}
+start() {
+	ebegin "Starting I2P router"
+	start-stop-daemon --start --exec /opt/i2p/i2prouter start \
+	--pidfile /var/run/i2p
+	eend $?
+}
+stop() {
+	ebegin "Stopping I2P router"
+	start-stop-daemon --stop -exec /opt/i2p/i2prouter stop \
+	--pidfile /var/run/i2p
+	eend $?
+}

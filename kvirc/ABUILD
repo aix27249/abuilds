@@ -1,0 +1,22 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+pkgname=kvirc
+pkgver=4.0.4
+pkgbuild=1
+arch=('auto')
+shortdesc="Qt-based IRC client"
+source=("ftp://ftp.kvirc.de/pub/kvirc/$pkgver/source/kvirc-$pkgver.tar.bz2")
+tags="xapps net-irc"
+build_deps="cmake"
+adddep=""
+removedep=""
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DWANT_KDE4=OFF \
+-DWANT_PERL=ON \
+-DWANT_PHONON=OFF \
+-DCMAKE_SKIP_RPATH:BOOL=ON \
+../"

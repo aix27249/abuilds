@@ -1,0 +1,70 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=faenza-cupertino-icon-theme
+pkgver=0.7_20100927
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Faenza-Cupertino - Just recoloured the original Faenza folders"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Just recoloured the original Faenza folders ( http://gnome-look.org/content/show.php/Faenza?content=128143 ). You must have the above icon theme installed, as this theme only replaces the original folders. Modified (based on original icons) by john007. License: GPL. Homepage: http://gnome-look.org/content/show.php/Faenza-Cupertino?content=129008"
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/129008-Faenza-Cupertino.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-themes themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="faenza-icon-theme"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+mkdir -p $pkgdir/usr/share/icons/
+cp -r ${srcdir}/Faenza-Cupertino/ $pkgdir/usr/share/icons/ || exit 1
+}

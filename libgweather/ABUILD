@@ -1,0 +1,43 @@
+pkgname=libgweather
+pkgver=2.30.3
+pkgbuild=2
+arch=('auto')
+shortdesc="GWeather shared library"
+source=("ftp://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.bz2")
+tags="libs dev-libs"
+numjobs=1
+
+before_build()
+{
+	set -e
+	go_src_dir
+	libtoolize --force
+	gtkdocize
+	aclocal
+	autoconf
+	automake
+	set +e
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-locations-compression"
+INSTALL_KEYS="DESTDIR=$pkgdir GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
+
+after_build()
+{
+	set -e
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" \
+	--domain libgweather ${pkgdir}/etc/gconf/schemas/*.schemas
+	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+	set +e
+}

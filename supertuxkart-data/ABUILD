@@ -1,0 +1,125 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=supertuxkart
+pkgver=0.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="SuperTuxKart is a Free 3d kart racing game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("SuperTuxKart is a kart racing game featuring Tux and friends."
+	  "It is a fun-racer game, focusing on fun and ease of play."
+	  ""
+	  "Homepage: http://supertuxkart.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/supertuxkart/SuperTuxKart/0.7/${pkgname}-${pkgver}-src.tar.bz2")
+#source=("http://sourceforge.net/projects/supertuxkart/files/SuperTuxKart-alpha/${pkgname}-${prgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="games-action games"     	#short and long tags / длинный и короткий тег
+build_deps="irrlicht" #plib" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+pkglist=data_files
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=			#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# The Makefile's don't respect directory variables given to configure.
+# Let's fix that with a few other additional cleanups.
+sed_dir(){
+	go_src_dir
+sed -i 's|\/games|\/bin|g' data/${pkgname}_desktop.template
+for i in $(find . -name "Makefile.*"); do
+  sed -i \
+    -e "/^bindir/s|games|bin|g" \
+    -e "/^pkgdatadir/s|=.*\/po|= \@localedir\@|" \
+    -e 's|\/games\/|\/|g' $i
+done
+}
+sed_dir
+
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug \
+--with-addons \
+--datadir=/opt"
+
+# --docdir=/usr/doc/${pkgname}-${pkgver} \
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# Remove directories/files.
+rm -rfv ${pkgdir}/usr/share/doc ${pkgdir}/opt/doc
+rm -fv ${pkgdir}/usr/share/locale/{*.po,*.pot}
+
+# data
+if [ "$pkglist" = "data_files" ] ; then
+
+mkdir -p ${startdir}/data_dir/
+mv ${pkgdir}/opt ${startdir}/data_dir || exit 1
+
+mkdir -p ${startdir}/data_dir/usr/
+#mv $pkgdir/usr/doc ${startdir}/data_dir/usr/ || exit 1
+mv $pkgdir/usr/share ${startdir}/data_dir/usr/ || exit 1
+
+# First build x86 (or x86_64)
+#if [ "$ARCH" = "x86_64" ] ; then
+if [ "$ARCH" = "i686" ] ; then
+	rm -rf ${startdir}/data_dir/opt ${startdir}/data_dir/usr/share || exit 1
+fi
+
+fi
+}
+
+data_files(){
+	pkg_files=data_dir
+	pkgname="supertuxkart-data"
+	arch=('noarch')
+	#shortdesc=""
+	longdesc=("Data files for SuperTuxKart")
+	#tags=""
+	adddep="supertuxkart==$pkgver"
+	#conflicts=""
+	#provides=""
+}

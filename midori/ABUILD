@@ -1,0 +1,56 @@
+pkgname=midori
+pkgver=0.4.3
+pkgbuild=1
+arch=('auto')
+shortdesc="A lightweight, portable GTK+ web browser"
+longdesc=("Midori is a lightweight and portable web browser based on Gtk+. The interface is designed to be intuitive yet powerful. Homepage: http://www.twotoasts.de/index.php?/pages/midori_summary.html"
+)
+source=("http://archive.xfce.org/src/apps/midori/0.4/${pkgname}-${pkgver}.tar.bz2")
+tags="www-client xapps"
+build_deps="vala docutils>=0.7"
+
+build()
+{
+go_src_dir
+burn_patches
+
+#./waf configure --help && exit 0
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./waf configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--docdir=/usr/doc/$pkgname-$pkgver \
+--enable-nls \
+--update-po \
+--enable-docs \
+--enable-apidocs \
+--enable-unique \
+--enable-libnotify \
+--enable-addons \
+--disable-hildon
+
+#--enable-tests \
+#--enable-sqlite \
+#--enable-userdocs \
+
+./waf build
+./waf install --destdir=$pkgdir || exit 1
+}
+
+
+after_build()
+{
+
+mv $pkgdir/etc/xdg/midori/search $pkgdir/etc/xdg/midori/search.new || exit 1
+
+if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/docs ]; then
+	cd $pkgdir/usr/doc/${pkgname}-${pkgver}
+	rm -vrf ./docs || exit 1
+fi
+
+}

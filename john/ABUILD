@@ -1,0 +1,116 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=john
+pkgver=1.7.6
+pkgbuild=2
+arch=('auto')
+
+shortdesc="John the Ripper password cracker"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus many more with contributed patches. Homepage: http://www.openwall.com/john/"
+)
+
+source=("http://www.openwall.com/john/g/${pkgname}-${pkgver}.tar.bz2" 
+"http://www.openwall.com/john/contrib/john-$pkgver-jumbo-7.diff.gz")
+
+patch_opts=("params.h.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-crypt console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="${srcdir}/john-$pkgver/doc/*"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+        # jumbo patch
+go_src_dir
+        patch -p1 < ${srcache}/$pkgname-$pkgver-jumbo-7.diff || exit 1
+        cd ${srcdir}/john-$pkgver/src/
+        # patch default params
+burn_patches
+        if [ "$ARCH" == "x86_64" ]; then
+            sed -i 's|CFLAGS = -c -Wall -O2|CFLAGS = -c -Wall -O2 -march=x86-64 -DJOHN_SYSTEMWIDE=1|' Makefile
+            sed -i 's|^LDFLAGS =\(.*\)|LDFLAGS =\1 -lm|' Makefile
+            sed -i -e 's|-m486||g' Makefile
+          else sed -i 's|CFLAGS = -c -Wall -O2|CFLAGS = -c -Wall -O2 -march=i686 -DJOHN_SYSTEMWIDE=1|' Makefile
+        fi
+        sed -i 's|LIBS = -ldes|LIBS = -ldes -Ldes|' Makefile
+        sed -i 's|#include <des.h>|#include "des/des.h"|' KRB5_fmt.c
+        sed -i 's|#include <des.h>|#include "des/des.h"|' KRB5_std.h
+
+c_arch(){
+	echo "linux-x86-sse2           Linux, x86 with SSE2 (best if 32-bit)"
+	echo "linux-x86-mmx            Linux, x86 with MMX"
+	echo "linux-x86-any            Linux, x86"
+}
+        # build john
+        if [ "$ARCH" == "x86_64" ]; then
+            make linux-x86-64
+          else make linux-x86-mmx
+        fi
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+        # config file
+        sed -i 's|$JOHN|/usr/share/john|g' ${srcdir}/john-$pkgver/run/john.conf
+        install -Dm644 ${srcdir}/john-$pkgver/run/john.conf ${pkgdir}/etc/john/john.conf
+        
+        # docs
+        install -d ${pkgdir}/usr/share/john/
+        install -m644 ${srcdir}/john-$pkgver/run/*.chr ${pkgdir}/usr/share/john/
+        install -m644 ${srcdir}/john-$pkgver/run/password.lst ${pkgdir}/usr/share/john/
+
+        # install password list and charset files
+        install -m644 ${srcdir}/${pkgname}-${pkgver}/run/{{all,alnum,alpha,digits,lanman}.chr,password.lst} \
+          ${pkgdir}/usr/share/john/
+
+        # install binaries
+        install -Dm755 ${srcdir}/john-$pkgver/run/john ${pkgdir}/usr/bin/john
+        install -Dm755 ${srcdir}/john-$pkgver/run/mailer ${pkgdir}/usr/bin/john-mailer
+        cd ${pkgdir}/usr/bin
+        ln -s john unafs
+        ln -s john unique
+        ln -s john unshadow
+        ln -s john undrop
+
+cd ${pkgdir}
+mv etc/john/john.conf etc/john/john.conf.new
+}

@@ -1,0 +1,16 @@
+pkgname=xf86-video-vmware
+pkgver=12.0.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-vmware: X11 driver for VMWare virtual video card')
+longdesc=('xf86-video-vmware: X11 driver for VMWare virtual video card')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-vmware-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

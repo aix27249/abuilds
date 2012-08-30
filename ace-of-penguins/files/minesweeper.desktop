@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Penguin Minesweeper
+GenericName=
+Comment=
+Icon=
+Exec=/usr/bin/minesweeper
+Terminal=false
+Categories=Game;LogicGame;

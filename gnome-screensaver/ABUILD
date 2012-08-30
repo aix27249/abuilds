@@ -1,0 +1,89 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-screensaver
+pkgver=2.30.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GNOME screen saver and locker"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("gnome-screensaver is a screen saver and locker that aims to have simple, sane and secure defaults, and be well integrated with the GNOME desktop. "
+)
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.30/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("gnome-screensaver-2.30.2-libnotify-0.7.patch 0" "gnome-screensaver-2.30.2-popsquares-header.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome gnome-extra"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="xscreensaver"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+go_src_dir
+sed "s:'\^\$\$lang\$\$':\^\$\$lang\$\$:g" -i po/Makefile.in.in \
+	|| exit 1
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/gnome-screensaver \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-xscreensaverdir=/usr/share/xscreensaver/config \
+--with-xscreensaverhackdir=/usr/libexec/xscreensaver \
+--with-mit-ext"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# Edited pam file
+install -m644 "${filedir}/gnome-screensaver.pam" "${pkgdir}/etc/pam.d/gnome-screensaver" || return 1
+#Migrate xscreensaver configuration files
+sed -e 's|Exec=|Exec=/usr/libexec/xscreensaver/|' \
+      -i data/xscreensaver-config.xsl || return 1
+  cd "${pkgdir}/usr/share/applications/screensavers"
+  "${srcdir}/${pkgname}-${pkgver}/data/migrate-xscreensaver-config.sh" \
+      /usr/share/xscreensaver/config/*.xml || return 1
+
+install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gnome-screensaver ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

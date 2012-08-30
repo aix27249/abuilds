@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Prudence Lecacy
+Type=X-GNOME-Metatheme
+Comment=
+
+[X-GNOME-Metatheme]
+GtkTheme=Prudence Legacy
+MetacityTheme=Prudence Legacy
+IconTheme=Prudence-icon
+GtkColorScheme=fg_color:#333333,bg_color:#E6E6E6,base_color:#FFF,text_color:#1A$
+CursorTheme=Vanilla-DMZ
+CursorSize=1
+NotificationTheme=ubuntu
+ButtonLayout=close,minimize,maximize:
+

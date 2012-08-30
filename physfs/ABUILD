@@ -1,0 +1,66 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=physfs
+pkgver=2.0.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A library to provide abstract access to various archives"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Библиотека для доступа к различным архивам"
+)
+
+source=("http://icculus.org/physfs/downloads/${pkgname}-${pkgver}.tar.gz")
+
+#patch_opts=("libdir.patch 0")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="libs dev-libs"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+
+export LDFLAGS="$SLKLDFLAGS"
+export CFLAGS="$SLKCFLAGS -fno-strict-aliasing"
+export CXXFLAGS="$SLKCFLAGS -fno-strict-aliasing"
+mkdir -p build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} -DLIB_SUFFIX=${LIBDIRSUFFIX} ../
+make -j${numjobs} || exit 1
+make install DESTDIR=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

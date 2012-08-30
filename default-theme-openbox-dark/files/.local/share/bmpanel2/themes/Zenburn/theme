@@ -1,0 +1,99 @@
+theme
+	name Zenburn
+	author NomerUNO
+	# Original author: weakhead <http://weakhead.deviantart.com/>
+	# Original name: knurra
+
+panel
+	position bottom
+	background tile.png
+	
+launchbar 
+	icon_size 20 20
+	no_separator
+empty 1
+
+desktop_switcher
+	idle
+		left_corner tile.png
+		left tile.png
+		center tile.png
+		right tile.png
+		right_corner tile.png
+		font Droid Sans Bold 10
+			color 163 202 204
+			offset 0 0
+			align center
+		
+	pressed
+		left_corner tile.png
+		left tile.png
+		center tile.png
+		right tile.png
+		right_corner tile.png
+		font Droid Sans Bold 10
+			color 179 179 161
+			offset 0 0
+			align center
+	
+empty 5
+
+taskbar
+	idle
+		left tb-lr-idle.png
+		center tile.png
+		right tb-lr-idle.png
+		font Droid Sans Bold 10
+			color 179 179 161
+			offset 5 0
+		icon_offset 2 0
+
+	idle_highlight
+		left tb-left-hover.png
+		center tb-tile-hover.png
+		right tb-right-hover.png
+		font Droid Sans Bold 10
+			color 224 224 224
+			offset 5 0
+		icon_offset 2 0
+	
+	pressed
+		left tb-left-active.png
+		center tb-tile-active.png
+		right tb-right-active.png
+		font Droid Sans Bold 10
+			color 179 179 161
+			offset 5 0
+		icon_offset 2 0
+		
+	pressed_highlight
+		left tb-left-active_hover.png
+		center tb-tile-active_hover.png
+		right tb-right-active_hover.png
+		font Droid Sans Bold 10
+			color 224 224 224
+			offset 5 0
+		icon_offset 2 0
+
+	task_max_width 200
+	default_icon default_icon.png
+
+empty 5
+
+systray
+		icon_size 16 16
+		icon_spacing 5
+
+empty 10
+
+clock
+		
+	font Droid Sans Bold 10
+		color 179 179 161
+		offset 0 0
+		align center
+	
+	time_format %d.%m.%y | %R
+	
+
+empty 10

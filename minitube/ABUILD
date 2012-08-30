@@ -1,0 +1,13 @@
+pkgname=minitube
+pkgver=1.5
+pkgbuild=1
+arch=('auto')
+ 
+shortdesc="Minitube is a YouTube desktop application."
+ 
+source=("http://flavio.tordini.org/files/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+ 
+tags="media-video xapps"
+ 
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"

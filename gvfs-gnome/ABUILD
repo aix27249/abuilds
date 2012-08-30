@@ -1,0 +1,35 @@
+pkgname=gvfs-gnome
+name=gvfs
+pkgver=1.8.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="userspace virtual filesystem"
+
+source=("ftp://ftp.gnome.org/pub/GNOME/sources/$name/${pkgver%.*}/$name-$pkgver.tar.bz2")
+
+tags="gnome gnome-base"
+
+provides="gvfs"
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/gvfs \
+--disable-static \
+--mandir=/usr/man \
+--enable-gdu \
+--enable-samba \
+--enable-avahi \
+--disable-hal \
+--with-bash-completion-dir=/etc/bash_completion.d"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	cat ${filedir}/doinst.sh | sed -e "s:usr/lib/:usr/lib${LIBDIRSUFFIX}/:g" > ${pkgdir}/install/doinst.sh
+}

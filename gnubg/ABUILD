@@ -1,0 +1,76 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnubg
+pkgver=20100525
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GNU Backgammon (command line or a gui backgammon)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GNU Backgammon (gnubg) is for playing and analysing backgammon positions, games and matches. It's based on a neural network. It currently plays at about the level of a championship flight tournament player. Command line and Graphical (GTK+) interfaces are available. OpenGL is optional for 3D board support."
+	  ""
+	  "Homepage: http://www.gnubg.org/"
+)
+
+source=("http://www.gnubg.org/media/sources/${pkgname}-source-SNAPSHOT-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="games games-board"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+./autogen.sh || exit 1
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= || exit 1
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

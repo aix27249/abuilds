@@ -1,0 +1,12 @@
+pkgname=manager3
+pkgver=1.0-rc
+pkgbuild=2
+arch=('auto')
+shortdesc="New generation GUI for mpkg, Agilia Linux package manager"
+longdesc=("New generation GUI for mpkg, Agilia Linux package manager, written in python and pyqt"
+)
+source=("git:https://github.com/AgiliaLinux/manager3.git")
+tags="xapps x11-apps"
+adddep="PyQt sip"
+
+BUILD_SYSTEM="python"

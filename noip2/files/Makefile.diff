@@ -1,0 +1,6 @@
+5,6c5,6
+< PREFIX=/usr/local
+< CONFDIR=${PREFIX}/etc
+---
+> PREFIX=/usr
+> CONFDIR=/etc

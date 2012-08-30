@@ -1,0 +1,64 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rxvt-unicode
+pkgver=9.15
+pkgbuild=2
+arch=('auto')
+
+shortdesc="An unicode enabled rxvt-clone terminal emulator (urxvt)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("rxvt-unicode is a clone of the well known terminal emulator rxvt, modified to store text in Unicode and to use locale-correct input and output. It also supports mixing multiple fonts at the same time, including Xft fonts, real transparency, and an optional embedded Perl interpreter that allows you to extend your terminal easily.")
+
+source=("http://dist.schmorp.de/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-terms"
+
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+cd ${srcdir}/${pkgname}-${pkgver}
+./configure \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-frills \
+--mandir=/usr/man \
+--enable-everything \
+--enable-256-color \
+--enable-combining \
+--enable-xft \
+--enable-font-styles \
+--enable-pixbuf \
+--enable-transparency \
+--enable-fading \
+--enable-perl \
+--enable-xim \
+--enable-selectionscrolling \
+--enable-mousewheel \
+--enable-utmp \
+--enable-wtmp \
+--enable-lastlog \
+--with-terminfo=/usr/share/terminfo \
+--with-x
+
+make
+
+cd "${srcdir}/${pkgname}-${pkgver}"
+install -d "${pkgdir}/usr/share/terminfo"
+export TERMINFO="${pkgdir}/usr/share/terminfo"
+
+make DESTDIR="${pkgdir}" install
+
+# install *.desktop file
+install -Dm644 ${filedir}/${pkgname}.desktop "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+}
+
+

@@ -1,0 +1,28 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=sdl_gfx
+pkgver=2.0.22
+pkgbuild=1
+arch=('auto')
+
+shortdesc="SDL Graphic Primitives"
+longdesc=("SDL Graphic Primitives")
+
+source=("http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-${pkgver}.tar.gz")
+
+tags="libs dev-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

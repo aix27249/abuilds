@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=libdesktop-agnostic
+pkgver=0.3.92
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Provides an extensible config API, a unified virtual fs API, and a desktop item editor for GLib-based projects."
+longdesc=("$shortdesc")
+
+source="https://launchpad.net/$pkgname/0.4/$pkgver/+download/$pkgname-$pkgver.tar.gz"
+
+tags="libs dev-libs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	rm -r gen_src
+	./waf configure --config-backends=gconf,keyfile --vfs-backends=gio \
+		      --desktop-entry-backends=gio,glib --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib$LIBDIRSUFFIX
+	./waf
+	./waf install --destdir="$pkgdir" --sysconfdir="$pkgdir/etc"
+}

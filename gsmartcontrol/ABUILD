@@ -1,0 +1,71 @@
+#----------------------------- General vars --------------------------------------
+#http://repos.archlinux.org/wsvn/community/gsmartcontrol/repos/community-x86_64/PKGBUILD
+#------------------------- Основные переменные -----------------------------------
+pkgname=gsmartcontrol
+pkgver=0.8.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A graphical user interface for the smartctl hard disk drive health inspection tool"
+#-ruler---|--------------------------------------------------------------------------|
+
+source=("http://download.berlios.de/gsmartcontrol/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="xapps app-admin"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep="smartmontools"
+removedep=""
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+    install -m755 ${filedir}/gsmartcontrol-root ${pkgdir}/usr/bin
+}

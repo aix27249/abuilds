@@ -1,0 +1,38 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=alarm-clock
+pkgver=1.4.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Alarm clock to schedule your tasks"
+
+source=("http://distro.ibiblio.org/slitaz/sources/packages-cooking/a/${pkgname}-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="xapps app-misc"
+
+#----------------------------- Make PKG --------------------------------------
+before_build(){
+  go_src_dir
+
+  sed 's/toolbutton1/Add Alarm/g' -i $srcdir/alarm-clock-${pkgver}/src/interface/alarm-clock.ui
+
+  #patch for libnotify>=0.7
+  sed 's/_with_status_icon(title, text, NULL, status_icon);/(title, text, NULL);/g' -i $srcdir/alarm-clock-${pkgver}/src/alarm_runner.c
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,88 @@
+diff --git a/install-files/drivers/nvidia.options.agilia b/install-files/drivers/nvidia.options.agilia
+new file mode 100644
+index 0000000..906fa44
+--- /dev/null
++++ b/install-files/drivers/nvidia.options.agilia
+@@ -0,0 +1,3 @@
++#!/bin/bash
++X_LD_LIB32_PATH=/usr/lib/nvidia-bumblebee
++X_LD_LIB64_PATH=/usr/lib64/nvidia-bumblebee:/usr/lib/nvidia-bumblebee
+diff --git a/stages/agilia/checkdependencies b/stages/agilia/checkdependencies
+new file mode 100644
+index 0000000..e5f8a0f
+--- /dev/null
++++ b/stages/agilia/checkdependencies
+@@ -0,0 +1,42 @@
++#!/bin/bash
++dependencies=('virtualgl')
++missing_dependencies=()
++failed=false
++
++for i in "${conflictingpackages[@]}"; do
++    if [ "$(mpkg-search "$i" -i | wc -l)" != "2" ] ; then
++        echo "Please uninstall conflicting package: $i"
++        failed=true
++    fi
++done
++
++for driver in "${DRIVERS[@]}"; do
++    case "$driver" in
++      nvidia)
++        for i in nvidia-kernel nvidia-utils-bumblebee
++        do
++            dependencies[${#dependencies[@]}]="$i"
++        done
++        ;;
++      nouveau)
++        for i in xf86-video-nouveau mesa libgl
++        do
++            dependencies[${#dependencies[@]}]="$i"
++        done
++        ;;
++    esac
++done
++
++for package in "${dependencies[@]}"; do
++    if [ "$(mpkg-search "$i" -i | wc -l)" == "2" ]; then
++        missing_dependencies[${#missing_dependencies[@]}]="$package"
++    fi
++done
++
++if [ ${#missing_dependencies[@]} -gt 0 ]; then
++    echo "Missing dependencies: ${missing_dependencies[*]}"
++    echo "These packages are available from the AUR"
++    failed=true
++fi
++
++$failed && exit 4
+diff --git a/stages/agilia/setvars b/stages/agilia/setvars
+new file mode 100644
+index 0000000..d621e56
+--- /dev/null
++++ b/stages/agilia/setvars
+@@ -0,0 +1,12 @@
++#!/bin/bash
++echo "ENTER SETVARS"
++BINDIR=/usr/bin
++SBINDIR=/usr/sbin
++LIBDIR=/usr/lib/bumblebee
++INITDIR=/etc/init.d
++XORG_MODULEPATH=/usr/lib/nvidia-bumblebee,/usr/lib/xorg/modules
++CMD_SVC_STOP='rc-service bumblebee stop'
++if [ "$(uname -m)" == "x86_64" ]; then
++	LIBDIR=/usr/lib64/bumblebee
++	XORG_MODULEPATH=/usr/lib64/nvidia-bumblebee,/usr/lib64/xorg/modules
++fi
+diff --git a/stages/determinedistro b/stages/determinedistro
+index 75c64af..0f38d91 100644
+--- a/stages/determinedistro
++++ b/stages/determinedistro
+@@ -34,6 +34,8 @@ elif grep -iq "Gentoo" /etc/issue; then
+     echo
+     $UNATTENDED || read
+     exit 3
++elif grep -iq "Agilia" /etc/issue; then
++    DISTRO=agilia
+ else
+     echo
+     echo "Your Distribution could not be determined or is not supported."

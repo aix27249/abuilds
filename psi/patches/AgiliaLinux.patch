@@ -1,0 +1,18 @@
+--- src/systeminfo.cpp	2010-10-30 10:13:53.250228949 +0800
++++ src/systeminfo.cpp	2010-10-30 11:12:45.344228948 +0800
+@@ -80,6 +80,7 @@
+ 		LinuxRedHat,
+ 		LinuxGentoo,
++		LinuxAgiliaLinux,
+ 		LinuxSlackware,
+ 		LinuxSuSE,
+ 		LinuxConectiva,
+ 		LinuxCaldera,
+@@ -109,6 +110,7 @@
+ 		{ LinuxDebian,		OsAppendFile,	"/etc/debian_version",		"Debian GNU/Linux"	},
+ 		{ LinuxGentoo,		OsUseFile,	"/etc/gentoo-release",		"Gentoo Linux"		},
++		{ LinuxAgiliaLinux,	OsAppendFile,	"/etc/agilialinux-version",	"AgiliaLinux"		},
+ 		{ LinuxSlackware,	OsAppendFile,	"/etc/slackware-version",	"Slackware Linux"	},
+ 		{ LinuxPLD,		OsUseFile,	"/etc/pld-release",		"PLD Linux"		},
+ 		{ LinuxAurox,		OsUseName,	"/etc/aurox-release",		"Aurox Linux"		},
+ 		{ LinuxArch,		OsUseFile,	"/etc/arch-release",		"Arch Linux"		},

@@ -1,0 +1,58 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=cpufrequtils
+pkgver=007
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Cpufrequtils"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Userspace tools for the kernel cpufreq subsystem"
+)
+
+source=("http://www.kernel.org/pub/linux/utils/kernel/cpufreq/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="utils sys-power"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+make libdir=/usr/lib${LIBDIRSUFFIX} -j1 || return 1
+make INSTALL="/bin/install -c" libdir=/usr/lib${LIBDIRSUFFIX} mandir=/usr/share/man DESTDIR="${pkgdir}" install || return 1
+}
+                                                                                                                  burn_patches                                                                                                      
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

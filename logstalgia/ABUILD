@@ -1,0 +1,62 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=logstalgia
+pkgver=1.0.3
+pkgbuild=1
+arch=('auto')
+ 
+shortdesc="Logstalgia (aka ApachePong) is a website access log visualization tool."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Logstalgia is a website traffic visualization that replays or streams Apache web-server access logs as a pong-like battle between the web server and an never ending torrent of requests. Requests appear as colored balls (the same color as the host) which travel across the screen to arrive at the requested location. Successful requests are hit by the paddle while unsuccessful ones (eg 404 - File Not Found) are missed and pass through. The paths of requests are summarized within the available space by identifying common path prefixes. Related paths are grouped together under headings. For instance, by default paths ending in png, gif or jpg are grouped under the heading Images. Paths that do not match any of the specified groups are lumped together under a Miscellaneous section. The simulation can be paused at any time by pressing space. While paused, individual requests can be inspected by passing over them with the mouse."
+)
+ 
+source=("http://logstalgia.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+ 
+patch_opts=("")
+ 
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+ 
+tags="utils net-analyzer"
+build_deps=""
+ 
+provides=""
+conflicts=""
+ 
+adddep=""
+removedep=""
+ 
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+ 
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+ 
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+	echo ""
+}
+ 
+BUILD_SYSTEM="autotools"
+ 
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+ 
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
+ 
+INSTALL_KEYS="DESTDIR=$pkgdir"
+ 
+#ran after function build()
+#после сборки
+after_build()
+{
+	 echo ""
+}

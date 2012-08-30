@@ -1,0 +1,26 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=supertux2-git
+pkgver=0.3.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Classic 2D jump'n run sidescroller game in a style similar to the original Super Mario games covered under the GPL"
+
+source=("git:https://code.google.com/p/supertux/")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="games games-arcade"
+
+build_deps="cmake git"
+
+provides="supertux2"
+
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DINSTALL_SUBDIR_BIN=bin \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

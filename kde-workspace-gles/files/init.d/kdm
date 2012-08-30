@@ -1,0 +1,18 @@
+#!/sbin/runscript
+
+depend() {
+	use logger acpid
+	after coldplug dns nscd 
+	need consolefont keymaps dbus
+	provide xdm
+}
+
+start() {
+	ebegin "Starting X11 login with KDM..."
+	start-stop-daemon --start -q --exec /usr/bin/kdm
+}
+
+stop() {
+	ebegin "Stopping X11 login with KDM..."
+	start-stop-daemon --stop -q --pidfile /var/run/kdm.pid 
+}

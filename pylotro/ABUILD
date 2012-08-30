@@ -1,0 +1,12 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=pylotro
+pkgver=0.1.15
+pkgbuild=2
+shortdesc="LOTRO/DDO Launcher (needed to login to Turbine Inc. servers)"
+arch=('auto')
+adddep="openal PyQt"
+tags="games games-util"
+source=(http://www.lotrolinux.com/PyLotRO-$pkgver.zip)
+
+BUILD_SYSTEM="python"

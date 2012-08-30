@@ -1,0 +1,95 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=epdfview
+pkgver=0.1.8
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A lightweight PDF viewer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("ePDFView is a free lightweight PDF document viewer using Poppler and  GTK+ libraries. The aim of ePDFView is to make a simple PDF document viewer, in the lines of Evince but without using the Gnome libraries. Homepage: http://trac.emma-soft.com/epdfview"
+)
+
+source=("http://trac.emma-soft.com/epdfview/chrome/site/releases/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("epdfview.desktop.patch 0") # "fix-scrolling.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-text"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+go_src_dir
+if [ -z "$(cat ./data/epdfview.desktop | grep Icon=epdfview)" ]; then
+ sed -i "/^Icon/s|icon_epdfview-48|epdfview|" ./data/epdfview.desktop
+fi
+
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+go_src_dir
+
+# icon
+  for size in 24 32 48; do
+      install -Dm644 data/icon_${pkgname}-${size}.png \
+          "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/${pkgname}.png" || exit 1
+  done
+
+# doc
+if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
+ rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
+fi
+
+}

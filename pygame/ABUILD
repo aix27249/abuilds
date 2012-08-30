@@ -1,0 +1,67 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pygame
+pkgver=1.9.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="pygame (a set of Python modules designed for writing games)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("pygame is written on top of the excellent SDL library. This allows you to create fully featured games and multimedia programs in the python language. Pygame is highly portable and runs on nearly every platform and operating system."
+	  ""
+	  "Pygame is free. Released under the LGPL licence, you can create open source, free, freeware, shareware, and commercial games with it."
+	  ""
+	  "Homepage: http://www.pygame.org/"
+)
+
+source=("http://pygame.org/ftp/${pkgname}-${pkgver}release.tar.gz")
+
+patch_opts=("config.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs dev-python"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="PKG-INFO WHATSNEW install.html readme.txt"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+MAKE_WORD="python config.py -auto"
+#
+BUILD_KEYS=
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

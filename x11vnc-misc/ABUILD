@@ -1,0 +1,57 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=x11vnc
+pkgver=0.9.13
+pkgbuild=2
+arch=('auto')
+
+shortdesc="VNC server for real X displays"
+
+longdesc=("x11vnc allows one to view remotely and interact with real X displays "
+"(i.e. a display corresponding to a physical monitor, keyboard, and mouse) with any VNC viewer.")
+
+source=("http://downloads.sourceforge.net/libvncserver/${pkgname}-${pkgver}.tar.gz")
+
+tags="x11-misc server"
+
+build_deps="make gcc recordproto"
+adddep="openssl libjpeg zlib libX11 libXtst libXinerama libXdamage libXrandr avahi"
+
+docs="RELEASE-NOTES"
+
+pkglist="misc"
+
+#===================================
+misc(){
+ arch=('noarch')
+ pkgname=x11vnc-misc
+ shortdesc="Scripts and utilities for x11vnc"
+}
+
+#===================================
+misc_prep(){
+  go_src_dir
+  install -d -m 755 ${pkgdir}/usr/share/x11vnc
+  cp -R x11vnc/misc ${pkgdir}/usr/share/x11vnc
+  echo "End misc"
+}
+
+#===================================
+build(){
+  go_src_dir
+  ./configure --prefix=/usr --mandir=/usr/man
+  make
+  make DESTDIR=${pkgdir} install
+  echo "End build"
+}
+
+#===================================
+after_build(){
+  install -D -m 755 x11vnc/tkx11vnc ${pkgdir}/usr/bin/
+  install -d -m 755 ${pkgdir}/etc/${pkgname}
+  install -d -m 755  ${pkgdir}/etc/init.d
+  install -Dm777 ${filedir}/x11vnc ${pkgdir}/etc/init.d/
+  rm -r ${pkgdir}/usr/include/
+  rm ${pkgdir}/usr/doc/${pkgname}-${pkgver}/README.LibVNCServer
+  echo "End after_build"
+}

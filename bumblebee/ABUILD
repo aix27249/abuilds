@@ -1,0 +1,74 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=bumblebee
+pkgver=2.4.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Stable branch of Bumblebee - nVidia Optimus support tool."
+#longdesc=(""
+#)
+
+source=("https://github.com/downloads/Bumblebee-Project/Bumblebee/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+config_files="etc/bumblebee/xorg.conf.nvidia
+etc/bumblebee/bumblebee.conf
+etc/conf.d/bumblebee"
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="drivers x11-drivers"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="virtualgl nvidia-utils-bumblebee bash>=4.0 libgl libglx"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+    go_src_dir
+    burn_patches
+    ./install --dest-dir=$pkgdir --actions=build,install --skip-stages=uninstall
+    # And now Agilia initscripts
+    install -Dm644 $filedir/bumblebee.confd $pkgdir/etc/conf.d/bumblebee
+    install -Dm755 $filedir/bumblebee.initd $pkgdir/etc/init.d/bumblebee
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

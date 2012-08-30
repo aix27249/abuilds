@@ -1,0 +1,76 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=udftools
+pkgver=1.0.0b3
+pkgbuild=2
+arch=('auto')
+
+shortdesc="UDF Filesystem tools"
+#longdesc=(""
+#)
+#http://downloads.sourceforge.net/project/linux-udf/udftools/1.0.0b3/udftools-1.0.0b3.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Flinux-udf%2Ffiles%2Fudftools%2F1.0.0b3%2F&ts=1327081104&use_mirror=ignum
+
+source=("http://downloads.sourceforge.net/sourceforge/linux-udf/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+#patch_opts=("-p0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console sys-kernel"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+
+before_build()
+{
+cp ${srcdir}/../patches/cdmrw.c ${srcdir}/${pkgname}-${pkgver}/
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

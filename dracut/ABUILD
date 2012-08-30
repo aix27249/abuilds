@@ -1,0 +1,37 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dracut
+pkgver=013
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Generic, modular, cross-distribution initramfs generation tool"
+
+source=("http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-$pkgver.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="base sys-kernel"
+
+adddep="kernel fakeroot fakechroot"
+
+config_files="etc/dracut.conf"
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	make sysconfdir=/etc -j${numjobs}
+	make DESTDIR=$pkgdir sysconfdir=/etc install
+
+	# Add i18n to config
+	cat $filedir/i18n-settings.conf >> $pkgdir/etc/dracut.conf
+
+	# MPKG hooks
+	install -Dm0755 $filedir/dracut-generate-initrd.sh ${pkgdir}/etc/mpkg/hooks/dracut-generate-initrd.sh
+
+	set +e
+}
+

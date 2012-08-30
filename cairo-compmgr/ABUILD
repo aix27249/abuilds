@@ -1,0 +1,23 @@
+pkgname=cairo-compmgr
+pkgver=0.3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Composite Manager for lite WM"
+longdesc=(" ")
+
+source=("git:git://git.tuxfamily.org/gitroot/ccm/cairocompmgr.git")
+tags="x11-utils xapps"
+
+
+build() {
+	go_src_dir
+	./autogen.sh --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib${LIBDIRSUFFIX} \
+	 --mandir=/usr/man --disable-edebug
+	make -j1
+	make DESTDIR="$pkgdir" install
+	mkdir -p "$pkgdir/usr/share/gconf/schemas/"
+	gconf-merge-schema "$pkgdir/usr/share/gconf/schemas/cairo-compmgr.schemas" "$pkgdir/etc/gconf/schemas/*.schemas"
+	rm -rf "$pkgdir/etc/gconf/schemas/"
+}
+

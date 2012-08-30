@@ -1,0 +1,64 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rtorrent
+pkgver=0.8.6
+pkgbuild=2
+arch=('auto')
+
+shortdesc="rtorrent (command-line torrent client)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("rtorrent is a BitTorrent client for ncurses which uses the libtorrent library."
+	  ""
+	  "Homepage: http://rtorrent.rakshasa.no/"
+)
+
+source=("http://libtorrent.rakshasa.no/downloads/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="console net-p2p"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-xmlrpc-c"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

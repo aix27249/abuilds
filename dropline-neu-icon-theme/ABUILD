@@ -1,0 +1,59 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dropline-neu-icon-theme
+pkgver=0.6_PR3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Dropline Neu! icon theme"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Dropline Neu, a Scalable Vector Graphic (SVG) icon set for GNOME Desktop. Homepage: http://gnome-look.org/content/show.php/Dropline+Neu!?content=38835")
+
+source=("http://www.silvestre.com.ar/wp-content/uploaded/Neu-0.6-PR3.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs="AUTHORS DONATE README COPYING INSTALL TODO"			#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+name=Neu
+
+cd $name
+
+mv $docs $pkgdir/usr/doc/$pkgname-$pkgver
+
+mkdir -p $pkgdir/usr/share/icons/$name
+cp -a * $pkgdir/usr/share/icons/$name
+}

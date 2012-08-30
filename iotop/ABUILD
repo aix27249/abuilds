@@ -1,0 +1,66 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=iotop
+pkgver=0.4.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="iotop - simple top-like I/O monitor"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Iotop is a Python program with a top like UI used to show of behalf of which process is the I/O going on. Iotop is licensed under the terms of the GNU GPL. Iotop's homepage: http://guichaz.free.fr/iotop"
+)
+
+source=("http://guichaz.free.fr/iotop/files/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="sys-process console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+#mv $pkgdir/usr/share/man $pkgdir/usr
+#rm -rf $pkgdir/usr/share
+}

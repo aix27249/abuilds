@@ -1,0 +1,32 @@
+pkgname=mednafen
+pkgver=0.9.18
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A multi-system game console emulator"
+
+source="http://forum.fobby.net/index.php?t=getfile&id=304"
+
+tags="games app-emulation"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+
+
+
+
+
+

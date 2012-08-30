@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Prudence Next Generation Black
+Type=X-GNOME-Metatheme
+Comment=
+
+[X-GNOME-Metatheme]
+GtkTheme=Prudence Black
+MetacityTheme=Prudence Black
+IconTheme=Prudence-icon
+CursorTheme=Vanilla-DMZ
+CursorSize=1
+NotificationTheme=ubuntu
+ButtonLayout=close,minimize,maximize:
+

@@ -1,0 +1,72 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=i2p
+pkgver=0.8.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="p2p anonymous net"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A distributed anonymous network. WARNING: We do not provide any warranty and you use i2p at your own risk!"
+)
+
+source=("http://mirror.i2p2.de/i2pinstall_${pkgver}.exe n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="jre"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $src_cache_dir
+  cat >install.properties << EOC
+INSTALL_PATH=$pkgdir/opt/i2p
+EOC
+  java -jar i2pinstall_${pkgver}.exe -options install.properties
+  sed -i "s|$pkgdir/opt/i2p|/opt/i2p|g" $pkgdir/opt/i2p/i2prouter $pkgdir/opt/i2p/wrapper.config $pkgdir/opt/i2p/runplain.sh $pkgdir/opt/i2p/eepget 
+  sed -i 's/#RUN_AS_USER=/RUN_AS_USER=i2p/' $pkgdir/opt/i2p/i2prouter
+  rm $pkgdir/opt/i2p/.installationinformation
+  rm -r $pkgdir/opt/i2p/Uninstaller
+  install -Dm755 ${filedir}/i2prouter $pkgdir/etc/init.d/i2prouter
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

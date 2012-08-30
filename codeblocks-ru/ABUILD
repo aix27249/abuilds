@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=codeblocks-ru
+pkgver=0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Code::Blocks russian translation"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Russian translation of Code::Blocks IDE. Homepage: http://sourceforge.net/projects/codeblocks-ru/")
+
+source=("svn:https://codeblocks-ru.svn.sourceforge.net/svnroot/codeblocks-ru codeblocks-ru")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="develop app-i18n"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="codeblocks"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+#go_src_dir
+#burn_patches
+
+cd $srcdir/$pkgname
+msgfmt codeblocks.po -o codeblocks.mo
+
+mkdir -p $pkgdir/usr/share/codeblocks/locale/ru_RU/
+cp -a ./codeblocks.mo $pkgdir/usr/share/codeblocks/locale/ru_RU/
+}
+                                                                                                                  burn_patches                                                                                                      
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

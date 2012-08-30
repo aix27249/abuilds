@@ -1,0 +1,85 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xmonad-utils
+pkgver=0.1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="xmonad-utils (A small collection of X utilities)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A small collection of X utilities useful when running XMonad. It includes:"
+	  "* hxsel, which returns the text currently in the X selection;"
+	  "* hslock, a simple X screen lock;"
+	  "* hmanage: an utility to toggle the override-redirect property of any window;"
+	  "* and hhp, a simple utility to hide the pointer, similar to unclutter."
+	  ""
+	  "Homepage: http://hackage.haskell.org/package/xmonad-utils"
+)
+
+source=("http://hackage.haskell.org/packages/archive/xmonad-utils/${pkgver}/xmonad-utils-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="no_strip"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+runhaskell Setup configure \
+--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-shared \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--ghc \
+--disable-optimization || return 1
+
+runhaskell Setup build || return 1
+runhaskell Setup haddock || return 1
+runhaskell Setup copy --destdir=${pkgdir} || return 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

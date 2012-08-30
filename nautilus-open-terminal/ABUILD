@@ -1,0 +1,58 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=nautilus-open-terminal
+pkgver=0.18
+pkgbuild=6
+arch=('auto')
+
+shortdesc="Open Terminal plugin for nautilus"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A nautilus plugin for opening terminals in arbitrary local paths"
+)
+
+source=("ftp://ftp.gnome.org/pub/GNOME/sources/$pkgname/$pkgver/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="gnome-extra gnome"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+build()
+{
+go_src_dir
+burn_patches
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-static --libdir=/usr/lib${LIBDIRSUFFIX}
+
+  make || return 1
+  make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="$pkgdir" install || return 1
+
+  install -dm755 "$pkgdir/usr/share/gconf/schemas"
+  gconf-merge-schema "$pkgdir/usr/share/gconf/schemas/$pkgname.schemas" \
+                     --domain $pkgname \
+                     "$pkgdir"/etc/gconf/schemas/*.schemas || return 1
+  rm -rf "$pkgdir"/etc/gconf/schemas
+
+
+}
+#после сборки
+after_build()
+{
+ echo ""
+}

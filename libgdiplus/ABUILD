@@ -1,0 +1,20 @@
+pkgname=libgdiplus
+pkgver=2.10
+pkgbuild=1
+arch=('auto')
+shortdesc="GDI+ implementation"
+source=("http://ftp.novell.com/pub/mono/sources/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+tags="develop dev-dotnet"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-cairo=system"
+INSTALL_KEYS="DESTDIR=$pkgdir"

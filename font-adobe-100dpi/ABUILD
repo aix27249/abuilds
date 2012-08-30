@@ -1,0 +1,17 @@
+pkgname=font-adobe-100dpi
+pkgver=1.0.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc=('font-adobe-100dpi')
+longdesc=('font-adobe-100dpi is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-fonts xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/font/font-adobe-100dpi-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

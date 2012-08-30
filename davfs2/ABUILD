@@ -1,0 +1,86 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=davfs2
+pkgver=1.4.6
+pkgbuild=3
+arch=('auto')
+
+shortdesc="mount a WebDAV resource as a regular file system"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Web Distributed Authoring and Versioning (WebDAV), an extension to the HTTP-protocol, allows authoring of resources on a remote web server. davfs2 provides the ability to access such resources like a typical filesystem, allowing for use by standard applications with no built-in support for WebDAV.
+
+davfs2 is designed to fully integrate into the filesystem semantics of Unix-like systems (mount, umount, et c.). davfs2 makes mounting by unprivileged users as easy and secure as possible.
+
+davfs2 does extensive caching to make the file system responsive, to avoid unnecessary network traffic and to prevent data loss, and to cope for slow or unreliable connections.
+
+davfs2 will work with most WebDAV servers needing little or no configuration. "
+)
+
+source=("http://mirrors.zerg.biz/nongnu/davfs2/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="dav_user=nobody dav_group=wheel LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-largefile"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+	install -d -m755 "${pkgdir}/sbin"
+	ln -sf /usr/sbin/mount.davfs "${pkgdir}/sbin/mount.davfs"
+	ln -sf /usr/sbin/umount.davfs "${pkgdir}/sbin/umount.davfs"
+	rm -f ${pkgdir}/usr/share/davfs2/{BUGS,COPYING,FAQ,NEWS,TODO,ChangeLog,GPL,README,THANKS}
+	rm -rf ${pkgdir}/usr/share/doc
+}

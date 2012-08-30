@@ -1,0 +1,83 @@
+#ABUILD created by/создан: kaberc, kaberc at ya.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tuxguitar
+pkgver=1.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="A Multitrack tablature editor and player"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("TuxGuitar is a multitrack guitar tablature editor and player written in Java-SWT. It can open GuitarPro, PowerTab, and TablEdit files.")
+
+source=("http://sourceforge.net/projects/tuxguitar/files/TuxGuitar/TuxGuitar-${pkgver}/tuxguitar-${pkgver}-linux-x86_64.tar.gz")
+
+patch_opts=("tuxguitar.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="jre"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+mkdir -p $pkgdir/usr/bin
+install -m 0755 tuxguitar $pkgdir/usr/bin/tuxguitar
+
+
+mkdir -p $pkgdir/usr/share/tuxguitar
+cp -r share/* $pkgdir/usr/share/tuxguitar
+install -m 0644 tuxguitar.jar $pkgdir/usr/share/tuxguitar/tuxguitar.jar
+install -m 0644 lib/itext.jar $pkgdir/usr/share/tuxguitar/itext.jar
+install -m 0644 lib/swt.jar $pkgdir/usr/share/tuxguitar/swt.jar
+
+mkdir -p $pkgdir/usr/lib64
+install -m 0644 lib/libtuxguitar-alsa-jni.so $pkgdir/usr/lib64/libtuxguitar-alsa-jni.so
+
+mkdir -p $pkgdir/usr/man/man1
+install -m 0644 $filedir/tuxguitar.1.gz $pkgdir/usr/man/man1/tuxguitar.1.gz
+
+mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+cp -r doc/* $pkgdir/usr/doc/$pkgname-$pkgver
+}

@@ -1,0 +1,10 @@
+pkgname=weechat
+pkgver=0.3.6
+pkgbuild=1
+shortdesc="Fast, light and extensible ncurses IRC client"
+arch='auto'
+tags='console net-im'
+source=("http://www.weechat.org/files/src/${pkgname}-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DPREFIX=/usr -DLIBDIR=/usr/lib${LIBDIRSUFFIX}"

@@ -1,0 +1,38 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libjpeg-turbo
+_upstream_ver=6b
+_turbo_ver=1.2.0
+pkgver=${_upstream_ver}_${_turbo_ver}
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libjpeg-turbo is a derivative of libjpeg that uses MMX, SSE, SSE2, and NEON SIMD instructions to accelerate baseline JPEG compression/decompression by about 2-4x on x86, x86-64, and ARM platforms. It is based on libjpeg/SIMD but has numerous enhancements."
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${_turbo_ver}.tar.gz")
+patch_opts=("")
+tags="media-libs libs"
+build_deps="nasm m4 autoconf automake"
+
+provides="libjpeg"
+conflicts=""
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+    install -m644 jpegint.h ${pkgdir}/usr/include/
+}

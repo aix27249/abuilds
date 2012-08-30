@@ -1,0 +1,15 @@
+pkgname=cuneiform
+pkgver=1.1.0
+_dpkgver=1.1
+pkgbuild=1
+arch=('auto')
+shortdesc="Linux OCR system"
+source=("http://launchpad.net/cuneiform-linux/${_dpkgver}/${_dpkgver}/+download/cuneiform-linux-${pkgver}.tar.bz2")
+tags="xapps app-text"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

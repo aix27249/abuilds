@@ -1,0 +1,81 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=flow-gtk-theme
+pkgver=2.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Flow GTK 2.0"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This theme is based on the Murrine version of Shiki-Colors by perfectska04. It has evolved greatly from Shiki-Colors, in many ways, but is still designed to work with Gnome-Colors. There are two main features to this theme. The first is its general appearance, which is on par with beautiful engines like Equinox. The second and main feature is its sheer customizability: this theme is completely modular."
+""
+"This theme requires Murrine."
+""
+"Homepage: http://twilightinzero.deviantart.com/art/Flow-GTK-2-0-163944340"
+)
+
+source=("http://www.deviantart.com/download/163944340/flow_gtk_2_0_by_twilightinzero-d2plw9g.zip")
+wgetopts="--user-agent='wget'"
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="murrine-gtk-engine"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+mkdir -p $pkgdir/usr/share/themes/
+        tar xzf ${srcdir}/Flow.tgz -C ${pkgdir}/usr/share/themes || exit 1
+ 
+mkdir -p $pkgdir/usr/doc/${pkgname}-${pkgver}/
+mv -v ${pkgdir}/usr/share/themes/Flow-Common/COPYING \
+	$pkgdir/usr/doc/${pkgname}-${pkgver}/ || exit 1
+#find ${pkgdir}/usr/share/themes -name COPYING -exec rm -v {} \; || exit 1
+find ${pkgdir}/usr/share/themes -name COPYING -exec rm -v {} ";" || exit 1
+}

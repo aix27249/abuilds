@@ -1,0 +1,3 @@
+bootchart: Boot Process Performance Visualization
+bootchart:
+bootchart: Boot Process Performance Visualization tool. To use it, add init=/sbin/bootchartd to kernel string at boot. After this, it generates a report to /var/log/bootchart.tgz

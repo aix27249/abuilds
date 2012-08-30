@@ -1,0 +1,9 @@
+pkgname=perl-extutils-makemaker
+pkgver=6.62
+pkgbuild=1
+arch=('auto')
+shortdesc="Perl module for making makefiles"
+source=("http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/ExtUtils-MakeMaker-${pkgver}.tar.gz")
+tags="develop dev-perl"
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr"

@@ -1,0 +1,15 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=knetworkmanager
+pkgver=4.7.2
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Transitional package for KDE NetworkManagement users."
+
+tags="virtual kde-misc"
+
+adddep="kde-networkmanagement"
+
+build() {
+	true
+}

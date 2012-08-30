@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "$(whoami)" != "root" ]; then
+    echo "wargus-extract must be run as root!"
+    exit 0
+fi
+if [ -z $1 ]; then
+    $where=.
+else
+    $where=$1
+fi
+wartool -mvr $where /usr/share/games/stratagus/wargus

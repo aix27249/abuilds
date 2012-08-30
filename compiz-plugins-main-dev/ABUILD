@@ -1,0 +1,93 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=compiz-plugins-main-dev
+pkgver=0.9.5.92
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Main plugins for Compiz 0.9.x"
+#longdesc=(""
+#)
+
+source=("http://releases.compiz.org/$pkgver/compiz-plugins-main-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides="compiz-plugins-main"
+conflicts="compiz-fusion-plugins-main"
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DCOMPIZ_PLUGIN_INSTALL_TYPE="compiz" \
+-DCOMPIZ_DISABLE_PLUGIN_COLORFILTER=Off \
+-DCOMPIZ_DISABLE_PLUGIN_WORKAROUNDS=Off \
+-DCOMPIZ_DISABLE_PLUGIN_TEXT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SCALEADDON=Off \
+-DCOMPIZ_DISABLE_PLUGIN_MOUSEPOLL=Off \
+-DCOMPIZ_DISABLE_PLUGIN_MAG=Off \
+-DCOMPIZ_DISABLE_PLUGIN_TITLEINFO=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SHIFT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SESSION=Off \
+-DCOMPIZ_DISABLE_PLUGIN_ANIMATION=Off \
+-DCOMPIZ_DISABLE_PLUGIN_EXPO=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SNAP=Off \
+-DCOMPIZ_DISABLE_PLUGIN_RING=Off \
+-DCOMPIZ_DISABLE_PLUGIN_PUT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_WALL=Off \
+-DCOMPIZ_DISABLE_PLUGIN_IMGJPEG=Off \
+-DCOMPIZ_DISABLE_PLUGIN_STATICSWITCHER=Off \
+-DCOMPIZ_DISABLE_PLUGIN_VPSWITCH=Off \
+-DCOMPIZ_DISABLE_PLUGIN_RESIZEINFO=Off \
+-DCOMPIZ_DISABLE_PLUGIN_WINRULES=Off \
+-DCOMPIZ_DISABLE_PLUGIN_OPACIFY=Off \
+-DCOMPIZ_DISABLE_PLUGIN_KDECOMPAT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_NEG=Off \
+-DCOMPIZ_DISABLE_PLUGIN_THUMBNAIL=Off \
+-DCOMPIZ_DISABLE_PLUGIN_EZOOM=Off \
+-DCOMPIZ_DISABLE_PLUGIN_GRID=Off \
+../"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

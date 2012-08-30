@@ -1,0 +1,32 @@
+pkgname=bluefish
+pkgver=2.2.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GTK-based HTML Editor"
+longdesc=("Bluefish is a powerful editor for experienced web designers and programmers. Bluefish supports many programming and markup languages, but it focuses on editing dynamic and interactive websites. See features for an extensive overview, take a look at the screenshots, or download it right away. Bluefish is an open source development project, released under the GPL licence."
+"Homepage: http://bluefish.openoffice.nl/index.html"
+)
+
+source=("http://sourceforge.net/projects/${pkgname}/files/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="develop dev-util"
+build_deps="perl-xml-parser"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--without-libgnomeui \
+	--disable-update-databases \
+	--disable-xml-catalog-update \
+	--enable-spell-check
+
+"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

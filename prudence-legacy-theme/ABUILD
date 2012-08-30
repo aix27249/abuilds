@@ -1,0 +1,56 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=prudence-legacy-theme
+pkgver=0.4.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Prudence Legacy GNOME/GTK+2 theme."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This package contains legacy Prudence variants Prudence Legacy by Mark Chistyakov and Prudence Black by Andrey Tverdov"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="equinox-gtk-engine murrine-gtk-engine elementary-monochrome-icon-theme elementary-icon-theme"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+build ()
+{
+mkdir -p $pkgdir/usr/share/themes/
+cp -Rdp $filedir/* $pkgdir/usr/share/themes/
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+cd $pkgdir
+find . -type d -exec chmod 755 {} \; || exit 1
+find . -type f -exec chmod 644 {} \; || exit 1
+}

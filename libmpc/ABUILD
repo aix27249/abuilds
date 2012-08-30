@@ -1,0 +1,33 @@
+pkgname=libmpc
+pkgver=0.9
+pkgbuild=1
+arch=('auto')
+shortdesc="multiple precision complex floating-point library"
+source=("http://www.multiprecision.org/mpc/download/mpc-${pkgver/_/-}.tar.gz")
+tags="develop dev-libs"
+
+before_build()
+{
+	set -e
+	autoreconf
+	set +e
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	set -e
+	mv ${pkgdir}/usr/share/info/{mpc,libmpc}.info
+	set +e
+}

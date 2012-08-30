@@ -1,0 +1,27 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=freeciv
+pkgver=2.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Freeciv is a Free and Open Source empire-building strategy game inspired by the history of human civilization"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="games games-strategy"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

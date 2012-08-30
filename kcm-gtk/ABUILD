@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kcm-gtk
+pkgver=0.5.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="KDE Systemsettings module for GTK+ configuration"
+
+source="http://launchpad.net/kcm-gtk/0.5.x/$pkgver/+download/kcm-gtk_$pkgver.orig.tar.gz"
+
+tags="kde4 kde-misc"
+
+before_build()
+{
+	go_src_dir
+	cp $filedir/kcm_gtk.po po/ru/
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

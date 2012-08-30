@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=pipslite
+pkgver=1.5.0-5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Photo Image Print System Lite for Linux"
+
+source=("http://linux.avasys.jp/drivers/pipslite/${pkgver}/${pkgname}_${pkgver}.tar.gz")
+
+tags="net-print drivers"
+
+build_deps="make autoconf gcc libtool"
+provides=""
+
+build(){
+ go_src_dir
+ ./configure --prefix=/usr \
+             --sysconfdir=/etc \
+             --libdir=/usr/lib${LIBDIRSUFFIX} \
+             --sbindir=/usr/sbin
+  make
+  make DESTDIR=${pkgdir} install
+  echo "end build"
+}
+
+after_build(){
+ install -D -m755 ${startdir}/files/pipslited ${pkgdir}/etc/init.d/pipslited || return 1
+ echo "end after_build"
+}

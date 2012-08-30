@@ -1,0 +1,91 @@
+Delivered-To: pztrn@pztrn.ru
+Received: by 10.150.135.2 with SMTP id i2cs101800ybd;
+        Tue, 2 Aug 2011 06:46:59 -0700 (PDT)
+Received: by 10.216.59.129 with SMTP id s1mr1738906wec.77.1312292818173;
+        Tue, 02 Aug 2011 06:46:58 -0700 (PDT)
+Return-Path: <marcel@wuala.com>
+Received: from server38.cyon.ch (server38.cyon.ch [194.126.200.48])
+        by mx.google.com with ESMTPS id k62si11337592weq.120.2011.08.02.06.46.54
+        (version=TLSv1/SSLv3 cipher=OTHER);
+        Tue, 02 Aug 2011 06:46:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of marcel@wuala.com designates 194.126.200.48 as permitted sender) client-ip=194.126.200.48;
+Authentication-Results: mx.google.com; spf=pass (google.com: domain of marcel@wuala.com designates 194.126.200.48 as permitted sender) smtp.mail=marcel@wuala.com
+Received: from [84.72.21.160] (helo=[192.168.7.130])
+	by server38.cyon.ch with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69)
+	(envelope-from <marcel@wuala.com>)
+	id 1QoFJ8-000RuN-Ih; Tue, 02 Aug 2011 15:46:54 +0200
+Message-ID: <4E37FFCB.60604@wuala.com>
+Date: Tue, 02 Aug 2011 15:46:51 +0200
+From: Marcel Bihr <marcel@wuala.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: pztrn@pztrn.ru
+Subject: RE: Packages for Agilia Linux [Ticket#2011072910000181]
+X-Enigmail-Version: 1.1.2
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server38.cyon.ch
+X-AntiAbuse: Original Domain - pztrn.ru
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - wuala.com
+
+Hi
+
+You may bundle Wuala with your distribution (this permission applies
+only to agilialinux and without further notice not to any other
+distribution). However you must use the official name ('Wuala') and the
+official icon. You furthermore have to declare the following copyright
+notice (e.g. included in the package as we do for our .deb):
+
+********
+Copyright (C) 2011 LaCie AG <info@wuala.com>
+
+License:
+
+All rights reserved
+
+The home page of wuala is at:
+http://www.wuala.com
+
+Licensing information and third party code:
+http://www.wuala.com/about/thirdpartycode/
+
+General Terms and Conditions:
+http://www.wuala.com/about/terms/
+*********
+
+When creating the package you can decide what you want to include -
+Wuala consists of two parts: the starter (~150 KB) and the compilation
+(~10 MB). When you install wuala from our Website and choose the
+.tar.gz-file, you only get the starter part. The compilation will then
+be downloaded on first startup. However if you choose the .deb-file you
+get the starter (installed to /usr/bin/ and /usr/lib/) and also a
+compilation. If this compilation is not up-to-date, it will be updated
+on first start up - so it is not a problem to include a slightly
+outdated compilation in a package.
+Feel free to have a look at both our tar.gz and .deb to find out how
+this works together (the starter script in the .deb is different from
+the one in the tar.gz).
+In the end, you have to decide by yourself what you want to include in
+your package - only the starter or also a compilation.
+
+It is your responsibility to keep the wuala package in your repository
+more or less in sync with what we provide on our downloads website.
+Slightly outdated versions (of both the starter and the compilation) are
+however not a problem.
+
+
+Regards
+
+Marcel
+
+
+
+> Hello, I'm Agilia Linux [1] developer. Can we create packages for Wuala 
+> and put them in our repo? Without any possible and impossible 
+> modifications, of course.
+> 
+> [1] - http://agilialinux.ru/ (russian)
+

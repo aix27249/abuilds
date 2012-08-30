@@ -1,0 +1,29 @@
+diff -uNr qwt-5.2.1.orig/qwtconfig.pri qwt-5.2.1/qwtconfig.pri
+--- qwt-5.2.1.orig/qwtconfig.pri	2010-04-11 09:55:06.000000000 +0000
++++ qwt-5.2.1/qwtconfig.pri	2011-04-03 19:51:05.000000000 +0000
+@@ -8,14 +8,14 @@
+ VERSION      = $${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
+ 
+ unix {
+-    INSTALLBASE    = /usr/local/qwt-5.2.1
++    INSTALLBASE    = /usr
+ }
+ 
+ win32 {
+     INSTALLBASE    = C:/Qwt-5.2.1
+ }
+ 
+-target.path    = $$INSTALLBASE/lib
++target.path    = $$INSTALLBASE/lib%%LIBDIR%%
+ headers.path   = $$INSTALLBASE/include
+ doc.path       = $$INSTALLBASE/doc
+ 
+@@ -98,7 +98,7 @@
+ # QwtSVGItem.
+ ######################################################################
+ 
+-#CONFIG     += QwtSVGItem
++CONFIG     += QwtSVGItem
+ 
+ ######################################################################
+ # You can use the MathML renderer of the Qt solutions package to 

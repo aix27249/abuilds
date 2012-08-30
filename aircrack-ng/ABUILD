@@ -1,0 +1,30 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=aircrack-ng
+pkgver=1.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A key cracker for the 802.11 WEP and WPA-PSK protocols"
+
+source=("http://download.aircrack-ng.org/${pkgname}-${pkgver}.tar.gz")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="network net-wireless"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+go_src_dir
+sed -i 's|CFLAGS          ?= -g -W -Wall -Werror -O3||' common.mak
+}
+
+build()
+{
+make SQLITE=true unstable=true
+}
+
+after_build()
+{
+make DESTDIR=${pkgdir} SQLITE=true unstable=true prefix=/usr sbindir=/usr/bin libdir=/usr/lib${LIBDIRSUFFIX} install
+}

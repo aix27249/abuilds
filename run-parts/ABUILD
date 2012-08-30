@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=run-parts
+pkgver=4.0.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Run scripts from directory"
+
+source=("http://ftp.de.debian.org/debian/pool/main/d/debianutils/debianutils_${pkgver}.tar.gz")
+
+tags="console app-misc"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./configure --prefix=/usr
+	make run-parts
+	install -D -m755 run-parts $pkgdir/usr/bin/run-parts
+	install -D -m644 run-parts.8 $pkgdir/usr/share/man/man8/run-parts.8
+	for l in po4a/*/run-parts.8; do
+		install -D -m644  ${l} $pkgdir/usr/share/man/${l:5:2}/man8/run-parts.8
+	done
+}

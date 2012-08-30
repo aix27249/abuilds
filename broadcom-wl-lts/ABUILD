@@ -1,0 +1,43 @@
+pkgname=broadcom-wl-lts
+provides=broadcom-wl
+pkgver=5.100.82.112
+pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
+pkgbuild=3
+arch=('auto')
+
+if [ `uname -m` = "i686" ]; then
+arch_src=x86_32
+else
+arch_src=x86_64
+fi
+KERNEL=${KERNEL:-`uname -r`}
+FINAL_VER=${pkgver}_$(echo $KERNEL | tr - _)
+# Fix pkgver so it will contain kernel version
+pkgver=${FINAL_VER}
+
+
+shortdesc="Firmware for Broadcom BCM43xx"
+longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/support/802.11/linux_sta.php")
+
+source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${arch_src}-v${pkgver_src}.tar.gz")
+
+tags="network net-wireless"
+adddep="kernel==${KERNEL}"
+#dependencies only needed to build package
+build() {
+	cd ${srcdir}
+	burn_patches
+	set -e
+	sed -i 's/`uname -r`/${KERNEL}/g' Makefile
+	make KERNEL=${KERNEL} -j${numjobs}
+	make install KERNEL=${KERNEL} DESTDIR=${pkgdir}
+
+	# Modprobe stuff: blacklist conflicting modules
+	mkdir -p ${pkgdir}/etc/modprobe.d
+	install -m0644 ${filedir}/broadcom-wl.modprobe ${pkgdir}/etc/modprobe.d/broadcom-wl.conf
+
+	# doinst.sh
+	sed "s%@KERNEL@%${KERNEL}%" ${filedir}/doinst.sh > ${pkgdir}/install/doinst.sh
+	set +e
+}
+

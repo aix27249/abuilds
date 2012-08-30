@@ -1,0 +1,28 @@
++class
+{
+  -windows { image = "$$/grey_windows.png:$$/large_windows.png" }
+  -linux { image = "$$/grey_linux.png:$$/large_linux.png" }
+  -ubuntu { image = "$$/grey_ubuntu.png:$$/large_ubuntu.png" }
+  -debian { image = "$$/grey_debian.png:$$/large_debian.png" }
+  -suse { image = "$$/grey_opensuse.png:$$/large_opensuse.png" }
+  -freebsd { image = "$$/grey_freebsd.png:$$/large_freebsd.png" }
+  -macosx { image = "$$/grey_osx.png:$$/large_osx.png" }
+  -gentoo { image = "$$/grey_gentoo.png:$$/large_gentoo.png" }
+  -linuxmint { image = "$$/grey_linuxmint.png:$$/large_linuxmint.png" }
+  -mandrake { image = "$$/grey_mandrake.png:$$/large_mandrake.png" }
+  -arch { image = "$$/grey_arch.png:$$/large_arch.png" }
+  -centos { image = "$$/grey_centos.png:$$/large_centos.png" }
+  -fedora { image = "$$/grey_fedora.png:$$/large_fedora.png" }
+  -mepis { image = "$$/grey_mepis.png:$$/large_mepis.png" }
+  -pclinuxos { image = "$$/grey_pclinuxos.png:$$/large_pclinuxos.png" }
+  -puppy { image = "$$/grey_puppy.png:$$/large_puppy.png" }
+  -redhat { image = "$$/grey_redhat.png:$$/large_redhat.png" }
+  -sabayon { image = "$$/grey_sabayon.png:$$/large_sabayon.png" }
+  -slackware { image = "$$/grey_slackware.png:$$/large_slackware.png" }
+  -zenix { image = "$$/grey_zenix.png:$$/large_zenix.png" }
+  -molinux { image = "$$/grey_molinux.png:$$/large_molinux.png" }
+  -image { image = "$$/grey_unknown.png:$$/large_unknown.png" }
+  -agilia { image = "$$/grey_agilia.png:$$/large_agilia.png" }
+}
+
+-include "../custom/icon_hover"

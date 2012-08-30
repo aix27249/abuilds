@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=fbset
+pkgver=2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Framebuffer settings"
+
+source="http://users.telenet.be/geertu/Linux/fbdev/fbset-${pkgver}.tar.gz"
+
+tags="console app-misc"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make
+	install -D -m755 fbset "${pkgdir}/usr/sbin/fbset"
+	install -D -m644 fb.modes.5 "${pkgdir}/usr/man/man5/fb.modes.5"
+	install -D -m644 fbset.8 "${pkgdir}/usr/man/man8/fbset.8"
+	install -D -m644 etc/fb.modes.ATI "${pkgdir}/etc/fb.modes"
+}

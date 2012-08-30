@@ -1,0 +1,73 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=trayfreq
+pkgver=0.2
+pkgbuild=4
+arch=('auto')
+
+shortdesc="GTK+ application for select your CPU's governor from a tray icon"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Trayfreq (pronounced trayfreek) is a GTK+ application released under GPL that lets you select your CPU's governor or frequency from a tray icon and displays information for your battery. Trayfreq is designed to be desktop-environment-independent so it depends only on GTK+ and a system tray to show its icons. Trayfreq is the perfect addition to Xfce, LXDE, and Window Managers (Openbox, Fluxbox, etc.). Features * Displays a icon that shows you the relative current CPU frequency * When the CPU icon is right-clicked, it provides a menu of available frequencies and governors to choose. * When the CPU icon is left-clicked, it runs a command (set in config file, default nothing) * Displays a icon that shows you the status of your Battery (Charging, Discharging, Charged) and its relative current charge (optional) * Toggling of CPU governor based on if the battery is discharging or not. * Lightweight, Desktop-Environment Independent ")
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-${pkgver}.x-dev2.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-laptop xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--enable-autostart \
+--enable-setsuid"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

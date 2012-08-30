@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Thunderbird
+Comment=Mail & News Reader
+Exec=thunderbird %u
+Icon=thunderbird
+Terminal=false
+Type=Application
+Categories=Network;Email;
+StartupNotify=true

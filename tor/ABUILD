@@ -1,0 +1,96 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tor
+pkgver=0.2.1.30
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tor: Anonymity Online"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tor is free software and an open network that helps you defend against a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security known as traffic analysis."
+""
+"Homepage: https://www.torproject.org"
+)
+
+source=("https://www.torproject.org/dist/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bash"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make pkgdir --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+install -Dm755 $filedir/tor.initd-r4 \
+	$pkgdir/etc/init.d/tor || exit 1
+install -Dm0644 $filedir/logrotate.tor \
+	$pkgdir/etc/logrotate.d/tor.new || exit 1
+
+mv $pkgdir/etc/tor/torrc.sample $pkgdir/etc/tor/torrc.new || exit 1
+mv $pkgdir/etc/tor/tor-tsocks.conf $pkgdir/etc/tor/tor-tsocks.conf.new || exit 1
+
+mkdir -p $pkgdir/var/{run,lib,log}/tor
+chown 220:220 $pkgdir/var/{run,lib,log}/tor
+chmod 0700 $pkgdir/var/lib/tor
+
+if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc ]; then
+ rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc || exit 1
+fi
+
+}

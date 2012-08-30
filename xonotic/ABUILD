@@ -1,0 +1,39 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xonotic
+pkgver=0.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A free, fast-paced crossplatform first-person shooter"
+
+# Source only, yay!
+source="http://dl.xonotic.org/xonotic-$pkgver-source.zip"
+
+tags="games games-fps"
+
+adddep="xonotic-data==$pkgver" # Better to enforce the same version
+
+build()
+{
+	go_src_dir
+        cd source/darkplaces
+
+        make CPUOPTIMIZATIONS="${CFLAGS}" DP_LINK_TO_LIBJPEG=1 DP_FS_BASEDIR=/usr/share/xonotic/ cl-release
+        make CPUOPTIMIZATIONS="${CFLAGS}" DP_LINK_TO_LIBJPEG=1 DP_FS_BASEDIR=/usr/share/xonotic/ sdl-release
+        make CPUOPTIMIZATIONS="${CFLAGS}" DP_LINK_TO_LIBJPEG=1 DP_FS_BASEDIR=/usr/share/xonotic/ sv-release
+}
+
+after_build()
+{
+	go_src_dir
+
+	# Install binaries
+        install -Dm755 source/darkplaces/darkplaces-dedicated ${pkgdir}/usr/bin/xonotic-dedicated
+        install -Dm755 source/darkplaces/darkplaces-glx ${pkgdir}/usr/bin/xonotic-glx
+        install -Dm755 source/darkplaces/darkplaces-sdl ${pkgdir}/usr/bin/xonotic-sdl
+
+	# Install launchers
+        mkdir -p ${pkgdir}/usr/share/applications
+        install -Dm644 ${filedir}/*.desktop -t ${pkgdir}/usr/share/applications
+        install -Dm644 misc/logos/icons_png/xonotic_512.png ${pkgdir}/usr/share/pixmaps/xonotic.png
+}

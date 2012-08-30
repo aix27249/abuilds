@@ -1,0 +1,21 @@
+#!/sbin/runscript
+
+opts="${opts} setup"
+start() {
+	ebegin "Starting VirtualBox kernel modules"
+	sh /opt/VirtualBox/rc.vboxdrv start
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping VirtualBox kernel modules"
+	sh /opt/VirtualBox/rc.vboxdrv stop
+	eend $?
+}
+
+setup() {
+	ebegin "Recompiling VirtualBox kernel modules"
+	sh /opt/VirtualBox/rc.vboxdrv setup
+	eend $?
+}
+

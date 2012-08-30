@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.9
+Name=Hedgewars
+Type=Application
+Comment=Turn-based strategy game
+Exec=/opt/hedgewars/bin/hedgewars
+Path=
+Icon=hedgewars.png
+Categories=Game
+GenericName=Hedgewars

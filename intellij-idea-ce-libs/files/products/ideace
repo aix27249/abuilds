@@ -1,0 +1,10 @@
+pkgname=intellij-idea-ce
+
+prodname="Intellij IDEA Community Edition"
+shortdesc="IDE for Java, Groovy, Android and other programming languages"
+
+provides="intellij-idea"
+source="http://download.jetbrains.com/idea/ideaIC-$pkgver.tar.gz"
+
+
+launcher="idea.sh"

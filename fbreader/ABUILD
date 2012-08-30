@@ -1,0 +1,34 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=fbreader
+pkgver=0.99.1
+pkgbuild=3
+arch=('auto')
+
+shortdesc="e-book reader"
+
+source=("http://old.fbreader.org/fbreader-sources-$pkgver.tgz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-text"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+export TARGET_ARCH=desktop
+  export UI_TYPE=qt4
+  export TARGET_STATUS=release
+  cd $srcdir/fbreader-$pkgver
+  sed -i 's|moc-qt4|moc|g' makefiles/arch/desktop.mk
+  sed -i 's|-lunibreak|-llinebreak|g' makefiles/config.mk zlibrary/text/Makefile
+  make ZLSHARED=no
+  make ZLSHARED=no DESTDIR=$pkgdir install
+}

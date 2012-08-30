@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Chromium
+Name[ru]=Chromium
+# Only KDE 4 seems to use GenericName, so we reuse the KDE strings.
+# From Ubuntu's language-pack-kde-XX-base packages, version 9.04-20090413.
+GenericName=Web Browser
+GenericName[ru]=Веб-браузер
+# Gnome and KDE 3 uses Comment.
+Comment=Web Browser
+Comment[ru]=Веб-браузер
+Exec=/usr/bin/chromium %U
+TryExec=/usr/bin/chromium
+Terminal=false
+Icon=chromium
+Type=Application
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/mime;application/xml;application/rss+xml;application/rdf+xml;image/svg+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+

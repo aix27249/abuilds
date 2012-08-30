@@ -1,0 +1,23 @@
+--- mysql_install_db.orig	2011-02-16 20:15:27.000000000 +0000
++++ mysql_install_db	2011-02-16 21:20:31.000000000 +0000
+@@ -18,9 +18,9 @@
+ #
+ # All unrecognized arguments to this script are passed to mysqld.
+ 
+-basedir=""
++basedir="/usr"
+ builddir=""
+-ldata="./data"
++ldata="/var/lib/mysql"
+ langdir=""
+ srcdir=""
+ 
+@@ -230,7 +230,7 @@
+     exit 1
+   fi
+ else
+-  print_defaults="./bin/my_print_defaults"
++  print_defaults="/usr/bin/my_print_defaults"
+ fi
+ 
+ if test ! -x "$print_defaults"

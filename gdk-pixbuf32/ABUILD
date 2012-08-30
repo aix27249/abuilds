@@ -1,0 +1,40 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gdk-pixbuf
+pkgver=2.24.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GDK Pixbuf library"
+longdesc=("An image loading library for gtk2/gtk3"
+)
+
+source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-${pkgver}.tar.xz")
+
+tags="libs x11-libs"
+
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--without-libjasper \
+--with-included-loaders=png"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	# Compatibility stuff
+	mkdir $pkgdir/usr/include/gtk-2.0
+	ln -s /usr/include/gdk-pixbuf-2.0/* $pkgdir/usr/include/gtk-2.0
+}

@@ -1,0 +1,95 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openocd
+pkgver=0.5.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="OpenOnChip JTAG debugger"
+#longdesc=(""
+#)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils dev-embedded"
+
+#dependencies only needed to build package
+build_deps="libftdi"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-parport\
+--enable-ft2232_libftdi\
+--enable-usb_blaster_libftdi\
+--enable-amtjtagaccel\
+--enable-ecosboard\
+--enable-zy1000-master\
+--enable-zy1000\
+--enable-ioutil\
+--enable-at91rm9200\
+--enable-ep93xx\
+--enable-gw16012\
+--enable-presto_libftdi\
+--enable-usbprog\
+--enable-oocd_trace\
+--enable-jlink\
+--enable-vsllink\
+--enable-rlink\
+--enable-ulink\
+--enable-arm-jtag-ew\
+--enable-buspirate
+"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

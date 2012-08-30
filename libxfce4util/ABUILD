@@ -1,0 +1,36 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=libxfce4util
+pkgver=4.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Basic utility non-GUI functions for Xfce"
+
+source=("http://archive.xfce.org/xfce/${pkgver%.*}/src/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool perl gtk-doc libxfce4ui"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-gtk-doc \
+--program-prefix= \
+--program-suffix= \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  ln -s libxfce4util.so.6.0.0 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libxfce4util.so.4
+  echo "End after_build"
+}

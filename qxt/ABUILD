@@ -1,0 +1,68 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qxt
+pkgver=0.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="extented Qt functions"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This library provides a suite of cross-platform utility classes to add functionality not readily available in the Qt toolkit"
+)
+
+source=("http://bitbucket.org/libqxt/libqxt/get/v$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir/lib$pkgname || exit 1
+./configure -prefix /usr \
+	-libdir /usr/lib${LIBDIRSUFFIX}  || exit 1
+make || exit 1
+make INSTALL_ROOT=$pkgdir install || exit 1
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

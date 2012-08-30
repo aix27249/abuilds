@@ -1,0 +1,29 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xnoise
+pkgver=0.1.25
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A GTK+ music player"
+longdesc="A GTK+ music and video player with a tracklist-centric 
+design. Think Amarok for Openbox :)"
+
+source="http://$pkgname.googlecode.com/files/$pkgname-$pkgver.tar.bz2"
+
+tags="xapps media-sound"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

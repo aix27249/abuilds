@@ -1,0 +1,68 @@
+*** ./Makefile	2011-04-25 17:20:26.000000000 +0300
+--- ./Makefile_New	2011-05-23 02:29:50.245000086 +0300
+***************
+*** 923,945 ****
+  	fi
+  	[ -d $(USBDIR) ] || $(INSTALL) -d -m 755 $(USBDIR)/
+  	$(INSTALL) -c -m 755 hplj1000 $(USBDIR)/
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hplj1005
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hplj1018
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hplj1020
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hpljP1005
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hpljP1006
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hpljP1007
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hpljP1008
+! 	ln -sf $(USBDIR)/hplj1000 $(USBDIR)/hpljP1505
+! 	$(USBDIR)/hplj1000 install-usermap
+! 	$(USBDIR)/hplj1005 install-usermap
+! 	$(USBDIR)/hplj1018 install-usermap
+! 	$(USBDIR)/hplj1020 install-usermap
+! 	$(USBDIR)/hpljP1005 install-usermap
+! 	$(USBDIR)/hpljP1006 install-usermap
+! 	$(USBDIR)/hpljP1007 install-usermap
+! 	$(USBDIR)/hpljP1008 install-usermap
+! 	$(USBDIR)/hpljP1505 install-usermap
+  	# modprobe usblp
+  	$(USBDIR)/hplj1000 install-usblp
+  
+--- 923,945 ----
+  	fi
+  	[ -d $(USBDIR) ] || $(INSTALL) -d -m 755 $(USBDIR)/
+  	$(INSTALL) -c -m 755 hplj1000 $(USBDIR)/
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hplj1005
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hplj1018
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hplj1020
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hpljP1005
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hpljP1006
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hpljP1007
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hpljP1008
+! 	ln -sf /etc/hotplug/usb/hplj1000 $(USBDIR)/hpljP1505
+! #	$(USBDIR)/hplj1000 install-usermap
+! #	$(USBDIR)/hplj1005 install-usermap
+! #	$(USBDIR)/hplj1018 install-usermap
+! #	$(USBDIR)/hplj1020 install-usermap
+! #	$(USBDIR)/hpljP1005 install-usermap
+! #	$(USBDIR)/hpljP1006 install-usermap
+! #	$(USBDIR)/hpljP1007 install-usermap
+! #	$(USBDIR)/hpljP1008 install-usermap
+! #	$(USBDIR)/hpljP1505 install-usermap
+  	# modprobe usblp
+  	$(USBDIR)/hplj1000 install-usblp
+  
+***************
+*** 948,954 ****
+  
+  install-filter:
+  	if [ "$(CUPS_SERVERBIN)" != "" ]; then \
+! 	    ln -sf $(BIN)/command2foo2lava-pjl $(CUPS_SERVERBIN)/filter/; \
+  	fi
+  
+  cups:	FRC
+--- 948,954 ----
+  
+  install-filter:
+  	if [ "$(CUPS_SERVERBIN)" != "" ]; then \
+! 	    ln -sf /usr/bin/command2foo2lava-pjl $(CUPS_SERVERBIN)/filter/; \
+  	fi
+  
+  cups:	FRC

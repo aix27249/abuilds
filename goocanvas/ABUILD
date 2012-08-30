@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=goocanvas
+pkgver=0.15
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A cairo canvas widget"
+longdesc=("A cairo canvas widget. Used by OpenShot")
+
+source="http://fr2.rpmfind.net/linux/gnome.org/sources/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz"
+
+tags="develop dev-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="

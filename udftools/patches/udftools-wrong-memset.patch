@@ -1,0 +1,13 @@
+Index: udftools-1.0.0b3/mkudffs/mkudffs.c
+===================================================================
+--- udftools-1.0.0b3.orig/mkudffs/mkudffs.c
++++ udftools-1.0.0b3/mkudffs/mkudffs.c
+@@ -42,7 +42,7 @@ void udf_init_disc(struct udf_disc *disc
+ 	struct tm 	*tm;
+ 	int		altzone;
+ 
+-	memset(disc, 0x00, sizeof(disc));
++	memset(disc, 0x00, sizeof(struct udf_disc));
+ 
+ 	disc->blocksize = 2048;
+ 	disc->blocksize_bits = 11;

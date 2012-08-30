@@ -1,0 +1,49 @@
+#!/sbin/runscript
+# -auth:
+# gdm:  -auth /var/gdm/:0.Xauth
+#       -auth /var/lib/gdm/:0.Xauth
+# kdm:  -auth /var/lib/kdm/A:0-crWk72
+#       -auth /var/run/xauth/A:0-crWk72
+# xdm:  -auth /var/lib/xdm/authdir/authfiles/A:0-XQvaJk
+#       dtlogin: -auth /var/dt/A:0-UgaaXa
+# Sometimes the command "ps wwwwaux | grep auth" can reveal the file location.
+
+PIDFILE=/var/run/x11vnc.pid
+
+depend() {
+   need xdm
+   after xdm
+}
+
+
+start() {
+  ebegin "Starting x11vnc"
+  start-stop-daemon --start \
+                    --quiet \
+                    --pidfile ${PIDFILE} \
+                    --make-pidfile \
+                    --background \
+                    --exec x11vnc -- -display :0 \
+                    -auth guess \
+                    -xkb \
+                    -rfbauth /etc/x11vnc/passwd \
+                    -noncache \
+                    -rfbport 5900 \
+                    -o /var/log/x11vnc.log -loop
+  eend $?
+}
+
+stop () {
+  ebegin "Stopping x11vnc"
+  if [ -r ${PIDFILE} ] ; then
+       echo "Found pidfile $PIDFILE $(cat $PIDFILE)"
+       start-stop-daemon --stop --quiet --pidfile=$PIDFILE --retry 20
+  fi
+  if [ 'ps -A | grep x11vnc' ] ; then
+      echo "Killing all"
+      killall -HUP x11vnc
+  fi
+
+  eend $?
+}
+

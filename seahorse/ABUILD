@@ -1,0 +1,30 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=seahorse
+pkgver=2.32.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Seahorse is a GNOME application for managing encryption keys."
+source=("http://ftp.acc.umu.se/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+patch_opts=("")
+tags="app-crypt xapps"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--enable-nls \
+--mandir=/usr/man \
+--disable-introspection \
+--disable-update-mime-database \
+--disable-scrollkeeper \
+--disable-gtk-doc \
+--disable-gtk-doc-html \
+--disable-gtk-doc-pdf"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

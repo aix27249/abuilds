@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Cut2Col
+Comment=Converting 2-column to 1-column pdf
+Exec=cut2col
+Icon=
+Terminal=false
+Categories=Graphics;Viewer;2DGraphics;RasterGraphics;

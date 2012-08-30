@@ -1,0 +1,80 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-mime-data
+pkgver=2.18.0
+pkgbuild=14
+arch=('auto')
+
+shortdesc="mime data for GNOME"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This module contains the base MIME and Application database for GNOME. It is meant to be accessed through the MIME functions in GnomeVFS."
+)
+
+source=("http://ftp.df.lth.se/pub/gnome/sources/${pkgname}/2.18/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="gnome-base gnome"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="perl>=5.10 shared-mime-info"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+#libtoolize --force
+#autoreconf -vif
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man || exit 1
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+# pkgconfig hook
+
+install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}"
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || exit 1
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

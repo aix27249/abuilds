@@ -1,0 +1,71 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-clock-screensaver
+pkgver=1.0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An analog clock for GNOME Screensaver"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("An analog clock for GNOME Screensaver"
+)
+
+source=("http://www.d8.dion.ne.jp/~pt2k/software/$pkgname/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome gnome-extra"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+make || exit 1
+install -d ${pkgdir}/usr/lib$LIBDIRSUFFIX/gnome-screensaver/gnome-screensaver || exit 1
+install -d ${pkgdir}/usr/share/applications/screensavers || exit 1
+make DESTDIR=$pkgdir install || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,30 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pygoocanvas
+pkgver=0.14.1
+_minorver=0.14
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python bindings for goocanvas"
+longdesc=("Python bindings for goocanvas, a canvas widget for GTK+")
+
+source=("http://fr2.rpmfind.net/linux/gnome.org/sources/$pkgname/$_minorver/$pkgname-$pkgver.tar.bz2")
+
+tags="develop dev-python"
+
+adddep="goocanvas"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

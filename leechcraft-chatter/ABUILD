@@ -1,0 +1,395 @@
+pkgname=leechcraft
+pkgver=0.4.75
+pkgbuild=1
+arch=('auto')
+shortdesc="Opensource network client providing a full-featured web browser, BitTorrent client and much more."
+longdesc=("LeechCraft is a free open source cross-platform modular internet-client with browser, feed aggregator, BitTorrent-client and other plugins.")
+
+source=("git:git://github.com/0xd34df00d/leechcraft.git")
+tags="network www-client"
+
+build()
+{
+	go_src_dir
+	export LCVER=$(git describe)
+	echo Building Leechcraft $LCVER
+
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DENABLE_PYLC:BOOL=FALSE \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DENABLE_LMP=FALSE \
+			-DRESPECTLIB64:BOOL=TRUE \
+			-DENABLE_AZOTH=TRUE \
+			-DENABLE_SECMAN=TRUE \
+			-DENABLE_LACKMAN=TRUE \
+			-DENABLE_POPISHU=TRUE \
+			../src"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	mkdir build
+	cd build
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+	echo $LCVER > $pkgdir/usr/share/leechcraft/version
+}
+pkglist="popishu networkmonitor lcftp azoth anhero auscrie cstp dbusmanager historyholder kinotify lackman newlife secman summary tabpp aggregator bittorrent deadlyrics poshuku vgrabber seekthru shellopen chatter"
+
+LC_PATH="/usr/lib$LIBDIRSUFFIX/leechcraft/plugins"
+SHARE_PATH="/usr/share/leechcraft/"
+
+popishu()
+{
+	pkgname=leechcraft-popishu
+	shortdesc="popishu plugin for Leechcraft"
+}
+popishu_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*popishu* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*popishu* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*popishu* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*popishu* $pkgdir/$SHARE_PATH/
+}
+networkmonitor()
+{
+	pkgname=leechcraft-networkmonitor
+	shortdesc="networkmonitor plugin for Leechcraft"
+}
+networkmonitor_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*networkmonitor* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*networkmonitor* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*networkmonitor* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*networkmonitor* $pkgdir/$SHARE_PATH/
+}
+lcftp()
+{
+	pkgname=leechcraft-lcftp
+	shortdesc="lcftp plugin for Leechcraft"
+	adddep="leechcraft-summary"
+}
+lcftp_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*lcftp* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*lcftp* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*lcftp* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*lcftp* $pkgdir/$SHARE_PATH/
+}
+azoth()
+{
+	pkgname=leechcraft-azoth
+	shortdesc="azoth plugin for Leechcraft"
+	adddep="leechcraft-secman"
+}
+azoth_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*azoth* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*azoth* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*azoth* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*azoth* $pkgdir/$SHARE_PATH/
+}
+anhero()
+{
+	pkgname=leechcraft-anhero
+	shortdesc="anhero plugin for Leechcraft"
+}
+anhero_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*anhero* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*anhero* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*anhero* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*anhero* $pkgdir/$SHARE_PATH/
+}
+auscrie()
+{
+	pkgname=leechcraft-auscrie
+	shortdesc="auscrie plugin for Leechcraft"
+}
+auscrie_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*auscrie* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*auscrie* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*auscrie* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*auscrie* $pkgdir/$SHARE_PATH/
+}
+cstp()
+{
+	pkgname=leechcraft-cstp
+	shortdesc="cstp plugin for Leechcraft"
+	adddep="leechcraft-summary"
+}
+cstp_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*cstp* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*cstp* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*cstp* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*cstp* $pkgdir/$SHARE_PATH/
+}
+dbusmanager()
+{
+	pkgname=leechcraft-dbusmanager
+	shortdesc="dbusmanager plugin for Leechcraft"
+}
+dbusmanager_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*dbusmanager* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*dbusmanager* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*dbusmanager* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*dbusmanager* $pkgdir/$SHARE_PATH/
+}
+historyholder()
+{
+	pkgname=leechcraft-historyholder
+	shortdesc="historyholder plugin for Leechcraft"
+	adddep="leechcraft-summary"
+}
+historyholder_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*historyholder* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*historyholder* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*historyholder* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*historyholder* $pkgdir/$SHARE_PATH/
+}
+kinotify()
+{
+	pkgname=leechcraft-kinotify
+	shortdesc="kinotify plugin for Leechcraft"
+}
+kinotify_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*kinotify* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*kinotify* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*kinotify* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*kinotify* $pkgdir/$SHARE_PATH/
+}
+lackman()
+{
+	pkgname=leechcraft-lackman
+	shortdesc="lackman plugin for Leechcraft"
+}
+lackman_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*lackman* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*lackman* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*lackman* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*lackman* $pkgdir/$SHARE_PATH/
+}
+newlife()
+{
+	pkgname=leechcraft-newlife
+	shortdesc="newlife plugin for Leechcraft"
+}
+newlife_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*newlife* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*newlife* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*newlife* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*newlife* $pkgdir/$SHARE_PATH/
+}
+secman()
+{
+	pkgname=leechcraft-secman
+	shortdesc="secman plugin for Leechcraft"
+}
+secman_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*secman* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*secman* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*secman* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*secman* $pkgdir/$SHARE_PATH/
+}
+summary()
+{
+	pkgname=leechcraft-summary
+	shortdesc="summary plugin for Leechcraft"
+}
+summary_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*summary* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*summary* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*summary* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*summary* $pkgdir/$SHARE_PATH/
+}
+tabpp()
+{
+	pkgname=leechcraft-tabpp
+	shortdesc="tabpp plugin for Leechcraft"
+}
+tabpp_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*tabpp* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*tabpp* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*tabpp* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*tabpp* $pkgdir/$SHARE_PATH/
+}
+aggregator()
+{
+	pkgname=leechcraft-aggregator
+	shortdesc="aggregator plugin for Leechcraft"
+	adddep="leechcraft-cstp leechcraft-poshuku leechcraft-summary"
+}
+aggregator_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*aggregator* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*aggregator* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*aggregator* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*aggregator* $pkgdir/$SHARE_PATH/
+}
+bittorrent()
+{
+	pkgname=leechcraft-bittorrent
+	shortdesc="bittorrent plugin for Leechcraft"
+}
+bittorrent_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*bittorrent* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*bittorrent* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*bittorrent* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*bittorrent* $pkgdir/$SHARE_PATH/
+}
+deadlyrics()
+{
+	pkgname=leechcraft-deadlyrics
+	shortdesc="deadlyrics plugin for Leechcraft"
+	adddep="leechcraft-summary"
+}
+deadlyrics_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*deadlyrics* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*deadlyrics* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*deadlyrics* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*deadlyrics* $pkgdir/$SHARE_PATH/
+}
+poshuku()
+{
+	pkgname=leechcraft-poshuku
+	shortdesc="poshuku plugin for Leechcraft"
+}
+poshuku_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*poshuku* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*poshuku* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*poshuku* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*poshuku* $pkgdir/$SHARE_PATH/
+}
+vgrabber()
+{
+	pkgname=leechcraft-vgrabber
+	shortdesc="vgrabber plugin for Leechcraft"
+	adddep="leechcraft-cstp leechcraft-summary"
+}
+vgrabber_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*vgrabber* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*vgrabber* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*vgrabber* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*vgrabber* $pkgdir/$SHARE_PATH/
+}
+seekthru()
+{
+	pkgname=leechcraft-seekthru
+	shortdesc="seekthru plugin for Leechcraft"
+	adddep="leechcraft-poshuku leechcraft-summary"
+}
+seekthru_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*seekthru* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*seekthru* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*seekthru* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*seekthru* $pkgdir/$SHARE_PATH/
+}
+shellopen()
+{
+	pkgname=leechcraft-shellopen
+	shortdesc="shellopen plugin for Leechcraft"
+}
+shellopen_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*shellopen* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*shellopen* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*shellopen* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*shellopen* $pkgdir/$SHARE_PATH/
+}
+chatter()
+{
+	pkgname=leechcraft-chatter
+	shortdesc="chatter plugin for Leechcraft"
+}
+chatter_prep()
+{
+	mkdir -p $pkgdir/$LC_PATH/
+	mv $p_pkgdir/$LC_PATH/*chatter* $pkgdir/$LC_PATH/
+	mkdir -p $pkgdir/$SHARE_PATH/settings/
+	mkdir -p $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/settings/*chatter* $pkgdir/$SHARE_PATH/settings/
+	mv $p_pkgdir/$SHARE_PATH/translations/*chatter* $pkgdir/$SHARE_PATH/translations/
+	mv $p_pkgdir/$SHARE_PATH/*chatter* $pkgdir/$SHARE_PATH/
+}

@@ -1,0 +1,9 @@
+#%PAM-1.0
+#[For version 1.0 syntax, the above header is optional]
+#
+# The PAM configuration file for the `login' service
+#
+session    required   pam_unix.so
+auth       required   pam_unix.so nullok_secure
+account    required   pam_unix.so
+password   required   pam_unix.so shadow md5 use_authtok

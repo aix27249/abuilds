@@ -1,0 +1,38 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=pcsx2-bin
+pkgver=0.9.8
+pkgbuild=2
+arch=('auto')
+
+shortdesc="PlayStation 2 emulator for Windows and Linux, started by the same team that brought you PCSX (a Sony PlayStation 1 emulator)."
+
+source=("http://pcsx2.net/files/28277")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="x86 games app-emulation"
+
+provides="pcsx2"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+  mkdir -p ${filedir}
+  cd ${filedir}
+  wget http://${provides}.googlecode.com/svn/branches/${pkgver}/debian-upstream/${provides}.desktop
+  wget http://${provides}.googlecode.com/svn/branches/${pkgver}/debian-upstream/${provides}.xpm
+  
+  go_src_dir
+}
+
+build()
+{
+  mkdir -p ${pkgdir}/opt/${provides}
+  cp -r . ${pkgdir}/opt/${provides}
+}
+
+after_build()
+{
+  mkdir -p ${pkgdir}/usr/bin
+  ln -s /opt/${provides}/${provides} ${pkgdir}/usr/bin/${provides}
+}

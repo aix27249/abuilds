@@ -1,0 +1,126 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plee-the-bear
+pkgver=0.5.1
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="A 2D platform game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Plee the Bear will be a 2D platform jump and run game, as fun as the best platform games of the 90's (the golden age of this kind of games). You're a bear, trying to catch his son, which ran away after he ate all your honey."
+""
+"Licence: Plee the Bear is licensed under the GNU General Public License (GPL), version 2. Graphical and sound resources will also be distributed under a Creative Commons license (cc-by-sa 3.0)."
+""
+"Homepage: http://plee-the-bear.sf.net"
+)
+
+source=("http://downloads.sourceforge.net/project/plee-the-bear/Plee%20the%20Bear/0.5/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="virtual games-arcade"
+
+#dependencies only needed to build package
+build_deps="libclaw"
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-bin ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs="GPL CCPL Changelog"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DBEAR_NO_EDITOR=TRUE \
+-DPTB_INSTALL_DATA_DIR=../opt/plee-the-bear \
+-DPTB_INSTALL_CUSTOM_LIBRARY_DIR=lib${LIBDIRSUFFIX}/plee-the-bear \
+-DBEAR_ENGINE_INSTALL_LIBRARY_DIR=lib${LIBDIRSUFFIX}/plee-the-bear/engine \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for Plee the Bear"
+	longdesc=("A 2D platform game like those we found on consoles in the beginning of the 90's. Plee the Bear is the story of an angry brown bear looking for his son. This one ran away after eating the whole stock of honey, so Plee, our hero, decided to punish him.")
+	tags="games games-arcade"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr || exit 1
+ sed -i "/^DATA_PATH/s|\/usr\/..||" ${pkgdir}/usr/bin/plee-the-bear || exit 1
+
+ mv ${p_pkgdir}/usr/lib* ${pkgdir}/usr || exit 1
+}
+
+# Data
+data(){
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for Plee the Bear"
+	longdesc=("A 2D platform game like those we found on consoles in the beginning of the 90's. Plee the Bear is the story of an angry brown bear looking for his son. This one ran away after eating the whole stock of honey, so Plee, our hero, decided to punish him.")
+	tags="games games-arcade"
+	adddep="${p_pkgname}-bin" #==${pkgver}"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+
+ if [ -d ${p_pkgdir}/usr/man ]; then
+  mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
+ fi
+
+ if [ -d ${p_pkgdir}/usr/share/bear-factory ]; then
+  rm -rfv ${p_pkgdir}/usr/share/bear-factory || exit 1
+ fi
+ mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+
+ mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+
+ mv ${p_pkgdir}/opt ${pkgdir} || exit 1
+ #cd ${pkgdir}/opt/${p_pkgname}
+ #mv -v ./font/AUTHORS ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}/AUTHORS.font || exit 1
+ #mv -v ./gfx/AUTHORS ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}/AUTHORS.gfx || exit 1
+ #mv -v ./music/AUTHORS ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}/AUTHORS.music || exit 1
+ #mv -v ./sound/AUTHORS ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}/AUTHORS.sound || exit 1
+
+}

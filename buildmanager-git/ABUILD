@@ -1,0 +1,55 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=buildmanager-git
+pkgbuild=1
+pkgver=0.0.0.6
+arch=('auto')
+
+shortdesc="build manager"
+
+source=("git:git://git.code.sf.net/p/buildmanager/code buildmanager-code")
+
+tags="dev-util develop"
+
+provides="buildmanager"
+
+build_deps="lazarus git which"
+adddep="mkpkg"
+
+build(){
+ go_src_dir
+ export lazbuild=$(which lazbuild)
+ ${lazbuild} buildmanager.lpi
+ echo "End build"
+}
+
+after_build(){
+ if [ "${CPU_TARGET}" == "x86_64" ]; then
+    LIBDIRSUFFIX=64
+ fi
+ mkdir -p ${pkgdir}/usr/bin \
+          ${pkgdir}/usr/lib${LIBDIRSUFFIX}/buildmanager \
+          ${pkgdir}/usr/share/pixmaps/buildmanager/{16,32,64,128} \
+          ${pkgdir}/usr/share/buildmanager \
+          ${pkgdir}/usr/share/applications \
+          ${pkgdir}/usr/share/locale/en/LC_MESSAGES \
+          ${pkgdir}/usr/share/locale/ru/LC_MESSAGES \
+          ${pkgdir}/usr/share/locale/uk/LC_MESSAGES
+ msgfmt PO/buildmanager.po \
+        -o ${pkgdir}/usr/share/locale/en/LC_MESSAGES/buildmanager.mo
+ msgfmt PO/buildmanager.ru.po \
+        -o ${pkgdir}/usr/share/locale/ru/LC_MESSAGES/buildmanager.mo
+ install -Dm755 buildmanager ${pkgdir}/usr/lib${LIBDIRSUFFIX}/buildmanager/buildmanager
+ install -Dm644 images/16/*.* ${pkgdir}/usr/share/pixmaps/buildmanager/16/
+ install -Dm644 images/32/*.* ${pkgdir}/usr/share/pixmaps/buildmanager/32/
+ install -Dm644 images/64/*.* ${pkgdir}/usr/share/pixmaps/buildmanager/64/
+ install -Dm644 images/128/*.* ${pkgdir}/usr/share/pixmaps/buildmanager/128/
+ install -Dm644 images/sorting-bottom.png ${pkgdir}/usr/share/pixmaps/buildmanager/sorting-bottom.png
+ install -Dm644 images/sorting-top.png ${pkgdir}/usr/share/pixmaps/buildmanager/sorting-top.png
+ install -Dm644 taglist ${pkgdir}/usr/share/buildmanager/taglist
+ install -Dm644 buildmanager.desktop ${pkgdir}/usr/share/applications/buildmanager.desktop
+ sed "s@Exec=@Exec=/usr/bin/buildmanager@" -i ${pkgdir}/usr/share/applications/buildmanager.desktop
+ ln -s /usr/lib${LIBDIRSUFFIX}/buildmanager/buildmanager ${pkgdir}/usr/bin/buildmanager
+
+ echo "End after_build"
+}

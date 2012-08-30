@@ -1,0 +1,75 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=milk-theme
+pkgver=0.0_20100719
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Milk Theme (GTK & Openbox Theme)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Milk is Openbox theme. The idea is taken from Ubuntu appearance."
+	  "License: GPL."
+	  ""
+	  "Homepage: http://box-look.org/content/show.php/Milk+Theme?content=126292"
+)
+
+source=("http://box-look.org/CONTENT/content-files/126292-Milk%20Theme.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="gtk-engines" # openbox"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+cd Milk\ Theme
+
+chmod -R 755 Milk*
+chmod 644 Milk*/*/*
+
+mkdir -p ${pkgdir}/usr/share/themes
+cp -rv Milk* ${pkgdir}/usr/share/themes || exit 1
+}

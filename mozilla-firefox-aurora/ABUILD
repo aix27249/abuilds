@@ -1,0 +1,110 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mozilla-firefox-unstableshment
+pkgver=7.0alpha2_aurora20110807
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla Firefox web browser"
+#-ruler---|--------------------------------------------------------------------------|
+
+if echo $pkgver | grep -q build
+then
+	fxver=`echo $pkgver | sed 's/alpha/a/' | cut -d '_' -f 1`
+	pkgname=mozilla-firefox-nightly
+	fxcommand=firefox-nightly
+	longdesc=("Nightly Mozilla Firefox package. May break your system and eat your cat.")
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central-l10n/firefox-$fxver.ru.linux-$ARCH.tar.bz2 o")
+elif echo $pkgver | grep -q aurora
+then
+	fxver=`echo $pkgver | sed 's/alpha/a/' | cut -d '_' -f 1`
+	pkgname=mozilla-firefox-aurora
+	fxcommand=firefox-aurora
+	longdesc=("Aurora development Mozilla Firefox package. More stable than nightly, but still looks like minefield.")
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-aurora-l10n/firefox-$fxver.ru.linux-$ARCH.tar.bz2 o")
+elif echo $pkgver | grep -q beta
+then
+	fxver=`echo $pkgver | sed 's/beta/b/'`
+	pkgname=mozilla-firefox-beta
+	fxcommand=firefox-beta
+	longdesc=("Firefox beta. Install it if you fearless ;)")
+	source=("ftp://ftp.mozilla.org/pub/firefox/releases/$fxver/linux-$ARCH/ru/firefox-$fxver.tar.bz2 o")
+elif echo $pkgver | grep -q rc
+then
+	pkgname=mozilla-firefox-beta
+	fxcommand=firefox-beta
+	longdesc=("New Firefox release coming soon! Don't forget to switch to mozilla-firefox package after release if you don't want to test some betas again!")
+	source=("ftp://ftp.mozilla.org/pub/firefox/releases/$pkgver/linux-$ARCH/ru/firefox-$pkgver.tar.bz2 o")
+else
+	echo "Trying to repack release, motherfucker?" ||  exit 1
+fi
+	
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network www-client"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir
+mkdir -p $pkgdir/{usr/{bin,share/{applications,pixmaps}},opt}
+cp -r firefox $pkgdir/opt/$fxcommand
+ln -s /opt/$fxcommand/firefox $pkgdir/usr/bin/$fxcommand
+install -m644 $srcdir/firefox/icons/mozicon128.png $pkgdir/usr/share/pixmaps/$fxcommand.png
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# Install defaults file
+mkdir -p $pkgdir/usr/share/gnome-control-center/default-apps
+sed "s%@FX@%$fxcommand%" ${filedir}/mozilla-firefox.xml > \
+	${pkgdir}/usr/share/gnome-control-center/default-apps/$fxcommand.xml
+# Install desktop file
+sed "s%@FX@%$fxcommand%" ${filedir}/mozilla-firefox > \
+	${pkgdir}/usr/share/applications/$fxcommand.desktop
+# Clean up search engines
+cd $pkgdir/opt/$fxcommand/searchplugins
+rm ozonru.xml priceru.xml mailru.xml yandex-slovari.xml
+# Handle plugins
+ln -s /usr/lib$LIBDIRSUFFIX/mozilla/plugins/ $pkgdir/opt/$fxcommand
+}

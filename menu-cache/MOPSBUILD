@@ -1,0 +1,57 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=menu-cache
+pkgver=0.3.2
+pkgbuild=1
+arch=('any')
+shortdesc="Caches to speed up freedesktop.org's application menus use."
+longdesc=("Программа настройка внешнего вида LXDE и приложений"
+)
+source=("http://downloads.sourceforge.net/project/lxde/menu-cache/menu-cache%20${pkgver}/menu-cache-${pkgver}.tar.gz")
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+#source=("${pkgname}-${pkgver}.tar.gz")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+
+tags="lxde lxde-base"    #short and long tags / длинный и короткий тег
+adddep=""
+removedep=""
+
+author=FreeArcher
+email=archer@programist.ru
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+
+before_build()
+{
+echo ""
+}
+
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+after_build()
+{
+ echo ""
+}

@@ -1,0 +1,24 @@
+pkgname=fluidsynth
+pkgver=1.1.5
+pkgbuild=1
+arch=('auto')
+shortdesc="Fluidsynth"
+longdesc=("FluidSynth is a real-time software synthesizer based on the SoundFont 2 specifications. FluidSynth can read MIDI events from a MIDI input device and render them to an audio device using SoundFont instruments."
+	  ""
+	  "Homepage: http://sourceforge.net/apps/trac/fluidsynth/"
+)
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+tags="libs media-sound"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-ladcca"
+INSTALL_KEYS="DESTDIR=$pkgdir"

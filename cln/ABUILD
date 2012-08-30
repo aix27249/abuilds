@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=cln
+pkgver=1.3.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Class Library for Numbers"
+source=("http://www.ginac.de/CLN/${pkgname}-${pkgver}.tar.bz2")
+
+tags="libs sci-mathematics"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

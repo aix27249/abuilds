@@ -1,0 +1,33 @@
+pkgname=poco
+pkgver=1.4.1p1
+pkgbuild=1
+shortdesc="C++ class libraries for network-centric, portable applications,
+complete edition"
+arch=('auto')
+tags="libs net-libs"
+adddep="unixodbc mysql openssl"
+build_deps="gcc make unixodbc mysql openssl chrpath"
+source=(http://downloads.sourceforge.net/poco/$pkgname-$pkgver-all.tar.bz2)
+
+before_build() {
+    if [ $(uname -m) == "x86_64" ]; then
+        cp -f $filedir/ODBCMakefile.x86_64 $srcdir/$pkgname-$pkgver-all/Data/ODBC/Makefile
+        cp -f $filedir/Makefile.x86_64 $srcdir/$pkgname-$pkgver-all/Makefile
+        echo "*** Makefiles for x86_64 copied!"
+    fi
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --no-samples --no-tests"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	install -Dm644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+	#removing rpath information from binaries
+	chrpath -d $pkgdir/usr/bin/cpspc || return 1
+	chrpath -d $pkgdir/usr/bin/cpspcd || return 1
+	chrpath -d $pkgdir/usr/bin/f2cpspd || return 1
+	chrpath -d $pkgdir/usr/bin/f2cpsp || return 1
+	#removing debugging libraries
+	rm $pkgdir/usr/lib$LIBDIRSUFFIX/libPoco*d.so* || return 1
+}

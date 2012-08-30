@@ -1,0 +1,17 @@
+pkgname=libmm-qt
+pkgver=0.5
+pkgbuild=2
+arch=('auto')
+
+shortdesc="ModemManager bindings for Qt4"
+
+source="git:git://anongit.kde.org/libmm-qt"
+
+tags="kde4 kde-misc"
+
+adddep="ModemManager"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+	-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DCMAKE_BUILD_TYPE=RELEASE"

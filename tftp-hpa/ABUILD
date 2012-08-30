@@ -1,0 +1,72 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tftp-hpa
+pkgver=5.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="tftp server"
+#longdesc=(""
+#)
+
+source=("http://www.kernel.org/pub/software/network/tftp/tftp-hpa/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="server net-ftp"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+./configure --prefix=/usr --mandir=/usr/share/man --without-tcpwrappers 
+make
+make INSTALLROOT="${pkgdir}" install
+install -d "${pkgdir}/var/tftpd"
+install -D -m644 "${filedir}/tftpd.conf" "${pkgdir}/etc/conf.d/tftpd"
+install -D -m755 "${filedir}/tftpd" "${pkgdir}/etc/init.d/tftpd"
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

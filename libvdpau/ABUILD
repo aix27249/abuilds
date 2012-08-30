@@ -1,0 +1,26 @@
+pkgname=libvdpau
+pkgver=0.4.1
+pkgbuild=1
+arch=('auto')
+shortdesc="VDPAU library"
+
+source=("http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs x11-libs"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+after_build() {
+	set -e
+	( cd $pkgdir/usr/lib${LIBDIRSUFFIX} ; ln -s vdpau/libvdpau_trace.so.1 libvdpau_trace.so.1 )
+	( cd $pkgdir/usr/lib${LIBDIRSUFFIX} ; ln -s libvdpau_trace.so.1 libvdpau_trace.so )
+	set +e
+}
+

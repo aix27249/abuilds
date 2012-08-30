@@ -1,0 +1,67 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openssl-solibs32
+pkgver=0.9.8p
+pkgbuild=2
+arch=('auto')
+
+shortdesc="OpenSSL shared libraries"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("These shared libraries provide encryption routines required by programs such as openssh. They are also used by KDE's Konqueror web browser to provide secure web connections. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). This product includes software written by Tim Hudson (tjh@cryptsoft.com)."
+)
+
+source=("http://packages.agilialinux.ru/core/x86/7.0/repository/base/openssl-solibs-0.9.8p-i686-2.txz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x86 compat32 sys-base"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+mv $srcdir/lib $pkgdir
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

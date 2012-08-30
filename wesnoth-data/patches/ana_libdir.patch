@@ -1,0 +1,14 @@
+diff -uNr wesnoth-1.9.6.orig/src/ana/src/CMakeLists.txt wesnoth-1.9.6/src/ana/src/CMakeLists.txt
+--- wesnoth-1.9.6.orig/src/ana/src/CMakeLists.txt	2011-01-16 10:31:25.000000000 +0000
++++ wesnoth-1.9.6/src/ana/src/CMakeLists.txt	2011-05-15 19:12:52.000000000 +0000
+@@ -22,8 +22,8 @@
+ 
+ if(NOT MSVC)
+ 	set(CMAKE_INSTALL_PREFIX /usr/local)
+-	install(TARGETS ana LIBRARY DESTINATION lib)
+-	install(TARGETS ana-static ARCHIVE DESTINATION lib)
++	install(TARGETS ana LIBRARY DESTINATION lib${LIB_SUFFIX})
++	install(TARGETS ana-static ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ endif(NOT MSVC)
+ 
+ set(ana_headers

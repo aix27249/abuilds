@@ -1,0 +1,26 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=pydf
+pkgver=9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A colorized df clone"
+longdesc=("pydf is all-singing, all-dancing, fully colourised df(1)-clone
+written in python."
+"http://kassiopeia.juls.savba.sk/~garabik/software/pydf/"
+)
+
+source=("http://kassiopeia.juls.savba.sk/~garabik/software/${pkgname}/${pkgname}_${pkgver}.tar.gz")
+
+adddep="python"
+tags="utils app-text"
+
+build()
+{
+go_src_dir
+burn_patches
+install -Dm755 pydf "${pkgdir}/usr/bin/pydf"
+install -Dm644 pydfrc "${pkgdir}/etc/pydfrc"
+install -Dm644 pydf.1 "${pkgdir}/usr/share/man/man1/pydf.1"
+}

@@ -1,0 +1,68 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pino
+pkgver=0.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Pino is a fast, easy and free Twitter client."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Pino is Twitter and Identi.ca client for Linux desktop. It's simple and fast. It written on Vala language and compiles to the native binary code."
+	  ""
+	  "Homepage: http://pino-app.appspot.com/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="net-misc xapps"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+cd $srcdir
+hg clone http://bitbucket.org/troorl/pino3
+cd pino3
+pkgver=$pkgver"_hg`hg tip | grep "changeset" | cut -d : -f 2 | sed -r 's/[ ]+//g'`"
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DUBUNTU_ICONS=OFF \
+-DENABLE_DEBUG=OFF \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mv $pkgdir/usr/share/doc/pino/ $pkgdir/usr/doc/$pkgname-$pkgver/
+rm -rf $pkgdir/usr/share/doc
+}

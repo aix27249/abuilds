@@ -1,0 +1,70 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openttd-opensfx
+pkgver=0.2.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="OpenSFX is a free replacement of the base sounds for OpenTTD"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The OpenSFX project for OpenTTD: a free replacement of the base sounds so that OpenTTD can be shipped finally fully functional without the need for non-free files, so that OpenTTD can be played without requiring the (copyrighted) files from the TTD CD. This potentially increases the OpenTTD fanbase and makes it a true free game. OpenSFX is licensed under the Creative Commons Sampling Plus 1.0 License. http://wiki.openttd.org/Sound_Effects_Replacement"
+)
+
+source=("http://bundles.openttdcoop.org/opensfx/releases/opensfx-${pkgver}.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="openttd"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="*.txt"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+        mkdir -p ${pkgdir}/usr/share/openttd/data   
+        cp opensfx.* ${pkgdir}/usr/share/openttd/data/ || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

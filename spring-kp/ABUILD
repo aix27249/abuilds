@@ -1,0 +1,76 @@
+#ABUILD created by/создан: NorthMan, north-man1 at ya.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=spring-kp
+pkgver=4.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Kernel Panic - мод к движку Spring"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Kernel Panic - стратегия о компьютерах. Биты и байты ведут войну за единственные ресурсы - время и память. Никаких металлов или энергии в KP!"
+)
+
+source=("http://files.springrts.de/5/Kernel_Panic_4.1.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-strategy"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="spring>=0.82.7.1"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+  mkdir -p ${pkgdir}/usr/share/spring/AI
+  mkdir -p ${pkgdir}/usr/share/spring/mods
+  mkdir -p ${pkgdir}/usr/share/spring/maps
+  cp -r ${srcdir}/AI/* ${pkgdir}/usr/share/spring/AI/
+  cp -r ${srcdir}/maps/* ${pkgdir}/usr/share/spring/maps/
+  cp -r ${srcdir}/mods/* ${pkgdir}/usr/share/spring/mods/
+  install -Dm644 ${srcdir}/Kernel_Panic_readme.txt ${pkgdir}/usr/share/doc/$pkgname/README
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

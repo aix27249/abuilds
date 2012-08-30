@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=mypaint
+pkgver=1.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A graphics editor for painters, with brush dynamics."
+
+adddep="numpy python-protobuf pygtk"
+
+source="http://download.gna.org/$pkgname/$pkgname-$pkgver.tar.bz2"
+
+tags="xapps media-gfx"
+
+before_build() {
+	# scons не нужен.
+	go_src_dir
+	sed "s@prefix/lib@prefix/lib$LIBDIRSUFFIX@g" -i SConstruct
+	sed "s@lib/mypaint@lib$LIBDIRSUFFIX/mypaint@g" -i mypaint.py
+}
+
+BUILD_SYSTEM="scons"
+INSTALL_KEYS="prefix=\"$pkgdir/usr\""

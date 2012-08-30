@@ -1,0 +1,49 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dia
+pkgver=0.97
+pkgbuild=3
+arch=('any')
+shortdesc="DIAgram Editor"
+longdesc=("Редактор блоксхем и диаграмм DIA")
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/0.97/${pkgname}-${pkgver}.tar.bz2")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="app-office xapps"     			#short and long tags / длинный и короткий тег
+
+build_deps="" 			#work only in MOPS
+adddep=""
+removedep=""
+
+build() 
+{
+	go_src_dir
+	burn_patches
+
+	libtoolize --force --copy || return 1
+	aclocal || return 1
+	autoconf || return 1
+	automake --add-missing || return 1
+
+	LDFLAGS="$SLKLDFLAGS" \
+	CFLAGS="$SLKCFLAGS" \
+	CXXFLAGS="$SLKCFLAGS" \
+	./configure --prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--disable-static \
+		--mandir=/usr/man \
+		--enable-db2html \
+		--with-cairo \
+		--with-python
+
+	make -j${numjobs} || exit 1
+	make install DESTDIR=${pkgdir} || exit 1
+}
+

@@ -1,0 +1,28 @@
+
+
+DisplayManager.authDir:	/var/lib/xdm
+DisplayManager.errorLogFile:	/var/log/xdm.log
+DisplayManager.pidFile:		/var/run/xdm.pid
+DisplayManager.keyFile:		/etc/X11/xdm/xdm-keys
+
+DisplayManager.accessFile:	/etc/X11/xdm/Xaccess
+DisplayManager.servers:		/etc/X11/xdm/theme/Xservers
+DisplayManager*resources:	/etc/X11/xdm/theme/Xresources
+DisplayManager*session:		/etc/X11/xdm/theme/Xsession
+DisplayManager._0.setup:	/etc/X11/xdm/theme/Xsetup
+DisplayManager._0.startup:	/etc/X11/xdm/theme/Xstartup
+DisplayManager._0.reset:	/etc/X11/xdm/TakeConsole
+
+DisplayManager.willing:		su nobody -c /etc/X11/xdm/Xwilling
+DisplayManager*authorize:	true
+DisplayManager*chooser:		/usr/lib64/X11/xdm/chooser
+DisplayManager*authComplain:	true
+DisplayManager.requestPort:	0
+
+DisplayManager*loginmoveInterval:	10
+
+! SECURITY: do not listen for XDMCP or Chooser requests
+! Comment out this line if you want to manage X terminals with xdm
+
+
+

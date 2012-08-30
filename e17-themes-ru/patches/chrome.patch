@@ -1,0 +1,127 @@
+diff -uNrp chrome.orig/chrome.edc chrome/chrome.edc
+--- chrome.orig/chrome.edc	2010-10-15 01:06:18.921279000 +0800
++++ chrome/chrome.edc	2010-10-15 22:05:28.561000002 +0800
+@@ -24,10 +24,11 @@ data {
+ }
+ 
+ fonts {
+-   font: "Fontin-Regular.ttf"   "Edje-Vera";
+-   font: "Fontin-Bold.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -41,6 +42,7 @@ spectra {
+ 	color: 255 249 231 127 1;
+      }
+ }
++#endif
+ 
+ 
+ collections {
+diff -uNrp chrome.orig/default_fileman.edc chrome/default_fileman.edc
+--- chrome.orig/default_fileman.edc	2010-10-15 01:06:18.924279000 +0800
++++ chrome/default_fileman.edc	2010-10-15 22:11:11.009000002 +0800
+@@ -8187,6 +8187,7 @@ group 
+ 		    }
+ 	       }
+ 	  }
++#if 0
+ 	part 
+ 	  {
+ 	     name: "grad";
+@@ -8203,6 +8204,7 @@ group 
+ 		  gradient.rel2.offset: -1 0;
+ 	       }
+ 	  }
++#endif
+      }
+ }
+ 
+diff -uNrp chrome.orig/default_icons.edc chrome/default_icons.edc
+--- chrome.orig/default_icons.edc	2010-10-15 01:06:18.923279000 +0800
++++ chrome/default_icons.edc	2010-10-15 22:10:25.849000002 +0800
+@@ -1819,6 +1819,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1841,6 +1842,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1861,6 +1863,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1879,6 +1882,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1899,6 +1903,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1921,6 +1926,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1941,6 +1947,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1963,6 +1970,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1983,6 +1991,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2005,6 +2014,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;

@@ -1,0 +1,131 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pingus
+pkgver=0.7.3
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="A free Lemmings clone"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Pingus is a free Lemmings-like game covered under the GNU GPL. Pingus has started at the end of 1998 with the simple goal to create a Free (as in freedom, not as in free beer) Lemmings(tm) clone."
+""
+"Homepage: http://pingus.seul.org"
+)
+
+source=("http://pingus.seul.org/files/${pkgname}-${pkgver}.tar.bz2")
+#source=("svn:svn://svn.berlios.de/pingus/trunk/pingus/")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-puzzle virtual"
+
+#dependencies only needed to build package
+build_deps="scons"
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-bin ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/docs/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+go_src_dir
+
+# Man
+install -D -m644 ./doc/pingus.6 $pkgdir/usr/man/man6/pingus.6 || exit 1
+sed -i "s|share/doc/pingus|doc/${pkgname}-${pkgver}|g" $pkgdir/usr/man/man6/pingus.6
+cat $pkgdir/usr/man/man6/pingus.6 | grep "doc/${pkgname}-${pkgver}"
+
+# Icon
+mkdir -p $pkgdir/usr/share/applications
+cat << EOF > ${pkgdir}/usr/share/applications/$pkgname.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Pingus
+Comment=A free Lemmings[tm] clone
+Exec=pingus
+Terminal=false
+Type=Application
+Categories=Game;LogicGame
+Icon=/usr/share/pingus/data/images/core/editor/actions.png
+EOF
+
+}
+
+#BUILD_SYSTEM="scons"
+#BUILD_KEYS="DESTDIR=\"${pkgdir}\""
+#INSTALL_KEYS+="DESTDIR=\"${pkgdir}\""
+
+build()
+{
+go_src_dir
+burn_patches
+ 
+#scons \
+#  CCFLAGS="$SLKCFLAGS" \
+#  CPPFLAGS="$SLKCFLAGS" \
+#prefix=/usr || exit 1
+
+scons prefix=/usr || exit 1
+
+./install.sh "${pkgdir}/usr"
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for Pingus"
+	tags="games games-puzzle"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
+}
+
+# Data
+data() {
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for Pingus"
+	tags="games games-puzzle"
+	adddep="${p_pkgname}-bin"
+} 
+data_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/doc ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/man ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/share ${pkgdir}/usr/share
+}

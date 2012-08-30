@@ -1,0 +1,34 @@
+pkgname=xdm
+pkgver=1.1.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xdm: X display manager')
+longdesc=('xdm is a generic X11 login display manager.')
+
+tags=('x11-apps xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/app/xdm-${pkgver}.tar.bz2")
+
+config_files="etc/X11/xdm/Xservers
+etc/X11/xdm/Xsession"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --with-xdmconfigdir=/etc/X11/xdm --with-xdmscriptdir=/etc/X11/xdm"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+
+after_build() {
+	set -e
+	mv ${pkgdir}/etc/X11/xdm/xdm-config ${pkgdir}/etc/X11/xdm/xdm-config.sample
+	rm -f ${pkgdir}/etc/X11/xdm/Xservers
+	rm -f ${pkgdir}/etc/X11/xdm/Xsession
+	install -m0755 ${filedir}/Xsession ${pkgdir}/etc/X11/xdm/Xsession
+	install -m0644 ${filedir}/Xservers ${pkgdir}/etc/X11/xdm/Xservers
+
+	# OpenRC
+	mkdir -p ${pkgdir}/etc/init.d
+	install -m0755 ${filedir}/xdm.initd ${pkgdir}/etc/init.d/xdm
+	set +e
+}
+

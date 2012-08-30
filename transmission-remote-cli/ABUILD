@@ -1,0 +1,84 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=transmission
+pkgver=2.40b1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Fast, easy, and free BitTorrent client"
+
+source=("http://mirrors.m0k.org/transmission/files/${pkgname}-${pkgver}.tar.bz2"
+"https://raw.github.com/fagga/transmission-remote-cli/master/transmission-remote-cli.py") # CURSES
+
+tags="virtual net-p2p"
+
+adddep="transmission-cli transmission-gtk transmission-qt"
+
+provides="transmission"
+pkglist="cli gtk qt curses"
+
+build() {
+	go_src_dir
+	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure --prefix=/usr
+	make -j${numjobs}
+	cd qt
+	qmake qtr.pro
+	make -j${numjobs}
+}
+
+cli()
+{
+	pkgname="transmission-cli"
+	shortdesc="Daemon and CLI tools for Transmission"
+	tags="network net-p2p"
+}
+cli_prep()
+{
+	go_src_dir
+	for dir in daemon cli web utils ; do
+		make -C "${dir}" DESTDIR=$pkgdir install
+	done
+	install -Dm755 $filedir/transmission.rc $pkgdir/etc/init.d/transmission
+	install -Dm644 $filedir/transmission.conf $pkgdir/etc/conf.d/transmission
+}
+gtk()
+{
+	pkgname="transmission-gtk"
+	shortdesc="GTK GUI for Transmission"
+	adddep="transmission-cli"
+	tags="xapps net-p2p"
+}
+gtk_prep() {
+	go_src_dir
+	make -C gtk DESTDIR=$pkgdir install
+	make -C po DESTDIR=$pkgdir install
+}
+qt()
+{
+	pkgname="transmission-qt"
+	shortdesc="Qt GUI for Transmission"
+	adddep="transmission-cli"
+	tags="xapps net-p2p"
+}
+qt_prep()
+{
+	go_src_dir
+	make -C qt INSTALL_ROOT=$pkgdir/usr install
+	mkdir -p $pkgdir/usr/share/pixmaps/
+	mkdir -p $pkgdir/usr/share/applications/
+	cp qt/icons/transmission.png "$pkgdir/usr/share/pixmaps/transmission-qt.png"
+	cp qt/transmission-qt.desktop "$pkgdir/usr/share/applications/transmission-qt.desktop"
+}
+curses()
+{
+	pkgname=transmission-remote-cli
+	pkgver=0.9.3
+	shortdesc="Curses UI for transmission"
+	adddep="transmission-cli"
+	tags="console net-p2p"
+}
+curses_prep()
+{
+	install -Dm755 $srcache/transmission-remote-cli.py $pkgdir/usr/bin/$pkgname
+	sed -i "s/2\.33/2\.40/g" $pkgdir/usr/bin/$pkgname # max version
+	sed -i "s/RPC_VERSION_MAX = 13/RPC_VERSION_MAX = 14/g" $pkgdir/usr/bin/$pkgname # max RPC version
+}

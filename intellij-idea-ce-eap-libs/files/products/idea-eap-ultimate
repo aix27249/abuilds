@@ -1,0 +1,8 @@
+pkgname=intellij-idea-ultimate-eap
+
+prodname="Intellij IDEA Ultimate Edition EAP"
+shortdesc="IDE for Java, Groovy, Android, Python, Ruby and more. Early Access Build."
+provides="intellij-idea"
+source="http://download.jetbrains.com/idea/ideaIU-$pkgver.tar.gz"
+
+launcher="idea.sh"

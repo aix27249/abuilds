@@ -1,0 +1,7 @@
+meta-web() {
+	pkgname="leechcraft-web"
+	shortdesc="Leechcraft plugins for Web"
+	adddep="leechcraft-aggregator leechcraft-bittorrent leechcraft-gmailnotifier leechcraft-poshuku leechcraft-shellopen leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}

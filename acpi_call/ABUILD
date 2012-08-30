@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=acpi_call
+pkgver=0.1_$KERNEL
+pkgbuild=1
+arch=('auto')
+
+KERNEL=${KERNEL:-$(uname -r)}
+KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
+
+shortdesc="A module to call ACPI through a proc file"
+
+source="git:http://github.com/mkottman/acpi_call.git"
+
+tags="base sys-kernel"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make KDIR=$KERNELPATH clean
+	make KDIR=$KERNELPATH
+	install -D -m644 acpi_call.ko ${pkgdir}/lib/modules/$KERNEL/kernel/drivers/acpi/acpi_call.ko
+}

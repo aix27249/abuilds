@@ -1,0 +1,13 @@
+# This file was written by Nomer_Uno for Openbox Setup Variant
+
+include "/usr/share/themes/MOPSGrey/gtk-2.0/gtkrc"
+
+style "user-font"
+{
+	font_name="Droid Sans 10"
+}
+widget_class "*" style "user-font"
+
+gtk-theme-name="MOPSGrey"
+gtk-font-name="Droid Sans 10"
+gtk-icon-theme-name="gnome-carbonite"

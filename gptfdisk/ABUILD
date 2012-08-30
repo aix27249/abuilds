@@ -1,0 +1,77 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gptfdisk
+pkgver=0.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="gptfdisk (GPT partition table manipulator for Linux)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GPT fdisk (consisting of the gdisk, sgdisk, and fixparts programs) is a set of text-mode partitioning tools for Linux, FreeBSD, Mac OS X, and Windows. The gdisk and sgdisk programs work on Globally Unique Identifier (GUID) Partition Table (GPT) disks, rather than on the more common (through 2011) Master Boot Record (MBR) partition tables. The fixparts program repairs certain types of damage to MBR disks and enables changing partition types from primary to logical and vice-versa."
+	  ""
+	  "Homepage: http://www.rodsbooks.com/gdisk/"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tgz")
+#http://sourceforge.net/projects/gptfdisk/files/gptfdisk/0.7.1/gptfdisk-0.7.1.tgz/download
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils sys-apps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+make || return 1
+
+install -D -m755 gdisk $pkgdir/sbin/gdisk
+install -D -m755 sgdisk $pkgdir/sbin/sgdisk
+install -D -m755 fixparts $pkgdir/sbin/fixparts
+install -D -m644 gdisk.8 $pkgdir/usr/share/man/man8/gdisk.8
+install -D -m644 sgdisk.8 $pkgdir/usr/share/man/man8/sgdisk.8
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

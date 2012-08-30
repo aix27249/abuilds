@@ -1,0 +1,17 @@
+pkgname=xf86-video-r128
+pkgver=6.8.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-r128: X11 driver for ATI Rage128 video cards')
+longdesc=('xf86-video-r128: X11 driver for ATI Rage128 video cards')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-r128-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --enable-dri"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

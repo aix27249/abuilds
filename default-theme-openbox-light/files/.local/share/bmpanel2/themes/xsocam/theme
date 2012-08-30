@@ -1,0 +1,114 @@
+panel
+	position bottom
+	separator separator_img.png
+	background tile_img.png
+
+theme
+	name XSOcaM
+	author nsf <no.smile.face@gmail.com>
+
+launchbar 
+	icon_size 24 24
+	no_separator
+empty 1
+
+desktop_switcher
+	idle
+		left_corner ds_left_corner_idle_img.png
+		left ds_leftright_idle_img.png
+		center tb_tile_idle_img.png
+		right ds_leftright_idle_img.png
+		right_corner ds_right_corner_idle_img.png
+		font Droid Sans 10
+			color 0 0 0
+			offset 0 1
+			shadow_offset 0 1
+			shadow_color 242 242 242
+	pressed
+		left_corner ds_left_corner_pressed_img.png
+		left ds_left_pressed_img.png
+		center tb_tile_pressed_img.png
+		right ds_right_pressed_img.png
+		right_corner ds_right_corner_pressed_img.png
+		font Droid Sans Bold 10
+			color 70 70 70
+			offset 0 2
+			shadow_offset 0 1
+			shadow_color 220 220 220
+
+	separator ds_separator_img.png
+
+pager
+	idle
+		border 76 76 76
+		fill 178 178 178
+		inactive_window_border 76 76 76
+		inactive_window_fill 140 140 140
+		active_window_border 0 0 0
+		active_window_fill 80 80 80
+		font Droid Sans 10
+			color 0 0 0
+			offset -4 5
+			align right
+
+	pressed
+		border 0 0 0
+		fill 220 220 220
+		inactive_window_border 76 76 76
+		inactive_window_fill 140 140 140
+		active_window_border 0 0 0
+		active_window_fill 80 80 80
+		font Droid Sans 10
+			color 0 0 0
+			offset -4 5
+			align right
+
+	height 24
+	desktop_spacing 5
+
+	no_separator
+taskbar
+	idle
+		left tb_left_idle_img.png
+		center tb_tile_idle_img.png
+		right tb_right_idle_img.png
+		font Droid Sans 10
+			color 0 0 0
+			align left
+			offset 5 1
+			shadow_offset 0 1
+			shadow_color 242 242 242
+		icon_offset 0 0
+
+	pressed
+		left tb_left_pressed_img.png
+		center tb_tile_pressed_img.png
+		right tb_right_pressed_img.png
+		font Droid Sans 10
+			color 0 0 0
+			align left
+			offset 5 2
+			shadow_offset 0 1
+			shadow_color 220 220 220
+		icon_offset 0 1
+
+	default_icon default_icon.png
+	task_max_width 200
+
+systray
+		icon_size 24 24
+		
+clock
+	background
+		left clock_left_img.png
+		center clock_tile_img.png
+		right clock_right_img.png
+		
+	font Droid Sans Bold 10
+		color 40 40 40
+		offset 0 1
+		align center
+		shadow_offset 0 1
+		shadow_color 242 242 242
+		
+	time_format %R

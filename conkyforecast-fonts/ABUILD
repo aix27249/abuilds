@@ -1,0 +1,108 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=conkyforecast
+pkgver=2.15
+pkgbuild=3
+#arch=('auto')
+arch=('noarch')
+
+shortdesc="Conky Weather Forecast"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Weather forecast script with support for language files, for use in Conky"
+)
+
+source=("https://launchpad.net/~conkyhardcore/+archive/ppa/+files/${pkgname}_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-fonts==${pkgver}"
+removedep=""
+
+#for multi pkg abuild
+pkglist=ttf
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# Fix font path
+sed -i 's,/usr/share/fonts/truetype/conkyforecast,/usr/share/fonts/TTF,g' \
+	${srcdir}/src/setup.py || exit 1
+}
+
+BUILD_SYSTEM="python"
+#
+MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# remove font .sfd files, they shouldn't be needed
+rm -r ${pkgdir}/usr/share/fonts/TTF/*.tar.gz || exit 1
+
+#mkdir -p $pkgdir/etc/skel
+##cp -v ${srcdir}/src/conkyForecast.config ${pkgdir}/etc/skel/.conkyForecast.config
+#cp -v ${pkgdir}/usr/share/conkyforecast/conkyForecast.config ${pkgdir}/etc/skel/.conkyForecast.config
+#chmod 644 ${pkgdir}/etc/skel/.conkyForecast.config || exit 1
+
+mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/*egg-info \
+	${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
+rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
+}
+
+# TTF
+ttf(){
+	pkgname="conkyforecast-fonts"
+	#arch=('auto')
+	#shortdesc="FONTS"
+	longdesc=("There are several fonts included in the release")
+	tags="xserver media-fonts"
+	#adddep=""
+	#conflicts=""
+	#provides=""
+}
+ttf_prep(){
+mkdir -p ${pkgdir}/usr/share/fonts
+mv ${p_pkgdir}/usr/share/fonts/TTF ${pkgdir}/usr/share/fonts || exit 1
+
+rm -rfv ${p_pkgdir}/usr/share/fonts/
+
+mkdir -p ${pkgdir}/usr/share/fonts/OTF
+find ${pkgdir}/usr/share/fonts/TTF \
+	-name *otf \
+	-exec mv -v {} ${pkgdir}/usr/share/fonts/OTF ";" || exit 1
+}

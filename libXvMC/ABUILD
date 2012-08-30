@@ -1,0 +1,25 @@
+pkgname=libXvMC
+pkgver=1.0.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('libXvMC')
+longdesc=('libXvMC is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-libs xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/lib/libXvMC-${pkgver}.tar.bz2")
+
+build_deps='libxcb libX11 libXau libXdmcp libXext libXv'
+
+before_build() {
+ echo ""
+}
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+after_build() {
+ echo ""
+}
+

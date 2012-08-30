@@ -1,0 +1,57 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lightdm
+pkgver=0.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="LightDM"
+longdesc=("Light Display Manager")
+
+source="bzr:lp:lightdm"
+
+tags="xapps x11-apps"
+
+build_deps="gobject-introspection gnome-doc-utils"
+
+adddep=""
+
+custom_opts="no_strip"
+
+before_build()
+{
+	go_src_dir
+	cd greeters/gtk
+	vim *.c
+	go_src_dir
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-dbus-sys=/etc/dbus-1/system.d \
+--with-log-dir=/var/log/lightdm \
+--with-xauth-dir=/var/run/lightdm/authority \
+--libexecdir=/usr/lib$LIBDIRSUFFIX/lightdm \
+--enable-introspection=no"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	mkdir -p $pkgdir/etc/{pam.d,init.d,lightdm}
+	cp $filedir/lightdm.rc $pkgdir/etc/init.d/lightdm
+	cp $filedir/lightdm $pkgdir/etc/pam.d
+	cp $filedir/lightdm.conf $pkgdir/etc/lightdm
+	mkdir -p $pkgdir/usr/share/lightdm/themes
+	cp -r $filedir/agilialinux $pkgdir/usr/share/lightdm/themes/
+	rm -rf $pkgdir/etc/init
+}

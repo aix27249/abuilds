@@ -1,0 +1,29 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=gegl
+pkgver=0.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Graph based image processing framework."
+
+source=("ftp://ftp.gtk.org/pub/${pkgname}/`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="libs media-gfx"
+
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

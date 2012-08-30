@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lrcshow-x
+pkgver=1.4.2
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A synced lyrics plugin for multiple players"
+longdesc=("The main goal of lrcShow-X is to add synchronized lyrics visualization functionality to the most used Linux media players, using existing LRC files, embedded lyrics like ID3 Sylt, Uslt, Lyrics3 and ApeTag. It also searches for lyrics using 13 different engines among which we can mention MiniLyrics, EvilLyrics, LrcDB and TTPlayer.")
+
+source="http://kde-apps.org/CONTENT/content-files/103055-lrcShow-X_1_4_2.tar.bz2"
+
+tags="xapps media-sound"
+
+adddep="PyQt pygobject dbus-python"
+
+build()
+{
+	go_src_dir
+	mkdir -p "${pkgdir}/usr/share/"
+	cp -r "${srcdir}/lrcShow-X/" "${pkgdir}/usr/share/"
+	mkdir -p "${pkgdir}/usr/bin/"
+	install -D -m755 "${filedir}/lrcShow-X" "${pkgdir}/usr/bin/lrcShow-X"
+}

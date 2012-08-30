@@ -1,0 +1,14 @@
+#!/bin/bash
+############################################################################
+# Copyright:
+#      (C) 2008  Alexander Shaduri <ashaduri 'at' gmail.com>
+# License: See LICENSE_zlib.txt file
+############################################################################
+
+# Run gsmartcontrol with root, asking for root password first.
+
+xdg-su -c /usr/bin/gsmartcontrol
+
+
+
+

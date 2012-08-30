@@ -1,0 +1,130 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xmoto
+pkgver=0.5.7
+pkgbuild=1
+
+#arch=('auto')
+arch=('noarch')
+
+shortdesc="a challenging 2D motocross platform game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("X-Moto - захватывающая 2D игра, в основу сюжета которой положен мотокросс и для которой физика играет крайне важную роль. Вам нужно контролировать Ваш мотоцикл в пределах допустимого, если вы хотите иметь шанс завершить наиболее сложные этапы. Сайт: http://xmoto.tuxfamily.org"
+)
+
+source=("http://download.tuxfamily.org/xmoto/xmoto/${pkgver}/${pkgname}-${pkgver}-src.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+#tags="virtual games-sports"
+tags="games games-sports"
+
+#dependencies only needed to build package
+build_deps="ode"
+
+provides=""
+conflicts="${pkgname}-data"
+
+adddep="${pkgname}-bin==${pkgver}" # ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin" # data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+go_src_dir
+
+# Fix for newer libpng.
+sed -i \
+  -e 's:png_set_gray_1_2_4_to_8:png_set_expand_gray_1_2_4_to_8:' \
+  src/image/tim_png.cpp || exit 1
+
+# Icon
+mkdir -p $pkgdir/usr/share/{pixmaps,applications}
+install -m 0644 extra/$pkgname.xpm $pkgdir/usr/share/pixmaps/ || exit 1
+install -m 0644 extra/$pkgname.desktop $pkgdir/usr/share/applications/ || exit 1
+
+if [ -z "`cat $pkgdir/usr/share/applications/$pkgname.desktop | grep Comment`" ]; then
+ sed -i 's|GenericName|Comment|g' $pkgdir/usr/share/applications/$pkgname.desktop
+fi
+
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--with-asian-ttf-file=/usr/share/fonts/TTF/wqy-zenhei.ttc"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for XMoto"
+	longdesc=("X-Moto is a challenging 2D motocross platform game, where physics plays an all important role in the gameplay")
+	tags="games games-sports"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
+}
+
+#--------------------------------------------------------------------------
+# Data
+data(){
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for XMoto"
+	longdesc=("X-Moto is a challenging 2D motocross platform game, where physics plays an all important role in the gameplay")
+	tags="games games-sports"
+	adddep="${p_pkgname}-bin==${pkgver}"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+}

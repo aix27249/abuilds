@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Valkirye
+Comment=Valgring GUI
+Exec=valkyrie %f
+Icon=/usr/share/pixmaps/valkyrie.xpm
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Categories=Development;
+StartupNotify=true

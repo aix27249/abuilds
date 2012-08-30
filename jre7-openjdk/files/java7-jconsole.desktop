@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=OpenJDK 7 Monitoring & Management Console
+Comment=Monitor and manage OpenJDK applications
+Exec=/usr/bin/java7-jconsole
+Icon=java
+Terminal=false
+Type=Application
+StartupWMClass=sun-tools-jconsole-JConsole
+Categories=Development;Monitor;Java;
+Version=1.0

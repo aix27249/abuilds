@@ -1,0 +1,102 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tuxpaint
+pkgver=0.9.21
+pkgbuild=2
+
+#arch=('auto')
+arch=('noarch')
+
+shortdesc="Tux Paint: Open Source Drawing Software for Children"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tux Paint - это свободная, отмеченная наградами программа рисования для детей от 3 до 12 лет (например, в детском саду и начальной школе). Её отличает лёгкий в освоении интерфейс и забавные звуковые эффекты. Рисованный персонаж (пингвин Тукс) поможет детям в освоении программы. Сайт: http://www.tuxpaint.org"
+)
+
+source=("http://downloads.sourceforge.net/project/tuxpaint/tuxpaint/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-gfx xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-bin"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+make PREFIX=/usr LIBDIRSUFFIX=$LIBDIRSUFFIX OPTFLAGS="$SLKCFLAGS" || exit 1
+make PREFIX=/usr LIBDIRSUFFIX=$LIBDIRSUFFIX DESTDIR=$pkgdir install || exit 1
+mv $pkgdir/etc/tuxpaint/tuxpaint.conf $pkgdir/etc/tuxpaint/tuxpaint.conf.new || exit 1
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# http://slackbuilds.org/repository/13.37/graphics/tuxpaint/
+# Puzzle plugin is broken
+rm -fv $pkgdir/usr/lib$LIBDIRSUFFIX/tuxpaint/plugins/puzzle.so || exit 1
+
+if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs ]; then
+ rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs
+fi
+
+# desktop
+sed -i "/^Categories=/s|Education;Art;|Graphics;Art;Education;Game;KidsGame;|" \
+	${pkgdir}/usr/share/applications/${pkgname}.desktop || exit 1
+
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for Tux Paint"
+	#-ruler---|--------------------------------------------------------------------------|
+	longdesc=("Tux Paint: Open Source Drawing Software for Children")
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
+
+ mv ${p_pkgdir}/usr/include ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX ${pkgdir}/usr
+}

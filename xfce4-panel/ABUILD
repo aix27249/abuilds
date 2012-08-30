@@ -1,0 +1,44 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=xfce4-panel
+pkgver=4.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The Xfce4 desktop environment panel"
+
+source=("http://archive.xfce.org/xfce/${pkgver%.*}/src/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool pkg-config perl perl-xml-parser gtk-doc libxfce4ui"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-gio-unix \
+--enable-gtk-doc \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  sed '/<property name="size" type="uint" value="/c\
+      <property name="size" type="uint" value="34"/>' -i ${pkgdir}/etc/xdg/xfce4/panel/default.xml
+  sed -e 's|value="systray"/|value="systray"|' -i ${pkgdir}/etc/xdg/xfce4/panel/default.xml
+  sed '/type="string" value="systray"/ a\
+      <property name="names-hidden" type="array">\
+      </property>\
+      <property name="size-max" type="uint" value="30"\/>\
+    </property>' -i ${pkgdir}/etc/xdg/xfce4/panel/default.xml
+  echo "End after_build"
+}

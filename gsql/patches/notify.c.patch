@@ -1,0 +1,11 @@
+--- ./libgsql/notify.c.orig	2011-08-24 08:58:17.000000000 +0000
++++ ./libgsql/notify.c	2011-08-24 09:00:54.000000000 +0000
+@@ -46,7 +46,7 @@
+ 	if (!notify_is_initted())
+ 		notify_init (PROJECT_NAME);
+ 	
+-	notify = notify_notification_new (subj, message, NULL, NULL);
++	notify = notify_notification_new (subj, message, NULL);
+ 	
+ 	notify_notification_set_icon_from_pixbuf(notify, create_pixbuf ("gsql.png"));
+ 	notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);

@@ -1,0 +1,20 @@
+#!/sbin/runscript
+# Copyright 2010 Agilia Linux team/fat0troll/K900
+# Distributed under the terms of the GNU General Public License, v2 or later
+# Special thanks goes to Gentoo
+
+depend() {
+	use logger acpid
+	after coldplug dns nscd consolefont keymaps dbus
+        provide xdm
+}
+
+start() {
+	ebegin "Starting X11 login with LightDM..."
+	start-stop-daemon --start -q --exec /usr/bin/lightdm --pidfile /var/run/lightdm.pid -b
+}
+
+stop() {
+	ebegin "Stopping X11 login with LightDM..."
+	start-stop-daemon --stop -q --pidfile /var/run/lightdm.pid 
+}

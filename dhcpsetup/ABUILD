@@ -1,0 +1,63 @@
+#ABUILD created by/создан: aix27249, i27249 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dhcpsetup
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ncurses-based DHCP server configuration tool"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A very simple tool to setup DHCP server in few seconds"
+)
+
+source=("svn:svn://agilialinux.ru/mpkg/tools/serverconfig/dhcpsetup")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs dev-cpp"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

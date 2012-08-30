@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=mtpfs
+pkgver=0.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="FUSE filesystem for MTP devices"
+
+source=(http://www.adebenham.com/debian/${pkgname}_${pkgver}.orig.tar.gz)
+
+tags="console sys-fs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

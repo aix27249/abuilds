@@ -1,0 +1,26 @@
+# $Id: PKGBUILD 26451 2010-09-15 18:28:06Z schuay $
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Rubin Simons <rubin@xs4all.nl>
+
+pkgname=trac
+pkgver=0.12.2
+pkgbuild=2
+shortdesc="Trac Integrated SCM & Project Management using Apache & Subversion."
+longdesc="Trac Integrated SCM & Project Management using Apache & Subversion."
+arch=('auto')
+source=(http://ftp.edgewall.com/pub/trac/Trac-$pkgver.tar.gz)
+tags=("server www-apps")
+adddep=("pysetuptools python-babel python-genshi")
+build() {
+  go_src_dir
+  burn_patches
+  set -e
+  python setup.py install --prefix=/usr --root=$pkgdir
+
+  # OpenRC
+  install -D -m0755 ${filedir}/tracd.initd ${pkgdir}/etc/init.d/tracd
+  install -D -m0755 ${filedir}/tracd.confd ${pkgdir}/etc/conf.d/tracd.new
+  install -D -m0755 cgi-bin/trac.cgi $pkgdir/usr/share/trac/trac.cgi
+  install -D -m0755 cgi-bin/trac.fcgi $pkgdir/usr/share/trac/trac.fcgi
+  set +e
+}

@@ -1,0 +1,151 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=default-theme-openbox-dark
+pkgver=1.1
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="default design for openbox setup variant"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("contain .Xdefaults, gtkrc-2.0, openbox zenburn theme, bmpanel zenburn "
+	  "theme, bashrun config, gvim zenburn style.")
+
+#source=("")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="x11-themes themes"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides="default-theme"
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $pkgdir
+
+burn_patches
+
+mkdir -p $pkgdir/etc/skel
+
+cp -a $filedir/.config $pkgdir/etc/skel
+cp -a $filedir/.themes $pkgdir/etc/skel
+cp -a $filedir/.vim $pkgdir/etc/skel
+cp -a $filedir/.local $pkgdir/etc/skel
+cp -a $filedir/etc/profile.d $pkgdir/etc
+
+cat $filedir/.bashrc > $pkgdir/etc/skel/.bashrc
+cat $filedir/.gtkrc-2.0 > $pkgdir/etc/skel/.gtkrc-2.0
+cat $filedir/.gvimrc > $pkgdir/etc/skel/.gvimrc
+cat $filedir/.screenrc > $pkgdir/etc/skel/.screenrc
+cat $filedir/.Xdefaults > $pkgdir/etc/skel/.Xdefaults
+cat $filedir/.xsession > $pkgdir/etc/skel/.xsession
+cat $filedir/.gtk_qt_engine_rc > $pkgdir/etc/skel/.gtk_qt_engine_rc
+cat $filedir/.xxkbrc > $pkgdir/etc/skel/.xxkbrc
+
+chmod 755 $pkgdir/etc/profile.d
+
+chmod 755 $pkgdir/etc/skel/.config
+chmod 755 $pkgdir/etc/skel/.themes
+chmod 755 $pkgdir/etc/skel/.config/nitrogen
+chmod 755 $pkgdir/etc/skel/.config/bmpanel2
+chmod 755 $pkgdir/etc/skel/.config/openbox
+chmod 755 $pkgdir/etc/skel/.config/tint2
+chmod 755 $pkgdir/etc/skel/.config/gpicview
+chmod 755 $pkgdir/etc/skel/.config/obmenugen
+chmod 755 $pkgdir/etc/skel/.themes/Zenburn
+chmod 755 $pkgdir/etc/skel/.themes/Zenburn/openbox-3
+chmod 755 $pkgdir/etc/skel/.vim
+chmod 755 $pkgdir/etc/skel/.vim/colors
+chmod 755 $pkgdir/etc/skel/.local
+chmod 755 $pkgdir/etc/skel/.local/share
+chmod 755 $pkgdir/etc/skel/.local/share/bmpanel2
+chmod 755 $pkgdir/etc/skel/.local/share/bmpanel2/themes
+chmod 755 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn
+
+chmod 755 $pkgdir/etc/profile.d/gtk_qt_theme_openbox.sh
+
+chmod 644 $pkgdir/etc/skel/.config/nitrogen/nitrogen.cfg
+chmod 644 $pkgdir/etc/skel/.config/nitrogen/bg-saved.cfg
+
+chmod 644 $pkgdir/etc/skel/.config/bmpanel2/bmpanel2rc
+
+chmod 644 $pkgdir/etc/skel/.config/meditrc
+chmod 644 $pkgdir/etc/skel/.config/Trolltech.conf
+
+chmod 755 $pkgdir/etc/skel/.config/openbox/autostart.sh
+chmod 644 $pkgdir/etc/skel/.config/openbox/menu.xml
+chmod 644 $pkgdir/etc/skel/.config/openbox/rc.xml
+
+chmod 644 $pkgdir/etc/skel/.config/tint2/zenburn.tint2rc
+
+chmod 644 $pkgdir/etc/skel/.config/gpicview/gpicview.conf
+
+chmod 644 $pkgdir/etc/skel/.themes/Zenburn/openbox-3/bullet.xbm
+chmod 644 $pkgdir/etc/skel/.themes/Zenburn/openbox-3/close.xbm
+chmod 644 $pkgdir/etc/skel/.themes/Zenburn/openbox-3/iconify.xbm
+chmod 644 $pkgdir/etc/skel/.themes/Zenburn/openbox-3/max.xbm
+chmod 644 $pkgdir/etc/skel/.themes/Zenburn/openbox-3/themerc
+
+chmod 644 $pkgdir/etc/skel/.vim/colors/zenburn.vim
+
+chmod 644 $pkgdir/etc/skel/.config/obmenugen/exclusions
+chmod 644 $pkgdir/etc/skel/.config/obmenugen/obmenugen.cfg
+chmod 644 $pkgdir/etc/skel/.config/obmenugen/obmenugen.schema
+
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/clock-right.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/default_icon.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/ds-left.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-left-active.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-left-hover.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-lr-idle.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-right-active.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-right-hover.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-tile-active.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-tile-hover.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tile.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/theme
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-right-active_hover.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-left-active_hover.png
+chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/Zenburn/tb-tile-active_hover.png
+
+chmod 644 $pkgdir/etc/skel/.bashrc
+chmod 644 $pkgdir/etc/skel/.gtkrc-2.0
+chmod 644 $pkgdir/etc/skel/.gvimrc
+chmod 644 $pkgdir/etc/skel/.screenrc
+chmod 644 $pkgdir/etc/skel/.Xdefaults
+chmod 644 $pkgdir/etc/skel/.xsession
+chmod 644 $pkgdir/etc/skel/.gtk_qt_engine_rc
+chmod 644 $pkgdir/etc/skel/.xxkbrc
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

@@ -1,0 +1,35 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfce4-mixer
+pkgver=4.8.0
+pkgbuild=1
+arch=('auto')
+tree=`echo $pkgver | cut -d . -f 1-2`
+
+shortdesc="The volume control plugin for the Xfce panel"
+
+source=("http://archive.xfce.org/src/apps/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool perl pkg-config"
+adddep=""
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-sound=alsa \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

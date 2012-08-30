@@ -1,0 +1,18 @@
+pkgname=fontconfig-lcd
+pkgver=2.8.0
+pkgbuild=1
+arch=('noarch')
+shortdesc="A library for configuring and customizing font access (custom LCD filter). Requires fontconfig to be installed."
+tags="xserver media-libs"
+adddep="droid-fonts-ttf"
+
+build() {
+    install -Dm644 $filedir/10-lcd-filter.conf $pkgdir/etc/fonts/conf.avail/10-lcd.filter.conf
+    install -Dm644 $filedir/99-replace-helvetica.conf $pkgdir/etc/fonts/conf.avail/99-replace-helvetica.conf
+}
+
+after_build() {
+    mkdir -p $pkgdir/etc/fonts/conf.d/
+    ln -s $pkgdir/etc/fonts/conf.avail/10-lcd.filter.conf $pkgdir/etc/fonts/conf.d/
+    ln -s $pkgdir/etc/fonts/conf.avail/99-replace-helvetica.conf $pkgdir/etc/fonts/conf.d/
+}

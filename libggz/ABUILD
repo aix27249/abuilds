@@ -1,0 +1,28 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=libggz
+pkgver=0.0.14.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GGZ base library, used by the GGZ Gaming Zone server (ggzd), the ggzcore library and other components"
+longdesc=("GGZ base library, used by the GGZ Gaming Zone server (ggzd), the ggzcore library and other components")
+
+source=("http://ftp.ggzgamingzone.org/pub/ggz/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="games dev-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

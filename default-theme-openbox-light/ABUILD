@@ -1,0 +1,90 @@
+pkgname=default-theme-openbox-light
+pkgver=2.0.5
+pkgbuild=5
+arch=('noarch')
+
+shortdesc="default light design for openbox setup variant"
+adddep="pyxdg"
+
+
+tags="x11-themes themes"
+
+build() 
+{
+	cd $pkgdir
+	burn_patches
+
+	mkdir -p $pkgdir/etc/skel
+	mkdir -p $pkgdir/usr/share/wallpapers
+
+	cp -a $filedir/.config $pkgdir/etc/skel
+	cp -a $filedir/etc/profile.d $pkgdir/etc
+	cp -a $filedir/.local $pkgdir/etc/skel
+	cp -a $filedir/.gconf $pkgdir/etc/skel
+	cp $filedir/solid_grey.png $pkgdir/usr/share/wallpapers
+
+	cat $filedir/.bashrc > $pkgdir/etc/skel/.bashrc
+	cat $filedir/.gtkrc-2.0 > $pkgdir/etc/skel/.gtkrc-2.0
+	cat $filedir/.gvimrc > $pkgdir/etc/skel/.gvimrc
+	cat $filedir/.screenrc > $pkgdir/etc/skel/.screenrc
+	cat $filedir/.dmrc > $pkgdir/etc/skel/.dmrc
+	cat $filedir/.nanorc > $pkgdir/etc/skel/.nanorc
+	cat $filedir/.Xdefaults > $pkgdir/etc/skel/.Xdefaults
+	cat $filedir/.Xresources > $pkgdir/etc/skel/.Xresources
+	cat $filedir/.xsession > $pkgdir/etc/skel/.xsession
+	cat $filedir/.gtk_qt_engine_rc > $pkgdir/etc/skel/.gtk_qt_engine_rc
+	cat $filedir/.xxkbrc > $pkgdir/etc/skel/.xxkbrc
+	cat $filedir/.notify-osd > $pkgdir/etc/skel/.notify-osd
+
+	chmod 755 $pkgdir/etc/profile.d
+	chmod 755 $pkgdir/etc/skel/.config
+
+	chmod 755 $pkgdir/etc/skel/.config/*
+
+	chmod 755 $pkgdir/etc/skel/.gconf/*
+
+	chmod 644 $pkgdir/etc/skel/.gconf/apps/notify-osd/%gconf.xml
+	chmod 644 $pkgdir/etc/skel/.gconf/desktop/gnome/font_rendering/%gconf.xml
+	chmod 644 $pkgdir/etc/skel/.gconf/desktop/gnome/interface/%gconf.xml
+
+	chmod 755 $pkgdir/etc/profile.d/gtk_qt_theme_openbox.sh
+
+	chmod 644 $pkgdir/etc/skel/.config/gtk-3.0/*
+
+	chmod 644 $pkgdir/etc/skel/.config/nitrogen/*
+
+	chmod 644 $pkgdir/etc/skel/.config/bmpanel2/bmpanel2rc
+
+	chmod 644 $pkgdir/etc/skel/.config/meditrc
+	chmod 644 $pkgdir/etc/skel/.config/Trolltech.conf
+
+	chmod 755 $pkgdir/etc/skel/.config/openbox/autostart.sh
+	chmod 644 $pkgdir/etc/skel/.config/openbox/menu.xml
+	chmod 644 $pkgdir/etc/skel/.config/openbox/rc.xml
+	chmod -R 755 $pkgdir/etc/skel/.config/openbox/power_management_scripts/*
+
+	chmod 755 $pkgdir/etc/skel/.config/sakura
+	chmod 644 $pkgdir/etc/skel/.config/sakura/sakura.conf
+
+	chmod 644 $pkgdir/etc/skel/.config/snapfly/*
+
+	chmod 644 $pkgdir/etc/skel/.config/gpicview/gpicview.conf
+
+	chmod 644 $pkgdir/etc/skel/.config/libfm/libfm.conf
+
+	chmod 644 $pkgdir/etc/skel/.local/share/bmpanel2/themes/xsocam/*
+
+	chmod 644 $pkgdir/etc/skel/.bashrc
+	chmod 644 $pkgdir/etc/skel/.gtkrc-2.0
+	chmod 644 $pkgdir/etc/skel/.gvimrc
+	chmod 644 $pkgdir/etc/skel/.screenrc
+	chmod 644 $pkgdir/etc/skel/.dmrc
+	chmod 644 $pkgdir/etc/skel/.nanorc
+	chmod 644 $pkgdir/etc/skel/.Xdefaults
+	chmod 644 $pkgdir/etc/skel/.Xresources
+	chmod 644 $pkgdir/etc/skel/.xsession
+	chmod 644 $pkgdir/etc/skel/.gtk_qt_engine_rc
+	chmod 644 $pkgdir/etc/skel/.xxkbrc
+	chmod 644 $pkgdir/etc/skel/.notify-osd
+}
+

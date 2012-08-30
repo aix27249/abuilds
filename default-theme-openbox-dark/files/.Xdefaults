@@ -1,0 +1,129 @@
+###########################
+## Cursor Theme for *box ##
+###########################
+#
+Xcursor*size:  22
+Xcursor*theme : Vanilla-DMZ
+#
+#################
+## XFT Setting ##
+#################
+#
+Xft*dpi:        96
+Xft*antialias:  true
+Xft*hinting:    true
+Xft*hintstyle:  hintslight
+Xft*rgba:	none
+#
+##########################
+## URxvt general config ##
+##########################
+#
+URxvt*foreground: #f2f2f2
+URxvt*background: #303030
+URxvt*font: xft:Droid Sans Mono-10
+URxvt*scrollstyle:plain
+URxvt*scrollBar_right:true
+URxvt*scrollColor: #b3b3a1
+#
+##########################
+## цветовая схема URxvt ##
+##########################
+#
+! black + red
+URxvt*color0:      #303030
+URxvt*color1:      #705050
+! green + yellow
+URxvt*color2:      #60b48a
+URxvt*color3:      #dfaf8f
+! blue + purple
+URxvt*color4:      #506070
+URxvt*color5:      #dc8cc3
+! cyan + white
+URxvt*color6:      #8cd0d3
+URxvt*color7:      #dcdccc
+! bright-black + bright-red
+URxvt*color8:      #709080
+URxvt*color9:      #dca3a3
+! bright-green + bright-yellow
+URxvt*color10:     #c3bf9f
+URxvt*color11:     #f0dfaf
+! bright-blue + bright-purple
+URxvt*color12:     #94bff3
+URxvt*color13:     #ec93d3
+! bright-cyan + bright-white
+URxvt*color14:     #93e0e3
+URxvt*color15:     #ffffff
+#
+##########################
+## XTerm general config ##
+##########################
+#
+XTerm*foreground: #f2f2f2
+XTerm*background: #303030
+XTerm*font: -*-fixed-medium-r-*-*-18-*-*-*-*-*-iso10646-1
+XTerm*boldFont: -*-fixed-medium-r-*-*-18-*-*-*-*-*-iso10646-1
+XTerm*loginShell: true
+XTerm*charClass: 33:48,35:48,37-38:48,43-47:48,58:48,61:48,63-64:48,126:48
+XTerm*altSendsEscape:  true
+XTerm*keepSelection:   true
+XTerm*bellIsUrgent: true
+XTerm*dynamicColors: on
+XTerm*saveLines: 32000
+XTerm*rightScrollBar: True
+XTerm*scrollBar: True
+#
+###########################
+## XTerm keyboard config ##
+###########################
+#
+XTerm*VT100.Translations: #override \
+Prior: scroll-back(1,page) \n\
+Next: scroll-forw(1,page) \n\
+Prior: scroll-back(1,pages) \n\
+Next: scroll-forw(1,pages)\n\
+Meta W: quit() \n\
+Meta V: insert-selection(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
+: select-end(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
+Meta K: send-signal(int) clear-saved-lines() \n\
+Meta P: print() \n\
+Meta minus: smaller-vt-font() \n\
+Meta KP_Subtract: smaller-vt-font() \n\
+Meta plus: larger-vt-font() \n\
+Meta KP_Add: larger-vt-font() \n\
+Meta C: select-cursor-start() \
+select-cursor-end(PRIMARY, CUT_BUFFER0) \n\
+Meta M: iconify() \n\
+#
+##########################
+## цветовая схема XTerm ##
+##########################
+#
+XTerm*color0:      #303030
+XTerm*color1:      #705050
+XTerm*color2:      #60b48a
+XTerm*color3:      #dfaf8f
+XTerm*color4:      #506070
+XTerm*color5:      #dc8cc3
+XTerm*color6:      #8cd0d3
+XTerm*color7:      #dcdccc
+XTerm*color8:      #709080
+XTerm*color9:      #dca3a3
+XTerm*color10:     #c3bf9f
+XTerm*color11:     #f0dfaf
+XTerm*color12:     #94bff3
+XTerm*color13:     #ec93d3
+XTerm*color14:     #93e0e3
+XTerm*color15:     #ffffff
+#
+########################
+## YeahConsole Config ##
+########################
+#
+yeahconsole*term:urxvt -pe tabbed
+yeahconsole*toggleKey:None+F12
+yeahconsole*restart:1
+yeahconsole*keyFull:None+F11
+yeahconsole*keySmaller:Control+KP_Subtract
+yeahconsole*keyBigger:Control+KP_Add
+yeahconsole*metaSendsEscape: true

@@ -1,0 +1,28 @@
++class
+{
+  -windows { image = "$$/small_windows.png" }
+  -linux { image = "$$/small_linux.png" }
+  -ubuntu { image = "$$/small_ubuntu.png" }
+  -debian { image = "$$/small_debian.png" }
+  -suse { image = "$$/small_suse.png" }
+  -freebsd { image = "$$/small_freebsd.png" }
+  -macosx { image = "$$/small_osx.png" }
+  -gentoo { image = "$$/small_gentoo.png" }
+  -linuxmint { image = "$$/small_linuxmint.png" }
+  -mandrake { image = "$$/small_mandrake.png" }
+  -arch { image = "$$/small_arch.png" }
+  -centos { image = "$$/small_centos.png" }
+  -fedora { image = "$$/small_fedora.png" }
+  -mepis { image = "$$/small_mepis.png" }
+  -pclinuxos { image = "$$/small_pclinuxos.png" }
+  -puppy { image = "$$/small_puppy.png" }
+  -redhat { image = "$$/small_redhat.png" }
+  -sabayon { image = "$$/small_sabayon.png" }
+  -slackware { image = "$$/small_slackware.png" }
+  -zenix { image = "$$/small_zenix.png" }
+  -molinux { image = "$$/small_molinux.png" }
+  -image { image = "$$/small_unknown.png" }
+  -agilia { image = "$$/small_agilia.png" }
+}
+
+-include "../custom/icon_small"

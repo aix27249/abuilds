@@ -1,0 +1,17 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=flacon
+pkgver=0.6.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A FLAC/CUE file splitter."
+source="http://flacon.googlecode.com/files/$pkgname-$pkgver.tgz"
+tags="xapps media-sound"
+adddep="PyQt flac shntool"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make DESTDIR=$pkgdir install
+}

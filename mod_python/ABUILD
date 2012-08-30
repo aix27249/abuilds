@@ -1,0 +1,25 @@
+# $Id: PKGBUILD 90456 2010-09-11 19:32:09Z eric $
+# Maintainer: Judd Vinet <jvinet@zeroflux.org>
+# Ported to AgiliaLinux: aix27249 <i27249@gmail.com>
+
+pkgname=mod_python
+pkgver=3.3.1
+pkgbuild=2
+shortdesc="An Apache module that embeds the Python interpreter within the server"
+longdesc="An Apache module that embeds the Python interpreter within the server"
+arch=('auto')
+url="http://www.modpython.org/"
+license=('APACHE')
+depends=('apache' 'python2')
+tags=("server www-apache")
+source=(http://archive.apache.org/dist/httpd/modpython/mod_python-${pkgver}.tgz)
+
+build() {
+	go_src_dir
+	burn_patches
+	autoreconf
+	./configure --prefix=/usr
+	sed -i -e 's/ -Wl,--hash-style  $//' src/Makefile
+	make -j${numjobs}
+	make DESTDIR="${pkgdir}" install
+}

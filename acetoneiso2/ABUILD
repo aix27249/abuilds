@@ -1,0 +1,63 @@
+#ABUILD created by/создан: Coldead, icedeath.cat at ya.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=acetoneiso2
+pkgver=2.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="AcetoneISO"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("An all in one ISO tool (bin mdf nrg img daa dmg cdi b5i bwi pdi iso)"
+)
+
+source=("http://downloads.sourceforge.net/acetoneiso/AcetoneISO/AcetoneISO%202.3/acetoneiso_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-cdr"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="qt4 fuseiso cdrdao dvd+rw-tools gnupg2 pinentry MPlayer phonon"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+        cd ${srcdir}/acetoneiso_${pkgver}/acetoneiso
+        qmake
+	sed -i 's|-I/usr/include/QtCore|-I/usr/include/QtCore -I/usr/include/KDE|' Makefile
+	make
+        make INSTALL_ROOT="${pkgdir}" install
+}
+

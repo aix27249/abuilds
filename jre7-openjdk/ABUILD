@@ -1,0 +1,191 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=openjdk7
+pkgbase=java7-openjdk
+
+_java_ver=7
+_openjdk_build=b147
+_icedtea_ver=2.0
+
+_CORBA_CHANGESET=4d9e4fb8af09
+_HOTSPOT_CHANGESET=b28ae681bae0
+_JAXP_CHANGESET=948e734135ea
+_JAXWS_CHANGESET=a2ebfdc9db7e
+_JDK_CHANGESET=2054526dd141
+_LANGTOOLS_CHANGESET=9b85f1265346
+_OPENJDK_CHANGESET=0a76e5390e68
+
+pkgver=${_java_ver}.${_openjdk_build}_${_icedtea_ver}
+pkgbuild=1
+arch=('auto')
+
+shortdesc="OpenJDK 7 WOOHOOO!"
+
+source=("hg:http://icedtea.classpath.org/hg/icedtea7"
+	"http://icedtea.classpath.org/hg/icedtea7-forest/archive/${_OPENJDK_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/corba/archive/${_CORBA_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/jaxp/archive/${_JAXP_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/jaxws/archive/${_JAXWS_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/jdk/archive/${_JDK_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz n"
+        "http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n")
+
+adddep="ca-certificates-java"
+
+tags="libs sys-libs"
+
+pkglist="jre7 jdk7 jdk7-source"
+_jvmdir=/opt/openjdk7
+
+# Set me to replace JDK6
+if [ "$REPLACE" == "1" ]; then
+	_prefix=""
+else
+	_prefix="java7-"
+fi
+
+jre7() {
+	pkgname=jre7-openjdk
+	shortdesc="OpenJDK 7 Runtime Environment"
+#	provides=jre
+}
+jdk7() {
+	pkgname=jdk7-openjdk
+	shortdesc="OpenJDK 7 Development Kit"
+	adddep="jre7-openjdk"
+#	provides=jdk
+}
+jdk7-source() {
+	pkgname=jdk7-source-openjdk
+	shortdesc="OpenJDK 7 source package"
+}
+build() {
+	go_src_dir
+	echo "Building with prefix: $_prefix"
+	unset JAVA_HOME
+	unset CLASSPATH
+	unset MAKEFLAGS
+
+	export ALT_PARALLEL_COMPILE_JOBS=$numjobs
+	export HOTSPOT_BUILD_JOBS=$numjobs
+	export ALT_BOOTDIR=/opt/java
+
+	. /etc/profile.d/apache-ant.sh
+
+	cp ${patchdir}/*.diff patches
+	export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff patches/fix_corba_cmds_path.diff patches/openjdk7_fix_jdk_cmds_path.diff patches/openjdk7_nonreparenting-wm.diff"
+
+	# Bootstrap IcedTea with ecj and a GNU Classpath-based JDK:
+	autoreconf --force --install
+
+	./configure \
+	      --disable-bootstrap \
+	      --disable-tests \
+	      --with-pkgversion=AgiliaLinux-${pkgver} \
+	      --with-openjdk-src-zip=${srcache}/${_OPENJDK_CHANGESET}.tar.gz \
+	      --with-hotspot-src-zip=${srcache}/${_HOTSPOT_CHANGESET}.tar.gz \
+	      --with-corba-src-zip=${srcache}/${_CORBA_CHANGESET}.tar.gz \
+	      --with-jaxp-src-zip=${srcache}/${_JAXP_CHANGESET}.tar.gz \
+	      --with-jaxws-src-zip=${srcache}/${_JAXWS_CHANGESET}.tar.gz \
+	      --with-jdk-src-zip=${srcache}/${_JDK_CHANGESET}.tar.gz \
+	      --with-langtools-src-zip=${srcache}/${_LANGTOOLS_CHANGESET}.tar.gz \
+	      --with-jdk-home=/opt/java
+
+	# OMEGA HACK
+	export LANG=en_US.UTF-8
+	export LC_ALL=en_US.UTF-8
+
+	make
+}
+
+jre7_prep()
+{
+	go_src_dir
+	cd "openjdk.build/j2sdk-image/jre"
+
+	install -d -m755 ${pkgdir}/${_jvmdir}/jre/
+	cp -a bin lib ${pkgdir}/${_jvmdir}/jre
+
+	mv ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.Ubuntu.properties.src ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.properties.src
+	mv ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.Ubuntu.bfc ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.bfc
+	rm -f ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.*.bfc
+	rm -f ${pkgdir}/${_jvmdir}/jre/lib/fontconfig.*.properties.src
+
+	# Install man pages
+	pushd ../../j2re-image/man
+	install -m755 -d ${pkgdir}/usr/share/man/{,ja/}man1/
+	install -m644 man1/*.1 ${pkgdir}/usr/share/man/man1
+	install -m644 ja_JP.UTF-8/man1/*.1 ${pkgdir}/usr/share/man/ja/man1
+	popd
+
+	# Install icons and menu entries
+	for s in 16 24 32 48 ; do
+	  install -m755 -d ${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/
+	  install -m644 ../../../openjdk/jdk/src/solaris/classes/sun/awt/X11/java-icon${s}.png ${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/java.png
+	done
+
+	# Link binaries into /usr/bin
+	pushd ${pkgdir}/${_jvmdir}/jre/bin
+	install -m755 -d ${pkgdir}/usr/bin/
+	for file in *; do
+	  ln -sf ${_jvmdir}/jre/bin/${file} ${pkgdir}/usr/bin/${_prefix}${file}
+	done
+	popd
+
+	# Link JKS keystore from ca-certificates-java
+	rm -f ${pkgdir}/${_jvmdir}/jre/lib/security/cacerts
+	ln -sf /etc/ssl/certs/java/cacerts "${pkgdir}/${_jvmdir}/jre/lib/security/cacerts"
+
+	# Set some variables
+	install -m755 -d ${pkgdir}/etc/profile.d/
+	install -m755 ${filedir}/${pkgname}.profile ${pkgdir}/etc/profile.d/${pkgname}.sh
+	install -m755 ${filedir}/${pkgname}.profile.csh ${pkgdir}/etc/profile.d/${pkgname}.csh
+}
+
+jdk7_prep()
+{
+	go_src_dir
+	cd "openjdk.build/j2sdk-image"
+
+	# Main files
+	install -m755 -d ${pkgdir}/${_jvmdir}/
+
+	cp -a demo include lib sample ${pkgdir}/${_jvmdir}
+
+	# 'bin' files
+	pushd bin
+	install -m755 -d ${pkgdir}/${_jvmdir}/bin/ ${pkgdir}/usr/bin/ ${pkgdir}/usr/share/man/{,ja/}man1/
+
+	# 'java-rmi.cgi' will be handled separately as it should not be in the PATH and has no man page
+	for b in $(ls | grep -v java-rmi.cgi); do
+	  if [ -e ../jre/bin/${b} ]; then
+	    # Provide a link of the jre binary in the jdk/bin/ directory
+	    ln -s ../jre/bin/${b} ${pkgdir}/${_jvmdir}/bin/${b}
+	  else
+	    # Copy binary to jdk/bin/
+	    install -m755 ${b} ${pkgdir}/${_jvmdir}/bin/${b}
+	    # Copy man page
+	    install -m644 ../man/man1/${b}.1 ${pkgdir}/usr/share/man/man1/${b}.1
+	    install -m644 ../man/ja/man1/${b}.1 ${pkgdir}/usr/share/man/ja/man1/${b}.1
+	    # Link from /bin/
+	    ln -s ${_jvmdir}/bin/${b} ${pkgdir}/usr/bin/${_prefix}${b}
+	  fi
+	done
+	popd
+
+	# Handling 'java-rmi.cgi' separately
+	install -m755 -D bin/java-rmi.cgi ${pkgdir}/${_jvmdir}/bin/java-rmi.cgi
+
+	# Desktop files
+	install -m755 -d ${pkgdir}/usr/share/applications/
+	install -m644 ${filedir}/{${_prefix}jconsole,${_prefix}policytool}.desktop ${pkgdir}/usr/share/applications/
+
+	# Set some variables
+	install -m755 -d ${pkgdir}/etc/profile.d/
+	install -m755 ${filedir}/${pkgname}.profile ${pkgdir}/etc/profile.d/${pkgname}.sh
+	install -m755 ${filedir}/${pkgname}.profile.csh ${pkgdir}/etc/profile.d/${pkgname}.csh
+}
+
+jdk7-source_prep() {
+	go_src_dir
+	install -D openjdk.build/j2sdk-image/src.zip ${pkgdir}/${_jvmdir}/src.zip
+}

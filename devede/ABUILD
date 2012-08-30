@@ -1,0 +1,78 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=devede
+pkgver=3.21.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DeVeDe (GNOME DVD creator)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("DeVeDe is a program to create video CDs and DVDs, suitables for home players, from any number of video files, in any of the formats supported by Mplayer."
+	  ""
+	  "Homepage: http://www.rastersoft.com/programas/devede.html"
+)
+
+source=("http://www.rastersoft.com/descargas/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-video"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="dvdauthor>=0.6.18 vcdimager>=0.7.23"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="version.txt"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+./install.sh \
+--prefix=/usr \
+--bindir=/usr/bin \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--pkgdocdir=/usr/doc/${pkgname}-${pkgver} \
+--unistall=no \
+--targeted=yes \
+--DESTDIR=${pkgdir} || return 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+rm -rf ${pkgdir}/usr/share/pixmaps/backgrounds
+if [ $ARCH = "x86_64" ]; then
+sed -i 's/\/usr\/lib\/devede/\/usr\/lib64\/devede/g' ${pkgdir}/usr/bin/devede
+fi
+}

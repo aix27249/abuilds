@@ -1,0 +1,12 @@
+#!/sbin/runscript
+
+depend() {
+    after dbus
+}
+
+start() {
+    ebegin "Starting samsung-tools..."
+    dbus-send --system --print-reply=literal 
+--dest='org.voria.SamsungTools.System' \
+    '/' org.voria.SamsungTools.System.SetInitialDevicesStatus
+}

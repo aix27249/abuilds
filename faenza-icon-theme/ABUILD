@@ -1,0 +1,83 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=faenza-icon-theme
+pkgver=1.2
+_VERSION=d2v6x24
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Faenza Icons - Icon theme project with tilish style, by Tiheum"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This icon theme for Gnome provides monochromatic icons for panels, toolbars and buttons and colourful squared icons for devices, applications, folder, files and Gnome menu items. Two themes are included to fit with light or dark panels. This work is released under the GNU/GPL license."
+)
+
+source=("http://www.deviantart.com/download/173323228/faenza_icons_by_tiheum-${_VERSION}.zip")
+
+wgetopts="--user-agent='wget'"
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-themes themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="hicolor-icon-theme gnome-icon-theme"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="AUTHORS ChangeLog COPYING README"
+
+gendeps_blacklist=usr/share/icons/*
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="skip_gendeps"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+go_src_dir
+burn_patches
+
+for i in $(ls . | grep tar); do
+	tar -xf ${i}
+done
+
+mkdir -p ${pkgdir}/usr/share/icons
+
+ cp -a ${srcdir}/Faenza ${pkgdir}/usr/share/icons
+ cp -a ${srcdir}/Faenza-Dark ${pkgdir}/usr/share/icons
+ cp -a ${srcdir}/Faenza-Darkest ${pkgdir}/usr/share/icons
+ cp -a ${srcdir}/Faenza-Darker ${pkgdir}/usr/share/icons
+ cp -a ${srcdir}/Faenza-Radiance ${pkgdir}/usr/share/icons
+ 
+# start menu logo
+# 16 22 24 32 48
+for size in 22 24 32 48
+do 
+ cd ${pkgdir}/usr/share/icons/Faenza/places/$size
+  if [ -f start-here.png ]; then
+   ln -sf start-here-gnome.png start-here.png || exit 1
+  fi
+ # and Dark
+ cd ${pkgdir}/usr/share/icons/Faenza-Dark/places/$size
+  if [ -f start-here.png ]; then
+   ln -sf start-here-gnome.png start-here.png || exit 1
+  fi
+done
+}

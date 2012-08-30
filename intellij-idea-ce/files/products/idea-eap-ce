@@ -1,0 +1,9 @@
+pkgname=intellij-idea-ce-eap
+
+prodname="Intellij IDEA Community Edition EAP"
+shortdesc="IDE for Java, Groovy, Android and other programming languages. Early Access Build."
+
+provides="intellij-idea"
+source="http://download.jetbrains.com/idea/ideaIC-$pkgver.tar.gz"
+
+launcher="idea.sh"

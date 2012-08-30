@@ -1,0 +1,34 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=usb-modeswitch
+pkgver=1.2.1
+pkgbuild=1
+_pkgdata=20111023
+arch=('auto')
+
+shortdesc="USB_ModeSwitch is (surprise!) a mode switching tool for controlling flip flop (multiple device) USB gear"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("http://www.draisberghof.de/usb_modeswitch/$pkgname-$pkgver.tar.bz2"
+"http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-${_pkgdata}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-dialup"
+
+build()
+{
+
+go_src_dir
+make DESTDIR=$pkgdir install
+
+go_src_dir
+cd ../usb-modeswitch-data-${_pkgdata}
+make DESTDIR=$pkgdir install
+
+}
+
+

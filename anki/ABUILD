@@ -1,0 +1,79 @@
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=anki
+pkgver=1.2.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="anki (program for remembering words)"
+#longdesc=("Anki is a program which makes remembering things easy. Because it is a"
+#"lot more efficient than traditional study methods, you can either"
+#"greatly decrease your time spent studying, or greatly increase"
+#"the amount you learn."
+#"http://ankisrs.net"
+#)
+
+source=("http://anki.googlecode.com/files/${pkgname}-${pkgver}.tgz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-misc"
+
+#dependencies only needed to build package
+build_deps="python PyQt sqlalchemy simplejson python-pysqlite"
+
+provides=""
+conflicts=""
+
+adddep="PyQt sqlalchemy simplejson python-pysqlite numpy matplotlib MPlayer sox pyaudio lame"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+(
+cd libanki
+python setup.py install --root=${pkgdir}
+)
+python setup.py install --root=${pkgdir}
+mkdir -p ${pkgdir}/usr/share/applications
+cp -a ${srcdir}/${pkgname}-${pkgver}/anki.desktop ${pkgdir}/usr/share/applications
+mkdir -p ${pkgdir}/usr/share/icons/hicolor/32x32/apps
+cp -a ${srcdir}/${pkgname}-${pkgver}/icons/anki.png ${pkgdir}/usr/share/icons/hicolor/32x32/apps
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+#
+#}

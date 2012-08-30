@@ -1,0 +1,67 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=oxygen-refit-2-icon-theme
+pkgver=2.4.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="The Next Generation of Oxygen-Refit"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("It's an Icon Compilation made mostly from Oxygen, aswell as other free "
+	  "Icons and Semi-Selfmade ones.")
+
+source=("http://www.nanolx.org/free/Artwork/OxygenRefit2-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/oxygen-refit-2
+
+burn_patches
+
+./buildallsizes.sh
+
+mkdir -p $pkgdir/usr/share/icons
+
+rm -rf $srcdir/oxygen-refit-2/debian
+
+cp -a $srcdir/oxygen-refit-2 $pkgdir/usr/share/icons/
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

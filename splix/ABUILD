@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=splix
+pkgver=2.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="SpliX is a set of CUPS printer drivers for SPL (Samsung Printer Language) printers."
+
+source=("http://downloads.sourceforge.net/splix/$pkgname-$pkgver.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="drivers net-print"
+
+#dependencies only needed to build package
+build_deps="krb5 gcc"
+
+provides=""
+
+adddep="jbigkit ghostscript>=9.02"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build() {
+  go_src_dir
+  sed -i 's#const PPDFile::Value::Value #const PPDFile::Value #' src/ppdfile.cpp
+  make PSTORASTER=gstoraster
+  make DESTDIR="$pkgdir" install
+}
+
+#после сборки
+after_build(){
+  ln -s gstoraster ${pkgdir}/usr/lib${LIBDIRSUFFIX}/cups/filter/pstoraster
+}

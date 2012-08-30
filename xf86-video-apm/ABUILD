@@ -1,0 +1,16 @@
+pkgname=xf86-video-apm
+pkgver=1.2.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-apm: X11 driver for Alliance ProMotion cards')
+longdesc=('xf86-video-apm is an X11 driver for Alliance ProMotion video cards.')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-apm-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

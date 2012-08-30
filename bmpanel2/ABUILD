@@ -1,0 +1,66 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=bmpanel2
+pkgver=2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Nice NETWM-compatible panel for X11"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Features: * Look'n'feel customization via themes (see ThemeGallery). * A bunch of widgets: desktop switcher, taskbar, launchbar, systray, clock, decor, empty. * Pseudo-transparency support. * Written in C with speed and clarity in mind. * Small number of dependencies, briefly: glib2, cairo, pango, libX11. * Small memory footprint (about 2-4 megabytes). * Small executable (80 kilobytes at the moment).")
+
+source=("git:git://github.com/nsf/bmpanel2.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

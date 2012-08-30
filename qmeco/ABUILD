@@ -1,0 +1,64 @@
+#ABUILD created by/создан: aix27249, i27249 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qmeco
+pkgver=0.5
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Qt4 GUI to mencoder"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Qt4 GUI to mencoder, an audio/video converter"
+)
+
+source=("svn:http://qmeco.googlecode.com/svn/trunk")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-video xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="mplayer flac lame cdrdao vorbis-tools mjpegtools"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+mkdir -p ${pkgdir}/usr/bin
+go_src_dir
+cp qmeco ${pkgdir}/usr/bin/
+echo ""
+}

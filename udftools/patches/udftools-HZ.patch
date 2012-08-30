@@ -1,0 +1,13 @@
+--- cdrwtool/cdrwtool.h
++++ cdrwtool/cdrwtool.h
+@@ -22,6 +22,10 @@
+ /*
+  * adjust these values if commands are timing out before completion
+  */
++#ifndef HZ
++#define HZ sysconf(_SC_CLK_TCK)
++#endif
++
+ #define WAIT_PC			(5 * HZ)
+ #define WAIT_SYNC		(25 * HZ)
+ #define WAIT_BLANK		(60 * 60 * HZ)

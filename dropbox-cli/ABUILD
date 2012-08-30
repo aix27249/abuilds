@@ -1,0 +1,68 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dropbox-cli
+pkgver=1
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="Dropbox Linux CLI"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The Dropbox Linux CLI was created to accommodate for the lack of an official Linux CLI for Dropbox. This Python program allows you to query the daemon in a similar manner to the GUI client."
+	  ""
+	  "Homepage: http://www.dropbox.com"
+)
+
+source=("https://www.dropbox.com/download?dl=packages/dropbox.py n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console www-client"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="python dropbox"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+install -D -m 755 ${srcache}/dropbox.py ${pkgdir}/usr/bin/dropbox
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

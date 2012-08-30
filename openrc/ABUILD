@@ -1,0 +1,80 @@
+# Package metadata
+pkgname=openrc
+pkgver=0.8.3
+pkgbuild=5
+arch=('auto')
+
+# Package description
+shortdesc=("OpenRC - universal init system")
+longdesc=("OpenRC is a dependency based init system that works with the system provided init program, normally /sbin/init. It is not a replacement for /sbin/init. OpenRC is 100% compatible with  Gentoo init scripts, which means you can probably find one for the daemons you want to start in the  Gentoo Portage Tree. OpenRC also provides an init script that runs BSD rc.d style scripts too, making it easy to port your BSD system to OpenRC")
+
+# Source URL
+source=("http://mirror.yandex.ru/gentoo-distfiles/distfiles/openrc-${pkgver}.tar.bz2")
+
+# Tags
+tags="base sys-base"
+
+# Manually-added dependencies
+adddep="etc>=16.0 sed grep"
+
+config_files="etc/rc.conf
+etc/inittab
+etc/conf.d/keymaps
+etc/conf.d/hwclock
+etc/conf.d/consolefont
+etc/conf.d/modules
+etc/conf.d/fsck
+etc/conf.d/staticroute
+etc/conf.d/hostname
+etc/conf.d/bootmisc
+etc/conf.d/localmount
+etc/conf.d/network
+etc/conf.d/urandom
+etc/conf.d/dmesg
+etc/conf.d/gpm
+"
+
+# Main build script (used only if build_system="script")
+build() {
+	go_src_dir
+	burn_patches
+	export BRANDING="AgiliaLinux"
+
+	make  LIBNAME=lib$LIBDIRSUFFIX LIBEXECDIR=/lib$LIBDIRSUFFIX/rc -j${numjobs} OS=Linux || exit 1
+	make install DESTDIR=${pkgdir} LIBNAME=lib$LIBDIRSUFFIX LIBEXECDIR=/lib$LIBDIRSUFFIX/rc OS=Linux || exit 1
+}
+
+after_build() {
+	go_src_dir
+	set -e
+	# Copy modified scripts
+	for i in ${filedir}/init.d/* ; do
+	    install -m755  $i ${pkgdir}/etc/init.d/$(basename $i)
+	done
+
+	install -m644 ${filedir}/gpm.conf.d ${pkgdir}/etc/conf.d/gpm
+	
+	# Fix defaults in configuration file
+	sed -i 's/#rc_parallel=.*$/rc_parallel="YES"/g' ${pkgdir}/etc/rc.conf	
+	sed -i 's/#unicode=.*$/unicode="YES"/g' ${pkgdir}/etc/rc.conf	
+	sed -i 's/#rc_sys=.*$/rc_sys=""/g' ${pkgdir}/etc/rc.conf	
+	# Copy inittab
+	install -m644 ${filedir}/inittab ${pkgdir}/etc/inittab
+	
+	# Create X11 runlevel
+	mkdir -p ${pkgdir}/etc/runlevels/X11
+	( cd ${pkgdir}/etc/runlevels/X11 ; ln -s ../default default )
+
+	# Fix hwclock init script to match clock_synctohc variable
+	sed -i -e 's/clock_systohc/clock_synctohc/g' ${pkgdir}/etc/init.d/hwclock
+
+	# Fix default settings
+	# Don't wipe tmp by default, some users got shocked about this
+	sed -i 's/wipe_tmp="YES"/wipe_tmp="NO"/g' ${pkgdir}/etc/conf.d/bootmisc
+	# Fix path for urandom seed
+	sed -i 's/urandom_seed=.*/urandom_seed="\/etc\/random-seed"/g' ${pkgdir}/etc/conf.d/urandom
+	# Fix default console font
+	sed -i 's/default8x16/ter-u16n/g' ${pkgdir}/etc/conf.d/consolefont
+	set +e
+}
+

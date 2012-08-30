@@ -1,0 +1,67 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=specto
+pkgver=0.3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A program that will watch configurable events and then trigger notifications"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Specto is a desktop application that will watch configurable events (such as website updates, emails, file and folder changes, system processes, etc) and then trigger notifications."
+)
+
+source=("http://specto.googlecode.com/files/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome gnome-extra"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bzr"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

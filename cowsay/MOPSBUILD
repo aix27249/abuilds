@@ -1,0 +1,69 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=cowsay
+pkgver=3.03
+pkgbuild=2
+#arch=('auto')
+arch=noarch
+
+shortdesc="cowsay and cowthink, a Configurable Speaking/Thinking Cow"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Cowsay is a configurable talking cow, written in Perl. It operates much as"
+	  "the figlet program does, and it written in the same spirit of silliness."
+""
+	  "Homepage: http://www.nog.net/~tony/warez/cowsay.shtml"
+)
+
+source=("http://www.nog.net/~tony/warez/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="console games-misc"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep="perl"
+removedep=""
+
+author=NK
+email=nk-man@yandex.ru
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS"
+
+sed -i '70s|$PREFIX|/usr|' install.sh
+./install.sh $startdir/pkg/usr || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

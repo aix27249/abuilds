@@ -1,0 +1,26 @@
+pkgname=compizconfig-python
+pkgver=0.8.4
+pkgbuild=3
+arch=('auto')
+
+shortdesc="python compizconfig module"
+
+source=("http://releases.compiz.org/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-python develop"
+adddep="libcompizconfig"
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

@@ -1,0 +1,63 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+# Modified by aix27249
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hplip
+pkgver=3.12.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="HPLIP is an HP developed solution for printing, scanning, and faxing."
+
+source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz")
+
+#short and long tags / длинный и короткий тег
+tags="net-print drivers"
+
+adddep="pycairo pygobject dbus-python"
+
+
+build()
+{
+
+go_src_dir
+
+export AUTOMAKE='automake --foreign'
+autoreconf --force --install
+
+
+./configure --prefix=/usr \
+--with-cupsbackenddir=/usr/lib${LIBDIRSUFFIX}/cups/backend \
+--with-cupsfilterdir=/usr/lib${LIBDIRSUFFIX}/cups/filter \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--enable-pp-build \
+--enable-hpcups-install \
+--enable-foomatic-drv-install \
+--enable-foomatic-ppd-install \
+--enable-foomatic-rip-hplip-install \
+--enable-cups-drv-install \
+--enable-cups-ppd-install \
+--enable-new-hpcups \
+--enable-hpijs-install \
+--enable-qt4 \
+--enable-udev-acl-rules  || exit 1
+
+make DESTDIR=$pkgdir install || exit 1
+
+}
+
+
+
+after_build()
+{
+
+make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="$pkgdir/" install || exit 1
+rm -rf $pkgdir/etc/{sane.d,xdg} || exit 1
+rm -rf "$pkgdir"/usr/share/hal || exit 1
+
+
+}
+

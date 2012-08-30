@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Wine config utility
+Name[ru]=Wine - Утилита конфигурации
+Exec=winecfg
+Terminal=false
+Type=Application
+Icon=wine.png
+StartupNotify=true
+Categories=Application;Emulator;Utility

@@ -1,0 +1,53 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+pkgname=xl2tpd
+pkgver=1.2.7
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Xelerance Corporation currently maintains a version of the Layer 2 Tunneling Protocol (L2TP) daemon. "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Xelerance Corporation currently maintains a version of the Layer 2 Tunneling Protocol (L2TP) daemon.
+Our version contains many patches that have not yet been integrated into the mainstream release. 
+These patches are needed to run on modern distributions with DEVFS,
+ or to support L2TP over IPsec, when used in conjunction with Openswan.  "
+)
+
+source=("http://www.xelerance.com/software/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="network app-admin"
+
+adddep="ppp>=2.4.5"
+
+config_files="etc/xl2tpd/xl2tpd.conf
+etc/ppp/options.xl2tpd
+etc/xl2tpd/l2tp-secrets
+etc/ppp/ip-up.vl
+etc/ppp/ip-down.vl
+etc/ppp/options.vl
+etc/xl2tpd/xl2tpd.conf.vl"
+
+
+build()
+{
+	go_src_dir
+	set -e
+
+	make DFLAGS=" -g -DDEBUG_PPPD -DDEBUG_CONTROL -DDEBUG_ENTROPY -DTRUST_PPPD_TO_DIE" -j${numjobs}
+
+	make PREFIX=/usr DESTDIR=$pkgdir MANDIR=$pkgdir/usr/man install
+
+	install -p -D -m644 examples/xl2tpd.conf $pkgdir/etc/xl2tpd/xl2tpd.conf
+	install -p -D -m644 examples/ppp-options.xl2tpd $pkgdir/etc/ppp/options.xl2tpd
+	install -p -D -m600 doc/l2tp-secrets.sample $pkgdir/etc/xl2tpd/l2tp-secrets
+	install -p -D -m600 examples/chapsecrets.sample $pkgdir/etc/ppp/chap-secrets.sample
+
+	cp $filedir/ppp/ip-up.vl $pkgdir/etc/ppp
+	cp $filedir/ppp/ip-down.vl $pkgdir/etc/ppp
+	cp $filedir/ppp/options.vl $pkgdir/etc/ppp
+	cp $filedir/xl2tpd/xl2tpd.conf.vl $pkgdir/etc/xl2tpd
+
+	install -D -m0755 $filedir/xl2tpd.init $pkgdir/etc/init.d/xl2tpd
+
+	set +e
+}
+

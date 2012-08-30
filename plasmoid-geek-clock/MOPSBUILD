@@ -1,0 +1,77 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plasmoid-geek-clock
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Geek Clock"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Those are the simple analog clock but instead of regular numbers on the"
+	  "clock dial they have equivalent notations from mathematics, physics and"
+	  "computer science."
+""
+	  "License: GPL."
+""
+	  "Homepage: http://www.kde-look.org/content/show.php?content=107807"
+)
+
+source=("http://w2f2.com/projects/geekclock/geek-clock-plasmoid-$pkgver-src.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="kde4 kde-misc"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NK
+email=nk-man@yandex.ru
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/geek-clock-plasmoid-$pkgver-src
+
+burn_patches
+
+rm -rf build 
+mkdir build && cd build || exit 1 
+cmake \
+-DCMAKE_C_FLAGS="$SLKCFLAGS" \
+-DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
+-DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
+-DCMALE_LIB_DIR=/usr/lib${SUFF} ../
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+
+cd ../
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

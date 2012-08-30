@@ -1,0 +1,55 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mkpkg
+pkgver=1.2.2.8.3
+pkgbuild=1
+arch=('noarch')
+shortdesc="mkpkg package generation tool for AgiliaLinux"
+
+#source=("ftp://archlich.homeip.net:2121/projects/mkpkg_dir/mkpkg-${pkgver}.tar.xz")
+source="https://github.com/UnnamedHero/mkpkg/tarball/${pkgver}"
+#source="git:git://github.com/UnnamedHero/mkpkg.git"
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="dev-util develop"     			#short and long tags / длинный и короткий тег
+build_deps="python>=2.6.4 mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python"
+
+provides=""
+conflicts=""
+
+adddep="mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python bash"
+removedep=""
+
+numjobs=3 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+custom_opts=""
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+
+build()
+{
+go_src_dir
+burn_patches
+sed s,%MKPKG_VER%,${pkgver}, -i mkpkg
+install -Dm755 mkpkg  "${pkgdir}/sbin/mkpkg"
+
+install -Dm755 mkpkg_32to64  "${pkgdir}/sbin/mkpkg_32to64"
+mkdir -p "${pkgdir}/usr/share/mpkg/mkpkg" "${pkgdir}/etc" "${pkgdir}/usr/bin"
+install -m644 {mkpkg.messages,mkpkg.n_messages,mkpkg_nonlatin.py,mkpkg_xml_parser.py,taglist,ABUILD,mkpkg_build_functions,mkpkg_shared_functions} "${pkgdir}"/usr/share/mpkg/mkpkg
+cp -a mkpkg_templates "${pkgdir}/usr/share/mpkg/mkpkg/"
+install -m644 mkpkg.conf "${pkgdir}/etc/mkpkg.conf.new"
+cd "${pkgdir}/usr/bin"
+ln -s ../../sbin/mkpkg .
+mkdir -p "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
+cd -
+cp -a CHANGELOG "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
+}

@@ -1,0 +1,18 @@
+pkgname=xf86-input-wacom
+pkgver=0.16.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('Wacom tablets support')
+longdesc=("X11 driver for Wacom tablets. Supported Serial Devices: UD series & PenPartner, Graphire & Intuos series, Cintiq series, TabletPC (with/without touch); Supported USB Devices: Graphire series, Cintiq (V4 series), CintiqPartner, Intuos 1, 2, 3, & 4, Cintiq (V5 series), Volito series, PenPartner series, PL & DTF, Bamboo, Bamboo1, & BambooFun, TabletPC (with/without touch)")
+
+tags=('x11-drivers xserver')
+
+source=("http://prdownloads.sourceforge.net/linuxwacom/xf86-input-wacom-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-xorg-conf-dir=/etc/X11/xorg.conf.d "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+config_files="etc/X11/xorg.conf.d/50-wacom.conf"
+

@@ -1,0 +1,24 @@
+echo "
+${_PKGNAME}()
+{
+	pkgname=leechcraft-${_PKGNAME}
+	shortdesc=\"${_SHORTDESC}\"
+}
+
+${_PKGNAME}_prep()
+{
+	go_src_dir
+	cd src/plugins/${_PKGNAME}
+	
+	BUILD_KEYS=\"-DLEECHCRAFT_VERSION=\$LCVER -DCMAKE_BUILD_TYPE=Release -DLIB_SUFFIX=\${LIBDIRSUFFIX} -DCMAKE_INSTALL_PREFIX=/usr -DRESPECTLIB64:BOOL=TRUE ../\"
+	INSTALL_KEYS=\"DESTDIR=\${pkgdir} PREFIX=\${pkgdir}/usr\"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake \$BUILD_KEYS
+	make
+	make \$INSTALL_KEYS install
+}
+"

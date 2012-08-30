@@ -1,0 +1,36 @@
+pkgname=ejabberd
+pkgver=2.1.10
+pkgbuild=1
+shortdesc="An erlang jabber server"
+longdesc="An erlang jabber server"
+arch=('auto')
+config_files="etc/ejabberd/ejabberd.cfg
+etc/conf.d/ejabberd
+etc/ejabberd/inetrc
+etc/ejabberd/ejabberdctl.cfg
+etc/logrotate.d/ejabberd"
+source=(http://www.process-one.net/downloads/ejabberd/${pkgver/_/-}/ejabberd-${pkgver}.tar.gz)
+tags=("server net-im")
+adddep="erlang"
+
+build() {
+	set -e
+	cd ${srcdir}/${pkgname}-${pkgver}/src
+
+	sed -i "s|EJABBERDDIR = \$(DESTDIR)@prefix@/var/lib/ejabberd|EJABBERDDIR = \$(DESTDIR)@prefix@/usr/lib$LIBDIRSUFFIX/ejabberd|g" ./Makefile.in
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib$LIBDIRSUFFIX --enable-pam --enable-odbc
+	make -j${numjobs}
+	make DESTDIR=${pkgdir} install
+
+	install -D -m 0755 ${filedir}/ejabberd.init ${pkgdir}/etc/init.d/ejabberd
+	install -D -m 0644 ${filedir}/ejabberd.conf.d ${pkgdir}/etc/conf.d/ejabberd
+	install -d ${pkgdir}/var/spool/ejabberd
+	install -d ${pkgdir}/var/lib/ejabberd
+
+	install -D -m0644 ${filedir}/ejabberd.logrotate ${pkgdir}/etc/logrotate.d/ejabberd
+	chmod ug+r ${pkgdir}/etc/ejabberd/*
+	mkdir -p ${pkgdir}/install
+	cat ${filedir}/doinst.sh | sed -e s/LIBDIRSUFFIX/$LIBDIRSUFFIX/g > ${pkgdir}/install/doinst.sh
+	set +e
+}
+

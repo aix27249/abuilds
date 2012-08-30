@@ -1,0 +1,30 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=avfs
+pkgver=0.9.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Virtual file system (highly usable with Worker file manager)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Virtual file system"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/avf/${pkgname}-${pkgver}.tar.bz2")
+
+tags="utils sys-fs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

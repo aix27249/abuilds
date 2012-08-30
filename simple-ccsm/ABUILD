@@ -1,0 +1,63 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=simple-ccsm
+pkgver=0.8.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="simple Compiz settings manager"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is simple configuration tool for Compiz"
+)
+
+source=("http://releases.compiz-fusion.org/$pkgver/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="ccsm"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+  cd $srcdir/$pkgname-$pkgver
+  ./setup.py install --prefix=/usr --root=$pkgdir 
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

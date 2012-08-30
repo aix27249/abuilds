@@ -1,0 +1,29 @@
+# Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+pkgname=liblrdf
+pkgver=0.5.0
+pkgbuild=2
+arch=('auto')
+shortdesc="A library for the manipulation of RDF file in LADSPA plugins"
+longdesc=("A lightweight RDF library with special support for LADSPA plugins."
+)
+source=("http://agilia.pztrn.ru/sources/liblrdf-0.5.0.tar.gz")
+tags="libs media-libs"
+build_desp="ladspa"
+
+before_build() {
+    go_src_dir
+    ./autogen.sh
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

@@ -1,0 +1,68 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rhythmbox-psi-plugin
+pkgver=1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Rhythmbox plugin for Psi+ tune"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This plugin provides feature of Psi Jabber 'now playing' status changing based on activity of Rhythmbox."
+)
+
+source=("http://sites.google.com/site/thesomeprojects/main-1/zagruzki/tunetopsi.tar.gz?attredirects=0")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="rhythmbox"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir/
+mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/rhythmbox/plugins/tunetopsi
+cp $srcdir/* $pkgdir/usr/lib$LIBDIRSUFFIX/rhythmbox/plugins/tunetopsi
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

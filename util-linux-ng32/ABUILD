@@ -1,0 +1,219 @@
+# util-linux-ng ABUILD
+pkgname=util-linux-ng
+pkgver=2.18
+pkgbasever=2.18
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('util-linux-ng (a huge collection of essential utilities)')
+longdesc=('The util-linux package is a huge collection of random utilities that are essential to run a Linux system. This is a fork of the original util-linux, based on version 2.13-pre7. http://kernel.org/~kzak/util-linux-ng/')
+
+tags=('base sys-apps')
+
+source=("http://www.kernel.org/pub/linux/utils/util-linux-ng/v${pkgbasever}/util-linux-ng-${pkgver}.tar.bz2")
+
+build_deps='aaa_elflibs glibc-solibs libtool>=2.2.6'
+
+before_build() {
+ echo ""
+}
+build() {
+go_src_dir
+burn_patches
+
+CWD=`pwd`
+
+ADJTIMEXVERS=1.23
+SETSERIALVERS=2.17
+ZIPTOOLVERS=1.4.0
+
+CFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --infodir=/usr/info \
+  --docdir=/usr/doc/util-linux-ng-$pkgver \
+  --enable-arch \
+  --enable-agetty \
+  --disable-init \
+  --enable-kill \
+  --enable-rdev \
+  --disable-last \
+  --enable-partx \
+  --enable-mesg \
+  --enable-raw \
+  --enable-rename \
+  --enable-reset \
+  --disable-login-utils \
+  --enable-schedutils \
+  --enable-wall \
+  --enable-libuuid \
+  --enable-write \
+  --enable-use-tty-group \
+  --with-fsprobe=builtin \
+  --build=$ARCH-slackware-linux \
+  --host=$ARCH-slackware-linux \
+  || exit 1
+
+make HAVE_SLN=yes ADD_RAW=yes -j${numjobs} || exit 1
+make HAVE_SLN=yes ADD_RAW=yes DESTDIR=$pkgdir install
+
+# Moving things around that have been in the same place
+# for 15 years is, IMHO, not a wise idea AT ALL.
+# If this had to be moved, some place out of /usr might
+# have shown a grain of insight...
+if [ -r ${pkgdir}/usr/sbin/fdformat ]; then
+  mkdir -p ${pkgdir}/usr/bin
+  mv ${pkgdir}/usr/sbin/fdformat ${pkgdir}/usr/bin/fdformat
+  # Now since stuff will start looking in this new place,
+  # we have no choice but to link these:
+  ( cd ${pkgdir}/usr/sbin
+    ln -sf ../bin/fdformat .
+  )
+fi
+
+# Install (probably obsolete) rdev manually:
+cat ./sys-utils/rdev > ${pkgdir}/sbin/rdev
+chown root:root ${pkgdir}/sbin/rdev
+chmod 755 ${pkgdir}/sbin/rdev
+
+# Build ziptool
+mkdir -p ${startdir}/ziptools_src
+cd ${startdir}/ziptools_src || exit 1
+tar xvf ${filedir}/ziptool-$ZIPTOOLVERS.tar.bz2 || exit 1
+cd ziptool-$ZIPTOOLVERS || exit 1
+zcat ${filedir}/ziptool-fix_build.patch.gz | patch -p1 || exit 1
+mkdir scsi
+cat ${filedir}/scsi_ioctl.h > scsi/scsi_ioctl.h
+chown -R root:root .
+make || exit 1
+strip ziptool
+cat ziptool > ${pkgdir}/sbin/ziptool
+chmod 0755 ${pkgdir}/sbin/ziptool
+mkdir -p ${pkgdir}/usr/doc/ziptool-$ZIPTOOLVERS
+cp -a README ${pkgdir}/usr/doc/ziptool-$ZIPTOOLVERS
+chmod 644 ${pkgdir}/usr/doc/ziptool-$ZIPTOOLVERS/*
+cat ziptool.1.gz > ${pkgdir}/usr/man/man1/ziptool.1.gz
+
+# Build bsdstrings
+mkdir -p ${startdir}/bsdstrings_src
+cd ${startdir}/bsdstrings_src  || exit 1
+tar xvf ${filedir}/bsdstrings.tar.gz || exit 1
+cd bsdstrings || exit 1
+make || exit 1
+strip strings
+cat strings > ${pkgdir}/usr/bin/strings
+chmod 0755 ${pkgdir}/usr/bin/strings
+cat strings.1 | gzip -9c > ${pkgdir}/usr/man/man1/strings.1.gz
+
+# Add just the hostname utilities from net-tools, so that anyone
+# installing just the A series will not have a hostname (null):
+mkdir -p ${startdir}/nettools_src
+cd ${startdir}/nettools_src  || exit 1
+
+tar xvf ${filedir}/net-tools-1.60.tar.bz2
+cd net-tools-1.60
+zcat ${filedir}/net-tools_1.60-19.diff.gz | patch -p1 || exit
+zcat ${filedir}/net-tools.diff.gz | patch -p1 || exit
+make
+make hostname
+strip hostname
+cat hostname > ${pkgdir}/bin/hostname
+chmod 755 ${pkgdir}/bin/hostname
+chown root:root ${pkgdir}/bin/hostname
+( cd ${pkgdir}/bin
+  ln -sf hostname dnsdomainname
+  ln -sf hostname nisdomainname
+  ln -sf hostname ypdomainname
+  ln -sf hostname domainname
+)
+cd man/en_US
+for page in hostname.1 dnsdomainname.1 nisdomainname.1 ypdomainname.1 \
+domainname.1 ; do
+  cat $page | gzip -9c > ${pkgdir}/usr/man/man1/$page.gz
+done
+
+# Build adjtimex
+mkdir -p ${startdir}/adjtimex_src
+cd ${startdir}/adjtimex_src  || exit 1
+
+tar xvf ${filedir}/adjtimex_${ADJTIMEXVERS}.orig.tar.gz || exit 1
+cd adjtimex-$ADJTIMEXVERS || exit 1
+chown -R root:root .
+zcat ${filedir}/adjtimex_1.23-1.diff.gz | patch -p1 || exit 1
+CFLAGS=-O2 ./configure --prefix=/usr || exit 1
+make || exit 1
+strip adjtimex
+cat adjtimex > ${pkgdir}/sbin/adjtimex
+chmod 0755 ${pkgdir}/sbin/adjtimex
+cat adjtimex.8 | gzip -9c > ${pkgdir}/usr/man/man8/adjtimex.8.gz
+mkdir -p ${pkgdir}/usr/doc/adjtimex-$ADJTIMEXVERS
+cp -a COPYING COPYRIGHT README README.ru adjtimex.lsm \
+  ${pkgdir}/usr/doc/adjtimex-$ADJTIMEXVERS
+
+# Build setserial
+mkdir -p ${startdir}/setserial_src
+cd ${startdir}/setserial_src  || exit 1
+
+tar xvf ${filedir}/setserial-$SETSERIALVERS.tar.gz || exit 1
+cd setserial-$SETSERIALVERS || exit 1
+chown -R root:root .
+zcat ${filedir}/setserial-rc.serial.diff.gz | patch -E -p1 --verbose || exit 1
+zcat ${filedir}/setserial-undef_TIOCGHAYESESP.diff.gz | patch -E -p1 --verbose || exit 1
+# The original config.{guess,sub} do not work on x86_64
+cp -p /usr/share/libtool/config/config.{guess,sub} .
+./configure --prefix=/usr || exit 1
+make || exit 1
+strip setserial
+cat setserial > ${pkgdir}/sbin/setserial
+chmod 0755 ${pkgdir}/sbin/setserial
+
+# NOTE: setserial init script is disabled for now. I don't know if someone uses it, since I didn't find any traces of this in distros other than Slackware.
+#mkdir -p ${pkgdir}/etc/rc.d
+#cat rc.serial > $PKG/etc/rc.d/rc.serial.new
+mkdir -p ${pkgdir}/etc
+cat serial.conf > ${pkgdir}/etc/serial.conf.new
+cat setserial.8 | gzip -9c > ${pkgdir}/usr/man/man8/setserial.8.gz
+
+# These have always traditionally been available before /usr
+# might be mounted:
+( cd ${pkgdir}/usr/bin
+  mv getopt setterm ${pkgdir}/bin
+  cd ${pkgdir}/usr/bin
+  ln -s ../../bin/getopt .
+  ln -s ../../bin/setterm .
+)
+
+# Go back home :)
+go_src_dir
+
+# Now let's add some important symlinks :)
+( cd ${pkgdir}/sbin
+  ln -s ../bin/mount .
+  ln -s ../bin/umount .
+  ln -s ziptool jaztool
+  ln -s hwclock clock
+  cd ${pkgdir}/usr/sbin
+  ln -s ../../sbin/cfdisk .
+  ln -s ../../sbin/ctrlaltdel .
+  ln -s ../../sbin/sfdisk .
+  cd ${pkgdir}/usr/bin
+  ln -s ../sbin/readprofile .
+  ln -s ../sbin/tunelp .
+  ln -s ../../bin/more .
+  ln -s ../../sbin/raw .
+  cd ${pkgdir}/usr/man/man1
+  ln -s ziptool.1 jaztool.1
+  cd ${pkgdir}/usr/man/man8
+  ln -s hwclock.8 clock.8
+)
+# That's all about this hell. Yes, system core packages are complex a bit...
+
+}
+after_build() {
+ echo ""
+}
+

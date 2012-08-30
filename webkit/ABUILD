@@ -1,0 +1,132 @@
+# ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=webkit
+pkgver=r75891
+pkgbuild=1
+arch=('auto')
+
+shortdesc="an open source web browser engine"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("WebKit is an open source web browser engine. WebKit is also the name of"
+	  "the Mac OS X system framework version of the engine that's used by Safari,"
+	  "Dashboard, Mail, and many other OS X applications. WebKit's HTML and"
+	  "JavaScript code began as a branch of the KHTML and KJS libraries from KDE."
+	  ""
+	  "WebKit is open source software with portions licensed under the LGPL and"
+	  "BSD licenses."
+	  ""
+	  "Homepage: http://webkit.org"
+)
+
+source=("http://builds.nightly.webkit.org/files/trunk/src/WebKit-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="net-libs network"
+
+#dependencies only needed to build package
+build_deps="gtk-doc bison flex icu4c libsoup libproxy geoclue"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=2
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="WebKit/LICENSE"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./autogen.sh" #--help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--with-unicode-backend=icu \
+--with-font-backend=freetype \
+--with-gtk=2.0 \
+--without-hildon \
+--enable-optimizations \
+--enable-filters \
+--enable-javascript-debugger \
+--enable-offline-web-applications \
+--enable-channel-messaging \
+--enable-dom-storage \
+--enable-sandbox \
+--enable-eventsource \
+--enable-video \
+--enable-icon-database \
+--enable-shared-workers \
+--enable-svg \
+--enable-svg-animation \
+--enable-svg-fonts \
+--enable-svg-foreign-object \
+--enable-svg-as-image \
+--enable-svg-use \
+--enable-web-sockets \
+--enable-workers \
+--enable-xpath \
+--enable-xslt \
+--enable-mathml \
+--enable-geolocation \
+--enable-image-resizer \
+--enable-web-timing \
+--enable-directory-upload \
+--enable-gtk-doc \
+--enable-gtk-doc-html \
+--enable-gtk-doc-pdf \
+--enable-3D-transforms \
+--enable-introspection \
+--enable-link-prefetch \
+--enable-channel-messaging \
+--enable-coverage \
+--enable-fast-malloc \
+--enable-fast-mobile-scrolling \
+--enable-wml \
+--enable-xhtmlmp \
+--enable-blob \
+--disable-file-system \
+--disable-input-speech \
+--disable-web-audio \
+--disable-3D-canvas \
+--disable-webkit2 \
+|| exit 1"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

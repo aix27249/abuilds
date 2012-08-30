@@ -1,0 +1,71 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qtfm
+pkgver=4.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Qt File Manager"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("qtFM is a small, lightweight filemanager for Linux desktops based on pure Qt
+and works great with minimal desktop environments like Openbox. http://www.qtfm.org"
+)
+
+source=("http://www.qtfm.org/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+go_src_dir
+
+echo "Bin"
+install -Dm 755 ./qtfm ${pkgdir}/usr/bin/qtfm || exit 1
+
+echo "Icon"
+install -Dm 644 ./qtfm.desktop ${pkgdir}/usr/share/applications/qtfm.desktop || exit 1
+install -Dm 644 ./images/qtfm.png ${pkgdir}/usr/share/pixmaps/qtfm.png || exit 1
+}

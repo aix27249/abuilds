@@ -1,0 +1,74 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mkvtoolnix
+pkgver=4.8.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Set of tools to create, edit and inspect Matroska files"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("MKVToolnix is a set of tools to create, alter and inspect Matroska files under Linux, other Unices and Windows. They do for Matroska what the OGMtools do for the OGM format and then some."
+)
+
+source=("http://www.bunkus.org/videotools/${pkgname}/sources/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-video"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+export CFLAGS="${CFLAGS} -DBOOST_FILESYSTEM_VERSION=2"
+export CXXFLAGS="${CXXFLAGS} -DBOOST_FILESYSTEM_VERSION=2"
+./configure --prefix=/usr \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--with-boost-libdir=/usr/lib$LIBDIRSUFFIX || exit 1
+./drake || exit 1
+./drake DESTDIR="${pkgdir}" install || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

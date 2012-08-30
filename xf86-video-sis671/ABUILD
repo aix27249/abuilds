@@ -1,0 +1,29 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xf86-video-sis671
+pkgver=0.9.2
+pkgbuild=5
+arch=('auto')
+
+shortdesc="X.org SiS671 video driver for Sis Mirage 3 and others"
+longdesc=(" ")
+
+source=("git:git://github.com/hellnest/xf86-video-sismedia-0.9.1.git")
+
+tags="x11-drivers xserver"
+
+build() {
+	go_src_dir
+
+	./configure --prefix=/usr --enable-dri \
+		--libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc \
+		--localstatedir=/var --infodir=/usr/info --mandir=/usr/man
+
+	make -j${numjobs}
+      	make DESTDIR=$pkgdir install
+	mkdir -p $pkgdir/etc/X11/xorg.conf.d
+	cp $filedir/10-sis671.conf $pkgdir/etc/X11/xorg.conf.d/
+}
+
+

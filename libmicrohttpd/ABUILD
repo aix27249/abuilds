@@ -1,0 +1,49 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=libmicrohttpd
+pkgver=0.9.19
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Small C web server library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GNU libmicrohttpd is a small C library that is supposed to make it easy to run an HTTP server as part of another application."
+)
+
+source=("http://ftp.gnu.org.ua/gnu/libmicrohttpd/libmicrohttpd-0.9.19.tar.gz")
+
+tags="server www-servers"
+
+build_deps="make gcc"
+
+adddep=""
+removedep=""
+
+docs=
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-largefile \
+--enable-curl \
+--enable-messages \
+--with-pic"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+install -Dm644 ${srcdir}/libmicrohttpd-${pkgver}/src/include/platform.h \
+	${pkgdir}/usr/include/platform.h
+install -Dm644 ${srcdir}/libmicrohttpd-${pkgver}/src/include/plibc/plibc.h \
+	${pkgdir}/usr/include/plibc.h
+}

@@ -1,0 +1,32 @@
+pkgname=file-roller-gnome
+name=file-roller
+pkgver=2.32.2
+pkgbuild=1
+arch=('auto')
+shortdesc="GNOME archive manager"
+source=("ftp://ftp.gnome.org/pub/gnome/sources/${name}/${pkgver%.*}/${name}-${pkgver}.tar.bz2")
+patch_opts=("")
+tags="app-arch xapps"
+provides="file-roller"
+build_deps="perl-xml-parser"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-scrollkeeper \
+--disable-packagekit"
+INSTALL_KEYS="DESTDIR=$pkgdir GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
+
+after_build()
+{
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain file-roller ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

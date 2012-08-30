@@ -1,0 +1,27 @@
+pkgname=perl-XML-LibXML
+pkgver=1.95
+pkgbuild=1
+arch=('auto')
+shortdesc="Perl interface to the libxml"
+source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-LibXML-$pkgver.tar.gz")
+tags="libs dev-libs"
+adddep="perl-XML-NamespaceSupport perl-XML-SAX"
+
+build()
+{
+	set -e
+	go_src_dir
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make pure_install doc_install DESTDIR=$pkgdir
+	find $pkgdir -name '.packlist' -delete
+	find $pkgdir -name '*.pod' -delete
+	set +e
+}
+
+after_build()
+{
+	set -e
+	cd ../..
+	sed -i "s#SUFFIX#${LIBDIRSUFFIX}#g" doinst.sh
+	set +e
+}

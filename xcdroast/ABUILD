@@ -1,0 +1,45 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xcdroast
+pkgver=0.98alpha16
+pkgbuild=3
+arch=('auto')
+
+shortdesc="X-CD-Roast tries to be the most flexible CD-burning software ever. "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" X-CD-Roast tries to be the most flexible CD-burning software ever. It allows even the unexperienced user to create or copy a CD with a few mouse clicks in a intuitive and nice looking graphical user interface. "
+)
+
+source=("http://prdownloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc xapps"
+
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--with-xcdroast-libdir-prefix=/usr/lib${LIBDIRSUFFIX}/xcdroast-0.98 \
+--mandir=/usr/man \
+--enable-nls \
+--enable-largefile \
+--enable-gtk2 \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,64 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=fbida
+pkgver=2.07
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Applications for viewing and editing images"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The fbida project contains a few applications for viewing and editing images, with the main focus being photos. The applications are:"
+"fbi: a image viewer for the linux framebuffer console."
+"fbgs: script for viewing ps/pdf files on the framebuffer console."
+"ida: X11 application for viewing and editing images."
+"exiftran: does lossless transformations of JPEG images with EXIF data."
+"thumbnail.cgi: extract EXIF thumbnails from jpeg images."
+"fbida home: http://linux.bytesex.org/fbida/"
+)
+
+source=("http://dl.bytesex.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-gfx"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="Changes INSTALL VERSION"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+    echo ""
+}
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make config prefix=/usr
+	make prefix=/usr
+	make prefix=/usr DESTDIR=${pkgdir} install
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+    cp ${srcdir}/${pkgname}-${pkgver}/thumbnail.cgi ${pkgdir}/usr/bin/
+}

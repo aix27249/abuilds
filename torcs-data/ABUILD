@@ -1,0 +1,53 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=torcs
+pkgver=1.3.2_test1
+realver=$(echo $pkgver | sed s/_/-/g)
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The Open Racing Car Simulator"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${realver}.tar.bz2")
+
+tags="games games-simulation"
+
+adddep="torcs-data"
+
+pkglist="data"
+
+numjobs=1
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--x-includes=/usr/include \
+--x-libraries=/usr/lib$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	go_src_dir
+	install -D -m644 Ticon.png ${pkgdir}/usr/share/pixmaps/torcs.png
+	install -D -m644 $filedir/torcs.desktop ${pkgdir}/usr/share/applications/torcs.desktop
+}
+
+data()
+{
+	pkgname=torcs-data
+	arch="noarch"
+}
+data_prep()
+{
+	go_src_dir
+	make DESTDIR=$pkgdir datainstall
+}

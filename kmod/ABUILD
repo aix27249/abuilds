@@ -1,0 +1,36 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com, modified by aix27249, i27249 at gmail.com 
+pkgname=kmod
+pkgver=6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A kernel module management tool, a module-init-tools replacement"
+
+source="ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-$pkgver.tar.xz"
+
+tags="base sys-apps"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--sysconfdir=/etc \
+	--prefix=/usr \
+	--bindir=/bin \
+	--with-rootprefix=/ \
+	--with-rootlibdir=/lib$LIBDIRSUFFIX \
+	--libdir=/lib$LIBDIRSUFFIX \
+	--with-zlib"
+
+after_build() {
+	mkdir -p $pkgdir/sbin
+	mkdir -p $pkgdir/{etc,lib$LIBDIRSUFFIX}/{depmod,modprobe}.d
+	for tool in insmod rmmod depmod lsmod modinfo modprobe; do
+		ln -s /bin/kmod "$pkgdir/sbin/$tool"
+	done
+	install -Dm644 $filedir/search.conf $pkgdir/lib$LIBDIRSUFFIX/depmod.d/search.conf
+	if [ -d ${pkgdir}/lib${LIBDIRSUFFIX}/pkgconfig ] ; then
+		mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+		mv -v ${pkgdir}/lib${LIBDIRSUFFIX}/pkgconfig ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
+	fi
+}

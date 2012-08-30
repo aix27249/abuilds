@@ -1,0 +1,57 @@
+# ABUILD by K900 <k900@neko.im>
+# Thanks to: cruznick <cruznick@archlinux.us>
+
+pkgname=burg
+pkgver=1.0
+pkgbuild=1
+shortdesc="A brand-new boot loader based on GRUB."
+longdesc="$shortdesc. Supports full graphics and theming."
+arch="auto"
+
+source="bzr:lp:burg"
+
+tags="base sys-boot"
+
+adddep="os-prober"
+build_deps="ruby"
+ 
+pkglist="emu themes"
+ 
+emu(){
+	pkgname=burg-emu
+	shortdesc="Emulator for BURG"
+	adddep="burg"
+}
+ 
+emu_prep(){
+	make clean
+	./configure --with-platform=emu --disable-grub-emu-usb --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc
+	make -j$numjobs
+	make DESTDIR=$pkgdir install
+}
+ 
+themes(){
+	pkgname=burg-themes
+	pkgver=20100623
+	arch="noarch"
+	shortdesc="Themes for BURG"
+	adddep="burg"
+	source="http://burg.googlecode.com/files/burg-theme-20100623.zip n"
+}
+themes_prep()
+{
+	mkdir -p $pkgdir/boot/burg
+	unzip $srcache/burg-theme-$pkgver.zip -d $pkgdir/boot/burg
+	cp -r $filedir/icons $pkgdir/boot/burg/themes/
+}
+ 
+
+build() {
+  go_src_dir
+  cp $filedir/10_linux.in util/grub.d
+  ./autogen.sh
+  ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --infodir=/usr/info --sysconfdir=/etc
+  make -j$numjobs
+  make DESTDIR=$pkgdir install
+  install -Dm644 ${filedir}/burg ${pkgdir}/etc/default/burg
+}

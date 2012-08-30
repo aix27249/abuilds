@@ -1,0 +1,208 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru.
+
+java_ver=7
+updatever=u5
+openjdk_build=b21
+openjdk_date=27_jun_2011
+icedtea_ver=2.2.1
+
+pkgname=jdk-openjdk
+pkgver=${java_ver}.${updatever}_${icedtea_ver}
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Free Java environment based on OpenJDK with IcedTea replacing binary plugs - SDK"
+
+tags="libs sys-libs"
+
+CORBA_CHANGESET=38deb372c569
+HOTSPOT_CHANGESET=889dffcf4a54
+JAXP_CHANGESET=335fb0b059b7
+JAXWS_CHANGESET=5471e01ef43b
+JDK_CHANGESET=6c3b742b735d
+LANGTOOLS_CHANGESET=beea46c7086b
+OPENJDK_CHANGESET=0b776ef59474
+
+_url=http://icedtea.classpath.org/hg/release/icedtea7-forest-2.2
+source=("http://icedtea.classpath.org/download/source/icedtea-${icedtea_ver}.tar.gz"
+        "${_url}/archive/${OPENJDK_CHANGESET}.tar.gz n"             # openjdk.tar.gz
+        "${_url}/corba/archive/${CORBA_CHANGESET}.tar.gz n"         # corba.tar.gz
+        "${_url}/jaxp/archive/${JAXP_CHANGESET}.tar.gz n"           # jaxp.tar.gz
+        "${_url}/jaxws/archive/${JAXWS_CHANGESET}.tar.gz n"         # jaxws.tar.gz
+        "${_url}/jdk/archive/${JDK_CHANGESET}.tar.gz n"             # jdk.tar.gz
+        "${_url}/langtools/archive/${LANGTOOLS_CHANGESET}.tar.gz n" # langtools.tar.gz
+        "${_url}/hotspot/archive/${HOTSPOT_CHANGESET}.tar.gz n")    # hotspot.tar.gz
+
+pkglist="jre jdk jdk-source"
+
+build_deps="jdk-openjdk jre-openjdk make gcc gcc-g++ apache-ant libpng gtk+2 alsa-lib libzip cpio rhino"
+
+jvmdir=/usr/lib${LIBDIRSUFFIX}/jvm/java-${java_ver}-openjdk
+
+#=========================================================
+jre() {
+  pkgname=jre-openjdk
+  shortdesc="OpenJDK Runtime Environment"
+}
+
+#=========================================================
+jdk() {
+  pkgname=jdk-openjdk
+  shortdesc="OpenJDK Development Kit"
+  adddep="jre-openjdk"
+}
+
+#=========================================================
+jdk-source() {
+  pkgname=jdk-openjdk-source
+  arch=('noarch')
+  shortdesc="OpenJDK source package"
+}
+
+#=========================================================
+build() {
+ go_src_dir
+
+ unset JAVA_HOME JDK_HOME CLASSPATH JAVAC JAVACFLAGS
+
+ . /etc/profile.d/apache-ant.sh
+
+ # default is to build with first found java-environment found in our repos - is jdk-openjdk
+ [ -f /etc/profile.d/jdk.sh ] && . /etc/profile.d/jdk.sh
+ cp ${patchdir}/*.diff ${srcdir}/icedtea-${icedtea_ver}/patches
+ export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff \
+                              patches/fix_corba_cmds_path.diff \
+                              patches/openjdk7_fix_jdk_cmds_path.diff \
+                              patches/openjdk7_nonreparenting-wm.diff \
+                              patches/disable_Werror.diff"
+
+ ./configure \
+        --disable-bootstrap \
+        --disable-tests \
+        --with-pkgversion="AgiliaLinux build ${pkgver}-${pkgbuild}-${ARCH}" \
+        --with-jdk-home=${jvmdir} \
+        --with-openjdk-src-zip=${srcache}/${OPENJDK_CHANGESET}.tar.gz \
+        --with-hotspot-src-zip=${srcache}/${HOTSPOT_CHANGESET}.tar.gz \
+        --with-corba-src-zip=${srcache}/${CORBA_CHANGESET}.tar.gz \
+        --with-jaxp-src-zip=${srcache}/${JAXP_CHANGESET}.tar.gz \
+        --with-jaxws-src-zip=${srcache}/${JAXWS_CHANGESET}.tar.gz \
+        --with-jdk-src-zip=${srcache}/${JDK_CHANGESET}.tar.gz \
+        --with-langtools-src-zip=${srcache}/${LANGTOOLS_CHANGESET}.tar.gz \
+        --enable-nss \
+        --with-rhino \
+        --with-abs-install-dir=${jvmdir}
+ export LANG=en_US.UTF-8
+ export LC_ALL=en_US.UTF-8
+
+ make
+ echo "End build"
+}
+
+#=========================================================
+jre_prep(){
+  go_src_dir
+  cd "openjdk.build/j2sdk-image/jre"
+
+  install -d -m755 ${pkgdir}/${jvmdir}/jre/
+  cp -a bin lib ${pkgdir}/${jvmdir}/jre
+
+  mv ${pkgdir}/${jvmdir}/jre/lib/fontconfig.Ubuntu.properties.src ${pkgdir}/${jvmdir}/jre/lib/fontconfig.properties.src
+  mv ${pkgdir}/${jvmdir}/jre/lib/fontconfig.Ubuntu.bfc ${pkgdir}/${jvmdir}/jre/lib/fontconfig.bfc
+  rm -f ${pkgdir}/${jvmdir}/jre/lib/fontconfig.*.bfc
+  rm -f ${pkgdir}/${jvmdir}/jre/lib/fontconfig.*.properties.src
+
+  # Install man pages
+  pushd ../../j2re-image/man
+  install -m755 -d ${pkgdir}/usr/share/man/{,ja/}man1/
+  install -m644 man1/*.1 ${pkgdir}/usr/share/man/man1
+  install -m644 ja_JP.UTF-8/man1/*.1 ${pkgdir}/usr/share/man/ja/man1
+  popd
+
+  # Install icons and menu entries
+  for s in 16 24 32 48 ; do
+     install -m755 -d ${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/
+     install -m644 ../../../openjdk/jdk/src/solaris/classes/sun/awt/X11/java-icon${s}.png \
+                   ${pkgdir}/usr/share/icons/hicolor/${s}x${s}/apps/java.png
+  done
+
+  # Link binaries into /usr/bin
+  pushd ${pkgdir}/${jvmdir}/jre/bin
+  install -m755 -d ${pkgdir}/usr/bin/
+  for file in *; do
+      ln -sf ${jvmdir}/jre/bin/${file} ${pkgdir}/usr/bin/${file}
+  done
+  popd
+
+  # Link JKS keystore from ca-certificates-java
+  rm -f ${pkgdir}/${jvmdir}/jre/lib/security/cacerts
+  ln -sf /etc/ssl/certs/java/cacerts "${pkgdir}/${jvmdir}/jre/lib/security/cacerts"
+
+  # Set some variables
+  install -m755 -d ${pkgdir}/etc/profile.d/
+  install -m755 ${filedir}/${pkgname}.profile ${pkgdir}/etc/profile.d/${pkgname}.sh
+  install -m755 ${filedir}/${pkgname}.profile.csh ${pkgdir}/etc/profile.d/${pkgname}.csh
+  if [ "${LIBDIRSUFFIX}" = "64" ]; then
+     sed -i -e "s:lib:lib64:g" ${pkgdir}/etc/profile.d/${pkgname}.sh
+     sed -i -e "s:lib:lib64:g" ${pkgdir}/etc/profile.d/${pkgname}.csh
+  fi
+
+  # Install desktop files.
+  install -m755 -d ${pkgdir}/usr/share/applications
+  install -m644 ${srcdir}/icedtea-${icedtea_ver}/policytool.desktop ${pkgdir}/usr/share/applications
+
+  echo "End jre"
+}
+
+#=========================================================
+jdk_prep(){
+  go_src_dir
+  cd "openjdk.build/j2sdk-image"
+  # Main files
+  install -m755 -d ${pkgdir}/${jvmdir}/
+
+  cp -a demo include lib sample ${pkgdir}/${jvmdir}
+
+  # 'bin' files
+  pushd bin
+  install -m755 -d ${pkgdir}/${jvmdir}/bin/ ${pkgdir}/usr/bin/ ${pkgdir}/usr/share/man/{,ja/}man1/
+
+  # 'java-rmi.cgi' will be handled separately as it should not be in the PATH and has no man page
+  for b in $(ls | grep -v java-rmi.cgi); do
+     if [ -e ../jre/bin/${b} ]; then
+        # Provide a link of the jre binary in the jdk/bin/ directory
+        ln -s ../jre/bin/${b} ${pkgdir}/${jvmdir}/bin/${b}
+     else
+        # Copy binary to jdk/bin/
+        install -m755 ${b} ${pkgdir}/${jvmdir}/bin/${b}
+        # Copy man page
+        install -m644 ../man/man1/${b}.1 ${pkgdir}/usr/share/man/man1/${b}.1
+        install -m644 ../man/ja/man1/${b}.1 ${pkgdir}/usr/share/man/ja/man1/${b}.1
+        # Link from /bin/
+        ln -s ${jvmdir}/bin/${b} ${pkgdir}/usr/bin/${b}
+     fi
+  done
+  popd
+
+  # Handling 'java-rmi.cgi' separately
+  install -m755 -D bin/java-rmi.cgi ${pkgdir}/${jvmdir}/bin/java-rmi.cgi
+
+  # Install desktop files.
+  install -m755 -d ${pkgdir}/usr/share/applications
+  install -m644 ${srcdir}/icedtea-${icedtea_ver}/jconsole.desktop ${pkgdir}/usr/share/applications
+
+  # Set some variables
+  install -m755 -d ${pkgdir}/etc/profile.d/
+  install -m755 ${filedir}/${pkgname}.profile ${pkgdir}/etc/profile.d/${pkgname}.sh
+  install -m755 ${filedir}/${pkgname}.profile.csh ${pkgdir}/etc/profile.d/${pkgname}.csh
+  if [ "${LIBDIRSUFFIX}" = "64" ]; then
+       sed -i -e "s:lib:lib64:g" ${pkgdir}/etc/profile.d/${pkgname}.sh
+       sed -i -e "s:lib:lib64:g" ${pkgdir}/etc/profile.d/${pkgname}.csh
+  fi
+  echo "End jdk"
+}
+
+#=========================================================
+jdk-source_prep() {
+  go_src_dir
+  install -Dm644 openjdk.build/j2sdk-image/src.zip ${pkgdir}/usr/share/${pkgname}/${pkgname}-${pkgver}-${pkgbuild}.zip
+}

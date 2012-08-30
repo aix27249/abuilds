@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=libbsd
+pkgver=0.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Provides useful functions commonly found on BSD systems"
+
+source="http://libbsd.freedesktop.org/releases/$pkgname-$pkgver.tar.gz"
+
+tags="libs dev-libs"
+
+build()
+{
+    go_src_dir
+    burn_patches
+    args="exec_prefix=/usr includedir=/usr/include/libbsd usrlibdir=/usr/lib$LIBDIRSUFFIX libdir=/usr/lib$LIBDIRSUFFIX"
+    make $args
+    make $args DESTDIR=$pkgdir install
+}

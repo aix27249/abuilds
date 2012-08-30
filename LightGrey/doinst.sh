@@ -1,0 +1,8 @@
+( cd usr/share/themes/LightGreyV2-Round-Notebook-White-Menu ; rm -rf customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2-Round-Notebook-White-Menu ; ln -sf gtk-2.0/gtkrc.xficonview customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2-Round-Notebook ; rm -rf customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2-Round-Notebook ; ln -sf gtk-2.0/gtkrc.xficonview customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2-White-Menu ; rm -rf customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2-White-Menu ; ln -sf gtk-2.0/gtkrc.xficonview customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2 ; rm -rf customize-your-desktop-font-color )
+( cd usr/share/themes/LightGreyV2 ; ln -sf gtk-2.0/gtkrc.xficonview customize-your-desktop-font-color )

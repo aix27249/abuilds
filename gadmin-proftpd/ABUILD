@@ -1,0 +1,18 @@
+pkgname=gadmin-proftpd
+pkgver=0.4.2
+pkgbuild=1
+shortdesc="A GTK+ graphical user interface for the proftpd FTP server."
+arch='auto'
+tags='xapps net-ftp'
+source=(http://mange.dynalias.org/linux/${pkgname}/${pkgname}-${pkgver}.tar.gz)
+
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/sbin --localstatedir=/var --libdir=/usr/lib$LIBDIRSUFFIX
+  make || return 1
+  make DESTDIR=${pkgdir} install
+  mkdir -p ${pkgdir}/usr/share/applications/
+  install -m644 ${filedir}/gadmin-proftpd.desktop ${pkgdir}/usr/share/applications/
+  chmod 700 ${pkgdir}/etc/gadmin-proftpd
+}
+

@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=equinox-gtk-engine
+pkgver=1.50
+pkgbuild=1
+arch=('auto')
+
+shortdesc="equinox-gtk-engine"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("this is equinox engine for GTK+2."
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/121881-equinox-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+# Toolbar fix
+go_src_dir
+sed -i "s|\(EQUINOX_IS_TOOLBAR.*parent\)|widget \&\& \1|" src/equinox_style.c
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-animation"
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

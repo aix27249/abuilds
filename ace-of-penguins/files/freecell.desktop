@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Penguin Freecell
+GenericName=
+Comment=
+Icon=
+Exec=/usr/bin/freecell
+Terminal=false
+Categories=Game;CardGame;

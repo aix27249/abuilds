@@ -1,0 +1,67 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qcomicbook
+pkgver=0.7.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Free comic book reader for GNU/Linux"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("QComicBook is a viewer for comic book archives (.cbr, .cbz and alike) containing jpeg/png/xpm/gif/bmp images, which aims at speed, convenience and ease of use. QComicBook was written in C++ and uses the great Qt library. It doesn't depend on KDE or any other desktop environment and works pretty well with GNOME, XFCE and others. Homepage: http://qcomicbook.linux-projects.net"
+)
+
+source=("http://qcomicbook.linux-projects.net/releases/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

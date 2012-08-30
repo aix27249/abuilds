@@ -1,0 +1,54 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xdotool
+pkgver=20100416.2809
+pkgbuild=1
+arch=('auto')
+shortdesc=""
+longdesc=("")
+ 
+source=("http://semicomplete.googlecode.com/files/${pkgname}-1.${pkgver}.tar.gz")
+
+#patch_opts=("")
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+ 
+tags="x11-misc console"
+adddep=""
+removedep=""
+ 
+author=NomerUNO
+email=uno.kms@gmail.com
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+ 
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+ 
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname-1.${pkgver}
+ 
+burn_patches
+ 
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+
+make WARNFLAGS="$SLKCFLAGS" PREFIX=/usr
+make install PREFIX=$pkgdir/usr
+}
+ 
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

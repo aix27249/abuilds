@@ -1,0 +1,11 @@
+theme xsocam
+
+launchbar
+	exec snapfly-show
+		icon /usr/share/icons/Faenza/places/24/start-here-gnome.png
+
+clock_prog gsimplecal
+
+mbutton1 use
+mbutton2 kill
+mbutton3 drag

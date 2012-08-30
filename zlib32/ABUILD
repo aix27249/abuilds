@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=zlib
+pkgver=1.2.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A lightweight zip library"
+
+source="http://zlib.net/zlib-${pkgver}.tar.gz"
+
+tags="libs app-arch"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"${SLKCFLAGS/-O2/-O3} -fno-tree-vectorize -DUNALIGNED_OK\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

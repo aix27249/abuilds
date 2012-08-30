@@ -1,0 +1,11 @@
+pkgname=jack-daemon
+pkgver=0.121.2
+pkgbuild=3
+arch=('noarch')
+shortdesc="Low latency audio server, transitional package"
+tags="virtual media-sound"
+adddep="jack1"
+
+build() {
+    echo "$pkgname - virtual package for $addep"
+}

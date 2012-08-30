@@ -1,0 +1,83 @@
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=uni2ascii
+pkgver=4.17
+pkgbuild=1
+arch=('auto')
+
+shortdesc="uni2ascii (conversion UTF-8 <-> ASCII)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("provides conversion in both directions between UTF-8 Unicode and more"
+"than thirty 7-bit ASCII equivalents, including RFC 2396 URI format"
+"and RFC 2045 Quoted Printable format, the representations used in"
+"HTML, SGML, XML, OOXML, the Unicode standard, Rich Text Format,"
+"POSIX portable charmaps, POSIX locale specifications, and Apache"
+"log files, and the escapes used for including Unicode in Ada, C,"
+"Common Lisp, Java, Pascal, Perl, Postscript, Python, Scheme,"
+"and Tcl."
+"http://www.billposer.org/Software/uni2ascii.html"
+)
+
+source=("http://billposer.org/Software/Downloads/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console app-text"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,69 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=stm32flash
+pkgver=
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A tool to programm stm32 microcontrollers via USART"
+#longdesc=(""
+#)s
+
+source=("svn:http://stm32flash.googlecode.com/svn/trunk/ stm32flash-read-only")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils dev-embedded"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+make
+mkdir -p ${pkgdir}/usr/bin
+cp stm32flash ${pkgdir}/usr/bin
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

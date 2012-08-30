@@ -1,0 +1,16 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=hotot
+pkgver=0.9.5${hgrev}
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A  microblogging client"
+longdesc=("Hotot is a lightweight & open source microblogging software, coding using Python language and designed for Linux. It depends less but supports more. It's been developed actively and still in Alpha stage.")
+
+adddep="keybinder pywebkitgtk notify-python"
+
+source=("hg:https://hotot.googlecode.com/hg/")
+
+tags="xapps www-misc"
+
+BUILD_SYSTEM="python"

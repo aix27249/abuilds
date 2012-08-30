@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfce4-settings
+pkgver=4.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Settings manager for xfce"
+
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make intltool gcc perl exo>=0.7.1 garcon>=0.1.11"
+adddep="gtk-xfce-engine"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-xrandr \
+--enable-xcursor \
+--enable-libnotify \
+--enable-libxklavier \
+--enable-pluggable-dialogs \
+--enable-sound-settings \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

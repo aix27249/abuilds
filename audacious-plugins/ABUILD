@@ -1,0 +1,26 @@
+pkgname=audacious-plugins
+pkgver=2.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Plugins for Audacious"
+longdesc=("This is a collection of plugins for Audacious to support additional media formats. The webpage for Audacious is: http://www.audacious-media-player.org.")
+source=("http://distfiles.audacious-media-player.org/$pkgname-$pkgver.tar.bz2")
+tags="xapps media-sound"
+build_deps="audacious"
+
+build(){
+	go_src_dir
+	sed 's/libavcore >= 0.12.0//g' -i configure # FS#23549
+	[[ $ARCH == x86_64 ]] && extraopts='' || extraopts='--disable-sse2'
+	./configure \
+		--prefix=/usr \
+		--enable-chardet \
+		--enable-amidiplug \
+		--disable-adplug \
+		$extraopts \
+		--disable-projectm 
+	make -j${numjobs}
+	make DESTDIR=$pkgdir install
+}
+

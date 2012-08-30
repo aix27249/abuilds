@@ -1,0 +1,64 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mopsgrey-gtk-theme
+pkgver=0.7
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="Simple GTK+ Theme"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Grey GTK+ theme based on murrine engine, specially created for MOPSLinux "
+	  "Openbox Setup Variant.")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="themes x11-themes"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep="murrine-gtk-engine>=0.90"
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $pkgdir
+
+burn_patches
+
+mkdir -p $pkgdir/usr/share/themes/
+
+cp -a $filedir/MOPSGrey $pkgdir/usr/share/themes
+
+chmod 755 $pkgdir/usr/share/themes/MOPSGrey/gtk-2.0/
+chmod 644 $pkgdir/usr/share/themes/MOPSGrey/gtk-2.0/gtkrc
+chmod 644 $pkgdir/usr/share/themes/MOPSGrey/gtk-2.0/panel.rc
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

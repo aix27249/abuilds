@@ -1,0 +1,35 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfdesktop
+pkgver=4.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A desktop manager for Xfce"
+
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make pkg-config intltool gcc xfce4-panel perl"
+adddep="hicolor-icon-theme"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-gio-unix \
+--enable-thunarx \
+--enable-exo \
+--enable-notifications \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

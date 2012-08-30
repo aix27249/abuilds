@@ -1,0 +1,67 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=inxi
+pkgver=1.4.12
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="a full featured system information script"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A newer, better system information script for irc, administration, and system troubleshooters. Homepage: http://inxi.org/"
+)
+
+source=("svn:http://inxi.googlecode.com/svn/")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console app-admin"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pciutils gawk grep procps coreutils bash"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+cd ./trunk || exit 1
+install -D -m755 inxi $pkgdir/usr/bin/inxi || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

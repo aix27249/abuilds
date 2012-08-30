@@ -1,0 +1,73 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=notify-osd
+pkgver=0.9.30
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Canonical's on-screen-display notification agent"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The freedesktop.org Desktop Notifications Specification provides a standard way for applications to display pop-up notifications. These are designed to make you aware of something, without interrupting your work with a window you must close. Notify OSD presents these notifications as ephemeral overlays, which can be clicked through so they don't block your work. It queues notifications, to prevent them from flooding your screen. And as well as handling standard notification updates, Notify OSD introduces the idea of appending — allowing notifications to grow over time, for example in the case of instant messages from a particular person.")
+
+source=("http://launchpad.net/notify-osd/natty/natty-alpha3/+download/notify-osd-${pkgver}.tar.gz")
+
+patch_opts=("notify-osd-0.9.30-libnotify-0.7.patch 0" "notify-osd.patch 
+0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

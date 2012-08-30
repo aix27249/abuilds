@@ -1,0 +1,35 @@
+#!/sbin/runscript
+# Copyright (c) 2007-2009 Roy Marples <roy@marples.name>
+# All rights reserved. Released under the 2-clause BSD license.
+
+description="Squid script."
+
+depend()
+{
+    after network
+}
+
+start()
+{
+    ebegin "Starting squid  "
+    start-stop-daemon --start -q --pidfile /var/lib/squid/logs/squid.pid \
+     --exec /usr/sbin/squid -- -DF 
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping squid"
+        start-stop-daemon --stop -q --pidfile /var/lib/squid/logs/squid.pid \
+         --exec /usr/sbin/squid -- -k shutdown
+         while : ; do
+        [ -f /var/lib/squid/logs/squid.pid ] || break
+#        if [ $timeout -ge $SQUID_SHUTDOWN_TIMEOUT ]; then
+#            echo
+#            return 1
+#        fi
+        sleep 1 && echo "." 
+#        timeout=$((timeout+2))
+        done
+
+        eend $?
+}

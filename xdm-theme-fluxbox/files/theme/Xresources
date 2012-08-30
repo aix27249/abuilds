@@ -1,0 +1,65 @@
+!
+!
+!
+
+
+
+Xlogin*login.translations:#override \
+	Ctrl<Key>R: abort-display()\n\
+	<Key>F1:set-session-argument(failsafe) finish-field()\n\
+	<Key>Return:set-session-argument() finish-field()
+	<Key>CtrlReturn:set-session-argument(failsafe) finish-field()\n\
+
+
+Xlogin*greeting:Welcome to CLIENTHOST
+Xlogin*namePrompt:Username:\040
+Xlogin*passwdPrompt:Password:\040
+Xlogin*fail:incorrect
+!Xlogin*greetFace:Terminus-16:style=bold
+Xlogin*greetFace:Terminus-18
+!Xlogin*promptFace:Terminus-14:style=Bold
+Xlogin*promptFace:Terminus-14
+Xlogin*face:Terminus-14
+Xlogin*failFace:Terminus-10
+Xlogin*shdColor:#000000
+Xlogin*hiColor:#000000
+Xlogin*greetColor:blue
+Xlogin*promptColor:cyan
+Xlogin*failColor:red
+
+xlogin*Login*y:400
+
+*borderWidth:0
+*foreground:white
+*background:black
+
+XClock*analog:false
+XClock*strftime:\040%F\040%T
+XClock*update:1
+XClock*render:false
+!XClock*font:-xos4-terminus-medium-r-normal--24-320-72-72-c-160-iso10646-1
+XClock*font:Droid-12
+XClock.width: 500
+XClock*geometry: +0-0
+
+Xmessage*message.scrollVertical:auto
+Xmessage*message.scrollHorizontal:never
+Xmessage*Command.highlightThickness:2
+Xmessage*Command.internalWidth:8
+Xmessage*Command.internalHeight:8
+Xmessage*Command.shapeStyle:rectangle
+Xmessage*Command.font:-xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
+Xmessage*font:-xos4-terminus-medium-r-normal--32-320-72-72-c-160-iso10646-1
+
+
+XConsole*verbose:true
+XConsole*exitOnFail:true
+
+Chooser*geometry:700x550
+Chooser*allowShellResize:false
+Chooser*viewport.forceBars:true
+Chooser*label.font:-*-terminus-*-*-*-*-*-*-*-*-*-*-*
+Chooser*label.label:XDMCP\040Host\040Menu\040from\040CLIENTHOST
+Chooser*list.font:-*-terminus-*-*-*-*-*-*-*-*-*-*-*
+Chooser*Command.font:-*-terminus-*-*-*-*-*-*-*-*-*-*-*
+Xft:96

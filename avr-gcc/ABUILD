@@ -1,0 +1,97 @@
+#ABUILD created by/создан: Necromant, agilia at necromant.ath.cx 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=avr-gcc
+pkgver=4.6.2
+pkgbuild=3
+arch=('auto')
+
+tcname=avr
+tcvariant=""
+
+
+shortdesc="GNU C Compiler (cross) for Atmel AVR architecture"
+#longdesc=(""
+#)
+
+source=("http://gcc.skazkaforyou.com/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2")
+
+patch_opts=(1"")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-embedded"
+
+#dependencies only needed to build package
+build_deps="avr-binutils"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="no_strip"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+before_build()
+{
+go_src_dir
+burn_patches
+mkdir build
+cd build
+}
+
+# BUILD_SYSTEM="autotools"
+
+# BUILD_WORD="../configure"
+GCCCORE_CFG="--program-prefix=avr- --with-gcc --with-gnu-ld --with-gnu-as --with-dwarf2 --disable-libssp --enable-languages=c,c++ --disable-werror --disable-nls\
+ --disable-shared --disable-threads" 
+
+build()
+{
+unset LD_LIBRARY_PATH
+unset CXX
+unset CC
+export PATH=/opt/toolchains/${tcname}${tcvariant}/bin:$PATH
+# ../configure --prefix=/opt/toolchains/${tcname}${tcvariant} \
+# --target=avr --disable-nls \
+# --enable-languages=c,c++ \
+# --disable-libssp --with-dwarf2 \
+# --with-gnu-as \
+# --with-gnu-ld \
+# --with-as=/opt/toolchains/${tcname}${tcvariant}/bin/avr-as \
+# --with-ld=/opt/toolchains/${tcname}${tcvariant}/bin/avr-ld
+../configure \
+--target=avr \
+--prefix=/opt/toolchains/${tcname}${tcvariant} $GCCCORE_CFG 
+
+make
+make DESTDIR=$pkgdir install
+}
+# INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+#Fix doc path
+mv ${pkgdir}/usr/doc ${pkgdir}/opt/toolchains/${tcname}/usr/
+rm -f ${pkgdir}/opt/toolchains/${tcname}${tcvariant}/lib${LIBDIRSUFFIX}/libiberty.a
+}

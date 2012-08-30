@@ -1,0 +1,36 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=rox-filer
+pkgver=2.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ROX-Filer is a fast and powerful graphical file manager for the X Window System"
+longdesc=("ROX-Filer is a fast and powerful graphical file manager for the X Window System."
+"You can use it as a small and fast filer within your current desktop..."
+"...or get it to manage your pinboard, panels and applications (see below for more screenshots)."
+""
+"http://roscidus.com/desktop/ROX-Filer")
+
+source=("http://downloads.sourceforge.net/sourceforge/rox/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xapps app-shells"
+
+
+build()
+{
+go_src_dir
+burn_patches
+
+mkdir -p ${pkgdir}/usr/share/Choices
+cp -rp Choices/MIME-types ${pkgdir}/usr/share/Choices/
+install -Dm 0644 rox.1 ${pkgdir}/usr/share/man/man1/rox.1
+ln -sf ${pkgdir}/usr/share/man/man1/rox.1 ${pkgdir}/usr/share/man/man1/ROX-Filer.1
+ROX-Filer/AppRun --compile
+cp -rp ROX-Filer ${pkgdir}/usr/share/
+rm -rf ${pkgdir}/usr/share/ROX-Filer/{src,build}
+mkdir -p ${pkgdir}/usr/bin
+echo "#!/bin/sh" > "${pkgdir}/usr/bin/rox"
+echo "exec /usr/share/ROX-Filer/AppRun \"\$@\"" >> "${pkgdir}/usr/bin/rox"
+chmod a+x ${pkgdir}/usr/bin/rox
+}

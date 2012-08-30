@@ -1,0 +1,49 @@
+#ABUILD created by/создан: CyberMix, mos.mix at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gtkevemon
+pkgver=1.8
+pkgbuild=6
+_svnmod=gtkevemon.src
+arch=('auto')
+
+shortdesc="GtkEveMon"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GtkEveMon - это небольшое автономное приложение для Windows, разработанное для слежения за развитием персонажей EVE Online. Вы можете просматривать ваши текущие навыки и атрибуты, чему вы обучаетесь в данный момент, а также ваш баланс ISK. EVEMon может следить за несколькими персонажами с нескольких учетных записей, поэтому за всеми изменения можно наблюдать с одного и того же простого интерфейса."
+)
+
+source=("svn:svn://svn.battleclinic.com/GTKEVEMon/trunk/gtkevemon")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-simulation"
+
+build() {
+
+  go_src_dir
+  burn_patches
+  
+  cd "$srcdir/../"
+
+  echo PWD = `pwd`;
+  echo "srcdir = ${srcdir}"
+  echo "MAKE cd to $srcdir"
+  
+  cp -r "$srcdir/$_svnmod" "./"
+  rm -rf "$srcdir/$_svnmod"
+  
+  cd "$srcdir"
+
+  echo "Starting make..."
+  
+  make -j${numjobs}
+  
+  make INSTALL_BIN=$pkgdir/usr/bin \
+	INSTALL_DIR_ICON=$pkgdir/usr/share/pixmaps \
+	INSTALL_DIR_DESK=$pkgdir/usr/share/applications \
+	install
+}
+

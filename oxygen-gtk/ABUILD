@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=oxygen-gtk
+pkgver=1.1.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A new GTK theme engine built to make GTK applications look native in KDE"
+longdesc=("A new GTK theme engine built to make GTK applications look native in KDE. Can use most of Oxygen's settings, including colors and gradients.")
+
+source="http://kde.mirrors.tds.net/pub/kde/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.bz2"
+# Uncomment to build from git
+# source=("git:git://git.kde.org/oxygen-gtk")
+
+tags="x11-themes themes"
+
+before_build()
+{
+	# не нужны ваши иконки
+	go_src_dir
+	sed -i "s/OXYGEN_ICON_HACK 1/OXYGEN_ICON_HACK 0/g" CMakeLists.txt 
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DOXYGEN_ICON_HACK=0 \
+../"

@@ -1,0 +1,24 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=zathura
+pkgver=0.0.8.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="highly customizable and functional PDF viewer"
+longdesc=("zathura is a highly customizable and functional PDF viewer based on the poppler rendering library and the gtk+ toolkit. The idea behind zathura is an application that provides a minimalistic and space saving interface as well as an easy usage that mainly focuses on keyboard interaction."
+"https://pwmt.org/projects/zathura/"
+)
+
+source=("https://pwmt.org/download/${pkgname}-${pkgver}.tar.gz")
+
+tags="xapps app-office"
+
+build()
+{
+go_src_dir
+burn_patches
+
+make
+make install DESTDIR=$pkgdir
+}

@@ -1,0 +1,83 @@
+--- Makefile_orig	2010-12-19 14:11:37.000000000 +0000
++++ Makefile	2011-01-04 07:36:28.000000000 +0000
+@@ -4,15 +4,15 @@
+ 
+ install:
+ 	# Services
+-	$(install_dir) $(DESTDIR)/usr/lib/samsung-tools/backends/
+-	$(install_file) backends/*.py $(DESTDIR)/usr/lib/samsung-tools/backends/
+-	$(install_dir) $(DESTDIR)/usr/lib/samsung-tools/backends/system/util/
+-	$(install_file) backends/system/util/*.py $(DESTDIR)/usr/lib/samsung-tools/backends/system/util/
+-	$(install_file) backends/system/*.py $(DESTDIR)/usr/lib/samsung-tools/backends/system/
+-	$(install_dir) $(DESTDIR)/usr/lib/samsung-tools/backends/session/util/
+-	$(install_file) backends/session/util/*.py $(DESTDIR)/usr/lib/samsung-tools/backends/session/util/
+-	$(install_file) backends/session/*.py $(DESTDIR)/usr/lib/samsung-tools/backends/session/
+-	$(install_script) *-service.py $(DESTDIR)/usr/lib/samsung-tools/
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/
++	$(install_file) backends/*.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/system/util/
++	$(install_file) backends/system/util/*.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/system/util/
++	$(install_file) backends/system/*.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/system/
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/session/util/
++	$(install_file) backends/session/util/*.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/session/util/
++	$(install_file) backends/session/*.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/backends/session/
++	$(install_script) *-service.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/
+ 	$(install_dir) $(DESTDIR)/etc/dbus-1/system.d/
+ 	$(install_file) bus/config/org.voria.SamsungTools.System.conf $(DESTDIR)/etc/dbus-1/system.d/
+ 	$(install_dir) $(DESTDIR)/usr/share/dbus-1/system-services/
+@@ -33,20 +33,20 @@
+ 	$(install_dir) $(DESTDIR)/usr/bin/
+ 	$(install_script) samsung-tools.py $(DESTDIR)/usr/bin/samsung-tools
+ 	# GUI
+-	$(install_dir) $(DESTDIR)/usr/lib/samsung-tools/gui/glade/
+-	$(install_file) gui/glade/samsung-tools-preferences.glade $(DESTDIR)/usr/lib/samsung-tools/gui/glade/
+-	$(install_file) gui/glade/samsung-tools-preferences-kernel-parameters.glade $(DESTDIR)/usr/lib/samsung-tools/gui/glade/
+-	$(install_file) gui/glade/samsung-tools-preferences-phc.glade $(DESTDIR)/usr/lib/samsung-tools/gui/glade/
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/glade/
++	$(install_file) gui/glade/samsung-tools-preferences.glade $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/glade/
++	$(install_file) gui/glade/samsung-tools-preferences-kernel-parameters.glade $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/glade/
++	$(install_file) gui/glade/samsung-tools-preferences-phc.glade $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/glade/
+ 	$(install_dir) $(DESTDIR)/usr/bin/
+ 	$(install_script) samsung-tools-preferences.py $(DESTDIR)/usr/bin/samsung-tools-preferences
+ 	# Applet
+-	$(install_file) gui/glade/samsung-tools-applet.glade $(DESTDIR)/usr/lib/samsung-tools/gui/glade/
+-	$(install_script) samsung-tools-applet.py $(DESTDIR)/usr/lib/samsung-tools/
++	$(install_file) gui/glade/samsung-tools-applet.glade $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/glade/
++	$(install_script) samsung-tools-applet.py $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/
+ 	# Icons
+-	$(install_dir) $(DESTDIR)/usr/lib/samsung-tools/gui/icons/
+-	$(install_file) gui/icons/samsung-tools.png $(DESTDIR)/usr/lib/samsung-tools/gui/icons/
+-	$(install_file) gui/icons/fan-*.png $(DESTDIR)/usr/lib/samsung-tools/gui/icons/
+-	$(install_file) gui/icons/bluetooth.png $(DESTDIR)/usr/lib/samsung-tools/gui/icons/
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/icons/
++	$(install_file) gui/icons/samsung-tools.png $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/icons/
++	$(install_file) gui/icons/fan-*.png $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/icons/
++	$(install_file) gui/icons/bluetooth.png $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/gui/icons/
+ 	# .desktop files
+ 	$(shell desktop/prepare.sh desktop/samsung-tools-session-service.desktop.in)
+ 	$(install_dir) $(DESTDIR)/etc/xdg/autostart/
+@@ -58,15 +58,15 @@
+ 	rm -rf desktop/samsung-tools-preferences.desktop
+ 	# .server files
+ 	$(shell bonobo/prepare.sh bonobo/samsung-tools-applet.server.in)
+-	$(install_dir) $(DESTDIR)/usr/lib/bonobo/servers
+-	$(install_file) bonobo/samsung-tools-applet.server $(DESTDIR)/usr/lib/bonobo/servers
++	$(install_dir) $(DESTDIR)/usr/$(LIBDIR)/bonobo/servers
++	$(install_file) bonobo/samsung-tools-applet.server $(DESTDIR)/usr/$(LIBDIR)/bonobo/servers
+ 	rm -rf bonobo/samsung-tools-applet.server
+ 
+ uninstall:
+ 	$(shell po/uninstall.sh ${DESTDIR})
+ 	rm -rf $(DESTDIR)/usr/bin/samsung-tools
+ 	rm -rf $(DESTDIR)/usr/bin/samsung-tools-preferences
+-	rm -rf $(DESTDIR)/usr/lib/samsung-tools/
++	rm -rf $(DESTDIR)/usr/$(LIBDIR)/samsung-tools/
+ 	rm -rf $(DESTDIR)/etc/dbus-1/system.d/org.voria.SamsungTools.System.conf
+ 	rm -rf $(DESTDIR)/usr/share/dbus-1/system-services/org.voria.SamsungTools.System.service
+ 	rm -rf $(DESTDIR)/usr/share/dbus-1/services/org.voria.SamsungTools.Session.service
+@@ -75,4 +75,4 @@
+ 	rm -rf $(DESTDIR)/etc/pm/power.d/samsung-tools_*
+ 	rm -rf $(DESTDIR)/usr/share/applications/samsung-tools-preferences.desktop
+ 	rm -rf $(DESTDIR)/etc/xdg/autostart/samsung-tools-session-service.desktop
+-	rm -rf $(DESTDIR)/usr/lib/bonobo/servers/samsung-tools-applet.server
++	rm -rf $(DESTDIR)/usr/$(LIBDIR)/bonobo/servers/samsung-tools-applet.server

@@ -1,0 +1,37 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=virtuoso
+pkgver=6.1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Virtuoso is a high-performance object-relational SQL database. As a database, it provides transactions, a smart SQL compiler, powerful stored-procedure language with optional Java and .Net server-side hosting, hot backup, SQL-99 support and more. It has all major data-access interfaces, such as ODBC, JDBC, ADO .Net and OLE/DB."
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-opensource-${pkgver}.tar.gz")
+
+tags="libs dev-db"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-hslookup \
+--disable-rendezvous \
+--disable-all-vads"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+build() {
+    go_src_dir
+    eval $BUILD_WORD $BUILD_KEYS
+    make -j$numjobs
+
+    cd binsrc/virtuoso
+    make $INSTALL_KEYS install
+    cd ../driver
+    make $INSTALL_KEYS install
+}

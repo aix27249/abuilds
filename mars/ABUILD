@@ -1,0 +1,80 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mars
+pkgver=0.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="It is a game for two players, flying with
+ships in a two-dimensional space setting, governed by the laws of gravity."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is a first attempt to create a game in OpenGL with SFML. It is a game for two players, flying with 
+ships in a two-dimensional space setting, governed by the laws of gravity. There are several game modes and a lot of 
+weapons. "
+)
+
+source=("svn:https://mars-game.svn.sourceforge.net/svnroot/mars-game")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-arcade"
+
+#dependencies only needed to build package
+build_deps="sfml"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+cd build && LANG=C cmake ..
+LANG=C make
+
+go_src_dir
+
+mkdir -p $pkgdir/usr/share/marsshooter
+mkdir -p $pkgdir/usr/bin/
+cp -r credits.txt data/* license.txt $pkgdir/usr/share/marsshooter
+cp mars $pkgdir/usr/bin/mars-shooter
+find $pkgdir -name *.svn | xargs rm -rf
+
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

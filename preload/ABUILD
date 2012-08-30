@@ -1,0 +1,39 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=preload
+pkgver=0.6.4
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Readahead daemon"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("preload is an adaptive readahead daemon. It monitors applications that users run, and by analyzing this data, predicts what applications users might run, and fetches those binaries and their dependencies into memory for faster startup times."
+"http://preload.sf.net")
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="utils sys-apps"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	mkdir -p ${pkgdir}/etc/init.d
+	cp ${filedir}/preload ${pkgdir}/etc/init.d
+
+	mv ${pkgdir}/etc/sysconfig ${pkgdir}/etc/conf.d
+
+	rm -rf ${pkgdir}/etc/rc.d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc/Makefile*
+}

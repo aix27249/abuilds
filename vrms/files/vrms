@@ -1,0 +1,23 @@
+#!/usr/bin/python
+# VRMS for AgiliaLinux
+import sqlite3
+db = sqlite3.connect('/var/mpkg/packages.db')
+tag = db.execute("SELECT * FROM tags WHERE tags_name='proprietary'")
+tagid = list(tag)[0][0]
+links = db.execute("SELECT * FROM tags_links WHERE tags_tag_id='{0}'".format(tagid))
+total = list(db.execute("SELECT Count(*) FROM packages WHERE package_installed='1'"))[0][0]
+prop = []
+for item in links:
+	package = db.execute("SELECT * FROM packages WHERE package_id='{0}' AND package_installed='1'".format(item[1]))
+	l = list(package)
+	if len(l) > 0:
+		prop.append(l[0])
+db.close()
+if prop:
+	propn = len(prop)
+	print "Non-free packages installed:"
+	for item in prop:
+		print '{0}: {1}'.format(item[1], item[8] if item[8] else item[7])
+	print "{0} proprietary packages of {1} total packages, which is {2:.2%}".format(propn, total, propn/float(total))
+else:
+	print "You make RMS proud!"

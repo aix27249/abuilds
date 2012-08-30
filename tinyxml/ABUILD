@@ -1,0 +1,81 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tinyxml
+pkgver=2.6.1
+_pkgver=`echo $pkgver | sed 's/\./_/g'`
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A simple, small, C++ XML parser that can be easily integrated into other programs."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("TinyXML is a simple, small, C++ XML parser that can be easily integrating into other programs."
+)
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}_${_pkgver}.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-util"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir/$pkgname
+install -d $pkgdir/usr/include
+cp *.h $pkgdir/usr/include/
+sed -i.orig -e 's/\(^TINYXML_USE_STL := \)NO/\1YES/' \
+	-e 's/^RELEASE_CFLAGS.*/& -fPIC/' Makefile
+make || exit 1
+
+g++ -fPIC -shared -o libtinyxml.so.0.$pkgver -Wl,-soname,libtinyxml.so.0 *.o \
+	|| exit 1
+install -d $pkgdir/usr/lib$LIBDIRSUFFIX
+install -m755 libtinyxml.so.0.$pkgver $pkgdir/usr/lib$LIBDIRSUFFIX/
+cd $pkgdir/usr/lib$LIBDIRSUFFIX
+ln -s libtinyxml.so.0.$pkgver libtinyxml.so.0
+ln -s libtinyxml.so.0.$pkgver libtinyxml.so
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,9 @@
+#%PAM-1.0
+#[For version 1.0 syntax, the above header is optional]
+#
+# The PAM configuration file for the `chfn' service
+#
+auth       sufficient pam_rootok.so
+account    required   pam_unix.so
+password   required   pam_unix.so \
+		shadow md5 use_authtok

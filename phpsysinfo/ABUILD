@@ -1,0 +1,75 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=phpsysinfo
+pkgver=2.5.4
+pkgbuild=3
+arch=('noarch')
+
+shortdesc="a PHP script that displays information about the host being accessed"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("PHPSysInfo is a customizable PHP Script that parses /proc, and formats information nicely. It will display information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more. Homepage: http://phpsysinfo.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/project/phpsysinfo/phpsysinfo/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="www-misc server"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="php"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="COPYING README ChangeLog"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+#burn_patches
+
+mkdir -p $pkgdir/var/www/htdocs/$pkgname
+cp -a * $pkgdir/var/www/htdocs/$pkgname || exit 1
+
+cd $pkgdir/var/www/htdocs/$pkgname/
+rm -rf templates/mobile $docs
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+#install -m644 $filedir/config.php.new $pkgdir/var/www/htdocs/$pkgname/config.php && \
+install -m644 $filedir/distros.ini $pkgdir/var/www/htdocs/$pkgname || exit 1
+}

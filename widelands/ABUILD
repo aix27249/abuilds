@@ -1,0 +1,30 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=widelands
+pkgver=16
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A realtime strategy game with emphasis on economy and transport"
+longdesc=("A realtime strategy game with emphasis on economy and transport (Similar to famous settlers2)"
+)
+
+source=("http://launchpad.net/${pkgname}/build${pkgver}/build${pkgver}/+download/$pkgname-build${pkgver}-src.tar.bz2")
+
+tags="games games-strategy"
+
+# Почему-то в x86 сборке не находит зависимости
+# P.S. не помешала бы возможность указать параметр для сборки под конкретной архитектурой, чтобы не плодить абилды в таких случаях
+adddep="ggz-client-libs sdl_gfx sdl libpng zlib cxxlibs glibc-solibs lua glew gcc libgl libggz"
+
+build_deps="cmake boost"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DWL_INSTALL_PREFIX=/usr \
+-DWL_INSTALL_DATADIR=share/$pkgname \
+-DWL_INSTALL_BINDIR=bin \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

@@ -1,0 +1,35 @@
+--- obmenugen.po.orig	2009-12-27 04:07:52.000000000 +1000
++++ obmenugen.po	2010-05-07 11:23:07.548844818 +1100
+@@ -16,11 +16,11 @@
+ 
+ #: src/obmenugen.d:128
+ msgid "Error! Unrecognized category: %s"
+-msgstr "Ошибка! Нераспознанная категория: %s"
++msgstr "Внимание! Нераспознанная категория: %s"
+ 
+ #: src/obmenugen.d:137
+ msgid "Error! Unrecognized option: %s"
+-msgstr "Ошибка! Нераспознанная опция: %s"
++msgstr "Внимание! Нераспознанная опция: %s"
+ 
+ #: src/openbox_mg.d:120
+ msgid "Configuration key 'terminal' MUST be setted."
+@@ -40,15 +40,15 @@
+ 
+ #: src/openbox_mg.d:132
+ msgid "File Manager"
+-msgstr "Менеджер файлов"
++msgstr "Файловый менеджер"
+ 
+ #: src/openbox_mg.d:138
+ msgid "Web Browser"
+-msgstr "Броузер интернета"
++msgstr "Интернет браузер"
+ 
+ #: src/openbox_mg.d:144
+ msgid "Instant Messaging"
+-msgstr "Инернет-пейджер"
++msgstr "IM-клиент"
+ 
+ #: src/openbox_mg.d:150
+ msgid "Run Command"

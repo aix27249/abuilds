@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=mobile-broadband-provider-info
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Mobile broadband provider database for NM"
+
+source="git:git://git.gnome.org/mobile-broadband-provider-info"
+
+adddep="NetworkManager"
+
+tags="network net-wireless"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

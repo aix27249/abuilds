@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=perl-sgmls
+pkgver=1.03ii
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Perl SGMLS postprocessor"
+
+source="http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-$pkgver.tar.gz"
+
+tags="libs dev-perl"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	mkdir -p $pkgdir/usr/bin $pkgdir/usr/lib$LIBDIRSUFFIX/perl5/vendor_perl $pkgdir/usr/doc/perl-sgmls
+
+	patch Makefile <<EOF
+84a85
+> 	find \${HTMLDIR} -type l -exec rm -f {} \;
+EOF
+	
+	make install install_html BINDIR=$pkgdir/usr/bin PERL5DIR=$pkgdir/usr/lib$LIBDIRSUFFIX/perl5/vendor_perl HTMLDIR=$pkgdir/usr/doc/perl-sgmls
+
+	find $pkgdir -name '.packlist' -delete
+	find $pkgdir -name '*.pod' -delete
+}

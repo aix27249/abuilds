@@ -1,0 +1,28 @@
++class
+{
+  -windows { image = "$$/large_windows.png" }
+  -linux { image = "$$/large_linux.png" }
+  -ubuntu { image = "$$/large_ubuntu.png" }
+  -debian { image = "$$/large_debian.png" }
+  -suse { image = "$$/large_opensuse.png" }
+  -freebsd { image = "$$/large_freebsd.png" }
+  -macosx { image = "$$/large_osx.png" }
+  -gentoo { image = "$$/large_gentoo.png" }
+  -linuxmint { image = "$$/large_linuxmint.png" }
+  -mandrake { image = "$$/large_mandrake.png" }
+  -arch { image = "$$/large_arch.png" }
+  -centos { image = "$$/large_centos.png" }
+  -fedora { image = "$$/large_fedora.png" }
+  -mepis { image = "$$/large_mepis.png" }
+  -pclinuxos { image = "$$/large_pclinuxos.png" }
+  -puppy { image = "$$/large_puppy.png" }
+  -redhat { image = "$$/large_redhat.png" }
+  -sabayon { image = "$$/large_sabayon.png" }
+  -slackware { image = "$$/large_slackware.png" }
+  -zenix { image = "$$/large_zenix.png" }
+  -molinux { image = "$$/large_molinux.png" }
+  -image { image = "$$/large_unknown.png" }
+  -agilia { image = "$$/large_agilia.png" }
+}
+
+-include "../custom/icon_large"

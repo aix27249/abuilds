@@ -1,0 +1,32 @@
+diff -uNr mytetra.src.orig/mytetra.pro mytetra.src/mytetra.pro
+--- mytetra.src.orig/mytetra.pro	2011-07-10 21:39:39.000000000 +0000
++++ mytetra.src/mytetra.pro	2011-08-04 07:54:29.000000000 +0000
+@@ -17,12 +17,12 @@
+ MOC_DIR = build
+ UI_DIR = build
+ FORMS = 
+-QMAKE_LFLAGS += -L/usr/lib/qt4/lib
++#QMAKE_LFLAGS += -L/usr/lib/qt4/lib
+ 
+ !contains(TARGET_OS_IS_MEEGO, 1) {
+  message(Building the any OS version...)
+  SYSTEM_PROGRAM_NAME=mytetra
+- BINARY_INSTALL_PATH=/usr/local/bin
++ BINARY_INSTALL_PATH=$${PREFIX}/$${DESTDIR}
+ } else {
+  message(Building the MeeGo OS version...)
+  SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
+@@ -46,11 +46,11 @@
+ }
+ INSTALLS+=desktop_file
+ 
+-icon_scalable_file.path=/usr/share/icons/hicolor/scalable/apps
++icon_scalable_file.path=$${PREFIX}/share/icons/hicolor/scalable/apps
+ icon_scalable_file.files=desktop/mytetra.svg
+ INSTALLS+=icon_scalable_file
+ 
+-icon_48_file.path=/usr/share/icons/hicolor/48x48/apps
++icon_48_file.path=$${PREFIX}/share/icons/hicolor/48x48/apps
+ icon_48_file.files=desktop/mytetra.png
+ INSTALLS+=icon_48_file
+ 

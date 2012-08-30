@@ -1,0 +1,11 @@
+--- git.orig	2011-06-28 17:54:51.000000000 +0400
++++ git	2011-06-28 18:01:53.176283189 +0400
+@@ -125,7 +125,7 @@
+ 			upstream=svn+git # default upstream is SVN if available, else git
+ 			;;
+ 		esac
+-	done < <(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')
++	done < $(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')
+ 
+ 	# parse configuration values
+ 	for option in ${GIT_PS1_SHOWUPSTREAM}; do

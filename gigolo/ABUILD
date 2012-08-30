@@ -1,0 +1,34 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=gigolo
+pkgver=0.4.1
+pkgbuild=4
+arch=('auto')
+tree=`echo $pkgver | cut -d . -f 1-2`
+
+shortdesc="Fontend to easily manage connections to remote filesystems using GIO/GVfs."
+
+source=("http://archive.xfce.org/src/apps/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-extra"
+
+build_deps="python gcc intltool gtk+"
+
+docs="README.I18N"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+ rm -R ${pkgdir}/usr/share/doc
+ echo "End after_build"
+}

@@ -1,0 +1,134 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gkrellm-plugin
+pkgver=1.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Plugins for gkrellm"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("http://space.dl.sourceforge.net/project/gkrellmoon/gkrellmoon/0.6/gkrellmoon-0.6.tar.gz"
+"http://jaist.dl.sourceforge.net/project/gkacpi/gkacpi/gkacpi2-0.4/gkacpi2-0.4.tar.gz"
+"http://space.dl.sourceforge.net/project/gkrelltop/gkrelltop/2.2.13/gkrelltop_2.2.13.orig.tar.gz"
+"http://downloads.sourceforge.net/sourceforge/gkrellmvolume/gkrellm-volume-2.1.13.tar.gz"
+"http://downloads.sourceforge.net/sourceforge/gkrellmip/gkrellmip-1.2.tar.gz"
+"http://space.dl.sourceforge.net/project/gkrellm-clipp/gkrellm-clipp/0.9.0/gkrellm-clipp-0.9.0.tar.bz2"
+"http://rlog.rgtti.com/wp-content/uploads/software/linux/gksyn/gksyn-2.0.0.tar.gz"
+"http://downloads.sourceforge.net/sourceforge/gkim2/GKrellM2-show_ip-1.1.tar.gz"
+"http://downloads.sourceforge.net/sourceforge/gkrellmbio/gkrellmbio-1.5.tar.gz"
+"http://tripie.sweb.cz/gkrellm/xkb/dist/gkrellm-xkb-1.05.tar.gz")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-utils"
+
+adddep="gkrellm"
+
+numjobs=1
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+
+# Make gkrellm2
+
+cd $srcdir/GKrellM2-show_ip-1.1 || exit 1
+make || exit 1
+mkdir  -p $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins || exit 1
+mkdir  -p $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins/user || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/GKrellM2-show_ip-1.1 || exit 1
+cp README $pkgdir/usr/doc/gkrellm2/plugins/GKrellM2-show_ip-1.1 || exit 1
+cp GKrellM2-show_ip.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins || exit 1
+
+# Make gksyn
+
+cd $srcdir/gksyn-2.0.0 || exit 1
+./build_gksyn || exit 1
+cp gksyn.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins/user || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/gksyn-2.0.0 || exit 1
+cp README.txt $pkgdir/usr/doc/gkrellm2/plugins/gksyn-2.0.0 || exit 1
+
+
+# Make gkrellm-clipp
+
+cd $srcdir/gkrellm-clipp-0.9.0 || exit 1
+make || exit 1
+cp clipp.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins || exit 1
+
+# Make gkrellmoon
+
+cd $srcdir/gkrellmoon-0.6 || exit 1
+make || exit 1
+cp gkrellmoon.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/gkrellmoon-0.6 || exit 1
+cp README $pkgdir/usr/doc/gkrellm2/plugins/gkrellmoon-0.6 || exit 1
+
+
+
+
+# Make gkacpi
+
+cd $srcdir/gkacpi2-0.4 || exit 1
+make || exit 1
+cp gkacpi2.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins/user || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/gkacpi2-0.4 || exit 1
+cp README $pkgdir/usr/doc/gkrellm2/plugins/gkacpi2-0.4 || exit 1
+
+
+# Make gkrellmip
+
+cd $srcdir/gkrellmip-1.2 || exit 1
+make || exit 1
+cp gkrellmip.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins/user || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/gkrellmip-1.2 || exit 1
+cp README $pkgdir/usr/doc/gkrellm2/plugins/gkrellmip-1.2 || exit 1
+
+
+# Make gkrellmbio
+
+cd $srcdir/gkrellmbio-1.5 || exit 1
+make || exit 1
+cp gkrellmbio.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins/user || exit 1
+mkdir  -p $pkgdir/usr/doc/gkrellm2/plugins/gksyn-2.0.0 || exit 1
+cp README $pkgdir/usr/doc/gkrellm2/plugins/gksyn-2.0.0 || exit 1
+
+
+# Make gkrellm-volume
+
+cd $srcdir/gkrellm-volume || exit 1
+make enable_alsa=1 enable_nls=1
+make DESTDIR=$pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins \
+LOCALEDIR=/usr/share/locale \
+PLUGIN_DIR=$pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins install || exit 1
+
+# Make gkrelltop
+
+cd $srcdir/gkrelltop-2.2.13.orig
+./configure --prefix=/usr --libdir=/usr/lib{LIBDIRSUFFIX} || exit 1
+make
+make DESTDIR=$pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins install
+
+
+
+# Make gkxkb
+
+cd $srcdir/gkrellm-xkb-1.05
+make PREFIX=/usr PLUGIN_DIR=${PREFIX}/lib${LIBDIRSUFFIX}/gkrellm2/plugins
+cp xkb.so $pkgdir/usr/lib${LIBDIRSUFFIX}/gkrellm2/plugins || exit 1
+
+
+find $pkgdir -type d -exec chmod 755 {} \; || exit 1
+find $pkgdir -type f -exec chmod 755 {} \; || exit 1
+
+
+}
+
+

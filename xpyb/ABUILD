@@ -1,0 +1,26 @@
+# X python bindings ABUILD
+
+pkgname=xpyb
+pkgver=1.3.1
+pkgbuild=1
+shortdesc="X Python Binding, based on the XCB library"
+longdesc="X Python Binding, based on the XCB library"
+arch=('auto')
+source=(http://xcb.freedesktop.org/dist/${pkgname}-${pkgver}.tar.bz2)
+tags=("xserver x11-xcbs")
+
+build() {
+	go_src_dir
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	./configure --prefix=/usr
+	make -j${numjobs}
+	make DESTDIR="${pkgdir}" install
+	install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+	# Fix pkgconfig path
+	if [ "$LIBDIRSUFFIX" = "64" ] ; then
+		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+		rmdir ${pkgdir}/usr/lib
+	fi
+}

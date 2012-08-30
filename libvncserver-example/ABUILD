@@ -1,0 +1,57 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=libvncserver
+pkgver=0.9.8.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An easy API to write one's own VNC server"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("LibVNCServer makes writing a VNC server (or more correctly, a program "
+"exporting a framebuffer via the Remote Frame Buffer protocol) easy. "
+"It is based on OSXvnc, which in turn is based on the original Xvnc by "
+"ORL, later AT&T research labs in UK. "
+"It hides the programmer from the tedious task of managing clients and "
+"compression schema.")
+
+source=("http://downloads.sourceforge.net/${pkgname}/LibVNCServer-${pkgver}.tar.gz")
+
+tags="libs net-libs"
+
+build_deps="libjpeg zlib gnutls"
+adddep="libjpeg zlib gnutls"
+
+pkglist="example"
+
+#===================================
+example() {
+ pkgname=libvncserver-example
+ shortdesc="Example libvncserver"
+}
+
+#===================================
+example_prep() {
+  go_src_dir
+  rm -R examples/.deps
+  rm -R examples/.libs
+  install -d -m 755 ${pkgdir}/usr/share/libvncserver
+  cp -R examples ${pkgdir}/usr/share/libvncserver
+ echo "End example"
+}
+
+#===================================
+build() {
+ go_src_dir
+ ./configure --prefix=/usr \
+             --libdir=/usr/lib${LIBDIRSUFFIX}
+ make
+ make DESTDIR="${pkgdir}" install
+ echo "End build"
+}
+
+#===================================
+after_build(){
+  go_src_dir
+  install -D -m 755 vncterm/VNCommand ${pkgdir}/usr/bin
+  echo "End after_build"
+}

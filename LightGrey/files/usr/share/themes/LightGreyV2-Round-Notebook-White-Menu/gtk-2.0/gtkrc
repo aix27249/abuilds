@@ -1,0 +1,36 @@
+# LightGreyV2 XFce-theme by PUNX69(http://sixsixfive.deviantart.com/)
+
+###enable/disable icons on buttons
+gtk-button-images = 0
+
+###enable menuicons
+gtk-menu-images = 0
+
+###default Font
+gtk-font-name = "Liberation Sans Bold 10"
+
+###icon size
+gtk-icon-sizes = "panel-menu=24,24:panel=24,24:gtk-dialog=48,48:gtk-small-toolbar=24,24:gtk-large-toolbar=32,32:gtk-menu=24,24:gtk-button=22,22"
+
+###Fast menus
+gtk-menu-drop-shadow = 0
+gtk-menu-shadow-delay = 0
+
+###some other gtk settings 
+gtk-enable-mnemonics = 0
+#gtk-enable-tooltips = 0
+gtk-toolbar-style = GTK_TOOLBAR_ICONS
+gtk-tooltip-timeout = 0
+gtk-entry-password-hint-timeout = 500
+gtk-fallback-icon-theme = Rodent
+gtk-menu-popdown-delay = 0
+gtk-menu-popup-delay = 150
+gtk-timeout-expand = 200
+gtk-tooltip-timeout=300
+gtk-tooltip-browse-mode-timeout = 400
+gtk-xft-antialias = 1
+gtk-xft-hinting = 0
+
+###Don't change this!!
+include "gtkrc.xficonview"
+include "gtkrc.lightgreyv2"

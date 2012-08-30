@@ -1,0 +1,29 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=claws-mail-themes
+pkgver=1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Themes for claws-mail"
+
+source=("/http://www.claws-mail.org/themes/claws-mail-themes-20120129.tar.gz")
+
+tags="x11-themes themes"
+
+adddep="claws-mail"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+build()
+{
+
+mkdir -p $pkgdir/usr/share/claws-mail || exit 1
+tar xzf $srcache/$loc_source_arr -C $pkgdir/usr/share/claws-mail || exit 1
+cd $pkgdir
+find . -type d -exec chmod 755 {} \; || exit 1
+find . -type f -exec chmod 644 {} \; || exit 1
+find . -iname "Makefile.am" -exec rm -rf {} \; || exit 1
+}
+

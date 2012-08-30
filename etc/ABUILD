@@ -1,0 +1,32 @@
+# ABUILD for etc files.
+pkgname=etc
+pkgver=16.8
+pkgbuild=1
+arch=('noarch')
+
+shortdesc=('System configuration files')
+longdesc=('System configuration files. The /etc directory is traditionally the location where configuration files are found.')
+
+tags=('base sys-base')
+no_postperm=1
+pkglist="version"
+adddep="agilialinux-version"
+build() {
+	set -e
+	cd $pkgdir
+	tar xvf $filedir/etc.tar.xz
+	rm ${pkgdir}/usr/sbin/timeconfig
+	set +e
+}
+
+version() {
+	pkgname=agilialinux-version
+	pkgver=8.0_rc1
+}
+
+version_prep() {
+	set -e
+	mkdir -p ${pkgdir}/etc
+	cat ${filedir}/agilialinux-version > ${pkgdir}/etc/agilialinux-version
+	set +e
+}

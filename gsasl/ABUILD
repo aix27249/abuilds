@@ -1,0 +1,16 @@
+pkgname=gsasl
+pkgver=1.6.1
+pkgbuild=1
+shortdesc="GNU SASL is an implementation of SASL"
+tags="libs sys-libs"
+arch=('auto')
+
+source=("ftp://ftp.gnu.org/gnu/gsasl/${pkgname}-${pkgver}.tar.gz")
+
+build() {
+  go_src_dir
+  burn_patches
+  ./configure --prefix=/usr --libdir=/lib${LIBDIRSUFFIX}
+  make
+  make DESTDIR=${pkgdir} install
+}

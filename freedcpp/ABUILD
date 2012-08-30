@@ -1,0 +1,26 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=freedcpp
+pkgver=0.0.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DC++ client"
+#longdesc=(""
+#)
+
+source=("svn:http://freedcpp.googlecode.com/svn/trunk/")
+
+
+tags="net-p2p xapps"
+
+
+build() {
+	go_src_dir
+#scons DISTDIR=${pkgdir} PREFIX=/usr install || exit 1
+ scons PREFIX=/usr LIBDIR=/usr/share || return 1
+    scons PREFIX=/usr LIBDIR=/usr/share install FAKE_ROOT=$pkgdir || return 1
+    scons DESTDIR=${pkgdir} install || return 1
+    
+}

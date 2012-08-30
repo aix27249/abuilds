@@ -1,0 +1,91 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=fltk
+pkgver=1.1.10
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Fast Light Toolkit, a cross-platform C++ GUI toolkit"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("FLTK provides modern GUI functionality without the bloat and supports 3D graphics via OpenGL® and its built-in GLUT emulation. FLTK is designed to be small and modular enough to be statically linked, but works fine as a shared library. FLTK also includes an excellent UI builder called FLUID that can be used to create applications in minutes. FLTK is provided under the terms of the GNU Library Public License, Version 2 with exceptions that allow for static linking. Homepage: http://www.fltk.org"
+)
+
+source=("http://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/fltk/${pkgver}/${pkgname}-${pkgver}-source.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-libs libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+go_src_dir
+# http://slackbuilds.org/repository/13.1/libraries/fltk/
+# Fix linking when --libdir=/usr/lib64 
+sed -i \
+  -e '/RANLIB/s:$(libdir)/\(.*LIBNAME)\):$(libdir)/`basename \1`:g' \
+  src/Makefile || exit
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+  --enable-gl \
+  --enable-largefile \
+  --enable-threads \
+  --enable-xinerama \
+  --enable-xft \
+  --enable-xdbe \
+  --enable-shared || exit 1"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

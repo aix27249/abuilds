@@ -1,0 +1,20 @@
+#!/sbin/runscript
+# Copyright 1999-2010 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License, v2 or later
+# $Header: /var/cvsroot/gentoo-x86/sys-apps/hal/files/0.5.14-hald.rc,v 1.1 2010/01/20 13:42:14 dang Exp $
+
+depend() {
+	use logger acpid
+	after coldplug dns nscd consolefont keymaps
+	provide xdm
+}
+
+start() {
+	ebegin "Starting X11 login with LXDM..."
+	start-stop-daemon --start -q --exec '/usr/sbin/lxdm' --pidfile /var/run/lxdm.pid -- -d
+}
+
+stop() {
+	ebegin "Stopping X11 login with LXDM..."
+	start-stop-daemon --stop -q --pidfile /var/run/lxdm.pid 
+}

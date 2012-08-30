@@ -1,0 +1,102 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hedgewars
+pkgver=0.9.15
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Worms-like strategy game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Стратегическая игра, похожая на Worms"
+)
+
+source=("http://download.gna.org/hedgewars/${pkgname}-src-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="virtual games-strategy"     			#short and long tags / длинный и короткий тег
+build_deps="fpc" 			
+
+provides=""
+conflicts=""
+
+adddep="hedgewars-bin hedgewars-data"
+removedep=""
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+pkglist="bin data"
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+
+#qmake                                                                                                             
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+  cmake -DCMAKE_CXX_FLAGS="$SLKCFLAGS" -DCMAKE_INSTALL_PREFIX="/opt/hedgewars" -DCMAKE_BUILD_TYPE="Release" \
+    -DDATA_INSTALL_DIR="/opt/hedgewars" .
+
+make -j${numjobs} || exit 1
+make install DESTDIR=${pkgdir} || exit 1
+}
+
+bin()
+{
+pkgname=hedgewars-bin
+arch=('auto')
+shortdesc="binary files for hedgewars"
+tags="games games-strategy"
+}
+
+bin_prep()
+{
+
+mkdir -p ${pkgdir}/{opt/hedgewars/,usr}
+mv  ${p_pkgdir}/opt/hedgewars/bin ${pkgdir}/opt/hedgewars || exit 1
+#mv  ${p_pkgdir}/usr ${pkgdir}
+}
+
+data()
+{
+pkgname=hedgewars-data
+arch=('noarch')
+shortdesc="data files for hedgewars"
+tags="games games-strategy"
+adddep="hedgewars-bin"
+}
+
+data_prep()
+{
+mkdir -p ${pkgdir}/opt/hedgewars/
+mv ${p_pkgdir}/opt/hedgewars/hedgewars ${pkgdir}/opt/hedgewars
+d_echo "rm -rf ${p_pkgdir}/opt"
+rm -rf ${p_pkgdir}/opt
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

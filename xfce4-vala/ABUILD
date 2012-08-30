@@ -1,0 +1,17 @@
+# Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+pkgname=xfce4-vala
+pkgver=4.8.1
+pkgbuild=1
+shortdesc="Vala bindings for the Xfce framework"
+arch='auto'
+tags='xfce xfce-extra'
+source=("http://git.xfce.org/bindings/${pkgname}/snapshot/${pkgname}-${pkgname}-${pkgver}.tar.bz2")
+
+build() {
+	cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+	./autogen.sh --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib{$LIBDIRSUFFIX} \
+	--localstatedir=/var
+	make || return 1
+    cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
+	make DESTDIR=${pkgdir} install || return 1
+}

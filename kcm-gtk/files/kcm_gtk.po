@@ -1,0 +1,231 @@
+# translation of ru.po to Русский
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Ponasenkov Viktor <vitec@bk.ru>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: ru\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2009-08-13 20:10+0000\n"
+"PO-Revision-Date: 2009-10-14 13:29+0000\n"
+"Last-Translator: Tier <Unknown>\n"
+"Language-Team: Русский <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-10-23 01:04+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Language: ru_RU\n"
+"X-Source-Language: C\n"
+
+#: kcmgtk.cpp:67
+msgid "kcm_gtk"
+msgstr "kcm_gtk"
+
+#: kcmgtk.cpp:68
+msgid "GTK Styles and Fonts"
+msgstr "Стили и шрифты GTK"
+
+#: kcmgtk.cpp:69
+msgid "(C) 2008 David Sansome"
+msgstr "(C) 2008 David Sansome"
+
+#: kcmgtk.cpp:70
+msgid "(C) 2009 Jonathan Thomas"
+msgstr "(C) 2009 Jonathan Thomas"
+
+#: kcmgtk.cpp:71
+msgid "Change the appearance of GTK+ applications in KDE"
+msgstr "Изменить вид приложений GTK+ в KDE"
+
+#: kcmgtk.cpp:107
+#, kde-format
+msgid "%1 (size %2)"
+msgstr "%1 (Размер %2)"
+
+#. i18n: file: kcmgtkwidget.ui:19
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: rc.cpp:3 rc.cpp:44
+msgid "GTK+ Styles"
+msgstr "Стили GTK+"
+
+#. i18n: file: kcmgtkwidget.ui:45
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:6 rc.cpp:47
+msgid "&Widget style:"
+msgstr "&Стиль виджетов:"
+
+#. i18n: file: kcmgtkwidget.ui:71
+#. i18n: ectx: property (text), widget (QPushButton, warning3)
+#: rc.cpp:9 rc.cpp:50
+msgid "Change search paths..."
+msgstr "Изменить пути поиска..."
+
+#. i18n: file: kcmgtkwidget.ui:94
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: rc.cpp:12 rc.cpp:53
+msgid "GTK+ Fonts"
+msgstr "Шрифты GTK+"
+
+#. i18n: file: kcmgtkwidget.ui:124
+#. i18n: ectx: property (text), widget (QRadioButton, fontKde)
+#: rc.cpp:15 rc.cpp:56
+msgid "Use m&y KDE fonts in GTK+ applications"
+msgstr "Использовать шрифты KDE в приложе&ниях GTK"
+
+#. i18n: file: kcmgtkwidget.ui:131
+#. i18n: ectx: property (text), widget (QRadioButton, fontOther)
+#: rc.cpp:18 rc.cpp:59
+msgid "Use another font:"
+msgstr "Использовать другой шрифт:"
+
+#. i18n: file: kcmgtkwidget.ui:138
+#. i18n: ectx: property (text), widget (QPushButton, fontChange)
+#: rc.cpp:21 rc.cpp:62
+msgid "Change..."
+msgstr "Изменить..."
+
+#. i18n: file: kcmgtkwidget.ui:165
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, qtcurveFontLabel)
+#: rc.cpp:24 rc.cpp:65
+msgid "The QtCurve widget theme uses your KDE font settings"
+msgstr "Тема виджетов QtCurve использует шрифты KDE"
+
+#. i18n: file: kcmgtkwidget.ui:184
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: rc.cpp:27 rc.cpp:68
+msgid ""
+"Note that changes made here will only affect GTK+ applications when KDE is "
+"running.  To change the styles and fonts used by applications in GNOME, use "
+"the GNOME configuration tools."
+msgstr ""
+"Эти настройки действуют только в среде KDE. Чтобы изменить внешний вид "
+"приложений в GNOME, используйте средства настройки GNOME."
+
+#. i18n: file: searchpaths.ui:20
+#. i18n: ectx: property (windowTitle), widget (QWidget, SearchPaths)
+#: rc.cpp:30 rc.cpp:71
+msgid "Change search paths"
+msgstr "Изменить пути поиска"
+
+#. i18n: file: searchpaths.ui:26
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: rc.cpp:33 rc.cpp:74
+msgid ""
+"You can set a custom search path here if we were not able to find a GTK+ "
+"theme engine. This could happen if the theme engine was installed to a "
+"custom location."
+msgstr ""
+"Вы можете указать свой путь для поиска движков (engines) GTK здесь. Это "
+"может понадобиться, если движок был установлен в нестандартное расположение."
+
+#. i18n: file: searchpaths.ui:50
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: rc.cpp:36 rc.cpp:77
+msgid "Add"
+msgstr "Добавить"
+
+#. i18n: file: searchpaths.ui:63
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: rc.cpp:39 rc.cpp:80
+msgid "Remove"
+msgstr "Удалить"
+
+#: rc.cpp:40
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr " ,Launchpad Contributions:,Tier,vitec"
+
+#: rc.cpp:41
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ",,,"
+
+#~ msgid ""
+#~ "_: NAME OF TRANSLATORS\n"
+#~ "Your names"
+#~ msgstr "Понасенков Виктор, ,Launchpad Contributions:,Tier,vitec"
+
+#~ msgid ""
+#~ "_: EMAIL OF TRANSLATORS\n"
+#~ "Your emails"
+#~ msgstr "vitecx@gmail.com,,,,"
+
+#~ msgid "No Mozilla profiles found"
+#~ msgstr "Не найдено ни одного профиля Mozilla"
+
+#~ msgid "Could not load Mozilla profiles"
+#~ msgstr "Невозможно загрузить профили Mozilla"
+
+#~ msgid "Mozilla profile"
+#~ msgstr "Профиль Mozilla"
+
+#~ msgid "Thunderbird"
+#~ msgstr "Thunderbird"
+
+#~ msgid "Firefox"
+#~ msgstr "Firefox"
+
+#~ msgid ""
+#~ "Your Mozilla profile was updated sucessfully.  You must close and restart "
+#~ "all Firefox and Thunderbird windows for the changes to take effect"
+#~ msgstr ""
+#~ "Ваш профиль Mozilla успешно обновлён. Вы должны закрыть и перезапустить "
+#~ "все копии Firefox и Thunderbird чтобы изменения вступили в силу."
+
+#, qt-format
+#~ msgid "Could not write to %1"
+#~ msgstr "Невозможно записать в %1"
+
+#~ msgid "Form2"
+#~ msgstr "Form2"
+
+#~ msgid "Use my KDE style in GTK applications"
+#~ msgstr "Использовать мой стиль KDE в GTK приложениях"
+
+#~ msgid "Use another style:"
+#~ msgstr "Использовать другой стиль:"
+
+#~ msgid "Gtk-Qt theme engine homepage"
+#~ msgstr "Домашняя страница Gtk-Qt Theme Engine"
+
+#~ msgid "http://www.freedesktop.org/wiki/Software_2fgtk_2dqt"
+#~ msgstr "http://www.freedesktop.org/wiki/Software_2fgtk_2dqt"
+
+#~ msgid ""
+#~ "<b>Warning:</b> The Gtk-Qt theme engine is not installed.  This means you "
+#~ "will not be able to use your KDE style in GTK applications."
+#~ msgstr ""
+#~ "<b>Внимание:</b> Gtk-Qt Theme еngine не установлен. Вы не можете "
+#~ "использовать стили KDE в GTK приложениях."
+
+#~ msgid "The Quick Brown Fox Jumped Over The Lazy Dog"
+#~ msgstr ""
+#~ "Широкая электрификация южных губерний даст мощный толчок подъёму "
+#~ "сельского хозяйства"
+
+#~ msgid "Preview line 1"
+#~ msgstr "Просмотр 1"
+
+#~ msgid "Firefox and Thunderbird"
+#~ msgstr "Firefox и Thunderbird"
+
+#~ msgid ""
+#~ "Scrollbar buttons may sometimes be displayed incorrectly in Firefox and "
+#~ "Thunderbird.  This can be fixed by installing some files into your "
+#~ "Mozilla profile."
+#~ msgstr ""
+#~ "Кнопки скроллбара иногда могут отображаться некорректно в Firefox и "
+#~ "Thunderbird. Это может быть исправлено установкой нескольких файлов в ваш "
+#~ "профиль Mozilla."
+
+#~ msgid "Install scrollbar fix..."
+#~ msgstr "Установить исправление..."
+
+#~ msgid "Profile"
+#~ msgstr "Профиль"
+
+#~ msgid "Please select the profiles that you want to fix:"
+#~ msgstr "Выберите профиль, который вы хотите исправить:"

@@ -1,0 +1,35 @@
+#ABUILD created by/создан: drakmail, coder at dps.ru 
+pkgname=awn-extras
+pkgver=0.4.1
+pkgbuild=3
+arch=('auto')
+
+shortdesc="A collection of applets for avant-window-navigator"
+longdesc="A collection of applets for avant-window-navigator"
+
+source="bzr:lp:awn-extras"
+
+tags="gnome-extra xapps"
+
+conflicts="awn-extras-applets"
+
+build()
+{
+	go_src_dir	
+	./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-pymod-checks --libdir=/usr/lib${LIBDIRSUFFIX}
+	make -j$numjobs
+	make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+
+	  # yes... theses guys can not even get a "#!" right
+	sed -i -e "s|#[ ]*[!]*[ ]*/usr/bin/env python$|#!/usr/bin/env python|" \
+		-e "s|#[ ]*![ ]*/usr/bin/python$|#!/usr/bin/python|" \
+		$(find "${pkgdir}"/usr/share/avant-window-navigator/applets/ -name '*.py') \
+		"${pkgdir}"/usr/lib$LIBDIRSUFFIX/python2.6/site-packages/awn/extras/awnmediaplayers.py
+
+	install -d -m755 "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}"/usr/share/gconf/schemas/awn-extras.schemas \
+			"${pkgdir}"/etc/gconf/schemas/*.schemas
+
+	rm -f "${pkgdir}"/etc/gconf/schemas/*.schemas
+	rm -rf "${pkgdir}"/usr/share/locale
+}

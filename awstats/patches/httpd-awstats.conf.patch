@@ -1,0 +1,40 @@
+--- tools/httpd_conf.orig	2009-12-30 04:20:15.000000000 +0500
++++ tools/httpd_conf	2010-07-12 15:53:03.000000000 +0600
+@@ -1,29 +1,18 @@
+-#
+-# Content of this file, with correct values, can be automatically added to
+-# your Apache server by using the AWStats configure.pl tool.
+-#
+-
+-
+-# If using Windows and Perl ActiveStat, this is to enable Perl script as CGI.
+-#ScriptInterpreterSource registry
+-
+-
+-#
+ # Directives to add to your Apache conf file to allow use of AWStats as a CGI.
+-# Note that path "/usr/local/awstats/" must reflect your AWStats install path.
+ #
+-Alias /awstatsclasses "/usr/local/awstats/wwwroot/classes/"
+-Alias /awstatscss "/usr/local/awstats/wwwroot/css/"
+-Alias /awstatsicons "/usr/local/awstats/wwwroot/icon/"
+-ScriptAlias /awstats/ "/usr/local/awstats/wwwroot/cgi-bin/"
++Alias /awstatsclasses "@DOCROOT@/awstats/wwwroot/classes/"
++Alias /awstatscss "@DOCROOT@/awstats/wwwroot/css/"
++Alias /awstatsicons "@DOCROOT@/awstats/wwwroot/icon/"
++ScriptAlias /awstats/ "@DOCROOT@/awstats/wwwroot/cgi-bin/"
+ 
+ 
+ #
+ # This is to permit URL access to scripts/files in AWStats directory.
+ #
+-<Directory "/usr/local/awstats/wwwroot">
++<Directory "@DOCROOT@/awstats/wwwroot">
+     Options None
+     AllowOverride None
+-    Order allow,deny
+-    Allow from all
++    Order deny,allow
++    Deny from all
++    Allow from localhost
+ </Directory>

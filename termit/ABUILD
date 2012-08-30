@@ -1,0 +1,79 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=termit
+pkgver=2.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Termit (GTK+ Terminal Emulator)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Small terminal emulator extensible via Lua. Termit supports tabs bookmarks, encoding switching and sessions."
+	  ""
+	  "Homepage: https://github.com/nonstop/termit/wiki/"
+)
+
+source=("http://github.com/downloads/nonstop/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-terms"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#config_files=("usr/doc/termit-$pkgver/rc.lua.example class=sample")
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DSYSCONF_INSTALL_DIR=/etc \
+-DMAN_INSTALL_DIR=/usr/man \
+-DINCLUDE_INSTALL_DIR=/usr/include \
+-DBUILD_SHARED_LIBS:BOOL=ON \
+-DBUILD_STATIC_LIBS:BOOL=OFF \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mv $pkgdir/usr/share/doc/termit/{lua_api.txt,rc.lua.example} $pkgdir/usr/doc/termit-$pkgver/
+rm -rf $pkgdir/usr/share/doc
+echo Icon=terminal >> $pkgdir/usr/share/applications/termit.desktop
+}

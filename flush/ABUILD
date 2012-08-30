@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=flush
+pkgver=0.9.12
+pkgbuild=3
+arch=('auto')
+
+shortdesc="GTK-based BitTorrent client"
+
+longdesc=("GTK-based BitTorrent client.  Homepage: http://sourceforge.net/projects/flush")
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xapps net-p2p"
+
+build_deps="make gcc-g++ gcc boost"
+adddep=""
+
+docs=
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-nls \
+--disable-rpath \
+--disable-debug-mode \
+--disable-develop-mode \
+--with-ssl \
+--with-boost"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,64 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qsmmp
+pkgver=0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Amarok-like ui for qmmp"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Интерфейс для qmmp, похожий на Amarok"
+)
+
+source=("git:git://gitorious.org/qsmmp/qsmmp.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+mkdir -p ${pkgdir}/usr/bin
+go_src_dir
+cp qsmmp ${pkgdir}/usr/bin
+#echo ""
+}

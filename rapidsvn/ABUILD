@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=rapidsvn
+pkgver=0.12.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Multi-platform GUI front-end for the Subversion revision system."
+
+source=("http://rapidsvn.org/download/release/0.12/${pkgname}-${pkgver}-1.tar.gz")
+
+tags="dev-util develop"
+
+build_deps="python>2.0.0 automake libtool wxwidgets apr apr-util subversion"
+
+adddep="subversion wxwidgets"
+
+docs="HACKING.txt FDL.txt FDL.txt"
+
+build(){
+  go_src_dir
+  ./autogen.sh
+  sed -i 's#src/tests/svncpp/Makefile##' configure
+  ./configure --prefix=/usr --libdir /usr/lib${LIBDIRSUFFIX} --with-apu-config="`which apu-1-config`" --with-apr-config="`which apr-1-config`"
+  make -k
+  make DESTDIR=${pkgdir} install
+  install -Dm644 src/res/bitmaps/rapidsvn_32x32.xpm $pkgdir/usr/share/pixmaps/rapidsvn.xpm
+  echo "End build"
+}

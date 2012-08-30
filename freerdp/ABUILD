@@ -1,0 +1,32 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=freerdp
+pkgver=1.0.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="FreeRDP is a client for Windows Terminal Services implementing the Remote Desktop Protocol"
+
+source=("https://github.com/downloads/FreeRDP/FreeRDP/FreeRDP-${pkgver}.tar.gz"
+        "https://github.com/FreeRDP/FreeRDP/commit/c10866db66c0d462ea7c2c38bb01740bcfb4fcb4.patch")
+
+tags="network net-libs"
+
+build_deps="krb5 cmake damageproto alsa-lib openssl"
+adddep=""
+
+build() {
+  go_src_dir
+  patch -Np1 <${srcache}/c10866db66c0d462ea7c2c38bb01740bcfb4fcb4.patch 
+  cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib${LIBDIRSUFFIX} || exit 1
+  make || exit 1
+  make DESTDIR="${pkgdir}" install || exit 1
+  echo "End build"
+}
+
+after_build()
+{
+  install -Dm644 resources/FreeRDP_Icon_256px.png ${pkgdir}/usr/share/pixmaps/${pkgname}.png || exit 1
+  echo "End after_build"
+}

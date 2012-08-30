@@ -1,0 +1,129 @@
+diff -uNrp Dukes.orig/eGality.edc Dukes/eGality.edc
+--- Dukes.orig/eGality.edc	2010-10-15 01:08:31.395279000 +0800
++++ Dukes/eGality.edc	2010-10-16 00:22:46.291000002 +0800
+@@ -17,12 +17,13 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+   /* font: "niamey.ttf" "Edje-Vera";
+    font: "niamey.ttf" "Edje-Vera-Bold";*/
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -36,6 +37,7 @@ spectra {
+ 	color: 255 249 231 127 1;
+      }
+ }
++#endif
+ 
+ 
+ collections {
+diff -uNrp Dukes.orig/eGality_fileman.edc Dukes/eGality_fileman.edc
+--- Dukes.orig/eGality_fileman.edc	2010-10-15 01:08:31.404279000 +0800
++++ Dukes/eGality_fileman.edc	2010-10-16 00:26:07.959000003 +0800
+@@ -9026,6 +9026,7 @@ group 
+ 		    }
+ 	       }
+ 	  }
++#if 0
+ 	part 
+ 	  {
+ 	     name: "grad";
+@@ -9042,6 +9043,7 @@ group 
+ 		  gradient.rel2.offset: -1 0;
+ 	       }
+ 	  }
++#endif
+      }
+ }
+ 
+diff -uNrp Dukes.orig/eGality_icons.edc Dukes/eGality_icons.edc
+--- Dukes.orig/eGality_icons.edc	2010-10-15 01:08:31.403279000 +0800
++++ Dukes/eGality_icons.edc	2010-10-16 00:25:25.215000003 +0800
+@@ -1819,6 +1819,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1841,6 +1842,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1861,6 +1863,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1879,6 +1882,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1899,6 +1903,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1921,6 +1926,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1941,6 +1947,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1963,6 +1970,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1983,6 +1991,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2005,6 +2014,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;

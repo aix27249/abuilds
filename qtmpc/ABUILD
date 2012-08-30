@@ -1,0 +1,70 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qtmpc
+pkgver=0.6.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="QtMPC (MPD music client)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Another Qt client with Amarok-like tree view music library interface."
+	  ""
+	  "Homepage: http://lowblog.nl/category/qtmpc/"
+)
+
+source=("http://files.lowblog.nl/$pkgname/QtMPC-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="mpd"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+go_src_dir
+sed -i -e 's:${XDG_APPS_INSTALL_DIR}:share/applications:g' CMakeLists.txt
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DWANT_KDE_SUPPORT=NO \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+#install -Dm644 ${srcdir}/$pkgname.desktop ${pkgdir}/usr/share/applications/$pkgname.desktop
+install -Dm644 ${srcdir}/QtMPC/images/icon.svg ${pkgdir}/usr/share/pixmaps/QtMPC.svg
+}

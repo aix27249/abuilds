@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dropbox-index
+pkgver=1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Creates index.html for directory contents shared publicly on Dropbox."
+longdesc=("Creates index.html for directory contents shared publicly on Dropbox. That way you can easily share whole content of the directory without the need to send separate links for all the shared files.")
+
+source=("svn:http://kosciak-misc.googlecode.com/svn/python/dropbox-index/trunk/")
+
+tags="network www-misc"
+
+adddep="python"
+
+build()
+{
+	go_src_dir
+	mkdir -p $pkgdir/opt/dropbox-index
+	mkdir -p $pkgdir/usr/bin
+	find . -name ".svn" -exec rm -rf {} \;
+	cp -r * $pkgdir/opt/dropbox-index
+	cp $filedir/dropbox-index $pkgdir/usr/bin
+}

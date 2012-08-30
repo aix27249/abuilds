@@ -1,0 +1,36 @@
+#ABUILD created by/создан: CyberMix, mos.mix at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gimp-plugin-save_for_web
+pkgver=0.29.0
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Plugin for GIMP - Save For Web"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Save for Web plug-ins allows to experiment with various popular web format
+options. It shows an automatically updated preview and file size statistics."
+)
+
+source=("http://registry.gimp.org/files/gimp-save-for-web-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-plugins"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

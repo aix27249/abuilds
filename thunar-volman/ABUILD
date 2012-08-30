@@ -1,0 +1,33 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=thunar-volman
+pkgver=0.8.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Automatic management of removeable devices in Thunar"
+
+source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool perl perl-xml-parser"
+
+adddep="gvfs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

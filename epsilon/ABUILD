@@ -1,0 +1,66 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=epsilon
+pkgver=0.6.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="epsilon"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Epsilon is a small, display independent, and quick thumbnailing library. The lib itself conforms to the standard put forth by freedesktop.org."
+	  ""
+	  "Homepage: http://divmod.org/trac/wiki/DivmodEpsilon"
+)
+
+source=("http://divmod.org/trac/attachment/wiki/SoftwareReleases/Epsilon-$pkgver.tar.gz?format=raw")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs dev-python"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="twisted>=10.0.0 zope.interface>=3.5.3"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,29 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=apvlv
+pkgver=0.1.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="apvlv is a PDF/DJVU/UMD Viewer Under Linux/WIN32 and its behaviour like Vim. "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("apvlv is a PDF/DJVU/UMD Viewer Under Linux/WIN32 and its behaviour like Vim."
+"http://code.google.com/p/apvlv/"
+)
+
+#source=("http://apvlv.googlecode.com/files/${pkgname}-${pkgver}-Source.tar.gz")
+source=("https://github.com/downloads/naihe2010/apvlv/${pkgname}-${pkgver}-Source.tar.gz")
+
+build_deps="cmake"
+
+patch_opts=("apvlv-poppler015.patch 1")
+
+tags="xapps app-office"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DAPVLV_WITH_UMD=no \
+../"

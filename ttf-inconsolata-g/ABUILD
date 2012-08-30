@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ttf-inconsolata-g
+pkgver=1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A derivative of Inconsolata font"
+longdesc=("$shortdesc")
+
+source="http://www.fantascienza.net/leonardo/ar/inconsolatag/inconsolata-g_font.zip"
+
+tags="xserver media-fonts"
+
+build()
+{
+	go_src_dir
+	install -Dm644 Inconsolata-g.otf $pkgdir/usr/share/fonts/TTF/ttf-inconsolata-g.otf
+}

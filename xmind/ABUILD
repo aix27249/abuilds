@@ -1,0 +1,74 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xmind
+pkgver=3.2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The world's coolest brainstorming and mind mapping software."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Утилита построения карт связей (mind mapping)"
+)
+
+source=("http://dl.xmind.org/${pkgname}-portable-${pkgver}.201011212218.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="jre"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="skip_gendeps"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+	cd ..
+	if [ "${ARCH}" == "x86_64" ]; then
+		_isuf=_64bit
+	fi
+	mkdir -p ${pkgdir}/opt/xmind
+	cp -a {Commons,XMind_Linux${_isuf}} ${pkgdir}/opt/xmind
+	mv ${pkgdir}/opt/xmind/XMind_Linux${_isuf} ${pkgdir}/opt/xmind/XMind
+	sed -i '/-Dosgi\.instance\.area=.*/d' ${pkgdir}/opt/xmind/XMind/xmind-bin.ini
+	}

@@ -1,0 +1,7 @@
+lxsession: Session manager of the LXDE Desktop (light version)
+lxsession:
+lxsession: LXSession, session manager,
+lxsession: The LXSession manager is used to automatically start a set of applications
+lxsession: and set up a working desktop environment.
+lxsession: Moreover, the session manager is able to remembers the applications
+lxsession: in use when a user logs out and to restart them the next time the user logs in.

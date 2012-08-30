@@ -1,0 +1,65 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=warsow
+pkgver=0.62
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A fast-paced FPS game based on Qfusion engine."
+
+source="http://www.zcdn.org/dl/warsow_${pkgver}_sdk.zip"
+adddep="warsow-data==$pkgver"
+tags="games games-fps"
+
+build()
+{
+    go_src_dir    
+    cd ../source
+
+    burn_patches
+
+    # Patch Makefile to use correct program to query for system information
+    sed -i 's:openal-config:pkg-config:g' Makefile
+
+    # Patch Makefile to correctly pass on ld opts
+    sed -i 's:--as-needed:-Wc,--as-needed:g' Makefile
+
+    # Patch Sound Code to point to base openal library
+    sed -i 's:libopenal.so.0:libopenal.so:g' snd_openal/snd_main.c
+
+    # Patch for libjpeg8
+    sed -i 's/jpeg_mem_src/_jpeg_mem_src/g' ref_gl/r_image.c
+
+    # Compile angelscript first, the buildsystem doesn't like ccache
+    make -C ../libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc
+
+    # Compile Warsow
+    make -j1
+}
+
+
+after_build()
+{
+    go_src_dir
+    cd ../source
+
+    # Create Destination Directories
+    install -d $pkgdir/opt/warsow/
+
+    # Move Compiled Data to Destination Directory
+    cp -r release/* $pkgdir/opt/warsow
+
+    # Install Client Game Launcher
+    install -D -m 0755 $filedir/warsow.launcher $pkgdir/usr/bin/warsow
+
+    # Install Server Game Launcher
+    install -D -m 0755 $filedir/wsw-server.launcher $pkgdir/usr/bin/wsw-server
+
+    # Install WSWTV Server Launcher
+    install -D -m 0755 $filedir/wswtv-server.launcher $pkgdir/usr/bin/wswtv-server
+
+    # Install Client Desktop Shortcut
+    install -D -m 0644 $filedir/warsow.desktop $pkgdir/usr/share/applications/warsow.desktop
+
+    # Install Icon
+    install -D -m 0644 win32/warsow.ico $pkgdir/usr/share/pixmaps/warsow.ico
+}

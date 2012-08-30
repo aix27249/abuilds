@@ -1,0 +1,20 @@
+pkgname=clearlooks-colors-gtk-theme
+pkgver=0.7.8
+pkgbuild=1
+shortdesc="A GTK theme that goes with the gnome-colors icon theme"
+arch=('noarch')
+tags="x11-themes themes" 
+source=("http://www.gnome-look.org/CONTENT/content-files/75417-Clearlooks-Colors.tar.gz")
+adddep="murrine-gtk-engine"
+
+build() {
+    mkdir -p $pkgdir/usr/share/themes/
+    cp -R $srcdir/Clearlooks* $pkgdir/usr/share/themes/
+    cp -r $srcdir/X-Colors* $pkgdir/usr/share/themes/
+}
+
+after_build() {
+    cd $pkgdir
+    find . -type d -exec chmod 755 {} \; || exit 1
+    find . -type f -exec chmod 644 {} \; || exit 1
+}

@@ -1,0 +1,18 @@
+#ABUILD created by/создан: aix27249, i27249 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=python-xklavier
+pkgver=0.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libxklavier python bindings"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("libxklavier python bindings"
+)
+tags=("dev-python libs")
+source=("http://devel.randomink.org/attachments/download/6/python-xklavier-${pkgver}.tar.gz")
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
+
+

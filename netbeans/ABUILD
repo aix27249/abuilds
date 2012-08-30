@@ -1,0 +1,125 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+pkgname=netbeans
+pkgver=7.1.1
+pkgbuild=1
+arch=('noarch')
+shortdesc="Fully-featured Java IDE written completely in Java, with many modules available."
+source=("http://download.netbeans.org/${pkgname}/${pkgver}/final/zip/${pkgname}-${pkgver}-201203012225-ml.zip")
+patch_opts=("")
+tags="develop dev-java"
+adddep="jdk netbeans-platform netbeans-ide"
+pkglist="cnd ide profiler platform"
+
+cnd() {
+  pkgname=netbeans-cnd
+  shortdesc="C/C++, Fortran and Assembler native development for Netbeans."
+  arch=('auto')
+  adddep="jdk netbeans"
+}
+
+ide() {
+  pkgname=netbeans-ide
+  shortdesc="IDE libraries for Netbeans."
+  arch=('auto')
+  adddep="jdk netbeans"
+}
+
+profiler() {
+  pkgname=netbeans-profiler
+  shortdesc="Profiler for Netbeans IDE."
+  arch=('auto')
+  adddep="jdk netbeans"
+}
+
+platform() {
+  pkgname=netbeans-platform
+  shortdesc="The NetBeans IDE Platform files."
+  arch=('auto')
+  adddep="jdk netbeans"
+}
+
+cnd_prep() {
+  go_src_dir
+  burn_patches
+  mkdir -p ${pkgdir}/usr/share/netbeans/
+  mv ${srcdir}/netbeans/cnd ${pkgdir}/usr/share/netbeans/
+  cd ${pkgdir}/usr/share/netbeans/cnd/bin
+  rm -rf GdbKillProc.exe
+  if [ ${LIBDIRSUFFIX} -eq 64 ] # x86_64 package
+  then
+    rm -rf $(ls -d */ | grep -v "Linux-x86_64")
+  else # x86 package
+    rm -rf $(ls -d */ | grep -v "Linux-x86")
+  fi
+}
+
+ide_prep() {
+  go_src_dir
+  burn_patches
+  mkdir -p ${pkgdir}/usr/share/netbeans/
+  mv ${srcdir}/netbeans/ide ${pkgdir}/usr/share/netbeans/
+  cd ${pkgdir}/usr/share/netbeans/ide/bin/nativeexecution
+  if [ $LIBDIRSUFFIX -eq 64 ] # x86_64 package
+  then
+    rm -rf $(ls -d */ | grep -v "Linux-x86_64")
+  else # x86 package
+    rm -rf $(ls -d */ | grep -v "Linux-x86")
+  fi
+}
+
+profiler_prep() {
+  go_src_dir
+  burn_patches
+  mkdir -p ${pkgdir}/usr/share/netbeans/
+  mv ${srcdir}/netbeans/profiler ${pkgdir}/usr/share/netbeans/
+  cd ${pkgdir}/usr/share/netbeans/profiler
+  rm -rf lib/deployed/cvm
+  rm -rf lib/deployed/jdk15
+  cd lib/deployed/jdk16
+  if [ $LIBDIRSUFFIX -eq 64 ] # x86_64 package
+  then
+    rm -rf $(ls -d */ | grep -v "linux-amd64")
+  else # x86 package
+    #find -type d ! -name linux -exec rm -r {} \;
+    rm -rf $(ls -d */ | grep -v "linux")
+  fi
+}
+
+platform_prep() {
+  go_src_dir
+  burn_patches
+  mkdir -p ${pkgdir}/usr/share/netbeans/
+  mv ${srcdir}/netbeans/platform ${pkgdir}/usr/share/netbeans/
+  cd ${pkgdir}/usr/share/netbeans/platform/
+  rm -rf lib/nbexec.*
+  cd modules/lib
+  if [ $LIBDIRSUFFIX -eq 64 ] # x86_64 package
+  then
+    rm -rf $(ls -d */ | grep -v "amd64")
+  else # x86 package
+    rm -rf $(ls -d */ | grep -v "i386")
+  fi
+}
+
+build() {
+  go_src_dir
+  burn_patches
+  # Clean up files from other platforms
+  for s in '*.exe' '*.bat' 'windows*' 'sunos*' 'mac*' 'solaris*' 'hpux*'; do
+    find . -depth -iname $s -exec rm -rf {} \;
+  done
+
+  install -d "${pkgdir}/usr/share/"
+  cp -r "${srcdir}/netbeans/" "${pkgdir}/usr/share/"
+  install -d "$pkgdir/usr/share/applications"
+  install -m644 "${filedir}/netbeans.desktop" "${pkgdir}/usr/share/applications"
+  install -Dm644 "nb/netbeans.png" "${pkgdir}/usr/share/pixmaps/netbeans.png"
+  install -d "${pkgdir}/usr/bin"
+  ln -s /usr/share/netbeans/bin/netbeans "${pkgdir}/usr/bin/netbeans"
+  install -Dm644 LICENSE.txt "${pkgdir}/usr/share/licenses/netbeans/LICENSE"
+
+  rm -rf ${pkgdir}/usr/share/netbeans/cnd
+  rm -rf ${pkgdir}/usr/share/netbeans/ide
+  rm -rf ${pkgdir}/usr/share/netbeans/profiler
+  rm -rf ${pkgdir}/usr/share/netbeans/platform
+}

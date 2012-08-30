@@ -1,0 +1,97 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=djview4
+pkgver=4.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DjVu Viewer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit."
+""
+"Homepage: http://djvu.sourceforge.net/djview4.html"
+)
+
+source=("http://downloads.sourceforge.net/project/djvu/DjView/${pkgver}/${pkgname/4/}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-text xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
+
+icon_desk(){
+ desktopdir='/usr/share/djvu/djview4/desktop'
+        install -Dm644 ${pkgdir}${desktopdir}/hi32-djview4.png \
+                ${pkgdir}/usr/share/icons/hicolor/32x32/apps/djvulibre-djview4.png
+        install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
+                ${pkgdir}/usr/share/icons/hicolor/64x64/apps/djvulibre-djview4.png
+        install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
+                ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png
+        install -Dm644 ${pkgdir}${desktopdir}/djvulibre-djview4.desktop \
+                ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop
+ rm -R ${pkgdir}${desktopdir}
+
+ sed -i 's|Qt;Graphics;Viewer;|Viewer;Office;Qt;|' \
+	${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
+}
+icon_desk
+
+}

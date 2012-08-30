@@ -1,0 +1,31 @@
+pkgname=gnome-system-monitor
+pkgver=2.28.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Process viewer and system resource monitor for GNOME"
+longdesc=("This package allows you to graphically view and manipulate the running processes on your system. It also provides an overview of available resources such as CPU and memory. ")
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.28/${pkgname}-${pkgver}.tar.bz2")
+
+tags="gnome-base gnome"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
+
+after_build() {
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

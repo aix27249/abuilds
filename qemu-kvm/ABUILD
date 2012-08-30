@@ -1,0 +1,62 @@
+pkgname=qemu-kvm
+pkgver=1.1-rc4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="QEMU/KVM: Kernel-based virtualization"
+
+source=("http://downloads.sourceforge.net/kvm/${pkgname}-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="console app-emulation"
+
+provides="qemu"
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--enable-kvm \
+--mandir=/usr/man \
+--audio-drv-list=alsa,sdl,oss,esd \
+--audio-card-list=ac97,sb16,es1370,adlib,hda \
+--enable-docs \
+--enable-kvm-device-assignment \
+--enable-vnc-thread \
+--enable-mixemu \
+--disable-brlapi"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# Making arch for system. For x86_based (all) it's x86_64
+qemu_arch=x86_64
+# symbolic link for backwards compatibility
+ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/qemu-kvm
+# symbolic link for to qemu binary for emulator apps
+ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/qemu
+# symbolic link for to qemu binary for emulator apps
+ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/kvm
+# fix man page
+mv ${pkgdir}/usr/share/man/man1/qemu.1 \
+	${pkgdir}/usr/share/man/man1/qemu-kvm.1
+# install udev rules
+install -D -m644 ${filedir}/65-kvm.rules \
+	${pkgdir}/lib/udev/rules.d/65-kvm.rules
+}

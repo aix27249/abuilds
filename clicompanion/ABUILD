@@ -1,0 +1,13 @@
+pkgname=clicompanion
+pkgver=1.0${bzrrev}
+pkgbuild=1
+arch=('auto')
+
+shortdesc="a tool for learning and storing shell commands"
+longdesc=("CLI Companion is a tool to store and run Terminal commands from a GUI. People unfamiliar with the Terminal will find CLI Companion a useful way to become acquainted with the Terminal and unlock its potential. Experienced users can use CLI Companion to store their extensive list of commands in a searchable list.")
+ 
+source=("bzr:lp:${pkgname}")
+ 
+tags="x11-terms xapps"
+
+BUILD_SYSTEM="python"

@@ -1,0 +1,22 @@
+pkgname=QtCurve-KDE4-qt
+pkgver=1.8.12
+pkgbuild=1
+arch=('auto')
+provides=QtCurve-KDE4
+
+shortdesc="KDE-oriented Qt style: pure Qt build"
+longdesc=("QtCurve (KDE4, KDE3, Gtk3, & Gtk2 Theme): http://kde-look.org/content/show.php?content=40492"
+)
+
+source=("http://craigd.wikispaces.com/file/view/QtCurve-KDE4-${pkgver}.tar.bz2")
+tags="themes x11-themes"
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=Release \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DQTC_QT_ONLY=true"
+
+

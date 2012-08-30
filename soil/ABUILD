@@ -1,0 +1,85 @@
+#ABUILD created by/создан: Drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=soil
+pkgver=0708
+pkgbuild=1
+arch=('auto')
+
+shortdesc="tiny C lib primarily for loading textures into OpenGL"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("tiny C lib primarily for loading textures into OpenGL"
+)
+
+source=("http://www.lonesock.net/files/soil.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="freeglut"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+cd "${srcdir}/Simple OpenGL Image Library/"
+mv lib lib${LIBDIRSUFFIX}
+pwd
+echo "Ololo"
+
+cd "${srcdir}/Simple OpenGL Image Library/projects/makefile"
+[[ -d obj ]] && rm -r obj/
+mkdir obj/
+
+sed "s|LOCAL = /usr/local|LOCAL = ${pkgdir}/usr|g" -i makefile || return 1
+sed "s|LIBDIR = ../../lib|LIBDIR = ../../lib${LIBDIRSUFFIX}|g" -i makefile || return 1
+sed "s|CXXFLAGS = |CXXFLAGS = -fPIC |g" -i makefile || return 1
+sed "s|\$(LOCAL)/lib|\$(LOCAL)/lib${LIBDIRSUFFIX}|g" -i makefile || return 1
+mkdir -p ${pkgdir}/usr/{lib${LIBDIRSUFFIX},include}
+make || return 1
+make install || return 1
+chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libSOIL.a
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,29 @@
+--- local.conf.orig	2010-11-19 20:12:40.000000000 +0300
++++ local.conf	2010-11-19 22:01:27.000000000 +0300
+@@ -184,7 +184,7 @@
+ 		</edit>
+ 	</match>
+ 
+-	<!-- Reject bitmap fonts in favour of Truetype, Postscript, etc. -->
++	<!-- Reject bitmap fonts in favour of Truetype, Postscript, etc. 
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
+@@ -203,7 +203,7 @@
+ 		</selectfont>
+ 	</match>
+ 
+-	<!-- Substitute truetype fonts for bitmap ones -->
++	 Substitute truetype fonts for bitmap ones 
+ 	<match target="pattern" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
+@@ -216,7 +216,7 @@
+ 		</edit>
+ 	</match>
+ 
+-	<!-- **************************** ALIASES **********************  -->
++	 **************************** ALIASES **********************  -->
+ 
+ 	<!-- Uncomment 1 of the 3 below for default fonts -->
+ 	<!-- Default fonts - Microsoft Appearance -->

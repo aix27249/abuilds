@@ -1,0 +1,54 @@
+pkgname=teamspeak3-client
+pkgver=3.0.2
+pkgbuild=1
+shortdesc="Teamspeak 3 Linux client."
+arch=('auto')
+tags="network net-im"
+
+if [ "$ARCH" == "x86_64" ]; then
+    source="http://teamspeak.gameserver.gamed.de/ts3/releases/${pkgver}/TeamSpeak3-Client-linux_amd64-${pkgver}.run"
+    _TSARCH='amd64'
+else
+    source="http://teamspeak.gameserver.gamed.de/ts3/releases/${pkgver}/TeamSpeak3-Client-linux_x86-${pkgver}.run"
+   _TSARCH='x86'
+fi
+
+build() {
+    cd ${srcdir}
+
+    # Create Destination Directories
+    install -d ${pkgdir}/{usr/bin/,opt/}
+
+    # Make Installer Executable
+    cd $srcache
+    chmod +x TeamSpeak3-Client-linux_${_TSARCH}-${pkgver}.run
+
+    # Run Installer
+    ./TeamSpeak3-Client-linux_${_TSARCH}-${pkgver}.run --noexec --target $srcdir/teamspeak3
+
+    # Move Program Data to Package Directory
+    mv ${srcdir}/teamspeak3/ ${pkgdir}/opt/
+
+    # Remove Bundled Qt Libraries and Symlink system libraries to TS3 Directory
+    rm ${pkgdir}/opt/teamspeak3/libQt*
+    ln -s /usr/lib/libQtCore.so.4    ${pkgdir}/opt/teamspeak3/libQtCore.so.4
+    ln -s /usr/lib/libQtGui.so.4     ${pkgdir}/opt/teamspeak3/libQtGui.so.4
+    ln -s /usr/lib/libQtNetwork.so.4 ${pkgdir}/opt/teamspeak3/libQtNetwork.so.4
+
+    # Install Desktop File
+    install -D -m644 $filedir/teamspeak3.desktop \
+        ${pkgdir}/usr/share/applications/teamspeak3.desktop
+
+    # Install Icon File
+    install -D -m644 $filedir/icon.xpm \
+        ${pkgdir}/usr/share/pixmaps/teamspeak3.xpm
+
+    # Install Custom License
+    install -D -m644 ${pkgdir}/opt/teamspeak3/LICENSE \
+        ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
+
+    # Install Client Launcher
+    install -D -m755 $filedir/teamspeak3.launcher \
+        ${pkgdir}/usr/bin/teamspeak3
+    chmod +x ${pkgdir}/usr/bin/teamspeak3
+}

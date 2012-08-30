@@ -1,0 +1,64 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=elementary-monochrome-icon-theme
+name=elementary-monochrome
+pkgver=2.4
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="elementary-monochrome icons"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("this is set of elementary monochrome icons
+
+WARNING: These icons doesn't work in dark panels!"
+)
+
+source=("http://launchpad.net/elementaryicons/2.0/$pkgver/+download/$name.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $startdir/src/$name
+burn_patches
+
+rm -rf *~
+mkdir -p $pkgdir/usr/share/icons/$name
+cp -a * $pkgdir/usr/share/icons/$name
+cd ..
+}
+                                                                                                                  burn_patches                                                                                                      
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

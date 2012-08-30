@@ -1,0 +1,69 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=flash-player-beta
+pkgver=11.2.202.197
+pkgbuild=1
+arch=('auto')
+shortdesc="flash-player plugin beta release"
+
+_suf=013112
+_versuff=p5
+if [ "$ARCH" == "x86_64" ]; then 
+	_bits=64
+else
+	_bits=32
+fi
+
+source=("http://download.macromedia.com/pub/labs/flashplatformruntimes/flashplayer11-2/flashplayer11-2_${_versuff}_install_lin_${_bits}_${_suf}.tar.gz")
+#source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/${pkgver}/install_flash_player_11_linux.${_bits}.tar.gz")
+#patch_opts=("")
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+tags="www-plugins proprietary network"
+
+adddep=""
+removedep=""
+conflicts="flash-player"
+custom_opts="no_strip"
+
+pkglist="kde"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+cd ..
+burn_patches
+install -D libflashplayer.so $pkgdir/usr/lib${LIBDIRSUFFIX}/mozilla/plugins/libflashplayer.so
+}
+
+#ran after function build() 
+#после сборки
+
+after_build()
+{
+mkdir -p ${pkgdir}/etc/adobe
+install -m644 ${filedir}/mms.cfg.new ${pkgdir}/etc/adobe/mms.cfg.new
+}
+
+kde()
+{
+pkgname=flash-player-beta-kde-integration
+shortdesc="Flash player KDE integration"
+}
+
+kde_prep()
+{
+cp -a ${srcdir}/usr ${pkgdir}
+}

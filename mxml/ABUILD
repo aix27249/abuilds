@@ -1,0 +1,90 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mxml
+pkgver=2.6
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Mini-XML: Lightweight XML Library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Mini-XML is a small XML library that you can use to read and write XML and XML-like data files in your application without requiring large non-standard libraries. Mini-XML only requires an ANSI C compatible compiler (GCC works, as do most vendors' ANSI C compilers) and a 'make' program."
+""
+"Homepage: http://www.minixml.org"
+)
+
+source=("http://ftp.easysw.com/pub/mxml/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="dev-libs libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/docs/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-debug"
+
+#  --enable-threads        enable multi-threading support
+#  --enable-shared         turn on shared libraries, default=no
+#  --with-ansi             set full ANSI C mode, default=no
+#  --with-archflags        set additional architecture flags, default=none
+#  --with-vsnprintf        use vsnprintf emulation functions, default=auto
+
+INSTALL_KEYS="DSTROOT=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+if [ -x $pkgdir/usr/lib/libmxml.a ]; then
+	chmod -x $pkgdir/usr/lib/libmxml.a
+fi
+
+}

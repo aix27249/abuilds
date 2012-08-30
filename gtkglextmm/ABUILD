@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=gtkglextmm
+pkgver=1.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="C++ bindings for GTK OpenGL extension"
+
+source=("http://downloads.sourceforge.net/sourceforge/gtkglext/${pkgname}-${pkgver}.tar.bz2")
+
+tags="libs x11-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Tremulous
+Comment=A free team based FPS/RTS hybrid built on the ioq3 engine. Includes community updates.
+Icon=tremulous
+Exec=tremulous
+Terminal=false
+Categories=Game;ActionGame;

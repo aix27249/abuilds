@@ -1,0 +1,35 @@
+# SynergyPlus
+pkgname=synergy-plus
+pkgver=1.3.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('Mouse and keyboard sharing between multiple computers')
+longdesc=('Synergy+ (synergy-plus) lets you easily share a single mouse and keyboard between multiple computers with different operating systems, without special hardware. All you need is a LAN connection. It is intended for users with multiple computers, where each system uses its own display. It is a little like having a 2nd or a 3rd desktop... ')
+
+tags=('x11-apps xserver')
+
+source=('svn:http://synergy-plus.googlecode.com/svn/trunk')
+
+build_deps=''
+
+before_build() {
+ echo ""
+}
+build() {
+cd ${startdir}/src/synergy-plus
+burn_patches
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+make -j2
+make install DESTDIR=${pkgdir}
+cd ..
+mkdir -p ${pkgdir}/etc
+cp conf/synergy.conf ${pkgdir}/etc/synergy.conf
+
+}
+after_build() {
+ echo ""
+}
+

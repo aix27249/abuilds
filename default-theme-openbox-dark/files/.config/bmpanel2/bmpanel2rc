@@ -1,0 +1,9 @@
+theme Zenburn
+
+launchbar
+	exec xdotool key Super+a
+		icon /usr/share/icons/gnome/22x22/emotes/face-devilish.png
+		
+mbutton1 use
+mbutton2 kill
+mbutton3 drag

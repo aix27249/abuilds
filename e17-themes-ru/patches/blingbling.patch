@@ -1,0 +1,144 @@
+diff -uNrp blingbling.orig/blingbling.edc blingbling/blingbling.edc
+--- blingbling.orig/blingbling.edc	2010-10-15 01:05:04.771279000 +0800
++++ blingbling/blingbling.edc	2010-10-15 05:38:57.655279530 +0800
+@@ -6,10 +6,11 @@ data {
+ }
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -23,7 +24,7 @@ spectra {
+ 	color: 255 249 231 127 1;
+      }
+ }
+-
++#endif
+ 
+ collections {
+ #include "default_background.edc"
+diff -uNrp blingbling.orig/default_fileman.edc blingbling/default_fileman.edc
+--- blingbling.orig/default_fileman.edc	2010-10-15 01:05:04.774279000 +0800
++++ blingbling/default_fileman.edc	2010-10-15 05:36:42.148279619 +0800
+@@ -9524,6 +9524,7 @@ group 
+ 		    }
+ 	       }
+ 	  }
++#if 0
+ 	part 
+ 	  {
+ 	     name: "grad";
+@@ -9540,6 +9541,7 @@ group 
+ 		  gradient.rel2.offset: -1 0;
+ 	       }
+ 	  }
++#endif
+      }
+ }
+ 
+diff -uNrp blingbling.orig/default_icons.edc blingbling/default_icons.edc
+--- blingbling.orig/default_icons.edc	2010-10-15 01:05:04.773279000 +0800
++++ blingbling/default_icons.edc	2010-10-15 05:35:56.197279627 +0800
+@@ -1757,6 +1757,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1779,6 +1780,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1799,6 +1801,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1817,6 +1820,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1837,6 +1841,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1859,6 +1864,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1879,6 +1885,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1901,6 +1908,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1921,6 +1929,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1943,6 +1952,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1980,6 +1990,7 @@ group {
+             color: 255 255 255 255;
+ 	 }
+       }
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2002,6 +2013,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;

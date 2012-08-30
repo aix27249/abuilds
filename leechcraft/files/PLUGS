@@ -1,0 +1,12 @@
+pkgname=leechcraft-plugins
+pkgver=0.4.99
+pkgbuild=1
+arch=('auto')
+shortdesc="LeechCraft plugin packages. DO NOT UPLOAD THIS PACKAGE"
+tags="virtual x11-misc"
+source=("git:git://github.com/0xd34df00d/leechcraft.git")
+
+build()
+{
+	echo "Dummy package, move along, nothing to see here."
+}

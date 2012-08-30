@@ -1,0 +1,70 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=telepathy-folks
+name=folks
+pkgver=0.4.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="metacontact Telepathy library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Library which implements metacontact functionallity in Telepathy framework"
+)
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/${name}/${pkgver%.*}/${name}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-im"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+./configure --prefix=/usr \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--libexecdir=/usr/lib${LIBDIRSUFFIX}/folks || exit 1
+make || exit 1
+make DESTDIR="$pkgdir/" install || exit 1
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

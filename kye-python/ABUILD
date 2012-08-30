@@ -1,0 +1,103 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=kye-python
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python Kye, a clone of the classic puzzle game Kye to Linux"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is a clone of the game Kye for Windows, originally by Colin Garbutt. It is a puzzle game, which is a little like the old falling-rocks puzzle games, and perhaps also inspired a little by Sokoban. But Kye has more variety of objects, and so is capable of posing quite complex puzzles. Python Kye is written and maintained by me, Colin Phipps."
+""
+"Homepage: http://games.moria.org.uk/kye"
+)
+
+source=("http://games.moria.org.uk/kye/download/kye-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-puzzle games"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pygtk"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+icons_desktop () {
+
+	go_src_dir
+	mkdir -p $pkgdir/usr/share/{applications,pixmaps}
+	cp -fv ./kye*icon.png $pkgdir/usr/share/pixmaps/ || exit 1
+
+	cat << EOF > $pkgdir/usr/share/applications/Kye.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Python Kye
+Comment=Clone of Kye puzzle game
+Exec=Kye
+Icon=kye-icon
+Terminal=false
+Type=Application
+Categories=Game;LogicGame;
+EOF
+	cat << EOF > $pkgdir/usr/share/applications/Kye-edit.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Python Kye Level Editor
+Comment=Python Kye Level Editor
+Exec=Kye-edit
+Icon=kye-edit-icon
+Terminal=false
+Type=Application
+Categories=Game;LogicGame;
+EOF
+#StartupNotify=true
+}
+
+icons_desktop 
+
+}

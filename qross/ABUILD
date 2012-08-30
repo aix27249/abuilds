@@ -1,0 +1,21 @@
+pkgname=qross
+pkgver=0.2.1
+pkgbuild=1
+arch=('auto')
+shortdesc="A Qt-only fork of Kross"
+
+source=("git:git://github.com/0xd34df00d/Qross.git")
+tags="libs dev-libs"
+
+before_build()
+{
+	cd src/qross/core
+	sed -i "s/DESTINATION lib/DESTINATION lib\${LIB_SUFFIX}/g" CMakeLists.txt
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

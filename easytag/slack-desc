@@ -1,0 +1,10 @@
+easytag: Tag editor for MP3 and Ogg Vorbis files. (Редактор тегов)
+easytag:
+easytag: Easytag — это программа для просмотра редактирования тегов.
+easytag: Имеет возможность автоматически конвертировать теги с одной кодировки в другую,
+easytag: например, из CP1251 (windows) в UTF-8 (Linux).
+easytag: А также формирования тегов из имени фала. Используя при этом настраиваемые шаблоны.
+easytag: EasyTAG is a utility for viewing and editing tags for MP3, MP2, FLAC Ogg Vorbis,
+easytag: MP4/AAC, MusePack and Monkey's Audio files.
+easytag: Its simple and nice GTK2 interface makes tagging easier under GNU/Linux.
+easytag: Easytag home: http://easytag.sourceforge.net

@@ -1,0 +1,35 @@
+pkgname=polkit-gnome
+pkgver=0.101
+pkgbuild=3
+arch=('auto')
+
+shortdesc="GNOME polkit authentication agent"
+longdesc=("GNOME polkit authentication agent")
+
+source=("http://hal.freedesktop.org/releases/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+tags="libs sys-auth"
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/polkit-gnome \
+--disable-static \
+--mandir=/usr/man"
+
+INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build() {
+	set -e
+	mkdir -p ${pkgdir}/etc/xdg/autostart
+	cat ${filedir}/polkit-gnome-authentication-agent-1.desktop | sed -e "s/lib/lib${LIBDIRSUFFIX}/g" > ${pkgdir}/etc/xdg/autostart/polkit-gnome-authentication-agent-1.desktop
+	set +e
+}

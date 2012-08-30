@@ -1,0 +1,27 @@
+pkgname=scribus
+pkgver=1.4.0
+pkgbuild=1
+shortdesc="A desktop publishing program"
+longdesc="A desktop publishing program"
+arch=('auto')
+source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2)
+tags=("xapps media-gfx")
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+	   -DCMAKE_BUILD_TYPE=Release \
+	   -DCMAKE_SKIP_RPATH=ON \
+	   -DWANT_CAIRO=1 \
+	   -DLIB_SUFFIX=$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	go_src_dir
+
+        # fix icon path in .desktop file
+        sed -i 's|Icon=scribus|Icon=/usr/share/scribus/icons/scribus.png|' \
+           ${srcdir}/${pkgname}-${pkgver}/scribus.desktop
+
+        install -Dm644 ${srcdir}/${pkgname}-${pkgver}/scribus.desktop \
+           ${pkgdir}/usr/share/applications/scribus.desktop
+}

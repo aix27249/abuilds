@@ -1,0 +1,16 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=vrms
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="The original VRMS, ported for AgiliaLinux by K900. NOT the original Ubuntu/Debian version"
+
+tags="console app-misc"
+
+adddep="python"
+
+build()
+{
+	install -Dm755 $filedir/vrms $pkgdir/usr/bin/vrms
+}

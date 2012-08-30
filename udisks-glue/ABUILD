@@ -1,0 +1,38 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=udisks-glue
+#pkgver=`date +%Y%m%d`
+pkgver=9999
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A tool to associate udisks events to user-defined actions"
+longdesc=("udisks-glue is a tool that can associate udisks events to user-defined actions."
+"http://github.com/fernandotcl/udisks-glue"
+)
+
+source=("git:git://github.com/fernandotcl/${pkgname}.git")
+
+tags="utils sys-apps"
+
+build_deps="git"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="./autogen.sh && LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	mkdir $pkgdir/etc
+	cp $filedir/udisks-glue.conf $pkgdir/etc/udisks-glue.conf
+}

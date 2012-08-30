@@ -1,0 +1,26 @@
+pkgname=awn
+pkgver=0.4.1
+pkgbuild=4
+arch=('auto')
+
+shortdesc="Avant Window Navigator"
+longdesc=("Avant Window Navigator (Awn) is a dock-like bar which sits at the bottom of the screen. Homepage: https://launchpad.net/awn/")
+source="bzr:lp:awn"
+tags="xapps gnome-extra"
+adddep="pyxdg bzr dbus-python python-rsvg"
+build_deps="vala<=0.12"
+build() {
+	./autogen.sh --prefix=/usr --sysconfdir=/usr/share --disable-pymod-checks --libdir=/usr/lib$LIBDIRSUFFIX --disable-static
+	sed -i 's|${prefix}/etc|${prefix}/share|' Makefile
+	sed -i 's|-Werror=implicit-function-declaration||g' libawn/Makefile
+	str='\(.*"theme_tooltip_outline_color".*\)'
+	sed -i "s|${str}|#\1|" awn-settings/awnSettings.py
+	make -j${numjobs} || make
+	make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=${pkgdir} install
+}
+after_build() {
+	gconf-merge-schema $pkgdir/usr/share/gconf/awn.schemas $pkgdir/usr/share/gconf/schemas/*.schemas
+
+	rm $pkgdir/usr/share/gconf/schemas/*.schemas
+	mv $pkgdir/usr/share/gconf/{,schemas/}awn.schemas
+}

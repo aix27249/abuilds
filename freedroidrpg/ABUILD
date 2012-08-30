@@ -1,0 +1,130 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=freedroidrpg
+pkgver=0.14.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="FreedroidRPG is an isometric role playing game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("FreedroidRPG features a real time combat system with melee and ranged weapons, fairly similar to the proprietary game Diablo. The game tells the story of a world destroyed by a conflict between robots and their human masters. Play as Tux in a quest to save the world from the murderous rebel bots who know no mercy. You get to choose which path you wish to follow, and freedom of choice is everywhere in the game. Homepage: http://www.freedroid.org"
+)
+
+source=("http://downloads.sourceforge.net/project/freedroid/freedroidRPG/freedroidRPG-0.14/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-rpg games"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep= #"freedroidrpg-data==$pkgver"
+removedep=""
+
+#for multi pkg abuild
+pkglist="data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+icon_desktop ()
+	{
+	echo "FreedroidRPG Icon"
+
+wget -c http://www.freedroid.org/favicon.ico && convert favicon.ico freedroidrpg.png
+mkdir -p $pkgdir/usr/share/pixmaps
+cp -v freedroidrpg.png $pkgdir/usr/share/pixmaps/ || exit 1
+
+mkdir -p $pkgdir/usr/share/applications || exit 1
+cat << EOF > $pkgdir/usr/share/applications/freedroidrpg.desktop
+[Desktop Entry]
+Type=Application
+Name=FreedroidRPG
+Comment=FreedroidRPG is an open source role playing game
+Exec=freedroidRPG
+Encoding=UTF-8
+Icon=freedroidrpg
+Categories=Game;RolePlaying;
+Terminal=false
+StartupNotify=false
+EOF
+	}
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug \
+--datadir=/opt \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# freedroidrpg-data
+mkdir -p ${startdir}/data_dir/
+mv ${pkgdir}/opt ${startdir}/data_dir || exit 1
+
+mkdir -p ${startdir}/data_dir/usr/
+mv $pkgdir/usr/doc ${startdir}/data_dir/usr/ || exit 1
+
+# First build x86 (or x86_64)
+#if [ "$ARCH" = "x86_64" ] ; then
+if [ "$ARCH" = "i686" ] ; then
+	rm -rf ${startdir}/data_dir/opt || exit 1
+else
+	uname -m
+	icon_desktop
+	mv -v $pkgdir/usr/share ${startdir}/data_dir/usr/ || exit 1
+fi
+}
+
+data(){
+	pkg_files=data_dir
+	pkgname="freedroidrpg-data"
+	arch=('noarch')
+	shortdesc="FreedroidRPG is an open source role playing game"
+	longdesc=("http://www.freedroid.org")
+	#tags=""
+	adddep="freedroidrpg==$pkgver"
+	#conflicts=""
+	#provides=""
+}

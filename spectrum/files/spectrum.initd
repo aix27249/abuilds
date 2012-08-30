@@ -1,0 +1,21 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+        need net
+        use jabber-server
+}
+
+start() {
+        ebegin "Starting Spectrum Transports"
+        start-stop-daemon --start --pidfile ${PIDFILE} --user=spectrum --group=spectrum --exec /usr/bin/spectrumctl start --
+        eend $?
+}
+
+stop() {
+        ebegin "Stopping Spectrum Transport"
+        start-stop-daemon --stop --quiet --name spectrum --retry 5
+        eend $?
+}

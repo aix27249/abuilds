@@ -1,0 +1,19 @@
+pkgname=gtg
+pkgver=0.2.4
+pkgbuild=2
+
+shortdesc=("Getting Things GNOME! is a personal organizer for the GNOME desktop environment. Allows GTD workflow among others.")
+longdesc=("Getting Things Gnome! is an organizer for the GNOME desktop environment. GTG focuses on usability and ease of use. Its main objective is to provide a simple, powerful and flexible organization tool to the GNOME desktop environment. GTG uses a very handy text edition system for task creation and edition. The task editor can automatically recognize metadata such as tags and subtasks only by the use of a very simple syntax.")
+
+arch=('auto')
+
+tags=("xapps app-office")
+adddep="python-configobj simplejson pyxdg"
+
+source=("http://launchpad.net/gtg/0.2/$pkgver/+download/$pkgname-$pkgver.tar.gz")
+
+build() {
+	go_src_dir
+	burn_patches
+	python setup.py install --root=${pkgdir}
+}

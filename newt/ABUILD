@@ -1,0 +1,56 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=newt
+pkgver=0.52.14
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A programming library for color text mode, widget based user interfaces "
+
+source=("https://fedorahosted.org/releases/n/e/newt/newt-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="utils app-admin"
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+before_build()
+{
+
+go_src_dir
+
+  sed -i Makefile.in \
+      -e 's,-ltcl8.4,-ltcl8.5,g' \
+      -e 's,$(SHCFLAGS) -o,$(LDFLAGS) &,g' \
+      -e 's,-g -o,$(CFLAGS) $(LDFLAGS) -o,g' \
+      -e 's,-shared -o,$(CFLAGS) $(LDFLAGS) &,g' \
+      -e 's,instroot,DESTDIR,g' \
+      -e 's,  make ,  $(MAKE) ,g'
+  sed -i 's,/usr/bin/install,install,' po/Makefile
+
+}
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--with-gpm-support \
+--with-tcl \
+--enable-nls \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

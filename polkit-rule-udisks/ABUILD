@@ -1,0 +1,21 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=polkit-rule-udisks
+pkgver=0.0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Rule polkit mount a udisks, for local users."
+
+source=("")
+
+tags="libs sys-auth"
+
+adddep=""
+
+build(){
+ install -dm755 ${pkgdir}/etc/polkit-1/localauthority
+ install -dm755 ${pkgdir}/etc/polkit-1/localauthority/50-local.d
+ install -m644 ${filedir}/org.freedesktop.udisks.pkla ${pkgdir}/etc/polkit-1/localauthority/50-local.d/
+ echo "End build"
+}

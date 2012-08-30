@@ -1,0 +1,48 @@
+diff -uNrp clearlooks_0_1_3a.orig/fileman.edc clearlooks_0_1_3a/fileman.edc
+--- clearlooks_0_1_3a.orig/fileman.edc	2010-10-15 01:06:21.528279000 +0800
++++ clearlooks_0_1_3a/fileman.edc	2010-10-15 22:25:39.383000003 +0800
+@@ -1126,7 +1126,7 @@ group {                                 
+          description {                                  \
+             state: "default" 0.0;                       \
+             color: 0 0 0 0;                             \
+-            color3: SHADOW_COLOR 255;                   \
++            color: SHADOW_COLOR 255;                   \
+          }                                              \
+       }                                                 \
+    }                                                    \
+@@ -1415,7 +1415,7 @@ group {                                 
+          description {                                  \
+             state: "default" 0.0;                       \
+             color: 0 0 0 0;                             \
+-            color3: SHADOW_COLOR 255;                   \
++            color: SHADOW_COLOR 255;                   \
+          }                                              \
+       }                                                 \
+    }                                                    \
+diff -uNrp clearlooks_0_1_3a.orig/main.edc clearlooks_0_1_3a/main.edc
+--- clearlooks_0_1_3a.orig/main.edc	2010-10-15 01:06:21.523279000 +0800
++++ clearlooks_0_1_3a/main.edc	2010-10-15 22:16:54.174000002 +0800
+@@ -46,11 +46,12 @@ data {
+ 
+ 
+ fonts {
+-   font: "fonts/Vera.ttf" "Edje-Vera";
+-   font: "fonts/VeraBd.ttf" "Edje-Vera-Bold";
+-   font: "fonts/VeraIt.ttf" "Edje-Vera-Italic";
++   font: "DejaVuSans.ttf" "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans-Oblique.ttf" "Edje-Vera-Italic";
+ }
+ 
++#if 0
+ spectra {
+    spectrum {
+       name: "scrollbar_up";
+@@ -88,6 +89,7 @@ spectra {
+       color: 217 223 233 255 1;
+    }
+ }
++#endif
+ 
+ images {
+ #include "images.edc"

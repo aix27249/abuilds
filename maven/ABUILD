@@ -1,0 +1,30 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=maven
+pkgver=3.0.4
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A Java build system"
+source="http://www.sai.msu.su/apache//maven/source/apache-maven-$pkgver-src.tar.gz"
+
+tags="develop dev-java"
+
+build()
+{
+  go_src_dir
+  mkdir $srcdir/repo
+  mkdir $pkgdir/opt
+
+  export MAVEN_OPTS=-Xmx512m
+  export M2_HOME=$pkgdir/opt/maven
+  export PATH=$PATH:$M2_HOME/bin
+
+  ant -Dmaven.repo.local=$srcdir/repo
+  install -D -m 755 $filedir/maven.sh $pkgdir/etc/profile.d/maven.sh
+
+  rm $pkgdir/opt/maven/*.txt
+
+  # better than playing with $PATH
+  mkdir -p $pkgdir/usr/bin/
+  ln -s /opt/maven/bin/mvn $pkgdir/usr/bin/mvn
+}

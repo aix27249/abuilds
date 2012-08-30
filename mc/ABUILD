@@ -1,0 +1,56 @@
+# ABUILD for mc
+pkgname=mc
+pkgver=4.8.4
+srcver=${pkgver//_/-}
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('Midnight Commander is a text based file manager')
+
+tags=('console app-misc')
+
+source=("http://www.midnight-commander.org/downloads/mc-${srcver}.tar.bz2")
+
+build_deps='glibc-solibs glib2 libssh2'
+
+config_files="etc/mc/edit.indent.rc
+etc/mc/filehighlight.ini
+etc/mc/mc.ext
+etc/mc/mc.keymap
+etc/mc/mc.keymap.emacs
+etc/mc/mc.menu
+etc/mc/mc.menu.sr
+etc/mc/sfs.ini"
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --localstatedir=/var \
+	--enable-shared=yes \
+	--enable-fast-install=yes \
+	--enable-largefile=yes \
+	--enable-nls=yes \
+	--enable-extcharset=yes \
+	--with-search-engine=glib \
+	--enable-vfs=yes \
+	--enable-vfs-cpio=yes\
+	--enable-vfs-tar=yes \
+	--enable-vfs-ftp=yes \
+	--enable-vfs-smb=yes \
+	--enable-vfs-undelfs=yes \
+	--enable-vfs-fish=yes \
+	--enable-vfs-extfs=yes \
+	--enable-vfs-sfs=yes \
+	--enable-netcode=yes \
+	--enable-background=yes \
+	--with-subshell=yes \
+	--with-edit=yes \
+	--with-gpm-mouse=yes \
+	--with-screen=slang \
+	--with-slang-includes=yes \
+	--enable-charset=yes \
+	--enable-rpath=yes \
+	--enable-vfs-mcfs=yes \
+	--enable-static=no \
+	--with-slang-libs=/usr/lib$LIBDIRSUFFIX"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=eclipse-ecj
+pkgver=3.7.1
+_date=201109091335
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Eclipse Java Compiler"
+
+source="http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-$pkgver-$_date/ecjsrc-$pkgver.jar"
+
+tags="libs dev-java"
+
+build()
+{
+	go_src_dir
+	cd ..
+	burn_patches
+
+	ant
+	install -Dm755 ecj.jar $pkgdir/usr/share/java/eclipse-ecj.jar
+	ln -s eclipse-ecj.jar $pkgdir/usr/share/java/ecj.jar
+	install -Dm755 $filedir/ecj $pkgdir/usr/bin/ecj
+}

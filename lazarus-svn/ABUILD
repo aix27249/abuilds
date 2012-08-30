@@ -1,0 +1,51 @@
+#ABUILD created by: medved, medved55rus at gmail.org
+pkgname=lazarus-svn
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Delphi-like IDE for FreePascal"
+
+source=("svn:http://svn.freepascal.org/svn/lazarus/trunk")
+
+tags="develop dev-util"
+
+build_deps="subversion fpc"
+
+adddep="fpc fpc-src"
+
+provides="lazarus"
+
+build() {
+    go_src_dir
+    make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 clean bigide || return 1
+}
+
+after_build()
+{
+    rm -r debian examples lazarus.app test
+    mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+    cp -R . ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+
+    mkdir -p $pkgdir/usr/bin
+    ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazarus ${pkgdir}/usr/bin/lazarus
+    ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus
+    ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazbuild ${pkgdir}/usr/bin/lazbuild
+  
+    mkdir -p $pkgdir/usr/man/man1
+    cp -R install/man/man1/* $pkgdir/usr/man/man1/
+  
+    sed -e 's|\(Categories\).*|\1=IDE;Development;|' -i install/lazarus.desktop
+    install -Dm644 install/lazarus.desktop ${pkgdir}/usr/share/applications/lazarus.desktop
+    install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png
+  
+    rm -r ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/install
+    find ${pkgdir} -type d -name .svn -exec rm -rf {} \;
+
+    # install config
+    mkdir -p ${pkgdir}/etc/lazarus
+    config=tools/install/linux/environmentoptions.xml
+    sed "s@__LAZARUSDIR__@/usr/lib${LIBDIRSUFFIX}/lazarus/@" -i ${config}
+    sed "s@__FPCSRCDIR__@/usr/share/fpc/\$(FPCVER)/src/@" -i ${config}
+    cp -r tools/install/linux/* ${pkgdir}/etc/lazarus
+}

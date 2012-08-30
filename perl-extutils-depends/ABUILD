@@ -1,0 +1,71 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=perl-extutils-depends
+downname=ExtUtils-Depends
+pkgver=0.302
+pkgbuild=2
+arch=('auto')
+
+shortdesc="ExtUtils::Depends (perl module)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This module tries to make it easy to build Perl extensions that use functions and typemaps provided by other perl extensions. This means that a perl extension is treated like a shared library that provides a C and an XS interface besides the perl one."
+"Homepage: http://search.cpan.org/dist/ExtUtils-Depends/"
+)
+
+source=("http://cpan.rinet.ru/authors/id/T/TS/TSCH/${downname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-lang"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr && make"
+INSTALL_WORD="make install INSTALLDIRS=vendor"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+    # Remove perllocal.pod and other special files that don't need to be installed,
+    # as they will overwrite what's already on the system
+    find ${pkgdir} -name perllocal.pod -o -name ".packlist" -o -name "*.bs" | xargs rm -f || true
+
+    # Remove empty directories
+    find ${pkgdir} -depth -type d -empty -delete || true
+}

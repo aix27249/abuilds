@@ -1,0 +1,18 @@
+pkgname=qjackctl
+pkgver=0.3.8
+pkgbuild=1
+arch=('auto')
+shortdesc="QjackCtl (a Qt application to control the JACK sound server)"
+longdesc=("Provides a simple GUI dialog for setting several JACK daemon parameters, which are properly saved between sessions, and a way control of the status of the audio server daemon. With time, this primordial interface has become richer by including a enhanced patchbay and connection control features."
+	  ""
+	  "Homepage: http://qjackctl.sourceforge.net/"
+)
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+tags="xapps media-sound"
+
+build() {
+    go_src_dir
+    ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib${LIBDIRSUFFIX} --disable-static
+    make
+    make DESTDIR="${pkgdir}" install
+}

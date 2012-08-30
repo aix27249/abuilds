@@ -1,0 +1,7 @@
+pkgname=phpstorm
+
+prodname="JetBrains PHPStorm"
+shortdesc="Professional IDE (Integrated Development Environment) for Web and PHP developers"
+source="http://download.jetbrains.com/webide/PhpStorm-$pkgver.tar.gz"
+
+launcher="PhpStorm.sh"

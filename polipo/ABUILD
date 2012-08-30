@@ -1,0 +1,39 @@
+pkgname=polipo
+pkgver=1.0.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Polipo is a small and fast caching web proxy"
+
+source=("git:https://github.com/jech/polipo.git")
+tags="server net-misc"
+
+build() {
+	go_src_dir
+	make 	PREFIX="$pkgdir/usr" \
+        MANDIR="$pkgdir/usr/share/man" \
+        INFODIR="$pkgdir/usr/share/info" \
+	LOCAL_ROOT="$pkgdir/usr/share/polipo/www" \
+	DISK_CACHE_ROOT="$pkgdir/var/cache/polipo" \
+  install
+
+}
+
+
+
+
+after_build()
+{
+
+mkdir -p $pkgdir/etc/polipo || exit 1
+mkdir -p $pkgdir/etc/init.d || exit 1
+mkdir -p $pkgdir/var/log/polipo || exit 1
+mkdir -p $pkgdir/var/cache/polipo || exit 1
+
+cp  $filedir/polipo.conf $pkgdir/etc/polipo || exit 1
+chmod 664 $pkgdir/etc/polipo/polipo.conf || exit 1
+cp $filedir/polipo $pkgdir/etc/init.d || exit 1
+chmod 755 $pkgdir/etc/init.d/polipo || exit 1
+chmod 755 $pkgdir/var/cache/polipo || exit 1
+chmod 755 $pkgdir/var/cache/polipo || exit 1
+}

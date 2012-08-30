@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xonotic-data
+pkgver=0.6.0
+pkgbuild=1
+arch="noarch"
+
+shortdesc="A free, fast-paced crossplatform first-person shooter -- data files"
+
+# Use torrents, you should.
+source="http://dl.xonotic.org/xonotic-$pkgver.zip"
+
+tags="games games-fps"
+
+build()
+{
+	go_src_dir
+	mkdir -p ${pkgdir}/usr/share/xonotic/
+	mv data ${pkgdir}/usr/share/xonotic/
+}

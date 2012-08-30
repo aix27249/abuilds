@@ -1,0 +1,17 @@
+pkgname=xf86-video-tga
+pkgver=1.2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-tga: X11 driver for TGA cards')
+longdesc=('xf86-video-tga: X11 driver for TGA cards')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-tga-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

@@ -1,0 +1,36 @@
+# Parted ABUILD
+pkgname=parted
+pkgver=2.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('parted (GNU disk partitioning tool)')
+longdesc=('GNU Parted is a program for creating, destroying, resizing, checking and copying partitions, and the filesystems on them. This is useful for creating space for new operating systems, reorganizing disk usage, copying data between hard disks, and disk imaging.')
+
+tags=('base sys-apps')
+
+source=('http://ftp.gnu.org/gnu/parted/parted-2.3.tar.xz')
+
+build_deps='aaa_elflibs glibc-solibs util-linux-ng'
+
+before_build() {
+ echo ""
+}
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --mandir=/usr/man \
+  --infodir=/usr/info \
+  --enable-shared=yes \
+  --enable-static=no \
+  --enable-device-mapper=yes \
+  --without-readline \
+  --disable-debug \
+  --build=$ARCH-slackware-linux"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+after_build() {
+ echo ""
+}
+

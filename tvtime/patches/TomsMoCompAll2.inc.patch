@@ -1,0 +1,14 @@
+--- tvtime-1.0.2/plugins/tomsmocomp/TomsMoCompAll2.inc	2004-10-21 02:31:05.000000000 +1100
++++ TomsMoCompAll2.inc	2010-06-02 12:38:16.000000000 +1100
+@@ -5,9 +5,9 @@
+ #endif
+ 
+ #ifdef USE_STRANGE_BOB
+-#define SEARCH_EFFORT_FUNC(n) DScalerFilterTomsMoComp::SEFUNC(n##_SB)
++#define SEARCH_EFFORT_FUNC(n) SEFUNC(n##_SB)
+ #else
+-#define SEARCH_EFFORT_FUNC(n) DScalerFilterTomsMoComp::SEFUNC(n)
++#define SEARCH_EFFORT_FUNC(n) SEFUNC(n)
+ #endif
+ 
+ int SEARCH_EFFORT_FUNC(0)		// we don't try at all ;-)

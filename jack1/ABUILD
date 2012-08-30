@@ -1,0 +1,15 @@
+pkgname=jack1
+pkgver=0.121.2
+pkgbuild=1
+arch=('auto')
+shortdesc="Low latency audio server"
+source=("http://jackaudio.org/downloads/jack-audio-connection-kit-$pkgver.tar.gz")
+tags="libs media-sound"
+build_deps="libffado doxygen"
+conflicts="jack"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

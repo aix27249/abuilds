@@ -1,0 +1,60 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mopsgrey-wallpaper
+pkgver=0.2
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Simple Grey Wallpapers"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Contain ratio: 16:10, 16:9, 4:3, 5:4"
+)
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="themes x11-themes"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $pkgdir
+
+burn_patches
+
+mkdir -p $pkgdir/usr/share/
+
+cp -a $filedir/wallpapers $pkgdir/usr/share/
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

@@ -1,0 +1,30 @@
+#ABUILD created by/создан: Coldead, firedead117 at gmail.com 
+pkgname=freetype-ubuntu
+pkgver=2.4.5
+_ubver=2.4.4-2
+pkgbuild=1
+arch=('auto')
+shortdesc="TrueType font rendering library, with Ubuntu's LCD rendering patches"
+source=("https://launchpad.net/ubuntu/oneiric/+source/freetype/$_ubver/+files/freetype_$_ubver.diff.gz"
+"http://downloads.sourceforge.net/sourceforge/freetype/freetype-${pkgver}.tar.bz2")
+patch_opts=("")
+tags="media-libs libs"
+build_deps=""
+adddep=""
+removedep=""
+provides="freetype"
+build()
+{
+go_src_dir
+patch -Np1 -i $srcache/freetype_$_ubver.diff
+sed -i -e "s#\ssrc# freetype-$pkgver/src#g" debian/patches-freetype/freetype-2.1.7-backwards.compat.patch
+sed -i -e "s/-p[0-9]\|.*otvalid\.patch//g" debian/patches-freetype/series
+for _f in $(cat debian/patches-freetype/series) ; do    
+  patch -Np1 -i debian/patches-freetype/$_f    
+done
+patch -Np1 -i $filedir/enable-valid.patch
+./configure --prefix=/usr \
+--libdir=/usr/lib$LIBDIRSUFFIX
+make
+make DESTDIR=$pkgdir install
+}

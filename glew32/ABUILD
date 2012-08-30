@@ -1,0 +1,61 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=glew
+pkgver=1.6.0
+pkgbuild=0
+arch=('auto')
+
+shortdesc="The OpenGL Extension Wrangler Library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The OpenGL Extension Wrangler Library (GLEW) is a cross-platform open-source"
+"C/C++ extension loading library. GLEW provides efficient run-time mechanisms for"
+"determining which OpenGL extensions are supported on the target platform. OpenGL"
+"core and extension functionality is exposed in a single header file"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tgz")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="libs dev-libs"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+
+make -j${numjobs} || exit 1
+mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
+make install GLEW_DEST=${pkgdir} LIBDIR=$pkgdir/usr/lib${LIBDIRSUFFIX} INCDIR=/${pkgdir}/usr/include/GL || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

@@ -1,0 +1,101 @@
+# Mozilla-firefox
+pkgname=mozilla-firefox
+pkgver=15.0
+_pkgver=${pkgver}
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla-firefox web browser"
+
+
+
+source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/ru.xpi n o"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/uk.xpi n o"
+)
+tags="xapps www-client"
+adddep="libvpx>=0.9.7"
+removedep=""
+conflicts=""
+before_build()
+{
+	go_src_dir
+	# Kill @PRE_RELEASE_SUFFIX@ from browser.xul because it
+	# gets set to \177 for an unknown reason
+	sed -i 's/@PRE_RELEASE_SUFFIX@//g' browser/base/content/browser.xul || exit 1
+
+	# Don't generate startup cache. Unbreaks build
+	#sed -i 's/^GENERATE_CACHE .*/GENERATE_CACHE = true/' toolkit/mozapps/installer/packager.mk || exit 1
+
+	# PGO
+	#sed -i '/^NO_PROFILE_GUIDED_OPTIMIZE = 1$/d' memory/jemalloc/Makefile.in || exit 1
+	#echo 'LDFLAGS += -lX11 -lXrender' >> layout/build/Makefile.in || exit 1
+
+}
+
+build() {
+	go_src_dir
+	burn_patches
+	set -x
+	#nset CLFLAGS
+	#unset CXXFLAGS
+	sed "${filedir}/mozconfig" -e "s,%%LIBDIR%%,${LIBDIRSUFFIX},g" > ".mozconfig" || exit 1
+	#-e "s,%%JOBS%%,${numjobs},g"
+	#export LDFLAGS="-Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/firefox"
+	#export LDFLAGS="-Wl,-O1,--sort-common,--hash-style=gnu,--as-needed"
+	export PYTHON="/usr/bin/python"
+
+	make -j1 -f client.mk build
+	#LD_PRELOAD="" /usr/bin/Xvfb -nolisten tcp -extension GLX -screen 0 1280x1024x24 :99 &
+	#LD_PRELOAD="" DISPLAY=:99 
+	#make -j1 -f client.mk build #MOZ_MAKE_FLAGS="-j6"
+	go_src_dir
+	#mkdir -p ${pkgdir}
+	#unset MOZ_MAKE_FLAGS
+	make -j1 -f client.mk DESTDIR=${pkgdir} install || exit 1
+	set +x
+
+
+}
+
+after_build() {
+	set -x
+	cd ${pkgdir}
+	rm -rf ${pkgdir}/usr/include
+	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-devel-${pkgver} 
+	rm -rf ${pkgdir}/usr/share/idl 
+	go_src_dir
+	for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
+		install -Dm644 browser/branding/official/default${i/x*/}.png \
+			${pkgdir}/usr/share/icons/hicolor/$i/apps/firefox.png || exit 1
+	done
+
+
+	#mkdir -p ${startdir}/xpi
+	#cd ${startdir}/xpi
+
+	#install -dm755 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${pkgver}/chrome
+	_langs="ru uk"
+	for _lang in ${_langs}
+	do
+		install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/extensions/langpack-${_lang}@firefox.mozilla.org.xpi || exit 1
+	done
+
+	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/searchplugins
+	cp -a ${filedir}/searchplugins /${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}
+
+	#fix ugly "could not read application ini"
+	install -m755 ${filedir}/firefox ${pkgdir}/usr/bin
+
+	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; rm -rf firefox )
+	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ln -sf firefox-${_pkgver} firefox )
+
+	#we are using system hunspell
+	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/dictionaries
+	ln -sf /usr/share/hunspell ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/dictionaries
+
+	cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${pkgver}
+	ln -s /usr/lib${LIBDIRSUFFIX}/xulrunner .
+	set +x
+}
+

@@ -1,0 +1,12 @@
+/var/log/mail.* {
+  rotate 5
+  notifempty
+  size=16M
+  missingok
+  compress
+  nodelaycompress
+  sharedscripts
+  postrotate
+    /etc/rc.d/rc.postfix restart
+  endscript
+}

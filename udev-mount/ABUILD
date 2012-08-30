@@ -1,0 +1,34 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=udev-mount
+pkgver=0.6.3
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="Auto mount for fluxbox setup variant"
+
+source=("/my/brain/")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils app-admin" 
+
+adddep=" udev disktype rxvt-unicode sudo libaosd "
+
+#----------------------------- Make PKG --------------------------------------
+
+build()
+{
+
+cp -Rf  $startdir/hand/etc  $pkgdir || exit 1
+cp -Rf  $startdir/hand/usr  $pkgdir || exit 1 
+
+find $pkgdir -type d -exec chmod 755 {} \; || exit 1
+find $pkgdir -type f -exec chmod 644 {} \; || exit 1
+
+chmod 755 $pkgdir/usr/local/bin/* || exit 1
+chmod 755 $pkgdir/usr/local/share/udev-mount/{notif.sh,sh.sh,expl.sh} || exit 1
+
+}
+

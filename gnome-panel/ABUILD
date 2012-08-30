@@ -1,0 +1,85 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-panel
+pkgver=2.32.1
+tree=`echo $pkgver | cut -d . -f 1-2`
+pkgbuild=4
+arch=('auto')
+
+shortdesc="launcher and docking facility for GNOME"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The GNOME Panel is an essential part of the GNOME Desktop, providing toolbar-like 'panels' which can be attached to the sides of your desktop. They are used to launch applications and embed a number of other functions, such as quick launch icons, the clock, the notification area, volume controls and the battery charge indicator, and utilities ranging from weather forecast to system monitoring."
+)
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="gnome gnome-base"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/gnome-panel \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-scrollkeeper"
+
+INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" \
+       --domain gnome-panel-2.0 ${pkgdir}/etc/gconf/schemas/*.schemas
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+
+# Installing bonobo component for compatibility with shitty old applets.
+cd "${srcdir}/${pkgname}-${pkgver}"
+make -C bonobo "${pkgdir}" DESTDIR="${pkgdir}" install
+}

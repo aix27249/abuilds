@@ -1,0 +1,79 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=xbmc
+pkgver=11.0rc2
+ver=11.0-Eden_rc2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A software media player and entertainment hub for digital media"
+
+longdesc=("Award-winning free and open source (GPL) software media player and entertainment hub for digital media."
+)
+
+source=("http://mirrors.xbmc.org/releases/source/$pkgname-$ver.tar.gz")
+
+tags="xapps media-video"
+
+adddep="xdpyinfo libmicrohttpd gcc-g++"
+build_deps="autoconf automake m4 pkg-config git gettext gcc-g++ gcc kernel-headers boost mysql libass libmpeg2 libmad libsamplerate libogg libvorbis libmodplug flac openssl lzo bluez libssh yajl fribidi libcdio libbluray jasper libmicrohttpd rtmpdump libnfs libvdpau libva cmake gperf yasm make xproto xextproto kbproto randrproto renderproto libjpeg-turbo pulseaudio diffutils"
+removedep=""
+
+docs="copying.txt keymapping.txt"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="./bootstrap && LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-static \
+--enable-debug \
+--enable-optimizations \
+--enable-gl \
+--enable-sdl \
+--enable-vaapi \
+--enable-vdpau \
+--enable-xvba \
+--enable-joystick \
+--enable-xrandr \
+--enable-rsxs \
+--enable-projectm \
+--enable-x11 \
+--enable-pulse \
+--enable-rtmp \
+--enable-samba \
+--enable-nfs \
+--enable-ffmpeg-libvorbis \
+--enable-dvdcss \
+--disable-hal \
+--enable-avahi \
+--enable-webserver \
+--enable-optical-drive \
+--enable-libbluray \
+--enable-texturepacker \
+--enable-udev \
+--enable-libusb \
+--enable-libcec \
+--enable-external-libraries \
+--disable-external-ffmpeg \
+--enable-mid"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+after_build()
+{
+go_src_dir
+install -Dm755 tools/TexturePacker/TexturePacker \
+	${pkgdir}/usr/lib$LIBDIRSUFFIX/xbmc/
+install -Dm644 tools/Linux/xbmc.desktop \
+	${pkgdir}/usr/share/applications/xbmc.desktop
+install -Dm644 tools/Linux/xbmc-48x48.png \
+	${pkgdir}/usr/share/pixmaps/xbmc.png
+rm -r ${pkgdir}/usr/share/doc
+rm ${pkgdir}/usr/doc/${pkgname}-${pkgver}/{README.ubuntu,README.armel,README.osx,README.ios}
+}

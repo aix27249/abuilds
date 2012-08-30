@@ -1,0 +1,104 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libclaw
+pkgver=1.6.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Claw is a C++ Library Absolutely Wonderful"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("CLAW is a C++ Library Absolutely Wonderful providing useful classes from the simplest AVL binary search trees to the complex meta programming tools, including image manipulation, a generic alpha-beta algorithm, sockets implemented as std::stream and more."
+""
+"Claw is licensed under the GNU Lesser General Public License (LGPL), version 2.1."
+""
+"Homepage: http://libclaw.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/libclaw/libclaw/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="dev-libs libs"
+
+#dependencies only needed to build package
+build_deps="doxygen"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+go_src_dir
+
+# libs
+#sed -i '/^set( CLAW_INSTALLDIR_LIB/s|lib|lib/claw|' \
+# CMakeLists.txt || exit 1
+
+# From Xavier Bachelot 2009-09-29 19:17:34
+# patch fixing the lib dir issue
+# https://bugzilla.redhat.com/show_bug.cgi?id=524238#c3
+
+if [ "${ARCH}" == "x86_64" ];then
+ sed -i '/^set( CLAW_INSTALLDIR_LIB/s|lib|lib64|' \
+ CMakeLists.txt || exit 1
+fi
+
+# doc
+sed -i \
+ -e '/^set( CLAW_INSTALLDIR_DOC/s|share/||' \
+ -e '/^set( CLAW_INSTALLDIR_DOC/s|${CLAW_VERSION_MAJOR}|-${CLAW_VERSION}|' \
+ CMakeLists.txt || exit 1
+
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc ]; then
+	cd $pkgdir/usr/doc/${pkgname}-${pkgver}
+	rm -vrf ./doc || exit 1
+fi
+
+if [ -f $pkgdir/usr/share/doc/libclaw1/COPYING ]; then
+	cd $pkgdir/usr/doc/${pkgname}-${pkgver}
+	rm -vrf COPYING  || exit 1
+fi
+
+}

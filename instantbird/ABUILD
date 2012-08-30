@@ -1,0 +1,36 @@
+pkgname=instantbird
+pkgver=1.1
+pkgbuild=1
+shortdesc="Instant messenger using libpurple and xulrunner"
+arch='auto'
+build_deps="autoconf2.13 wireless-tools yasm xulrunner-devel"
+source=(http://instantbird.com/downloads/${pkgver}/${pkgname}-${pkgver}.src.tgz)
+tags="xapps net-im"
+
+build() {
+    go_src_dir
+    burn_patches
+    cp ${filedir}/mozconfig .
+    sed -i -e 's|\$LIBXUL_SDK/sdk|\$LIBXUL_SDK|g' configure.in
+    make -f client.mk build
+    
+    cd ${srcdir}/obj-${pkgname}
+	sed -i -e "s|.*mozilla/toolkit/locales.*||g" -e "s|.*mozilla/extensions/spellcheck/locales.*||g" instantbird/locales/Makefile
+	make package
+	cd mozilla/dist
+	bsdtar -x -f ${pkgname}-${pkgver}.en-US.linux-${ARCH}.tar.bz2
+	
+	mkdir -p ${pkgdir}/usr/bin
+	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+	mkdir -p ${pkgdir}/usr/share/pixmaps
+	mkdir -p ${pkgdir}/usr/share/applications
+	cp -R ./instantbird ${pkgdir}/usr/lib${LIBDIRSUFFIX}/instantbird
+	cp ${filedir}/ru.* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/instantbird/dictionaries
+	cd ${pkgdir}/usr/bin
+	ln -s /usr/lib${LIBDIRSUFFIX}/instantbird/instantbird instantbird
+	cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}/instantbird
+	# No idea why this is needed now
+	ln -s /usr/lib${LIBDIRSUFFIX}/xulrunner-${_xulnum} xulrunner
+	install -D -m 644 icons/mozicon128.png ${pkgdir}/usr/share/pixmaps/instantbird.png
+	install -D -m 644 ${filedir}/instantbird.desktop ${pkgdir}/usr/share/applications/instantbird.desktop
+}

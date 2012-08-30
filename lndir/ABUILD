@@ -1,0 +1,18 @@
+pkgname=lndir
+pkgver=1.0.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('lndir')
+longdesc=('lndir is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-utils xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/util/lndir-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

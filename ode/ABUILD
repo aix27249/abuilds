@@ -1,0 +1,30 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=ode
+pkgver=0.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Open Dynamics Engine"
+
+source=("http://downloads.sourceforge.net/project/opende/ODE/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-libs libs"
+
+build_deps="make gcc-g++ gcc pkg-config"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-shared"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

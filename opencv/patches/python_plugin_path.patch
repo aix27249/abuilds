@@ -1,0 +1,12 @@
+diff -uNr OpenCV-2.3.1.orig/CMakeLists.txt OpenCV-2.3.1/CMakeLists.txt
+--- OpenCV-2.3.1.orig/CMakeLists.txt	2011-09-12 22:45:38.000000000 +0400
++++ OpenCV-2.3.1/CMakeLists.txt	2011-12-09 10:36:32.996420366 +0300
+@@ -665,7 +665,7 @@
+                     OUTPUT_VARIABLE PYTHON_STD_PACKAGES_PATH
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+     if("${PYTHON_STD_PACKAGES_PATH}" MATCHES "site-packages")
+-        set(PYTHON_PACKAGES_PATH lib/python${PYTHON_VERSION_MAJOR_MINOR}/site-packages CACHE PATH "Where to install the python packages.")
++        set(PYTHON_PACKAGES_PATH lib${LIB_SUFFIX}/python${PYTHON_VERSION_MAJOR_MINOR}/site-packages CACHE PATH "Where to install the python packages.")
+     else() #debian based assumed, install to the dist-packages.
+         set(PYTHON_PACKAGES_PATH lib/python${PYTHON_VERSION_MAJOR_MINOR}/dist-packages CACHE PATH "Where to install the python packages.")
+     endif()

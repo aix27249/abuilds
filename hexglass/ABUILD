@@ -1,0 +1,96 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hexglass
+pkgver=1.2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tetris-like puzzle game based on a hexagonal grid"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The HexGlass is a Tetris-like puzzle game. Ten different types of blocks continuously fall from above and you must arrange them to make horizontal rows of hexagonal bricks. Completing any row causes those hexagonal blocks to disappear and the rest above move downwards. The blocks above gradually fall faster and the game is over when the screen fills up and blocks can no longer fall from the top. Homepage: http://code.google.com/p/hexglass"
+)
+
+source=("http://hexglass.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-puzzle"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+icon_desktop ()
+	{
+	echo "Icon"
+if [ ! -f $pkgdir/usr/share/applications/hexglass.desktop ]; then
+#
+go_src_dir
+cd resources
+mkdir -p $pkgdir/usr/share/pixmaps
+cp -av logo512x512.xpm hexglass.xpm
+mogrify -geometry 48x48 hexglass.xpm
+cp -av ./hexglass.xpm $pkgdir/usr/share/pixmaps || exit 1
+#
+mkdir -p $pkgdir/usr/share/applications || exit 1
+cat << EOF > $pkgdir/usr/share/applications/hexglass.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=HexGlass
+Comment=Tetris-like puzzle game
+Exec=hexglass
+TryExec=hexglass
+Categories=Game;LogicGame;
+Icon=hexglass
+MimeType=
+EOF
+#
+fi
+	}
+
+}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+icon_desktop
+
+}

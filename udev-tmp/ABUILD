@@ -1,0 +1,69 @@
+pkgname=udev-tmp
+pkgver=182
+pkgbuild=3
+arch=('auto')
+
+shortdesc=('udev (dynamic device directory system)')
+longdesc=('udev provides a dynamic device directory containing only the files for the devices which are actually present. It creates or removes device node files usually located in the /dev directory. udev requires a 2.6 or newer kernel. Kay Sievers is the udev maintainer.')
+
+tags=('base sys-fs')
+
+source="ftp://ftp.kernel.org/pub/linux/utils/kernel/hotplug/udev-$pkgver.tar.xz"
+
+config_files="etc/conf.d/udev
+etc/udev/udev.conf
+etc/modprobe.d/blacklist.conf"
+
+adddep="pciutils usbutils"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--sysconfdir=/etc \
+	--with-rootprefix=/ \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--libexecdir=/lib \
+	--enable-rule_generator \
+	--enable-udev_acl \
+	--enable-floppy \
+	--enable-edd"
+
+after_build() {
+	set -e
+
+	# make symlinks back to where stuff was before
+	mkdir -p ${pkgdir}/sbin
+	( cd ${pkgdir}/sbin ; ln -s ../lib/udev/udevd ${pkgdir}/sbin/udevd )
+
+	# do you really believe that no one using separate /usr? My home computer doesn't believe that shit, so move important things back please.
+	mv ${pkgdir}/usr/bin/udevadm ${pkgdir}/sbin/udevadm
+	( cd ${pkgdir}/usr/bin ; ln -s ../../sbin/udevadm udevadm )
+
+	mkdir -p ${pkgdir}/{lib/udev,/etc/{udev/rules.d/,init.d}}
+
+	# clone gentoo initscripts only for development, for stable package, use local copy instead. I leave here a path to git repo for future.
+	#git clone git://git.overlays.gentoo.org/proj/udev-gentoo-scripts.git
+	( cd ${filedir}/udev-gentoo-scripts
+		install -Dm755 init.d/* ${pkgdir}/etc/init.d
+		cp -r {conf.d,modprobe.d} ${pkgdir}/etc
+		install -Dm755 helpers/* ${pkgdir}/lib/udev/
+		cp rules.d/90-network.rules ${pkgdir}/lib/udev/rules.d
+	)
+
+	# Fix /run/udev/rules.d creation
+	( cd ${pkgdir}/etc/init.d ; patch -p0 --verbose < ${filedir}/udev-rulesd-fix.patch )
+
+	# make a place for udev to store the socket
+	mkdir -p ${pkgdir}/run/udev/
+
+	# remove docs
+	rm -rf ${pkgdir}/usr/share/gtk-doc
+
+	# Link libgudev-1.0.la to /lib64
+	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
+	( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libgudev-1.0.la libgudev-1.0.la )
+	( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libudev.la libudev.la )
+
+	# Copy additional rules
+	cp -v ${filedir}/rules.d/*.rules ${pkgdir}/lib/udev/rules.d/
+
+	set +e
+}
+

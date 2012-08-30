@@ -1,0 +1,16 @@
+pkgname=calligra
+pkgver=2.4.0
+pkgbuild=1
+arch=('auto')
+ 
+shortdesc=('Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project.')
+
+tags=('kde-base kde4')
+ 
+source="ftp://ftp.kde.org/pub/kde/stable/calligra-${pkgver}/calligra-$pkgver.tar.bz2"
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DENABLE_ACTIVE=OFF \
+"

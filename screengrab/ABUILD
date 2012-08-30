@@ -1,0 +1,74 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=screengrab
+pkgver=0.9.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DE independent application for capturing a screen snapshot (use Qt)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Main features: "
+	  "*grab screenshot of desktop, active window and selection area of desktop "
+	  "*copying screenshot into yhe clipboard "
+	  "*working on Windows and Linux operating systems "
+	  "*save screenshots in PNG and JPEG format "
+	  "*grab screenshot with delay (1 - 90 sec) "
+	  "*hide his window "
+	  "*minimize to system tray and work from at (tray menu) "
+)
+
+source=("http://${pkgname}-qt.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

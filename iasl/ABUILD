@@ -1,0 +1,75 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=iasl
+pkgver=20101013
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Intel ACPI Source Language compiler"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The ACPI Component Architecture (ACPICA) project provides an operating system (OS)-independent reference implementation of the Advanced Configuration and Power Interface Specification (ACPI). It can be easily adapted to any host OS. The ACPICA code is meant to be directly integrated into the host OS, as a kernel-resident subsystem. Hosting the ACPICA requires no changes to the core ACPICA code. However, it does require a small OS-specific interface layer, which must be written specifically for each host OS."
+)
+
+source=("http://acpica.org/download/acpica-unix-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="base sys-power"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd "${srcdir}/acpica-unix-${pkgver}/compiler"
+patch -Np3 -i "${filedir}/relax_check.patch"
+make
+install -D -m755 iasl "${pkgdir}/usr/bin/iasl"
+cd ../tools/acpisrc
+make
+install -m755 acpisrc "${pkgdir}/usr/bin"
+cd ../acpixtract
+make
+install -m755 acpixtract "${pkgdir}/usr/bin"
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

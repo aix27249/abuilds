@@ -1,0 +1,20 @@
+--- pktsetup/pktsetup.c.orig	2008-01-10 17:39:08.000000000 +0100
++++ pktsetup/pktsetup.c	2008-01-10 17:39:17.000000000 +0100
+@@ -26,6 +26,7 @@
+ #include <getopt.h>
+ #include <bits/types.h>
+ #include <sys/types.h>
++#include <limits.h>
+ 
+ #include <linux/cdrom.h>
+ 
+--- cdrwtool/cdrwtool.c.orig	2008-01-10 17:38:09.000000000 +0100
++++ cdrwtool/cdrwtool.c	2008-01-10 17:38:55.000000000 +0100
+@@ -27,6 +27,7 @@
+ #include <unistd.h>
+ #include <getopt.h>
+ #include <signal.h>
++#include <limits.h>
+ 
+ #include <sys/ioctl.h>
+ #include <asm/param.h>

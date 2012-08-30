@@ -1,0 +1,235 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-python-desktop
+pkgver=2.32.0
+pkgbuild=11
+arch=('auto')
+
+shortdesc="Gnome-Python desktop integration metapackage"
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-python"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="python-brasero python-bugbuddy python-evince python-evolution python-gnomeapplet python-gnome-desktop python-gnome-keyring python-gtop python-mediaprofiles python-metacity python-rsvg python-totem-plparser python-wnck python-gnomeprint"
+removedep=""
+
+
+#for multi pkg abuild
+pkglist="brasero bugbuddy evince evolution applet desktop keyring print gtop media metacity rsvg plparser print wnck"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+brasero()
+{
+	pkgname=python-brasero
+	shortdesc="Python bindings for Brasero"
+}
+bugbuddy()
+{
+	pkgname=python-bugbuddy
+	shortdesc="Python bindings for Bug Buddy"
+}
+evince()
+{
+	pkgname=python-evince
+	shortdesc="Python bindings for Evince"
+}
+evolution()
+{
+	pkgname=python-evolution
+	shortdesc="Python bindings for Evolution"
+}
+applet()
+{
+	pkgname=python-gnomeapplet
+	shortdesc="Python bindings for GNOME Panel"
+}
+desktop()
+{
+	pkgname=python-gnome-desktop
+	shortdesc="Python bindings for GNOME Desktop"
+}
+keyring()
+{
+	pkgname=python-gnome-keyring
+	shortdesc="Python bindings for GNOME Keyring"
+}
+gtop()
+{
+	pkgname=python-gtop
+	shortdesc="Python bindings for libgtop"
+}
+media()
+{
+	pkgname=python-mediaprofiles
+	shortdesc="Python bindings for GNOME media"
+}
+metacity()
+{
+	pkgname=python-metacity
+	shortdesc="Python bindings for Metacity"
+}
+rsvg()
+{
+	pkgname=python-rsvg
+	shortdesc="Python bindings for librsvg"
+}
+plparser()
+{
+	pkgname=python-totem-plparser
+	shortdesc="Python bindings for totem-plparser"
+}
+wnck()
+{
+	pkgname=python-wnck
+	shortdesc="Python bindings for libwnck"
+}
+print()
+{
+	pkgname=python-gnomeprint
+	shortdesc="Python bindings for GNOME printing architecture"
+}
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	sed -i 's|evince-document-2.30|evince-document-2.32|g' configure
+	sed -i 's|evince-view-2.30|evince-view-2.32|g' configure
+}
+
+build()
+{
+	go_src_dir
+	set -e
+	./configure \
+	--prefix=/usr \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--enable-metacity
+	make
+	set +e
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+	set -e
+	make install-pkgconfigDATA DESTDIR=${pkgdir}
+	set +e
+}
+
+brasero_prep() {
+	set -e
+	make -C braseroburn install DESTDIR=${pkgdir}
+	make -C braseromedia install DESTDIR=${pkgdir}
+	set +e
+}
+
+bugbuddy_prep() {
+	set -e
+	make install-pkgpyexecPYTHON DESTDIR=${pkgdir}
+	set +e
+}
+
+evince_prep() {
+	set -e
+	make -C evince install DESTDIR=${pkgdir}
+	set +e
+}
+
+evolution_prep() {
+	set -e
+	make -C evolution install DESTDIR=${pkgdir}
+	./py-compile --destdir "${pkgdir}" --basedir /usr/lib$LIBDIRSUFFIX/python2.6/site-packages/gtk-2.0 evolution/__init__.py
+	install -m644 evolution/ecal.defs "${pkgdir}/usr/share/pygtk/2.0/defs"
+	set +e
+}
+
+applet_prep() {
+	set -e
+	make -C gnomeapplet install DESTDIR=${pkgdir}
+	set +e
+}
+
+desktop_prep() {
+	set -e
+	make -C gnomedesktop install DESTDIR=${pkgdir}
+	set +e
+}
+
+keyring_prep() {
+	set -e
+	make -C gnomekeyring install DESTDIR=${pkgdir}
+	set +e
+}
+
+gtop_prep() {
+	set -e
+	make -C gtop install DESTDIR=${pkgdir}
+	set +e
+}
+
+media_prep() {
+	set -e
+	make -C mediaprofiles install DESTDIR=${pkgdir}
+	set +e
+}
+
+metacity_prep() {
+	set -e
+	make -C metacity install DESTDIR=${pkgdir}
+	set +e
+}
+
+rsvg_prep() {
+	set -e
+	make -C rsvg install DESTDIR=${pkgdir}
+	install -m755 -d ${pkgdir}/usr/share/pygtk/2.0/defs
+	install -m644 rsvg/rsvg.defs ${pkgdir}/usr/share/pygtk/2.0/defs
+	set +e
+}
+
+plparser_prep() {
+	set -e
+	make -C totem install DESTDIR=${pkgdir}
+	install -m755 -d ${pkgdir}/usr/share/pygtk/2.0/defs
+	install -m644 totem/plparser.defs ${pkgdir}/usr/share/pygtk/2.0/defs/
+	set +e
+}
+
+wnck_prep() {
+	set -e
+	make -C wnck install DESTDIR=${pkgdir}
+	set +e
+}
+
+print_prep() {
+	set -e
+	make -C gnomeprint install DESTDIR=${pkgdir}
+	make -C docs/gnomeprint install DESTDIR=${pkgdir}
+	make -C docs/gnomeprintui install DESTDIR=${pkgdir}
+	set +e
+}

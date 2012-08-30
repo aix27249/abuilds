@@ -1,0 +1,96 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hostapd
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="hostapd (Wifi Authenticator) "
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("hostapd is a user space daemon for access point and authentication servers. It implements IEEE 802.11 access point management, IEEE 802.1X/WPA/WPA2/EAP Authenticators, RADIUS client, EAP server, and RADIUS authentication server. The current version supports Linux (Host AP, madwifi, Prism54 drivers) and FreeBSD (net80211)."
+	  ""
+	  "Homepage: http://hostap.epitest.fi/hostapd/"
+)
+
+source=("http://hostap.epitest.fi/releases/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-wireless"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="hostapd/ChangeLog hostapd/README*"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+#go_src_dir
+#burn_patches
+cd $srcdir/$pkgname-$pkgver/$pkgname
+cp $filedir/config ./.config || exit 1
+
+mkdir -p $pkgdir/etc/hostapd $pkgdir/usr/{sbin,man/man{1,8}}
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+make -j${numjobs} || exit 1
+
+install -m 0755 hostapd $pkgdir/usr/sbin
+install -m 0755 hostapd_cli $pkgdir/usr/sbin
+
+cp hostapd.8 $pkgdir/usr/man/man8 || return 1
+cp hostapd_cli.1 $pkgdir/usr/man/man1 || return 1
+
+for i in \
+	hlr_auc_gw.milenage_db hostapd.accept hostapd.conf hostapd.deny \
+	hostapd.eap_user hostapd.radius_clients hostapd.sim_db hostapd.vlan \
+	hostapd.wpa_psk wired.conf 
+do
+	cat $i > $pkgdir/etc/hostapd/$i.new
+	chmod 0600 $pkgdir/etc/hostapd/$i.new
+done
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p $pkgdir/etc/{conf.d,init.d}
+cp -a $filedir/hostapd-conf.d $pkgdir/etc/conf.d/hostapd
+cp -a $filedir/hostapd-init.d $pkgdir/etc/init.d/hostapd
+}

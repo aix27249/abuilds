@@ -1,0 +1,216 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=festival
+
+pkgver=2.1
+pkgrel=release
+
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The Festival Speech Synthesis System"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Festival offers a general framework for building speech synthesis systems as well as including examples of various modules. As a whole it offers full text to speech through a number APIs: from shell level, though a Scheme command interpreter, as a C++ library, from Java, and an Emacs interface. Festival is free software. Festival and the speech tools are distributed under an X11-type licence allowing unrestricted commercial and non-commercial use alike. Homepage: http://www.cstr.ed.ac.uk/projects/festival"
+)
+
+source=("http://www.cstr.ed.ac.uk/downloads/${pkgname}/${pkgver}/${pkgname}-${pkgver}-${pkgrel}.tar.gz"
+        "http://www.cstr.ed.ac.uk/downloads/${pkgname}/${pkgver}/speech_tools-${pkgver}-${pkgrel}.tar.gz"
+        "http://www.cstr.ed.ac.uk/downloads/${pkgname}/${pkgver}/festlex_CMU.tar.gz"
+        "http://www.cstr.ed.ac.uk/downloads/${pkgname}/${pkgver}/festlex_OALD.tar.gz"
+        "http://www.cstr.ed.ac.uk/downloads/${pkgname}/${pkgver}/festlex_POSLEX.tar.gz"
+	)
+#"http://www.cstr.ed.ac.uk/downloads/festival/${pkgver}/festvox_rablpc16k.tar.gz"
+#"http://www.cstr.ed.ac.uk/downloads/festival/1.95/festvox_kedlpc16k.tar.gz"
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+
+# Based on a build Arch Linux - festival 2.0.95-1 // Big thx
+# http://www.archlinux.org/packages/extra/i686/festival/
+
+
+# Build Speech Tools first
+        cd $srcdir/speech_tools
+        #patch -Np1 -i $filedir/config.diff || exit 1
+
+        ./configure --prefix=/usr --sysconfdir=/etc \
+--libdir=/usr/lib${LIBDIRSUFFIX} --disable-static --mandir=/usr/man || exit 1
+        make OPTIMISE_CXXFLAGS="${CXXFLAGS}" OPTIMISE_CCFLAGS="${CFLAGS}" || exit 1
+        
+        # Build Festival itself
+        cd $srcdir/festival
+        #patch -Np1 -i $filedir/festconfig.diff || exit 1
+        
+        # Aviod make failure on making scripts and docs
+        sed -i "s#examples bin doc#examples#" Makefile
+        ./configure --prefix=/usr --sysconfdir=/etc \
+--libdir=/usr/lib${LIBDIRSUFFIX} --disable-static --mandir=/usr/man || exit 1
+        make OPTIMISE_CXXFLAGS="${CXXFLAGS}" OPTIMISE_CCFLAGS="${CFLAGS}" \
+FESTIVAL_HOME=/usr FTLIBDIR=/usr/share/festival || exit 1
+
+
+# Install Speech Tools first
+        cd $srcdir/speech_tools
+        install -dm755 $pkgdir/usr/{bin,lib${LIBDIRSUFFIX},include/speech_tools/{,instantiate,ling_class,rxp,sigpr,unix}}
+
+        #binaries
+        #move binaries over wrappers (FS#7864) 
+        for i in `grep -l 'EST shared script' bin/*`; do 
+                cp -f main/$(basename $i) bin; 
+        done
+        install -m755 -t $pkgdir/usr/bin bin/[a-z]*
+        rm -f $pkgdir/usr/bin/{est_gdb,est_examples,est_program}
+        
+        #libraries
+        install -m755 -t $pkgdir/usr/lib${LIBDIRSUFFIX} lib/lib*.so.*
+        ln -sf libestbase.so.${pkgver}.1 $pkgdir/usr/lib${LIBDIRSUFFIX}/libestbase.so
+        ln -sf libeststring.so.1.2 $pkgdir/usr/lib${LIBDIRSUFFIX}/libeststring.so
+        install -m644 -t $pkgdir/usr/lib${LIBDIRSUFFIX} lib/lib*.a
+        
+        #headers
+        for dir in {.,instantiate,ling_class,rxp,sigpr,unix}; do
+          install -m644 -t ${pkgdir}/usr/include/speech_tools/$dir include/$dir/*.h
+        done
+
+        # Install Festival itself
+        cd $srcdir/festival
+
+
+        #binaries
+
+	# 2.0.95
+        #install -m755 src/main/festival $pkgdir/usr/bin/
+        #install -m755 src/main/festival_client $pkgdir/usr/bin/
+        #install -m755 examples/text2wave $pkgdir/usr/bin
+        #install -m755 examples/saytime $pkgdir/usr/bin/
+
+	# 2.1
+	install -m755 src/main/festival "$pkgdir"/usr/bin/
+	install -m755 src/main/festival_client "$pkgdir"/usr/bin/
+	install -m755 examples/benchmark "$pkgdir"/usr/bin/
+	install -m755 examples/dumpfeats "$pkgdir"/usr/bin/
+	install -m755 examples/durmeanstd "$pkgdir"/usr/bin/
+	install -m755 examples/latest "$pkgdir"/usr/bin/
+	install -m755 examples/make_utts "$pkgdir"/usr/bin/
+	install -m755 examples/powmeanstd "$pkgdir"/usr/bin/
+	install -m755 examples/run-festival-script "$pkgdir"/usr/bin/
+	install -m755 examples/saytime "$pkgdir"/usr/bin/
+	install -m755 examples/scfg_parse_text "$pkgdir"/usr/bin/
+	install -m755 examples/text2pos "$pkgdir"/usr/bin/
+	install -m755 examples/text2wave "$pkgdir"/usr/bin
+
+
+        #libraries
+        install -m644 src/lib/libFestival.a $pkgdir/usr/lib${LIBDIRSUFFIX}/
+
+        #headers
+        install -dm755 $pkgdir/usr/include/festival
+        install -m644 -t $pkgdir/usr/include/festival src/include/*.h
+
+        mkdir -p $pkgdir/usr/share/festival
+        #install -m644 -t $pkgdir/usr/share/festival lib/*.scm
+        #need to clean up but requires knowing which files are actually needed...
+        cp -aR lib/* $pkgdir/usr/share/festival
+        rm -f $(find $pkgdir/usr/share/festival -name Makefile)
+	rm -f $(find "$pkgdir"/usr/bin -name Makefile)
+        
+        #create voices directory
+        install -dm755 $pkgdir/usr/share/festival/voices
+        
+        #licenses
+#        install -D -m644 $srcdir/festival/COPYING \
+#                         $pkgdir/usr/share/licenses/$pkgname/LICENSE
+#        install -D -m644 $srcdir/speech_tools/README \
+#                         $pkgdir/usr/share/licenses/$pkgname/LICENSE.other
+#install -D -m644 $srcdir/festival/COPYING $pkgdir/usr/doc/$pkgname-$pkgver/LICENSE
+install -D -m644 $srcdir/speech_tools/README $pkgdir/usr/doc/$pkgname-$pkgver/COPYING.speech_tools
+
+        #################################################################
+        # Ok now some general cleanups
+        for i in `find $pkgdir/usr/include/ -type f`; do
+                sed -i -e 's,"EST.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/\",speech_tools/,g' \
+                -e 's,"siod.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/\",speech_tools/,g' \
+                -e 's,"instantiate/.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/instantiate/\",speech_tools/instantiate/,g' -e 's,"instantiate,instantiate,g' \
+                -e 's,"ling_class/.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/ling_class/\",speech_tools/ling_class/,g' -e 's,"ling_class,ling_class,g'\
+                -e 's,"rxp/.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/rxp/\",speech_tools/rxp/,g' -e 's,"rxp,rxp,g' \
+                -e 's,"sigpr/.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/sigpr/\",speech_tools/sigpr/,g' -e 's,"sigpr,sigpr,g' \
+                -e 's,"unix/.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/unix/\",speech_tools/unix/,g' -e 's,\.h\">,.h\>,g' -e 's,"unix,unix,g' \
+                -e 's,"festival\.h",\<festival/festival.h\>,g' \
+                -e 's,"ModuleDescription\.h",\<festival/ModuleDescription.h\>,g' \
+                -e 's,"Phone\.h",\<festival/Phone.h\>,g' $i
+        done
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+
+festival_festvox (){
+  cd ${srcdir}
+  install -d "${pkgdir}/usr/share/festival/voices/" || exit 1
+
+  cp -rf festival/lib/voices/english "${pkgdir}/usr/share/festival/voices/" || exit 1
+
+install -D -m644 $srcdir/festival/lib/voices/english/ked_diphone/COPYING \
+	$pkgdir/usr/doc/$pkgname-$pkgver/COPYING.voice_ked_diphone
+install -D -m644 $srcdir/festival/lib/voices/english/rab_diphone/COPYING \
+	$pkgdir/usr/doc/$pkgname-$pkgver/COPYING.voice_rab_diphone
+rm -fv $pkgdir/usr/share/festival/voices/english/*/COPYING
+}
+#festival_festvox
+
+
+if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
+ rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
+fi
+
+
+echo ""
+}

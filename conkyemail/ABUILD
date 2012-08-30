@@ -1,0 +1,76 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=conkyemail
+pkgver=2.13
+pkgbuild=2
+#arch=('auto')
+arch=('noarch')
+
+shortdesc="Conky Email"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Email inbox count script with ssl capabilities, for use in Conky"
+)
+
+source=("https://launchpad.net/~conkyhardcore/+archive/ppa/+files/${pkgname}_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-misc utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# 2.11
+#sed -i 's,/usr/bin/python2,/usr/bin/python,g' ${pkgdir}/usr/bin/conkyEmail || exit 1
+
+mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/*egg-info \
+	${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
+rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
+}

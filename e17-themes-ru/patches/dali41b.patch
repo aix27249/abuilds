@@ -1,0 +1,141 @@
+diff -uNrp dali41b.orig/calendar.edc dali41b/calendar.edc
+--- dali41b.orig/calendar.edc	2010-10-15 01:07:10.133279000 +0800
++++ dali41b/calendar.edc	2010-10-15 23:54:40.281000002 +0800
+@@ -5,7 +5,7 @@ images
+ 
+ fonts
+ {
+-	font: "edo.ttf"  "Daliesque";
++	font: "DejaVuSans.ttf"  "Daliesque";
+ }
+ 
+ 	group
+diff -uNrp dali41b.orig/default.edc dali41b/default.edc
+--- dali41b.orig/default.edc	2010-10-15 01:07:10.126279000 +0800
++++ dali41b/default.edc	2010-10-15 23:49:37.034000002 +0800
+@@ -5,11 +5,12 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
+-   font: "CaseyBurns.ttf" "artsy";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
++   font: "DejaVuSans-Bold.ttf" "artsy";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -23,6 +24,7 @@ spectra {
+ 	color: 255 249 231 127 1;
+      }
+ }
++#endif
+ 
+ 
+ collections {
+diff -uNrp dali41b.orig/default_fileman.edc dali41b/default_fileman.edc
+--- dali41b.orig/default_fileman.edc	2010-10-15 01:07:10.129279000 +0800
++++ dali41b/default_fileman.edc	2010-10-15 23:52:28.639000003 +0800
+@@ -9026,6 +9026,7 @@ group 
+ 		    }
+ 	       }
+ 	  }
++#if 0
+ 	part 
+ 	  {
+ 	     name: "grad";
+@@ -9042,6 +9043,7 @@ group 
+ 		  gradient.rel2.offset: -1 0;
+ 	       }
+ 	  }
++#endif
+      }
+ }
+ 
+diff -uNrp dali41b.orig/default_icons.edc dali41b/default_icons.edc
+--- dali41b.orig/default_icons.edc	2010-10-15 01:07:10.128279000 +0800
++++ dali41b/default_icons.edc	2010-10-15 23:51:43.551000001 +0800
+@@ -1819,6 +1819,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1841,6 +1842,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1861,6 +1863,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1879,6 +1882,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1899,6 +1903,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1921,6 +1926,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1941,6 +1947,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1963,6 +1970,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1983,6 +1991,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -2005,6 +2014,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;

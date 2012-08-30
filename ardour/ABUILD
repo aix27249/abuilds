@@ -1,0 +1,28 @@
+pkgname=ardour
+pkgver=2.8.12
+pkgbuild=2
+arch=('auto')
+shortdesc="A multichannel hard disk recorder and digital audio workstation"
+longdesc=("A multichannel hard disk recorder and digital audio workstation"
+)
+source=("ftp://ftp.archlinux.org/other/ardour/${pkgname}-${pkgver}.tar.bz2")
+tags="utils media-sound"
+build_deps="scons liblrdf liblo"
+
+build()
+{
+    go_src_dir
+    sed -i '/-O3/d' SConstruct || exit 1
+
+    scons ARCH="${CFLAGS}" \
+        PREFIX="/usr" \
+		DIST_LIBDIR="lib${LIBDIRSUFFIX}" \
+		FREEDESKTOP=0 \
+		FREESOUND=1 \
+		LV2=0 \
+		DESTDIR="${pkgdir}" || exit 1
+    scons PREFIX="/usr" \
+    	FREEDESKTOP=0 \
+    	FREESOUND=1 \
+    	DESTDIR="${pkgdir}" install || exit 1
+}

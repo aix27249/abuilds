@@ -1,0 +1,78 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libiptcdata
+pkgver=1.0.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libiptcdata (library to manipulate iptc image metadata)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("libiptcdata is a library to manipulate IPTC metadata stored within images.  Metadata can include captions and keywords used by various photo management softwares. Library also allows parsing, viewing, modifying and saving this metadata."
+	  ""
+	  "Homepage: http://libiptcdata.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-python"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+cp -a python/examples $pkgdir/usr/doc/$pkgname-$pkgver
+install -m 0644 python/README $pkgdir/usr/doc/$pkgname-$pkgver/README.PYTHON-BINDINGS
+}

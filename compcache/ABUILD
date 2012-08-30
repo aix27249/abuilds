@@ -1,0 +1,23 @@
+pkgname=compcache
+pkgver=0.6.2
+arch=auto
+pkgbuild=1
+
+tags="sys-fs base"
+shortdesc="compcache: compressed swap in RAM"
+longdesc="This package contains rzscontrol utility to control compressed RAM swap areas. This is a part of compcache project"
+
+source=("http://compcache.googlecode.com/files/compcache-${pkgver}.tar.gz")
+
+build() {
+	set -e
+	go_src_dir
+	burn_patches
+	cd sub-projects/rzscontrol
+	make
+	mkdir -p ${pkgdir}/sbin
+	mkdir -p ${pkgdir}/usr/man/man1
+	install -m0755 rzscontrol ${pkgdir}/sbin/
+	install -m0644 man/rzscontrol.1 ${pkgdir}/usr/man/man1/
+	set +e
+}

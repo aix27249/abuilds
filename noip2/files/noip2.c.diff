@@ -1,0 +1,10 @@
+243c243
+<   #define PREFIX		"/usr/local"
+---
+>   #define PREFIX		"/usr"
+245,246c245,246
+< #define CONFIG_FILEPATH		PREFIX"/etc"
+< #define CONFIG_FILENAME		PREFIX"/etc/no-ip2.conf"
+---
+> #define CONFIG_FILEPATH		"/etc"
+> #define CONFIG_FILENAME		"/etc/no-ip2.conf"

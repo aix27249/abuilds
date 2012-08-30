@@ -1,0 +1,7 @@
+pkgname=webstorm
+
+prodname="JetBrains WebStorm"
+shortdesc="Professional IDE (Integrated Development Environment) for Web developers"
+source="http://download.jetbrains.com/webide/WebStorm-$pkgver.tar.gz"
+
+launcher="WebStorm.sh"

@@ -1,0 +1,71 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=wakeonlan
+pkgver=0.41
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Console-based WOL utility"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Console-based WOL utility"
+)
+
+source=("http://gsd.di.uminho.pt/jpo/software/wakeonlan/downloads/wakeonlan-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console net-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="perl"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+perl Makefile.PL || exit 1
+make || exit 1
+install -D -m0755 ${pkgname} ${pkgdir}/usr/bin/${pkgname} || exit 1
+install -D -m0644 blib/man1/${pkgname}.1 ${pkgdir}//usr/share/man/man1p/${pkgname}.1 || exit 1
+find examples -exec install -D -m0644 '{}' ${pkgdir}/usr/share/doc/${pkgname}/\{\} \; || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

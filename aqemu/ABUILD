@@ -1,0 +1,19 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+pkgname=aqemu
+pkgver=0.8.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="QEMU GUI written in Qt4"
+source=("http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2")
+tags="xapps app-emulation"
+build_deps="qt4 openssl libvncserver openssl"
+adddep="qemu qt4"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+

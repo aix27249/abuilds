@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plasmoid-smooth-tasks
+pkgver=wip_2010_11_06
+pkgbuild=1
+arch=('auto')
+_fname=smooth-tasks-src-${pkgver//_/-}
+shortdesc="A taskbar replacement Plasmoid"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Альтернативный плазмоид для списка задач"
+)
+
+source=("http://kde-look.org/CONTENT/content-files/101586-${_fname}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="kde-misc kde4"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+burn_patches
+rm -rf build
+mkdir -p build                                                                                                       
+cd build                                                                                                          
+cmake .. -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix`                                                            
+make -j${numjobs} || exit 1
+make install DESTDIR=${pkgdir} || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

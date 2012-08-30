@@ -1,0 +1,14 @@
+pkgname=python-configobj
+pkgver=4.7.2
+pkgbuild=1
+shortdesc=("A simple but powerful config file reader and writer for Python")
+longdesc=("A simple but powerful config file reader and writer for Python")
+arch=('auto')
+tags=("libs dev-python")
+source=("http://www.voidspace.org.uk/downloads/configobj-$pkgver.zip")
+
+build() {
+	cd ${srcdir}/configobj-${pkgver}
+	python setup.py install --root=$pkgdir
+	install -Dm644 $filedir/voidspace-license.txt $pkgdir/usr/share/licenses/$pkgname/LICENSE
+}

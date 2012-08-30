@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=tortoisehg
+Comment=Frontend to mercurial
+Exec=thg %f
+Icon=/usr/share/pixmaps/tortoisehg/icons/scalable/apps/thg-logo.svg
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Categories=Development;
+StartupNotify=true

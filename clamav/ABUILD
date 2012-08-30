@@ -1,0 +1,51 @@
+#ABUILD created by/создан: CyberMix, mos.mix at gmail.com 
+pkgname=clamav
+pkgver=0.97.3
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Clam Antivirus"
+longdesc=("Clam AntiVirus is an open source (GPL) anti-virus toolkit for UNIX, designed especially for e-mail scanning on mail gateways. It provides a number of utilities including a flexible and scalable multi-threaded daemon, a command line scanner and advanced tool for automatic database updates. The core of the package is an anti-virus engine available in a form of shared library.")
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="utils app-misc"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--disable-clamav \
+--with-dbdir=/var/lib/clamav \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	install -D -m644 etc/clamd.conf "$pkgdir/etc/clamav/clamd.conf"
+	install -D -m644 etc/freshclam.conf "$pkgdir/etc/clamav/freshclam.conf"
+
+	install -D -m644 ../clamav.logrotate "$pkgdir/etc/logrotate.d/clamav"
+	install -D -m644 ../clamav.confd "$pkgdir/etc/conf.d/clamav"
+	install -D -m755 ../clamav "$pkgdir/etc/rc.d/clamav"
+	
+	groupadd clamav
+	useradd -g clamav clamav
+	
+	mkdir /var/clamav
+	chown clamav:clamav /var/clamav
+	mkdir /var/log/clamav/
+	chown clamav:clamav /var/log/clamav/
+	mkdir /usr/share/clamav
+	chown clamav:clamav /usr/share/clamav
+
+	rm "$pkgdir"/var/lib/clamav/*.cvd
+	touch /var/log/freshclam.log
+	chmod 600 /var/log/freshclam.log
+
+	chown -R clamav:clamav /var/log/clamav
+	chowm clamav:clamav /var/log/freshclam.log
+}

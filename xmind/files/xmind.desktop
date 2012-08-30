@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=xmind
+GenericName[ru]=Утилита визуализации мыслей
+Comment=Mind mapping tool
+Comment[ru]=Утилита визуализации мыслей
+Exec=/opt/xmind/XMind/xmind-bin
+Icon=/usr/share/pixmaps/xmind.png
+Terminal=false
+Type=Application
+Categories=Office
+StartupNotify=true

@@ -1,0 +1,151 @@
+pkgname=xorg-server
+pkgver=1.12.3.902
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xorg-server (The Xorg server, the core of the X Window System)')
+longdesc=('Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware. It now runs on a wider range of hardware and OS platforms. This work was derived by the X.Org Foundation from the XFree86 Projects XFree86 4.4rc2 release. The XFree86 release was originally derived from X386 1.2 by Thomas Roell which was contributed to X11R5 by Snitily Graphics Consulting Service. The home page for the X project is: http://www.x.org')
+
+
+source=("http://xorg.freedesktop.org/archive/individual/xserver/xorg-server-${pkgver}.tar.bz2")
+
+tags="xserver x11-base"
+
+adddep="libglx"
+
+#for multi pkg abuild
+pkglist="xephyr xnest xvfb libglx"
+
+xvfb() {
+	pkgname=xorg-server-xvfb
+
+	shortdesc=('xorg-server-xvfb (virtual framebuffer X server)')
+	longdesc=('Xvfb is an X server that can run on machines with no display hardware and no physical input devices. It emulates a dumb framebuffer using virtual memory. The primary use of this server is intended to be server testing. The mfb or cfb code for any depth can be exercised with this server without the need for real hardware that supports the desired depths. A secondary use is testing clients against unusual depths and screen configurations.')
+}
+
+xnest() {
+	pkgname=xorg-server-xnest
+	shortdesc=('xorg-server-xnest (a nested X server)')
+	longdesc=('Xnest is an experimental nested server for X that acts as both a client and a server. Xnest is a client of the real server which manages windows and graphics requests on its behalf. Xnest is a server to its own clients. Xnest manages windows and graphics requests on their behalf. To these clients Xnest appears to be a conventional server.')
+	
+}
+
+xephyr() {
+	pkgname=xorg-server-xephyr
+	shortdesc=('xorg-server-xephyr (Improved nested X server/client)')
+	longdesc=('Xephyr is a nested X-Client like Xnest, but with some additional features like XRender support.')
+}
+
+libglx() {
+	pkgname=libglx
+	shortdesc=('libglx from xorg-server')
+	longdesc=('libglx from xorg-server')
+}
+
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	BUILD_SERVERS="--enable-xorg \
+		--enable-xvfb \
+		--enable-xnest \
+		--enable-kdrive \
+		--enable-xephyr \
+		--disable-xfbdev"
+
+
+	# Default font paths to be used by the X server
+	DEF_FONTPATH="/usr/share/fonts/local,/usr/share/fonts/TTF,/usr/share/fonts/OTF,/usr/share/fonts/Type1,/usr/share/fonts/misc,/usr/share/fonts/CID,/usr/share/fonts/75dpi/:unscaled,/usr/share/fonts/100dpi/:unscaled,/usr/share/fonts/75dpi,/usr/share/fonts/100dpi,/usr/share/fonts/cyrillic"
+
+	# Fix dbus config path
+	sed -i -e 's/\$(sysconfdir)/\/etc/' config/Makefile.*  || exit 1
+	sed -i -e 's/\$(prefix)\/etc/\/etc/g' config/Makefile.* || exit 1
+
+	CFLAGS="$SLKCFLAGS" \
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--infodir=/usr/info \
+		--mandir=/usr/man \
+		--disable-static \
+		--disable-xfake \
+		--with-pic \
+		--enable-install-setuid \
+		--disable-config-dbus \
+		--enable-config-udev \
+		--disable-glx-tls \
+		--enable-xcsecurity \
+		--enable-dri \
+		--enable-ipv6 \
+		--enable-record \
+		--disable-dmx \
+		--with-default-font-path="${DEF_FONTPATH}" \
+		--with-module-dir=/usr/lib${LIBDIRSUFFIX}/xorg/modules \
+		--with-dri-driver-path=/usr/lib${LIBDIRSUFFIX}/xorg/modules/dri \
+		--with-os-name="AgiliaLinux" \
+		--with-os-vendor="AgiliaLinux Project" \
+		--with-xkb-path=/usr/share/X11/xkb \
+		--with-xkb-output=/var/lib/xkb \
+		$BUILD_SERVERS
+
+	if [ "$ARCH" = "x86_64" ]; then
+		# To prevent the error "No rule to make target `-ldl'"
+		sed -i -e 's#-ldl##' hw/xfree86/Makefile
+		sed -i -e 's#-lm#-lm -ldl#' hw/xfree86/Makefile
+	fi
+
+	make -j${numjobs} || exit 1
+	make install DESTDIR=${pkgdir}
+
+	# Don't mess with my /var/log/ permissions:
+	rmdir ${pkgdir}/var/log
+
+	( cd ${pkgdir}/usr/lib$LIBDIRSUFFIX
+		rm -rf modules
+		ln -sf xorg/modules .
+	)
+
+	# Install sane config files in /etc.
+	install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
+	install -m644 "${filedir}/10-quirks.conf" "${pkgdir}/etc/X11/xorg.conf.d/" || exit 1
+	set +e
+}
+
+xnest_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/bin
+	mv ${p_pkgdir}/usr/bin/Xnest ${pkgdir}/usr/bin/
+	mkdir -p ${pkgdir}/usr/man/man1
+	mv ${p_pkgdir}/usr/man/man1/Xnest.1.gz ${pkgdir}/usr/man/man1/
+	set +e
+}
+
+xvfb_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/bin
+	mv ${p_pkgdir}/usr/bin/Xvfb ${pkgdir}/usr/bin/
+	mkdir -p ${pkgdir}/usr/man/man1
+	mv ${p_pkgdir}/usr/man/man1/Xvfb.1.gz ${pkgdir}/usr/man/man1
+	set +e
+}
+
+xephyr_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/bin
+	mv ${p_pkgdir}/usr/bin/Xephyr ${pkgdir}/usr/bin/
+	mkdir -p ${pkgdir}/usr/man/man1
+	mv ${p_pkgdir}/usr/man/man1/Xephyr.1.gz ${pkgdir}/usr/man/man1/
+	set +e
+}
+
+libglx_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/
+	mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions/libglx.* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions/
+	set +e
+}
+
+

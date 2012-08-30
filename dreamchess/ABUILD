@@ -1,0 +1,122 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dreamchess
+pkgver=0.2.0
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="DreamChess is an open source chess game"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("DreamChess is a user interface for playing chess. It comes with its own
+engine called Dreamer. Both DreamChess and Dreamer are compatible with the
+xboard/Winboard chess engine communication protocol."
+""
+"Homepage: http://www.dreamchess.org"
+)
+
+source=("http://download.berlios.de/${pkgname}/${pkgname}-${pkgver}.tar.gz"
+"https://aur.archlinux.org/packages/dreamchess/dreamchess/dreamchess.desktop"
+"https://aur.archlinux.org/packages/dreamchess/dreamchess/add-lpthread.diff"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="virtual games-board"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="dreamchess-bin dreamchess-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/docs/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# https://aur.archlinux.org/packages.php?ID=14019
+
+    cd $srcdir/$pkgname-$pkgver
+
+    # Patch
+    patch -Np1 -i $srcache/add-lpthread.diff || exit 1
+    autoreconf -i
+    
+    install -Dm 644 $srcache/dreamchess.desktop \
+	    $pkgdir/usr/share/applications/dreamchess.desktop || exit 1
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+# Bin
+bin(){
+	pkgname="dreamchess-bin"
+	arch=('auto')
+	shortdesc="Binary files for DreamChess"
+	tags="games games-board"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv -v ${p_pkgdir}/usr/bin ${pkgdir}/usr
+}
+
+# Data
+data(){
+	pkgname="dreamchess-data"
+	arch=('noarch')
+	shortdesc="Data files for DreamChess"
+	#longdesc=("data files for dreamchess")
+	tags="games games-board"
+	adddep="dreamchess-bin"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/* ${pkgdir}/usr || exit 1
+}

@@ -1,0 +1,38 @@
+pkgname=ffcall
+pkgver=1.10
+pkgbuild=4
+arch=('auto')
+shortdesc="C library for implementing foreign function calls in embedded interpreters"
+source=("http://www.haible.de/bruno/gnu/${pkgname}-${pkgver}.tar.gz")
+tags="develop dev-libs"
+numjobs=1
+
+before_build()
+{
+	[ "$ARCH" = "x86_64" ] && CONFIGFLAG="-with-pic"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+$CONFIGFLAG"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	set -e
+	# Moving html docs to proper place
+	mv $pkgdir/usr/share/html/ $pkgdir/usr/doc/$pkgname-$pkgver/
+	rmdir $pkgdir/usr/share
+	set +e
+}

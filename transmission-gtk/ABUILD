@@ -1,0 +1,78 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=transmission
+pkgver=2.60
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Fast, easy, and free BitTorrent client"
+longdesc=("$shortdesc")
+
+source="http://mirrors.m0k.org/transmission/files/${pkgname}-${pkgver}.tar.bz2"
+
+tags="virtual net-p2p"
+
+adddep="transmission-cli transmission-gtk transmission-qt"
+
+provides="transmission"
+pkglist="cli gtk qt"
+
+build() {
+	go_src_dir
+	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure --prefix=/usr || sh
+	make -j${numjobs}
+	cd qt
+	qmake qtr.pro
+	make -j${numjobs}
+}
+
+cli()
+{
+	pkgname="transmission-cli"
+	shortdesc="Daemon and CLI tools for Transmission"
+
+	tags="network net-p2p"
+	longdesc=$shortdesc
+}
+cli_prep()
+{
+	go_src_dir
+	set -e
+	for dir in daemon cli web utils ; do
+		make -C "${dir}" DESTDIR=$pkgdir install
+	done
+	set +e
+}
+gtk()
+{
+	pkgname="transmission-gtk"
+	shortdesc="GTK GUI for Transmission"
+	longdesc=$shortdesc
+	adddep="transmission-cli"
+	tags="xapps net-p2p"
+}
+gtk_prep() {
+	go_src_dir
+	set -e
+	make -C gtk DESTDIR=$pkgdir install
+	make -C po DESTDIR=$pkgdir install
+	set +e
+}
+qt()
+{
+	pkgname="transmission-qt"
+	shortdesc="Qt GUI for Transmission"
+	longdesc=$shortdesc
+	adddep="transmission-cli"
+	tags="xapps net-p2p"
+}
+qt_prep()
+{
+	go_src_dir
+	set -e
+	make -C qt INSTALL_ROOT=$pkgdir/usr install
+	mkdir -p $pkgdir/usr/share/pixmaps/
+	mkdir -p $pkgdir/usr/share/applications/
+	cp qt/icons/transmission.png "$pkgdir/usr/share/pixmaps/transmission-qt.png"
+	cp qt/transmission-qt.desktop "$pkgdir/usr/share/applications/transmission-qt.desktop"
+	set +e
+}

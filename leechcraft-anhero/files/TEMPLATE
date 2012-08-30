@@ -1,0 +1,28 @@
+**TEMPLATE**()
+{
+	pkgname=leechcraft-**TEMPLATE**
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft **TEMPLATE** plugin"
+}
+
+**TEMPLATE**_prep()
+{
+	go_src_dir
+	cd src/plugins/**TEMPLATE**
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}

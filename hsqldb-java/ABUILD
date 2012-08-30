@@ -1,0 +1,74 @@
+#ABUILD created by/создан: drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=hsqldb-java
+pkgver=1.8.0.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="HSQLDB Java libraries"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("HSQLDB Java libraries"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/hsqldb/hsqldb_${pkgver//./_}.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs sys-libs"
+
+#dependencies only needed to build package
+build_deps="apache-ant"
+
+provides=""
+conflicts=""
+
+adddep="jre"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+cd build
+ant jar
+mkdir -p ${pkgdir}/usr/share/java
+install -m644 ${srcdir}/hsqldb/lib/hsqldb.jar ${pkgdir}/usr/share/java/
+
+mkdir -p ${pkgdir}/usr/share/licenses/${pkgname}
+install -m644 ${srcdir}/hsqldb/doc/hsqldb_lic.txt ${pkgdir}/usr/share/licenses/${pkgname}/
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

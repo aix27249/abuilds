@@ -1,0 +1,16 @@
+--- blueman-1.21/blueman/plugins/applet/PulseAudio.py.orig	2009-10-20 00:16:02.000000000 +0400
++++ blueman-1.21/blueman/plugins/applet/PulseAudio.py	2012-03-25 17:16:37.929678956 +0400
+@@ -112,8 +112,11 @@
+ 		version = self.pulse_utils.GetVersion()
+ 		dprint("PulseAudio version:", version)
+ 		
+-		if int(version.split(".")[2]) < 15:
+-			raise Exception("PulseAudio too old, required 0.9.15 or higher")
++		if int(version.split(".")[0]) == 0:
++			if int(version.split(".")[1]) == 9 and int(version.split(".")[2]) < 15:
++				raise Exception("PulseAudio too old, required 0.9.15 or higher")
++			elif int(version.split(".")[1]) < 9:
++				raise Exception("PulseAudio too old, required 0.9.15 or higher")
+ 		
+ 		self.signals.Handle("dbus", self.bus, self.on_sink_prop_change, "PropertyChanged", "org.bluez.AudioSink", path_keyword="device")
+ 		self.signals.Handle("dbus", self.bus, self.on_source_prop_change, "PropertyChanged", "org.bluez.AudioSource", path_keyword="device")

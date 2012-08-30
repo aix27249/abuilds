@@ -1,0 +1,53 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=droid-fonts-ttf
+pkgver=20100513
+pkgbuild=2
+arch=('noarch')
+shortdesc="A font created by Ascender Corporation for use by the Open Handset Alliance platform, Android."
+longdesc=("Набор шрифтов, созданный корпорацией Ascender для использования на платформе Android"
+)
+
+source=("http://archlinux.puzzle.ch/files/ttf-droid-$pkgver.tar.gz")
+docs=("${filedir}/MODULE_LICENSE_APACHE2 ${filedir}/NOTICE ${filedir}/README.txt")
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="media-fonts xserver"     #short and long tags / длинный и короткий тег
+adddep=""
+removedep=""
+
+author=Unnamed_Hero
+email=sorry@email.hide
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+install -dm755 ${pkgdir}/usr/share/fonts/TTF
+for file in *
+do
+install -m644 ${file} ${pkgdir}/usr/share/fonts/TTF
+done
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

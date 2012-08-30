@@ -1,0 +1,66 @@
+#ABUILD created by/создан: NorthMan, north-man1 at ya.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+
+pkgname=py-protobuf
+pkgver=2.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Google's Protocol Buffers - an method of encoding structured data"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Привязка библиотеки Protobuf к Python"
+)
+
+source=("http://protobuf.googlecode.com/files/protobuf-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+
+tags="libs dev-python"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="protobuf==2.3.0"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+  echo ""
+}
+
+build()
+{
+  go_src_dir
+  cd ./python
+  burn_patches
+  python setup.py install --root=${pkgdir}
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+  echo ""
+}

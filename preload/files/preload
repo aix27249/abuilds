@@ -1,0 +1,23 @@
+#!/sbin/runscript
+
+description="Readahead daemon"
+
+if [ -f /etc/conf.d/preload ]; then
+	. /etc/conf.d/preload
+fi
+
+# Check for min memory
+MIN_MEMORY=${MIN_MEMORY:-256}
+free -m | awk  '/Mem:/ {exit ($2 >= ('"$MIN_MEMORY"'))?0:1}' || exit 0
+
+start() {
+	ebegin "Starting preload"
+	start-stop-daemon --start --exec /usr/sbin/preload -- $PRELOAD_OPTS
+	eend $? "Failed to start preload"
+}
+
+stop() {
+	ebegin "Stopping preload"
+	start-stop-daemon --stop --exec /usr/sbin/preload
+	eend $? "Failed to stop preload"
+}

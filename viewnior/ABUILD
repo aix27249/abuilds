@@ -1,0 +1,30 @@
+pkgname=viewnior
+pkgver=1.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Simple & lightweight image viewer program"
+
+source=("http://cloud.github.com/downloads/xsisqox/Viewnior/${pkgname}-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="media-gfx xapps"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-nls \
+--enable-wallpaper \
+--enable-shave"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

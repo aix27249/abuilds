@@ -1,0 +1,55 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=foo2zjs
+pkgver=`date +%Y%m%d`
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A linux printer driver for ZjStream protocol"
+
+source=("http://foo2zjs.rkkda.com/foo2zjs.tar.gz")
+
+tags="net-print drivers"
+
+build_deps="make gcc bc groff"
+
+adddep="ghostscript foomatic-filters foomatic-db"
+
+before_build(){
+go_src_dir
+ install -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}/cups/filter
+ install -d ${pkgdir}/usr/share/{applications,pixmaps,cups/model}
+ install -d ${pkgdir}/usr/share/foomatic/db/source/{driver,opt,printer}
+ sed '/$(USBDIR)\/hplj1000 install-usblp/d' -i Makefile
+ echo "End before_build"
+}
+
+build() {
+ go_src_dir
+ burn_patches
+ make || exit 1
+ #Принтеры HP LaserJet 1000, 1005, 1018 и 1020 сразу после включения питания не
+ #имеют в себе прошивку (firmware, arm binary). Операционная система при обнаружении
+ #принтера должна "залить" в него необходимую прошивку и после этого работать как с
+ #обычным принтером. Качаем прошивку!
+ for model in $(grep 'getone ' getweb.in | \
+     cut -d'#' -f1 | awk '{ print $2; }'); do
+     if [[ $model != '$i' ]]; then
+         ./getweb $model || true
+     fi
+ done
+ make DESTDIR=${pkgdir} install install-hotplug-prog \
+      DOCDIR=${pkgdir}/usr/doc/foo2zjs \
+      MANDIR=${pkgdir}/usr/man \
+      CUPS_SERVERBIN=${pkgdir}/usr/lib${LIBDIRSUFFIX}/cups \
+      UDEVDIR=${pkgdir}/etc/udev/rules.d \
+      LIBUDEVDIR=${pkgdir}/lib${LIBDIRSUFFIX}/udev/rules.d \
+      USBDIR=${pkgdir}/etc/hotplug/usb || exit 1
+ echo "End build"
+}
+
+after_build(){
+ rm ${pkgdir}/usr/share/foomatic/db/source/printer/*.xml
+ rm ${pkgdir}/usr/share/foomatic/db/source/driver/*.xml
+ echo "End after_build"
+}

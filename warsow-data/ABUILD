@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=warsow-data
+_fullver=0.61
+pkgver=0.62
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A fast-paced FPS game based on Qfusion engine."
+
+source=("http://www.zcdn.org/dl/warsow_${_fullver}_unified.zip n"
+	"http://www.zcdn.org/dl/warsow_${pkgver}_update.zip n")
+
+tags="games games-fps"
+
+build()
+{
+    go_src_dir
+    mkdir -p $pkgdir/opt/warsow
+    unzip -o $srcache/warsow_0.61_unified.zip
+    unzip -o $srcache/warsow_0.62_update.zip -d warsow_0.61_unified
+    cp -r warsow_0.61_unified/basewsw $pkgdir/opt/warsow
+}

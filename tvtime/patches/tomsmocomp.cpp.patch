@@ -1,0 +1,29 @@
+--- tvtime-1.0.2/plugins/tomsmocomp.cpp	2004-10-21 04:38:04.000000000 +1100
++++ tomsmocomp.cpp	2010-06-02 13:43:46.000000000 +1100
+@@ -31,7 +31,7 @@
+ 
+ #define IS_MMX
+ #define SSE_TYPE MMX
+-#define FUNCT_NAME DScalerFilterTomsMoComp::filterDScaler_MMX
++#define FUNCT_NAME filterDScaler_MMX
+ #include "tomsmocomp/TomsMoCompAll.inc"
+ #undef  IS_MMX
+ #undef  SSE_TYPE
+@@ -39,7 +39,7 @@
+ 
+ #define IS_3DNOW
+ #define SSE_TYPE 3DNOW
+-#define FUNCT_NAME DScalerFilterTomsMoComp::filterDScaler_3DNOW
++#define FUNCT_NAME filterDScaler_3DNOW
+ #include "tomsmocomp/TomsMoCompAll.inc"
+ #undef  IS_3DNOW
+ #undef  SSE_TYPE
+@@ -47,7 +47,7 @@
+ 
+ #define IS_SSE
+ #define SSE_TYPE SSE
+-#define FUNCT_NAME DScalerFilterTomsMoComp::filterDScaler_SSE
++#define FUNCT_NAME filterDScaler_SSE
+ #include "tomsmocomp/TomsMoCompAll.inc"
+ #undef  IS_SSE
+ #undef  SSE_TYPE

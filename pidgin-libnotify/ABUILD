@@ -1,0 +1,23 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+pkgname=pidgin-libnotify
+pkgver=0.14
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Patched pidgin-libnotify version for notify-osd"
+source=("http://downloads.sourceforge.net/sourceforge/gaim-libnotify/$pkgname-$pkgver.tar.gz")
+tags="net-im network"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-deprecated \
+--enable-static=no"
+INSTALL_KEYS="DESTDIR=$pkgdir"

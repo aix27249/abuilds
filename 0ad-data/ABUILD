@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=0ad-data
+pkgver=alpha10
+_pkgver=r11863-alpha
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A cross-platform, open source 3D strategy game"
+
+source=("http://releases.wildfiregames.com/0ad-$_pkgver-unix-data.tar.xz")
+
+tags="games games-strategy"
+
+build()
+{
+  go_src_dir
+  burn_patches
+  install -d ${pkgdir}/opt/0ad
+  cp -r binaries/* ${pkgdir}/opt/0ad
+}

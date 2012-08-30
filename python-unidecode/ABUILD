@@ -1,0 +1,12 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=python-unidecode
+pkgver=0.04.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Unicode to ASCII converter/translator"
+source="http://pypi.python.org/packages/source/U/Unidecode/Unidecode-${pkgver}.tar.gz"
+
+tags="libs app-text"
+
+BUILD_SYSTEM="python"

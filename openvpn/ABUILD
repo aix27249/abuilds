@@ -1,0 +1,47 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=openvpn
+pkgver=2.2.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="An easy-to-use, robust, and highly configurable VPN (Virtual Private Network)"
+
+source=("http://swupdate.openvpn.net/community/releases//${pkgname}-${pkgver}.tar.gz")
+
+tags="network net-misc"
+
+build_deps="gcc ccache openssl"
+
+adddep="lzo openssl-solibs linux-pam"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc/openvpn \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--enable-password-save"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+ go_src_dir
+ mkdir -p ${pkgdir}/etc/${pkgname}
+ make -C easy-rsa/2.0 install DESTDIR=${pkgdir} PREFIX=/usr/share/openvpn/easy-rsa
+ cp -a sample-config-files ${pkgdir}/usr/share/openvpn/sample-config-files
+ cp -a sample-keys ${pkgdir}/usr/share/openvpn/sample-keys
+ cp -a sample-scripts ${pkgdir}/usr/share/openvpn/sample-scripts
+ for plug in auth-pam down-root; do
+     cd ${srcdir}/${pkgname}-${pkgver}/plugin/${plug}
+     make || return 1
+     install -D -m755 openvpn-${plug}.so ${pkgdir}/usr/lib${LIBDIRSUFFIX}/openvpn/openvpn-${plug}.so || return 1
+ done
+ mv ${pkgdir}/usr/share/doc/openvpn/management-notes.txt ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+ rm -r ${pkgdir}/usr/share/doc/
+ install -D -m755 ${startdir}/files/openvpn ${pkgdir}/etc/init.d/openvpn || return 1
+ echo "End after_build"
+}

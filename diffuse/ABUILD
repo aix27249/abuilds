@@ -1,0 +1,81 @@
+#ABUILD created by/создан: vk, aka.kloun at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=diffuse
+pkgver=0.4.4
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Diffuse is a graphical tool for merging and comparing text files."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Diffuse is a graphical tool for merging and comparing text files.  Diffuse is
+able to compare an arbitrary number of files side-by-side and gives users the
+ability to manually adjust line matching and directly edit files.  Diffuse can
+also retrieve revisions of files from Bazaar, CVS, Darcs, Git, Mercurial,
+Monotone, RCS, Subversion, and SVK repositories for comparison and merging.
+
+Some key features of Diffuse:
+- ability to compare and merge an arbitrary number of files side-by-side (n-way merges)
+- line matching can be manually corrected by the user
+- ability to directly edit files
+- syntax highlighting
+- Bazaar, CVS, Darcs, Git, Mercurial, Monotone, RCS, Subversion, and SVK support
+- Unicode support
+- unlimited undo
+- easy keyboard navigation")
+
+source=("http://sourceforge.net/projects/diffuse/files/diffuse/0.4.4/diffuse-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-text"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="python>=2.4 pygtk>=2.10"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="skip_gendeps"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+./install.py --prefix=/usr --mandir=/usr/man --destdir=${pkgdir}  --files-only
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

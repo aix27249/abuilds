@@ -1,0 +1,30 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lm_sensors
+pkgver=3.3.2
+pkgbuild=4
+arch=('auto')
+
+shortdesc="Lm_sensors - Linux hardware monitoring"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(" ")
+
+source=("http://dl.lm-sensors.org/$pkgname/releases/$pkgname-$pkgver.tar.bz2")
+tags="console sys-apps"
+
+build()
+{
+
+
+go_src_dir
+burn_patches
+
+  sed -i -e 's|/etc/sysconfig|/etc/conf.d|' \
+         -e 's|/etc/init.d/lm_sensors|/etc/rc.d/sensors|' prog/{detect/sensors-detect,init/lm_sensors.service}
+make PREFIX=/usr LIBDIR=/usr/lib${LIBDIRSUFFIX} DESTDIR=$pkgdir install
+mkdir -p ${pkgdir}/etc/init.d
+cp ${filedir}/lm_sensors ${pkgdir}/etc/init.d
+chmod 755 ${pkgdir}/etc/init.d/lm_sensors
+}
+

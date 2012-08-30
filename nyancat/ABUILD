@@ -1,0 +1,17 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=nyancat
+pkgver=0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="NYAAAAN CAAAAT"
+
+source="git:https://github.com/djui/nyancat.git"
+
+tags="console app-misc"
+
+build() {
+	go_src_dir
+	autoconf && ./configure && make
+	install -Dm755 bin/nyancat $pkgdir/usr/bin/nyancat
+}

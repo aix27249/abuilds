@@ -1,0 +1,17 @@
+#!/sbin/runscript
+
+depend() {
+	use logger acpid
+	after coldplug dns nscd consolefont keymaps
+	provide xdm
+}
+
+start() {
+	ebegin "Starting X11 login with Elsa..."
+	start-stop-daemon --start -q -b --exec '/usr/sbin/elsa' --pidfile /var/run/elsa.pid
+}
+
+stop() {
+	ebegin "Stopping X11 login with Elsa..."
+	start-stop-daemon --stop -q --pidfile /var/run/elsa.pid 
+}

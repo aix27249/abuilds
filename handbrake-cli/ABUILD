@@ -1,0 +1,38 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=handbrake
+pkgver=0.9.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A multithreaded gstreamer-based video ripper/transcoder "
+
+source="svn:svn://svn.handbrake.fr/HandBrake/trunk"
+
+tags="xapps media-video"
+
+pkglist="cli"
+
+adddep="handbrake-cli"
+
+cli()
+{
+	pkgname=handbrake-cli
+	shortdesc="Handbrake console tool"
+	tags="console media-video"
+}
+
+cli_prep()
+{
+	mkdir -p $pkgdir/usr/bin/
+	mv $p_pkgdir/usr/bin/HandBrakeCLI $pkgdir/usr/bin
+}
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./configure --prefix=/usr --force --disable-gtk-update-checks
+	cd build
+	make 
+	make DESTDIR=$pkgdir install
+}

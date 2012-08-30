@@ -1,0 +1,32 @@
+#!/sbin/runscript
+# Copyright 2011 Agilia Linux team/fat0troll
+# Distributed under the terms of the GNU General Public License, v2 or later
+# Special thanks goes to Gentoo
+
+depend() {
+	need localmount
+	use consolekit xfs
+	provide bumblebee
+	after bootmisc
+	after consolefont
+	after modules
+	after netmount
+	after readahead-list
+	after ypbind autofs
+	after openvpn
+	after gpm
+	after lircmd
+	after quota
+	before alsasound
+	after $DM
+}
+
+start() {
+	ebegin "Starting Bumblebee daemon..."
+	start-stop-daemon --start -q --exec /usr/sbin/bumblebee --pidfile /var/run/bumblebee.pid -b -P -- -d
+}
+
+stop() {
+	ebegin "Stopping Bumblebee daemon..."
+	start-stop-daemon --stop -q --pidfile /var/run/bumblebee.pid 
+}

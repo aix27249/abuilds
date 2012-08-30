@@ -1,0 +1,35 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=MPlayer2-git
+pkgver=2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A fork of MPlayer with some patches."
+
+source="git:git://git.mplayer2.org/mplayer2-build.git"
+
+tags="xapps media-video"
+
+provides="MPlayer"
+
+build()
+{
+	go_src_dir
+	./clean
+	./init --shallow
+
+	# DO NOT TOUCH THE NEWLINE.
+	# EVAR.
+	echo "
+	--prefix=/usr
+	--language=all
+	--disable-pulse
+	--enable-runtime-cpudetection" >> mplayer_options
+	make -j$numjobs
+	make DESTDIR="$pkgdir" install
+}
+
+after_build()
+{
+	rm -rf $pkgdir/usr/lib # WTF?
+}

@@ -1,0 +1,83 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=elinks
+pkgver=0.12pre5
+pkgbuild=2
+arch=('auto')
+
+shortdesc="ELinks (text-based console web browser)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("ELinks is an advanced and well-established feature-rich text mode web (HTTP/FTP/..) browser. ELinks can render both frames and tables, is highly customizable and can be extended via Lua or Guile scripts. It is quite portable and runs on a variety of platforms. ELinks is an Open Source project covered by the GNU GPL."
+	  ""
+	  "Homepage: http://elinks.cz"
+)
+
+source=("http://elinks.cz/download/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="network www-client"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-bittorrent \
+--enable-cgi \
+--enable-finger \
+--enable-fsp \
+--enable-nntp \
+--enable-smb \
+--enable-88-colors \
+--enable-256-colors \
+--enable-exmode \
+--enable-html-highlight \
+--enable-fastmem \
+--with-xterm \
+--with-spidermonkey \
+--with-guile \
+--with-perl \
+--with-python \
+--with-lua \
+--with-openssl=/usr/lib${LIBDIRSUFFIX} \
+--with-x \
+--with-libiconv=/usr"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

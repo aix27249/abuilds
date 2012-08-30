@@ -1,0 +1,18 @@
+pkgname=fontsproto
+pkgver=2.1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('fontsproto')
+longdesc=('fontsproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-protos xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/proto/fontsproto-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

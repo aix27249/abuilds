@@ -1,0 +1,92 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openarena
+pkgver=0.8.5
+ver=0.8.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="OpenArena (Quake-style FPS)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("A violent, sexy, multiplayer first person shooter based on the ioquake3 engine"
+)
+
+source=("http://download.tuxfamily.org/$pkgname/rel/081/oa081.zip"
+"http://download.tuxfamily.org/$pkgname/rel/085/oa085p.zip"
+"http://openarena.ws/svn/source/081/$pkgname-engine-$ver-1.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-fps"
+
+#dependencies only needed to build package
+build_deps="openal"
+
+provides=""
+conflicts=""
+
+adddep="openarena-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+cd $srcdir/$pkgname-engine-$ver
+make DEFAULT_BASEDIR=/usr/share/$pkgname \
+	BUILD_CLIENT_SMP=0 \
+	USE_LOCAL_HEADERS=0 \
+	GENERATE_DEPENDENCIES=0 \
+	OPTIMIZE= || exit 1
+install -d $pkgdir/usr/{bin,share/{$pkgname,applications,pixmaps}}
+make COPYDIR=$pkgdir/usr/share/$pkgname copyfiles || exit 1
+if [ "$ARCH" = "x86_64" ] ; then
+	mv -f $pkgdir/usr/share/$pkgname/$pkgname.$ARCH \
+		$pkgdir/usr/bin/$pkgname
+	mv -f $pkgdir/usr/share/$pkgname/oa_ded.$ARCH \
+		$pkgdir/usr/bin/$pkgname-server
+else
+	mv -f $pkgdir/usr/share/$pkgname/$pkgname.i386 \
+		$pkgdir/usr/bin/$pkgname
+	mv -f $pkgdir/usr/share/$pkgname/oa_ded.i386 \
+		$pkgdir/usr/bin/$pkgname-server
+fi
+find $pkgdir/usr/share -type -f -exec chmod 644 {} +
+install -m 644 $filedir/$pkgname{,-server}.png \
+	$pkgdir/usr/share/pixmaps/
+install -m 644 $filedir/$pkgname{,-server}.desktop $pkgdir/usr/share/applications/
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

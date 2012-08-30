@@ -1,0 +1,15 @@
+pkgname=winetricks
+pkgver=20120308
+pkgbuild=1
+arch=('noarch')
+shortdesc="Script to install various redistributable runtime libraries in wine mostly without needness for Windows license"
+source=("http://www.kegel.com/wine/winetricks")
+tags="console app-emulation"
+adddep="wine>=1.3 p7zip wget zenity cabextract"
+
+build()
+{
+	set -e
+	install -Dm755 $srcache/$loc_source_arr $pkgdir/usr/bin/winetricks
+	set +e
+}

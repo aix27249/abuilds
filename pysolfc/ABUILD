@@ -1,0 +1,70 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pysolfc
+pkgver=2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PySolFC (a solitaire suite)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("PySolFC is a colection of more than 1000 solitaire card games. It is a fork of the no longer maintained PySol Solitaire. There are games that use the 52 card International Pattern deck, games for the 78 card Tarock deck, eight and ten suite Ganjifa games, Hanafuda games, Matrix games, Mahjongg games, and games for an original hexadecimal-based deck.  PySolFC features a modern look and feel, multiple cardsets and backgrounds, sound, unlimited undo, player statistics, and much more."
+	  ""
+	  "PySolFC is distributed under the terms of the GNU GPL."
+	  ""
+	  "Homepage: http://pysolfc.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/pysolfc/PySolFC-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-board"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pygame>=1.9.1 pil>=1.1.6 tk>=8.5.7"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p $pkgdir/usr/man/man6
+cat docs/pysol.6 > $pkgdir/usr/man/man6/pysol.6
+}

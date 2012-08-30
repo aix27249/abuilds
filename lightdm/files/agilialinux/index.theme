@@ -1,0 +1,7 @@
+[theme]
+name=AgiliaLinux Theme
+description=AgiliaLinux Theme
+engine=lightdm-example-gtk-greeter
+session=gnome
+gtkrc=gtkrc
+background-image=bg.jpg

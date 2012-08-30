@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=gavl
+pkgver=1.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A low level library for multimedia"
+longdesc=("A low level multimedia library. Part of gmerlin")
+
+source=("http://downloads.sourceforge.net/sourceforge/gmerlin/${pkgname}-${pkgver}.tar.gz")
+
+tags="develop dev-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--without-doxygen"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

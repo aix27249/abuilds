@@ -1,0 +1,39 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=fuse-exfat
+pkgver=0.9.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Free exFAT file system implementation"
+
+source=("http://exfat.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="base sys-fs"
+
+#dependencies only needed to build package
+build_deps="scons"
+
+adddep="fuse"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+
+go_src_dir
+
+	scons || return 1
+	mkdir -p ${pkgdir}/sbin/
+	scons install DESTDIR=${pkgdir}/sbin || return 1
+	mkdir -p ${pkgdir}/usr/share/man/man8/
+	gzip -9 -c fuse/mount.exfat-fuse.8 > ${pkgdir}/usr/share/man/man8/mount.exfat-fuse.8.gz
+
+}
+

@@ -1,0 +1,14 @@
+ipcp-accept-local
+ipcp-accept-remote
+defaultroute
+lock
+noauth
+refuse-eap
+refuse-pap
+nobsdcomp
+noaccomp
+nopcomp
+novj
+novjccomp
+noccp
+nodeflate

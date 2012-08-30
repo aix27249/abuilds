@@ -1,0 +1,11 @@
+--- vim73/runtime/filetype.vim.orig	2010-08-04 00:44:00.000000000 +0400
++++ vim73/runtime/filetype.vim	2010-08-17 14:47:42.945000033 +0400
+@@ -1712,7 +1712,7 @@
+ 
+ " Shell scripts (sh, ksh, bash, bash2, csh); Allow .profile_foo etc.
+ " Gentoo ebuilds are actually bash scripts
+-au BufNewFile,BufRead .bashrc*,bashrc,bash.bashrc,.bash_profile*,.bash_logout*,*.bash,*.ebuild call SetFileTypeSH("bash")
++au BufNewFile,BufRead .bashrc*,bashrc,bash.bashrc,.bash_profile*,.bash_logout*,*.bash,*.ebuild,*ABUILD call SetFileTypeSH("bash")
+ au BufNewFile,BufRead .kshrc*,*.ksh call SetFileTypeSH("ksh")
+ au BufNewFile,BufRead /etc/profile,.profile*,*.sh,*.env call SetFileTypeSH(getline(1))
+ 

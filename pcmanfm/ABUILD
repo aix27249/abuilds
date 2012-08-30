@@ -1,0 +1,75 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pcmanfm
+pkgver=0.9.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="an extremely fast and lightweight file manager"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("PCMan File Manager is a gtk2 based file manager for the X Window System. Features: * Extremly fast and lightweight * Can be started in one second on normal machine * Tabbed browsing (similar to Firefox) * Drag & Drop support * Files can be dragged among tabs * Load large directories in reasonable time * File association support (Default application) * Basic thumbnail support * Bookmarks support * Handles non-UTF-8 encoded filenames correctly * Provide icon view and detailed list view * Standard compliant (Follows FreeDesktop.org) * Clean and user-friendly interface (GTK+ 2) * Support udisks for auto-mount handling on removable devices")
+
+source=("http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-misc"
+
+#dependencies only needed to build package
+build_deps="libfm"
+
+provides=""
+conflicts=""
+
+adddep="udisks>=1.0.1 ConsoleKit>=0.4.1"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+# custom_opts="no_strip"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--enable-shared \
+--mandir=/usr/man \
+--enable-largefile \
+--disable-cast-checks \
+--disable-debug \
+--enable-nls"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

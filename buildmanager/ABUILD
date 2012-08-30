@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=buildmanager
+pkgver=0.0.0.5
+pkgbuild=1
+arch=('auto')
+archsuffix="$(uname -m)"
+
+shortdesc="build manager"
+
+source=("https://sourceforge.net/projects/buildmanager/files/${pkgver%.*}/${pkgname}-${pkgver}-${archsuffix}.tar")
+
+tags="dev-util develop"
+
+build_deps=""
+adddep="mkpkg"
+
+build(){
+ go_src_dir
+ cp -R ${srcdir}/* ${pkgdir}
+ echo "End build"
+}
+

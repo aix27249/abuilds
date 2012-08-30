@@ -1,0 +1,114 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=violetland
+pkgver=0.4.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="An open source cross-platform game similar to Crimsonland"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Violetland - это кроссплатформенный клон игры crimsonland с открытым исходным кодом. Девушка по имени Вайлет сражается с полчищами монстров. Code license: GNU GPL v3. Content license: Creative Commons 3.0 BY-SA. Сайт: http://code.google.com/p/violetland"
+)
+
+source=("http://violetland.googlecode.com/files/violetland-v${pkgver}-src.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+#tags="virtual games-action"
+tags="games games-action"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-bin" # ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin" # data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+if [ ! -f $pkgdir/usr/share/applications/violetland.desktop ]; then
+ go_src_dir
+ mkdir -p $pkgdir/usr/share/applications || exit 1
+
+ cat violetland.desktop > \
+	 $pkgdir/usr/share/applications/violetland.desktop || exit 1
+
+ sed -i 's|Icon=violetland|Icon=/usr/share/violetland/icon-light.png|' \
+	 $pkgdir/usr/share/applications/violetland.desktop || exit 1
+fi
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for Violetland"
+	#-ruler---|--------------------------------------------------------------------------|
+	longdesc=("An open source cross-platform game similar to Crimsonland")
+	tags="games games-action"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
+}
+
+# Data
+data(){
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for Violetland"
+	#-ruler---|--------------------------------------------------------------------------|
+	longdesc=("An open source cross-platform game similar to Crimsonland")
+	tags="games games-action"
+	adddep="${p_pkgname}-bin==${pkgver}"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+
+ mv ${p_pkgdir}/opt ${pkgdir} || exit 1
+}

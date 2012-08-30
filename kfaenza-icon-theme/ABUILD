@@ -1,0 +1,16 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kfaenza-icon-theme
+pkgver=0.8.9
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Faenza icons ported for KDE"
+source="http://omploader.org/vYjR0NQ"
+tags="themes x11-themes"
+custom_opts="no_strip skip_gendeps"
+
+build() {
+	go_src_dir
+	_path=$pkgdir/usr/share/icons/KFaenza
+	mkdir -p $_path && cp -R * $_path
+}

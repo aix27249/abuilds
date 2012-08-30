@@ -1,0 +1,68 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libx86emu
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="x86 emulation library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Small x86 emulation library with focus of easy usage and extended execution logging functions.")
+
+source=("git:git://gitorious.org/x86emu/libx86emu.git")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+cd ${srcdir}/${pkgname}.src
+burn_patches
+make LIBDIR=/usr/lib${LIBDIRSUFFIX}
+make LIBDIR=/usr/lib${LIBDIRSUFFIX} DESTDIR=${pkgdir} install
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+install -Dm644 LICENSE ${pkgdir}/usr/share/${pkgname}/LICENSE
+}

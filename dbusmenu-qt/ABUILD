@@ -1,0 +1,21 @@
+#ABUILD created by/создан: aix27249, i27249 at gmail.com 
+pkgname=dbusmenu-qt
+pkgver=0.9.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="API to import export QMenu instance using DBusMenu protocol"
+longdesc=("dbusmenu-qt is a standalone library providing a way to import and export QMenu instances using the DBusMenu protocol.")
+
+#source=("git:git://gitorious.org/dbusmenu/dbusmenu-qt.git")
+source=("http://launchpad.net/libdbusmenu-qt/trunk/${pkgver}/+download/libdbusmenu-qt-${pkgver}.tar.bz2")
+patch_opts=("")
+
+tags="libs kde-base"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=Release \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DCMAKE_SKIP_RPATH=ON"
+

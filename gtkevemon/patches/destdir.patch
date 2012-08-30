@@ -1,0 +1,42 @@
+--- GtkEveMon/Makefile.orig	2010-12-19 20:14:12.822000189 +0300
++++ GtkEveMon/Makefile	2010-12-19 20:13:20.726000190 +0300
+@@ -10,11 +10,11 @@
+ 	$(MAKE) -C src clean
+ 
+ install:
+-	mkdir -p ${INSTALL_BIN}
+-	cp src/gtkevemon ${INSTALL_BIN}
++	mkdir -p ${DESTDIR}${INSTALL_BIN}
++	cp src/gtkevemon ${DESTDIR}${INSTALL_BIN}
+ 	$(MAKE) -C icon
+ 
+ uninstall:
+-	rm -f ${INSTALL_BIN}/gtkevemon
+-	rmdir --ignore-fail-on-non-empty ${INSTALL_BIN}
++	rm -f ${DESTDIR}${INSTALL_BIN}/gtkevemon
++	rmdir --ignore-fail-on-non-empty ${DESTDIR}${INSTALL_BIN}
+ 	$(MAKE) -C icon uninstall
+--- GtkEveMon/icon/Makefile.orig	2010-12-18 20:57:52.000000000 +0300
++++ GtkEveMon/icon/Makefile	2010-12-19 20:12:52.310000188 +0300
+@@ -2,13 +2,13 @@
+ INSTALL_DIR_DESK = /usr/share/applications/
+ 
+ install:
+-	mkdir -p ${INSTALL_DIR_ICON}
+-	mkdir -p ${INSTALL_DIR_DESK}
+-	cp gtkevemon.png ${INSTALL_DIR_ICON}
+-	cp gtkevemon.desktop ${INSTALL_DIR_DESK}
++	mkdir -p ${DESTDIR}${INSTALL_DIR_ICON}
++	mkdir -p ${DESTDIR}${INSTALL_DIR_DESK}
++	cp gtkevemon.png ${DESTDIR}${INSTALL_DIR_ICON}
++	cp gtkevemon.desktop ${DESTDIR}${INSTALL_DIR_DESK}
+ 
+ uninstall:
+-	rm -f ${INSTALL_DIR_ICON}gtkevemon.png
+-	rm -f ${INSTALL_DIR_DESK}gtkevemon.desktop
+-	rmdir --ignore-fail-on-non-empty ${INSTALL_DIR_ICON}
+-	rmdir --ignore-fail-on-non-empty ${INSTALL_DIR_DESK}
++	rm -f ${DESTDIR}${INSTALL_DIR_ICON}gtkevemon.png
++	rm -f ${DESTDIR}${INSTALL_DIR_DESK}gtkevemon.desktop
++	rmdir --ignore-fail-on-non-empty ${DESTDIR}${INSTALL_DIR_ICON}
++	rmdir --ignore-fail-on-non-empty ${DESTDIR}${INSTALL_DIR_DESK}

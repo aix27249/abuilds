@@ -1,0 +1,28 @@
+XXkb.group.base: 1
+XXkb.group.alt: 2
+
+XXkb.mainwindow.enable: yes
+XXkb.mainwindow.in_tray: GNOME2
+XXkb.mainwindow.type: tray
+XXkb.mainwindow.appicon: no
+XXkb.mainwindow.geometry: 16x16+0+0
+
+XXkb.mainwindow.label.enable: yes
+XXkb.mainwindow.label.background: #333333
+XXkb.mainwindow.label.foreground: #B3B3A1
+XXkb.mainwindow.label.font: -misc-*-r-*-14-*
+XXkb.mainwindow.label.text.1: En
+XXkb.mainwindow.label.text.2: Ru
+XXkb.mainwindow.label.text.3: Ua
+
+XXkb.controls.add_when_start: yes
+XXkb.controls.add_when_create: yes
+XXkb.controls.add_when_change: no
+XXkb.controls.focusout: no
+XXkb.controls.two_state: yes
+XXkb.controls.button_delete: yes
+XXkb.controls.button_delete_and_forget: yes
+XXkb.controls.mainwindow_delete: yes
+
+XXkb.button.enable: no
+XXkb.button.geometry: 15x15-60+7

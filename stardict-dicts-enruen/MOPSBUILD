@@ -1,0 +1,61 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=stardict-dicts-enruen
+pkgver=1.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Apresyan En-Ru and Smirnitskiy Ru-En"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Словари для goldendict - Апресян (англ-рус) и Смирницкий (рус-англ)"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/goldendict/enruen-content-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="libs app-dicts"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep="goldendict"
+removedep=""
+
+author=Unnamed_Hero
+email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+mkdir -p ${pkgdir}/usr/share/stardict
+rm -rf ${srcdir}/content/Speech.lsa
+cp -a ${srcdir}/content ${pkgdir}/usr/share/stardict
+}

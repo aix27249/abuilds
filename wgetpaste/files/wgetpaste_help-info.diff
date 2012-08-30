@@ -1,0 +1,12 @@
+293,294c293
+<     -i, --info                    append the output of \`$INFO_COMMAND\`
+<     -I, --info-only               paste the output of \`$INFO_COMMAND\` only
+---
+> 
+522,527d520
+< 		-i | --info )
+< 		INFO=0
+< 		;;
+< 		-I | --info-only )
+< 		SOURCE=info
+< 		;;

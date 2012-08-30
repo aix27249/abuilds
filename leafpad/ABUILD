@@ -1,0 +1,78 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=leafpad
+pkgver=0.8.18.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GTK+ based simple text editor"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Leafpad is a simple GTK+ text editor that emphasizes simplicity. As development focuses on keeping weight down to a minimum, only the most essential features are implemented 
+in the editor. Leafpad is simple to use, is easily compiled, requires few libraries, and starts up quickly. Currently Leafpad has the following features: * Codeset option (Some OpenI18N 
+registered) * Auto codeset detection (UTF-8 and some codesets) * Unlimitted Undo/Redo * Auto/Multi-line Indent * Display line numbers * Drag and Drop * Printing. Homepage: 
+http://tarot.freeshell.org/leafpad/")
+
+source=("http://savannah.nongnu.org/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-editors xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-chooser \
+--enable-print \
+--enable-emacs"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

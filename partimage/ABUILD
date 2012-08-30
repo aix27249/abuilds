@@ -1,0 +1,52 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=partimage
+pkgver=0.6.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Partition Image saves partitions in many formats to an image file"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils app-admin"
+
+
+adddep=""
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+before_build()
+{
+go_src_dir
+burn_patches
+}
+
+build()
+{
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--enable-pam 
+ 
+  make
+ 
+  make pamfile
+
+ make DESTDIR="${pkgdir}" install
+
+  install -Dm0644 partimaged.pam "${pkgdir}/etc/pam.d/partimaged"
+}

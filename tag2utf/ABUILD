@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tag2utf
+pkgver=0.16
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Cyrrilic ID3 decoder"
+longdesc=("Cyrillic ID3 decoder. Converts Cyrillic tags into UTF-8 to be used with modern layers or other software")
+
+source = ""
+
+tags="console media-sound"
+
+adddep="python python-eyed3"
+
+build()
+{
+	wget http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.py
+	chmod +x $pkgname-$pkgver.py
+	mkdir -p $pkgdir/usr/bin
+	mv $pkgname-$pkgver.py $pkgdir/usr/bin/tag2utf
+}

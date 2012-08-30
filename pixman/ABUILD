@@ -1,0 +1,16 @@
+pkgname=pixman
+pkgver=0.26.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('pixman')
+longdesc=('pixman contains low-level pixel manipulation routines and is used by both xorg and cairo. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-libs xserver')
+
+source=("http://cairographics.org/releases/pixman-${pkgver}.tar.gz")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --disable-vmx --enable-sse2"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

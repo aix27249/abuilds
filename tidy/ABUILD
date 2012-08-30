@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tidy
+pkgver=1.46
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A tool and library for tidying HTML files"
+
+source="http://tidy.cvs.sourceforge.net/viewvc/tidy/?view=tar"
+
+tags="develop dev-util"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	cd tidy
+	. build/gnuauto/setup.sh
+	./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX
+	make
+	make DESTDIR=$pkgdir install
+}

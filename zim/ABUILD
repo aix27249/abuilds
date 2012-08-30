@@ -1,0 +1,55 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=zim
+pkgver=0.46
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Zim - A Desktop Wiki Editor"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Zim brings the concept of a wiki to your desktop. Store information, link pages and edit with WYSISYG markup. Creating a new page is as easy as linking to a non-existing page. Pages are stored in a folder structure, like in an outliner, and can have attachments. This tool can be used to keep track of TODO lists or ideas, to take notes during a meeting or to draft any other kind of text (blog entries, important mails, etc.)."
+	  ""
+	  "Homepage:  http://zim-wiki.org/"
+)
+
+source=("http://zim-wiki.org/downloads/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="xapps x11-misc"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="pygtk>=2.16.0 pygobject>=2.20.0 pyxdg>=0.19 xdg-utils>=1.0.2.2"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+BUILD_KEYS=
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

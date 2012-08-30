@@ -1,0 +1,38 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=0ad
+pkgver=alpha10
+_pkgver=r11863-alpha
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A cross-platform, open source 3D strategy game"
+
+source=("http://releases.wildfiregames.com/$pkgname-$_pkgver-unix-build.tar.xz")
+
+tags="games games-strategy"
+
+adddep="0ad-data"
+
+build()
+{
+  go_src_dir
+  burn_patches
+  cd build/workspaces/
+  ./update-workspaces.sh
+  cd gcc/
+  make CONFIG=Release
+
+  go_src_dir
+  install -d ${pkgdir}/opt/${pkgname}  
+  cp -r binaries/* ${pkgdir}/opt/${pkgname}
+  rm -r ${pkgdir}/opt/${pkgname}/data/
+  rm -r ${pkgdir}/opt/${pkgname}/system/{test,*.a}
+
+  install -D -m755 ${filedir}/${pkgname}.sh ${pkgdir}/usr/bin/${pkgname}
+  install -D -m755 ${filedir}/${pkgname}-editor.sh ${pkgdir}/usr/bin/${pkgname}-editor
+
+  install -D -m 0644 "${filedir}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+  install -D -m 0644 "${filedir}/${pkgname}-editor.desktop" "${pkgdir}/usr/share/applications/${pkgname}-editor.desktop"
+  install -D -m 0644 "${filedir}/${pkgname}.png" "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
+}
+

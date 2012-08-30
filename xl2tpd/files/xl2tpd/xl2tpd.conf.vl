@@ -1,0 +1,19 @@
+[global]
+access control = yes
+;;debug tunnel = yes
+;;auth file = /etc/xl2tpd/l2tp-secrets
+
+[lac vladlink]
+;;lns = vpn2.vladlink.lan
+lns = lp.vladlink.lan
+name = gor-baranov
+
+pppoptfile = /etc/ppp/options
+autodial = yes
+redial = yes
+redial timeout = 10
+
+
+
+
+

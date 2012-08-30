@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=lzrichedit
+pkgver=0.1.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A lazarus component to replace Delphi TRichEdit component"
+
+source=("http://lazarus-br.googlecode.com/files/lzRichEdit.zip")
+
+tags="dev-util develop"
+
+adddep="lazarus"
+
+build(){
+  go_src_dir
+  find . ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
+  find . ! -perm 0664  -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
+  install -m 775 -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/components/lzRichEdit || exit 1
+  cp -R . ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/components/lzRichEdit
+  echo "End build"
+}

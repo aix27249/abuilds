@@ -1,0 +1,29 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=lxtask
+pkgver=0.1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="task manager and system monitor of LXDE"
+longdesc=("LXTask is the standard task manager and system monitor of 
+LXDE. It starts via Ctrl+Alt+Del and is extremely lightweight.")
+
+source=("http://downloads.sourceforge.net/sourceforge/lxde/${pkgname}-${pkgver}.tar.gz")
+
+tags="lxde lxde-base"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

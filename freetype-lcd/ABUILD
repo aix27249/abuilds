@@ -1,0 +1,29 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=freetype-lcd
+pkgver=2.4.8
+pkgbuild=1
+arch=('auto')
+shortdesc="TrueType font rendering library for LCD Displays"
+build_deps="zlib cairo>=1.10.0"
+provides="freetype"
+tags="xapps x11-base"
+source=("http://downloads.sourceforge.net/sourceforge/freetype/freetype-$pkgver.tar.bz2")
+
+before_build() {
+    cd "$srcdir/$pkgname"
+    cp $filedir/ftoption.h freetype-$pkgver/include/freetype/config/
+    burn_patches    
+}
+
+build() {
+	go_src_dir
+	#echo "Bytecode patch..."
+	#zcat ${filedir}/freetype.bytecode.interpreter.diff.gz | patch -p1 -R --verbose || exit 1
+	#echo "Subpixel patch..."
+	#zcat ${filedir}/freetype.subpixel.rendering.diff.gz | patch -p1 -R --verbose || exit 1
+	echo "Configuring"
+	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX || exit 1
+	make -j${numjobs} || exit 1
+	make DESTDIR="${pkgdir}" install || exit 1
+}

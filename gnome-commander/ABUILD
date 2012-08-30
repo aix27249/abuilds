@@ -1,0 +1,24 @@
+pkgname=gnome-commander
+pkgver=1.2.8.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="nice and fast file manager for the GNOME desktop"
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/1.2/${pkgname}-${pkgver}.tar.bz2")
+
+tags="app-misc xapps"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--disable-scrollkeeper \
+--enable-python \
+--with-taglib \
+--with-libchm \
+--with-libgsf \
+--with-poppler"
+

@@ -1,0 +1,22 @@
+pkgname=xf86-video-unichrome
+pkgver=0.2.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-unichrome: X11 driver for VIA Chrome video cards')
+longdesc=('xf86-video-unichrome is a driver for VIA Chrome video cards. It supports hardware acceleration, 3D, and so on. Switch to this driver if you are using xf86-video-openchrome or even xf86-video-via ')
+conflicts="xf86-video-openchrome"
+tags=('x11-drivers xserver')
+_gitversion=b917bee87db8a65b8e8da0ca12c24a176c9e9fb2
+conflicts="xf86-video-openchrome"
+#source=("git:git://anongit.freedesktop.org/~libv/xf86-video-unichrome")
+source=("http://cgit.freedesktop.org/~libv/${pkgname}/snapshot/${pkgname}-${_gitversion}.tar.bz2")
+before_build() {
+	go_src_dir
+	./autogen.sh
+}
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --enable-dri"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

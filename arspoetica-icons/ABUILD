@@ -1,0 +1,78 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=arspoetica-theme
+pkgver=05012011
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="ArsPoetica GTK+2 Theme"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Pretty look GTK+2 theme"
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/137039-ArsPoetica-5-1-11.tar.bz2 n")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="themes x11-themes"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=icons
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+icons()
+{
+	pkgname=arspoetica-icons
+	longdesc="Icons from the ArsPoetica theme"
+	pkg_files=icons
+}
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+tar xf $srcache/$loc_source_arr -C $srcdir
+cd $srcdir
+mkdir -p $pkgdir/usr/share/themes/
+tar xf THEME-ArsPoetica.tar.bz2 -C $pkgdir/usr/share/themes
+mkdir -p $startdir/icons/usr/share/icons
+tar xf ICON-gnome-ArsPoetica.tar.bz2 -C $startdir/icons/usr/share/icons
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+cd $pkgdir
+find . -type d -exec chmod 755 {} \;
+find . -type f -exec chmod 644 {} \;
+}

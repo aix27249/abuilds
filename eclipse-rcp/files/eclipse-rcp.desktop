@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=eclipse-rcp
+Comment=Eclipse IDE for RCP and RAP
+Exec=/usr/bin/eclipse-rcp
+Icon=eclipse-rcp.png
+Terminal=false
+Categories=Development;
+StartupNotify=false
+GenericName=Eclipse IDE for RCP and RAP

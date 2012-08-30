@@ -1,0 +1,64 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=e17-minimal
+pkgver=0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="e17-minimal"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Meta-package for installing Enlightenment DR17 in minimal suite."
+	  ""
+	  "Homepage: http://www.enlightenment.org/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="virtual x11-wm"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="eina eet evas ecore eeze efreet e_dbus embryo edje exchange e"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+echo ""
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

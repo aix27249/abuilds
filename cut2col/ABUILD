@@ -1,0 +1,35 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=cut2col
+pkgver=0.34a
+pkgbuild=1
+arch=('auto')
+
+pkgver_cut=`echo ${pkgver} | cut -c 3-`
+
+shortdesc="Utility for converting 2-column to 1-column pdf documents"
+longdesc=("cut2col is a utility for converting 2-column to 1-column pdf documents. This is done by cutting each page into 4 pieces and merging them 
+together so that they can be viewed on a tiny e-book reader"
+)
+
+source=("http://www.cp.eng.chula.ac.th/~somchai/${pkgname}/${pkgname}-v${pkgver_cut}.jar n")
+
+adddep="jre"
+tags="utils app-office"
+
+build()
+{
+cd ${srcache}
+burn_patches
+
+mkdir -p ${pkgdir}/usr/share/${pkgname}
+cp ${pkgname}-v${pkgver_cut}.jar ${pkgdir}/usr/share/${pkgname}/
+
+mkdir -p ${pkgdir}/usr/bin
+cat >> ${pkgdir}/usr/bin/${pkgname} << EOF
+#!/bin/bash
+java -jar /usr/share/${pkgname}/${pkgname}-v${pkgver_cut}.jar
+exit 0
+EOF
+chmod a+x ${pkgdir}/usr/bin/${pkgname}
+}

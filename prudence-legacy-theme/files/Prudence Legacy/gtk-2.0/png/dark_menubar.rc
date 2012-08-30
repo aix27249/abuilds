@@ -1,0 +1,16 @@
+style "murrine-menubar"
+{
+	bg[NORMAL]   = "#3C3B37"
+	fg[NORMAL]   = @bg_color
+	text[NORMAL]      = @bg_color
+	bg[PRELIGHT]   = shade (0.9, @selected_bg_color)
+
+	engine "murrine" 
+	{
+		menubarstyle        = 0
+		roundness = 3
+	}
+
+}
+
+widget_class "*<GtkMenuBar>*"           		style "murrine-menubar"

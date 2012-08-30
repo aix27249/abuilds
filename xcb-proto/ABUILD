@@ -1,0 +1,20 @@
+# xcb-proto
+pkgname=xcb-proto
+pkgver=1.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xcb-proto')
+longdesc=('xcb-proto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-xcbs xserver')
+
+source=("http://xcb.freedesktop.org/dist/xcb-proto-${pkgver}.tar.bz2")
+
+build_deps='python'
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

@@ -1,0 +1,41 @@
+# Original ABUILD by fat0troll, modified by K900
+pkgname=nvidia-driver-optimus
+pkgver=290.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="NVIDIA drivers utilities and libraries, repacked and installed for bumblebee/ironhide/whatever else Optimus implementation out there"
+
+if [ "$(uname -m)" = "x86_64" ] ; then
+	TARGET="x86_64"
+	gendeps_blacklist='usr/lib\*'
+else
+	TARGET="x86"
+fi
+						 
+source=("ftp://download.nvidia.com/XFree86/Linux-${TARGET}/${pkgver}/NVIDIA-Linux-${TARGET}-${pkgver}.run n")
+
+provides="nvidia-driver"
+conflicts="libgl-nvidia libglx-nvidia"
+adddep="nvidia-kernel libgl libglx"
+
+tags="drivers x11-drivers"
+
+build()
+{
+	cd $srcdir
+	sh $srcache/$loc_source_arr -x
+	cd NVIDIA-Linux-${TARGET}-${pkgver}
+	chown -R root:root .
+	chmod -R u+w,go+r-w,a-s .
+	mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
+	cp -arv *.so* *.la *.a tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
+}
+
+after_build()
+{
+	cd $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
+	ln -s libGL.so.$pkgver libGL.so.1
+	ln -s libGL.so.1 libGL.so
+	ln -s libglx.so.$pkgver libglx.so
+}

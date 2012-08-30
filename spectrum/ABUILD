@@ -1,0 +1,30 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+pkgname=spectrum
+pkgver=1.4.8
+pkgbuild=2
+arch=('auto')
+shortdesc="XMPP libpurple transport/gateway."
+source=("http://spectrum.im/attachments/download/43/spectrum-1.4.8.tar.gz")
+tags="server net-im"
+build_deps="cmake gettext"
+provides=""
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+after_build() {
+    # This piece of mastershit do not work ATM...
+    #install -Dm644 $filedir/spectrum.confd $pkgdir/usr/share/spectrum/spectrum.confd
+    install -Dm644 $filedir/spectrum.initd $pkgdir/etc/init.d/spectrum
+    chmod +x $pkgdir/etc/init.d/spectrum
+    install -D -m644 $filedir/spectrum.logrotate $pkgdir/etc/logrotate.d/spectrum
+    
+    # Adding spectrum directories... doinst.sh will set correct permissions...
+    install -d $pkgdir/var/log/spectrum
+    install -d $pkgdir/var/run/spectrum
+    install -d $pkgdir/var/lib/spectrum
+}

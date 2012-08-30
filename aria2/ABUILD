@@ -1,0 +1,67 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=aria2
+pkgver=1.14.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="aria2 is a lightweight multi-protocol & multi-source, cross platform download utility operated in command-line."
+
+source=("http://downloads.sourceforge.net/project/aria2/stable/aria2-${pkgver}/aria2-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="net-p2p console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--bindir=/usr/bin \
+--sbindir=/usr/sbin \
+--libexecdir=/usr/libexec \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--infodir=/usr/info \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--enable-bittorrent \
+--enable-metalink \
+--enable-epoll \
+--enable-nls \
+--enable-threads=posix \
+--enable-threads"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

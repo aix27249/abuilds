@@ -1,0 +1,28 @@
+diff -uNrp camou-35.orig/camou-lossy.edc camou-35/camou-lossy.edc
+--- camou-35.orig/camou-lossy.edc	2010-10-15 01:05:59.798279000 +0800
++++ camou-35/camou-lossy.edc	2010-10-15 21:53:20.702000003 +0800
+@@ -17,13 +17,12 @@
+ #endif
+ 
+ 
+-
+ fonts {
+-   font: "Stencilia-A.ttf" "Stencilia-A";
+-   font: "Stencilia-Bold.ttf" "Stencilia-Bold";
+-   font: "Army.ttf" "Army";
++   font: "DejaVuSans.ttf" "Stencilia-A";
++   font: "DejaVuSans-Bold.ttf" "Stencilia-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -31,6 +30,7 @@ spectra {
+     color: 0 0 0 0 1;
+   }
+ }
++#endif
+ 
+ 
+ collections {

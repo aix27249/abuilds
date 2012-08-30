@@ -1,0 +1,1016 @@
+pkgname=leechcraft
+pkgver=0.4.85
+pkgbuild=1
+arch=('auto')
+shortdesc="LeechCraft core"
+
+source=("git:git://github.com/0xd34df00d/leechcraft.git")
+tags="network www-client"
+
+build()
+{
+	go_src_dir
+	export LCVER=$(git describe)
+	echo Building Leechcraft $LCVER
+
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../src \
+		-DENABLE_HTTP=OFF \
+		-DENABLE_POSHUKU=OFF \
+		-DENABLE_TORRENT=OFF \
+		-DENABLE_AGGREGATOR=OFF \
+		-DENABLE_NUFELLA=OFF \
+		-DENABLE_DBUSMANAGER=OFF \
+		-DENABLE_DEADLYRICS=OFF \
+		-DENABLE_HISTORYHOLDER=OFF \
+		-DENABLE_LMP=OFF \
+		-DENABLE_NETWORKMONITOR=OFF \
+		-DENABLE_SEEKTHRU=OFF \
+		-DENABLE_CHATTER=OFF \
+		-DENABLE_FTP=OFF \
+		-DENABLE_EISKALTDCPP=OFF \
+		-DENABLE_YASD=OFF \
+		-DENABLE_ANHERO=OFF \
+		-DENABLE_KINOTIFY=OFF \
+		-DENABLE_VGRABBER=OFF \
+		-DENABLE_NEWLIFE=OFF \
+		-DENABLE_PYLC=OFF \
+		-DENABLE_POC=OFF \
+		-DENABLE_AUSCRIE=OFF \
+		-DENABLE_SUMMARY=OFF \
+		-DENABLE_TABPP=OFF \
+		-DENABLE_SECMAN=OFF \
+		-DENABLE_QROSP=OFF \
+		-DENABLE_POPISHU=OFF \
+		-DENABLE_GLANCE=OFF \
+		-DENABLE_SHELLOPEN=OFF"
+		
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	mkdir build
+	cd build
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+	echo $LCVER > $pkgdir/usr/share/leechcraft/version
+}
+
+LC_PATH="/usr/lib$LIBDIRSUFFIX/leechcraft/plugins"
+SHARE_PATH="/usr/share/leechcraft/"
+advancednotifications()
+{
+	pkgname=leechcraft-advancednotifications
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft advancednotifications plugin"
+}
+
+advancednotifications_prep()
+{
+	go_src_dir
+	cd src/plugins/advancednotifications
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+aggregator()
+{
+	pkgname=leechcraft-aggregator
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft aggregator plugin"
+}
+
+aggregator_prep()
+{
+	go_src_dir
+	cd src/plugins/aggregator
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+anhero()
+{
+	pkgname=leechcraft-anhero
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft anhero plugin"
+}
+
+anhero_prep()
+{
+	go_src_dir
+	cd src/plugins/anhero
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+auscrie()
+{
+	pkgname=leechcraft-auscrie
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft auscrie plugin"
+}
+
+auscrie_prep()
+{
+	go_src_dir
+	cd src/plugins/auscrie
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+azoth()
+{
+	pkgname=leechcraft-azoth
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft azoth plugin"
+}
+
+azoth_prep()
+{
+	go_src_dir
+	cd src/plugins/azoth
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+bittorrent()
+{
+	pkgname=leechcraft-bittorrent
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft bittorrent plugin"
+}
+
+bittorrent_prep()
+{
+	go_src_dir
+	cd src/plugins/bittorrent
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+cstp()
+{
+	pkgname=leechcraft-cstp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft cstp plugin"
+}
+
+cstp_prep()
+{
+	go_src_dir
+	cd src/plugins/cstp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+dbusmanager()
+{
+	pkgname=leechcraft-dbusmanager
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft dbusmanager plugin"
+}
+
+dbusmanager_prep()
+{
+	go_src_dir
+	cd src/plugins/dbusmanager
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+deadlyrics()
+{
+	pkgname=leechcraft-deadlyrics
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft deadlyrics plugin"
+}
+
+deadlyrics_prep()
+{
+	go_src_dir
+	cd src/plugins/deadlyrics
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+eiskaltdcpp()
+{
+	pkgname=leechcraft-eiskaltdcpp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft eiskaltdcpp plugin"
+}
+
+eiskaltdcpp_prep()
+{
+	go_src_dir
+	cd src/plugins/eiskaltdcpp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+glance()
+{
+	pkgname=leechcraft-glance
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft glance plugin"
+}
+
+glance_prep()
+{
+	go_src_dir
+	cd src/plugins/glance
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+gmailnotifier()
+{
+	pkgname=leechcraft-gmailnotifier
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft gmailnotifier plugin"
+}
+
+gmailnotifier_prep()
+{
+	go_src_dir
+	cd src/plugins/gmailnotifier
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+historyholder()
+{
+	pkgname=leechcraft-historyholder
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft historyholder plugin"
+}
+
+historyholder_prep()
+{
+	go_src_dir
+	cd src/plugins/historyholder
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+juffed()
+{
+	pkgname=leechcraft-juffed
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft juffed plugin"
+}
+
+juffed_prep()
+{
+	go_src_dir
+	cd src/plugins/juffed
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+kinotify()
+{
+	pkgname=leechcraft-kinotify
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft kinotify plugin"
+}
+
+kinotify_prep()
+{
+	go_src_dir
+	cd src/plugins/kinotify
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+lackman()
+{
+	pkgname=leechcraft-lackman
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft lackman plugin"
+}
+
+lackman_prep()
+{
+	go_src_dir
+	cd src/plugins/lackman
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+lcftp()
+{
+	pkgname=leechcraft-lcftp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft lcftp plugin"
+}
+
+lcftp_prep()
+{
+	go_src_dir
+	cd src/plugins/lcftp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+lmp()
+{
+	pkgname=leechcraft-lmp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft lmp plugin"
+}
+
+lmp_prep()
+{
+	go_src_dir
+	cd src/plugins/lmp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+networkmonitor()
+{
+	pkgname=leechcraft-networkmonitor
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft networkmonitor plugin"
+}
+
+networkmonitor_prep()
+{
+	go_src_dir
+	cd src/plugins/networkmonitor
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+newlife()
+{
+	pkgname=leechcraft-newlife
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft newlife plugin"
+}
+
+newlife_prep()
+{
+	go_src_dir
+	cd src/plugins/newlife
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+otzerkalu()
+{
+	pkgname=leechcraft-otzerkalu
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft otzerkalu plugin"
+}
+
+otzerkalu_prep()
+{
+	go_src_dir
+	cd src/plugins/otzerkalu
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+popishu()
+{
+	pkgname=leechcraft-popishu
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft popishu plugin"
+}
+
+popishu_prep()
+{
+	go_src_dir
+	cd src/plugins/popishu
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+poshuku()
+{
+	pkgname=leechcraft-poshuku
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft poshuku plugin"
+}
+
+poshuku_prep()
+{
+	go_src_dir
+	cd src/plugins/poshuku
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+potorchu()
+{
+	pkgname=leechcraft-potorchu
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft potorchu plugin"
+}
+
+potorchu_prep()
+{
+	go_src_dir
+	cd src/plugins/potorchu
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+qrosp()
+{
+	pkgname=leechcraft-qrosp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft qrosp plugin"
+}
+
+qrosp_prep()
+{
+	go_src_dir
+	cd src/plugins/qrosp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+secman()
+{
+	pkgname=leechcraft-secman
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft secman plugin"
+}
+
+secman_prep()
+{
+	go_src_dir
+	cd src/plugins/secman
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+seekthru()
+{
+	pkgname=leechcraft-seekthru
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft seekthru plugin"
+}
+
+seekthru_prep()
+{
+	go_src_dir
+	cd src/plugins/seekthru
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+shellopen()
+{
+	pkgname=leechcraft-shellopen
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft shellopen plugin"
+}
+
+shellopen_prep()
+{
+	go_src_dir
+	cd src/plugins/shellopen
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+summary()
+{
+	pkgname=leechcraft-summary
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft summary plugin"
+}
+
+summary_prep()
+{
+	go_src_dir
+	cd src/plugins/summary
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+syncer()
+{
+	pkgname=leechcraft-syncer
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft syncer plugin"
+}
+
+syncer_prep()
+{
+	go_src_dir
+	cd src/plugins/syncer
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+tabpp()
+{
+	pkgname=leechcraft-tabpp
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft tabpp plugin"
+}
+
+tabpp_prep()
+{
+	go_src_dir
+	cd src/plugins/tabpp
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+tabslist()
+{
+	pkgname=leechcraft-tabslist
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft tabslist plugin"
+}
+
+tabslist_prep()
+{
+	go_src_dir
+	cd src/plugins/tabslist
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+transparentarch()
+{
+	pkgname=leechcraft-transparentarch
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft transparentarch plugin"
+}
+
+transparentarch_prep()
+{
+	go_src_dir
+	cd src/plugins/transparentarch
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+vgrabber()
+{
+	pkgname=leechcraft-vgrabber
+	pkgver=$p_pkgver
+	shortdesc="LeechCraft vgrabber plugin"
+}
+
+vgrabber_prep()
+{
+	go_src_dir
+	cd src/plugins/vgrabber
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DRESPECTLIB64:BOOL=TRUE \
+			../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make -j$numjobs
+	make $INSTALL_KEYS install
+}
+pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent cstp dbusmanager deadlyrics eiskaltdcpp glance gmailnotifier historyholder juffed kinotify lackman lcftp lmp networkmonitor newlife otzerkalu popishu poshuku potorchu qrosp secman seekthru shellopen summary syncer tabpp tabslist transparentarch vgrabber"

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=RapidSVN
+Comment=SVN source viewer
+Exec=/usr/bin/rapidsvn
+Icon=/usr/share/pixmaps/rapidsvn.xpm
+Terminal=false
+Type=Application
+Categories=Application;Utility;
+StartupNotify=true

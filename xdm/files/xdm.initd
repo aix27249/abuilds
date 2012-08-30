@@ -1,0 +1,17 @@
+#!/sbin/runscript
+depend() {
+        use logger acpid
+	after coldplug dns nscd
+        need consolefont keymaps
+}
+
+start() {
+        ebegin "Starting X11 login with XDM..."
+        start-stop-daemon --start -q --background --pidfile /var/run/xdm.pid --exec /usr/bin/xdm -nodaemon
+}
+
+stop() {
+        ebegin "Stopping X11 login with XDM..."
+        start-stop-daemon --stop -q --pidfile /var/run/xdm.pid 
+}
+

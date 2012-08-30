@@ -1,0 +1,74 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=clisp
+pkgver=2.49
+pkgbuild=1
+arch=('auto')
+
+shortdesc="clisp (a Common Lisp implementation)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Common Lisp is a high-level, general-purpose programming language. GNU CLISP is a Common Lisp implementation by Bruno Haible of Karlsruhe University and Michael Stoll of Munich University, both in Germany. It mostly supports the Lisp described in the ANSI Common Lisp standard. The user interface comes in German, English, French, Spanish, Dutch and Russian. GNU CLISP includes an interpreter, a compiler, a debugger, a large subset of CLOS, a foreign language interface and a socket interface. An X11 interface is available through CLX and Garnet."
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/clisp/clisp-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+unset CFLAGS CXXFLAGS
+./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --with-readline --with-ffcall src
+cd src
+./makemake --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --with-readline --with-ffcall --with-dynamic-ffi > Makefile
+make || return 1
+sed -i 's,http://www.lisp.org/HyperSpec/,http://www.lispworks.com/reference/HyperSpec/,g' config.lisp
+make || return 1
+make DESTDIR=$pkgdir install || return 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

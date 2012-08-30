@@ -1,0 +1,12 @@
+# Maintainer: Stanislav Nikitin <pztrn at pztrn dot ru>
+
+pkgname=python-psutil
+pkgver=0.2.1
+pkgbuild=1
+shortdesc="A process utilities module for Python"
+arch=('auto')
+build_deps="python"
+tags="develop sys-libs"
+source=(https://psutil.googlecode.com/files/psutil-$pkgver.tar.gz)
+
+BUILD_SYSTEM="python"

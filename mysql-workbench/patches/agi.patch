@@ -1,0 +1,12 @@
+*** res/mysql.profiles/Makefile	2010-06-11 13:35:41.669583520 +0200
+--- res/mysql.profiles/Makefile_fixed	2010-06-11 13:49:15.389140347 +0200
+***************
+*** 244,249 ****
+--- 244,250 ----
+  FreeBSD_(MySQL_Package).xml\
+  Generic_Linux_(MySQL_tar_package).xml\
+  Linux_(Custom).xml\
++ AgiliaLinux.xml\
+  MacOS_X_(MySQL_Package).xml\
+  OpenSolaris_(MySQL_Package).xml\
+  RHEL_(MySQL_Package).xml\

@@ -1,0 +1,26 @@
+pkgname=mjpegtools
+pkgver=2.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Video manipulation utilities"
+
+source=("http://downloads.sourceforge.net/sourceforge/mjpeg/${pkgname}-${pkgver}.tar.gz")
+tags="libs media-video"
+
+before_build() {
+	go_src_dir
+	sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-largefile"
+

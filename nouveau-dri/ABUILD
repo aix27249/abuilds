@@ -1,0 +1,54 @@
+# ABUILD for mesa package
+pkgname=nouveau-dri
+pkgver=8.0.4
+_git=false
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('mesa (a 3-D graphics library)')
+longdesc=('Mesa is a 3-D graphics library with an API very similar to that of another well-known 3-D graphics library. :-) The Mesa libraries are used by X to provide both software and hardware accelerated graphics. Mesa was written by Brian Paul.')
+
+tags=('x11-libs xserver')
+adddep="libgl"
+removedep="libdrm-nouveau-dev"
+if [ "${_git}" = "true" ] ; then
+	source=("http://cgit.freedesktop.org/mesa/mesa/snapshot/mesa-8aabb1bc9951e168719cc94dd80b2f55fb764512.tar.bz2")
+else
+	source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2")
+fi
+
+before_build() {
+	go_src_dir
+	if [ "${_git}" = "true" ] ; then
+		./autogen.sh
+	fi
+	autoreconf -vfi
+}
+
+build() {
+	CFLAGS="$SLKCFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm" CXXFLAGS="$SLKCXXFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm" LDFLAGS=-L/usr/lib${LIBDIRSUFFIX}/llvm \
+		./configure --prefix=/usr \
+		--libdir=/usr/lib$LIBDIRSUFFIX \
+		--with-dri-driverdir=/usr/lib$LIBDIRSUFFIX/xorg/modules/dri \
+		--with-gallium-drivers=nouveau \
+		--with-dri-drivers=nouveau \
+		--enable-gallium-llvm \
+		--enable-gallium-egl --enable-shared-glapi \
+		--enable-dri \
+		--enable-glx \
+		--enable-osmesa \
+		--enable-gles1 \
+		--enable-gles2 \
+		--enable-egl \
+		--enable-texture-float \
+		--enable-xa \
+		--enable-shared-dricore \
+		--enable-gbm \
+		--disable-glx-tls
+
+	make -j${numjobs}
+	make -C ${srcdir}/?esa-*/src/mesa/drivers/dri/nouveau DESTDIR="${pkgdir}" install
+	# gallium3D driver for nv30 - nv40 - nv50 nouveau_dri.so
+	make -C ${srcdir}/?esa-*/src/gallium/targets/dri-nouveau DESTDIR="${pkgdir}" install
+}
+

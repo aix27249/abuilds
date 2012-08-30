@@ -1,0 +1,20 @@
+#ABUILD created by/создан: Drakmail, coder at iso-art.ru 
+pkgname=rt2870-firmware
+pkgver=22
+pkgbuild=1
+arch=('fw')
+
+shortdesc="rt2870 Ralink firmware"
+longdesc=("Необходим для работы модуля wifi.")
+
+source=("http://www.ralinktech.com/download.php?t=U0wyRnpjMlYwY3k4eU1ERXdMekF6THpNeEwyUnZkMjVzYjJGa01UWXpPRGs1T0Rnek5pNTZhWEE5UFQxU1ZESTROekJmUm1seWJYZGhjbVZmVmpJeUM=")
+
+tags="network net-wireless"
+
+build()
+{
+go_src_dir
+burn_patches
+mkdir -p ${pkgdir}/lib/firmware
+cp rt2870.bin ${pkgdir}/lib/firmware
+}

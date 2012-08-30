@@ -1,0 +1,17 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+pkgname=libXft-lcd
+pkgver=2.2.0
+pkgbuild=1
+arch=('auto')
+shortdesc="FreeType-based font drawing library for X (with custom LCD filter)"
+source=("http://xorg.freedesktop.org/releases/individual/lib/libXft-${pkgver}.tar.bz2")
+patch_opts=("")
+tags="xapps x11-base"
+build_deps="fontconfig"
+provides="libXft"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

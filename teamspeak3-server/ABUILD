@@ -1,0 +1,43 @@
+pkgname=teamspeak3-server
+pkgver=3.0.1
+pkgbuild=1
+shortdesc="Teamspeak 3 Linux server."
+arch=('auto')
+tags="network net-im"
+
+if [ "$ARCH" == "x86_64" ]; then
+    source="http://teamspeak.gameserver.gamed.de/ts3/releases/${pkgver}/teamspeak3-server_linux-amd64-${pkgver}.tar.gz"
+    _TSARCH='amd64'
+else
+    source=("http://teamspeak.gameserver.gamed.de/ts3/releases/${pkgver}/teamspeak3-server_linux-x86-${pkgver}.tar.gz")
+   _TSARCH='x86'
+fi
+
+build() {    
+    if [ $ARCH == "x86_64" ]; then
+        _tsarch="amd64"
+    else
+        _tsarch="x86"
+    fi
+    
+    cd "$srcdir"
+    
+    #create folders
+    install -d "$pkgdir/usr/share/licenses/$pkgname"
+    install -d "$pkgdir/opt/"
+    install -d "$pkgdir/etc/conf.d/"
+    install -d "$pkgdir/etc/init.d/"
+    install -d -m 0750 "$pkgdir/var/lib/$pkgname"
+    install -d -m 0755 "$pkgdir/var/log/$pkgname"
+    install -d "$pkgdir/usr/bin/"
+    install -d "$pkgdir/var/lib/teamspeak3-server/"
+    install -d "$pkgdir/var/run/teamspeak3-server/"
+    
+    #copy files 
+    install -T -m 644 "$srcdir/teamspeak3-server_linux-${_tsarch}/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    install -T -m 644 "$filedir/teamspeak3-server.conf.d" "$pkgdir/etc/conf.d/teamspeak3-server"
+    install -T -m 755 "$filedir/teamspeak3-server.rc.d" "$pkgdir/etc/init.d/teamspeak3-server"
+    install -T -m 755 $filedir/"teamspeak3-server.sh" "$pkgdir/usr/bin/teamspeak3-server"
+    mv "${pkgname}_linux-${_tsarch}" "$pkgdir/opt/teamspeak3-server"
+
+}

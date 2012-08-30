@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kpaste
+pkgver=0.0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A tool for pasting to paste.kde.org"
+
+source="git:git://anongit.kde.org/kpaste"
+
+tags="console kde-misc"
+
+adddep="python"
+
+build() {
+	go_src_dir
+	sed -i "s/python2/python/" kpaste
+	install -D -m755 kpaste $pkgdir/usr/bin/kpaste
+}

@@ -1,0 +1,19 @@
+pkgname=iniparser
+pkgver=3.0b
+pkgbuild=1
+shortdesc=("A free stand-alone ini file parsing library written in portable ANSI C")
+longdesc=("A free stand-alone ini file parsing library written in portable ANSI C")
+arch=('auto')
+source=("http://ndevilla.free.fr/iniparser/$pkgname$pkgver.tar.gz")
+tags=("libs dev-libs")
+
+adddep="glibc"
+build() {
+	go_src_dir
+	set -e
+	make -j${numjobs}
+	install -Dm644 src/iniparser.h $pkgdir/usr/include/iniparser.h
+	install -Dm644 src/dictionary.h $pkgdir/usr/include/dictionary.h
+	install -Dm644 libiniparser.a $pkgdir/usr/lib${LIBDIRSUFFIX}/libiniparser.a
+	set +e
+}

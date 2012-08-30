@@ -1,0 +1,68 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=compiz-boxmenu
+pkgver=1.0.8b
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A desktop menu for compiz, forked from compiz-deskmenu by crdlb."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Introduces extensive icon support, pipeitems, recent documents list, and more!")
+
+source=("http://downloads.sourceforge.net/project/compizboxmenu/source%20snapshots/${pkgname}_-_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+make
+make DESTDIR=${pkgdir} PREFIX=/usr install
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

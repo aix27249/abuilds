@@ -1,0 +1,75 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=sqliteman
+pkgver=1.2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="sqliteman (SQLite Data Browser)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Sqliteman is a simple but powerful Sqlite3 GUI database manager. Manage tables, views, or triggers, administrate the database space and index statistics."
+	  ""
+	  "Homepage: http://sqliteman.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="xapps dev-db"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+cmake \
+-DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+-DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DWANT_INTERNAL_QSCINTILLA=1 .
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+#BUILD_SYSTEM="cmake"
+#BUILD_KEYS="-DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+#-DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+#-DCMAKE_INSTALL_PREFIX=/usr \
+#-DLIB_DIR=lib${LIBDIRSUFFIX} \
+#-DWANT_INTERNAL_QSCINTILLA=1"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=quimup
+pkgver=1.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="QUIMUP is a client for the music player daemon (MPD) written in C++ and QT4."
+longdesc=("QUIMUP is a client for the music player daemon (MPD) written in C++ and QT4. The clean interface makes controlling MPD's many features easy and intuitive. The focus is on mouse handling (playlist management by drag-&-drop); playback functions are directly accessible from the system tray. Quimup turns MPD into a perfect desktop music player.")
+
+source=("http://downloads.sourceforge.net/project/musicpd/Quimup/${pkgver}/${pkgname}_${pkgver}_source.tar.gz")
+
+tags="media-sound xapps"
+build()
+{
+  cd ${srcdir}/${pkgname}_${pkgver}
+  cp ${filedir}/quimup${LIBDIRSUFFIX}.pro quimup.pro
+  qmake
+  make -j${numbjobs}
+  install -Dm755 ${pkgname} ${pkgdir}/usr/bin/${pkgname}
+  install -Dm644 ${filedir}/${pkgname}.desktop \
+    ${pkgdir}/usr/share/applications/${pkgname}.desktop
+  install -Dm644 Icons/${pkgname}32.png \
+    ${pkgdir}/usr/share/icons/hicolor/32x32/apps/${pkgname}.png
+  install -Dm644 Icons/${pkgname}48.png \
+    ${pkgdir}/usr/share/icons/hicolor/48x48/apps/${pkgname}.png
+  install -Dm644 Icons/${pkgname}64.png \
+    ${pkgdir}/usr/share/icons/hicolor/64x64/apps/${pkgname}.png
+}

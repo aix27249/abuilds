@@ -1,0 +1,55 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=python-xlib
+pkgver=0.15rc1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Python X Library"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("The Python X Library is a complete X11R6 client-side implementation, written in pure Python.It can be used to write low-levelish X Windows client applications in Python."
+	  ""
+	  "Homepage: http://python-xlib.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="libs dev-python"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+BUILD_KEYS=
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

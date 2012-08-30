@@ -1,0 +1,33 @@
+#!/sbin/runscript
+# Copyright (c) 2009 Roy Marples <roy@marples.name>
+# All rights reserved. Released under the 2-clause BSD license.
+
+# This script was inspired by the equivalent rc.d network from NetBSD.
+
+description="Configures network interfaces."
+
+depend()
+{
+	need localmount
+	after bootmisc
+	provide net
+	keyword -jail -prefix -vserver
+}
+
+start()
+{
+	ebegin "Setting up network"
+	/etc/rc.d/rc.inet1 start
+	return 0
+}
+
+stop()
+{
+	# Don't stop the network at shutdown.
+ 	# We don't use the noshutdown keyword so that we are started again
+	# correctly if we go back to multiuser.
+	yesno ${shutdown_network:-YES} && yesno $RC_GOINGDOWN && return 0
+
+	/etc/rc.d/rc.inet1 stop
+	return 0
+}

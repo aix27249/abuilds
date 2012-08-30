@@ -1,0 +1,92 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=exchange
+svnrev=53304
+pkgver=svn
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Exchange (one of the Enlightenment DR17 foundation libraries)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Enlightenment way to exchange contributed stuff"
+	  ""
+	  "Homepage: http://www.enlightenment.org/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs net-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+if [ -d /tmp/e17 ]; then
+	cp -r /tmp/e17/PROTO/$pkgname $srcdir
+else
+	cd ${srcdir}
+	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/PROTO/$pkgname
+fi
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./autogen.sh \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-etk \
+--disable-ewl
+
+pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2-`.$svnrev
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

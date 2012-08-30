@@ -1,0 +1,52 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=gdm-gnome
+name=gdm
+pkgver=2.32.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="GNOME graphical login program -- improved"
+longdesc=("GDM is the GNOME Display Manager, a graphical login program This is new version of GDM, with improved architecture. For login program for non-GNOME environmen ts, see old gdm 2.20")
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${name}/2.32/${name}-${pkgver}.tar.bz2")
+
+tags="gnome gnome-base"
+
+build_deps="rarian"
+provides="gdm"
+adddep="ConsoleKit prudence-theme agilia-wallpapers shadow coreutils"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+config_files="etc/gdm/custom.conf"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-at-spi-registryd-directory=/usr/lib${LIBDIRSUFFIX}/at-spi \
+--disable-scrollkeeper"
+
+INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=$pkgdir"
+
+after_build() {
+	set -e
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${name}.schemas" --domain gdm ${pkgdir}/etc/gconf/schemas/*.schemas
+	rm -r "${pkgdir}/etc/gconf/schemas/"
+
+	install -m644 "${filedir}/gdm.pam" "${pkgdir}/etc/pam.d/gdm"
+	install -m644 "${filedir}/gdm-autologin.pam" "${pkgdir}/etc/pam.d/gdm-autologin"
+
+	install -m755 -d "${pkgdir}/etc/init.d"
+	install -m755 "${filedir}/gdm" "${pkgdir}/etc/init.d/"
+
+	rmdir "${pkgdir}/var/gdm"
+	chmod 1770 "${pkgdir}/var/log/gdm"
+	set +e
+}

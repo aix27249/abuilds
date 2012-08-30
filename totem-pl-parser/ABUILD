@@ -1,0 +1,19 @@
+pkgname=totem-pl-parser
+pkgver=2.32.6
+pkgbuild=1
+arch=('auto')
+shortdesc="library for parsing playlists"
+source=("ftp://ftp.gnome.org/pub/gnome/sources//${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+tags="dev-libs libs"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"

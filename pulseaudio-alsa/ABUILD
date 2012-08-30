@@ -1,0 +1,16 @@
+pkgname=pulseaudio-alsa
+pkgver=2
+pkgbuild=1
+arch=('noarch')
+shortdesc="Configuration files for using PulseAudio with ALSA"
+source=("")
+tags="libs media-sound"
+adddep="pulseaudio alsa-plugins"
+config_files="etc/asound.conf"
+
+build()
+{
+	set -e
+	install -Dm644 $filedir/asound.conf $pkgdir/etc/asound.conf
+	set +e
+}

@@ -1,0 +1,18 @@
+pkgname=xf86-video-rendition
+pkgver=4.2.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('X11 driver for Rendition cards')
+longdesc=('X11 drive for Rendition video cards.')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-rendition-${pkgver}.tar.bz2")
+
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

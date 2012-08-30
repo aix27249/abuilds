@@ -1,0 +1,36 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=xdg-utils-git
+pkgver=1.1.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Set of command line tools that assist applications with a variety of desktop integration tasks."
+
+source=("git:git://anongit.freedesktop.org/xdg/xdg-utils")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="x11-base xserver"
+
+provides="xdg-utils"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+	go_src_dir
+}
+
+build() {
+	set -e
+	
+	./configure --prefix=/usr
+
+	cd ./scripts/
+	make scripts-clean
+	make scripts
+	make install DESTDIR=${pkgdir}
+	
+	install -m0755 ${filedir}/xdg-su ${pkgdir}/usr/bin/xdg-su
+	
+	set +e
+}

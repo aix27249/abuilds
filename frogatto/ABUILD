@@ -1,0 +1,96 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+#http://aur.archlinux.org/packages/frogatto/frogatto/PKGBUILD
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=frogatto
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Frogatto is a “platformer” or “jump-and-run” videogame."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Frogatto is a “platformer” or “jump-and-run” videogame.  Like many older arcade/nintendo/sega titles, the world is viewed as a cross-section seen from the side, and your character walks and jumps between solid platforms, whilst avoiding being hurt by monsters.  We’re not a clone of any specific game; although just by being a platformer, it’s impossible not to have something in common with games like mario or sonic.  So we are trying to innovate a bit."
+""
+"Please note: these are not necessarily stable. Some effort is made to make sure they aren’t seriously broken, but don’t be too surprised if you encounter bugs, unfinished areas, or anything else that doesn’t seem quite right."
+)
+
+source=("http://www.frogatto.com/files/$pkgname-$pkgver.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-arcade"
+
+#dependencies only needed to build package
+build_deps="cxxlibs>=6.0.13 glibc-solibs>=2.11.2 boost>=1.38.0 sdl>=1.2.14 libICE>=1.0.6 libSM>=1.1.1 libX11>=1.3.4 libXau>=1.0.5 libXdmcp>=1.0.3 libXext>=1.1.2 libXi>=1.3 libXrandr>=1.3.0 libXrender>=0.9.6 libxcb>=1.6 mesa>=7.8.2 util-linux-ng>=2.17.2 libXmu>=1.0.5 libXt>=1.0.8 glew>=1.6.0"
+
+provides=""
+conflicts="frogatto-bin"
+
+adddep="frogatto-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="frdata"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+if [ "${ARCH}" == "x86_64" ]; then
+sed -i 's,usr/lib,usr/lib64,g' Makefile
+fi
+sed -i 's,ccache ,,g' Makefile
+sed -i 's,-lprofiler,,g' Makefile
+make -j${numjobs} game server || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+mkdir -p ${pkgdir}/opt/frogatto ${pkgdir}/usr/bin
+install -D -m755 game $pkgdir/opt/frogatto/game
+install -D -m755 server $pkgdir/opt/frogatto/server
+cd $srcdir
+install -DT -m755 ${filedir}/frogatto $pkgdir/usr/bin/frogatto
+}
+
+
+frdata() {
+pkgname=${p_pkgname}-data
+arch=('noarch')
+shortdesc="Data files for frogatto game"
+adddep="glew"
+tags="games games-arcade"
+}
+
+frdata_prep() {
+go_src_dir
+mkdir -p ${pkgdir}/opt/frogatto
+cp -r data $pkgdir/opt/frogatto/
+cp -r images $pkgdir/opt/frogatto/
+cp -r music $pkgdir/opt/frogatto/
+cp -r sounds $pkgdir/opt/frogatto/
+
+}

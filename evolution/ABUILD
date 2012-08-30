@@ -1,0 +1,104 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=evolution
+pkgver=2.32.3
+pkgbuild=3
+arch=('auto')
+
+shortdesc="groupware suite with mail client and organizer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Evolution is a groupware suite which integrates mail, calendar, address book, to-do list and memo tools.
+
+Additional features include integration with Exchange and Groupwise servers, newsgroup client, LDAP support, web calendars and synchronization with Palm devices.
+
+Evolution is a graphical application that is part of GNOME, and is distributed by Novell, Inc. "
+)
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.32/${pkgname}-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network mail-client"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+	go_src_dir
+	# Fix compilation flags crazyness
+	sed -e 's/-D.*_DISABLE_DEPRECATED//' -i configure.ac configure || exit 1
+	intltoolize --force --copy --automake || exit 1
+	autoreconf
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-scrollkeeper \
+--enable-nss=yes \
+--with-openldap=yes \
+--enable-smimi=yes \
+--enable-pilot-conduits=yes \
+--with-krb5=/usr \
+--disable-pst-import \
+--enable-plugins=experimental \
+--enable-image-inline \
+--enable-canberra \
+--enable-weather \
+--disable-profiling \
+--disable-contacts-map \
+--without-glade-catalog \
+--disable-mono \
+--disable-gtk3"
+
+INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+	cd plugins/tnef-attachments
+	make
+	make DESTDIR="${pkgdir}" install
+
+	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain evolution-${_majorver} ${pkgdir}/etc/gconf/schemas/*.schemas
+rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

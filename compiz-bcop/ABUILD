@@ -1,0 +1,23 @@
+pkgname=compiz-bcop
+pkgver=0.8.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="compiz-bcop"
+longdesc=("Compiz option code generator")
+
+source=("http://releases.compiz.org/$pkgver/${pkgname}-${pkgver}.tar.bz2")
+tags="x11-libs libs"
+
+adddep="compiz libxslt"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+

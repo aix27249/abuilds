@@ -1,0 +1,21 @@
+#!/sbin/runscript
+# Copyright 2010 Agilia Linux team/fat0troll
+# Distributed under the terms of the GNU General Public License, v2 or later
+# Special thanks goes to Gentoo
+
+depend() {
+	use logger acpid
+	after coldplug dns nscd 
+	need consolefont keymaps dbus
+        provide xdm
+}
+
+start() {
+	ebegin "Starting X11 login with GDM..."
+	start-stop-daemon --start -q --exec /usr/sbin/gdm --pidfile /var/run/gdm.pid -b
+}
+
+stop() {
+	ebegin "Stopping X11 login with GDM..."
+	start-stop-daemon --stop -q --pidfile /var/run/gdm.pid 
+}

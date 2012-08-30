@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Transmission Remote GUI
+Name[ru]=Удалённый интерфейс Transmission
+GenericName=BitTorrent client
+GenericName[ru]=BitTorrent-клиент
+Commment=Feature rich front-end to remotely control a Transmission Bit-Torrent client daemon via its RPC protocol.
+Comment[ru]=Функциональный интерфейс для удалённого управления торрент-клиентом Transmission через его протокол RFC.
+Icon=transgui
+Exec=/usr/bin/transgui %F
+MimeType=application/x-bittorent
+Categories=GTK;Network;FileTransfer;P2P;

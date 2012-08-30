@@ -1,0 +1,17 @@
+#ABUILD created by/создан: pztrn, pztrn at pztrn.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libwww
+pkgver=5.4.0
+pkgbuild=1
+arch=('auto')
+shortdesc="A general-purpose client side WEB API"
+source=("http://www.w3.org/Library/Distribution/w3c-$pkgname-$pkgver.tgz")
+tags="libs net-libs"
+build_deps="gcc pkg-config perl zlib openssl"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --with-md5 --with-zlib --with-expat --with-regex --with-ssl"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

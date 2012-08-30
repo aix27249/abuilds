@@ -1,0 +1,41 @@
+pkgname=evince
+pkgver=2.32.0
+pkgbuild=4
+arch=('auto')
+
+shortdesc="Document (postscript, pdf) viewer"
+
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.32/${pkgname}-${pkgver}.tar.bz2")
+
+tags="gnome gnome-extra"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--disable-nautilus \
+	--enable-pdf \
+	--enable-tiff \
+	--enable-djvu \
+	--enable-dvi \
+	--enable-t1lib \
+	--enable-pixbuf \
+	--enable-comics \
+	--enable-impress \
+	--without-gconf \
+	--without-keyring \
+	--disable-introspection \
+	--disable-scrollkeeper \
+	--disable-schemas-compile"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

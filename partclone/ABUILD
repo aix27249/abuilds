@@ -1,0 +1,41 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=partclone
+pkgver=0.2.48
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Back up and restore used-blocks of a partition"
+
+source=("https://downloads.sourceforge.net/project/${pkgname}/stable/$pkgver/${pkgname}_${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="utils app-admin"
+
+adddep="e2fsprogs reiserfsprogs dosfstools ncurses ntfsprogs"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build() 
+{
+
+go_src_dir
+
+./configure --prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-extfs \
+--enable-fat \
+--enable-hfsp \
+--enable-btrfs \
+--enable-ncursesw \
+--enable-ntfs
+
+
+make DESTDIR=$pkgdir install
+
+}

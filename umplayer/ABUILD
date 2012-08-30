@@ -1,0 +1,20 @@
+pkgname=umplayer
+pkgver=0.96
+pkgbuild=1
+arch=('auto')
+
+shortdesc="UMPlayer (Universal Multimedia Player)"
+longdesc=("UMPlayer is the multimedia player that fills all your needs. With dozens of advanced features and built-in codecs it can handle any media format, and can play Audio CDs, DVDs, (S)VCDs, TV / Radio cards, YouTube and SHOUTcast streams and even incomplete or damaged media files.")
+
+source=("svn:https://umplayer.svn.sourceforge.net/svnroot/umplayer")
+tags="xapps media-video"
+
+build() {
+	cd $srcdir/$pkgname.src/$pkgname/trunk
+
+	LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+	make PREFIX=/usr -j${numjobs} || exit 1
+	make PREFIX=/usr install DESTDIR=${pkgdir} || exit 1
+	
+	rm -fr ${pkgdir}/usr/share/umplayer/themes/*/.svn
+}

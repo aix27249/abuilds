@@ -1,0 +1,77 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=smpeg
+pkgver=r`svn info svn://svn.icculus.org/smpeg/trunk | grep Revi | cut -d ":" -f2 | cut -c2-`
+pkgbuild=1
+arch=('auto')
+
+shortdesc="smpeg (SDL MPEG Player Library)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("SMPEG is a free MPEG1 video player library with sound support. Video playback is based on the ubiquitous Berkeley MPEG player, mpeg_play. Audio is played through a slightly modified mpegsound library, part of Splay v0.8.2.  SMPEG supports MPEG audio (MP3), MPEG-1 video, and MPEG system streams."
+	  ""
+	  "Homepage: http://svn.icculus.org/smpeg/"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+cd ${srcdir}
+svn checkout svn://svn.icculus.org/smpeg/trunk ${pkgname}
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="./autogen.sh && LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+sed -i "s#(AM_PATH_SMPEG#([AM_PATH_SMPEG]#" ${pkgdir}/usr/share/aclocal/smpeg.m4 || return 1
+}

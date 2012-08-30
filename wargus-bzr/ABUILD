@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wargus-bzr
+pkgver=2.2.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source RTS engine - Warcraft II data files."
+
+source="bzr:lp:wargus"
+
+tags="games games-strategy"
+
+adddep="timidity++ ffmpeg2theora" # for wartool / wargus-extract
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+after_build() {
+    mv $pkgdir/usr/games/wargus $pkgdir/usr/bin
+    rm -r $pkgdir/usr/games
+    install -Dm755 $filedir/wargus-extract $pkgdir/usr/bin/wargus-extract
+    sed "s@/usr/games/@/usr/bin/@" -i $pkgdir/usr/share/applications/wargus.desktop
+}

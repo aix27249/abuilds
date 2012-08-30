@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=thunar
+pkgver=1.4.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Modern file manager for Xfce"
+
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/Thunar-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool perl perl-xml-parser gtk-doc xfce4-panel"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-gio-unix \
+--enable-dbus \
+--enable-startup-notification \
+--enable-gudev \
+--enable-notifications \
+--enable-exif \
+--enable-pcre \
+--enable-gtk-doc \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

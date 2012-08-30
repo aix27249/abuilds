@@ -1,0 +1,40 @@
+# vsftpd ABUILD
+pkgname=vsftpd
+pkgver=3.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('vsftpd (Very Secure FTP Daemon)')
+longdesc=('vsftpd is an FTP server, or daemon. The 'vs' stands for Very Secure. Obviously this is not a guarantee, but a reflection that the entire codebase was written with security in mind, and carefully designed to be resilient to attack (as well as extremely fast and scalable). The vsftpd homepage is http://vsftpd.beasts.org/ The Very Secure FTP Daemon was written by Chris Evans.')
+
+tags=('net-ftp network')
+
+source=("https://security.appspot.com/downloads/$pkgname-$pkgver.tar.gz")
+
+config_files=("etc/vsftpd.conf
+etc/pam.d/vsftpd
+/etc/logrotate.d/vsftpd")
+
+build() {
+	go_src_dir
+	burn_patches
+	sed -i -e "s#lib/#lib${LIBDIRSUFFIX}/#g" vsf_findlibs.sh
+	sed -e 's|^#undef VSF_BUILD_SSL$|#define VSF_BUILD_SSL|' -i builddefs.h
+
+	make CFLAGS="${CFLAGS} -fPIE" LDFLAGS="-fPIE -pie ${LDFLAGS} -Wl,-z,now" -j${numjobs}
+}
+
+after_build() {
+	go_src_dir
+	cat vsftpd.conf.5 | gzip -9c > vsftpd.conf.5.gz
+	cat vsftpd.8 | gzip -9c > vsftpd.8.gz
+	
+	install -D -m755 vsftpd "${pkgdir}/usr/sbin/vsftpd"
+	install -D -m644 vsftpd.conf "${pkgdir}/etc/vsftpd.conf"
+	install -D -m644 vsftpd.8.gz "${pkgdir}/usr/share/man/man8/vsftpd.8.gz"
+	install -D -m644 vsftpd.conf.5.gz "${pkgdir}/usr/share/man/man5/vsftpd.conf.5.gz"
+	install -D -m644 RedHat/vsftpd.log "${pkgdir}/etc/logrotate.d/vsftpd"
+	install -D -m644 RedHat/vsftpd.pam "${pkgdir}/etc/pam.d/vsftpd"
+	install -D -m755 $filedir/init.d/vsftpd "${pkgdir}/etc/init.d/vsftpd"
+	install -d -m755 "${pkgdir}/usr/share/empty"
+}

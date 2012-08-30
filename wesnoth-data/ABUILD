@@ -1,0 +1,32 @@
+pkgname=wesnoth
+pkgver=1.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Turn-based tactical strategy game"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="games games-strategy"
+
+adddep="wesnoth-data==$pkgver"
+pkglist="data"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+data() {
+	pkgname="wesnoth-data"
+	shortdesc="Data files for Wesnoth"
+	arch='noarch'
+	custom_opts="skip_gendeps no_strip"
+}
+
+data_prep() {
+	mkdir -p ${pkgdir}/usr/
+	mv ${p_pkgdir}/usr/{man,share} ${pkgdir}/usr/
+}

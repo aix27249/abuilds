@@ -1,0 +1,62 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=LightGrey
+pkgver=2.0
+pkgbuild=8
+arch=('auto')
+
+shortdesc=""
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=(""
+)
+
+#source=("")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="x11-themes themes"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+author=NomerUNO
+email=uno.kms@gmail.com
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $pkgdir
+
+burn_patches
+
+cp -a $filedir/etc $pkgdir
+cp -a $filedir/usr $pkgdir
+
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

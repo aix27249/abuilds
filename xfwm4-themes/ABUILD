@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfwm4-themes
+pkgver=4.6.0
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="A set of additionnal themes for the xfwm4 window manager."
+
+source=("http://archive.xfce.org/src/art/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="themes x11-themes"
+
+build_deps="make intltool gcc perl pkg-config"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= "
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

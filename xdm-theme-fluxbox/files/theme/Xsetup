@@ -1,0 +1,13 @@
+#!/bin/sh
+
+## the root window should have this color
+xsetroot -solid "#000000" -cursor_name left_ptr
+#display -window root /usr/lib/X11/xdm/theme/fl4.png
+#xrandr -s 800x600
+#sleep 2
+HOME=/dev/null feh --bg-scale /etc/X11/xdm/theme/Flux.jpg
+
+## these are all optional
+/etc/X11/xdm/theme/buttons -geometry -0-0 &
+xclock -bg black -fg white &
+# xconsole -daemon -geometry 640x200-0+0

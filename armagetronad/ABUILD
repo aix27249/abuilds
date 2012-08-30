@@ -1,0 +1,84 @@
+#ABUILD created by/создан: drakmail, coder at dps.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=armagetronad
+pkgver=0.2.8.3.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A Tron clone in 3D."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This has been the tagline of Armagetron, since, well, a very long time, and is probably the shortest and most accurate description 
+possible. Tron was an arcade game based on the movie of the same name, release by Disney in 1982. The original game consisted of 4 sub-games, the 
+only one of concern is the 'Light Cycles' one, in which the player uses a left/right joystick to control a 'Light Cycle' which leaves a wall behind 
+it wherever the cycle it goes, turning only at 90 degree angles. The player must then get the AI to crash into their wall while avoiding hitting the 
+AI's own wall themselves. Those were the humble beginnings of Armagetron Advanced's game play, which has now blossomed into 16 player mayhem, with 
+highly advanced AI, network game play, and of course all in a 3D environment."
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.src.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-arcade"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p ${pkgdir}/usr/share/applications
+mkdir -p ${pkgdir}/usr/share/icons
+mv ${pkgdir}/usr/share/games/armagetronad/desktop/armagetronad.desktop ${pkgdir}/usr/share/applications/
+mv ${pkgdir}/usr/share/games/armagetronad/desktop/icons/medium/armagetronad.png ${pkgdir}/usr/share/icons/
+}

@@ -1,0 +1,73 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=latencytop
+pkgver=0.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A tool for developers to visualize system latencies"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("LatencyTOP is a Linux tool for software developers (both 
+kernel and userspace), aimed at identifying where in the system latency 
+is happening, and what kind of operation/action is causing the latency 
+to happen so that the code can be changed to avoid the worst latency 
+hiccups."
+)
+
+source=("http://www.${pkgname}.org/download/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="sys-process utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+make
+make install DESTDIR=${pkgdir}
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,87 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=extremetuxracer
+pkgver=0.5_beta
+pkgbuild=1
+arch=('auto')
+
+shortdesc="High speed arctic racing game based on TuxRacer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Extreme Tux Racer - гоночная игра с открытым исходным кодом, в которой вы скатываетесь с горы Tux’ом, талисманом ОС Linux. Она является последователем Tux Racer и его продолжений. Сайт: http://extremetuxracer.com"
+)
+
+source=("http://downloads.sourceforge.net/project/extremetuxracer/extreme-tuxracer/${pkgver/_/}/extremetuxracer-${pkgver/_/}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="games-action games"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= --with-tcl=/usr/lib${LIBDIRSUFFIX}"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+
+icon_desktop (){
+mkdir -p $pkgdir/usr/share/{applications,pixmaps}
+
+unzip etracericons.zip || exit 1
+cp -f etracericons/etracericon_48.png $pkgdir/usr/share/pixmaps/
+
+cat << EOF > $pkgdir/usr/share/applications/extremetuxracer.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Extreme Tux Racer
+Comment=A downhill racing game starring Tux, the Linux penguin
+Exec=etracer
+Icon=etracericon_48
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Game;ArcadeGame;
+EOF
+}
+icon_desktop
+
+}

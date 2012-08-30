@@ -1,0 +1,18 @@
+pkgname=xfs
+pkgver=1.1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xfs')
+longdesc=('xfs is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-apps xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/app/xfs-${pkgver}.tar.bz2")
+
+config_files="etc/X11/fs/config"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --disable-devel-docs --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

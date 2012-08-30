@@ -1,0 +1,41 @@
+#!/sbin/runscript
+# Copyright 1999-2008 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/net-im/ejabberd/files/ejabberd-2.0.4.initd,v 1.2 2009/03/27 19:40:57 hanno Exp $
+# Modified for AgiliaLinux: 2011 by aix27249
+opts="${opts} reload"
+
+depend() {
+	use dns
+	need net
+	provide jabber-server
+}
+
+checkconfig() {
+	if [ ! -e /etc/ejabberd/ejabberd.cfg ] ; then
+		eerror "You need a /etc/jabber/ejabberd.cfg file to run ejabberd"
+		return 1
+	fi
+}
+
+start() {
+	checkconfig || return 1
+	ebegin "Starting ejabberd"
+	# the process name of beam is different depending whether smp is used.
+	# set it explicitly so start-stop-daemon works
+	/usr/sbin/ejabberdctl start --node ${EJABBERD_NODE} --spool /var/lib/ejabberd
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping ejabberd"
+	/usr/sbin/ejabberdctl stop
+	eend $?
+}
+
+reload() {
+	ebegin "Reloading ejabberd"
+	/usr/sbin/ejabberdctl reopen-log
+	eend $?
+}
+

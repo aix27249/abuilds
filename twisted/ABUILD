@@ -1,0 +1,16 @@
+pkgname=twisted
+pkgver=11.1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="a networking engine written in Python, supporting numerous protocols"
+longdesc=("Twisted is an event-driven networking engine written in Python and licensed under the MIT license. It contains a web server, numerous chat clients, chat servers, mail servers, and more. Homepage: http://twistedmatrix.com")
+
+source=("http://twistedmatrix.com/Releases/Twisted/${pkgver%.*}/Twisted-$pkgver.tar.bz2")
+
+tags="dev-python network"
+adddep="zope.interface"
+BUILD_SYSTEM="python"
+MAKE_WORD="python setup.py build"
+BUILD_KEYS=
+

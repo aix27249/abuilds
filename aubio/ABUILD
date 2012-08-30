@@ -1,0 +1,27 @@
+# Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+pkgname=aubio
+pkgver=0.3.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A library for audio labelling"
+longdesc=("aubio is a tool designed for the extraction of annotations from audio signals. Its features include segmenting a sound file before each of its attacks, performing pitch detection, tapping the beat and producing midi streams from live audio."
+)
+source=("http://aubio.piem.org/pub/${pkgname}-${pkgver}.tar.gz")
+tags="libs media-libs"
+build_deps="fftw"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

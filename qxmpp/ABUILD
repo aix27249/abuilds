@@ -1,0 +1,10 @@
+pkgname=qxmpp
+pkgver=0.4
+pkgbuild=2
+arch=('auto')
+shortdesc="XMPP (Jabber) library for Qt"
+source=("git:git://github.com/0xd34df00d/qxmpp-dev.git")
+tags="libs dev-libs"
+adddep="glibc"
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr LIBDIR=lib64"

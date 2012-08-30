@@ -1,0 +1,7 @@
+meta-media() {
+	pkgname="leechcraft-media"
+	shortdesc="Leechcraft plugins for multimedia"
+	adddep="leechcraft-lmp leechcraft-vgrabber leechcraft-deadlyrics leechcraft-util"
+	tags="virtual x11-misc"
+	arch="noarch"
+}

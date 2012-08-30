@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=apvlv
+Comment=A minimalistic PDF viewer
+Exec=apvlv
+Terminal=false
+Type=Application
+Categories=Office;
+MimeType=application/pdf;

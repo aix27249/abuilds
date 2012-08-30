@@ -1,0 +1,19 @@
+pkgname=libatasmart
+pkgver=0.18
+pkgbuild=1
+arch=('auto')
+shortdesc="ATA S.M.A.R.T. Reading and Parsing Library"
+source=("http://0pointer.de/public/${pkgname}-${pkgver}.tar.gz")
+tags="libs dev-libs"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"

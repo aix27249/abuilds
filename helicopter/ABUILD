@@ -1,0 +1,66 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=helicopter
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Script for easy maintaining custom repos"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Helicopter is a small Bash script which helps you to easily maintain, update and modify repo."
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="sys-apps console"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bash>4.0 mpkg-console>=0.16_svn362"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+	mkdir -p $pkgdir/usr/bin
+	cp $filedir/helicopter $pkgdir/usr/bin
+	chmod +x $pkgdir/usr/bin/helicopter
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

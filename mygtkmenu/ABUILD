@@ -1,0 +1,69 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=mygtkmenu
+pkgver=1.2.1c
+pkgbuild=2
+arch=('auto')
+
+shortdesc="user defined GTK menu for running applications"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("MyGtkMenu requires GTK+ 2.4 (or later) libraries. myGtkMenu should work with Gnome keyboard shortcuts (hot keys). To set up a hot key in Gnome, use gconf-editor.")
+
+source=("http://jvinla.googlepages.com/myGtkMenu-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="python>=2.6.6"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+config_files="etc/mygtkmenu.conf"
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+cd ${srcdir}
+burn_patches
+
+# cleanup
+  rm myGtkMenu
+  rm myGtkMenu-32
+  rm myGtkMenu-64
+
+# install config file
+  install -D -m644 TestMenu.txt $pkgdir/etc/mygtkmenu.conf
+
+# install executable
+  make || return 1
+  install -D -m755 myGtkMenu $pkgdir/usr/bin/mygtkmenu
+  install -D -m755 ${filedir}/mygtkmenu_autogen.py $pkgdir/usr/bin/mygtkmenu_autogen
+  
+# install license
+  install -D -m644 License.txt "$pkgdir/usr/share/licenses/mygtkmenu/License.txt" || return 1
+}

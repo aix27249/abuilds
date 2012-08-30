@@ -1,0 +1,30 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=b43-fwcutter
+pkgver=015
+pkgbuild=1
+arch=('auto')
+
+shortdesc="firmware extractor for the bcm43xx kernel module"
+
+source=("http://bu3sch.de/b43/fwcutter/${pkgname}-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="network net-wireless"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+go_src_dir
+}
+
+build()
+{
+make
+}
+
+after_build()
+{
+install -D -m755 b43-fwcutter ${pkgdir}/usr/bin/b43-fwcutter
+install -D -m644 b43-fwcutter.1 $pkgdir/usr/share/man/man1/b43-fwcutter.1
+}

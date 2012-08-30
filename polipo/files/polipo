@@ -1,0 +1,28 @@
+#!/sbin/runscript
+# Copyright (c) 2007-2009 Roy Marples <roy@marples.name>
+# All rights reserved. Released under the 2-clause BSD license.
+
+description="Polipo script."
+
+depend()
+{
+    use network
+    after named
+}
+
+start()
+{
+    ebegin "Starting polipo"
+    start-stop-daemon --start -q -b --pidfile /var/run/polipo/polipo.pid \
+     --exec /usr/bin/polipo -- -c "/etc/polipo/polipo.conf" 
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping squid"
+    polipo -x
+        start-stop-daemon --stop -q --pidfile /var/run/polipo/polipo.pid \
+         --exec killall polipo
+
+        eend $?
+}

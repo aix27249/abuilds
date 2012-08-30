@@ -1,0 +1,50 @@
+#ABUILD created by/создан: Drakmail, drakmail at gmail.com
+pkgname=laptop-mode-tools
+pkgver=1.61
+pkgbuild=2
+arch=('auto')
+ 
+shortdesc="Laptop mode is a kernel mode that allows you to extend the battery life of your laptop"
+ 
+adddep="bash hdparm acpid bluez ethtool"
+ 
+source=("http://www.samwel.tk/laptop_mode/tools/downloads/${pkgname}_${pkgver}.tar.gz")
+ 
+tags="utils sys-kernel"
+ 
+config_files='etc/laptop-mode/conf.d/ac97-powersave.conf
+etc/laptop-mode/conf.d/auto-hibernate.conf
+etc/laptop-mode/conf.d/battery-level-polling.conf
+etc/laptop-mode/conf.d/bluetooth.conf
+etc/laptop-mode/conf.d/configuration-file-control.conf
+etc/laptop-mode/conf.d/cpufreq.conf
+etc/laptop-mode/conf.d/dpms-standby.conf
+etc/laptop-mode/conf.d/eee-superhe.conf
+etc/laptop-mode/conf.d/ethernet.conf
+etc/laptop-mode/conf.d/exec-commands.conf
+etc/laptop-mode/conf.d/hal-polling.conf
+etc/laptop-mode/conf.d/intel-hda-powersave.conf
+etc/laptop-mode/conf.d/intel-sata-powermgmt.conf
+etc/laptop-mode/conf.d/lcd-brightness.conf
+etc/laptop-mode/conf.d/nmi-watchdog.conf
+etc/laptop-mode/conf.d/runtime-pm.conf
+etc/laptop-mode/conf.d/sched-mc-power-savings.conf
+etc/laptop-mode/conf.d/sched-smt-power-savings.conf
+etc/laptop-mode/conf.d/start-stop-programs.conf
+etc/laptop-mode/conf.d/terminal-blanking.conf
+etc/laptop-mode/conf.d/usb-autosuspend.conf
+etc/laptop-mode/conf.d/video-out.conf
+etc/laptop-mode/conf.d/wireless-ipw-power.conf
+etc/laptop-mode/conf.d/wireless-iwl-power.conf
+etc/laptop-mode/conf.d/wireless-power.conf
+etc/laptop-mode/laptop-mode.conf
+etc/laptop-mode/lm-profiler.conf'
+ 
+build()
+{
+go_src_dir
+burn_patches
+DESTDIR="${pkgdir}" INIT_D=none MAN_D=/usr/share/man LIB_SUFFIX=${LIBDIRSUFFIX} ./install.sh
+install -d "${pkgdir}/var/run/laptop-mode-tools/"
+install -D -m755 "${filedir}/laptop-mode" "${pkgdir}/etc/init.d/laptop-mode"
+}

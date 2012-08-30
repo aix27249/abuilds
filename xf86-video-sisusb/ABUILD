@@ -1,0 +1,17 @@
+pkgname=xf86-video-sisusb
+pkgver=0.9.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-sisusb: X11 driver for SiS USB video adapters')
+longdesc=('xf86-video-sisusb: X11 driver for SiS USB video adapters')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-sisusb-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

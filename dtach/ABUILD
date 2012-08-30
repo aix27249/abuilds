@@ -1,0 +1,68 @@
+#ABUILD created by/создан: Coldead, firedead117 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dtach
+pkgver=0.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="dtach - emulates the detach feature of screen"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("dtach - does not, however, have the other features of screen."
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console app-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build(){
+go_src_dir
+./configure --prefix=/user
+make
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+go_src_dir
+install -Dm755 dtach $pkgdir/usr/bin/dtach
+install -Dm644 dtach.1 $pkgdir/usr/share/man/man1/dtach.1
+}

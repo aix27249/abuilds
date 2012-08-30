@@ -1,0 +1,19 @@
+*** config.c.orig	2010-03-02 12:49:06.000000000 +1000
+--- config.c	2011-05-30 13:52:29.000000000 +1100
+***************
+*** 288,294 ****
+  #ifdef __WIN32
+  		set_config_file(s, "/Program Files/foremost/foremost.conf");
+  #else
+! 		set_config_file(s, "/usr/local/etc/foremost.conf");
+  #endif
+  		if ((f = fopen(get_config_file(s), "r")) == NULL)
+  			{
+--- 288,294 ----
+  #ifdef __WIN32
+  		set_config_file(s, "/Program Files/foremost/foremost.conf");
+  #else
+! 		set_config_file(s, "/etc/foremost.conf");
+  #endif
+  		if ((f = fopen(get_config_file(s), "r")) == NULL)
+  			{

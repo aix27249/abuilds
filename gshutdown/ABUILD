@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=gshutdown
+pkgver=0.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="An advanced shutdown utility"
+
+source=("http://gshutdown.tuxfamily.org/release/${pkgname}-${pkgver}.tar.gz")
+
+tags="x11-apps utils"
+
+build_deps="make pkg-config"
+adddep="libglade libnotify"
+
+build() {
+  go_src_dir
+  sed -i 's/notify_notification_new("GShutdown", message, NULL, GTK_WIDGET(widget));/notify_notification_new("GShutdown", message, GTK_WIDGET(widget));/' src/gui.c
+  LDFLAGS="-lX11 -lXau" 
+  ./configure --prefix=/usr --mandir=/usr/man
+  make
+  make DESTDIR="${pkgdir}" install
+  echo "End build"
+}

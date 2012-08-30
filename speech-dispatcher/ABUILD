@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=speech-dispatcher
+pkgver=0.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="High-level device independent layer for speech synthesis interface"
+
+source=("http://www.freebsoft.org/pub/projects/speechd/$pkgname-$pkgver.tar.gz")
+
+tags="libs app-accessibility"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--docdir=/usr/doc/$pkgname-$pkgver \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	rm $pkgdir/usr/bin/run_test
+}

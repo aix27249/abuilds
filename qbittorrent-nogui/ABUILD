@@ -1,0 +1,31 @@
+#Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+pkgname=qbittorrent-nogui
+pkgver=2.9.3
+pkgbuild=1
+arch=('auto')
+shortdesc="qBittorrent w/o gui"
+longdesc=("An advanced bittorrent client in C++ / Qt4"
+)
+source=("http://downloads.sourceforge.net/project/qbittorrent/qbittorrent/${pkgname/-nogui/}-${pkgver}/${pkgname/-nogui/}-${pkgver}.tar.gz")
+tags="console net-p2p"
+provides=${pkgname/-nogui/}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure"
+BUILD_KEYS="--prefix=/usr \
+	--disable-geoip-database \
+	--disable-gui"
+	#--disable-libnotify \
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+
+after_build()
+{
+echo ""
+
+cd $pkgdir/usr/doc/${pkgname}-${pkgver}/
+if [ -f ./README.os2 ]; then rm -v $pkgdir/usr/doc/${pkgname}-${pkgver}/README.os2 || exit 1; fi
+if [ -f ./doc/qbittorrent.1 ]; then rm -v ./doc/qbittorrent*.1 && rmdir -v ./doc || exit 1; fi
+
+echo ""
+}

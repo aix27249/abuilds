@@ -1,0 +1,16 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kdeaccessibility
+pkgver=4.8.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="kdeaccessibility transitional package"
+
+adddep="jovie kaccessible kmag kmousetool kmouth"
+
+tags="kde-misc virtual"
+
+build()
+{
+	true
+}

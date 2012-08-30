@@ -1,0 +1,69 @@
+#----------------------------- General vars --------------------------------------
+#http://aur.archlinux.org/packages/goldendict-git/goldendict-git/PKGBUILD
+#------------------------- Основные переменные -----------------------------------
+pkgname=goldendict
+pkgver=1.0.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A feature-rich dictionary lookup program"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}-src.tar.bz2")
+
+patch_opts=("mops-phonon.patch 0"
+"install_path.patch 0")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="xapps app-dicts"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#work only in MOPS
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#author=Unnamed_Hero
+#email=sorry@email.hide
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+go_src_dir
+cd ..
+burn_patches
+
+#Localization workaround
+lrelease locale/ru_RU.ts -qm locale/ru_RU.qm
+lrelease locale/zh_CN.ts -qm locale/zh_CN.qm
+lrelease locale/cs_CZ.ts -qm locale/cs_CZ.qm
+lrelease locale/de_DE.ts -qm locale/de_DE.qm
+lrelease locale/el_GR.ts -qm locale/el_GR.qm
+lrelease locale/bg_BG.ts -qm locale/bg_BG.qm
+             
+qmake PREFIX=/usr
+make -j${numjobs} || exit 1
+make install INSTALL_ROOT=$pkgdir || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+rm -rf ${pkgdir}/usr/share/app-install
+}

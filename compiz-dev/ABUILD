@@ -1,0 +1,122 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=compiz-dev
+pkgver=0.9.5.92.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Core package of the current Compiz development release"
+#longdesc=(""
+#)
+
+source=("http://releases.compiz.org/$pkgver/compiz-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides="compiz"
+# gtk window decorator now, as I see, merged into main package...
+conflicts="compiz-decorator-gtk"
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+# Here's place to twick build options quickly
+gnome_keybind="On"
+gtk_decor="On"
+use_gconf="On"
+kde_decor="Off"
+testing_tools="Off"
+gnome3="Off"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DBUILD_GNOME_KEYBINDINGS=$gnome_keybind \
+-DBUILD_GTK=$gtk_decor \
+-DUSE_GCONF=$use_gconf \
+-DBUILD_KDE4=$kde_decor \
+-DBUILD_TESTING=$testing_tools \
+-DCOMPIZ_DEFAULT_PLUGINS='composite,opengl,decor,resize,place,move' \
+-DCOMPIZ_DISABLE_PLUGIN_FADE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SCREENSHOT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_OBS=Off \
+-DCOMPIZ_DISABLE_PLUGIN_DECOR=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SCALE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_RESIZE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_CLONE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_WATER=Off \
+-DCOMPIZ_DISABLE_PLUGIN_ANNOTATE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_COMMANDS=Off \
+-DCOMPIZ_DISABLE_PLUGIN_BLUR=Off \
+-DCOMPIZ_DISABLE_PLUGIN_CUBE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_COMPOSITE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_COPYTEX=Off \
+-DCOMPIZ_DISABLE_PLUGIN_GNOMECOMPAT=Off \
+-DCOMPIZ_DISABLE_PLUGIN_OPENGL=Off \
+-DCOMPIZ_DISABLE_PLUGIN_KDE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_REGEX=Off \
+-DCOMPIZ_DISABLE_PLUGIN_COMPIZTOOLBOX=Off \
+-DCOMPIZ_DISABLE_PLUGIN_SWITCHER=Off \
+-DCOMPIZ_DISABLE_PLUGIN_INOTIFY=Off \
+-DCOMPIZ_DISABLE_PLUGIN_ROTATE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_PLACE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_MOVE=Off \
+-DCOMPIZ_DISABLE_PLUGIN_WOBBLY=Off \
+-DCOMPIZ_DISABLE_PLUGIN_INI=Off \
+-DCOMPIZ_DISABLE_PLUGIN_ZOOM=Off \
+-DCOMPIZ_DISABLE_PLUGIN_IMGPNG=Off \
+-DCOMPIZ_DISABLE_PLUGIN_DBUS=Off \
+-DCOMPIZ_DISABLE_PLUGIN_IMGSVG=Off \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+go_src_dir
+# My findcompiz_install realization
+mkdir -p $pkgdir/usr/share/cmake-2.8/Modules || exit 1
+cp cmake/FindCompiz.cmake $pkgdir/usr/share/cmake-2.8/Modules || exit 1
+
+# GNOME 3 related stuff
+if [ $gnome3 == "On" ] ; then
+	install -m755 -d "$pkgdir"/usr/share/{gnome-session/sessions,xsessions,applications}/
+	install -m644 $filedir/gnome-compiz.session "$pkgdir"/usr/share/gnome-session/sessions/
+	install -m644 $fliedir/gnome-compiz.desktop "$pkgdir"/usr/share/xsessions/
+	install -m644 $filedir/compiz.desktop "$pkgdir"/usr/share/applications/
+fi
+}

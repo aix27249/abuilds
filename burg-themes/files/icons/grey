@@ -1,0 +1,28 @@
++class
+{
+  -windows { image = "$$/grey_windows.png" }
+  -linux { image = "$$/grey_linux.png" }
+  -ubuntu { image = "$$/grey_ubuntu.png" }
+  -debian { image = "$$/grey_debian.png" }
+  -suse { image = "$$/grey_opensuse.png" }
+  -freebsd { image = "$$/grey_freebsd.png" }
+  -macosx { image = "$$/grey_osx.png" }
+  -gentoo { image = "$$/grey_gentoo.png" }
+  -linuxmint { image = "$$/grey_linuxmint.png" }
+  -mandrake { image = "$$/grey_mandrake.png" }
+  -arch { image = "$$/grey_arch.png" }
+  -centos { image = "$$/grey_centos.png" }
+  -fedora { image = "$$/grey_fedora.png" }
+  -mepis { image = "$$/grey_mepis.png" }
+  -pclinuxos { image = "$$/grey_pclinuxos.png" }
+  -puppy { image = "$$/grey_puppy.png" }
+  -redhat { image = "$$/grey_redhat.png" }
+  -sabayon { image = "$$/grey_sabayon.png" }
+  -slackware { image = "$$/grey_slackware.png" }
+  -zenix { image = "$$/grey_zenix.png" }
+  -molinux { image = "$$/grey_molinux.png" }
+  -image { image = "$$/grey_unknown.png" }
+  -agilia { image = "$$/grey_agilia.png" }
+}
+
+-include "../custom/icon_grey"

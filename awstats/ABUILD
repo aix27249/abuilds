@@ -1,0 +1,86 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=awstats
+pkgver=7.0
+pkgbuild=1
+docroot=/var/www/htdocs
+awuser=root
+awgroup=apache
+arch=('noarch')
+
+shortdesc="Log analyzer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("AWStats is a free powerful and featureful tool that generates advanced web streaming, ftp, or mail server statistics graphically. AWStats works as a CGI or from command line and shows you all possible information your log contains, in few graphical web pages. It can analyze log files from all major server tools like Apache log files and a lot of other web, proxy, wap, streaming servers, mail servers, and some ftp servers."
+)
+
+source=("http://prdownloads.sourceforge.net/awstats/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="server www-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs="README.TXT docs/*"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+    go_src_dir
+    # Patch httpd_conf file supplied by awstats to correct paths
+    sed s:@DOCROOT@:$docroot: ${patchdir}/httpd-awstats.conf.patch | patch -p0
+    # Patch awstats_configure.pl file -- see patch header for details
+    sed s:@DOCROOT@:$docroot: ${patchdir}/awstats_configure.pl.patch | patch -p0
+}
+
+build()
+{
+    go_src_dir
+    mkdir -p ${pkgdir}/${docroot}/awstats
+    mkdir -p ${pkgdir}/etc/awstats ${pkgdir}/etc/httpd/extra
+
+    cp -a tools wwwroot ${pkgdir}/${docroot}/awstats
+    install -m 0644 wwwroot/cgi-bin/awstats.model.conf ${pkgdir}/etc/awstats
+    cat tools/httpd_conf >> ${pkgdir}/etc/httpd/extra/httpd-awstats.conf.new
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+    go_src_dir
+    # Awstats cannot work proper as symlink
+    mkdir -p ${pkgdir}/usr/bin
+    sed s:@DOCROOT@:$docroot: ${filedir}/awstats > ${pkgdir}/usr/bin/awstats
+    chmod +x ${pkgdir}/usr/bin/awstats
+
+    # Change ownership and perms
+    chown -R $awuser:$awgroup ${pkgdir}/${docroot}/awstats
+}

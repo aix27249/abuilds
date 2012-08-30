@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=stratagus-bzr
+pkgver=2.2.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source RTS engine."
+
+source="bzr:lp:stratagus"
+
+tags="games games-strategy"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+after_build() {
+    mkdir -p ${pkgdir}/usr/include
+    cp gameheaders/stratagus-game-launcher.h ${pkgdir}/usr/include
+    mv $pkgdir/usr/games/stratagus $pkgdir/usr/bin
+    rm -r $pkgdir/usr/games
+}

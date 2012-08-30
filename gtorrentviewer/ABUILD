@@ -1,0 +1,31 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=gtorrentviewer
+pkgver=0.2b
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GTorrentViewer is a GTK2-based viewer and editor for BitTorrent meta files."
+longdesc=("GTorrentViewer is a GTK2-based viewer and editor for BitTorrent meta files. It is able to retrieve information from trackers, check files, show detailed information, and modify .torrent files without having to start downloading."
+""
+"http://gtorrentviewer.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/GTorrentViewer-${pkgver}.tar.gz")
+
+tags="xapps net-p2p"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

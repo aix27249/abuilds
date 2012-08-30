@@ -1,0 +1,28 @@
+pkgname=libdrm
+pkgver=2.4.26
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('libdrm (A library to support Direct Rendering)')
+longdesc=('This library implements an interface to the kernel DRM services. It is used to support hardware accelerated 3-D rendering.')
+
+tags=('libs x11-libs')
+
+source=("http://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+before_build() {
+	go_src_dir
+	burn_patches
+	autoreconf --force --install
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX \
+	--enable-udev \
+	--enable-intel \
+	--enable-radeon \
+	--enable-vmwgfx-experimental-api \
+	--enable-nouveau-experimental-api"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

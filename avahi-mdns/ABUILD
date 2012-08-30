@@ -1,0 +1,113 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=avahi-mdns
+name=avahi
+pkgver=0.6.29
+pkgbuild=1
+arch=('auto')
+
+shortdesc="avahi (service discovery aka zeroconf). Compatibility files with mDNS"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Avahi is an Implementation the DNS Service Discovery and Multicast DNS specific ations for Zeroconf Computing. It uses D-BUS for communication between user app lications and a system daemon. The daemon is used to coordinate application eff orts in caching replies, necessary to minimize the traffic imposed on networks. This kind of technology is already found in Apple MacOS X (branded Rendezvous Bonjour and sometimes Zeroconf) and is very convenient.")
+
+source=("http://avahi.org/download/${name}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-dns"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-shared \
+--disable-monodoc \
+--disable-mono \
+--enable-python-dbus \
+--enable-pygtk \
+--enable-glib \
+--enable-dbus \
+--enable-python \
+--enable-gtk \
+--disable-gtk3 \
+--disable-qt3 \
+--enable-qt4 \
+--enable-core-docs \
+--with-avahi-user=avahi \
+--with-avahi-group=avahi \
+--with-autoipd-user=avahi-autoipd \
+--with-autoipd-group=avahi-autoipd \
+--with-distro=slackware \
+--disable-introspection \
+--enable-compat-libdns_sd"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# remove any stuff, which provided by avahi package
+# maybe in future all mdns stuff will be enabled in avahi package and
+# needes of this package will be zero
+# I believe..
+rm -r ${pkgdir}/etc
+cd ${pkgdir}/usr
+rm -r bin/ doc/ man/ sbin/ share/
+cd include/
+rm -r avahi-client avahi-common avahi-core avahi-glib avahi-gobject avahi-qt4 avahi-ui
+cd ..
+cd lib${LIBDIRSUFFIX}/
+rm -r avahi
+cd pkgconfig/
+mv avahi-compat-libdns_sd.pc avhi-compat-libdns_sd.pc
+rm avahi*
+mv avhi-compat-libdns_sd.pc avahi-compat-libdns_sd.pc
+cd ..
+rm -r python2.6
+rm -r libavahi*
+# And now one more stuff!
+cd ${pkgdir}/usr/include
+ln -s avahi-compat-libdns_sd/dns_sd.h dns_sd.h
+}

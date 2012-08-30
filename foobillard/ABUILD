@@ -1,0 +1,97 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=foobillard
+pkgver=3.0a
+pkgbuild=2
+arch=('auto')
+
+shortdesc="FooBillard - free 3D OpenGL billard game for linux"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("FooBillard (official home page: http://foobillard.sunsite.dk/) is a free (libre; licensed under GPL2) OpenGL billiard game for Linux by Florian Berger. http://foobillard.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/foobillard/FooBillard-Sources/foobillard-${pkgver}.tar.gz")
+
+patch_opts= #("snooker_draw.patch 0") #"snooker_reset.patch 0")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-sports games"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# thx arch linux 
+# http://www.archlinux.org/packages/extra/x86_64/foobillard/
+
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  sed -i -e 's/-lXaw//' -e 's/-lXi//' src/Makefile.in
+
+  patch -p1 < $filedir/patches/03_bugfixes || exit 1
+  patch -p1 < $filedir/patches/05_foul_explanation || exit 1
+  patch -p1 < $filedir/patches/06_show_ball_to_hit || exit 1
+
+  patch -p0 < $filedir/patches/snooker_reset.patch || exit 1
+  patch -p0 < $filedir/patches/snooker_draw.patch || exit 1
+
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+go_srcd_ir
+  install -D -m644 $filedir/foobillard.desktop "${pkgdir}/usr/share/applications/foobillard.desktop"
+  install -D -m644 $filedir/foobillard.png "${pkgdir}/usr/share/pixmaps/foobillard.png"
+  install -D -m644 foobillard.6 "${pkgdir}/usr/share/man/man6/foobillard.6"
+  
+mv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/README.FONTS \
+	${pkgdir}/usr/doc/${pkgname}-${pkgver}/LICENSE.FONTS #|| exit 1
+}

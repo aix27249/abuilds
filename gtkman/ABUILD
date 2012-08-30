@@ -1,0 +1,66 @@
+#ABUILD created by/создан: viki, aks.kloun at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gtkman
+pkgver=0.5
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="simple GTK+2 manual page viewer"
+longdesc=("GTKMan is a simple GTK+2 manual page viewer, written in Python. Manual pages are viewed by specifying their name and optionally the section they are in, just as with the original man command. The manual pages are displayed in simple text form using the default system monospace font.")
+
+source=("http://people.salixos.org/gapan/gtkman/gtkman-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pygtk"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+./compile.sh
+DESTDIR=$pkgdir ./install.sh
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

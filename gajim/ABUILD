@@ -1,0 +1,35 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=gajim
+pkgver=0.15
+pkgbuild=1
+
+arch=('auto')
+
+shortdesc="A full featured and easy to use Jabber client"
+
+source=("http://gajim.org/downloads/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="net-im xapps"
+
+build_deps="intltool gettext python perl perl-xml-parser gcc"
+
+adddep="pyOpenSSL pygobject pycairo pygtk dbus-python gtkspell aspell aspell-en aspell-ru pycrypto avahi python"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--enable-site-packages"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

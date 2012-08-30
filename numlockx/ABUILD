@@ -1,0 +1,28 @@
+#ABUILD created by/создан: medved, medved94_94 at mail.ru 
+pkgname=numlockx
+pkgver=1.2
+pkgbuild=1
+arch=("auto")
+
+shortdesc="NumLockX turns on NumLock after starting X"
+longdesc="NumLockX turns on NumLock after starting X"
+
+source=("http://ktown.kde.org/~seli/numlockx/numlockx-${pkgver}.tar.gz")
+
+tags="console x11-misc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

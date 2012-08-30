@@ -1,0 +1,20 @@
+#ABUILD created by/создан: Drakmail, coder at iso-art.ru 
+pkgname=rt2860-firmware
+pkgver=26
+pkgbuild=1
+arch=('fw')
+
+shortdesc="rt2860 Ralink firmware"
+longdesc=("Необходим для работы модуля wifi. Полезен для нетбуков ASUS.")
+
+source=("http://www.ralinktech.com/download.php?t=U0wyRnpjMlYwY3k4eU1ERXdMekF6THpNeEwyUnZkMjVzYjJGa01UWTBNamsyTVRBNE1pNTZhWEE5UFQxU1ZESTROakJmUm1seWJYZGhjbVZmVmpJMkM=")
+
+tags="network net-wireless"
+
+build()
+{
+go_src_dir
+burn_patches
+mkdir -p ${pkgdir}/lib/firmware
+cp rt2860.bin ${pkgdir}/lib/firmware
+}

@@ -1,0 +1,71 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tuxcmd
+pkgver=0.6.78
+pkgbuild=2
+arch=('auto')
+
+shortdesc=" ДЕ независимый, (без зависимостей от КДЕ и Гнома) двухпанельный файловый менеджер"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Tux Commnder ДЕ независимый, (без зависимостей от КДЕ и Гнома) двухпанельный файловый менеджер, выдержанный в духе Крусайдер"
+)
+
+source=("git:git://git.bzatek.net/tuxcmd
+git://git.bzatek.net/tuxcmd-modules")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps x11-apps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+make modules  || exit 1
+make tuxcmd  || exit 1
+make install DESTDIR=$startdir/pkg/usr || exit 1
+make modules_install DESTDIR=$startdir/pkg/usr || exit 1
+
+
+burn_patches
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

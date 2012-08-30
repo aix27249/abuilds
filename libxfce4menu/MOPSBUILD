@@ -1,0 +1,64 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libxfce4menu
+pkgver=4.7.0
+pkgbuild=1
+arch=('any')
+shortdesc="a freedesktop.org compliant menu implementation for Xfce"
+longdesc=("Реализация меню для XFCE по стандартам freedesktop.org"
+)
+
+source=("git:git://git.xfce.org/xfce/libxfce4menu")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+#--------------------- Специфичные для MOPSLinux ------------------------------
+
+tags="xfce xfce-base"     #short and long tags / длинный и короткий тег
+adddep=""
+removedep=""
+build_deps="xfce4-dev-tools>=4.7.3_git"
+author=Unnamed_Hero
+email=sorry@email.hide
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#set configure options, make and make install 
+#конфигурация, сборка, подготовка пакета
+build() 
+{
+cd $startdir/src/$pkgname
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./autogen.sh --prefix=/usr \
+--sysconfdir=/etc/xfce \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

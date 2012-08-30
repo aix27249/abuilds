@@ -1,0 +1,21 @@
+pkgname=compiz-fusion-plugins-unsupported
+pkgver=0.8.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Unsupported compiz plugins"
+longdesc=("This is unsupported compiz plugins which provides effects and other compiz stuff. Note: may be unstable.")
+
+source=("http://releases.compiz.org/${pkgver}/compiz-plugins-unsupported-${pkgver}.tar.bz2")
+tags="x11-misc xapps"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+

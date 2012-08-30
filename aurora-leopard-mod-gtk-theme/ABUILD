@@ -1,0 +1,59 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=aurora-leopard-mod-gtk-theme
+pkgver=1.2
+pkgbuild=4
+arch=('noarch')
+
+shortdesc="Aurora Leopard Mod (GTK 2.x Theme/Style)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("http://gnome-look.org/content/show.php/Aurora+Leopard+Mod?content=96685"
+)
+
+source=("http://gnome-look.org/CONTENT/content-files/96685-Aurora%20Leopard%20Mod.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="x11-themes themes"     	#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep="aurora-gtk-engine>=1.5.1"
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+
+cd Aurora\ Leopard\ Mod
+
+find ./gtk-2.0/ -name "*~" -exec rm {} \;
+echo "Name=Aurora Leopard Mod" >> index.theme
+chmod -R a+x .
+
+mkdir -p $pkgdir/usr/share/themes/Aurora-Leopard-Mod
+cp -a * $pkgdir/usr/share/themes/Aurora-Leopard-Mod
+}

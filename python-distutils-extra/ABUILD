@@ -1,0 +1,13 @@
+pkgname=python-distutils-extra
+pkgver=2.23
+pkgbuild=1
+arch=('auto')
+ 
+shortdesc="Enhancements to Python's distutils"
+longdesc=("Enables you to easily integrate gettext support, themed icons and scrollkeeper based documentation into Python's distutils.")
+ 
+source=("http://launchpad.net/python-distutils-extra/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz")
+ 
+tags="develop dev-python"
+
+BUILD_SYSTEM="python"

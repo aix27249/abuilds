@@ -1,0 +1,33 @@
+pkgname=motion
+pkgver=3.2.12
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Motion Detection Programm"
+longdesc=("A software motion detector which grabs images from video4linux devices and/or from webcams"
+)
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+
+tags="utils media-video"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--without-mysql \
+--without-pgsql \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

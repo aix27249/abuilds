@@ -1,0 +1,59 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=coolreader
+pkgver=3.0.21
+pkgbuild=1
+arch=('auto')
+
+shortdesc="CoolReader Engine"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("CoolReader Engine is fast and small cross-platform XML/CSS based rendering library for writing E-Book readers for desktops as well as for handheld devices. Supported e-book formats: FB2, TXT, RTF, TCR, HTML, EPUB. CoolReader3 is e-book viewer based on Co"
+	  ""
+	  "Homepage: http://crengine.sourceforge.net/"
+)
+
+source=("git:git://crengine.git.sourceforge.net/gitroot/crengine/crengine")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="utils app-text"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+rm -rf ${pkgdir}/usr/doc
+}

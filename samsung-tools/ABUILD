@@ -1,0 +1,29 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=samsung-tools
+pkgver=1.3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Набор утилит для нетбуков Samsung"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Позволяет конфигурировать и управлять в понятном для 
+пользователя режиме устройствами на нетбуках Samsung: Bluetooth, WiFi, 
+WebCam, Backlight, CPU Fan, Fn Keys, а также управлять различными 
+параметрами питания, например такими как Undervolting."
+)
+
+source=("http://launchpad.net/${pkgname}/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("libdir_patch.patch 0")
+
+tags="sys-apps utils"
+
+build()
+{
+go_src_dir
+burn_patches
+make DESTDIR="${pkgdir}/" LIBDIR="lib${LIBDIRSUFFIX}" install
+install -D -m755 ${filedir}/samsung-tools.init ${pkgdir}/etc/init.d/samsung-tools
+}

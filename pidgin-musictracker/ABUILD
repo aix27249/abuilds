@@ -1,0 +1,75 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pidgin-musictracker
+pkgver=0.4.22
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Pidgin 'now playing' plugin to publicise the songs you are listening to"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("pidgin-musictracker is a plugin for Pidgin which publicises your currently playing media to your contacts. Currently supported players: * Amarok, Audacious, Banshee, Exaile, Last.fm feed, Listen, MOC, MPD, Quod Libet, Rhythmbox, Songbird + DBusBird addon, SqueezeCenter, Vagalume, XMMS, XMMS2 >= 0.6; * plus any player supporting the MPRIS DBus interface (Amarok2, BMPx, dragonplayer, Exaile >= 0.3, Goggles Music Manager, QMMP >=0.3, Rhythmbox, Songbird + MPRIS addon, VLC >0.9.0, etc.). Homepage: http://code.google.com/p/pidgin-musictracker/"
+)
+
+source=("http://pidgin-musictracker.googlecode.com/files/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-utils utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pidgin"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

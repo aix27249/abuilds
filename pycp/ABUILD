@@ -1,0 +1,23 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=pycp
+pkgver=`date +%Y%m%d`
+pkgbuild=1
+arch=('auto')
+
+shortdesc="cp and mv with a progress bar"
+longdesc=("PYCP: cp with a progressbar"
+"pycp / pymv are meant to be used from the command line."
+"https://github.com/yannicklm/pycp")
+
+source=("git:git://github.com/yannicklm/${pkgname}.git")
+
+tags="utils app-text"
+
+build_deps="help2man"
+
+BUILD_SYSTEM="python"
+#
+#MAKE_WORD="python setup.py build"
+#
+BUILD_KEYS=

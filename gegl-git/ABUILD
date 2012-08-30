@@ -1,0 +1,31 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=gegl-git
+pkgver=0.2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Graph based image processing framework."
+
+source=("git:git://git.gnome.org/gegl")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="libs media-gfx"
+
+provides="gegl"
+
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=minetest-delta
+pkgver=0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Minetest Delta is a fork of Minetest-c55 <http://celeron.55.lt/~celeron55/minetest/>, incorporating experimental features that are not (yet) included in Minetest-c55."
+
+source="git:https://github.com/erlehmann/minetest-delta.git"
+
+tags="games games-puzzle"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+after_build()
+{
+	cd $pkgdir/usr/share
+	mv minetest-delta minetest
+}

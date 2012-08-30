@@ -1,0 +1,21 @@
+pkgname=compiz-fusion-plugins-main
+pkgver=0.8.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="main Compiz plugins"
+longdesc=("This is main Compiz plugins which provides effects and other Compiz stuff")
+
+source=("http://releases.compiz-fusion.org/${pkgver}/compiz-plugins-main-${pkgver}.tar.bz2")
+tags="x11-misc xapps"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+

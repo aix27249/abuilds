@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=bombono-dvd
+pkgver=1.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A DVD authoring program"
+longdesc=("A DVD authoring program with nice and clean GUI")
+
+source=("http://downloads.sourceforge.net/sourceforge/bombono/${pkgname}-${pkgver}.tar.bz2")
+
+tags="media-video xapps"
+
+adddep="mjpegtools>=1.8.0 dvdauthor dvd+rw-tools twolame enca scons"
+builddeps="scons"
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	scons PREFIX="/usr" DESTDIR="${pkgdir}" USE_EXT_BOOST=1 CPPFLAGS='-DBOOST_FILESYSTEM_VERSION=2' -j${numjobs}
+	scons PREFIX="/usr" DESTDIR="${pkgdir}" install
+	set +e
+}

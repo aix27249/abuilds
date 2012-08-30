@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=webkitgtk
+pkgver=1.2.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="WebKitGTK+ is the port of the portable web rendering engine WebKit to the GTK+ platform."
+longdesc=("WebKit/GTK+ is the new GTK+ port of the WebKit, an open-source web content engine that powers numerous applications such as web browsers, email clients, feed readers, web and text editors, and a whole lot more")
+
+source="http://www.webkitgtk.org/webkit-$pkgver.tar.gz"
+
+tags="develop dev-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

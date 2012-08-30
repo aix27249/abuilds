@@ -1,0 +1,31 @@
+
+pkgname=libgphoto2
+pkgver=2.4.10.1
+pkgbuild=1
+shortdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
+longdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
+arch=('auto')
+source=("http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz")
+tags=("libs media-libs")
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	udevscriptdir=/lib/udev ./configure --prefix=/usr --with-drivers=all --without-hal --with-libexif=auto --disable-static --disable-rpath --libdir=/usr/lib$LIBDIRSUFFIX
+	LD_PRELOAD="" make -j${numjobs}
+	make DESTDIR="${pkgdir}" install
+
+	rm -f ${pkgdir}/usr/lib$LIBDIRSUFFIX/libgphoto2/${pkgver}/*.a
+  
+	install -m755 -d "${pkgdir}/lib/udev/rules.d"
+
+	LD_LIBRARY_PATH="${pkgdir}/usr/lib${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH" \
+	CAMLIBS="${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/${pkgver}" \
+	"${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/print-camera-list" udev-rules version 136 group camera mode 0660 > \
+	"${pkgdir}/lib/udev/rules.d/40-gphoto.rules"
+	
+	# Remove recursive symlink
+	rm -f "${pkgdir}/usr/include/gphoto2/gphoto2"
+	set +e
+}

@@ -1,0 +1,77 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=Wuala
+name=wuala
+pkgver=2_build20110818
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A new way of storing, sharing and publishing files on the Internet.  It's free, simple and secure."
+
+source=("http://cdn.wuala.com/repo/other/wuala.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps net-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="jdk nfs-utils"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+JAVA_DIR=${pkgdir}/usr/share/java/${name}
+DOC_DIR=${pkgdir}/usr/share/doc/${name}
+BIN_DIR=${pkgdir}/usr/bin
+
+install -d ${JAVA_DIR} ${DOC_DIR} ${BIN_DIR}
+install -d ${pkgdir}/usr/share/licenses/${name}
+install -D wuala{,cmd} ${pkgdir}/usr/bin/
+install -D loader3.jar ${JAVA_DIR}/
+install -D readme.txt copyright ${DOC_DIR}
+install -D ${filedir}/${name}.desktop ${pkgdir}/usr/share/applications/${name}.desktop
+install -D ${filedir}/${name}.png ${pkgdir}/usr/share/icons/hicolor/64x64/apps/${name}.png
+install -D ${filedir}/LICENSE{,.agilialinux} ${pkgdir}/usr/share/licenses/${name}/
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

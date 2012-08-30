@@ -1,0 +1,18 @@
+#!/sbin/runscript
+depend() {
+	need net
+	before dbus hald avahi-daemon
+	provide ldap
+}
+
+start() {
+	ebegin "Starting ldap-server"
+	eval start-stop-daemon --start --pidfile /var/lib/run/slapd.pid --exec /usr/libexec/slapd -- "${OPTS}"
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping ldap-server"
+		start-stop-daemon --stop --quiet --pidfile /var/lib/run/slapd.pid 
+	eend $?
+}

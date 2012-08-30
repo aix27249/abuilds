@@ -1,0 +1,32 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pidgin-sipe
+pkgver=1.13
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An Open Implementation of SIP/Simple protocol for Live Communications Server 2003/2005/2007 - Pidgin plugin"
+longdesc=(" ")
+source=("git:git://repo.or.cz/siplcs.git")
+
+
+#short and long tags / длинный и короткий тег
+tags="network net-im"
+
+build()
+{
+
+go_src_dir
+
+./autogen.sh || return 1
+
+./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-shared --infodir=/usr/info \
+--mandir=/usr/man || return 1
+
+make || return 1
+
+make DESTDIR=${pkgdir} install || return 1
+}
+

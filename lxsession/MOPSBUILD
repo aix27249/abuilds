@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lxsession
+pkgver=0.4.4
+pkgbuild=1
+arch=('any')
+shortdesc="Session manager of the LXDE Desktop (light version)"
+longdesc=("LXSession, session manager,"
+"The LXSession manager is used to automatically start a set of applications"
+"and set up a working desktop environment."
+"Moreover, the session manager is able to remembers the applications"
+"in use when a user logs out and to restart them the next time the user logs in."
+)
+
+#source=("http://downloads.sourceforge.net/sourceforge/lxde/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/lxde/LXSession%20%28session%20manager%29/LXSession%20${pkgver}/lxsession-${pkgver}.tar.gz")
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+#source=("${pkgname}-${pkgver}.tar.gz")
+
+#patch_opts=("")
+
+#----------------------------- MOPS vars --------------------------------------
+
+tags="lxde lxde-base"     #short and long tags / длинный и короткий тег
+adddep=""
+removedep=""
+
+author=FreeArcher
+email=archer@programist.ru
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#----------------------------- Make PKG --------------------------------------
+
+before_build()
+{
+echo ""
+}
+
+build() 
+{
+cd $startdir/src/$pkgname-$pkgver
+
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= 
+                  
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+}
+
+after_build()
+{
+ echo ""
+}

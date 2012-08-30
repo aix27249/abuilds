@@ -1,0 +1,4 @@
+mops-openbox-theme: default design for openbox setup variant
+mops-openbox-theme:
+mops-openbox-theme: contain .Xdefaults, gtkrc-2.0, openbox zenburn theme, bmpanel zenburn 
+mops-openbox-theme: theme, bashrun config, gvim zenburn style.

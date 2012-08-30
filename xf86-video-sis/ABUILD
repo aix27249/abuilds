@@ -1,0 +1,16 @@
+pkgname=xf86-video-sis
+pkgver=0.10.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xf86-video-sis: X11 driver for SiS video cards')
+longdesc=('xf86-video-sis: X11 driver for SiS video cards')
+
+tags=('x11-drivers xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-sis-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

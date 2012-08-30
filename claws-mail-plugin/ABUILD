@@ -1,0 +1,79 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=claws-mail-plugin
+pkgver=3.8.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Plugins for claws-mail"
+longdesc=(" ")
+
+source=("http://www.claws-mail.org/downloads/plugins/vcalendar-2.0.13.tar.gz"
+"http://www.claws-mail.org/downloads/plugins/gtkhtml2_viewer-0.33.tar.gz"
+"http://www.claws-mail.org/downloads/plugins/notification_plugin-0.30.tar.gz"
+"http://www.claws-mail.org/downloads/plugins/address_keeper-1.0.6.tar.gz"
+"http://www.claws-mail.org/downloads/plugins/att_remover-1.0.14.tar.gz"
+"http://www.claws-mail.org/downloads/plugins/tnef_parse-0.3.13.tar.gz")
+
+tags="mail-client network"
+
+adddep="claws-mail=3.8.1"
+
+
+build()
+{
+#
+# Make notification
+#
+cd $srcdir/notification_plugin-0.30 || exit 1
+./configure  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+#
+# Make gtkhtml2_viewer
+#
+cd $srcdir/gtkhtml2_viewer-0.33 || exit 1
+./autogen.sh  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+#
+# Make vcalendar
+#
+cd $srcdir/vcalendar-2.0.13 || exit 1
+./configure  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+#
+# Make att_remover
+#
+cd $srcdir/att_remover-1.0.14 || exit 1
+./configure  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+#
+# Make adress_keeper
+#
+cd $srcdir/address_keeper-1.0.6 || exit 1
+./autogen.sh  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+#
+# Make tnef_parse
+#
+cd $srcdir/tnef_parse-0.3.13 || exit 1
+./autogen.sh  --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || exit 1
+make || exit 1
+make DESTDIR="${pkgdir}" install || exit 1
+
+
+}
+
+
+
+

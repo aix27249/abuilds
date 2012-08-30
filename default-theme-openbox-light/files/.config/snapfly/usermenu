@@ -1,0 +1,17 @@
+# Usermenu config file format: 
+# @CategoryName##/path/to/category/image.png 
+# /path/to/command/in/CategoryName##/path/to/item/image.png##Name of item##Comment
+# /path/to/command2/in/CategoryName##/path/to/item2/image.png##Name of item2##Comment
+
+@Настройка Openbox##preferences-system-windows
+/usr/bin/obconf##obconf##Конфигуратор Openbox##Графическое средство редактирования rc.xml
+/usr/bin/medit -t $HOME/.config/openbox/autostart.sh##accessories-text-editor##Редактирование autostart.sh##Добавление программ в автозапуск при старте Openbox
+/usr/bin/medit -t $HOME/.config/openbox/rc.xml##accessories-text-editor##Редактирование rc.xml##Ручное редактирование rc.xml в текстовом редакторе
+openbox --reconfigure##checkbox##Обновить настройки Openbox##Обновление всех настроек без перезапуска оболочки (rc.xml/menu.xml/openbox theme)
+
+@Управление сеансом##system-switch-user
+$HOME/.config/openbox/power_management_scripts/poweroff##/usr/share/icons/Faenza/apps/32/xfsm-shutdown.png##Выключить компьютер##осторожно, действие выполняется сразу же после нажатия
+$HOME/.config/openbox/power_management_scripts/reboot##/usr/share/icons/Faenza/apps/32/xfsm-reboot.png##Перезагрузить компьютер##осторожно, действие выполняется сразу же после нажатия
+$HOME/.config/openbox/power_management_scripts/sleep##/usr/share/icons/Faenza/apps/32/xfsm-suspend.png##Ждущий режим##осторожно, действие выполняется сразу же после нажатия
+openbox --exit##/usr/share/icons/Faenza/apps/32/xfsm-switch.png##Выйти из Openbox##осторожно, действие выполняется сразу же после нажатия
+$HOME/.config/openbox/power_management_scripts/hibernate##/usr/share/icons/Faenza/apps/32/xfsm-hibernate.png##Спящий режим##осторожно, действие выполняется сразу же после нажатия

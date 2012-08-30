@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=X-CD-Roast
+Type=Application
+Exec=/usr/bin/xcdroast
+Comment=CD creation tool
+Icon=/usr/lib/xcdroast-0.98/icons/xcdricon.png

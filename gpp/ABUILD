@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=gpp
+pkgver=2.24
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Generic PreProcessor"
+
+source=("http://www.nothingisreal.com/gpp/$pkgname-$pkgver.tar.bz2")
+
+tags="console app-misc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=$pkgdir/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="prefix=$pkgdir/usr"

@@ -1,0 +1,19 @@
+*** ./src/gkrellm.h	2010-10-02 16:21:01.000000000 +0000
+--- ./gkrellm.h	2011-04-25 14:32:37.027000066 +0000
+***************
+*** 137,143 ****
+  #if !defined(SYSTEM_THEMES_DIR)
+  #define	SYSTEM_THEMES_DIR		"/usr/share/gkrellm2/themes"
+  #endif
+! #define	LOCAL_PLUGINS_DIR		"/usr/local/lib/gkrellm2/plugins"
+  #if !defined(SYSTEM_PLUGINS_DIR)
+  #define	SYSTEM_PLUGINS_DIR		"/usr/lib/gkrellm2/plugins"
+  #endif
+--- 137,143 ----
+  #if !defined(SYSTEM_THEMES_DIR)
+  #define	SYSTEM_THEMES_DIR		"/usr/share/gkrellm2/themes"
+  #endif
+! #define	LOCAL_PLUGINS_DIR		"/usr/lib64/gkrellm2/plugins"
+  #if !defined(SYSTEM_PLUGINS_DIR)
+  #define	SYSTEM_PLUGINS_DIR		"/usr/lib/gkrellm2/plugins"
+  #endif

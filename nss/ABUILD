@@ -1,0 +1,127 @@
+#----------------------------- General vars --------------------------------------
+#based on http://repos.archlinux.org/wsvn/packages/nss/trunk/PKGBUILD
+#------------------------- Основные переменные -----------------------------------
+pkgname=nss
+pkgver=3.13.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla Network Security Services"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS"
+)
+
+source=("ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
+
+#patch_opts=("add_spi+cacert_ca_certs.patch 2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="libs net-libs"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts="seamonkey-solibs"
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+
+  # Respect LDFLAGS
+  sed -e 's/\$(MKSHLIB) -o/\$(MKSHLIB) \$(LDFLAGS) -o/g' \
+      -i mozilla/security/coreconf/rules.mk
+      
+  # Generate certdata.c from certdata.txt
+  cd mozilla/security/nss/lib/ckfw/builtins
+  make generate
+  go_src_dir
+  
+  export BUILD_OPT=1
+  export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+  export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+  export NSS_USE_SYSTEM_SQLITE=1
+  export NSPR_INCLUDE_DIR=`pkg-config --cflags-only-I nspr | sed 's/-I//'`
+  export NSPR_LIB_DIR=`pkg-config --libs-only-L nspr | sed 's/-L.//'`
+  export XCFLAGS="${CFLAGS} -fPIC"
+  export CXXFLAGS="${CXXFLAGS} -fPIC"
+  
+  [ "$ARCH" = "x86_64" ] && export USE_64=1
+
+  make -j 1 -C mozilla/security/coreconf || return 1
+  make -j 1 -C mozilla/security/dbm || return 1
+  make -j 1 -C mozilla/security/nss || return 1
+
+  install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig"
+  install -m755 -d "${pkgdir}/usr/bin"
+  install -m755 -d "${pkgdir}/usr/include/nss"
+
+  NSS_VMAJOR=`grep "#define.*NSS_VMAJOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VMINOR=`grep "#define.*NSS_VMINOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VPATCH=`grep "#define.*NSS_VPATCH" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
+
+  sed "${filedir}/nss.pc.in" -e "s,%libdir%,/usr/lib${LIBDIRSUFFIX},g" \
+                                -e "s,%prefix%,/usr,g" \
+                                -e "s,%exec_prefix%,/usr/bin,g" \
+                                -e "s,%includedir%,/usr/include/nss,g" \
+                                -e "s,%NSPR_VERSION%,${pkgver},g" \
+                                -e "s,%NSS_VERSION%,${pkgver},g" > \
+                        "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nss.pc" || return 1
+  ln -sf nss.pc "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/mozilla-nss.pc" || return 1
+  chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/*.pc || return 1
+
+  sed "${filedir}/nss-config.in" -e "s,@libdir@,/usr/lib${LIBDIRSUFFIX},g" \
+                                    -e "s,@prefix@,/usr/bin,g" \
+                                    -e "s,@exec_prefix@,/usr/bin,g" \
+                                    -e "s,@includedir@,/usr/include/nss,g" \
+                                    -e "s,@MOD_MAJOR_VERSION@,${NSS_VMAJOR},g" \
+                                    -e "s,@MOD_MINOR_VERSION@,${NSS_VMINOR},g" \
+                                    -e "s,@MOD_PATCH_VERSION@,${NSS_VPATCH},g" \
+                            > "${pkgdir}/usr/bin/nss-config" || return 1
+  chmod 755 "${pkgdir}/usr/bin/nss-config" || return 1
+
+  for file in libsoftokn3.so libfreebl3.so libnss3.so libnssutil3.so \
+              libssl3.so libsmime3.so libnssckbi.so libnssdbm3.so
+  do
+    install -m755 mozilla/dist/*.OBJ/lib/${file} "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
+  done
+
+  install -m644 mozilla/dist/*.OBJ/lib/libcrmf.a "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
+  install -m644 mozilla/dist/*.OBJ/lib/*.chk "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
+
+  for file in certutil cmsutil crlutil modutil pk12util shlibsign signtool signver ssltap; do
+    install -m755 mozilla/dist/*.OBJ/bin/${file} "${pkgdir}/usr/bin/" || return 1
+  done
+
+  install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/include/nss/" || return 1
+
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

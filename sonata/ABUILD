@@ -1,0 +1,69 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=sonata
+pkgver=1.6.2.1
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Sonata (MPD music client)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Sonata is an elegant GTK+ music client for the Music Player Daemon (MPD). Sonata aims to be efficient, user-friendly, and clean. It is a fork of the Pygmy project."
+	  ""
+	  "Homepage: http://sonata.berlios.de/"
+)
+
+source=("http://download.berlios.de/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="mpd tagpy zsi>=2.1_a1 gnome-python dbus-python python-mpd"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="python"
+
+MAKE_WORD="python setup.py build"
+
+BUILD_KEYS=
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+mkdir -p ${pkgdir}/usr/doc/$pkgname-$pkgver
+cp -a ${pkgdir}/usr/share/$pkgname/* ${pkgdir}/usr/doc/$pkgname-$pkgver/
+rm -rf ${pkgdir}/usr/share/$pkgname
+}

@@ -1,0 +1,33 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=xfce-utils
+pkgver=4.8.3
+pkgbuild=4
+arch=('auto')
+tree=`echo $pkgver | cut -d . -f 1-2`
+
+shortdesc="Various tools for Xfce"
+
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make gcc intltool pkg-config"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-dbus \
+--disable-debug \
+--with-vendor-info=AgiliaLinux"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

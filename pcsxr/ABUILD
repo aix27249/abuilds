@@ -1,0 +1,78 @@
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pcsxr
+pkgver=1.9.92
+pkgbuild=1
+arch=('auto')
+
+shortdesc="pcsxr (эмулятор PlayStation)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("PCSX-Reloaded - эмулятор игровой приставки PlayStation основанный на"
+"PCSX-df 1.9, работающий в Windows, GNU/Linux и Mac OS X так же хорошо,"
+"с добавкой множества исправлений и улучшений."
+"Сайт проекта - http://pcsxr.codeplex.com"
+)
+
+#shity code-plex
+#http://pcsxr.codeplex.com/releases/50048/download/140521
+source=("http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=pcsxr&DownloadId=140521&FileTime=129254829621800000&Build=17672")
+wgetopts="-O ${pkgname}-${pkgver}.tar.bz2 --referer='http://pcsxr.codeplex.com/releases/view/50048'"
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games app-emulation"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

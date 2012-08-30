@@ -1,0 +1,21 @@
+pkgname=btrfs-progs
+pkgver=0.19.20120110
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Btrfs filesystem utilities"
+longdesc=("Btrfs is a new copy on write filesystem for Linux aimed at implementing advanced features while focusing on fault tolerance, repair and easy administration. Initially developed by Oracle, Btrfs is licensed under the GPL and open for contribution from anyone."
+)
+
+source=("ftp://ftp.archlinux.org/other/$pkgname/$pkgname-$pkgver.tar.xz")
+
+tags="base sys-fs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make CFLAGS="$CFLAGS $SLKCFLAGS" all convert -j${numjobs}
+	make prefix=$pkgdir/usr bindir=$pkgdir/sbin install
+}
+

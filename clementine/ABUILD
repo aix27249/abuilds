@@ -1,0 +1,93 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=clementine
+pkgver=0.7.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Clementine Music Player based on Amarok 1.4"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Clementine - это современный аудиоплеер и менеджер музыкальной библиотеки. Он вобрал в себя лучшее от Amarok 1.4, сделав упор на быстроту и легкость использования для поиска и воспроизведения вашей музыки. Сайт: http://www.clementine-player.org"
+)
+
+#source=("http://clementine-player.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound xapps"
+
+#dependencies only needed to build package
+build_deps="liblastfm sip"  # libgpod-1.0>=0.7.92 libimobiledevice-1.0 libplist libusbmuxd
+
+provides=""
+conflicts=""
+
+adddep="gst-ffmpeg gst-plugins-ugly gst-plugins-good" 
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="\
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DENGINE_GSTREAMER_ENABLED=ON \
+-DENGINE_LIBVLC_ENABLED=OFF \
+-DENGINE_LIBXINE_ENABLED=OFF \
+-DENGINE_QT_PHONON_ENABLED=OFF \
+-DENABLE_VISUALISATIONS=ON \
+-DENABLE_SOUNDMENU=OFF \
+-DSTATIC_SQLITE=OFF \
+-DENABLE_SCRIPTING_PYTHON=OFF \
+../"
+
+
+
+#STATIC_SQLITE "Compile and use a static sqlite3 library" ON
+# We compile our own qsqlite3 by default now, because in Qt 4.7 the symbols we
+# need from it are private.
+
+#-DENABLE_SOUNDMENU=OFF \
+#ENABLE_SOUNDMENU "Add Clementine to the Gnome sound menu" ON
+
+#-DENABLE_WIIMOTEDEV=OFF \
+#ENABLE_WIIMOTEDEV "Enable Wii remote support in Clementine" ON
+
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then 
+ rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1
+fi
+
+}

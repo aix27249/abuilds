@@ -1,0 +1,87 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gcolor2
+pkgver=0.4
+pkgbuild=2
+arch=('auto')
+
+shortdesc="gcolor2 - GTK+2 Color Selector"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Gcolor2 is a GTK2 color selector to provide a quick and easy way to find colors for whatever task is at hand. Homepage: http://gcolor2.sourceforge.net/"
+)
+
+source=("http://downloads.sourceforge.net/project/gcolor2/gcolor2/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="x11-misc xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+mkdir -p $pkgdir/usr/share/applications/
+
+cat << EOF > $pkgdir/usr/share/applications/gcolor2.desktop
+[Desktop Entry]
+Name=Gcolor2
+GenericName=A simple GTK+2 color selector
+Comment=Choose colours from palette or screen
+Exec=gcolor2
+Icon=/usr/share/pixmaps/gcolor2/icon.png
+Type=Application
+Terminal=false
+StartupNotify=true
+Categories=Graphics;
+EOF
+}

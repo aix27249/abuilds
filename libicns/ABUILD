@@ -1,0 +1,96 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libicns
+pkgver=0.7.1
+pkgbuild=4
+arch=('auto')
+
+shortdesc="libicns is a library for manipulation of the Mac OS icns resource format"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("libicns includes icns2png, a tool for extracting the images contained within icns files, and saving them as png images. It also includes png2icns, a tool for creating icns files from a set of png images."
+""
+"libicns is distributed under the Lesser GNU public license, Version 2.1."
+"icns2png, png2icns, and icontainer2png are distributed under the GNU public license, Version 2."
+""
+"Homepage: http://icns.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/icns/icns/libicns-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-libs libs"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+#go_src_dir
+#sed -i \
+#	-e 's:png_set_gray_1_2_4_to_8:png_set_expand_gray_1_2_4_to_8:g' \
+#	icnsutils/png2icns.c || exit 1
+
+##  http://slackbuilds.org/repository/13.1/libraries/libicns/
+# PNG hack needed because libpng renamed an API function in version 1.4.
+# Comment this out if you're building on an old release of Slackware that
+# still uses libpng-1.2. See http://libpng.sourceforge.net/ANNOUNCE-1.4.0.txt
+PNGHACK="-Dpng_set_gray_1_2_4_to_8=png_set_expand_gray_1_2_4_to_8"
+}
+
+BUILD_SYSTEM="autotools"
+
+#BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" \
+	CFLAGS=\"$SLKCFLAGS $PNGHACK\" \
+	CXXFLAGS=\"$SLKCFLAGS $PNGHACK\" \
+	./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= || exit 1"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

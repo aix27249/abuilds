@@ -1,0 +1,131 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gnome-python
+pkgver=2.28.1
+pkgbuild=8
+arch=('auto')
+
+shortdesc="Gnome-Python (GNOME Python bindings)"
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/gnome-python/2.28/gnome-python-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="develop dev-python"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="python-bonobo python-gconf python-libgnome python-libgnomecanvas python-gnomevfs"
+removedep=""
+
+
+#for multi pkg abuild
+pkglist="bonobo gconf libgnome canvas vfs"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+bonobo()
+{
+	pkgname=python-bonobo
+	shortdesc="Python bindings for interacting with Bonobo"
+}
+gconf()
+{
+	pkgname=python-gconf
+	shortdesc="Python bindings for interacting with GConf"
+}
+libgnome()
+{
+	pkgname=python-libgnome
+	shortdesc="Python bindings for libgnome"
+}
+canvas()
+{
+	pkgname=python-libgnomecanvas
+	shortdesc="Python bindings for the GNOME Canvas"
+}
+vfs()
+{
+	pkgname=python-gnomevfs
+	shortdesc="Python bindings for interacting with gnome-vfs"
+}
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+	go_src_dir
+	set -e
+	./configure --prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix=
+	make
+	set +e
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+	set -e
+	make install-pkgconfigDATA DESTDIR=${pkgdir}
+	set +e
+}
+
+bonobo_prep(){
+	set -e
+	make -C bonobo install DESTDIR=${pkgdir}
+	set -e
+}
+
+gconf_prep(){
+	set -e
+	make -C gconf install DESTDIR=${pkgdir}
+	set +e
+}
+
+libgnome_prep(){
+	set -e
+	make -C gnome install DESTDIR=${pkgdir}
+	set +e
+}
+
+canvas_prep(){
+	set -e
+	make -C gnomecanvas install DESTDIR=${pkgdir}
+	set +e
+}
+
+vfs_prep(){
+	set -e
+	make -C gnomevfs install DESTDIR=${pkgdir}
+	set +e
+}

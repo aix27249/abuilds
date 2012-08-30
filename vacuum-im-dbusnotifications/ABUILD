@@ -1,0 +1,77 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=vacuum-im-dbusnotifications
+pkgver=1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DBus notify for Vacuum IM"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("DBus notify for Vacuum IM"
+)
+
+source=("")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs net-im"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+cd $srcache
+rm -rf vacuum-plugins-dbusnotifications
+hg clone https://dbusnotifications.vacuum-plugins.googlecode.com/hg/ vacuum-plugins-dbusnotifications
+#some source hack
+rm -rf vacuum
+git clone git://gitorious.org/vacuum-im/vacuum-im.git vacuum
+}
+
+build()
+{
+	cd vacuum-plugins-dbusnotifications
+	qmake dbusnotifications.pro \
+		INSTALL_PREFIX=$pkgdir/usr \
+		INSTALL_APP_DIR="vacuum" \
+		INSTALL_LIB_DIR="lib$LIBDIRSUFFIX" \
+		VACUUM_SOURCE_PATH="../vacuum"
+		INSTALL_RES_DIR="share" || exit 1
+	make || exit 1
+	make DESTDIR=$pkgdir install || exit 1
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

@@ -1,0 +1,17 @@
+pkgname=xcursor-themes
+pkgver=1.0.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('xcursor-themes: X.org cursor themes')
+longdesc=('xcursor-themes is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-datas xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/data/xcursor-themes-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

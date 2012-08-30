@@ -1,0 +1,15 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=python-distribute
+pkgver=0.6.24
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A build system for Python packages (a setuptools replacement/extension)"
+source="http://pypi.python.org/packages/source/d/distribute/distribute-${pkgver}.tar.gz"
+
+tags="libs dev-python"
+conflicts="pysetuptools"
+
+BUILD_SYSTEM="python"
+MAKE_WORD="python setup.py build"
+

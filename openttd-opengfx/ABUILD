@@ -1,0 +1,69 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=openttd-opengfx
+pkgver=0.3.4
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="OpenGFX is an open source graphics base set designed to be used by OpenTTD"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("OpenGFX is an open source graphics base set for OpenTTD which can completely replace the TTD base set. The main goal of OpenGFX therefore is to provide a set of free base graphics which make it possible to play OpenTTD without requiring the (copyrighted) files from the TTD CD. This potentially increases the OpenTTD fanbase and makes it a true free game. http://wiki.openttd.org/OpenGFX_Readme"
+)
+
+source=("http://bundles.openttdcoop.org/opengfx/releases/${pkgver}/opengfx-${pkgver}.zip")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="games-misc games"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="openttd"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="*.txt"
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+mkdir -p ${pkgdir}/usr/share/openttd/data/
+
+        cp *.grf ${pkgdir}/usr/share/openttd/data/ || exit 1
+        cp *.obg ${pkgdir}/usr/share/openttd/data/ || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

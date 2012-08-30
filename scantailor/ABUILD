@@ -1,0 +1,65 @@
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=scantailor
+pkgver=0.9.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="scantailor (interactive post-processing tool for scanned pages)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("It performs operations such as page splitting, deskewing, adding/removing"
+"borders, and others. You give it raw scans, and you get pages ready to"
+"be printed or assembled into a PDF or DJVU file."
+)
+
+source=("http://kent.dl.sourceforge.net/project/scantailor/scantailor/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-gfx xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

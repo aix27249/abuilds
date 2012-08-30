@@ -1,0 +1,29 @@
+pkgname=lxinput
+pkgver=0.3.0
+pkgbuild=2
+arch=('auto')
+shortdesc="A config tool used to configure your keyboard and mouse 
+under LXDE"
+longdesc=(" * Delay and Interval for character repeat"
+" * Enable/Disable beeps of keyboard input error"
+" * Swap left and right mouse buttons"
+" * Mouse acceleration and sensitivity")
+
+source=("http://sourceforge.net/projects/lxde/files/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3/lxinput-${pkgver}.tar.gz")
+
+tags="lxde lxde-base" 
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

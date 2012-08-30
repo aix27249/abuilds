@@ -1,0 +1,18 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Chromium (hardware accelerated)
+Name[ru]=Chromium (с аппаратным ускорением)
+# Only KDE 4 seems to use GenericName, so we reuse the KDE strings.
+# From Ubuntu's language-pack-kde-XX-base packages, version 9.04-20090413.
+GenericName=Web Browser (hardware acceleration enabled)
+GenericName[ru]=Веб-браузер (с включённым аппаратным ускорением)
+# Gnome and KDE 3 uses Comment.
+Comment=Web Browser (hardware acceleration enabled)
+Comment[ru]=Веб-браузер (с включённым аппаратным ускорением)
+Exec=chromium --enable-gpu-plugin --enable-accelerated-compiting --enable-click-to-play --enable-video-layering --enable-webgl --enable-accelerated-2d-canvas --enable-nacl %U
+Terminal=false
+Icon=chromium
+Type=Application
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml_xml;

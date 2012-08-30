@@ -1,0 +1,12 @@
+--- gnome-clock-screensaver-1.0.1/Makefile.orig	2011-06-02 12:15:27.173713187 +0400
++++ gnome-clock-screensaver-1.0.1/Makefile	2011-06-02 12:16:43.909713159 +0400
+@@ -25,7 +25,7 @@
+ clean:
+ 	rm -f $(OBJECTS) $(TARGET) ${DESKTOP} core* *.o *~
+ install:
+-	${INSTALL} -s -m 0755 ${TARGET}  ${GS_LIBEXEC_DIR}
+-	${INSTALL}    -m 0644 ${DESKTOP} ${GS_DESKTOP_DIR}
++	${INSTALL} -s -m 0755 ${TARGET}  ${DESTDIR}${GS_LIBEXEC_DIR}
++	${INSTALL}    -m 0644 ${DESKTOP} ${DESTDIR}${GS_DESKTOP_DIR}
+ uninstall:
+ 	-rm ${GS_LIBEXEC_DIR}/${TARGET} ${GS_DESKTOP_DIR}/${DESKTOP}

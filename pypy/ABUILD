@@ -1,0 +1,34 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pypy
+pkgver=1.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Python implementation in Python. Fast as hell."
+
+source="https://bitbucket.org/pypy/pypy/get/release-${pkgver}.tar.bz2"
+
+tags="develop dev-python"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	# Build
+	cd pypy/translator/goal
+	python translate.py -Ojit
+	install -Dm755 pypy-c ${pkgdir}/opt/pypy/pypy-c
+	mkdir -p ${pkgdir}/opt/pypy/{lib-python,pypy}
+
+	go_src_dir
+
+	cp -r lib-python/2.7 ${pkgdir}/opt/pypy/lib-python/
+	cp -r lib-python/modified-2.7 ${pkgdir}/opt/pypy/lib-python/
+	cp -r lib_pypy ${pkgdir}/opt/pypy/
+	cp -r include ${pkgdir}/opt/pypy/
+
+	mkdir -p ${pkgdir}/usr/bin
+	ln -s /opt/pypy/pypy-c ${pkgdir}/usr/bin/pypy
+}
+

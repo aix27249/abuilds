@@ -1,0 +1,17 @@
+pkgname=libxkbui
+pkgver=1.0.2
+pkgbuild=11
+arch=('auto')
+
+shortdesc=('libxkbui')
+longdesc=('libxkbui is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+
+tags=('x11-libs xserver')
+
+source=('http://xorg.freedesktop.org/archive/individual/lib/libxkbui-1.0.2.tar.bz2')
+
+build_deps='libxcb libICE libSM libX11 libXau libXdmcp libXt libxkbfile'
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+INSTALL_KEYS="DESTDIR=$pkgdir"

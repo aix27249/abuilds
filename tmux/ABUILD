@@ -1,0 +1,80 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=tmux
+pkgver=1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="tmux is a terminal multiplexer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("It enables a number of terminals (or windows), each running a separate program, to be created, accessed, and controlled from a single screen. tmux may be detached from a screen and continue running in the background, then later reattached. tmux uses a client-server model. The server holds multiple sessions and each window is a independent entity which may be freely linked to multiple sessions, moved between sessions and otherwise manipulated. Each session may be attached to (display and accept keyboard input from) multiple clients. tmux is intended to be a modern, BSD-licensed alternative to programs such as GNU screen. Homepage: http://tmux.sourceforge.net"
+)
+
+source=("http://downloads.sourceforge.net/project/tmux/tmux/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="console app-misc"
+
+#dependencies only needed to build package
+build_deps="" #libevent
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs="CHANGES FAQ NOTES"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+	./configure && make || exit 1
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+cd "$srcdir/tmux-$pkgver"
+#  install -Dm644 ../LICENSE "$pkgdir/usr/share/licenses/tmux/LICENSE" && \
+  install -Dm755 tmux "$pkgdir/usr/bin/tmux" && \
+  install -Dm644 tmux.1 "$pkgdir/usr/share/man/man1/tmux.1" && \
+  install -Dm644 examples/tmux.vim "$pkgdir/usr/share/vim/vimfiles/syntax/tmux.vim" && \
+  install -dm755 "$pkgdir/usr/share/tmux/" && \
+  install -m644 examples/* "$pkgdir/usr/share/tmux/" || exit 1
+}

@@ -1,0 +1,18 @@
+pkgname=xmldiff
+pkgver=0.6.10
+pkgbuild=1
+arch=('auto')
+shortdesc="A tool that shows the differences between two similar XML files"
+source=("http://arch.p5n.pp.ru/~sergej/dl/2012/xmldiff-$pkgver.tar.gz")
+tags="libs dev-libs"
+
+BUILD_SYSTEM="python"
+BUILD_KEYS=
+
+after_build()
+{
+	set -e
+	install -m755 -d "$pkgdir"/usr/share/man/man1
+	install -m644 -t "$pkgdir"/usr/share/man/man1 man/*.1
+	set +e
+}

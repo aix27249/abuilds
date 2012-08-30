@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=vba-m
+_pkgname=vbam
+pkgver=1.8.0.1001
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GameBoy Advance emulator"
+source=("http://downloads.sourceforge.net/sourceforge/${_pkgname}/${_pkgname}_${pkgver}-1.tar.gz")
+
+tags="games app-emulation"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DDATA_INSTALL_DIR:PATH=share/vba-m/ \
+-DENABLE_WX=OFF \
+../"

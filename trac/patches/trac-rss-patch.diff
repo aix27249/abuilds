@@ -1,0 +1,11 @@
+--- Trac-0.12.2/trac/ticket/templates/report.rss.orig	2011-03-13 02:11:30.217001532 +0300
++++ Trac-0.12.2/trac/ticket/templates/report.rss	2011-03-13 02:14:54.177001734 +0300
+@@ -25,7 +25,7 @@
+                 </py:when>
+                 <py:when test="col in ('time', 'changetime', 'created', 'modified')">
+                   <!-- FIXME: we end up with multiple pubDate -->
+-                  <pubDate py:if="cell.value != 'None'">${http_date(from_utimestamp(long(cell.value)))}</pubDate>
++                  <pubDate py:if="cell.value != ''">${http_date(from_utimestamp(long(cell.value)))}</pubDate>
+                 </py:when>
+                 <py:when test="col == 'summary'">
+                   <title>#$row.id: $cell.value</title>

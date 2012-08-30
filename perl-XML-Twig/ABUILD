@@ -1,0 +1,17 @@
+pkgname=perl-XML-Twig
+pkgver=3.39
+pkgbuild=1
+arch=('auto')
+shortdesc="Perl module for processing huge XML documents in tree mode"
+source=("http://www.cpan.org/authors/id/M/MI/MIROD/XML-Twig-${pkgver}.tar.gz")
+tags="libs dev-perl"
+build()
+{
+	set -e
+	go_src_dir
+	burn_patches
+	perl Makefile.PL -y INSTALLDIRS=vendor
+	make
+	make DESTDIR="${pkgdir}" install
+	set +e
+}

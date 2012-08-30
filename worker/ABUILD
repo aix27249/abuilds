@@ -1,0 +1,50 @@
+#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
+
+pkgname=worker
+pkgver=2.17.13
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Two-pane file manager for the X Window System"
+longdesc=("Worker is a file manager for the X Window System"
+"The directories and files are shown in two independent panels (similar to Midnight Commander)."
+""
+"Features:"
+""
+"- low requirements (basically only the X11 libraries)"
+"- fast and easy access to archives and remote sites"
+"- many built-in functions"
+"- text viewer"
+"- tabs"
+"- file search"
+"- flexible file type system with arbitrary file type actions for single file types or groups of types"
+"- context menu to access file type actions"
+"- bookmarks for frequently used directories"
+"- labels can be assigned to entries to make it easier to find important files"
+"- volume manager for mounting/unmounting devices (HAL supported)"
+"- filter file view by string pattern or label"
+"- assign any external command to buttons, hotkeys or filetypes (e.g. gimp, tar, diff, mount, ...)"
+"- UTF8 support"
+"- built-in configuration GUI")
+
+source=("http://www.boomerangsworld.de/cms/${pkgname}/downloads/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xapps app-misc"
+
+# avfs - оцпиональная зависимость, но я решил её добавить т.к. worker без неё неудобен
+adddep="avfs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=keybinder
+pkgver=0.2.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="keybinder is a library for registering global keyboard shortcuts"
+
+source="http://kaizer.se/publicfiles/$pkgname/$pkgname-$pkgver.tar.gz"
+
+tags="develop dev-libs"
+
+build_deps="make gcc pkg-config python"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-python"

@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=ristretto
+pkgver=0.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+
+source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce media-gfx"
+
+build_deps="make gcc intltool pkg-config perl"
+adddep="libexif exo"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

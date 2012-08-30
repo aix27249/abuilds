@@ -1,0 +1,13 @@
+###########################
+## Cursor Theme for *box ##
+###########################
+Xcursor*theme : Vanilla-DMZ
+Xcursor*size : 22
+#################
+## XFT Setting ##
+#################
+Xft*dpi:        96
+Xft*antialias:  true
+Xft*hinting:    true
+Xft*hintstyle:  hintfull
+Xft*rgba:	none

@@ -1,0 +1,28 @@
+pkgname=pypy-pil
+pkgver=1.1.7
+pkgbuild=2
+arch=("auto")
+
+shortdesc=("Python Imaging Library. PyPy build")
+
+tags=("libs dev-python")
+
+source=("http://effbot.org/downloads/Imaging-$pkgver.tar.gz")
+
+adddep="pil"
+
+build() {
+	go_src_dir
+	burn_patches
+
+	pypy setup.py build_ext
+	pypy setup.py install --root=$pkgdir --optimize=1
+  
+	# Install symlinks
+	cd $pkgdir
+	mkdir -p usr/bin/
+	for i in $(ls opt/pypy/bin); do
+		ln -s /opt/pypy/bin/$i usr/bin/pypy-$i
+	done
+}
+

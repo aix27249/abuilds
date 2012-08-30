@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Openbox Wallpaper Manager (Nitrogen)
+Icon=nitrogen
+Exec=nitrogen
+Categories=Settings;DesktopSettings;GTK;
+MimeType=application/x-openbox-theme
+StartupNotify=true
+Terminal=false

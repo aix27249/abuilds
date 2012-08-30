@@ -1,0 +1,85 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=haskell-transformers
+pkgver=0.2.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="haskell-transformers (Concrete functor and monad transformers)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This part contains the monad transformer class, the concrete monad transformers, operations and liftings. It can be used on its own in Haskell 98 code, or with the monad classes in the monads-fd or monads-tf packages, which automatically lift operations introduced by monad transformers through other transformers."
+	  ""
+	  "Homepage: http://hackage.haskell.org/package/transformers"
+)
+
+source=("http://hackage.haskell.org/packages/archive/transformers/${pkgver}/transformers-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs dev-haskell"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="ghc==7.0.3"
+removedep="ghc"
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts="no_strip"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+runhaskell Setup configure \
+--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-shared \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+-p --enable-split-objs
+
+runhaskell Setup build
+runhaskell Setup haddock
+runhaskell Setup register   --gen-script
+runhaskell Setup unregister --gen-script
+runhaskell Setup copy --destdir=${pkgdir}
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+install -m755 $startdir/preremove.sh $pkgdir/install/preremove.sh
+install -D -m744 register.sh   ${pkgdir}/usr/share/haskell/${pkgname}/register.sh
+install    -m744 unregister.sh ${pkgdir}/usr/share/haskell/${pkgname}/unregister.sh
+}

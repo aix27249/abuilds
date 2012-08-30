@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pypy-pip
+pkgver=1.0.2
+pkgbuild=1
+arch=('auto')
+tags="develop dev-python"
+shortdesc="An easy_install replacement for installing python packages"
+source="http://pypi.python.org/packages/source/p/pip/pip-${pkgver}.tar.gz"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	pypy setup.py build
+	pypy setup.py install --root=$pkgdir --optimize=1
+
+	# Install symlinks
+	cd $pkgdir
+	mkdir -p usr/bin/
+	for i in $(ls opt/pypy/bin); do
+		ln -s /opt/pypy/bin/$i usr/bin/pypy-$i
+	done
+}

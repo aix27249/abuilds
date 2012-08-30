@@ -1,0 +1,12 @@
+
+include "/usr/share/themes/Prudence/gtk-2.0/gtkrc"
+
+style "user-font"
+{
+	font_name="Droid Sans Serif 9"
+}
+widget_class "*" style "user-font"
+
+gtk-theme-name="Prudence"
+gtk-font-name="Droid Sans Serif 9"
+gtk-icon-theme-name="Prudence-icon"

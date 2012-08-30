@@ -1,0 +1,31 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=compton-git
+pkgver=1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Compositor for X, and a fork of xcompmgr"
+
+source=("git:https://github.com/chjj/${provides}")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="x11-apps xserver"
+
+provides="compton"
+
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+go_src_dir
+}
+
+build()
+{
+make
+}
+
+after_build()
+{
+make DESTDIR=${pkgdir} install
+}

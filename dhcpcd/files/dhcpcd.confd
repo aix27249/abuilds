@@ -1,0 +1,10 @@
+# dhcpcd init script configuration file
+#
+# INTERFACES: specify interfaces on which dhcpcd should run.
+# If none specified, dhcpcd will use all available ethernet interfaces.
+# Default value: none
+INTERFACES=
+
+# ARGS: extra dhcpcd arguments. For details, see man dhcpcd.
+# Default value: none
+ARGS=

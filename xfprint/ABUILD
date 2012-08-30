@@ -1,0 +1,30 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xfprint
+pkgver=4.6.1
+pkgbuild=4
+arch=('auto')
+tree=`echo ${pkgver} | cut -d . -f 1-2`
+
+shortdesc="Printer GUI for Xfce"
+
+source=("http://archive.xfce.org/src/archive/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-base"
+
+build_deps="make pkg-config intltool gcc gtk-doc gtk+"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

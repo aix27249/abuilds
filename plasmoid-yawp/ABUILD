@@ -1,0 +1,33 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=plasmoid-yawp
+pkgver=0.3.5
+pkgbuild=2
+arch=('auto')
+
+shortdesc="yaWP (Yet Another Weather Plasmoid)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("http://kde-look.org/content/show.php?content=94106")
+
+source=("svn:https://yawp.svn.sourceforge.net/svnroot/yawp/trunk")
+
+tags="kde4 kde-misc"
+
+build() 
+{
+go_src_dir
+burn_patches
+
+rm -rf build 
+mkdir build && cd build || exit 1 
+cmake \
+-DCMAKE_C_FLAGS="$SLKCFLAGS" \
+-DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
+-DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} ..
+
+make -j${numjobs} || exit 1
+make install DESTDIR=$startdir/pkg || exit 1
+
+}
+

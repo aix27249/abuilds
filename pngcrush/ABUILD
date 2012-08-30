@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pngcrush
+pkgver=1.7.13
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A png compression tool"
+longdesc=("A Portable Network Graphics compression tool and library")
+
+source=("http://downloads.sourceforge.net/sourceforge/pmt/${pkgname}-${pkgver}.tar.bz2")
+
+tags="develop dev-libs"
+
+build()
+{
+	go_src_dir
+	make
+}
+after_build()
+{
+	mkdir -p $pkgdir/usr/bin
+	cp pngcrush $pkgdir/usr/bin
+}

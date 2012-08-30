@@ -1,0 +1,11 @@
+# wl module from Broadcom conflicts with ssb
+# We must blacklist the following modules:
+blacklist b44
+blacklist b43legacy
+blacklist b43
+blacklist brcm80211
+blacklist brcmsmac
+blacklist ssb
+blacklist bcma
+
+install wl /sbin/modprobe lib80211 ; /sbin/modprobe --ignore-install wl $CMDLINE_OPTS

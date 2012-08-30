@@ -1,0 +1,40 @@
+pkgname=dovecot
+pkgver=2.0.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="open source IMAP and POP3 server"
+longdesc=("Dovecot is an open source IMAP and POP3 server for Linux/UNIX-like systems, written with security primarily in mind. Although it's written in C, it uses several coding techniques to avoid most of the common pitfalls."
+"Dovecot can work with standard mbox and Maildir formats and it's fully compatible with UW-IMAP and Courier IMAP servers' implementation of them, as well as mail clients accessing the mailboxes directly."
+"Builded without ldap and mysql support."
+)
+
+source=("http://www.dovecot.org/releases/2.0/${pkgname}-${pkgver}.tar.gz")
+
+tags="server net-mail"
+
+config_files="etc/dovecot/dovecot.conf"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+    --sysconfdir=/etc \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --localstatedir=/var \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --mandir=/usr/man \
+    --with-notify=inotify \
+    --with-mysql \
+    --with-pam \
+    --with-sqlite \
+    --with-libcap \
+    --with-ldap \
+    --with-nss \
+    --disable-static"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+    mkdir -p ${pkgdir}/etc/init.d
+    install -m0755 ${filedir}/dovecot ${pkgdir}/etc/init.d/dovecot
+    install -m0644 ${filedir}/dovecot.conf ${pkgdir}/etc/dovecot/dovecot.conf
+}

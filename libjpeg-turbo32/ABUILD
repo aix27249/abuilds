@@ -1,0 +1,33 @@
+#ABUILD created by/создан: vk, aka.kloun at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libjpeg-turbo
+# Note that we should be in sync with libjpeg version
+pkgver=6b
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libjpeg derivative with accelerated baseline JPEG compression and decompression"
+
+source=("svn:https://libjpeg-turbo.svn.sourceforge.net/svnroot/libjpeg-turbo/trunk")
+
+tags="media-libs libs"
+
+build_deps="nasm m4 autoconf automake"
+
+provides="libjpeg"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="autoreconf -fiv &&  LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--disable-dependency-tracking \
+--with-jpeg6b"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+  install -m644 jpegint.h $pkgdir/usr/include/
+}

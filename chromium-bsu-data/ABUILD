@@ -1,0 +1,108 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=chromium-bsu
+pkgver=0.9.15
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("You are captain of the cargo ship Chromium B.S.U., responsible for delivering supplies to our troops on the front line. Chromium B.S.U. is a fast paced, arcade-style, top-scrolling shooter. It uses OpenGL for graphics, and OpenAL for sound effects."
+""
+"License: Artistic License, MIT License."
+""
+"Homepage: http://chromium-bsu.sf.net"
+)
+
+source=("http://downloads.sourceforge.net/project/chromium-bsu/Chromium%20B.S.U.%20source%20code/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="virtual games-action"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="${pkgname}-bin ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin data"
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-$pkgver"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}
+
+# Bin
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for Chromium B.S.U."
+	longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
+	tags="games games-action"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv ${p_pkgdir}/usr/bin ${pkgdir}/usr || exit 1
+}
+
+# Data
+data(){
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for Chromium B.S.U."
+	longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
+	tags="games games-action"
+	adddep="${p_pkgname}-bin==${pkgver}"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+ mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+}

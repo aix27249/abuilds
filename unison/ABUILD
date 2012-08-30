@@ -1,0 +1,85 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=unison
+pkgver=2.32.52
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Unison (file-synchronization tool)"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Unison is a file-synchronization tool for Unix and Windows. It allows two replicas of a collection of files and directories to be stored on different hosts (or different disks on the same host), modified separately, and then brought up to date by propagating the changes in each replica to the other."
+	  "Unlike simple mirroring or backup utilities, Unison can deal with updates to both replicas of a distributed directory structure. Updates that do not conflict are propagated automatically. Conflicting updates are detected and displayed."
+	  ""
+	  "Homepage: http://www.cis.upenn.edu/~bcpierce/unison"
+)
+
+source=("http://www.cis.upenn.edu/~bcpierce/unison/download/releases/stable/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps net-misc"
+
+#dependencies only needed to build package
+build_deps="ocaml lablgtk"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+go_src_dir
+burn_patches
+
+CFLAGS=""
+make clean
+make UISTYLE=text DEBUGGING=false THREADS=true || return 1
+mkdir -p $pkgdir/usr/bin 
+install -Dm755 unison $pkgdir/usr/bin/unison
+
+# clean the builddir and rebuild with gtk2 support
+make clean
+make UISTYLE=gtk2 DEBUGGING=false THREADS=true || return 1
+install -Dm755 unison $pkgdir/usr/bin/unison-gtk2
+
+# create a compliant icon from ico file and install the png
+convert win32rc/U.ico unison.png
+install -Dm644 ${pkgname}-1.png  $pkgdir/usr/share/pixmaps/$pkgname.png
+
+# make symlink for .desktop file
+cd $pkgdir/usr/bin
+ln -s unison-gtk2 unison-x11
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

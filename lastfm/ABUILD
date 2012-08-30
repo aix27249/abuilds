@@ -1,0 +1,75 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=lastfm
+pkgver=1.5.4.26862
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Last.fm official client"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Last.fm official client"
+)
+
+source=("http://ftp.de.debian.org/debian/pool/main/l/lastfm/lastfm_$pkgver+dfsg.orig.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps media-sound"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+#before_build()
+#{
+#echo ""
+#}
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./configure
+	MAKEFLAGS=-j1 make src/Makefile
+	patch -Np1 -i $filedir/makefile-qt45.patch
+	MAKEFLAGS=-j1 make || exit 1
+	( make || ( mv build/fplib/libfplib_debug.a build/fplib/libfplib.a && make ) )
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+	go_src_dir
+	mkdir -p $pkgdir/opt $pkgdir/usr/bin
+	cp -rp bin/ $pkgdir/opt/last.fm
+	printf "#!/bin/sh\nexec /opt/last.fm/last.fm.sh\n" > $pkgdir/usr/bin/lastfm
+	chmod +x $pkgdir/usr/bin/lastfm
+}

@@ -1,0 +1,25 @@
+#!/sbin/runscript
+
+depend()
+{
+	need net
+	after syslog
+}
+
+start()
+{
+    if !([ -f /var/run/xl2tpd/l2tp-control ]) ; then
+	mkdir -p /var/run/xl2tpd
+	touch /var/run/xl2tpd/l2tp-control
+    fi
+
+    ebegin "Starting xl2tpd  "
+    start-stop-daemon --start -q --pidfile /var/run/xl2tpd.pid --exec /usr/sbin/xl2tpd 1> /dev/null 2> /dev/null
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping xl2tpd"
+    start-stop-daemon --stop -q --pidfile /var/run/xl2tpd.pid --exec /usr/sbin/xl2tpd
+    eend $?
+}

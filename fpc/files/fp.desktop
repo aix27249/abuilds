@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=fp
+Comment=
+Exec=/usr/bin/fp
+Icon=fpc.png
+Terminal=true
+Categories=ConsoleOnly;Development;
+StartupNotify=false
+GenericName=FreePascal IDE for Linux

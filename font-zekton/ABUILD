@@ -1,0 +1,67 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=font-zekton
+pkgver=061222
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="cool truetype font"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This is Zekton font useful for Conky like this screenshot: http://bit.ly/cZzOCv. Page: http://bit.ly/bTbJOt"
+)
+
+source=("http://www.e17-stuff.org/CONTENT/content-files/50553-zekton.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xserver media-fonts"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+install -Dm644 $startdir/src/zekton__.ttf ${startdir}/pkg/usr/share/fonts/TTF/zekton.ttf
+install -Dm644 $startdir/src/zektonbi.ttf ${startdir}/pkg/usr/share/fonts/TTF/zektonbi.ttf
+install -Dm644 $startdir/src/zektonbo.ttf ${startdir}/pkg/usr/share/fonts/TTF/zektonbo.ttf
+install -Dm644 $startdir/src/zektonit.ttf ${startdir}/pkg/usr/share/fonts/TTF/zektonit.ttf
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+}

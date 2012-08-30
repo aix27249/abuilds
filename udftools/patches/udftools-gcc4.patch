@@ -1,0 +1,70 @@
+--- mkudffs/mkudffs.c
++++ mkudffs/mkudffs.c
+@@ -250,14 +250,14 @@
+ 	if (size % offsets[PSPACE_SIZE])
+ 		size -= (size % offsets[PSPACE_SIZE]);
+ 	set_extent(disc, PSPACE, start, size);
+-	for (i=0; i<disc->udf_lvd[0]->numPartitionMaps; i++)
++	for (i=0; i<le32_to_cpu(disc->udf_lvd[0]->numPartitionMaps); i++)
+ 	{
+ 		if (i == 1)
+ 			disc->udf_lvid->freeSpaceTable[i] = cpu_to_le32(0xFFFFFFFF);
+ 		else
+ 			disc->udf_lvid->freeSpaceTable[i] = cpu_to_le32(size);
+ 	}
+-	for (j=0; j<disc->udf_lvd[0]->numPartitionMaps; j++)
++	for (j=0; j<le32_to_cpu(disc->udf_lvd[0]->numPartitionMaps); j++)
+ 	{
+ 		if (j == 1)
+ 			disc->udf_lvid->sizeTable[i+j] = cpu_to_le32(0xFFFFFFFF);
+--- wrudf/wrudf.c
++++ wrudf/wrudf.c
+@@ -245,7 +245,7 @@
+ 	    } else if( strncmp( spm->partIdent.ident, UDF_ID_VIRTUAL, strlen(UDF_ID_VIRTUAL)) == 0 )
+ 		virtualPartitionNum = i;
+ 	}
+-	(char*)spm += spm->partitionMapLength;
++	spm = (char*)spm + spm->partitionMapLength;
+     }
+ 
+     if( medium == CDR ) {
+--- mkudffs/mkudffs.c
++++ mkudffs/mkudffs.c
+@@ -289,7 +289,7 @@
+ int write_disc(struct udf_disc *disc)
+ {
+ 	struct udf_extent *start_ext;
+-	int ret;
++	int ret =0;
+ 
+ 	start_ext = disc->head;
+ 
+@@ -299,6 +299,7 @@
+ 			return ret;
+ 		start_ext = start_ext->next;
+ 	}
++ return ret;
+ }
+ 
+ void setup_vrs(struct udf_disc *disc)
+--- wrudf/wrudf-cdrw.c
++++ wrudf/wrudf-cdrw.c
+@@ -614,7 +614,7 @@
+ readTaggedBlock(uint32_t lbn, uint16_t partition) 
+ {
+     int		i;
+-    uint32_t	blkno;
++    uint32_t	blkno = 0;
+     uint8_t	sum, *p;
+     struct generic_desc *block;
+
+--- wrudf/wrudf-cmnd.c
++++ wrudf/wrudf-cmnd.c
+@@ -46,6 +46,7 @@
+ copyFile(Directory *dir, char* inName, char*newName, struct stat *fileStat) 
+ {
+     int		fd, i, blkno;
++    i = 0;
+     uint32_t	nBytes, blkInPkt;
+     uint32_t	maxVarPktSize;		// in bytes
+     struct fileIdentDesc *fid;

@@ -1,0 +1,14 @@
+#!/sbin/runscript                                                                                                 
+                                                                                            
+depend(){
+	before fsck localmount
+	after mdadm
+}
+                                             
+start() {                                                                                                         
+	ebegin "Initializing LVM support"      
+	vgscan --mknodes --ignorelockingfailure
+	vgchange -ay --ignorelockingfailure
+	eend $?
+}
+

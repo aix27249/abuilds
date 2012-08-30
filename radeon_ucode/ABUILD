@@ -1,0 +1,24 @@
+pkgname=radeon_ucode
+pkgver=20110627
+pkgbuild=1
+shortdesc="Radeon ucode firmware files"
+longdesc="Radeon ucode firmware files"
+arch='fw'
+tags=("drivers x11-misc")
+url="http://people.freedesktop.org/~agd5f/radeon_ucode"
+
+adddep="kernel-firmware"
+build_deps="lftp"
+build() {
+    set -e
+    mkdir -p ${srcdir}/firmware
+    cd ${srcdir}/firmware
+    echo "mirror" | lftp ${url}
+
+    for f in *.bin; do
+        install -D -m644  "${f}" "$pkgdir/lib/firmware/radeon/${f}"
+    done
+
+    install -D -m644 LICENSE.radeon ${pkgdir}/usr/share/licenses/$pkgname/LICENSE
+    set +e
+}

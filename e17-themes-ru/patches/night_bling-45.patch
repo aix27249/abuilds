@@ -1,0 +1,110 @@
+diff -uNrp night_bling-45.orig/default.edc night_bling-45/default.edc
+--- night_bling-45.orig/default.edc	2010-10-18 23:53:22.613000000 +0800
++++ night_bling-45/default.edc	2010-10-19 02:32:23.072000002 +0800
+@@ -17,12 +17,11 @@
+ #endif
+ 
+ fonts {
+-   font: "Vera.ttf"   "Edje-Vera";
+-   font: "VeraBd.ttf" "Edje-Vera-Bold";
+-   font: "NimbusSanL-ReguCond.ttf" "Edje-Nimbus-Sans-L-Regular-Condensed";
+-   font: "NimbusSanL-BoldCond.ttf" "Edje-Nimbus-Sans-L-Bold-Condensed";
++   font: "DejaVuSans.ttf"   "Edje-Vera";
++   font: "DejaVuSans-Bold.ttf" "Edje-Vera-Bold";
+ }
+ 
++#if 0
+ spectra {
+   spectrum {
+     name: "black_to_trans";
+@@ -30,6 +29,7 @@ spectra {
+     color: 0 0 0 0 1;
+   }
+ }
++#endif
+ 
+ 
+ collections {
+diff -uNrp night_bling-45.orig/default_icons.edc night_bling-45/default_icons.edc
+--- night_bling-45.orig/default_icons.edc	2010-10-18 23:53:22.615000000 +0800
++++ night_bling-45/default_icons.edc	2010-10-19 02:33:47.021000001 +0800
+@@ -1745,6 +1745,7 @@ group {
+    name: "e/icons/enlightenment/gradient_h";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1767,6 +1768,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1787,6 +1789,7 @@ group {
+    name: "e/icons/enlightenment/gradient_v";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1805,6 +1808,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1825,6 +1829,7 @@ group {
+    name: "e/icons/enlightenment/gradient_du";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1847,6 +1852,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1867,6 +1873,7 @@ group {
+    name: "e/icons/enlightenment/gradient_dd";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1889,6 +1896,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;
+@@ -1909,6 +1917,7 @@ group {
+    name: "e/icons/enlightenment/gradient_rad";
+    max:  24 24;
+    parts {
++#if 0
+       part {
+ 	 name:          "bg";
+          type: GRADIENT;
+@@ -1931,6 +1940,7 @@ group {
+             }
+ 	 }
+       }
++#endif
+       part {
+ 	 name:          "screen";
+ 	 mouse_events:  0;

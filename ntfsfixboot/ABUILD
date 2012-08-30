@@ -1,0 +1,31 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=ntfsfixboot
+pkgver=1.0
+pkgbuild=4
+arch=('auto')
+
+shortdesc="A program to fix an NTFS partition boot sector"
+
+source=("http://cdnetworks-kr-2.dl.sourceforge.net/project/${pkgname}/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-admin utils"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+
+go_src_dir
+
+gcc -g -Wall ntfsfixboot.c -o ntfsfixboot
+mkdir -p "$pkgdir/usr/bin"
+install -m755 "$srcdir/ntfsfixboot-1.0/ntfsfixboot" "$pkgdir/usr/bin"
+
+}

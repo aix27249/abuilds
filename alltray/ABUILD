@@ -1,0 +1,21 @@
+# Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+pkgname=alltray
+pkgver=0.7.5dev
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Dro any application in tray"
+source=("https://code.launchpad.net/alltray/trunk/${pkgver}/+download/alltray-${pkgver}.tar.gz")
+tags="xapps x11-utils"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"

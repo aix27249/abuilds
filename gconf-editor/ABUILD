@@ -1,0 +1,63 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=gconf-editor
+pkgver=2.32.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Gconf configuration editor"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("GConf settings graphical editor"
+)
+
+source=("http://ftp.gnome.org/pub/gnome/sources/gconf-editor/2.32/gconf-editor-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="gnome gnome-extra"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
+
+build()
+{
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib${LIBDIRSUFFIX} \
+      --localstatedir=/var --disable-scrollkeeper || return 1
+  make || return 1
+  make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+  
+  install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+  gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gconf-editor ${pkgdir}/etc/gconf/schemas/*.schemas || return 1
+  rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
+}

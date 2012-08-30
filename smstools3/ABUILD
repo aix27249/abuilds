@@ -1,0 +1,45 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com
+#----------------------------- General vars --------------------------------------
+pkgname=smstools3
+pkgver=3.1.14
+pkgbuild=2
+arch=('auto')
+ 
+shortdesc="SMS Gateway software which can send and receive short messages through GSM modems and mobile phones"
+ 
+source=("http://${pkgname}.kekekasvi.com/packages/${pkgname}-${pkgver}.tar.gz")
+ 
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="utils app-mobilephone"
+ 
+#----------------------------- Make PKG --------------------------------------
+before_build()
+{
+go_src_dir
+}
+ 
+build()
+{
+make
+}
+ 
+after_build()
+{
+echo "Installing binary program files"
+mkdir -p ${pkgdir}/usr/bin
+cp ./src/smsd ${pkgdir}/usr/bin/smsd
+
+echo "Installing some scripts"
+cp ./scripts/sendsms ${pkgdir}/usr/bin/sendsms
+cp ./scripts/sms2html ${pkgdir}/usr/bin/sms2html
+cp ./scripts/sms2unicode ${pkgdir}/usr/bin/sms2unicode
+cp ./scripts/unicode2sms ${pkgdir}/usr/bin/unicode2sms
+
+echo "Installing config file"
+mkdir -p ${pkgdir}/etc
+cp ./examples/smsd.conf.easy ${pkgdir}/etc/smsd.conf
+
+mkdir -p ${pkgdir}/var/spool/sms/incoming
+mkdir -p ${pkgdir}/var/spool/sms/outgoing
+mkdir -p ${pkgdir}/var/spool/sms/checked
+}

@@ -1,0 +1,7 @@
+meta-util() {
+	pkgname="leechcraft-util"
+	shortdesc="Leechcraft utility plugins"
+	adddep="leechcraft-secman leechcraft-glance leechcraft-tabslist leechcraft-cstp leechcraft-advancednotifications leechcraft-qrosp leechcraft-lackman leechcraft-summary"
+	tags="virtual x11-misc"
+	arch="noarch"
+}

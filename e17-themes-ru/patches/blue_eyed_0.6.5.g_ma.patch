@@ -1,0 +1,14 @@
+diff -uNrp blue_eyed_0.6.5.g_ma.orig/fonts.edc blue_eyed_0.6.5.g_ma/fonts.edc
+--- blue_eyed_0.6.5.g_ma.orig/fonts.edc	2010-10-18 23:48:21.534000000 +0800
++++ blue_eyed_0.6.5.g_ma/fonts.edc	2010-10-19 01:08:43.565000002 +0800
+@@ -1,7 +1,7 @@
+ fonts {
+-	font: "fonts/Vera.ttf"   "Vera";
+-	font: "fonts/04B_08.ttf" "04b08_original";
+-	font: "fonts/r04b08.ttf" "04b08";
++	font: "DejaVuSans.ttf"   "Vera";
++	font: "DejaVuSans-Bold.ttf" "04b08_original";
++	font: "DejaVuSans-Bold.ttf" "04b08";
+ }
+ /* for color: blocks cause i am lazy" */
+ #define LTBLUE 107 146 189
