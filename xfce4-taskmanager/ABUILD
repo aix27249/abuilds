@@ -2,7 +2,7 @@
 
 pkgname=xfce4-taskmanager
 pkgver=1.0.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 tree=`echo ${pkgver} | cut -d . -f 1-2`
 
