@@ -1,0 +1,33 @@
+pkgname=opera-tmp
+pkgver=12.02
+d_ver=`echo $pkgver | sed 's/\.//g'`
+revnum=1578
+pkgbuild=1
+arch=('auto')
+shortdesc="Opera browser"
+
+# Don't generate deps, specify it manually.
+custom_opts="skip_gendeps"
+provides="opera"
+adddep="freetype glib2 fontconfig gcc libxml2 glibc-solibs cxxlibs zlib libXrender libXt libICE libSM libX11"
+
+if [ ! "$ARCH" = "x86_64" ] ; then
+	ARCH="i386"
+fi
+
+source=("ftp://ftp.opera.com/pub/opera/linux/${d_ver}/opera-${pkgver}-${revnum}.$ARCH.linux.tar.xz")
+tags="proprietary www-client xapps"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./install --prefix /usr --repackage ${pkgdir}/usr
+}
+
+after_build()
+{
+	go_src_dir
+	[ "$LIBDIRSUFFIX" = "64" ] && mv $pkgdir/usr/lib $pkgdir/usr/lib${LIBDIRSUFFIX}
+	sed -i -e "s/lib/lib$LIBDIRSUFFIX/g" $pkgdir/usr/bin/opera
+}
