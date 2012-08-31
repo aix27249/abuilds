@@ -1,0 +1,76 @@
+pkgname=libav-nonfree
+provides=libav
+pkgver=0.8.3
+pkgbuild=1
+arch=('auto')
+conflicts="ffmpeg"
+shortdesc="libav is a complete, cross-platform solution to record, convert and stream audio and video. This is non-free version, that cannot be distributed in binary form"
+
+source=("http://libav.org/releases/libav-${pkgver}.tar.xz")
+
+tags="libs media-video"
+
+build_deps="yasm"
+
+
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	LDFLAGS="$SLKLDFLAGS" \
+		CFLAGS="$SLKCFLAGS" \
+		CXXFLAGS="$SLKCFLAGS" \
+		./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--shlibdir=/usr/lib${LIBDIRSUFFIX} \
+		--mandir=/usr/man \
+		--disable-static \
+		--enable-shared \
+		--enable-gpl \
+		--enable-version3 \
+		--enable-doc \
+		--enable-ffmpeg \
+		--enable-avdevice \
+		--enable-avcodec \
+		--enable-avformat \
+		--enable-swscale \
+		--enable-postproc \
+		--enable-avfilter \
+		--enable-libopenjpeg \
+		--enable-pthreads \
+		--enable-x11grab \
+		--enable-bzlib \
+		--enable-libopencore-amrnb \
+		--enable-libopencore-amrwb \
+		--enable-libdirac \
+		--enable-libmp3lame \
+		--enable-libschroedinger \
+		--enable-libspeex \
+		--enable-libtheora \
+		--enable-libvorbis \
+		--enable-libvpx \
+		--enable-libx264 \
+		--enable-libxvid \
+		--enable-zlib \
+		--disable-debug \
+		--enable-vdpau \
+		--enable-vaapi \
+		--disable-indev=oss \
+		--disable-indev=jack \
+		--disable-outdev=oss \
+		--enable-nonfree \
+		--enable-libfaac
+
+
+	make -j${numjobs}
+	make tools/qt-faststart -j${numjobs}
+	make DESTDIR="$pkgdir" install install-man
+}
+
+after_build()
+{
+	install -D -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
+}
