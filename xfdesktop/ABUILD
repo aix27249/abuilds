@@ -2,7 +2,7 @@
 
 pkgname=xfdesktop
 pkgver=4.10.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A desktop manager for Xfce"
