@@ -2,7 +2,7 @@
 
 pkgname=xfce4-screenshooter
 pkgver=1.8.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Xfce Screenshooter - Software to create screenshots."
