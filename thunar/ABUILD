@@ -2,7 +2,7 @@
 
 pkgname=thunar
 pkgver=1.4.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Modern file manager for Xfce"
