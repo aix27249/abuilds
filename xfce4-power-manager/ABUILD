@@ -2,7 +2,7 @@
 
 pkgname=xfce4-power-manager
 pkgver=1.2.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Power manager for Xfce desktop"
