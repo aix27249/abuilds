@@ -1,7 +1,7 @@
 pkgname=opera
-pkgver=11.62
+pkgver=12.02
 d_ver=`echo $pkgver | sed 's/\.//g'`
-revnum=1347
+revnum=1578
 pkgbuild=1
 arch=('auto')
 shortdesc="Opera browser"
@@ -14,7 +14,7 @@ if [ ! "$ARCH" = "x86_64" ] ; then
 	ARCH="i386"
 fi
 
-source=("ftp://ftp.opera.com/pub/opera/linux/${d_ver}/${pkgname}-${pkgver}-${revnum}.$ARCH.linux.tar.xz")
+source=("ftp://ftp.opera.com/pub/opera/linux/${d_ver}/opera-${pkgver}-${revnum}.$ARCH.linux.tar.xz")
 tags="proprietary www-client xapps"
 
 build()
