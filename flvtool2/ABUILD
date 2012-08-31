@@ -1,0 +1,22 @@
+pkgname=flvtool2
+pkgver=1.0.6
+pkgbuild=2
+arch=('auto')
+
+shortdesc="FLVTool2 is a manipulation tool for Macromedia Flash Video files (FLV)."
+longdesc=("FLVTool2 calculates various meta data and inserts a onMetaData tag in the video. It cuts FLV files and adds cue Points (onCuePoint). A debug command shows the inside of a FLV file and the print command gives meta data information in XML or YAML format."
+)
+
+source=("git:http://github.com/unnu/flvtool2.git")
+
+tags="media-video console"
+build_deps="ruby"
+
+build() {
+	go_src_dir
+	burn_patches
+	ruby setup.rb config --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX || exit 1
+	ruby setup.rb setup || exit 1
+	ruby setup.rb install --prefix=${pkgdir}	
+}
+
