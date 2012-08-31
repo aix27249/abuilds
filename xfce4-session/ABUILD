@@ -2,7 +2,7 @@
 
 pkgname=xfce4-session
 pkgver=4.10.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A session manager for Xfce"
