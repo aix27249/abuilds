@@ -2,7 +2,7 @@
 
 pkgname=xfce4-notes-plugin
 pkgver=1.7.7
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 tree=`echo ${pkgver} | cut -d . -f 1-2`
 
