@@ -2,7 +2,7 @@
 
 pkgname=xfce4-clipman-plugin
 pkgver=1.2.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 tree=`echo $pkgver | cut -d . -f 1-2`
 
