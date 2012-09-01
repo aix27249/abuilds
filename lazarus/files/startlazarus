@@ -1,6 +1,0 @@
-#!/bin/sh
-if ! [ -d ~/.lazarus ]; then
-   mkdir -p ~/.lazarus
-fi
-cd ~/.lazarus
-/usr/lib/lazarus/startlazarus

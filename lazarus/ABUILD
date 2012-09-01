@@ -1,98 +1,71 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=lazarus
-pkgver=0.9.31
+pkgver=1.0
 pkgbuild=1
+release=0
 arch=('auto')
 
 shortdesc="Delphi-like IDE for FreePascal"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Lazarus is a free and open source Rapid Application Development tool for "
-"the FreePascal compiler using the Lazarus component library - LCL. The LCL "
-"is included in this package. http://www.lazarus.freepascal.org/")
+longdesc=("Lazarus is a free and open source Rapid Application Development tool for the "
+"FreePascal compiler using the Lazarus component library - LCL. The LCL is included in "
+"this package. http://www.lazarus.freepascal.org/")
 
-source=("svn:http://svn.freepascal.org/svn/lazarus/trunk")
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}-${release}.src.rpm")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-util"
 
-#dependencies only needed to build package
-build_deps="subversion fpc"
+build_deps="rpm fpc>=2.6.0 gtk+2"
+adddep="fpc-src>=2.6.0 fpc>=2.6.0 gtk+2 glibc binutils gdb"
 
-adddep="fpc fpc-src gdk-pixbuf gtk+2"
-removedep=""
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#для для пересборки lazarus нужен fpc-src 2.5.1 !!!
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-#для сборки и работы lazarus нужен fpc 2.5.1
-  system_pkg_ver=`sqlite3 /var/mpkg/packages.db "select package_version from packages where package_name='fpc' and package_installed='1';"`
-  if [ -z "${system_pkg_ver}" ]; then
-     system_pkg_ver=`sqlite3 /var/mpkg/packages.db "select package_version from packages where package_provides='fpc' and package_installed='1';"`
-  fi
-  if [ -z "${system_pkg_ver}" ]; then
-     show_message BUILD_DEP_NOT_FOUND fpc
-     exit
-  fi
-  find_pkg_ver=`echo "${system_pkg_ver}" | grep -o 2.5.1`
-  if  [ -z "${find_pkg_ver}" ]; then
-      show_message BUILD_DEP_UNRESOLVED fpc ${system_pkg_ver}
-      exit
-  fi
+#-----------------------------------------------------
+before_build(){
+  go_src_dir
+  rpm2cpio ${srcache}/${pkgname}-${pkgver}-${release}.src.rpm | cpio -dimv
+  tar -xvf ${pkgname}-${pkgver}-${release}.tar.gz
+  echo "End before_build"
 }
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+#-----------------------------------------------------
 build() {
   go_src_dir
-  make FPC=/usr/bin/fpc clean all || exit 1
-  echo "build завершен"
+  make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 bigide || exit 1
+  echo "End build"
 }
 
-#ran after function build()(после сборки) 
-after_build()
-{
-
-# создаем нужные директории
-  mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/lazarus ${pkgdir}/usr/bin ${pkgdir}/usr/man/man1 || exit 1
-
-# копируем все в /usr/lib${LIBDIRSUFFIX}/lazarus
-  cp -R . $pkgdir/usr/lib${LIBDIRSUFFIX}/lazarus || exit 1
-
-# копируем man
+#----------------------------------------------------
+after_build(){
+  go_src_dir
+  PKGLAZLIBDIR=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+  mkdir -p ${PKGLAZLIBDIR} \
+            ${pkgdir}/usr/bin \
+            ${pkgdir}/usr/man/man1 || exit 1 
+  cp -R . ${PKGLAZLIBDIR} || exit 1
   cp -a install/man/man1/*.1 ${pkgdir}/usr/man/man1 || exit 1
-
-# исправим ярлык и переименуем иконку
   sed -e 's|\(Categories\).*|\1=IDE;Development;|' \
       -i install/lazarus.desktop || exit 1
   install -Dm644 install/lazarus.desktop ${pkgdir}/usr/share/applications/lazarus.desktop || exit 1
   install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png || exit 1
-
-# удалим install и debian он нам не нужен, как же docs и создадим ссылку
-  rm -r ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/install \
-  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/debian || return 1
-
-# создадим символические ссылки
-  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/docs ${pkgdir}/usr/doc/lazarus-${pkgver}/docs || return 1
+  install -Dm644 install/lazarus-mime.xml ${pkgdir}/usr/share/mime/packages/lazarus.xml || exit 1
+  find ${PKGLAZLIBDIR} -name *.bat -exec rm -rf {} \;
+  rm -r ${PKGLAZLIBDIR}/install \
+        ${PKGLAZLIBDIR}/debian \
+        ${PKGLAZLIBDIR}/lazarus.app \
+        ${PKGLAZLIBDIR}/tools/install || exit 1
+  rm ${PKGLAZLIBDIR}/*.txt
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/docs ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs || exit 1
   ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazarus ${pkgdir}/usr/bin/lazarus || exit 1
-# ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
   ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazbuild ${pkgdir}/usr/bin/lazbuild || exit 1
-
-# для исправления зависания при первом запуске от обычного пользователя
-  sed '/startlazarus/s|lib|lib'${LIBDIRSUFFIX}'|g' -i ${filedir}/startlazarus
-  install -Dm777 ${filedir}/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
-
-# если есть bmp с правами 755 изменим на 644
-  find ${pkgdir} -name \*.bmp -type f -exec chmod 644 {} \;
-  echo "after_build завершен"
-  echo "Версия пакета ${pkgver}"
+  mkdir -p ${pkgdir}/etc/lazarus
+  config=tools/install/linux/environmentoptions.xml
+  sed "s@__LAZARUSDIR__@/usr/lib${LIBDIRSUFFIX}/lazarus/@" -i ${config}
+  sed "s@__FPCSRCDIR__@/usr/share/fpc/\$(FPCVER)/src/@" -i ${config}
+  sed 's@<MakeFilename>@<MakeFilename Value="/usr/bin/make">@' -i ${config}
+  sed -i '/<\/EnvironmentOptions>/ i\
+      <Desktop>\
+          <SingleTaskBarButton Value="True"\/>\
+      </Desktop>' ${config}
+  cp -r tools/install/linux/* ${pkgdir}/etc/lazarus
+  echo "End after_build"
 }
