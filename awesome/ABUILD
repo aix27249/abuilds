@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=awesome
-pkgver=3.4.11
+pkgver=3.4.13
 pkgbuild=1
 arch="auto"
 
