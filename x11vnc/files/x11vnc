@@ -10,6 +10,16 @@
 
 PIDFILE=/var/run/x11vnc.pid
 
+if [ "`ps -e | grep kdm`" ]; then
+  AUTH='/var/lib/kdm/A:0-crWk72'
+elif [ "`ps -e | grep gdm`" ]; then
+  AUTH='/var/gdm/:0.Xauth'
+elif [ "`ps -e | grep gdm`" ]; then
+  AUTH='/var/lib/xdm/authdir/authfiles/A:0-XQvaJk'
+fi
+
+AUTH=`ps ax | grep X |awk '/-auth/{print $14;};'`
+
 depend() {
    need xdm
    after xdm
@@ -23,13 +33,19 @@ start() {
                     --pidfile ${PIDFILE} \
                     --make-pidfile \
                     --background \
-                    --exec x11vnc -- -display :0 \
-                    -auth guess \
+                    --exec x11vnc -- \
+                    -display :0 \
+                    -auth ${AUTH} \
                     -xkb \
                     -rfbauth /etc/x11vnc/passwd \
                     -noncache \
                     -rfbport 5900 \
                     -o /var/log/x11vnc.log -loop
+  if [ ! -f ${PIDFILE} ]; then
+     eerror "Failed to start x11vnc"
+     eend 1
+     return 1
+  fi
   eend $?
 }
 

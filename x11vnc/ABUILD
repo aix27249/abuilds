@@ -2,7 +2,7 @@
 
 pkgname=x11vnc
 pkgver=0.9.13
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="VNC server for real X displays"
@@ -14,7 +14,7 @@ source=("http://downloads.sourceforge.net/libvncserver/${pkgname}-${pkgver}.tar.
 
 tags="x11-misc server"
 
-build_deps="make gcc recordproto"
+build_deps="make gcc recordproto ccache"
 adddep="openssl libjpeg zlib libX11 libXtst libXinerama libXdamage libXrandr avahi"
 
 docs="RELEASE-NOTES"
