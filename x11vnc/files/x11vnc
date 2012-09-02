@@ -14,7 +14,7 @@ if [ "`ps -e | grep kdm`" ]; then
   AUTH='/var/lib/kdm/A:0-crWk72'
 elif [ "`ps -e | grep gdm`" ]; then
   AUTH='/var/gdm/:0.Xauth'
-elif [ "`ps -e | grep gdm`" ]; then
+elif [ "`ps -e | grep xdm`" ]; then
   AUTH='/var/lib/xdm/authdir/authfiles/A:0-XQvaJk'
 fi
 
