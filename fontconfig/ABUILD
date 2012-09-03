@@ -2,7 +2,7 @@
 
 pkgname=fontconfig
 pkgver=2.10.1
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("fontconfig (Font library and tools)")
@@ -23,7 +23,6 @@ after_build() {
 	rmdir ${pkgdir}/usr/share
 	( cd ${pkgdir}/etc/fonts/conf.d
 	for fontconf in \
-		20-fix-globaladvance.conf \
 		20-unhint-small-vera.conf \
 		30-urw-aliases.conf \
 		30-metric-aliases.conf \
@@ -38,7 +37,7 @@ after_build() {
 		69-unifont.conf \
 		80-delicious.conf \
 		90-synthetic.conf ; do
-	ln -sf ../conf.avail/$fontconf . || exit 1
+	ln -sf ../../../usr/share/fontconfig/conf.avail/$fontconf . || exit 1
 done
 
 )
