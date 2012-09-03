@@ -1,0 +1,1197 @@
+--- local.conf.orig	2012-09-03 16:25:36.105902001 +0400
++++ local.conf	2012-09-03 17:20:09.102902001 +0400
+@@ -5,7 +5,7 @@
+ 	<!--
+ 
+ 	/********************************************************************
+-	                              README
++				      README
+ 	/********************************************************************
+ 
+ 	This /etc/fonts/local.conf file is intended to be used
+@@ -175,8 +175,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Apple</string>
+ 		</test>
+ 		<edit name="embeddedbitmap" mode="assign">
+@@ -223,8 +229,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<alias>
+@@ -287,6 +299,8 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
+ 		</test>
+ 		<alias binding="same">
+@@ -420,8 +434,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<alias>
+@@ -524,8 +544,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -538,8 +564,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -552,8 +584,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -608,8 +646,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -622,8 +666,14 @@
+ 	<match target="pattern" name="family">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -636,8 +686,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -650,8 +706,14 @@
+ 	<match target="pattern" name="family">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -711,7 +773,7 @@
+ 
+ 	Note that Terminus will only look good at the pixel sizes that
+ 	it was designed for!
+-	
++
+ 	<match target="font" >
+ 		<test name="family" qual="any" >
+ 			<string>Terminus</string>
+@@ -736,8 +798,14 @@
+ 	<match target="pattern" name="family">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -750,8 +818,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -793,8 +867,14 @@
+ 	<match target="pattern" name="family">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -807,8 +887,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -898,7 +984,11 @@
+ 	<match target="pattern">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" compare="eq" target="default">
+@@ -911,7 +1001,11 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -927,6 +1021,8 @@
+ 	<match target="pattern">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Apple</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
+ 		</test>
+ 		<test name="family" compare="eq" target="default">
+@@ -939,6 +1035,8 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Apple</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -953,8 +1051,14 @@
+ 	<match target="pattern" name="family" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -967,8 +1071,14 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 98</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -1193,99 +1303,285 @@
+ 	<match target="font" >
+ 		<test name="family" qual="any" >
+ 			<string>Andale Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Andalus</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Angsana New</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>AngsanaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Aquabase</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial Black</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial MT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial Narrow</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial SF MT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial Unicode MS</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arial</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>ArialMT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Bitstream Vera Sans Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Bitstream Vera Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Bitstream Vera Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Book Antiqua</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Bookman Old Style</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Browallia New</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>BrowalliaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Calibri</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cambria</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Candara</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Century Gothic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Chalkduster</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Charcoal CY</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Charcoal</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Charis SIL</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Chicago</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Comic Sans MS</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Consolas</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Constantia</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Copperplate</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Corbel</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cordia New</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>CordiaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Courier 10 Pitch</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Courier New</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Courier</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Dark Courier</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DejaVu LGC Sans Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DejaVu Sans Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DejaVu Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DejaVu Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Estrangelo Edessa</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Euphemia</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>FrankRuehl</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Franklin Gothic Medium</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Futura</string>
+-			<string>Georgia</string>			
++		</test>
++		<test name="family" qual="any" >
++			<string>Georgia</string>
++		</test>
++		<test name="family" qual="any" >			
+ 			<string>Gotham Book</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Gotham Light</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Gotham Medium</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Guatami</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Impact</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Latha</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Levinim MT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Liberation Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Liberation Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Liberation Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lucida Console</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lucida Grande</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lucida Sans Unicode</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Luxi Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Malgun Gothic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft Himalaya</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft JhengHei</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft Sans Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft Uighur</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft YaHei</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Microsoft Yi Baiti</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Miriam Fixed</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Molengo</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Monaco</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Mongolian Baiti</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MoolBoran</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Narkisim</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nina</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nyala</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Padauk</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Palatino Linotype</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Plantagenet Cherokee</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Raavi</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Segoe UI</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Segoe UI Semibold</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>TITUS Cyberbit Basic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Tahoma</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Times New Roman</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Traditional Arabic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Trebuchet MS</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Tunga</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Verdana</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Vrinda</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Yanone Kaffeesatz</string>
+-			
++		</test>
++		<test name="family" qual="any" >
++
+ 			<string>Garamond</string>			
+ 		</test>
+ 		<edit mode="assign" name="font_type" target="font">
+@@ -1311,7 +1607,11 @@
+ 		</test>
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
+ 		</test>
+ 		<edit mode="assign" name="antialias" >
+@@ -1367,159 +1667,465 @@
+ 	<match target="font" >
+ 		<test name="family" qual="any" >
+ 			<string>AR PL ShanHeiSun Uni</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>American Typewriter</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Apple Chancery</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Apple Garamond Light</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Apple Garamond</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>AppleGothic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Apple Symbols</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Arabic Typesetting</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Baekmuk Gulim</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Baskerville</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Big Caslon</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Bitstream Charter</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>BrushScript</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cantarell</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>CantarellRegular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cantarell Regular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cardo</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Century Schoolbook L</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Century</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Charis SIL</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Chalkboard</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>CMU Bright</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Cochin</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Comfortaa</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Comfortaa Regular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>ComfortaaRegular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Courier Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Courier10 BT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Crimson Text</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>David</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Delicious</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Didot</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DilenniaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>District</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>DokChampa</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Droid Sans Mono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Droid Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Droid Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Dutch801 Rm BT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>EucrosiaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>FreeMono</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>FreeSans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>FreeSerif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>FreesiaUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Frutiger LT Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Frutiger Linotype</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Frutiger-Normal</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Gautami</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Geneva CY</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Geneva Regular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Geneva</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Gentium</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Gill Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Hard Gothic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Helvetica</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Helvetica CY</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Helvetica Neue</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Herculanum</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Hoefler Text</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>IM Fell</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Inconsolata</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>IrisUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>JasmineUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Jomolhari</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Josefin Sans Std Light</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Kai</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Kalinga</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>KodchiangUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Laconic</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lacuna</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Levenim MT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>LilyUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>LilyUPC</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Linux Biolinum</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Linux Libertine</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lobster</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Bengali</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Gujarati</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Hindi</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Hindi</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Kannada</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Malayalam</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Oriya</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Punjabi</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Tamil</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lohit Telugu</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Lucida Sans Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Luxi Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Luxi Serif</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>M+ 2p</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Marker Felt</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Megalopolis</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MetaMedium-Roman</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Metabook-Roman</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MgOpen Canonica</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MgOpen Cosmetica</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MgOpen Modata</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MgOpen Moderna</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Myriad Pro</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Miriam</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MS Mincho</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>MyriadRegular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Neuton</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nimbus Roman No9 L</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nimbus Mono L</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nimbus Sans</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nimbus Sans L</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nobile</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nobile002</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nobile-bold</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nobile-italic002</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Nobile-bold-italic002</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>OFL Sorts Mill Goudy TT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Ocean Sans Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Old Standard TT</string>
+-			<string>Optima</string>  <!--- needs work but may be able to be promoted eventually -->
++		</test>
++		<test name="family" qual="any" >
++			<string>Optima</string>  <!--- needs work but may be able to be promoted eventually -->		</test>
++		<test name="family" qual="any" >
+ 			<string>OTS derived font</string>
+-			<string>OTS derivied font</string>			<!-- bug in chrome code? -->
++		</test>
++		<test name="family" qual="any" >
++			<string>OTS derivied font</string>			<!-- bug in chrome code? -->		</test>
++		<test name="family" qual="any" >
+ 			<string>Palladio</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Papyrus</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>PrimaSans BT</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>proxima-nova-1</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>proxima-nova-2</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>proxima nova</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>proxima nova bold</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>proxima nova regular</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Reenie Beanie</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>SimHei</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Skia</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Swansea</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Swiss721</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Sylfaen</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Tangerine</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Times LT Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Times New Roman MT Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Times Roman</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Times Ten LT Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Univers LT Std</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>URWClassico</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Utopia</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Verdimka</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Vollkorn</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Yanone Kaffeesatz</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Zapfino</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmbx10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmex10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmmi10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmr10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmsy10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>cmtt10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>eufm10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>msam10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>msbm10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>wasy10</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Eurostile LT Std</string>
+ 		</test>
+ 		<edit mode="assign" name="font_type" target="font">
+@@ -1530,9 +2136,17 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Linux</string>
++		</test>
++		<test name="rendering_style" qual="any" >
+ 			<string>Fedora Linux</string>
+ 		</test>
+ 		<test name="font_type" target="font">
+@@ -1649,7 +2263,11 @@
+ 	<match target="font" >
+ 		<test name="family" qual="any" >
+ 			<string>ProFontWindows</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Terminus</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Terminus (ttf)</string>
+ 		</test>
+ 		<edit mode="assign" name="hintstyle" >
+@@ -1804,7 +2422,7 @@
+ 		</test>
+ 		<!-- Set the embolden flag -->
+ 		<edit name="embolden" mode="assign">
+-				<bool>true</bool>
++			<bool>true</bool>
+ 		</edit>
+ 		<!-- pretend the font is bold now -->
+ 		<edit mode="assign" name="weight" >
+@@ -1866,7 +2484,11 @@
+ 	<match target="font">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -1879,8 +2501,8 @@
+ 			<double>8.5</double>
+ 		</test>
+ 		<test compare="less" name="pixelsize" qual="any" >
+-				<double>10.5</double>
+-			</test>
++			<double>10.5</double>
++		</test>
+ 		<edit name="matrix" mode="assign" >
+ 			<times>
+ 				<name>matrix</name>
+@@ -1900,7 +2522,11 @@
+ 	<match target="font">
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
+ 		</test>
+ 		<test name="family" qual="any" >
+@@ -1913,8 +2539,8 @@
+ 			<double>11.5</double>
+ 		</test>
+ 		<test compare="less" name="pixelsize" qual="any" >
+-				<double>12.5</double>
+-			</test>
++			<double>12.5</double>
++		</test>
+ 		<edit name="matrix" mode="assign" >
+ 			<times>
+ 				<name>matrix</name>
+@@ -1932,7 +2558,11 @@
+ 	<match target="font" >
+ 		<test name="rendering_style" qual="any" >
+ 			<string>Infinality</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows 7</string>
++		</test>	
++		<test name="rendering_style" qual="any" >
+ 			<string>Windows XP</string>
+ 		</test>
+ 		<test compare="less" name="pixelsize" qual="any" >
+@@ -1980,7 +2610,11 @@
+ 	<match target="font" >
+ 		<test name="family" qual="any" >
+ 			<string>Aquabase</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>Browallia New</string>
++		</test>
++		<test name="family" qual="any" >
+ 			<string>BrowalliaUPC</string>
+ 		</test>
+ 		<test compare="less" name="pixelsize" qual="any" >
+@@ -1993,7 +2627,7 @@
+ 			<bool>true</bool>
+ 		</edit>
+ 	</match>
+-	
++
+ 	<!-- These full hinted fonts should use slight hinting at 17 px -->
+ 	<match target="font" >
+ 		<test name="family" qual="any" >

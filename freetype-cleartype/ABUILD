@@ -2,7 +2,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=freetype-cleartype
 pkgver=2.4.10
-pkgbuild=1
+pkgbuild=2
 arch=('any')
 shortdesc="TrueType font rendering library, with infinality.net cleartype patchset"
 
@@ -66,5 +66,6 @@ after_build()
 	cd ${pkgdir}/etc/fonts
 	patch -p0 < ${filedir}/enable-bitmap.patch || exit 1
 	patch -p0 < ${filedir}/disable_ter_ttf.patch || exit 1
+	patch -p0 < ${filedir}/freetype-localconf-fix.patch || exit 1
 
 }
