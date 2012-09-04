@@ -1,2 +1,4 @@
 # Trash and garbage
 *~
+*.swp
+kde-*-build.log

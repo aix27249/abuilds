@@ -21,7 +21,7 @@ etc/pam.d/kde-np"
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 fi
-
+adddep="kde-base-artwork"
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SKIP_RPATH=ON \
