@@ -1,5 +1,5 @@
 pkgname=shared-desktop-ontologies
-pkgver=0.8.1
+pkgver=0.10.0
 pkgbuild=1
 arch="noarch"
 shortdesc=("Shared desktop ontologies")
