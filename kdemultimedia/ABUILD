@@ -3,13 +3,13 @@
 pkgname=kdemultimedia
 pkgver=4.9
 strict_version='yes'
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc=('kdemultimedia (virtual package)')
 
 tags=('kde-base virtual')
-adddep="audiocd-kio dragon ffmpeg-thumbs juk kmix kscd libkcddb libkcompactdisc mplayerthumbs"
+adddep="audiocd-kio dragon ffmpegthumbs juk kmix kscd libkcddb libkcompactdisc mplayerthumbs"
 build() {
 	echo "building virtual package"
 }
