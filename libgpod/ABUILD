@@ -2,7 +2,7 @@
 
 pkgname=libgpod
 pkgver=0.8.2
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("libgpod (A library for connecting to some sort of media device ;-)")
@@ -24,3 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 	--with-udev-dir=/lib/udev"
 INSTALL_KEYS="PREFIX=/usr DESTDIR=$pkgdir"
 
+after_build() {
+	# Remove bullshit
+	rmdir ${pkgdir}/tmp
+}
