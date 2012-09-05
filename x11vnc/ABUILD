@@ -2,7 +2,7 @@
 
 pkgname=x11vnc
 pkgver=0.9.13
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="VNC server for real X displays"

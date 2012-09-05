@@ -18,13 +18,10 @@ elif [ "`ps -e | grep xdm`" ]; then
   AUTH='/var/lib/xdm/authdir/authfiles/A:0-XQvaJk'
 fi
 
-AUTH=`ps ax | grep X |awk '/-auth/{print $14;};'`
-
 depend() {
    need xdm
    after xdm
 }
-
 
 start() {
   ebegin "Starting x11vnc"
