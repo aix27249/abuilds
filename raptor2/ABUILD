@@ -1,5 +1,5 @@
 pkgname=raptor2
-pkgver=2.0.5
+pkgver=2.0.8
 pkgbuild=1
 arch=("auto")
 
