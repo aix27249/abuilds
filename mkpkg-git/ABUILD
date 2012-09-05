@@ -1,0 +1,35 @@
+pkgname=mkpkg-git
+pkgver=1.3
+pkgbuild=1
+arch=('noarch')
+shortdesc="mkpkg package generation tool for AgiliaLinux"
+
+source="git:git://github.com/aix27249/mkpkg.git"
+patch_opts=("")
+
+tags="dev-util develop"
+build_deps="python>=2.6.4 mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python"
+
+provides="mkpkg"
+conflicts=""
+
+adddep="mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python bash"
+removedep=""
+
+build() {
+	go_src_dir
+	burn_patches
+	sed s,%MKPKG_VER%,${pkgver}, -i mkpkg
+	install -Dm755 mkpkg  "${pkgdir}/sbin/mkpkg"
+
+	install -Dm755 mkpkg_32to64  "${pkgdir}/sbin/mkpkg_32to64"
+	mkdir -p "${pkgdir}/usr/share/mpkg/mkpkg" "${pkgdir}/etc" "${pkgdir}/usr/bin"
+	install -m644 {mkpkg.messages,mkpkg.n_messages,mkpkg_nonlatin.py,mkpkg_xml_parser.py,taglist,ABUILD,mkpkg_build_functions,mkpkg_shared_functions} "${pkgdir}"/usr/share/mpkg/mkpkg
+	cp -a mkpkg_templates "${pkgdir}/usr/share/mpkg/mkpkg/"
+	install -m644 mkpkg.conf "${pkgdir}/etc/mkpkg.conf.new"
+	cd "${pkgdir}/usr/bin"
+	ln -s ../../sbin/mkpkg .
+	mkdir -p "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
+	cd -
+	cp -a CHANGELOG "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
+}
