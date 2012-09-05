@@ -1,5 +1,5 @@
 pkgname=openssl
-pkgver=1.0.1a
+pkgver=1.0.1c
 pkgbuild=1
 arch=('auto')
 
@@ -12,6 +12,9 @@ source=("http://www.openssl.org/source/openssl-${pkgver}.tar.gz")
 build_deps='glibc-solibs'
 pkglist="solibs"
 adddep="openssl-solibs==${pkgver}"
+
+# OpenSSL 1.0.1c fails to build with numjobs>1, so limit it.
+numjobs=1
 
 build() {
 	go_src_dir
