@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kdegraphics-strigi-analyzer
-pkgver=4.8.4
-pkgbuild=2
+pkgver=4.9.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Strigi analyzers for graphics file formats."
