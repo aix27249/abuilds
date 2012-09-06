@@ -1,7 +1,7 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 #Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
 pkgname=pidgin
-pkgver=2.10.1
+pkgver=2.10.6
 pkgbuild=1
 arch=('auto')
 shortdesc="multi-protocol instant messaging client"
