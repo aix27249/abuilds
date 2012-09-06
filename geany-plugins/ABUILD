@@ -1,27 +1,25 @@
 pkgname=geany-plugins
-pkgver=0.21
-pkgbuild=2
+pkgver=1.22
+pkgbuild=1
 arch=('auto')
 shortdesc="Plugins for Geany"
-longdesc=("A collection of different plugins for Geany, a lightweight IDE"
-)
+longdesc=("A collection of different plugins for Geany, a lightweight IDE")
 source=("http://plugins.geany.org/geany-plugins/${pkgname}-${pkgver}.tar.bz2")
-tags="dev-util utils"     			#short and long tags / длинный и короткий тег
-build_deps="ctpl geany" 			#
-adddep="geany>=0.20"
+tags="dev-util utils"
+build_deps="ctpl geany"
+adddep="geany>=1.22"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-geanygendoc \
---docdir=/usr/doc/${pkgname}-${pkgver} \
---libexecdir=/usr/lib${LIBDIRSUFFIX}"
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static \
+    --mandir=/usr/man \
+    --enable-geanygendoc \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --libexecdir=/usr/lib${LIBDIRSUFFIX}"
+
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
