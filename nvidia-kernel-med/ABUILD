@@ -2,7 +2,7 @@
 
 pkgname=nvidia-kernel-med
 provides=nvidia-kernel
-pkgver=304.22
+pkgver=304.43
 pkgbuild=3
 arch=('auto')
 
