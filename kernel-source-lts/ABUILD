@@ -3,7 +3,7 @@
 pkgname=kernel-lts
 provides=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.0.38lts
+pkgver=3.0.42lts
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'` | sed -e s/lts//g" ] ; then
 	srcver=$kernel_ver
