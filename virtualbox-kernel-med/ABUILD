@@ -4,12 +4,12 @@ pkgname=virtualbox-kernel-med
 provides=virtualbox-kernel
 KERNEL=${KERNEL:-`uname -r`}
 KERNPKGVERSION=`echo $KERNEL | sed -e "s/-/_/g"`
-pkgver=4.1.18
+pkgver=4.1.20
 srcver=$pkgver
 pkgbuild=3
 arch=("auto")
 
-_boxbuild=78361
+_boxbuild=80170
 if [ "$ARCH" = "i686" ];then
 _suffix=Linux_x86
 elif [ "$ARCH" = "x86_64" ];then
