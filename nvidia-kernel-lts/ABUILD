@@ -2,7 +2,7 @@
 
 pkgname=nvidia-kernel-lts
 provides=nvidia-kernel
-pkgver=304.22
+pkgver=304.43
 pkgbuild=1
 arch=('auto')
 
