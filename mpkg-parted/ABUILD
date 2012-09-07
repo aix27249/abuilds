@@ -1,5 +1,5 @@
 pkgname=mpkg-parted
-pkgver=0.16
+pkgver=0.17
 pkgbuild=1
 arch="auto"
 
@@ -8,12 +8,22 @@ shortdesc=("mpkg parted libs")
 longdesc=("Parted bindings for mpkg, mainly used by system installers such as agilia-gui-installer.")
 
 # Source URL
-source=("svn:svn://agilialinux.ru/mpkg/mpkg/trunk/mpkg-parted")
+source=("git:git://github.com/aix27249/mpkg.git")
 
 # Tags
 tags="console dev-util"
+build_deps="mpkg-core parted"
+
 # Build system
-BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
 
+build() {
+	go_src_dir
+	burn_patches
+	mkdir build
+	cd build
+	cmake $BUILD_KEYS ../mpkg-parted
+	make -j${numjobs}
+	make install DESTDIR=${pkgdir}
+}
 
