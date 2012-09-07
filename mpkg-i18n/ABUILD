@@ -2,24 +2,39 @@
 
 # Package metadata
 pkgname=mpkg-i18n
-pkgver=0.16
+pkgver=0.17
 pkgbuild=1
 arch="noarch"
 
 # Package description
 shortdesc=("MPKG package system: localization files")
-longdesc=("MPKG package system: localization files")
 
 # Source URL
-source=("svn:svn://agilialinux.ru/mpkg/mpkg/trunk/i18n")
+source=("git:git://github.com/aix27249/mpkg.git")
 
 # Tags
 tags="app-i18n base"
 
 # Manually-added dependencies
-adddep="mpkg-core>=0.15"
+adddep="mpkg-core"
 
 # Build system
-BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
+build() {
+	go_src_dir
+	burn_patches
+	mkdir build
+	cd build
+	cmake $BUILD_KEYS ../i18n
+	make -j${numjobs}
+	make install DESTDIR=${pkgdir}
 
+}
+after_build() {
+	go_src_dir
+	mkdir -p ${pkgdir}/usr/share/man/ru/man1/
+	cd i18n/man_ru
+	for i in `find . -name '*.1'` ; do
+		install -m0644 $i ${pkgdir}/usr/share/man/ru/man1/`basename $i`
+	done
+}
