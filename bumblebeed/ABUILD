@@ -1,16 +1,15 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=bumblebeed
-pkgver=3.0
+pkgver=3.0.1
 pkgbuild=1
 arch=('auto')
 
-shortdesc="The next generation of bumblebee"
+shortdesc="Enables discrete GPU for rendering"
 
-source="git:https://github.com/Bumblebee-Project/Bumblebee.git"
+source="https://github.com/Bumblebee-Project/Bumblebee/tarball/v${pkgver}"
 
 tags="drivers x11-drivers"
 
-adddep="bbswitch nvidia-driver virtualgl libgl libglx" #-optimus"
+adddep="bbswitch nvidia-driver virtualgl libgl libglx"
 provides="bumblebee"
 
 config_files="etc/bumblebee/bumblebee.conf
@@ -20,19 +19,17 @@ etc/conf.d/bumblebeed"
 
 build()
 {
-    go_src_dir
-    git checkout release-3.0
-    git pull
-    burn_patches
-    autoreconf -fi
-    export LDFLAGS="$LDFLAGS -lX11"
-    ./configure CONF_DRIVER=nvidia CONF_DRIVER_MODULE_NVIDIA=nvidia \
-        CONF_LDPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus:/usr/lib/nvidia-optimus \
-        CONF_MODPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus/,/usr/lib/nvidia-optimus/,/usr/lib$LIBDIRSUFFIX/xorg/modules,/usr/lib/xorg/modules \
-        --prefix=/usr --sysconfdir=/etc
-    make
-    make DESTDIR=$pkgdir install
-    install -Dm755 $filedir/bumblebeed.init $pkgdir/etc/init.d/bumblebeed
-    install -Dm644 $filedir/bumblebeed.conf $pkgdir/etc/conf.d/bumblebeed
-    install -Dm644 scripts/bash_completion/bumblebee $pkgdir/etc/bash_completion.d/bumblebee
+	go_src_dir
+	burn_patches
+	autoreconf -fi
+	export LDFLAGS="$LDFLAGS -lX11"
+	./configure CONF_DRIVER=nvidia CONF_DRIVER_MODULE_NVIDIA=nvidia \
+		CONF_LDPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus:/usr/lib/nvidia-optimus \
+		CONF_MODPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus/,/usr/lib/nvidia-optimus/,/usr/lib$LIBDIRSUFFIX/xorg/modules,/usr/lib/xorg/modules \
+		--prefix=/usr --sysconfdir=/etc
+	make -j${numjobs} || make
+	make DESTDIR=$pkgdir install
+	install -Dm755 $filedir/bumblebeed.init $pkgdir/etc/init.d/bumblebeed
+	install -Dm644 $filedir/bumblebeed.conf $pkgdir/etc/conf.d/bumblebeed
+	install -Dm644 scripts/bash_completion/bumblebee $pkgdir/etc/bash_completion.d/bumblebee
 }
