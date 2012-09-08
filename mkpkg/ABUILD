@@ -1,6 +1,6 @@
 pkgname=mkpkg
 pkgver=1.2.3
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 shortdesc="mkpkg package generation tool for AgiliaLinux"
 
@@ -9,7 +9,7 @@ tags="dev-util develop"
 build_deps="python>=2.6.4 mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python"
 
 adddep="mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python bash"
-
+config_files="etc/mkpkg.conf"
 build() {
 	go_src_dir
 	burn_patches
