@@ -1,6 +1,6 @@
 # Original ABUILD by fat0troll, modified by K900
 pkgname=nvidia-driver-optimus
-pkgver=290.10
+pkgver=304.43
 pkgbuild=1
 arch=('auto')
 
