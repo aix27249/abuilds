@@ -1,4 +1,5 @@
-pkgname=bbswitch
+pkgname=bbswitch-med
+provides=bbswitch
 pkgver=0.4.2
 pkgbuild=1
 arch=('auto')
