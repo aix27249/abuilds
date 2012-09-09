@@ -24,8 +24,6 @@ BUILD_KEYS="--prefix=/usr \
     --libdir=/usr/lib${LIBDIRSUFFIX} \
     --disable-static \
     --mandir=/usr/man \
-    --program-prefix= \
-    --program-suffix= \
     --docdir=/usr/doc/${pkgname}-${pkgver}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"

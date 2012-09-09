@@ -1,6 +1,8 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+
 pkgname=bluefish
 pkgver=2.2.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="GTK-based HTML Editor"
@@ -12,7 +14,7 @@ source=("http://sourceforge.net/projects/${pkgname}/files/${pkgname}/${pkgver}/$
 
 tags="develop dev-util"
 build_deps="perl-xml-parser"
-
+docs="INSTALL"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -22,11 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--disable-static \
 	--mandir=/usr/man \
-	--without-libgnomeui \
 	--disable-update-databases \
-	--disable-xml-catalog-update \
-	--enable-spell-check
-
-"
+	--disable-xml-catalog-update"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
