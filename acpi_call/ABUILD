@@ -1,6 +1,6 @@
 pkgname=acpi_call
 pkgver=0.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 KERNEL=${KERNEL:-$(uname -r)}
@@ -12,7 +12,7 @@ shortdesc="A module to call ACPI through a proc file"
 source="git:http://github.com/mkottman/acpi_call.git"
 
 tags="base sys-kernel"
-
+adddep="kernel==$(echo $KERNEL | tr - _)"
 build()
 {
 	go_src_dir
@@ -20,4 +20,8 @@ build()
 	make KDIR=$KERNELPATH clean
 	make KDIR=$KERNELPATH -j${numjobs}
 	install -D -m644 acpi_call.ko ${pkgdir}/lib/modules/$KERNEL/kernel/drivers/acpi/acpi_call.ko
+
+	mkdir -p ${pkgdir}/install
+	sed "s%KERNEL_VERSION%$KERNEL%" $filedir/doinst.sh > $pkgdir/install/doinst.sh
+
 }
