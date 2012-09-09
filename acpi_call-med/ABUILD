@@ -1,4 +1,5 @@
-pkgname=acpi_call
+pkgname=acpi_call-med
+provides=acpi_call
 pkgver=0.1
 pkgbuild=1
 arch=('auto')
