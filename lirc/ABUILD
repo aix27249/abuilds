@@ -1,68 +1,77 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=lirc
 pkgver=0.9.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
+KERNEL=${KERNEL:-`uname -r`}
+
 shortdesc="Linux Infrared Remote Control"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Linux Infrared Remote Control"
-)
 
 source=("http://prdownloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils app-misc"
 
-#dependencies only needed to build package
 build_deps="kernel-source"
-
-provides=""
-conflicts=""
-
 adddep="util-linux-ng libusb libXau libX11 alsa-lib"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
+pkglist=kern
 build() {
- go_src_dir
- burn_patches
-./configure CC="cc" --enable-sandboxed \
-                    --prefix=/usr \
-                    --with-driver=all \
-                    --with-transmitter
- make
- make DESTDIR="${pkgdir}" install
+	go_src_dir
+	burn_patches
+	set -e
 
-echo "build завершен"
+	sed -i '/AC_PATH_XTRA/d' configure.ac
+	sed -e 's/@X_CFLAGS@//g' \
+		-e 's/@X_LIBS@//g' \
+		-e 's/@X_PRE_LIBS@//g' \
+		-e 's/@X_EXTRA_LIBS@//g' -i Makefile.am tools/Makefile.am
+	libtoolize
+	autoreconf
+
+	./configure --prefix=/usr --with-driver=all --libdir=/usr/lib${LIBDIRSUFFIX} --with-kerneldir=/usr/src/linux-${KERNEL}/ \
+		--with-moduledir=/usr/lib/modules/${_kernver}/kernel/drivers/misc \
+		--with-transmitter
+
+	# Remove drivers already in kernel
+	sed -e "s:lirc_dev::" -e "s:lirc_bt829::" -e "s:lirc_igorplugusb::" \
+		-e "s:lirc_imon::" -e "s:lirc_parallel::" -e "s:lirc_sasem::" \
+		-e "s:lirc_serial::" -e "s:lirc_sir::" -e "s:lirc_ttusbir::" \
+		-i Makefile drivers/Makefile drivers/*/Makefile tools/Makefile 
+
+	make -j${numjobs}
+	make DESTDIR="${pkgdir}" install
+	set +e
 }
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-#для x86_64 перебросим lib
- [ "${LIBDIRSUFFIX}" = "64" ] && mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib${LIBDIRSUFFIX}
- [ "${LIBDIRSUFFIX}" = "64" ] && mv ${pkgdir}/lib ${pkgdir}/lib${LIBDIRSUFFIX}
+after_build() {
+	set -e
 
-#создадим каталог /etc/lirc
- install -d ${pkgdir}{/etc/lirc,/var/run/lirc,/etc/init.d}
+	# Create directories
+	install -d ${pkgdir}{/etc/lirc,/var/run/lirc,/etc/init.d}
 
-#скопируем примеры и html
- cp -rp remotes "${pkgdir}/usr/share/lirc"
- cp -rp ${filedir}/beholder "${pkgdir}/usr/share/lirc"
- cp -rp doc/{html,images,irxevent.keys} "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
- cp -rp contrib/{lircrc,lircd.conf,lircmd.conf} "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
- cp -p ${filedir}/lirc "${pkgdir}/etc/init.d/lirc"
+	# Copy examples and docs
+	cp -rp remotes "${pkgdir}/usr/share/lirc"
+	cp -rp ${filedir}/beholder "${pkgdir}/usr/share/lirc"
+	cp -rp doc/{html,images,irxevent.keys} "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
+	cp -rp contrib/{lircrc,lircd.conf,lircmd.conf} "${pkgdir}/usr/doc/${pkgname}-${pkgver}"
 
-echo "after_build завершен"
+
+	install -Dm0755 ${filedir}/lirc "${pkgdir}/etc/init.d/lirc"
+	set +e
 }
+
+kern() {
+	pkgname=lirc-kernel
+	pkgver=${pkgver}_$(echo $KERNEL | tr - _)
+	shortdesc="LIRC kernel modules"
+	adddep="kernel==$(echo $KERNEL | tr - _)"
+}
+
+kern_prep() {
+	set -e
+	# Yeah, that's right - by default, modules installed in crazy location
+	mv ${p_pkgdir}/usr/lib ${pkgdir}/lib
+
+	mkdir -p ${pkgdir}/install
+	sed "s%KERNEL_VERSION%$KERNEL%" $filedir/kernel-doinst.sh > $pkgdir/install/doinst.sh
+
+}
+
