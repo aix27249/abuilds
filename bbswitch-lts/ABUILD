@@ -1,7 +1,7 @@
 pkgname=bbswitch-lts
 provides=bbswitch
 pkgver=0.4.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 #source="git:https://github.com/Bumblebee-Project/bbswitch.git"
@@ -13,11 +13,15 @@ pkgver=${pkgver}_$(echo $KERNEL | tr - _)
 
 build_deps="kernel-source"
 shortdesc="Bumblebee kernel module"
-
+adddep="kernel==$(echo $KERNEL | tr - _)"
 tags=('drivers x11-drivers')
 
 build() {
-    go_src_dir
-    make KDIR=$KERNELPATH
-    install -D -m644 bbswitch.ko $pkgdir/lib/modules/$KERNEL/kernel/drivers/acpi/bbswitch.ko
+	go_src_dir
+	make KDIR=$KERNELPATH
+	install -D -m644 bbswitch.ko $pkgdir/lib/modules/$KERNEL/kernel/drivers/acpi/bbswitch.ko
+
+	mkdir -p ${pkgdir}/install
+	sed "s%KERNEL_VERSION%$KERNEL%" $filedir/doinst.sh > $pkgdir/install/doinst.sh
+
 }
