@@ -1,6 +1,6 @@
 # Mozilla-firefox
 pkgname=mozilla-firefox
-pkgver=15.0
+pkgver=15.0.1
 _pkgver=${pkgver}
 pkgbuild=1
 arch=('auto')
