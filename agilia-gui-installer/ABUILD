@@ -28,7 +28,10 @@ build() {
 }
 after_build() {
 	go_src_dir
+	set -e
+	cd guiinstaller
 	mkdir -p ${pkgdir}/usr/share/setup/help/{ru_RU,en_US}
-	cp helpfiles/ru/*.html ${pkgdir}/usr/share/setup/help/ru_RU/
-	cp helpfiles/en/*.html ${pkgdir}/usr/share/setup/help/en_US/
+	cp -v helpfiles/ru/*.html ${pkgdir}/usr/share/setup/help/ru_RU/
+	cp -v helpfiles/en/*.html ${pkgdir}/usr/share/setup/help/en_US/
+	set +e
 }
