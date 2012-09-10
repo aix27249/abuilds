@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=synkron
 pkgver=1.6.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A simple file/folder synchronization tool."
@@ -10,17 +10,17 @@ source=("http://downloads.sourceforge.net/sourceforge/synkron/Synkron-${pkgver}-
 
 tags="xapps sys-apps"
 
-before_build()
-{
-	lrelease Synkron.pro
+docs=gpl.txt
+
+before_build(){
+  lrelease Synkron.pro
 }
 
 BUILD_SYSTEM="qmake"
 BUILD_KEYS="-config release *.pro PREFIX=/usr"
 
-after_build()
-{
-	# No make install? You're kidding.
-	install -Dm644 images/Synkron128.png $pkgdir/usr/share/pixmaps/Synkron128.png
-	install -Dm755 synkron $pkgdir/usr/bin/synkron
+after_build(){
+ # No make install? You're kidding.
+ install -Dm644 images/Synkron128.png ${pkgdir}/usr/share/pixmaps/synkron.png
+ install -Dm755 synkron ${pkgdir}/usr/bin/synkron
 }
