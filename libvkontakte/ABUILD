@@ -1,7 +1,5 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=digikam
-pkgver=2.5.0
+pkgver=2.9.0
 _pkgver=${pkgver//_/-}
 pkgbuild=1
 arch=('auto')
@@ -10,135 +8,118 @@ shortdesc="Digital photo management application for KDE"
 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${_pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="xapps media-gfx"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
+tags="xapps media-gfx"
 
 adddep="libkface libkgeomap"
-removedep=""
 
 pkglist="kipi face marble vkont"
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+build() {
+	go_src_dir
+	burn_patches
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
+	set -e
+	if [ -d build ]; then
+		rm -rf build
+	fi
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+	mkdir build && cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=RELEASE \
+		-DLIB_DIR=lib${LIBDIRSUFFIX} \
+		-DCMAKE_SKIP_RPATH=ON \
+		../
 
-#ran before function build()
-#запускается перед сборкой
+	make -j${numjobs}
 
-build()
-{
-go_src_dir
-burn_patches
+	go_src_dir
+	cd build
 
-#ugly patch
-cd core
-patch -p1 -i ${filedir}/libkipi140.patch
-cd -
+	cd core
+	make install DESTDIR=${pkgdir}
 
-if [ -d build ]; then
-    rm -rf build
-fi
+	cd ../doc
+	make install DESTDIR=${pkgdir}
 
-mkdir build && cd build
-cmake \
--DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=RELEASE \
--DLIB_DIR=lib${LIBDIRSUFFIX} \
--DCMAKE_SKIP_RPATH=ON \
-../
+	cd ../po
+	make install DESTDIR=${pkgdir}
 
-make -j${numjobs}
-
-go_src_dir
-cd build
-
-cd core
-make install DESTDIR=${pkgdir}
-
-cd ../doc
-make install DESTDIR=${pkgdir}
-
-cd ../po
-make install DESTDIR=${pkgdir}
-
-#from archlinux
-# these are in oxygen-icons
- rm -rf ${pkgdir}/usr/share/icons
+	#from archlinux
+	# these are in oxygen-icons
+	rm -rf ${pkgdir}/usr/share/icons
+	set +e
 }
 
 
 #ran after function build() 
 #после сборки
 
-kipi(){
-pkgname=kipi-plugins
-shortdesc="KIPI - KDE Image Plugin Interface"
+kipi() {
+	pkgname=kipi-plugins
+	shortdesc="KIPI - KDE Image Plugin Interface"
 }
 
-kipi_prep(){
-go_src_dir
-cd build/extra/kipi-plugins
-make install DESTDIR=${pkgdir}
-mkdir -p ${pkgdir}/usr/share/locale
-cd ${p_pkgdir}/usr/share/locale || exit 1
-#move kipi's mo l10n
-mofiles=$(find -type f -name '*kipi*')
-for file in ${mofiles}; do
-    if [ -f "${file:2}" ]; then
-	mkdir -p "${pkgdir}/usr/share/locale/$(dirname ${file:2})"
-        mv ${file:2} ${pkgdir}/usr/share/locale/${file:2} || exit 1
-    fi
-done
+kipi_prep() {
+	go_src_dir
+	set -e
+	cd build/extra/kipi-plugins
+	make install DESTDIR=${pkgdir}
+	mkdir -p ${pkgdir}/usr/share/locale
+	cd ${p_pkgdir}/usr/share/locale || exit 1
+	#move kipi's mo l10n
+	mofiles=$(find -type f -name '*kipi*')
+	for file in ${mofiles}; do
+		if [ -f "${file:2}" ]; then
+			mkdir -p "${pkgdir}/usr/share/locale/$(dirname ${file:2})"
+			mv ${file:2} ${pkgdir}/usr/share/locale/${file:2} || exit 1
+		fi
+	done
 
-#move kipi's help
-mkdir -p ${pkgdir}/usr/share/doc/HTML/en
-mv ${p_pkgdir}/usr/share/doc/HTML/en/kipi-plugins/ ${pkgdir}/usr/share/doc/HTML/en
+	#move kipi's help
+	mkdir -p ${pkgdir}/usr/share/doc/HTML/en
+	mv ${p_pkgdir}/usr/share/doc/HTML/en/kipi-plugins/ ${pkgdir}/usr/share/doc/HTML/en
+	set +e
 
 }
 
-face(){
-pkgname=libkface
-shortdesc="A Qt/C++ wrapper around LibFace library to perform face recognition and detection over pictures"
+face() {
+	pkgname=libkface
+	shortdesc="A Qt/C++ wrapper around LibFace library to perform face recognition and detection over pictures"
 }
 
 
-face_prep(){
-go_src_dir
-cd build/extra/libkface
-make install DESTDIR=${pkgdir}
+face_prep() {
+	go_src_dir
+	set -e
+	cd build/extra/libkface
+	make install DESTDIR=${pkgdir}
+	set +e
 }
 
-marble(){
-pkgname=libkgeomap
-shortdesc="A wrapper around world map components for browsing and arranging photos on a map"
+marble() {
+	pkgname=libkgeomap
+	shortdesc="A wrapper around world map components for browsing and arranging photos on a map"
 }
 
 marble_prep() {
-go_src_dir
-cd build/extra/libkgeomap
-make install DESTDIR=${pkgdir}
+	go_src_dir
+	set -e
+	cd build/extra/libkgeomap
+	make install DESTDIR=${pkgdir}
+	set +e
 }
 
 vkont() {
-pkgname=libvkontakte
-shortdesc="Vkontakte kipi plugin"
+	pkgname=libvkontakte
+	shortdesc="Vkontakte kipi plugin"
 }
 
-vkont_prep()
-{
-go_src_dir
-cd build/extra/libkvkontakte
-make install DESTDIR=${pkgdir}
+vkont_prep() {
+	go_src_dir
+	set -e
+	cd build/extra/libkvkontakte
+	make install DESTDIR=${pkgdir}
+	set +e
 }
+
