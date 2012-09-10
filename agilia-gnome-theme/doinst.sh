@@ -41,8 +41,8 @@ chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.
 chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/applications/browser/exec firefox --type string
 chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/applications/browser/needs_term false --type bool
 chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/applications/browser/nremote true --type bool
-# GNOME Mplayer as media player. Totem sometimes makes me cry :(
-chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/applications/media/exec gnome-mplayer --type string
+# SMPlayer as default player
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/applications/media/exec smplayer --type string
 
 # Another stuff
 # This section will be handled by installer soon
@@ -51,3 +51,12 @@ chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.
 chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/peripherals/keyboard/kbd/layouts [us,ru] --type list --list-type string
 # Keyboard options
 chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /desktop/gnome/peripherals/keyboard/kbd/options "[grp	grp:alt_shift_toggle,Compose key	compose:ralt]" --type list --list-type string
+
+# gnome-terminal profile: defaults are sad
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /apps/gnome-terminal/profiles/Default/use_theme_colors false --type bool
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /apps/gnome-terminal/profiles/Default/background_color "#000000000000" --type string
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /apps/gnome-terminal/profiles/Default/foreground_color "#FFFFFFFFFFFF" --type string
+
+# Unneeded and broken icons on panel
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/objects/browser_launcher/launcher_location "mozilla-firefox.desktop" --type string
+chroot . gconftool-2 --direct --config-source xml:readwrite:etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/objects/email_launcher/launcher_location "mozilla-thunderbird.desktop" --type string
