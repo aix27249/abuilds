@@ -1,8 +1,8 @@
 # GRUB2 ABUILD, based on ArchLinux PKGBUILD
 
 pkgname=grub
-pkgver=1.99
-pkgbuild=3
+pkgver=2.00
+pkgbuild=1
 shortdesc="The GNU GRand Unified Bootloader"
 longdesc="The GNU GRand Unified Bootloader"
 arch=('auto')
