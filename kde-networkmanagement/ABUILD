@@ -1,21 +1,20 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
+# KDE networkmanagement
 pkgname=kde-networkmanagement
-pkgver=0.9
+pkgver=0.9.0.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Network management stuff from KDE extragear, includes KNetworkManager"
+shortdesc="Network management interface for KDE4"
 
-source="git:git://anongit.kde.org/networkmanagement"
+source="http://download.kde.org/unstable/networkmanagement/${pkgver}/src/networkmanagement-${pkgver}.tar.bz2"
 
 tags="kde4 kde-misc"
 
-adddep="NetworkManager"
+adddep="NetworkManager mobile-broadband-provider-info"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=RELEASE \
--DLIB_DIR=lib${LIBDIRSUFFIX} \
--DLIB_SUFFIX=${LIBDIRSUFFIX} \
--DDBUS_SYSTEM_POLICY_DIR=/etc/dbus-1/system.d \
-../"
+	-DCMAKE_BUILD_TYPE=Release \
+	-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+	-DDBUS_SYSTEM_POLICY_DIR=/etc/dbus-1/system.d \
+	../"
