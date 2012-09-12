@@ -3,7 +3,7 @@ pkgver=2.0.11
 pkgbuild=1
 arch=('auto')
 
-shortdesc="A small sample cross-platform networking library"
+shortdesc="This is a sample library which allows you to use TrueType fonts in your SDL applications."
 
 source=("http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-${pkgver}.tar.gz")
 
