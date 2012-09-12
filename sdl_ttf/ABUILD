@@ -1,0 +1,31 @@
+pkgname=sdl_ttf
+pkgver=2.0.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A small sample cross-platform networking library"
+
+source=("http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-${pkgver}.tar.gz")
+
+tags="media-libs libs"
+
+build_deps="make libtool gcc pkg-config sdl>=1.2.13"
+
+docs=CHANGES
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
