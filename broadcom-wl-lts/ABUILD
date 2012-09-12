@@ -2,7 +2,7 @@ pkgname=broadcom-wl-lts
 provides=broadcom-wl
 pkgver=5.100.82.112
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
@@ -11,7 +11,8 @@ else
 arch_src=x86_64
 fi
 KERNEL=${KERNEL:-`uname -r`}
-FINAL_VER=${pkgver}_$(echo $KERNEL | tr - _)
+KERNPKGVER=$(echo $KERNEL | tr - _)
+FINAL_VER=${pkgver}_${KERNPKGVER}
 # Fix pkgver so it will contain kernel version
 pkgver=${FINAL_VER}
 
@@ -22,7 +23,7 @@ longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/supp
 source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${arch_src}-v${pkgver_src}.tar.gz")
 
 tags="network net-wireless"
-adddep="kernel==${KERNEL}"
+adddep="kernel==${KERNPKGVER}"
 #dependencies only needed to build package
 build() {
 	cd ${srcdir}

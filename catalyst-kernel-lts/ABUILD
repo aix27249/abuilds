@@ -1,0 +1,69 @@
+pkgname=catalyst-kernel-lts
+provides=catalyst-kernel
+pkgver=12.8
+srcver=$(echo $pkgver | sed "s/\./-/g")
+arch=('auto')
+pkgbuild=1
+
+KERNEL=${KERNEL:-`uname -r`}
+KERNPKGVER=$(echo $KERNEL | tr - _)
+FINAL_VER=${pkgver}_${KERNPKGVER}
+KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
+
+
+shortdesc="ATI proprietary driver (also known as Catalyst, or fglrx) - kernel module"
+source="http://www2.ati.com/drivers/linux/amd-driver-installer-${srcver}-x86.x86_64.zip"
+
+tags="proprietary x11-drivers drivers"
+adddep="catalyst-driver==${pkgver} kernel==${KERNPKGVER}"
+
+# FInalize pkgver after all magic above
+pkgver=${FINAL_VER}
+
+if [ "$(uname -m)" = "x86_64" ] ; then
+	module_arch=x86_64
+	bin_arch=x86_64
+else
+	module_arch=i386
+	bin_arch=x86
+
+fi
+
+build() {
+	go_src_dir
+	set -e
+	# Extract package
+	/bin/sh amd-driver-installer-*-x86.x86_64.run --extract archive_files
+	go_src_dir
+	
+	unset CFLAGS
+	unset LDFLAGS
+	unset CXXFLAGS
+	
+	kernelver=$KERNEL . $filedir/ati_make.sh
+	_ati_check
+
+	burn_patches
+
+	_dir=$(pwd)
+	cd common/lib/modules/fglrx/build_mod
+	cp ${_dir}/arch/${bin_arch}/lib/modules/fglrx/build_mod/libfglrx_ip.a .
+	cp 2.6.x/Makefile . 
+	# MAKE!
+	make -C /lib/modules/${KERNEL}/build SUBDIRS="$(pwd)" ARCH=${module_arch} KDIR=${KERNELPATH} \
+	      MODFLAGS="-DMODULE -DATI -DFGL -DPAGE_ATTR_FIX=$PAGE_ATTR_FIX -DCOMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE $def_smp $def_modversions" \
+	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules
+
+	install -m755 -d ${pkgdir}/lib/modules/${KERNEL}/video/
+	install -m644 fglrx.ko ${pkgdir}/lib/modules/${KERNEL}/video/
+
+	# doinst.sh
+	sed "s%@KERNEL@%${KERNEL}%" ${filedir}/doinst.sh > ${pkgdir}/install/doinst.sh
+
+	# modprobe
+	install -Dm0644 ${filedir}/fglrx.conf ${pkgdir}/etc/modprobe.d/fglrx.conf
+
+	set +e
+
+}
+
