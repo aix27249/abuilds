@@ -1,0 +1,16 @@
+#!/sbin/runscript
+depend() {
+    need acpid
+}
+
+start() {
+    ebegin "Starting ATI Events Daemon..."
+    start-stop-daemon --start --exec /usr/sbin/atieventsd
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping ATI Events Daemon..."
+    start-stop-daemon --stop --quiet --exec /usr/sbin/atieventsd
+    eend $?
+}
