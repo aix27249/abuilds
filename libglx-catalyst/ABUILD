@@ -1,0 +1,189 @@
+pkgname=catalyst-driver
+pkgver=12.8
+srcver=$(echo $pkgver | sed "s/\./-/g")
+mesaver=$(mpkg-show mesa | head -n 1 | cut -d " " -f 2 | cut -d- -f1)
+KERNEL=${KERNEL:-$(uname -r)}
+KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
+pkgbuild=1
+p_pkgbuild=${pkgbuild}
+arch=('auto')
+
+shortdesc="ATI proprietary driver (also known as Catalyst, or fglrx)"
+
+source="http://www2.ati.com/drivers/linux/amd-driver-installer-${pkgver/./-}-x86.x86_64.zip"
+
+tags="proprietary x11-drivers drivers"
+
+adddep="catalyst-kernel mesa xorg-server<1.13 libgl libglx"
+
+pkglist="c_libgl32 c_libglx c_libgl"
+
+if [ "$(uname -m)" = "x86_64" ] ; then
+	module_arch=x86_64
+	bin_arch=x86_64
+	xorg_path=xpic_64a/usr/X11R6/lib64/modules
+else
+	module_arch=i386
+	bin_arch=x86
+	xorg_path=xpic/usr/X11R6/lib/modules
+	pkglist="c_libglx c_libgl"
+
+fi
+
+c_libgl32() {
+	pkgname=libgl32-catalyst
+	provides=libgl32
+	shortdesc="ATI proprietary driver - libGL files"
+	pkgbuild=${p_pkgver}_${p_pkgbuild}
+	adddep="catalyst-driver==${p_pkgver}"
+	tags="x11-libs compat32"
+}
+
+
+c_libglx() {
+	pkgname=libglx-catalyst
+	provides=libglx
+	shortdesc="ATI proprietary driver - libGLX files"
+	pkgver=${mesaver}
+	pkgbuild=${p_pkgver}_${p_pkgbuild}
+	adddep="catalyst-driver==${p_pkgver}"
+}
+
+c_libgl() {
+	pkgname=libgl-catalyst
+	provides=libgl
+	shortdesc="ATI proprietary driver - libGL files"
+	pkgbuild=${p_pkgver}_${p_pkgbuild}
+	adddep="catalyst-driver==${p_pkgver}"
+}
+
+
+build() {
+	go_src_dir
+	set -e
+	# Extract package
+	/bin/sh amd-driver-installer-*-x86.x86_64.run --extract archive_files
+	go_src_dir
+	( cd $xorg_path
+
+		# Xorg libs
+		mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/{dri,drivers,linux}
+		install -m755 *.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/
+		install -m755 drivers/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/drivers/
+		install -m755 linux/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/linux/
+	)
+	
+	# DRI modules
+	install -m755 arch/$bin_arch/usr/X11R6/lib$LIBDIRSUFFIX/modules/dri/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/dri/
+
+	( cd arch/$bin_arch/usr/
+		mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX,man/man8,include/GL}
+		mkdir -p ${pkgdir}/usr/share/{applications,ati/amdcccle,pixmaps}
+
+		# OpenCL
+		mkdir -p ${pkgdir}/etc/OpenCL/vendors
+		[ "$LIBDIRSUFFIX" == "64" ] && vendor_arch=64 || vendor_arch=32
+		install -Dm644 ../etc/OpenCL/vendors/amdocl${vendor_arch}.icd $pkgdir/etc/OpenCL/vendors/amdocl${vendor_arch}.icd
+		install -Dm755 bin/clinfo $pkgdir/usr/bin/fglrx-clinfo
+
+		# CCC + LIBS + SYMLINX
+		install -m755 X11R6/bin/* ${pkgdir}/usr/bin/
+		install -m755 sbin/* ${pkgdir}/usr/sbin/
+		install -m755 X11R6/lib$LIBDIRSUFFIX/libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+		ln -snf libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libAMDXvBA.so.1
+		ln -snf libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libAMDXvBA.so
+		install -m755 X11R6/lib$LIBDIRSUFFIX/libatiadlxx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+		install -m755 X11R6/lib$LIBDIRSUFFIX/libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+		install -m755 X11R6/lib$LIBDIRSUFFIX/libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+		ln -snf libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libXvBAW.so.1
+		ln -snf libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libXvBAW.so
+		install -m644 X11R6/lib$LIBDIRSUFFIX/*.a ${pkgdir}/usr/lib$LIBDIRSUFFIX
+		install -m644 X11R6/lib$LIBDIRSUFFIX/*.cap ${pkgdir}/usr/lib$LIBDIRSUFFIX
+		install -m755 lib$LIBDIRSUFFIX/*.so* ${pkgdir}/usr/lib$LIBDIRSUFFIX
+
+		ln -snf libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libfglrx_dm.so.1
+		ln -snf libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libfglrx_dm.so
+		ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so.1
+		ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so
+		ln -snf libOpenCL.so.1 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libOpenCL.so
+	)
+
+	( cd common
+		mkdir -p ${pkgdir}/etc/{ati,init.d}
+		install -m644 etc/ati/* ${pkgdir}/etc/ati/
+		chmod 755 ${pkgdir}/etc/ati/authatieventsd.sh
+
+		install -m755 ${filedir}/atieventsd.init ${pkgdir}/etc/init.d/atieventsd
+		install -m644 usr/X11R6/bin/amdupdaterandrconfig ${pkgdir}/usr/bin/
+		install -m644 usr/include/GL/*.h ${pkgdir}/usr/include/GL/
+		install -m755 usr/sbin/*.sh ${pkgdir}/usr/sbin/
+		install -m644 usr/share/ati/amdcccle/* ${pkgdir}/usr/share/ati/amdcccle/
+		install -m644 usr/share/icons/*.xpm ${pkgdir}/usr/share/pixmaps/
+		install -m644 usr/share/man/man8/*.8 ${pkgdir}/usr/man/man8/
+		install -m644 usr/share/applications/* ${pkgdir}/usr/share/applications/
+	)
+	set +e
+}
+
+c_libglx_prep() {
+	go_src_dir
+	set -e
+	( cd $xorg_path
+		mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/
+		install -m755 extensions/fglrx/fglrx-libglx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/fglrx-libglx.so
+		ln -snf /usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/fglrx-libglx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/libglx.so
+	)
+	set +e
+}
+
+c_libgl_prep() {
+	go_src_dir
+	set -e
+	( cd arch/$bin_arch/usr/
+		mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx
+
+		# libGL symlinks
+		install -m755 X11R6/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx
+		ln -snf fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx/libGL.so.1.2
+		ln -snf fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx-libGL.so.1.2
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1.2
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so
+	)
+	set +e
+}
+
+c_libgl32_prep() {
+	go_src_dir
+	set -e
+	( cd arch/x86/usr/
+		mkdir -p ${pkgdir}/usr/lib/fglrx
+
+		# libGL symlinks
+		install -m755 X11R6/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx
+		ln -snf fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx/libGL.so.1.2
+		ln -snf fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx-libGL.so.1.2
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so.1.2
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so.1
+		ln -snf fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so
+
+
+		# ATI libs
+		install -m755 X11R6/lib/libAMDXvBA.so.1.0 ${pkgdir}/usr/lib/
+		install -m755 X11R6/lib/libatiadlxx.so ${pkgdir}/usr/lib/
+		install -m755 X11R6/lib/libfglrx_dm.so.1.0 ${pkgdir}/usr/lib/
+		install -m755 X11R6/lib/libXvBAW.so.1.0 ${pkgdir}/usr/lib/
+	
+		install -m755 lib/*.so* ${pkgdir}/usr/lib/
+	)
+	( cd $pkgdir/usr/lib/
+		ln -sf libfglrx_dm.so.1.0 libfglrx_dm.so.1
+		ln -sf libAMDXvBA.so.1.0 libAMDXvBA.so.1
+		ln -sf libXvBAW.so.1.0 libXvBAW.so.1
+		ln -sf libatiuki.so.1.0 libatiuki.so.1
+		ln -sf libatiuki.so.1.0 libatiuki.so
+	)
+	set +e
+
+}
+
