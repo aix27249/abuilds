@@ -3,7 +3,7 @@
 pkgname=nvidia-kernel-med
 provides=nvidia-kernel
 pkgver=304.43
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 KERNEL=${KERNEL:-`uname -r`}
@@ -18,7 +18,7 @@ build_deps="kernel-source"
 shortdesc=('nvidia-kernel (Kernel Interface for the nvidia driver)')
 longdesc=('This is the kernel module needed by the binary nvidia-driver.')
 
-adddep="kernel-uksm==$KERNPKGVERSION"
+adddep="kernel==$KERNPKGVERSION"
 tags=('drivers proprietary x11-drivers')
 
 TARGET="x86"
