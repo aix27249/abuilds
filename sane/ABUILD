@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=sane
 pkgver=1.0.22
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Scanner Access Now Easy"
