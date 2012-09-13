@@ -2,7 +2,7 @@
 
 pkgname=xsane
 pkgver=0.998
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("xsane (Graphical frontend to SANE, Scanner Access Now Easy)")
