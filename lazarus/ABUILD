@@ -2,9 +2,10 @@
 
 pkgname=lazarus
 pkgver=1.0
-pkgbuild=1
+pkgbuild=2
 release=0
 arch=('auto')
+name_gr="lazarus"
 
 shortdesc="Delphi-like IDE for FreePascal"
 longdesc=("Lazarus is a free and open source Rapid Application Development tool for the "
@@ -17,6 +18,8 @@ tags="develop dev-util"
 
 build_deps="rpm fpc>=2.6.0 gtk+2"
 adddep="fpc-src>=2.6.0 fpc>=2.6.0 gtk+2 glibc binutils gdb"
+
+custom_opts="no_postperm"
 
 #-----------------------------------------------------
 before_build(){
@@ -67,5 +70,12 @@ after_build(){
           <SingleTaskBarButton Value="True"\/>\
       </Desktop>' ${config}
   cp -r tools/install/linux/* ${pkgdir}/etc/lazarus
+
+  lazdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+  find ${lazdir} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
+  find ${lazdir} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
+  find ${lazdir} ! -perm 0664 ! -perm 0755 ! -perm 0775 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
+  find ${lazdir} -perm 0755 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0775
+  find ${lazdir} ! -perm 0664 -name \*.bmp -type f -print0 -exec chmod -v 0664 {} \;
   echo "End after_build"
 }
