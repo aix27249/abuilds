@@ -1,12 +1,14 @@
 
 pkgname=libgphoto2
-pkgver=2.4.10.1
+pkgver=2.5.0
 pkgbuild=1
 shortdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
 longdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
 arch=('auto')
 source=("http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz")
 tags=("libs media-libs")
+
+numjobs=1
 
 build() {
 	go_src_dir
@@ -20,9 +22,9 @@ build() {
   
 	install -m755 -d "${pkgdir}/lib/udev/rules.d"
 
-	LD_LIBRARY_PATH="${pkgdir}/usr/lib${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH" \
+	LD_LIBRARY_PATH="${pkgdir}/usr/lib${LIBDIRSUFFIX}:$LD_LIBRARY_PATH" \
 	CAMLIBS="${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/${pkgver}" \
-	"${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/print-camera-list" udev-rules version 136 group camera mode 0660 > \
+	"${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/print-camera-list" udev-rules version 175 > \
 	"${pkgdir}/lib/udev/rules.d/40-gphoto.rules"
 	
 	# Remove recursive symlink
