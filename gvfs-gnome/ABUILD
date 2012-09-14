@@ -1,7 +1,7 @@
 pkgname=gvfs-gnome
 name=gvfs
 pkgver=1.8.2
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="userspace virtual filesystem"
@@ -12,21 +12,25 @@ tags="gnome gnome-base"
 
 provides="gvfs"
 BUILD_SYSTEM="autotools"
-
+build_deps="libsoup libgphoto2 avahi samba udisks libimobiledevice"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
+before_build() {
+	go_src_dir
+	autoreconf
+	libtoolize
+}
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---libexecdir=/usr/lib${LIBDIRSUFFIX}/gvfs \
---disable-static \
---mandir=/usr/man \
---enable-gdu \
---enable-samba \
---enable-avahi \
---disable-hal \
---with-bash-completion-dir=/etc/bash_completion.d"
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--libexecdir=/usr/lib${LIBDIRSUFFIX}/gvfs \
+	--disable-static \
+	--mandir=/usr/man \
+	--enable-gdu \
+	--enable-samba \
+	--enable-avahi \
+	--disable-hal \
+	--with-bash-completion-dir=/etc/bash_completion.d"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
