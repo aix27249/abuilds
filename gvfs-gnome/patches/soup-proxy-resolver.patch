@@ -1,0 +1,11 @@
+--- gvfs-1.8.2/daemon/gvfsbackendhttp.c.orig	2012-09-14 17:49:14.064023347 +0000
++++ gvfs-1.8.2/daemon/gvfsbackendhttp.c	2012-09-14 17:48:43.636026066 +0000
+@@ -95,7 +95,7 @@
+                                                                 NULL);
+ 
+   /* Proxy handling */
+-  proxy_resolver = g_object_new (SOUP_TYPE_PROXY_RESOLVER_GNOME, NULL);
++  proxy_resolver = g_object_new (SOUP_TYPE_PROXY_RESOLVER, NULL);
+   soup_session_add_feature (backend->session, proxy_resolver);
+   soup_session_add_feature (backend->session_async, proxy_resolver);
+   g_object_unref (proxy_resolver);
