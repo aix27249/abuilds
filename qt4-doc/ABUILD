@@ -1,7 +1,7 @@
 # Qt4 ABUILD
 pkgname=qt4
-pkgver=4.8.2
-pkgbuild=2
+pkgver=4.8.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
