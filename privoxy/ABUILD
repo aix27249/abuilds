@@ -2,13 +2,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=privoxy
-pkgver=3.0.17
+pkgver=3.0.19
 pkgbuild=1
 arch=('auto')
 
 shortdesc="a non-caching web proxy"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Privoxy is a non-caching web proxy with advanced filtering capabilities for enhancing privacy, modifying web page data and HTTP headers, controlling access, and removing ads and other obnoxious Internet junk. Privoxy has a flexible configuration and can be customized to suit individual needs and tastes. It has application for both stand-alone systems and multi-user networks. Privoxy is Free Software and licensed under the GNU GPLv2. Privoxy is an associated project of Software in the Public Interest (SPI). Homepage: http://www.privoxy.org/"
+longdesc=("Privoxy is a non-caching web proxy with advanced filtering capabilities for enhancing privacy, modifying web page data and HTTP headers, controlling access, and removing ads and other obnoxious Internet junk. Privoxy has a flexible configuration and can be customized to suit individual needs and tastes. It has application for both stand-alone systems and multi-user networks. Privoxy is Free Software and licensed under the GNU GPLv2. Privoxy is an associated project of Software in the Public Interest (SPI). Homepage: http://www.privoxy.org"
 )
 
 source=("http://downloads.sourceforge.net/project/ijbswa/Sources/${pkgver}%20%28stable%29/privoxy-${pkgver}-stable-src.tar.gz")
@@ -56,6 +56,17 @@ echo ""
 
 #getent group privoxy >/dev/null 2>&1 || groupadd -g 206 privoxy
 #getent passwd privoxy >/dev/null 2>&1 || useradd -u 206 -g 206 -c "Web Proxy" -d /dev/null -s /bin/false privoxy
+
+
+go_src_dir
+
+# Put the docs where we tell them to go.
+# Also fix their permissions.
+sed -i \
+  -e "/^DOC_DEST/s/= .*/= @docdir@/" \
+  -e "/^RA_MODE/s/0664/0644/" \
+  GNUmakefile.in
+
 }
 
 build()
@@ -79,7 +90,9 @@ autoconf
 	--disable-static \
 	--mandir=/usr/man \
 	--program-prefix= \
-	--program-suffix= #\
+	--program-suffix= \
+	--docdir=/usr/doc/${pkgname}-${pkgver} \
+	--datarootdir=/usr #\
 #  --with-user=privoxy \
 #  --with-group=privoxy || exit 1
 
