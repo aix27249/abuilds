@@ -2,15 +2,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=djview4
-pkgver=4.7
+pkgver=4.8
 pkgbuild=1
 arch=('auto')
 
 shortdesc="DjVu Viewer"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit."
-""
-"Homepage: http://djvu.sourceforge.net/djview4.html"
+longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit. Homepage: http://djvu.sourceforge.net/djview4.html"
 )
 
 source=("http://downloads.sourceforge.net/project/djvu/DjView/${pkgver}/${pkgname/4/}-${pkgver}.tar.gz")
@@ -52,6 +50,12 @@ custom_opts=""
 before_build()
 {
 echo ""
+
+go_src_dir
+# thx Arch Linux
+sed 's/netscape/mozilla/g' -i ./nsdejavu/Makefile.in || exit 1
+	sed 's/swap/rofl_swap/g' -i ./src/qdjvuwidget.cpp || exit 1
+
 }
 
 BUILD_SYSTEM="autotools"
@@ -75,7 +79,7 @@ after_build()
 {
 echo ""
 
-mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
+#mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
 
 icon_desk(){
  desktopdir='/usr/share/djvu/djview4/desktop'
@@ -83,13 +87,17 @@ icon_desk(){
                 ${pkgdir}/usr/share/icons/hicolor/32x32/apps/djvulibre-djview4.png
         install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
                 ${pkgdir}/usr/share/icons/hicolor/64x64/apps/djvulibre-djview4.png
+
         install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
                 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png
+
         install -Dm644 ${pkgdir}${desktopdir}/djvulibre-djview4.desktop \
                 ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop
+
  rm -R ${pkgdir}${desktopdir}
 
- sed -i 's|Qt;Graphics;Viewer;|Viewer;Office;Qt;|' \
+ # 's|Qt;Graphics;Viewer;|Viewer;Office;Qt;|'
+ sed -i "/^Categories/s|Graphics|Office|" \
 	${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
 }
 icon_desk
