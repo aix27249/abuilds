@@ -1,10 +1,12 @@
 pkgname=alsa-plugins
-pkgver=1.0.25
+pkgver=1.0.26
 pkgbuild=1
 arch=('auto')
 shortdesc="Extra ALSA plugins"
 source=("ftp://ftp.alsa-project.org/pub/plugins/$pkgname-$pkgver.tar.bz2")
 tags="libs media-sound"
+
+build_deps="alsa-lib"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
