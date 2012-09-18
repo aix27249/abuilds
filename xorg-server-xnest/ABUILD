@@ -1,5 +1,5 @@
 pkgname=xorg-server
-pkgver=1.12.3.902
+pkgver=1.12.4
 pkgbuild=1
 arch=('auto')
 
