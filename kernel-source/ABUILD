@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.4.7
+pkgver=3.5.4
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -68,7 +68,7 @@ sources() {
 
 apply_aufs_from_git() {
 	# Checking out AUFS patch. Note that we do it outside kernel tree. Add AUBRANCH to it if you want to check out specific branch instead of master tree
-	( cd .. ; AUBRANCH=${AUBRANCH:-$kernel_base} $filedir/aufs_checkout.sh )
+	( cd .. ; AUBRANCH=${AUBRANCH:-$kernel_base} sh $filedir/aufs_checkout.sh )
 
 	
 
