@@ -1,7 +1,7 @@
 # mysql ABUILD by aix27249.
 
 pkgname=mysql
-pkgver=5.5.13
+pkgver=5.5.27
 pkgbuild=1
 arch=("auto")
 
@@ -75,7 +75,7 @@ after_build() {
 	install -Dm644 ${filedir}/mysql.confd ${pkgdir}/etc/conf.d/mysql
 
 	# Copy small one to /etc/my.cnf: in many other distros this is default, and users will feel better if they see it:
-	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf.new
+	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf
 
 
 	# remove docs
@@ -93,7 +93,7 @@ after_build() {
 	fi
 
 
-	( cd ${pkgdir}/usr/bin ; patch -p0 < ${filedir}/fix-mysql-install-db.patch )
+	( cd ${pkgdir}/usr/bin ; patch -p0 < ${filedir}/fix-mysql-install-db.patch ; rm -f ${pkgdir}/usr/bin/*~ )
 	set +e
 }
 
