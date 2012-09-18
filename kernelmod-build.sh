@@ -2,7 +2,7 @@
 
 # Script used to help building package for multiple kernel branches
 
-PLAIN=3.4.7
+PLAIN=3.5.4
 UKSM=3.4.7uksm
 LTS=3.0.42lts
 MED=3.5.3-med
