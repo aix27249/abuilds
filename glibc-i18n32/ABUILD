@@ -1,5 +1,5 @@
 pkgname=glibc-i18n32
-pkgver=0.2
+pkgver=0.3
 pkgbuild=1
 arch=('auto')
 
@@ -7,12 +7,12 @@ shortdesc="Symlinks to provide locale files for x86 programs on x86_64"
 
 tags="compat32 x86 sys-libs"
 
-adddep="glibc-i18n"
+adddep="glibc-i18n glibc-solibs32"
 
 build() {
 	set -e
 	mkdir -p $pkgdir/usr/lib/
-	DIRLIST="locale gconv"
+	DIRLIST="locale"
 	for i in $DIRLIST ; do
 		ln -sf ../lib64/$i $pkgdir/usr/lib/$i
 	done
