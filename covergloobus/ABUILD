@@ -1,21 +1,21 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=covergloobus
 pkgver=1.7
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="CoverGloobus allows you to see at a glance your currently playing song"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("CoverGloobus is a small widget that floats on your desktop, giving you quick access to your music. Start playing your music and see how the album artwork looks, your ratings for the song, pause and skip any song and even get access to the songs lyrics and guitar tabs."
-""
-"Homepage: https://launchpad.net/covergloobus"
-)
+#longdesc=(""
+#)
 
-#_bzr`bzr log -r -1 lp:${pkgname} | grep revno | sed -e 's/revno: //'`
+
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
 #source=("bzr:lp:covergloobus")
 source=("bzr:lp:${pkgname}")
+
 
 patch_opts=("")
 
@@ -30,7 +30,7 @@ build_deps=""
 provides=""
 conflicts=""
 
-adddep=""
+adddep="python-argparse pyxdg"
 removedep=""
 
 #for multi pkg abuild
@@ -39,27 +39,27 @@ pkglist=
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
 
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs=
 gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-
-#cd $srcdir; bzr branch lp:${pkgname}
-
-}
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
 
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
-	./autogen.sh" #./configure"
+./autogen.sh" #./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -74,9 +74,7 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-echo ""
+#after_build()
+#{
 
-#rm -rfv ./.config/CoverGloobus ./.CoverGloobus ./.cache/CoverGloobus ./.cache/covergloobus
-}
+#}
