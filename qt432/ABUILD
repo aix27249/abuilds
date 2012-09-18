@@ -1,0 +1,112 @@
+# Qt4 ABUILD
+pkgname=qt4
+pkgver=4.8.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
+longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
+
+tags=('libs x11-libs')
+
+source=("http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-${pkgver}.tar.gz")
+
+pkglist="qtdoc"
+
+gendeps_blacklist="usr/lib$LIBDIRSUFFIX/qt/plugins/"
+removedep="mysql postgresql"
+
+before_build() {
+	CXXFLAGS=$SLKCFLAGS
+	LDFLAGS="$SLKLDFLAGS -ldl"
+	echo "CXXFLAGS=$CXXFLAGS"
+	echo "LDFLAGS=$LDFLAGS"
+	go_src_dir
+	sed -i "s|-O2|$CXXFLAGS|" mkspecs/common/g++.conf
+	#sed -i "/^QMAKE_RPATH/s| -Wl,-rpath,||g" mkspecs/common/g++.conf
+	sed -i "/^QMAKE_LFLAGS\s/s|+=|+= $LDFLAGS|g" mkspecs/common/g++.conf
+	echo "Using $CXX compiler"
+
+}
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="-confirm-license -opensource \
+	-prefix /usr \
+	-sysconfdir /etc \
+	-libdir /usr/lib$LIBDIRSUFFIX \
+	-plugindir /usr/lib$LIBDIRSUFFIX/qt/plugins \
+	-importdir /usr/lib$LIBDIRSUFFIX/qt/imports \
+	-translationdir /usr/share/qt/translations \
+	-datadir /usr/share/qt \
+	-docdir /usr/doc/qt \
+	-examplesdir /usr/doc/qt/examples \
+	-demosdir /usr/doc/qt/demos \
+	-largefile \
+	-plugin-sql-{psql,mysql,sqlite,odbc} \
+	-system-sqlite \
+	-xmlpatterns \
+	-no-phonon \
+	-no-phonon-backend \
+	-svg \
+	-webkit \
+	-scripttools \
+	-system-zlib \
+	-system-libtiff \
+	-system-libpng \
+	-system-libmng \
+	-system-libjpeg \
+	-openssl-linked \
+	-no-rpath \
+	-silent \
+	-optimized-qmake \
+	-dbus-linked \
+	-no-separate-debug-info \
+	-reduce-relocations \
+	-gtkstyle \
+	-opengl \
+	-no-openvg \
+	-glib \
+	-v"
+
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+
+after_build() {
+	# Add profile scripts
+	mkdir -p ${pkgdir}/etc/profile.d
+	sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.sh \
+		> ${pkgdir}/etc/profile.d/qt4.sh
+	sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.csh \
+		> ${pkgdir}/etc/profile.d/qt4.csh
+	chmod 0755 ${pkgdir}/etc/profile.d/*
+
+
+
+	mkdir -p ${pkgdir}/usr/share/pixmaps
+	cp -a ${filedir}/*.png ${pkgdir}/usr/share/pixmaps
+
+	mkdir -p ${pkgdir}/usr/share/applications
+	cp -a ${filedir}/*.desktop ${pkgdir}/usr/share/applications
+
+	# Archlinux path fixes
+	# Fix wrong path in pkgconfig files
+	find "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" -type f -name '*.pc' \
+		-exec perl -pi -e "s, -L${srcdir}/?\S+,,g" {} \;
+
+	# Fix wrong path in prl files
+	find "${pkgdir}/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
+
+}
+
+qtdoc() {
+	pkgname=qt4-doc
+	shortdesc=("Qt Documentation")
+	longdesc=("This package contains complete Qt programming reference. If you wish to browse documentation using assisant, you need this package.")
+}
+
+qtdoc_prep() {
+	# Move documentation to separate package:
+	mkdir -p ${pkgdir}/usr/doc
+	mv ${p_pkgdir}/usr/doc/qt ${pkgdir}/usr/doc/qt
+}
+
+
