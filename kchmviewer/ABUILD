@@ -2,15 +2,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=kchmviewer
-pkgver=5.3
+pkgver=6.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Free CHM files viewer application"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Kchmviewer is a free, open-source chm (MS HTML help file format) viewer, which uses Qt toolkit. Its main advantage is the best support for non-English languages. Unlike other viewers, kchmviewer in most cases is able to correctly detect the chm file encoding and show it. It correctly shows the index and table of context in Russian, Spanish, Romanian, Korean, Chinese and Arabic help files, and with new search engine is able to search in any chm file no matter what language it is written. KchmViewer is distributed under GNU GPL license version 3."
-""
-"Homepage: http://www.kchmviewer.net"
+longdesc=("Kchmviewer is a free, open-source chm (MS HTML help file format) viewer, which uses Qt toolkit. Its main advantage is the best support for non-English languages. Unlike other viewers, kchmviewer in most cases is able to correctly detect the chm file encoding and show it. It correctly shows the index and table of context in Russian, Spanish, Romanian, Korean, Chinese and Arabic help files, and with new search engine is able to search in any chm file no matter what language it is written. KchmViewer is distributed under GNU GPL license version 3. Homepage: http://www.kchmviewer.net"
 )
 
 source=("http://downloads.sourceforge.net/project/kchmviewer/kchmviewer/${pkgver}/${pkgname}-${pkgver}.tar.gz")
@@ -66,7 +64,7 @@ echo ""
 
 go_src_dir
 
-# din
+# bin
 install -D -m755 ./bin/kchmviewer ${pkgdir}/usr/bin/kchmviewer || exit 1
 
 # icon
