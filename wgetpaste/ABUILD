@@ -2,21 +2,19 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=wgetpaste
-pkgver=2.18
-pkgbuild=3
+pkgver=2.20
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="A Script that automates pasting to a number of pastebin services"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("A Script that automates pasting to a number of pastebin services relying only on bash, sed, coreutils (mktemp/sort/tr/wc/whoami/tee) and wget."
-""
-"Distributed in the public domain. Do with it whatever you want."
-""
-"Homepage: http://wgetpaste.zlin.dk"
+longdesc=("A Script that automates pasting to a number of pastebin services relying only on bash, sed, coreutils (mktemp/sort/tr/wc/whoami/tee) and wget. Distributed in the public domain. Do with it whatever you want. Homepage: http://wgetpaste.zlin.dk"
 )
 
-source=("http://wgetpaste.zlin.dk/${pkgname}-${pkgver}.tar.bz2"
-"http://wgetpaste.zlin.dk/wgetpaste.example")
+source=(
+"http://wgetpaste.zlin.dk/${pkgname}-${pkgver}.tar.bz2"
+"http://wgetpaste.zlin.dk/wgetpaste.example"
+)
 
 patch_opts=("")
 
@@ -72,27 +70,41 @@ echo ""
 
 go_src_dir
 
+# 2.18
 #sed -i 's|emerge x11|install x11|' ${pkgname} || exit 1
-patch ${pkgname} < ${filedir}/${pkgname}_help-info.diff || exit 1
+#patch ${pkgname} < ${filedir}/${pkgname}_help-info.diff || exit 1
 
-sed -i \
-	-e 's|emerge --info||' \
-	-e 's|\-\-ignore-default-opts||' \
-	${pkgname} || exit 1
+#sed -i \
+#	-e 's|emerge --info||' \
+#	-e 's|\-\-ignore-default-opts||' \
+#	${pkgname} || exit 1
 
-#bin
+#sh
   install -D -m755 ${pkgname} ${pkgdir}/usr/bin/${pkgname} || exit 1
 
 #zsh
-  #install -D -m644 _${pkgname} $pkgdir/usr/share/zsh/site-functions/_${pkgname}
+  install -D -m644 _${pkgname} $pkgdir/usr/share/zsh/site-functions/_${pkgname}
   
 #example 
   install -D -m644 ${srcache}/${pkgname}.example \
 	  ${pkgdir}/usr/doc/${pkgname}-${pkgver}/${pkgname}.example || exit 1
 
+#conf
 #install -D -m644 ${filedir}/wgetpaste.conf ${pkgdir}/etc/skel/.wgetpaste.conf || exit 1
-
 install -D -m644 ${filedir}/wgetpaste.conf ${pkgdir}/etc/wgetpaste.conf || exit 1
 mv -v ${pkgdir}/etc/wgetpaste.conf ${pkgdir}/etc/wgetpaste.conf.new || exit 1
+
+#license
+  sed -n '2,5p' wgetpaste > LICENSE
+sed -i 's|# ||' LICENSE || exit 1
+install -D -m644 LICENSE ${pkgdir}/usr/doc/${pkgname}-${pkgver}/LICENSE
+
+# w/o emerge
+if [ -n `cat /usr/bin/wgetpaste | grep VERSION | grep 2.20` ]; then
+ sed -i \
+	 -e '548,553d' \
+	 -e '313,314d' \
+	 ${pkgdir}/usr/bin/${pkgname} || exit 1
+fi
 
 }
