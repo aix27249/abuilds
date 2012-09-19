@@ -1,6 +1,6 @@
 pkgname=acpi_call
 pkgver=0.1
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 KERNEL=${KERNEL:-$(uname -r)}
