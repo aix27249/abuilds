@@ -1,0 +1,380 @@
+﻿themes/seven-embedded/theme.txt
+themes/seven-embedded/
+100
+clWindow
+clBtnFace
+clBtnFace
+$00669999
+clWindowText
+0
+
+
+0
+[language]
+default.txt
+
+[pealauncher: close when job ends]
+1
+
+[pealauncher: open output directory when job ends]
+0
+
+[console binaries interface]
+2
+
+[Clipboard mode]
+0
+
+[Initial dir for file/archive browser]
+~/
+
+[default archiving format]
+16
+
+[last used archiving format]
+14
+
+[default PEA compression level]
+1
+
+[default PEA object level control algorithm]
+6
+
+[default PEA volume level control algorithm]
+2
+
+[default PEA stream level control algorithm]
+0
+
+[default integrity check algorithm for file split]
+9
+
+[show hints popup]
+1
+
+[show password field in clear]
+0
+
+[ask for password on extract/list/test operations from system's menus]
+3
+
+[archive browser style]
+0
+
+[ignore archived path structure when performing extract and run or preview jobs: all ignore path directivesd are overridden in the content is a directory, as it would lose information about tree structure below]
+1
+
+[ignore archived path structure when performing extraction of displayed objects]
+0
+
+[ignore archived path structure when performing extraction of selected objects]
+0
+
+[pre-browse archive to give statistical information about all content]
+1
+
+[don't pre-browse archives over this size]
+50
+
+[overwrite / skip policy using 7z binary]
+0
+
+[overwrite / skip policy using arc binary]
+2
+
+[save history of recent archives]
+1
+~/
+
+
+
+
+
+
+
+
+[recently used custom executables]
+
+
+
+
+
+
+
+
+
+1
+
+1
+
+[save program's windows status]
+1
+
+[maximized status]
+0
+
+[left]
+64
+
+[top]
+64
+
+[width]
+910
+
+[height]
+512
+
+[archive formats to show in favourite popup menu]
+1
+0
+1
+0
+1
+0
+0
+1
+0
+1
+1
+0
+1
+0
+
+[default 7z compression level]
+3
+
+[default 7z compression method]
+LZMA
+
+[default ARC compression level]
+4
+
+[default ARC solid mode]
+1
+
+[use recovery records in ARC]
+1
+
+[encryption algorithm for ARC 0 AES 1 Serpent 2 Twofish 3 Blowfish]
+0
+
+[default bzip2 compression level]
+2
+
+[default gz compression level]
+2
+
+[default zpaq compression level]
+1
+
+[default quad/balz compression level]
+0
+
+[default upx compression level]
+10
+
+[default zip compression level]
+3
+
+[default zip compression method]
+Deflate
+
+[archive files open for writing (from 7z binary)]
+0
+
+[checksum/hash file options: display format, use all algorithms, single algorithms to be used]
+0
+0
+1
+1
+1
+1
+1
+1
+0
+1
+1
+1
+0
+1
+0
+0
+0
+
+[erase file options: security level]
+1
+
+[desktop path]
+~/Desktop/
+
+[Job definition encoding]
+1
+
+[Archived object's name encoding]
+1
+
+[Last output path]
+
+
+[Height of the navigation's splitter]
+160
+
+[View]
+0
+
+[Extract supported non-archive types]
+0
+
+[Extract unsupported archive types, specifying custom executable]
+0
+
+[Configuration check]
+PeaZip
+
+[Browser's style and settings]
+0
+9
+1
+256
+80
+96
+96
+144
+64
+96
+0
+
+[Extract to new folder]
+0
+
+[Execute archiving/extraction jobs in parallel when possible]
+0
+
+[Default output path for extraction operations]
+
+
+[Default output path for archiving operations]
+
+
+[(Windows) copy files in restartable mode, slower]
+0
+
+[Show menu bar]
+1
+
+[Address bar]
+1
+
+[Navigation bar]
+0
+
+[Columns to show]
+1
+1
+1
+1
+1
+1
+1
+1
+
+[Toolbar]
+1
+0
+
+[Size of the navigation sidebar]
+202
+
+[Status of navigation groups]
+1
+0
+0
+0
+0
+
+[7z/p7zip backend encoding (-scc)]
+0
+
+[Extraction or alternative action for 7z, arc, and ace backend binaries]
+0
+0
+0
+
+[Working directory]
+0
+
+[7z/p7zip -mcu use UTF8 for file names that contain non-ASCII symbols inside .zip files]
+0
+
+[(Windows) get volume information of mapped remote units]
+0
+
+[Status of run group]
+0
+0
+
+[Last successfull extraction path]
+
+
+[Encrypt also filenames, if the feature is supported by the format]
+0
+
+[Ignore archived path structure when performing drag and drop extraction]
+1
+
+[Swap position of Toolbar and Address bar]
+0
+
+[If multiple items are added to a new archive, name the archive as selected item's folder]
+1
+
+[New favorite types (3.8)]
+0
+0
+
+[Default xz compression level]
+2
+
+[Browser icons size]
+0
+
+[Search history]
+
+
+
+
+
+
+
+
+
+[Show thumbnails]
+1
+
+[Default checksum/hash algorithm for the file browser (calculated on request)]
+4
+
+[Simple search mode]
+1
+
+[Use absolute paths for ARC format]
+0
+
+[Search is recursive by default]
+1
+
+[Keep password for current session]
+1
+
+[Show address field as breadcrumb]
+1
+
+[Immersive mode]
+0
+
+[Toolbar]
+1
+
+[Limit random password generator characters to letters and numbers (as required by some services)]
+1

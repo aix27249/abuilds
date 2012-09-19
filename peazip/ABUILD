@@ -1,0 +1,85 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=peazip
+pkgver=4.7.1
+pkgbuild=1
+arch=('i686')
+
+shortdesc="A free Open Source cross platform archive manager"
+
+source=("http://sourceforge.net/projects/peazip/files/${pkgver}/${pkgname}-${pkgver}.src.zip")
+
+tags="app-arch xapps"
+
+build_deps="lazarus imagemagick"
+adddep="p7zip unace"
+
+pkglist=
+
+docs="copying.txt readme.txt"
+
+peazipdir="${pkgdir}"/usr/lib${LIBDIRSUFFIX}/${pkgname}
+icondir="${pkgdir}"/usr/share/pixmaps/${pkgname}
+
+#======================================
+convert_icons(){
+ go_src_dir
+ find ./res/icons -type f -name "*.ico" -print0 | while read -d '' ico; do
+     filenew=`echo "${ico}"|tr [A-Z] [a-z]`;
+     if ! [ "${ico}" = "${filenew}" ]; then
+         mv "${ico}" "${filenew}"
+     fi
+     filein=`basename "${filenew%.*}"`
+     convert "${filenew}" "${filein}".png
+     install -Dm644 "${filein}"-0.png ${icondir}/255/"${filein}".png
+     install -Dm644 "${filein}"-1.png ${icondir}/48/"${filein}".png
+     install -Dm644 "${filein}"-2.png ${icondir}/32/"${filein}".png
+     install -Dm644 "${filein}"-3.png ${icondir}/24/"${filein}".png
+     install -Dm644 "${filein}"-4.png ${icondir}/16/"${filein}".png
+ done
+}
+
+#====================================
+build(){
+ go_src_dir
+ export lazbuild=$(which lazbuild)
+ ${lazbuild} project_pea.lpi
+ ${lazbuild} project_gwrap.lpi
+ ${lazbuild} project_peach.lpi
+}
+
+#====================================
+after_build(){
+ go_src_dir
+ mkdir -p "${peazipdir}"/res/lang \
+ "${peazipdir}"/res/arc \
+ "${peazipdir}"/res/icons \
+ "${peazipdir}"/res/lpaq \
+ "${peazipdir}"/res/paq \
+ "${peazipdir}"/res/quad \
+ "${peazipdir}"/res/unace \
+ "${peazipdir}"/res/upx \
+ "${peazipdir}"/res/zpaq \
+ "${pkgdir}"/usr/bin
+
+ install -Dm755 ./peazip       ${peazipdir}/peazip
+ install -Dm755 ./pea          ${peazipdir}/res/pea
+ install -Dm755 ./pealauncher  ${peazipdir}/res/pealauncher
+ install -Dm644 ./res/lang/*.* ${peazipdir}/res/lang
+ cp -R ./res/themes ${peazipdir}/res
+ cp -R ${filedir}/*.txt ${peazipdir}/res
+ install -Dm644 ${filedir}/rnd ${peazipdir}/res
+
+ convert_icons
+ ln -s /usr/share/pixmaps/peazip/32/peazip.png  "${pkgdir}"/usr/share/pixmaps/peazip.png
+ install -Dm644 FreeDesktop_integration/peazip.desktop \
+                "${pkgdir}"/usr/share/applications/peazip.desktop
+ ln -s /usr/lib${LIBDIRSUFFIX}/p7zip "${peazipdir}"/res/7z
+ ln -s /usr/bin/unace "${peazipdir}"/res/unace
+
+ ln -s /usr/lib${LIBDIRSUFFIX}/${pkgname}/peazip          "${pkgdir}"/usr/bin
+ ln -s /usr/lib${LIBDIRSUFFIX}/${pkgname}/res/pea         "${pkgdir}"/usr/bin
+ ln -s /usr/lib${LIBDIRSUFFIX}/${pkgname}/res/pealauncher "${pkgdir}"/usr/bin
+ 
+ echo "End build"
+}
