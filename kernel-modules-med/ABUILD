@@ -3,7 +3,7 @@
 pkgname=kernel-med
 provides=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.5.3_med
+pkgver=3.5.4_med
 uksmver=0.1.2
 
 kernel_ver=`echo ${pkgver} | sed 's/_/-/g'`
