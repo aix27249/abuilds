@@ -3,7 +3,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=eric4
-pkgver=4.4.16
+pkgver=4.5.6
 pkgbuild=1
 arch=('auto')
 
@@ -23,37 +23,16 @@ tags="develop dev-util"
 #dependencies only needed to build package
 build_deps="PyQt"
 
-provides=""
-conflicts=""
-
 adddep="PyQt QScintilla qt4"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
 build()
 {
-go_src_dir
-burn_patches
-python install.py -c -b /usr/bin -d /usr/lib${LIBDIRSUFFIX}/python2.6/site-packages -i ${pkgdir}
+    go_src_dir
+    burn_patches
+    python install.py -c -b /usr/bin -d /usr/lib${LIBDIRSUFFIX}/python2.6/site-packages -i ${pkgdir}
 }
 
 
@@ -61,5 +40,5 @@ python install.py -c -b /usr/bin -d /usr/lib${LIBDIRSUFFIX}/python2.6/site-packa
 #после сборки
 after_build()
 {
-install -D -m644 eric/icons/default/eric.png ${pkgdir}/usr/share/pixmaps/eric4.png || return 1
+    install -D -m644 eric/icons/default/eric.png ${pkgdir}/usr/share/pixmaps/eric4.png || return 1
 }
