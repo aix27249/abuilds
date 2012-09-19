@@ -1,6 +1,6 @@
 pkgname=mkpkg-git
 pkgver=1.3
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 shortdesc="mkpkg package generation tool for AgiliaLinux"
 
