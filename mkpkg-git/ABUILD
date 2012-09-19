@@ -23,6 +23,7 @@ build() {
 	install -Dm755 mkpkg  "${pkgdir}/sbin/mkpkg"
 
 	install -Dm755 mkpkg_32to64  "${pkgdir}/sbin/mkpkg_32to64"
+	install -Dm755 mkpkg_make64  "${pkgdir}/sbin/mkpkg_make64"
 	mkdir -p "${pkgdir}/usr/share/mpkg/mkpkg" "${pkgdir}/etc" "${pkgdir}/usr/bin"
 	install -m644 {mkpkg.messages,mkpkg.n_messages,mkpkg_nonlatin.py,mkpkg_xml_parser.py,taglist,ABUILD,mkpkg_build_functions,mkpkg_shared_functions} "${pkgdir}"/usr/share/mpkg/mkpkg
 	cp -a mkpkg_templates "${pkgdir}/usr/share/mpkg/mkpkg/"
