@@ -12,7 +12,7 @@ else
 fi
 kernel_base=`echo $kernel_ver | sed 's/^[^.]*\.//' | sed 's/\..*$//'`
 
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Linux kernel")
