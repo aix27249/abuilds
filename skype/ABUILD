@@ -1,8 +1,6 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=skype
 pkgver=4.0.0.8
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="VoIP client software for high-quality voice communication"
@@ -10,9 +8,9 @@ shortdesc="VoIP client software for high-quality voice communication"
 source=("http://download.skype.com/linux/${pkgname}-${pkgver}.tar.bz2")
 
 if [ "$ARCH" = "x86_64" ] ; then
-   adddep="alsa-lib32>=1.0.25 libXScrnSaver32>=1.2.1 libXv32>=1.0.6 libXcursor32>=1.1.11 dbus32>=1.4.16 qt432>=4.8.2 glibc-solibs32 glibc-i18n32>=0.2compat32"
+	adddep=("alsa-lib32 libXScrnSaver32 libXv32 libXcursor32 dbus32 qt432 glibc-solibs32 glibc-i18n32 compat32 qt432 libtiff32 libffi32 openssl-solibs32")
 else
-   adddep="alsa-lib>=1.0.25 libXScrnSaver>=1.2.1 libXv>=1.0.6 libXcursor>=1.1.11 dbus>=1.4.16 qt4>=4.8.2 glibc-solibs glibc-i18n>=0.2"
+	adddep=("alsa-lib libXScrnSaver libXv libXcursor dbus qt4 glibc-solibs libffi libtiff openssl-solibs")
 fi
 
 tags="xapps proprietary net-im"
@@ -21,27 +19,28 @@ custom_opts="no_strip"
 
 docs="third-party_attributions.txt"
 
-build(){
-  go_src_dir
- 
-  install -D skype "${pkgdir}/usr/bin/skype"
-  mkdir -p "$pkgdir"/usr/share/skype/{avatars,lang,sounds}
-  install -Dm 644 avatars/* "${pkgdir}/usr/share/skype/avatars"
-  install -Dm 644 lang/*    "${pkgdir}/usr/share/skype/lang"
-  install -Dm 644 sounds/*  "${pkgdir}/usr/share/skype/sounds"
- 
-  # DBus Service
-  install -Dm 644 skype.conf "${pkgdir}/etc/dbus-1/system.d/skype.conf"
- 
-  # Icons
-  for i in 16 32 48; do
-     install -Dm 644 icons/SkypeBlue_${i}x${i}.png \
-                     "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/skype.png"
-  done
-  install -Dm 644 icons/SkypeBlue_48x48.png \
-                  "${pkgdir}/usr/share/pixmaps/skype.png"
-  # Desktop file
-  install -Dm 644 skype.desktop \
-                 "${pkgdir}/usr/share/applications/skype.desktop"
-  echo "End build"
+build() {
+	go_src_dir
+	set -e
+
+	install -D skype "${pkgdir}/usr/bin/skype"
+	mkdir -p "$pkgdir"/usr/share/skype/{avatars,lang,sounds}
+	install -Dm 644 avatars/* "${pkgdir}/usr/share/skype/avatars"
+	install -Dm 644 lang/*    "${pkgdir}/usr/share/skype/lang"
+	install -Dm 644 sounds/*  "${pkgdir}/usr/share/skype/sounds"
+
+	# DBus Service
+	install -Dm 644 skype.conf "${pkgdir}/etc/dbus-1/system.d/skype.conf"
+
+	# Icons
+	for i in 16 32 48; do
+		install -Dm 644 icons/SkypeBlue_${i}x${i}.png \
+			"${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/skype.png"
+	done
+	install -Dm 644 icons/SkypeBlue_48x48.png \
+		"${pkgdir}/usr/share/pixmaps/skype.png"
+	# Desktop file
+	install -Dm 644 skype.desktop \
+		"${pkgdir}/usr/share/applications/skype.desktop"
+	set +e
 }
