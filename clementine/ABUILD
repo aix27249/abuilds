@@ -2,17 +2,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
-pkgver=0.7.2
-pkgbuild=1
+pkgver=1.0.1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Clementine Music Player based on Amarok 1.4"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Clementine - это современный аудиоплеер и менеджер музыкальной библиотеки. Он вобрал в себя лучшее от Amarok 1.4, сделав упор на быстроту и легкость использования для поиска и воспроизведения вашей музыки. Сайт: http://www.clementine-player.org"
-)
+#longdesc=(""
+#)
 
-#source=("http://clementine-player.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
-source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
+source=("http://clementine-player.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+#source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
 
 patch_opts=("")
 
@@ -22,12 +21,12 @@ patch_opts=("")
 tags="media-sound xapps"
 
 #dependencies only needed to build package
-build_deps="liblastfm sip"  # libgpod-1.0>=0.7.92 libimobiledevice-1.0 libplist libusbmuxd
+build_deps="qjson liblastfm sip"
 
 provides=""
 conflicts=""
 
-adddep="gst-ffmpeg gst-plugins-ugly gst-plugins-good" 
+adddep="gst-ffmpeg gst-plugins-ugly gst-plugins-good"
 removedep=""
 
 #for multi pkg abuild
@@ -36,49 +35,48 @@ pkglist=
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
 
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs=
 gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="\
 -DCMAKE_INSTALL_PREFIX=/usr \
+-DMAN_INSTALL_DIR=/usr/man \
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DMAN_INSTALL_DIR=/usr/man \
+-DENABLE_VISUALISATIONS=ON \
+-DBUNDLE_PROJECTM_PRESETS=ON \
 -DENGINE_GSTREAMER_ENABLED=ON \
 -DENGINE_LIBVLC_ENABLED=OFF \
 -DENGINE_LIBXINE_ENABLED=OFF \
 -DENGINE_QT_PHONON_ENABLED=OFF \
--DENABLE_VISUALISATIONS=ON \
 -DENABLE_SOUNDMENU=OFF \
 -DSTATIC_SQLITE=OFF \
 -DENABLE_SCRIPTING_PYTHON=OFF \
+-DENABLE_PLASMARUNNER=OFF \
+-DENABLE_IMOBILEDEVICE=OFF \
+-DENABLE_SPOTIFY=OFF \
+-DENABLE_SPOTIFY_BLOB=OFF \
+-DENABLE_REMOTE=OFF \
+-DENABLE_BREAKPAD=OFF \
+-DBUILD_WERROR=OFF \
 ../"
-
-
-
-#STATIC_SQLITE "Compile and use a static sqlite3 library" ON
-# We compile our own qsqlite3 by default now, because in Qt 4.7 the symbols we
-# need from it are private.
-
-#-DENABLE_SOUNDMENU=OFF \
-#ENABLE_SOUNDMENU "Add Clementine to the Gnome sound menu" ON
-
-#-DENABLE_WIIMOTEDEV=OFF \
-#ENABLE_WIIMOTEDEV "Enable Wii remote support in Clementine" ON
-
-
 
 #ran after function build() 
 #после сборки
@@ -86,8 +84,15 @@ after_build()
 {
 echo ""
 
-if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then 
- rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1
-fi
+#if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1; fi
+
+go_src_dir
+
+for i in 16 32 64 ; do
+ if [ ! -d $pkgdir/usr/share/icons/hicolor/${i}x${i} ]; then
+  install -m 0644 -D dist/${pkgname}_${i}.png \
+    $pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/application-x-clementine.png
+ fi
+done
 
 }
