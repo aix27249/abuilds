@@ -1,0 +1,36 @@
+#ABUILD created by/создан: aix27249, i27249 at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=unixodbc
+pkgver=2.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
+)
+
+source=(http://www.unixodbc.org/unixODBC-$pkgver.tar.gz)
+tags="libs dev-db"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	go_src_dir
+	mv ${pkgdir}/etc/odbc.ini ${pkgdir}/etc/odbc.ini.new
+	mv ${pkgdir}/etc/odbcinst.ini ${pkgdir}/etc/odbcinst.ini.new
+}
