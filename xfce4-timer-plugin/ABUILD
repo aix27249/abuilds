@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-timer-plugin
-pkgver=0.6.4
+pkgver=1.0.0
 pkgbuild=1
 arch=('auto')
 tree=`echo ${pkgver} | cut -d . -f 1-2`
