@@ -1,6 +1,6 @@
 pkgname=libXau
-pkgver=1.0.6
-pkgbuild=2
+pkgver=1.0.7
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('libXau')
