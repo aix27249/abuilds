@@ -1,6 +1,6 @@
 # libxcb ABUILD
 pkgname=libxcb
-pkgver=1.7
+pkgver=1.8.1
 pkgbuild=1
 arch=('auto')
 
@@ -11,7 +11,7 @@ tags=('x11-xcbs xserver')
 
 source=("http://xcb.freedesktop.org/dist/libxcb-${pkgver}.tar.bz2")
 
-build_deps='glibc-solibs libXau libXdmcp x11-skel'
+build_deps='glibc-solibs libXau libXdmcp'
 
 before_build() {
  echo ""
