@@ -1,5 +1,5 @@
 pkgname=mkpkg
-pkgver=1.3.0.1
+pkgver=1.3.0.3
 pkgbuild=1
 arch=('noarch')
 shortdesc="mkpkg: AgiliaLinux package building tool"
@@ -9,7 +9,7 @@ source="https://github.com/aix27249/mkpkg/tarball/${pkgver}"
 tags="dev-util develop"
 build_deps="cmake sed"
 
-adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash"
+adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash sed grep"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
