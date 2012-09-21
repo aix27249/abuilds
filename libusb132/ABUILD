@@ -1,0 +1,21 @@
+# Package metadata
+pkgname=libusb1
+pkgver=1.0.12
+pkgbuild=1
+arch="auto"
+
+# Package description
+shortdesc=("Library that provides generic access to USB device")
+
+# Source URL
+source=("http://downloads.sourceforge.net/libusbx/libusbx-${pkgver}.tar.bz2")
+
+# Tags
+tags="libs dev-libs"
+
+# Build system
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static"
+
