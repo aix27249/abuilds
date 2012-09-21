@@ -1,6 +1,6 @@
 pkgname=libXfixes
-pkgver=4.0.5
-pkgbuild=11
+pkgver=5.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('libXfixes')
