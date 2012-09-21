@@ -1,5 +1,5 @@
 pkgname=libXxf86vm
-pkgver=1.1.1
+pkgver=1.1.2
 pkgbuild=1
 arch=('auto')
 
