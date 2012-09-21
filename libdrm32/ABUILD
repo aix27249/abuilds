@@ -1,5 +1,5 @@
 pkgname=libdrm
-pkgver=2.4.26
+pkgver=2.4.38
 pkgbuild=1
 arch=('auto')
 
