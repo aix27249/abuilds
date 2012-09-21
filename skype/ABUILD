@@ -1,6 +1,6 @@
 pkgname=skype
 pkgver=4.0.0.8
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="VoIP client software for high-quality voice communication"
@@ -8,7 +8,7 @@ shortdesc="VoIP client software for high-quality voice communication"
 source=("http://download.skype.com/linux/${pkgname}-${pkgver}.tar.bz2")
 
 if [ "$ARCH" = "x86_64" ] ; then
-	adddep=("alsa-lib32 libXScrnSaver32 libXv32 libXcursor32 dbus32 qt432 glibc-solibs32 glibc-i18n32 compat32 qt432 libtiff32 libffi32 openssl-solibs32")
+	adddep=("alsa-lib32 libXScrnSaver32 libXv32 libXcursor32 dbus32 glibc-solibs32 glibc-i18n32 qt432 libtiff32 libffi32 openssl-solibs32")
 else
 	adddep=("alsa-lib libXScrnSaver libXv libXcursor dbus qt4 glibc-solibs libffi libtiff openssl-solibs")
 fi
