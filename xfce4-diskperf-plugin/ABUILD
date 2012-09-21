@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-diskperf-plugin
-pkgver=2.5.2
+pkgver=2.5.4
 pkgbuild=1
 arch=('auto')
 
