@@ -1,67 +1,100 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
-pkgname=openssl-solibs32
-pkgver=0.9.8p
-pkgbuild=2
+pkgname=openssl
+pkgver=1.0.1c
+pkgbuild=1
 arch=('auto')
 
-shortdesc="OpenSSL shared libraries"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("These shared libraries provide encryption routines required by programs such as openssh. They are also used by KDE's Konqueror web browser to provide secure web connections. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). This product includes software written by Tim Hudson (tjh@cryptsoft.com)."
-)
+shortdesc=("Secure Sockets Layer toolkit")
+longdesc=("The OpenSSL certificate management tool and the shared libraries that provide various encryption and decryption algorithms and protocols. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). This product includes software written by Tim Hudson (tjh@cryptsoft.com).")
 
-source=("http://packages.agilialinux.ru/core/x86/7.0/repository/base/openssl-solibs-0.9.8p-i686-2.txz")
+tags=('dev-libs network')
+source=("http://www.openssl.org/source/openssl-${pkgver}.tar.gz")
 
-patch_opts=("")
+build_deps='glibc-solibs'
+pkglist="solibs"
+adddep="openssl-solibs==${pkgver}"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="x86 compat32 sys-base"
+# OpenSSL 1.0.1c fails to build with numjobs>1, so limit it.
+numjobs=1
 
-#dependencies only needed to build package
-build_deps=""
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	set -x
 
-provides=""
-conflicts=""
 
-adddep=""
-removedep=""
+	if [ "${ARCH}" == 'x86_64' ]; then
+		openssltarget='linux-x86_64'
+		optflags='enable-ec_nistp_64_gcc_128'
+	else
+		openssltarget='linux-elf'
+		optflags='no-sse2'
+	fi
 
-#for multi pkg abuild
-pkglist=
 
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
+	./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib${LIBDIRSUFFIX} \
+		shared zlib enable-md2 ${optflags} "${openssltarget}"
 
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
+	make depend -j${numjobs} || make ||  exit 1
+	make -j${numjobs} || make || exit 1
+	make install INSTALL_PREFIX=${pkgdir} || exit 1
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
+	# Make the .so.? library symlinks:
+	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ldconfig -l lib*.so.* )
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+	# Move libraries, as they might be needed by programs that bring a network
+	# mounted /usr online:
 
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+	mkdir ${pkgdir}/lib${LIBDIRSUFFIX}
+	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+	for file in lib*.so.?.* ; do
+		mv $file ../../lib${LIBDIRSUFFIX}
+		ln -sf ../../lib${LIBDIRSUFFIX}/$file .
+	done 
+	cp -a lib*.so.? ../../lib${LIBDIRSUFFIX}
+	)
+
+	# Add a cron script to warn root if a certificate is going to expire soon:
+	mkdir -p ${pkgdir}/etc/cron.daily
+	zcat ${filedir}/certwatch.gz > ${pkgdir}/etc/cron.daily/certwatch.new
+	chmod 755 ${pkgdir}/etc/cron.daily/certwatch.new
+
+	mv ${pkgdir}/etc/ssl/openssl.cnf ${pkgdir}/etc/ssl/openssl.cnf.new
+
+
+	mv ${pkgdir}/etc/ssl/man ${pkgdir}/usr
+	( cd ${pkgdir}/usr/man/man1 ; mv passwd.1 ssl_passwd.1 )
+	( cd ${pkgdir}/usr/man/man3 ; mv rand.3 ssl_rand.3 )
+	( cd ${pkgdir}/usr/man/man3 ; mv err.3 ssl_err.3 )
+
+
+	cd ${pkgdir}
+	chmod 755 usr/lib${LIBDIRSUFFIX}/pkgconfig
+	sed -i -e "s#lib\$#lib${LIBDIRSUFFIX}#" usr/lib${LIBDIRSUFFIX}/pkgconfig/*.pc
+	mkdir -p install
+	zcat $filedir/doinst.sh-openssl.gz > install/doinst.sh
+	set +x
+	set +e
 }
 
-build()
-{
-go_src_dir
-mv $srcdir/lib $pkgdir
+solibs_prep() {
+	set -e
+	# Make runtime package:
+	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
+	( cd ${p_pkgdir}/lib${LIBDIRSUFFIX} ; mv lib*.so.* $pkgdir/lib${LIBDIRSUFFIX} )
+	mkdir -p ${pkgdir}/etc
+	( cd ${pkgdir}/etc ; mv ${p_pkgdir}/etc/ssl . )
+	( cd $pkgdir
+	mkdir -p install
+	zcat $filedir/doinst.sh-openssl-solibs.gz > install/doinst.sh
+	)
+	set +e
 }
 
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+solibs() {
+	pkgname=openssl-solibs
+	tags="sys-base base"
+	shortdesc=("OpenSSL shared libraries")
+	longdesc=("These shared libraries provide encryption routines required by programs such as openssh. They are also used by KDE's Konqueror web browser to provide secure web connections. This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org). This product includes cryptographic software written by Eric Young (eay@cryptsoft.com). This product includes software written by Tim Hudson (tjh@cryptsoft.com).")
 }
+
