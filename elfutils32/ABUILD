@@ -1,0 +1,19 @@
+pkgname=elfutils
+pkgver=0.153
+pkgbuild=1
+arch=('auto')
+shortdesc="collection of utilities to handle ELF objects"
+source=("https://fedorahosted.org/releases/e/l/elfutils/${pkgver}/elfutils-${pkgver}.tar.bz2")
+tags="develop dev-libs"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix="eu-" \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
