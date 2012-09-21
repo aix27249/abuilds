@@ -1,5 +1,5 @@
 pkgname=libXv
-pkgver=1.0.6
+pkgver=1.0.7
 pkgbuild=1
 arch=('auto')
 
