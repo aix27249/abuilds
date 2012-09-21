@@ -1,16 +1,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=glib2
-pkgver=2.30.0
+pkgver=2.32.3
 pkgtree=`echo $pkgver | cut -d . -f 1-2`
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="glib2 (library of C routines)"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("GLib is a library which includes support routines for C such as lists, trees, hashes, memory allocation, and many other things.")
 
-source=("http://ftp.gnome.org/pub/gnome/sources/glib/${pkgtree}/glib-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/gnome/sources/glib/${pkgtree}/glib-${pkgver}.tar.xz")
 
 patch_opts=("")
 
@@ -35,45 +35,46 @@ removedep=""
 #запускается перед сборкой
 before_build()
 {
-echo ""
+	echo ""
 }
 
 #set configure options, make and make install 
 #конфигурация, сборка, подготовка пакета
 build() 
 {
-cd $srcdir/glib-$pkgver
+	go_src_dir
+	burn_patches
+	set -e
+	# Rebind variables
+	LDFLAGS="$SLKLDFLAGS" \
+		CFLAGS="$SLKCFLAGS" \
+		CXXFLAGS="$SLKCFLAGS" \
+		./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--sysconfdir=/etc \
+		--mandir=/usr/man \
+		--build=$ARCH-slackware-linux
 
-burn_patches
-# Rebind variables
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure \
-	--prefix=/usr \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--sysconfdir=/etc \
-	--mandir=/usr/man \
-	--build=$ARCH-slackware-linux
+	make -j${numjobs} || make || exit 1
+	make install DESTDIR=$pkgdir
 
-make -j${numjobs} || make || exit 1
-make install DESTDIR=$pkgdir
+	# Install profile scripts:
+	mkdir -p $pkgdir/etc/profile.d/
+	cp -a $filedir/libglib2.{csh,sh} $pkgdir/etc/profile.d/
+	chown root:root $pkgdir/etc/profile.d/*
+	chmod 755 $pkgdir/etc/profile.d/*
+	mv $pkgdir/etc/profile.d/libglib2.csh $pkgdir/etc/profile.d/libglib2.csh.new
+	mv $pkgdir/etc/profile.d/libglib2.sh $pkgdir/etc/profile.d/libglib2.sh.new
 
-# Install profile scripts:
-mkdir -p $pkgdir/etc/profile.d/
-cp -a $filedir/libglib2.{csh,sh} $pkgdir/etc/profile.d/
-chown root:root $pkgdir/etc/profile.d/*
-chmod 755 $pkgdir/etc/profile.d/*
-mv $pkgdir/etc/profile.d/libglib2.csh $pkgdir/etc/profile.d/libglib2.csh.new
-mv $pkgdir/etc/profile.d/libglib2.sh $pkgdir/etc/profile.d/libglib2.sh.new
-
-mkdir -p $pkgdir/install
-zcat $filedir/doinst.sh.gz > $pkgdir/install/doinst.sh
+	mkdir -p $pkgdir/install
+	zcat $filedir/doinst.sh.gz > $pkgdir/install/doinst.sh
+	set +e
 
 }
 #ran after function build() 
 #после сборки
 after_build()
 {
- echo ""
+	echo ""
 }
