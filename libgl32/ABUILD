@@ -1,6 +1,6 @@
 # ABUILD for mesa package
 pkgname=mesa
-pkgver=8.0.2
+pkgver=8.0.4
 _git=false
 pkgbuild=1
 arch=('auto')
@@ -21,18 +21,22 @@ fi
 adddep="mesa-demos"
 
 before_build() {
+	go_src_dir
 	if [ "${_git}" = "true" ] ; then
-		go_src_dir
 		./autogen.sh
 	fi
+	autoreconf -vfi
 }
 BUILD_WORD="CFLAGS=\"$SLKCFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" CXXFLAGS=\"$SLKCXXFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" LDFLAGS=-L/usr/lib${LIBDIRSUFFIX}/llvm ./configure"
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
     --libdir=/usr/lib$LIBDIRSUFFIX \
     --with-dri-driverdir=/usr/lib$LIBDIRSUFFIX/xorg/modules/dri \
-    --with-gallium-drivers=r300,r600,nouveau,svga,swrast \
+    --with-gallium-drivers=r300,r600,svga,swrast \
+    --with-dri-drivers=i915,i965,r200,radeon,swrast \
     --enable-gallium-llvm \
+    --enable-egl \
+    --with-egl-platforms=x11,drm \
     --enable-gallium-egl --enable-shared-glapi \
     --enable-dri \
     --enable-glx \
