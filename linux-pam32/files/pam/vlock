@@ -1,0 +1,6 @@
+#%PAM-1.0
+#[For version 1.0 syntax, the above header is optional]
+#
+# The PAM configuration file for the `vlock' service
+#
+auth       required   pam_unix.so

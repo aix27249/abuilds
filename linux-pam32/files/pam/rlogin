@@ -1,0 +1,13 @@
+#%PAM-1.0
+#[For version 1.0 syntax, the above header is optional]
+#
+# The PAM configuration file for the `rlogin' service
+#
+auth       requisite  pam_securetty.so
+auth       requisite  pam_nologin.so
+auth       required   pam_rhosts_auth.so
+account    required   pam_unix.so
+password   required   pam_unix.so \
+		shadow md5 use_authtok
+session    required   pam_unix.so
+session    required   pam_limits.so
