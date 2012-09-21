@@ -1,6 +1,6 @@
 pkgname=libXrender
-pkgver=0.9.6
-pkgbuild=11
+pkgver=0.9.7
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('libXrender')
