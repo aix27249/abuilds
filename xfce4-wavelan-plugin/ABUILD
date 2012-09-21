@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-wavelan-plugin
-pkgver=0.5.9
+pkgver=0.5.11
 pkgbuild=1
 arch=('auto')
 
