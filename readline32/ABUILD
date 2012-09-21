@@ -2,7 +2,7 @@
 
 pkgname=readline
 _basever=6.2
-_patchlevel=001
+_patchlevel=002
 pkgver=$_basever.$_patchlevel
 pkgbuild=1
 arch=("auto")
@@ -30,7 +30,7 @@ build() {
 
 	# build with -fPIC for x86_64 (FS#15634)
 	CFLAGS="$SLKCFLAGS" ./configure --prefix=/usr --libdir=/lib${LIBDIRSUFFIX} --mandir=/usr/man --docdir=/usr/doc
-	make SHLIB_LIBS=-lncurses -j${numjobs}
+	make SHLIB_LIBS=-lncursesw -j${numjobs}
 	make install DESTDIR=${pkgdir}
 	
 
