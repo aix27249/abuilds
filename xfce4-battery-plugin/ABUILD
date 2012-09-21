@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-battery-plugin
-pkgver=1.0.1
+pkgver=1.0.5
 pkgbuild=3
 arch=('auto')
 tree=`echo ${pkgver} | cut -d . -f 1-2`
