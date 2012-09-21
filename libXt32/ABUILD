@@ -1,5 +1,5 @@
 pkgname=libXt
-pkgver=1.0.9
+pkgver=1.1.3
 pkgbuild=1
 arch=('auto')
 
