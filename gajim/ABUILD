@@ -1,14 +1,14 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=gajim
-pkgver=0.15
+pkgver=0.15.1
 pkgbuild=1
 
 arch=('auto')
 
 shortdesc="A full featured and easy to use Jabber client"
 
-source=("http://gajim.org/downloads/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://gajim.org/downloads/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="net-im xapps"
 
@@ -33,3 +33,6 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build(){
+ sed '/exit/d' -i ${pkgdir}/usr/bin/gajim
+}
