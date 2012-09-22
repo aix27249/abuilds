@@ -3,7 +3,7 @@
 # Package metadata
 pkgname=mpkg-console
 pkgver=0.17
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 
 # Package description
