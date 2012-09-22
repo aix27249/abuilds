@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=drbl
-pkgver=1.12.17
+pkgver=2.0.1
 pkgbuild=1
 arch=('auto')
 
@@ -28,10 +28,10 @@ build()
 go_src_dir
 
 make DESTDIR=$pkgdir install  
-  cd $pkgdir/opt/drbl/lang
-  make all  
-  cd $pkgdir/opt/drbl/sbin
-  make all
+#  cd $pkgdir/opt/drbl/lang
+ # make all  
+ # cd $pkgdir/opt/drbl/sbin
+ # make all
 
 }
 
