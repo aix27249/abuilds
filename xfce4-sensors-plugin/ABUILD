@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-sensors-plugin
-pkgver=1.2.3
+pkgver=1.2.5
 pkgbuild=3
 arch=('auto')
 
