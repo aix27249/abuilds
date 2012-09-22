@@ -1,15 +1,17 @@
 pkgname=mpd
-pkgver=0.16.7
+pkgver=0.17.1
 pkgbuild=1
 arch=('auto')
 shortdesc="MPD (Music Player Daemon)"
 longdesc=("Music Player Daemon (MPD)  allows  remote  access  for playing music (MP3, Ogg Vorbis,  FLAC,  AAC,  Mod,  and  wave  files) and managing playlists. MPD is designed  for integrating a computer into a stereo system that provides control for music playback over a local network It also makes a great desktop  music player, especially if you are a console junkie, like frontend options, or restart X often."
 	  ""
-	  "Homepage: http://musicpd.org/"
-)
+	  "Homepage: http://musicpd.org/")
+
 source=("http://downloads.sourceforge.net/sourceforge/musicpd/${pkgname}-${pkgver}.tar.bz2")
 tags="console media-sound"
-build_deps="libao libcue libmms libshout doxygen"
+
+build_deps="libao libcue libmms libshout doxygen libmodplug"
+
 config_files=("etc/mpd.conf class=sample")
 
 BUILD_SYSTEM="autotools"
@@ -63,14 +65,13 @@ BUILD_KEYS="--prefix=/usr \
 --enable-aac \
 --enable-libOggFLACtest \
 --enable-documentation"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-after_build()
-{
-    echo ""
-    mkdir -p $pkgdir/etc
-    cp $filedir/mpd.conf $pkgdir/etc/
+after_build(){
+    mkdir -p ${pkgdir}/etc
+    cp ${filedir}/mpd.conf ${pkgdir}/etc/
 
     mkdir -p $pkgdir/etc/init.d
-    install -m755 $filedir/mpd.init $pkgdir/etc/init.d/mpd
+    install -m755 ${filedir}/mpd.init ${pkgdir}/etc/init.d/mpd
+    echo "End after_build"
 }
