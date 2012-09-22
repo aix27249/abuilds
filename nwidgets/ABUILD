@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=nwidgets
 pkgver=0.17
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 
 # Package description
