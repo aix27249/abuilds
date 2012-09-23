@@ -3,7 +3,7 @@
 pkgname=kde-baseapps
 pkgver=4.9.1
 #strict_version='yes'
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('KDE base applications')
