@@ -2,20 +2,22 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=fillets-ng
-pkgver=1.0.0
+
+pkgver=1.0.1
+pkgver_bin=${pkgver}
+pkgver_data=1.0.0
+
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="Fish Fillets - Next Generation is strictly a puzzle game"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Open Source implementation of the wonderful puzzle game Fish Fillets from ALTAR interactive. The goal in every of the seventy levels is always the same: find a safe way out. The fish utter witty remarks about their surroundings, the various inhabitants of their underwater realm quarrel among themselves or comment on the efforts of your fish. The whole game is accompanied by quiet, comforting music."
-""
-"Homepage: http://fillets.sf.net"
+longdesc=("Open Source implementation of the wonderful puzzle game Fish Fillets from ALTAR interactive. The goal in every of the seventy levels is always the same: find a safe way out. The fish utter witty remarks about their surroundings, the various inhabitants of their underwater realm quarrel among themselves or comment on the efforts of your fish. The whole game is accompanied by quiet, comforting music. Homepage: http://fillets.sf.net"
 )
 
 source=(
-"http://downloads.sourceforge.net/project/fillets/Fish%20Fillets%20-%20Next%20Generation/${pkgver}/${pkgname}-${pkgver}.tar.gz"
-"http://downloads.sourceforge.net/project/fillets/Fish%20Fillets%20-%20Next%20Generation/${pkgver}/${pkgname}-data-${pkgver}.tar.gz"
+"http://downloads.sourceforge.net/project/fillets/Fish%20Fillets%20-%20Next%20Generation/${pkgver_bin}/${pkgname}-${pkgver_bin}.tar.gz"
+"http://downloads.sourceforge.net/project/fillets/Fish%20Fillets%20-%20Next%20Generation/${pkgver_data}/${pkgname}-data-${pkgver_data}.tar.gz"
 )
 
 patch_opts=("")
@@ -23,19 +25,21 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
+
 tags="virtual games-puzzle"
+#tags="games games-puzzle"
 
 #dependencies only needed to build package
 build_deps=""
 
 provides=""
-conflicts=""
+conflicts= #"${pkgname}-data"
 
 adddep="${pkgname}-bin ${pkgname}-data"
 removedep=""
 
 #for multi pkg abuild
-pkglist="bin data"
+pkglist="bin data" # sound"
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
@@ -56,26 +60,35 @@ before_build()
 {
 echo ""
 
-# only En
-cd ${srcdir}/${pkgname}-data-$pkgver/sound
+only_En(){
+cd ${srcdir}/${pkgname}-data-${pkgver_data}/sound
 for Nl in $(find -name nl -type d); do rm -rf $Nl; done
 for Cs in $(find -name cs -type d); do rm -rf $Cs; done
 
 # speech
-cd ${srcdir}/${pkgname}-data-$pkgver/script
+cd ${srcdir}/${pkgname}-data-${pkgver_data}/script
 
 #cat ./select_lang.lua | grep "images/menu/flags/en.png" \
 #	> ./select_speech.lua || exit 1
 
 sed -i '1,3d' ./select_speech.lua || exit 1
+}
+
+if [ "`echo $pkglist | grep sound`" == "" ]; then
+	only_En
+fi
 
 }
 
-BUILD_SYSTEM="autotools"
+build()
+{
+go_src_dir
+burn_patches
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure" # --help"
-
-BUILD_KEYS="--prefix=/usr \
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
@@ -85,9 +98,11 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix= \
 --disable-debug \
 --datadir=/opt/$pkgname \
---docdir=/usr/doc/${pkgname}-${pkgver}"
+--docdir=/usr/doc/${pkgname}-${pkgver} || exit 1
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+make || exit 1
+make install "DESTDIR=$pkgdir" || exit 1
+}
 
 #ran after function build() 
 #после сборки
@@ -96,16 +111,20 @@ after_build()
 echo ""
 
 mkdir -p ${pkgdir}/opt/fillets-ng
-cp -r ${srcdir}/${pkgname}-data-$pkgver/* ${pkgdir}/opt/fillets-ng || exit 1
+cp -r ${srcdir}/${pkgname}-data-${pkgver_data}/* ${pkgdir}/opt/fillets-ng || exit 1
 
 if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
- mv -v ${pkgdir}/opt/fillets-ng/COPYING ${pkgdir}/usr/doc/${pkgname}-${pkgver}/COPYING.data || exit 1
- mv -v ${pkgdir}/opt/fillets-ng/font/copyright ${pkgdir}/usr/doc/${pkgname}-${pkgver}/copyright.font || exit 1
- mv -v ${pkgdir}/opt/fillets-ng/doc/html ${pkgdir}/usr/doc/${pkgname}-${pkgver} && \
+ mv -v ${pkgdir}/opt/fillets-ng/COPYING \
+	 ${pkgdir}/usr/doc/${pkgname}-${pkgver}/COPYING.data || exit 1
+ mv -v ${pkgdir}/opt/fillets-ng/font/copyright \
+	 ${pkgdir}/usr/doc/${pkgname}-${pkgver}/copyright.font || exit 1
+ mv -v ${pkgdir}/opt/fillets-ng/doc/html \
+	 ${pkgdir}/usr/doc/${pkgname}-${pkgver} && \
 	 rmdir ${pkgdir}/opt/fillets-ng/doc || exit 1
 fi
 
 if [ -f ${pkgdir}/opt/fillets-ng/images/icon.png ]; then
+ if [ ! -d $pkgdir/usr/share/applications ]; then
 mkdir -p $pkgdir/usr/share/applications/
 cat << EOF > $pkgdir/usr/share/applications/fillets-ng.desktop
 [Desktop Entry]
@@ -117,6 +136,7 @@ Exec=fillets
 Terminal=false
 Categories=Game;LogicGame;
 EOF
+ fi
 fi
 
 }
@@ -124,12 +144,13 @@ fi
 # Bin
 bin(){
 	pkgname="${p_pkgname}-bin"
+	pkgver="${pkgver_bin}"
 	arch=('auto')
 	shortdesc="Binary files for Fish Fillets NG"
 	#-ruler---|--------------------------------------------------------------------------|
-	longdesc=("Fish Fillets NG is a Linux port of the wonderful puzzle game Fish Fillets"
-		  "from ALTAR interactive."
-		  "See comparison: http://fillets.sourceforge.net/comparison.php")
+	#longdesc=("Fish Fillets NG is a Linux port of the wonderful puzzle game Fish Fillets"
+	#	  "from ALTAR interactive."
+	#	  "See comparison: http://fillets.sourceforge.net/comparison.php")
 	#-ruler---|--------------------------------------------------------------------------|
 	tags="games games-puzzle"
 }
@@ -138,26 +159,77 @@ bin_prep(){
  mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
 }
 
+
 # Data
 data(){
 	pkgname="${p_pkgname}-data"
+	pkgver="${pkgver_data}"
+
 	arch=('noarch')
 	shortdesc="Data files for Fish Fillets NG"
+	#-ruler---|--------------------------------------------------------------------------|
+	#longdesc=("Fish Fillets NG is a Linux port of the wonderful puzzle game Fish Fillets"
+	#	  "from ALTAR interactive."
+	#	  "See comparison: http://fillets.sourceforge.net/comparison.php")
+	#-ruler---|--------------------------------------------------------------------------|
+	tags="games games-puzzle"
+	adddep="${p_pkgname}-bin>=${pkgver_data}"
+	#docs=""
+	#provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv -v ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
+ mv -v ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+ mv -v ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+
+ mv -v ${p_pkgdir}/opt ${pkgdir} || exit 1
+}
+
+
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+
+# Sound
+sound(){
+	pkgname="${p_pkgname}-data-sound"
+	arch=('noarch')
+	shortdesc="Add-on sounds for different language spoken dialogs for Fish Fillets NG"
 	#-ruler---|--------------------------------------------------------------------------|
 	longdesc=("Fish Fillets NG is a Linux port of the wonderful puzzle game Fish Fillets"
 		  "from ALTAR interactive."
 		  "See comparison: http://fillets.sourceforge.net/comparison.php")
 	#-ruler---|--------------------------------------------------------------------------|
 	tags="games games-puzzle"
-	adddep="${p_pkgname}-bin==${pkgver}"
+	adddep="${p_pkgname}-bin==${pkgver} ${p_pkgname}-data==${pkgver}"
 	#docs=""
 	#provides=""
 }
-data_prep(){
- mkdir -p ${pkgdir}/usr/
- mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
- mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
- mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+sound_prep(){
+ mkdir -p ${pkgdir}/opt/${p_pkgname}/sound
 
- mv ${p_pkgdir}/opt ${pkgdir} || exit 1
+ cd ${p_pkgdir}
+ cd ../${p_pkgname}-data/opt/${p_pkgname}/sound || exit 1
+
+ for Nl in $(find -name nl -type d)
+ do
+  cd $Nl
+  mkdir -p ${pkgdir}/opt/${p_pkgname}/sound/$Nl
+  mv * ${pkgdir}/opt/${p_pkgname}/sound/$Nl || exit 1
+  rmdir -v ../nl || exit 1
+  cd -
+ done
+ 
+ for Cs in $(find -name cs -type d)
+ do
+  cd $Cs
+  mkdir -p ${pkgdir}/opt/${p_pkgname}/sound/$Cs
+  mv * ${pkgdir}/opt/${p_pkgname}/sound/$Cs || exit 1
+  rmdir -v ../cs || exit 1
+  cd -
+ done
+
 }
+
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
