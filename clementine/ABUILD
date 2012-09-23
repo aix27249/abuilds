@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
 pkgver=1.0.1
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Clementine Music Player based on Amarok 1.4"
@@ -50,7 +50,17 @@ custom_opts=""
 #before_build()
 #{
 #
+   # https://bugs.gentoo.org/401713?id=401713
+   #patch -Np1 -i ../clementine-fresh-start.patch
+
+   # http://code.google.com/p/clementine-player/issues/detail?id=2752
+   #patch -Np1 -i ../clementine-fix-albumcoverfetch-crash.patch
+
+   # Use libimobiledevice new "udid" field instead of "uuid".
+   #patch -Np1 -i ../imobiledevice.patch
+#
 #}
+
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="\
@@ -59,18 +69,18 @@ BUILD_KEYS="\
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
--DMAN_INSTALL_DIR=/usr/man \
 -DENABLE_VISUALISATIONS=ON \
 -DBUNDLE_PROJECTM_PRESETS=ON \
 -DENGINE_GSTREAMER_ENABLED=ON \
+-DENABLE_IMOBILEDEVICE=ON \
+-DENABLE_PLASMARUNNER=OFF \
+-DENABLE_WIIMOTEDEV=OFF \
 -DENGINE_LIBVLC_ENABLED=OFF \
 -DENGINE_LIBXINE_ENABLED=OFF \
 -DENGINE_QT_PHONON_ENABLED=OFF \
 -DENABLE_SOUNDMENU=OFF \
 -DSTATIC_SQLITE=OFF \
 -DENABLE_SCRIPTING_PYTHON=OFF \
--DENABLE_PLASMARUNNER=OFF \
--DENABLE_IMOBILEDEVICE=OFF \
 -DENABLE_SPOTIFY=OFF \
 -DENABLE_SPOTIFY_BLOB=OFF \
 -DENABLE_REMOTE=OFF \
