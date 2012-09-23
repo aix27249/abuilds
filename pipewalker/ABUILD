@@ -1,18 +1,18 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=pipewalker
-pkgver=0.9.1
-pkgbuild=2
+pkgver=0.9.4
+pkgbuild=1
 arch=('auto')
 
 shortdesc="PipeWalker is a clone of the NetWalk game"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("PipeWalker - это бесплатный кроссплатформенный клон игры NetWalk. Это игра, в которой Вам необходимо объеденить все компьютеры на игровом поле в единую подсеть. Соединения можно поворачивать кликом мышки."
-""
-"Домашняя страница: http://pipewalker.sourceforge.net"
-)
+#longdesc=("PipeWalker - это бесплатный кроссплатформенный клон игры NetWalk. Это игра, в которой Вам необходимо объеденить все компьютеры на игровом поле в единую подсеть. Соединения можно поворачивать кликом мышки."
+#""
+#"Домашняя страница: http://pipewalker.sourceforge.net"
+#)
 
-source=("http://downloads.sourceforge.net/project/pipewalker/pipewalker/${pkgver}/${pkgname}-${pkgver}-src.tar.gz")
+source=("http://downloads.sourceforge.net/project/pipewalker/pipewalker/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -75,9 +75,9 @@ after_build()
 {
 echo ""
 
-sed -i -e "s|pipewalker.xpm|pipewalker|g" \
-	$pkgdir/usr/share/applications/${pkgname}.desktop
-
-cat $pkgdir/usr/share/applications/${pkgname}.desktop
+if [ -n `cat $pkgdir/usr/share/applications/${pkgname}.desktop | grep pipewalker.xpm` ];then
+ sed -i "s|pipewalker.xpm|pipewalker|g" $pkgdir/usr/share/applications/${pkgname}.desktop
+ cat $pkgdir/usr/share/applications/${pkgname}.desktop
+fi
 
 }
