@@ -1,9 +1,9 @@
 #ABUILD created by/создан: medved, medved55rus at gmail.com 
 #----------------------------- General vars --------------------------------------
 pkgname=playonlinux
-pkgver=4.1.7
+pkgver=4.1.8
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="GUI for managing Windows and DOS programs under linux"
 
@@ -12,21 +12,20 @@ source=("http://www.playonlinux.com/script_files/PlayOnLinux/$pkgver/PlayOnLinux
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="xapps app-emulation"
 
-adddep="wine imagemagick xterm wxpython cabextract mesa-demos gnupg libXmu"
+adddep="wine imagemagick xterm wxpython cabextract mesa-demos gnupg libXmu wget"
 
 #----------------------------- Make PKG --------------------------------------
 before_build()
 {
   go_src_dir
-  
-  install -d $pkgdir/usr/share/$pkgname
-  install -d $pkgdir/usr/bin
 }
 
 build()
-{  
+{
+  mkdir -p $pkgdir/usr/share/$pkgname
   cp -r $srcdir/$pkgname/ $pkgdir/usr/share/
-  
+
+  mkdir -p $pkgdir/usr/bin
   echo "#!/bin/bash" > $pkgdir/usr/bin/$pkgname 
   echo "/usr/share/$pkgname/$pkgname \"\$@\"" >> $pkgdir/usr/bin/$pkgname
   chmod +x $pkgdir/usr/bin/$pkgname
@@ -34,7 +33,12 @@ build()
 
 after_build()
 {
+  mkdir -p $pkgdir/usr/share/pixmaps
   install -D -m644 $srcdir/$pkgname/etc/playonlinux.png $pkgdir/usr/share/pixmaps/playonlinux.png
+
+  mkdir -p $pkgdir/usr/share/applications
   install -D -m644 $srcdir/$pkgname/etc/PlayOnLinux.desktop $pkgdir/usr/share/applications/playonlinux.desktop
-  echo "Categories=Game;" >> $pkgdir/usr/share/applications/playonlinux.desktop
+  sed 's\Type=Application %F\Type=Application\' -i $pkgdir/usr/share/applications/playonlinux.desktop
+  sed 's\Icon=/usr/share/playonlinux/etc/playonlinux.png\Icon=playonlinux\' -i $pkgdir/usr/share/applications/playonlinux.desktop
+  sed 's\Categories=Application;Game\Categories=Game;\' -i $pkgdir/usr/share/applications/playonlinux.desktop
 }
