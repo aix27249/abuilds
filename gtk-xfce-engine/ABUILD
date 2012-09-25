@@ -2,7 +2,7 @@
 
 pkgname=gtk-xfce-engine
 pkgver=3.0.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Xfce gtk theme engine with various different themes"
