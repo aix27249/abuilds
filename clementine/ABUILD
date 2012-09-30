@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
 pkgver=1.0.1
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Clementine Music Player based on Amarok 1.4"
