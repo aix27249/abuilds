@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=0.7.1
+Encoding=UTF-8
+Type=Application
+Terminal=false
+Name=Abuse
+GenericName=Abuse-SDL
+Comment=Arcade Game
+Exec=abuse -datadir /usr/share/games/abuse
+Icon=/usr/share/games/abuse/icons/icon32-true.bmp
+Categories=Game;ArcadeGame;
