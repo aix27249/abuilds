@@ -3,11 +3,13 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=emacs
 pkgver=24.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="GNU Emacs is much more then just an extensible, customizable text editor."
-longdesc=("GNU Emacs is an extensible, customizable text editor-and more. At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming language with extensions to support text editing.")
+longdesc=("GNU Emacs is an extensible, customizable text editor-and more. At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming language with extensions to support text editing."
+"http://www.gnu.org/software/emacs"
+)
 
 source=("http://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
