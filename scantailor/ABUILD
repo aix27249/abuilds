@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=scantailor
-pkgver=0.9.10
+pkgver=0.9.11.1
 pkgbuild=1
 arch=('auto')
 
@@ -11,9 +11,10 @@ shortdesc="scantailor (interactive post-processing tool for scanned pages)"
 longdesc=("It performs operations such as page splitting, deskewing, adding/removing"
 "borders, and others. You give it raw scans, and you get pages ready to"
 "be printed or assembled into a PDF or DJVU file."
+"http://http://scantailor.sourceforge.net"
 )
 
-source=("http://kent.dl.sourceforge.net/project/scantailor/scantailor/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
