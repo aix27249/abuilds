@@ -2,17 +2,17 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=kile
-pkgver=2.1b4
-pkgbuild=2
+pkgver=2.1.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc="kile (GUI for LaTeX)"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("Kile is a user friendly TeX/LaTeX editor for the KDE desktop environment."
+"http://kile.sourceforge.net"
 )
 
-source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-source=("http://downloads.sourceforge.net/project/${pkgname}/unstable/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://sourceforge.net/projects/kile/files/stable/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
 
@@ -55,7 +55,7 @@ echo ""
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=Debug \
+-DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 ../"
