@@ -7,8 +7,9 @@ pkgbuild=3
 arch=('auto')
 
 shortdesc="git-cola is a sleek and powerful git GUI"
-#longdesc=(""
-#)
+longdesc=("git cola is a simple, powerful, and feature-rich GUI for git that provides an easy way to interact with Git repositories."
+"http://git-cola.github.com"
+)
 
 source=("https://github.com/downloads/${pkgname}/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 wget_opts=("--no-check-certificate")
