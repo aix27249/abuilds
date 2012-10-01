@@ -3,12 +3,11 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
 pkgver=1.0.1
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 shortdesc="Clementine Music Player based on Amarok 1.4"
-#longdesc=(""
-#)
+longdesc=("Clementine is a music player. It is inspired by Amarok 1.4, focusing on a fast and easy-to-use interface for searching and playing your music. Clementine is Free Software under the GPL v3. Homepage: http://www.clementine-player.org")
 
 source=("http://clementine-player.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
 #source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
@@ -58,6 +57,9 @@ custom_opts=""
 
    # Use libimobiledevice new "udid" field instead of "uuid".
    #patch -Np1 -i ../imobiledevice.patch
+
+   # Re enable appmenu
+   #patch -Np1 -i ../appmenu.patch
 #
 #}
 
