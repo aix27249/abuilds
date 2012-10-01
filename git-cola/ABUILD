@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=git-cola
 pkgver=1.8.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="git-cola is a sleek and powerful git GUI"
@@ -26,7 +26,7 @@ build_deps=""
 provides=""
 conflicts=""
 
-adddep="PyQt git"
+adddep="PyQt git sip"
 removedep=""
 
 #for multi pkg abuild
