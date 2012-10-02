@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=youtube-dl
 pkgver=
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Command line youtube video downloader"
