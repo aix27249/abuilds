@@ -3,7 +3,7 @@
 # Package metadata
 pkgname=mpkg-i18n
 pkgver=0.17
-pkgbuild=2
+pkgbuild=1
 arch="noarch"
 
 # Package description

@@ -1,6 +1,6 @@
 pkgname=mpkg-parted
 pkgver=0.17
-pkgbuild=2
+pkgbuild=1
 arch="auto"
 
 # Package description

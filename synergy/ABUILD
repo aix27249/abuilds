@@ -1,0 +1,29 @@
+pkgname=synergy
+pkgver=1.4.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc=("Mouse and keyboard sharing between multiple computers")
+longdesc=("Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, without special hardware. All you need is a LAN connection. It is intended for users with multiple computers, where each system uses its own display. It is a little like having a 2nd or a 3rd desktop... ")
+
+tags=('x11-apps xserver')
+
+source=("http://synergy.googlecode.com/files/synergy-${pkgver}-Source.tar.gz")
+
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+	# Doing in-source build, since CMake configured not very good there
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=${LIBDIRSUFFIX} .
+	make -j${numjobs}
+	install -d "$pkgdir/usr/bin/"
+	install -Dm0755 bin/synergyc $pkgdir/usr/bin/
+	install -Dm0755 bin/synergys $pkgdir/usr/bin/
+	install -Dm0644 doc/synergy.conf.example ${pkgdir}/etc/synergy.conf.example
+	install -Dm0755 ${filedir}/synergy.initd ${pkgdir}/etc/init.d/synergy
+	set +e
+
+}
+
+

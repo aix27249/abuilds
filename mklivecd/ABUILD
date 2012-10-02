@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=mklivecd
 pkgver=1.1
-pkgbuild=2
+pkgbuild=1
 arch=("noarch")
 
 # Package description
