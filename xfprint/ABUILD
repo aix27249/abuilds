@@ -2,17 +2,17 @@
 
 pkgname=xfprint
 pkgver=4.6.1
-pkgbuild=5
+pkgbuild=6
 arch=('auto')
-tree=`echo ${pkgver} | cut -d . -f 1-2`
 
 shortdesc="Printer GUI for Xfce"
 
-source=("http://archive.xfce.org/src/archive/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/archive/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-base"
 
 build_deps="make pkg-config intltool gcc gtk-doc gtk+"
+adddep="a2ps"
 
 BUILD_SYSTEM="autotools"
 
