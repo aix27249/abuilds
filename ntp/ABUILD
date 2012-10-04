@@ -39,13 +39,15 @@ build() {
 	mv "$pkgdir/usr/man/man8/ntpd.8" "$pkgdir/usr/man/man8/ntp-ntpd.8"
 	cd ..
 
-	# install sample configs
+	# install server configs
 	install -D -m644 ${filedir}/ntp.conf $pkgdir/etc/ntp.conf
-	install -D -m644 ${filedir}/ntp-client.conf.d ${pkgdir}/etc/conf.d/ntp-client
 	install -D -m644 ${filedir}/ntpd.conf.d ${pkgdir}/etc/conf.d/ntpd
-	install -D -m755 ${filedir}/ntp-client.init ${pkgdir}/etc/init.d/ntp-client
 	install -D -m755 ${filedir}/ntpd.init ${pkgdir}/etc/init.d/ntpd
-	install -D -m755 ${filedir}/ntp-client.conf ${pkgdir}/etc/ntp-client.conf
+	
+	# install client configs
+	install -D -m644 ${filedir}/ntp-client.conf ${pkgdir}/etc/ntp-client.conf
+	install -D -m644 ${filedir}/ntp-client.conf.d ${pkgdir}/etc/conf.d/ntp-client
+	install -D -m755 ${filedir}/ntp-client.init ${pkgdir}/etc/init.d/ntp-client	
 	
 	# create /var/lib/ntp
 	mkdir -p "$pkgdir/var/lib/ntp"
