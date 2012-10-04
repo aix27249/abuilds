@@ -7,7 +7,7 @@ shortdesc="Document (postscript, pdf) viewer"
 
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.gz")
 
-build_deps="make intltool gcc-g++ gcc perl perl-xml-parser"
+build_deps="make binutils intltool gcc-g++ gcc perl perl-xml-parser"
 adddep="dconf"
 tags="gnome gnome-extra"
 
