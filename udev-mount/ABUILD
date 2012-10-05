@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=udev-mount
 pkgver=0.6.4
-pkgbuild=2
+pkgbuild=3
 arch=('noarch')
 
 shortdesc="Auto mount for fluxbox setup variant"
