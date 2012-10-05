@@ -1,6 +1,6 @@
 pkgname=lirc
 pkgver=0.9.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 KERNEL=${KERNEL:-`uname -r`}
