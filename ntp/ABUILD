@@ -2,7 +2,7 @@
 
 pkgname=ntp
 pkgver=4.2.6p5
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 config_files="etc/ntp.conf
 etc/ntp-client.conf
