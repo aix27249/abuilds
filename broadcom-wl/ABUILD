@@ -1,7 +1,7 @@
 pkgname=broadcom-wl
 pkgver=5.100.82.112
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=5
+pkgbuild=6
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
