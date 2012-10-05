@@ -1,86 +1,42 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=nacl-toolchain-newlib
-pkgver=8898
-binutilsver="2.20.1"
-newlibver="1.18.0"
-gccver="4.4.3"
+pkgver=9513
+binutilsver=2.20.1
+newlibver=1.20.0
+gccver=4.4.3
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Native Client is an open-source technology that allows you to build web applications that seamlessly execute native compiled code inside the browser."
-#longdesc=(""
-#)
+shortdesc="Native Client newlib-based toolchain (only for compiling IRT)"
 
 source=("http://mirrors.usc.edu/pub/gnu/binutils/binutils-${binutilsver}.tar.bz2"
 "ftp://sources.redhat.com/pub/newlib/newlib-${newlibver}.tar.gz"
 "http://mirrors.usc.edu/pub/gnu/gcc/gcc-${gccver}/gcc-${gccver}.tar.bz2"
-"http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r${pkgver}/nacltoolchain-buildscripts-r${pkgver}.tar.gz"
-"http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r${pkgver}/naclbinutils-${binutilsver}-r${pkgver}.patch.bz2"
-"http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r${pkgver}/naclnewlib-${newlibver}-r${pkgver}.patch.bz2"
-"http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r${pkgver}/naclgcc-${gccver}-r${pkgver}.patch.bz2")
+"http://commondatastorage.googleapis.com/nativeclient-archive2/x86_toolchain/r$pkgver/nacltoolchain-buildscripts-r$pkgver.tar.gz"
+"http://commondatastorage.googleapis.com/nativeclient-archive2/x86_toolchain/r$pkgver/naclbinutils-$binutilsver-r$pkgver.patch.bz2"
+"http://commondatastorage.googleapis.com/nativeclient-archive2/x86_toolchain/r$pkgver/naclnewlib-$newlibver-r$pkgver.patch.bz2"
+"http://commondatastorage.googleapis.com/nativeclient-archive2/x86_toolchain/r$pkgver/naclgcc-$gccver-r$pkgver.patch.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
 custom_opts="no_strip"
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
-
-build()
-{
-    set -e
-    cd ${srcdir}/
-    mkdir -p ${srcdir}/SRC
-    mv ${srcdir}/binutils-${binutilsver} ${srcdir}/SRC/binutils
-    mv ${srcdir}/newlib-${newlibver} ${srcdir}/SRC/newlib
-    mv ${srcdir}/gcc-${gccver} ${srcdir}/SRC/gcc
-    patch -d ${srcdir}/SRC -p0 < ${srcache}/naclbinutils-${binutilsver}-r${pkgver}.patch
-    patch -d ${srcdir}/SRC -p0 < ${srcache}/naclnewlib-${newlibver}-r${pkgver}.patch
-    patch -d ${srcdir}/SRC -p0 < ${srcache}/naclgcc-${gccver}-r${pkgver}.patch
-    echo "Go to make sex with your Sweetie, or "Build the Eiffel Tower with chopsticks" (or self-abuse XD), or, or... {insert here "which takes a long time"}... this take a very LONG, LONG TIME"
-    make PREFIX="${srcdir}"/build CANNED_REVISION="yes" build-with-newlib
-    set +e
+build() {
+	set -e
+	cd ${srcdir}/
+	mkdir -p ${srcdir}/SRC
+	mv ${srcdir}/binutils-${binutilsver} ${srcdir}/SRC/binutils
+	mv ${srcdir}/newlib-${newlibver} ${srcdir}/SRC/newlib
+	mv ${srcdir}/gcc-${gccver} ${srcdir}/SRC/gcc
+	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclbinutils-${binutilsver}-r${pkgver}.patch
+	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclnewlib-${newlibver}-r${pkgver}.patch
+	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclgcc-${gccver}-r${pkgver}.patch
+	echo "Go to make sex with your Sweetie, or "Build the Eiffel Tower with chopsticks" (or self-abuse XD), or, or... {insert here "which takes a long time"}... this take a very LONG, LONG TIME"
+	make PREFIX="${srcdir}"/build CANNED_REVISION="yes" build-with-newlib
+	set +e
 }
 
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-    mkdir ${pkgdir}/opt
-    mv ${srcdir}/build/ ${pkgdir}/opt/${pkgname}
+after_build() {
+	mkdir ${pkgdir}/opt
+	mv ${srcdir}/build/ ${pkgdir}/opt/${pkgname}
 }
+
