@@ -1,6 +1,6 @@
 pkgname=bbswitch
 pkgver=3.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 source="git:https://github.com/Bumblebee-Project/bbswitch.git"
