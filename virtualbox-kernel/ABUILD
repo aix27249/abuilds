@@ -5,7 +5,7 @@ KERNEL=${KERNEL:-`uname -r`}
 KERNPKGVERSION=`echo $KERNEL | sed -e "s/-/_/g"`
 pkgver=4.2.0
 srcver=$pkgver
-pkgbuild=2
+pkgbuild=4
 arch=("auto")
 
 _boxbuild=80737
