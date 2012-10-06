@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=exiftool
+pkgver=9.02
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Reader and rewriter of EXIF informations that supports raw files"
+
+source=("http://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-${pkgver}.tar.gz")
+
+tags="media-gfx utils"
+
+build_deps="perl"
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  rm -R "${pkgdir}"/usr/lib${LIBDIRSUFFIX}
+  # remove *.pod, .packlist, and empty dirs:
+  find "${pkgdir}" -name '.packlist' -delete
+  find "${pkgdir}" -name '*.pod' -delete
+  echo "End after_build"
+}
