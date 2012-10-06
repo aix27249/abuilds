@@ -30,7 +30,9 @@ build(){
 after_build(){
  go_src_dir
  rmdir "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
- ln -s /usr/share/doc/fotoxx "${pkgdir}"/usr/doc/${pkgname}-${pkgver} 
+ ln -s /usr/share/doc/fotoxx "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
+ install -Dm644 "${pkgdir}"/usr/share/fotoxx/icons/fotoxx.png \
+                "${pkgdir}"/usr/share/pixmaps/fotoxx.png
  echo "End after_build"
 }
 
