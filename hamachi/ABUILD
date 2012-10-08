@@ -1,38 +1,39 @@
 pkgname=hamachi
 pkgver=2.1.0.17
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 tags="network net-misc"
 shortdesc="A zero-configuration VPN service"
-source=(https://secure.logmein.com/labs/logmein-hamachi-${pkgver}-${farch}.tgz)
+source=("https://secure.logmein.com/labs/logmein-hamachi-${pkgver}-${farch}.tgz")
 
-if [ $ARCH == "x86_64" ]; then
-    farch=x64
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+	farch=x64
 else
-    farch=x86
+	farch=x86
 fi
 
 build() {
-    cd ${srcdir}/logmein-hamachi-${pkgver}-${farch}
-    
-    # Creating directories
-    install -d ${pkgdir}/opt/${pkgname}/bin
-    install -d ${pkgdir}/usr/bin ${pkgdir}/etc/init.d ${pkgdir}/etc/conf.d
-    install -d ${pkgdir}/usr/share/licenses/${pkgname}
-    
-    # Install files
-    install -m 755 hamachid ${pkgdir}/opt/${pkgname}/bin
-	install -m 755 dnsup ${pkgdir}/opt/${pkgname}/bin
-	install -m 755 dnsdown ${pkgdir}/opt/${pkgname}/bin
-	install -m 755 uninstall.sh ${pkgdir}/opt/${pkgname}
-	install -m 444 README ${pkgdir}/opt/${pkgname}
-	install -m 444 LICENSE ${pkgdir}/opt/${pkgname}
-	install -m 444 CHANGES ${pkgdir}/opt/${pkgname}
-	ln -sf /opt/${pkgname}/bin/hamachid ${pkgdir}/usr/bin/hamachi
-	
+	go_src_dir
+
+	set -e
+
+	# Creating directories
+	install -d ${pkgdir}/opt/${pkgname}/bin
+	install -d ${pkgdir}/usr/bin ${pkgdir}/etc/init.d ${pkgdir}/etc/conf.d
+	install -d ${pkgdir}/usr/share/licenses/${pkgname}
+
+	# Install files
+	install -m0755 hamachid ${pkgdir}/opt/${pkgname}/bin
+	install -m0755 dnsup ${pkgdir}/opt/${pkgname}/bin
+	install -m0755 dnsdown ${pkgdir}/opt/${pkgname}/bin
+	install -m0755 uninstall.sh ${pkgdir}/opt/${pkgname}
+	install -m0444 README ${pkgdir}/opt/${pkgname}
+	install -m0444 LICENSE ${pkgdir}/opt/${pkgname}
+	install -m0444 CHANGES ${pkgdir}/opt/${pkgname}
+	ln -sf ../../opt/${pkgname}/bin/hamachid ${pkgdir}/usr/bin/hamachi
+
 	# Install config and initscript
-	install -m 755 ${filedir}/logmein-hamachi.confd ${pkgdir}/etc/conf.d/hamachi
-	install -m 755 ${filedir}/logmein-hamachi.initd ${pkgdir}/etc/init.d/hamachi
-	# Sometimes init script haven't rights for executing... Fix that
-	chmod +x ${pkgdir}/etc/init.d/hamachi
+	install -Dm0644 ${filedir}/logmein-hamachi.confd ${pkgdir}/etc/conf.d/hamachi
+	install -Dm0755 ${filedir}/logmein-hamachi.initd ${pkgdir}/etc/init.d/hamachi
+	set +e
 }

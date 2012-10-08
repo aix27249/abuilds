@@ -1,60 +1,21 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=neap
 pkgver=0.6.2
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="A simple pager that runs in the notification area / systray of your panel."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("neap is a neat pager unintrusive and light (cpu / aestetic) that runs in the notification area (i.e. systray) of your panel. neap follows freedesktop specifications."
-	  ""
-	  "Homepage: http://code.google.com/p/neap/"
-)
 
 source=("http://neap.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="xapps x11-misc"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
+tags="xapps x11-misc"
 adddep="python>=2.6.4 pygtk>=2.16.0 python-xlib>=0.15rc1"
-removedep=""
 
+build() {
+	go_src_dir
+	burn_patches
+	set -e
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=("ChangeLog License.txt README")				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+	install -D -m 755 neap ${pkgdir}/usr/bin/neap
+	set +e
 }
 
-build()
-{
-go_src_dir
-burn_patches
-
-install -D -m 755 neap ${pkgdir}/usr/bin/neap
-}
-                                                                                                                  burn_patches                                                                                                      
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

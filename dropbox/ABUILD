@@ -1,78 +1,27 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=dropbox
 pkgver=1.0.10
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="dropbox-client (store, sync and share files online)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Dropbox is an extension that integrates the Dropbox web service with your desktop. It consists of two major components: dropboxd - a per-user closed-source daemon process that makes sure your $HOME/Dropbox directory is properly synchronized with the web Dropbox server/service, and dropbox-client, which connects to your dropboxd and presents a GUI based on the information dropboxd provides."
-	  ""
-	  "Homepage: http://www.dropbox.com"
-)
 
-if [ "$ARCH" = "i686" ]; then
+if [ "$LIBDIRSUFFIX" == "" ]; then
 	source=("http://dl-web.dropbox.com/u/17/dropbox-lnx.x86-${pkgver}.tar.gz")
-elif [ $ARCH = "x86_64" ]; then
+else
 	source=("http://dl-web.dropbox.com/u/17/dropbox-lnx.x86_64-${pkgver}.tar.gz")
 fi
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="network www-client"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=""
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
 custom_opts="no_strip"
+build() {
+	set -e
+	mkdir -p $pkgdir/opt/$pkgname
+	cp -R $srcdir/.dropbox-dist/* $pkgdir/opt/dropbox
+	rm $pkgdir/opt/dropbox/libstdc++.so.6
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+	mkdir -p $pkgdir/usr/bin
+	cd $pkgdir/usr/bin
+	ln -s ../../opt/dropbox/dropboxd dropboxd
+	set +e
 }
 
-build()
-{
-mkdir -p $pkgdir/opt/$pkgname
-cp -R $srcdir/.dropbox-dist/* $pkgdir/opt/dropbox
-rm $pkgdir/opt/dropbox/libstdc++.so.6
-
-mkdir -p $pkgdir/usr/bin
-cd $pkgdir/usr/bin
-ln -s ../../opt/dropbox/dropboxd dropboxd
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
