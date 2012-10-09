@@ -9,8 +9,8 @@ source=("http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-$pkgver.tar.bz
 
 tags="base sys-kernel"
 
-adddep="kernel fakeroot fakechroot gzip cpio bash util-linux-ng"
-build_deps=""
+adddep="dash kernel fakeroot fakechroot gzip cpio bash util-linux-ng linuxdoc-tools"
+build_deps="dash"
 
 config_files="etc/dracut.conf"
 
