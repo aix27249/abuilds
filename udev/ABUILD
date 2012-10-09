@@ -1,6 +1,6 @@
 pkgname=udev
 pkgver=181
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc=('udev (dynamic device directory system)')
@@ -15,6 +15,9 @@ etc/udev/udev.conf
 etc/modprobe.d/blacklist.conf"
 
 adddep="pciutils usbutils"
+
+build_deps="kmod util-linux-ng gobject-introspection acl"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--sysconfdir=/etc \
 	--with-rootprefix=/ \
