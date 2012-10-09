@@ -13,7 +13,8 @@ source=("git:git://github.com/aix27249/mpkg.git")
 
 # Tags
 tags="xapps sys-apps"
-# Many additional dependencies which are used indirectly during setup process.
+
+build_deps="libagiliasetup"
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
