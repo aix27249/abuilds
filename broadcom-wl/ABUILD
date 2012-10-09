@@ -1,7 +1,7 @@
 pkgname=broadcom-wl
 pkgver=5.100.82.112
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=6
+pkgbuild=7
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
@@ -20,6 +20,8 @@ shortdesc="Firmware for Broadcom BCM43xx"
 longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/support/802.11/linux_sta.php")
 
 source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${arch_src}-v${pkgver_src}.tar.gz")
+
+build_deps="kernel-source"
 
 tags="network net-wireless"
 adddep="kernel==${KERNPKGVER}"
