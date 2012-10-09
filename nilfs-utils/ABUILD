@@ -1,0 +1,26 @@
+# Package metadata
+pkgname=nilfs-utils
+pkgver=2.1.4
+pkgbuild=1
+arch=("auto")
+
+# Package description
+shortdesc=("NILFS2 utilities")
+longdesc=("NILFS is a log-structured file system supporting versioning of the entire file system and continuous snapshotting which allows users to even restore files mistakenly overwritten or destroyed just a few seconds ago.")
+
+# Source URL
+source=("http://www.nilfs.org/download/nilfs-utils-${pkgver}.tar.bz2")
+
+# Tags
+tags="sys-fs base"
+
+build_deps="util-linux-ng"
+
+# Build system
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--sysconfdir=/etc"
+
+
