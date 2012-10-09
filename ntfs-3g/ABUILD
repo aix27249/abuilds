@@ -1,5 +1,5 @@
 pkgname=ntfs-3g
-pkgver=2011.4.12
+pkgver=2012.1.15
 pkgbuild=1
 arch=('auto')
 
@@ -8,15 +8,22 @@ shortdesc="Free and open source NTFS driver for Linux."
 source="http://tuxera.com/opensource/ntfs-3g_ntfsprogs-${pkgver}.tgz"
 
 tags="base sys-fs"
+build_deps="fuse util-linux-ng"
 
 pkglist="progs"
 
-build()
-{
+build() {
 	go_src_dir
 	burn_patches
 
-	ac_cv_path_LDCONFIG=/bin/true ./configure --prefix=/usr --with-fuse=external --disable-static --mandir=/usr/man --docdir=/usr/doc --libdir=/usr/lib${LIBDIRSUFFIX}
+	ac_cv_path_LDCONFIG=/bin/true ./configure \
+		--prefix=/usr \
+		--with-fuse=external \
+		--disable-static \
+		--mandir=/usr/man \
+		--docdir=/usr/doc \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--enable-posix-acls
 	make -j${numjobs}
 
 	for dir in src libntfs-3g include; do
