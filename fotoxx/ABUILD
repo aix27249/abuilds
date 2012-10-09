@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=fotoxx
+pkgver=12.10.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Fotoxx is a free open source Linux program for photo editing and collection management. "
+
+source=("http://www.kornelix.com/uploads/1/3/0/3/13035936/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-gfx xapps"
+
+build_deps="libtiff gcc-g++ gtk+3"
+adddep="dcraw exiftool"
+
+before_build(){
+ go_src_dir
+ sed "/xdg-desktop-menu/d" -i Makefile
+}
+
+build(){
+ go_src_dir
+ make || exit 1
+ make PREFIX="${pkgdir}"/usr \
+      MANDIR="${pkgdir}"/usr/man install || exit 1
+ echo "End build"
+}
+
+after_build(){
+ go_src_dir
+ rmdir "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
+ ln -s /usr/share/doc/fotoxx "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
+ install -Dm644 "${pkgdir}"/usr/share/fotoxx/icons/fotoxx.png \
+                "${pkgdir}"/usr/share/pixmaps/fotoxx.png
+ echo "End after_build"
+}
+

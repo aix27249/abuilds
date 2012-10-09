@@ -1,56 +1,12 @@
-BUILD created by/создан: CyberMix, mos.mix at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=optipng
 pkgver=0.6.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="Advanced PNG optimization program."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("OptiPNG — свободная программа для уменьшения размера файлов в формате Portable Network Graphics путём их сжатия различными методами с игнорированием ненужных для данного изображения функций PNG, таких как полноцветность для чёрно‐белого изображения. Также программа преобразует файлы других форматов (BMP, GIF, PNM и TIFF) в оптимизированный PNG.OptiPNG является форком pngcrush (несколько изменён алгоритм) и иногда заметно превосходит её."
-)
-
+shortdesc="Advanced PNG optimization program"
 source=("http://downloads.sourceforge.net/project/${pkgname}/OptiPNG/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="console media-gfx"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-	echo ""
-}
 
 BUILD_SYSTEM="autotools"
 
@@ -61,11 +17,4 @@ BUILD_KEYS="--prefix=/usr \
 	--with-system-libpng"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-	echo ""
-}
 

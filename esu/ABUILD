@@ -1,86 +1,39 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=esu
-pkgver=svn`svn --no-auth-cache --username anonymous --password anonymous info svn://elivecd.org/applications/esu | grep "Revision:" | cut -f2 -d ' '`
-pkgbuild=1
+pkgver=0.1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="esu"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("E17 application like gksu for graphical su."
-	  ""
-	  "Homepage: http://www.elivecd.org/"
-)
+shortdesc="E17 application like gksu for graphical su"
 
-source=("")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("svn:svn://elivecd.org/applications/esu")
 tags="xapps x11-misc"
 
-#dependencies only needed to build package
-build_deps=""
+build() {
+	go_src_dir
+	burn_patches
 
-provides=""
-conflicts=""
+	set -e
+	sed -i -e "s/eina-0/eina/" configure.ac
 
-adddep=""
-removedep=""
+	LDFLAGS="$SLKLDFLAGS" \
+		CFLAGS="$SLKCFLAGS" \
+		CXXFLAGS="$SLKCFLAGS" \
+		./autogen.sh \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--disable-static \
+		--mandir=/usr/man \
+		--program-prefix= \
+		--program-suffix=
 
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-cd $srcdir
-svn --no-auth-cache --username anonymous --password anonymous co svn://elivecd.org/applications/esu
+	make -j${numjobs}
+	make install DESTDIR=$pkgdir
+	set +e
 }
 
-build()
-{
-go_src_dir
-burn_patches
-
-sed -i -e "s/eina-0/eina/" configure.ac
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./autogen.sh \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix=
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-rm -f $pkgdir/usr/share/esu/data/trans.png
+after_build() {
+	rm -f $pkgdir/usr/share/esu/data/trans.png
 }

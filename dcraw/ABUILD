@@ -1,0 +1,50 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=dcraw
+pkgver=9.16
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A command line based converter for digicams raw output"
+
+source=("http://www.cybercom.net/~dcoffin/dcraw/archive/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-gfx utils"
+
+build_deps="gcc gettext coreutils"
+
+docs="license.txt"
+
+build() {
+  go_src_dir
+  gcc ${CFLAGS} -O3 -o dcraw dcraw.c \
+                -Wall \
+                -Wno-unused-result \
+                -Wno-array-bounds \
+                -lm \
+                -ljasper \
+                -ljpeg \
+                -llcms \
+                -DLOCALEDIR=\"/usr/share/locale/\"
+  head -25 dcraw.c > license.txt
+ echo "End build"
+}
+
+after_build(){
+  install -Dm755 dcraw "${pkgdir}"/usr/bin/dcraw
+  for langchar in \
+      fr.latin1 it.latin1 de.latin1 pt.latin1 es.latin1 nl.latin1 sv.latin1 \
+      ca.latin1 da.latin1 cs.latin2 hu.latin2 pl.latin2 eo.latin3 ru.koi8-r \
+      zh_TW.big5 zh_CN.gb2312
+  do
+  lang=$(echo ${langchar} | cut -d. -f1)
+  char=$(echo ${langchar} | cut -d. -f2-)
+  if [ -f dcraw_${lang}.1 ]; then
+      mkdir -p -m 755 "${pkgdir}"/usr/man/${lang}/man1
+      iconv -f utf-8 -t ${char} dcraw_${lang}.1 > "${pkgdir}"/usr/man/${lang}/man1/dcraw.1
+  fi
+  mkdir -p -m 755 "${pkgdir}"/usr/share/locale/${lang}/LC_MESSAGES
+  msgfmt -o "${pkgdir}"/usr/share/locale/${lang}/LC_MESSAGES/dcraw.mo dcraw_${lang}.po
+  done
+  echo "End after_build"
+}

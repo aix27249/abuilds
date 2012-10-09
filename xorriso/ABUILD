@@ -1,23 +1,26 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=claws-mail
-pkgver=3.8.1
-pkgbuild=3
+pkgname=xorriso
+pkgver=1.2.4
+pkgbuild=1
 arch=('auto')
 
-shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
+shortdesc="ISO 9660 Rock Ridge filesystem manipulator"
 
-source=("http://downloads.sourceforge.net/project/sylpheed-claws/Claws%20Mail/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://scdbackup.sourceforge.net/$pkgname-$pkgver.tar.gz")
+
+patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="mail-client network"
+tags="utils app-admin"
 
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
+
 
 BUILD_SYSTEM="autotools"
 
@@ -29,8 +32,8 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---enable-largefile \
---enable-nls \
---enable-crash-dialog"
+--program-prefix= \
+--program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
+

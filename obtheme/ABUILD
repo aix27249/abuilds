@@ -1,60 +1,23 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=obtheme
 pkgver=2010.03.01.1
-pkgbuild=2
+pkgbuild=3
 arch=('noarch')
 
 shortdesc="obtheme (A GUI theme editor for Openbox)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("ObTheme is a GUI theme editor for openbox. Among its features are a live preview mode, a built-in xbm image button editor and a palette for changing colors globally. ObTheme has no connection to an older application of the same name."
-	  ""
-	  "Homepage:  http://xyne.archlinux.ca/info/obtheme"
-)
+
 
 source=("http://xyne.archlinux.ca/src/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="xapps x11-misc"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
+tags="xapps x11-misc"
 adddep="python>=2.6.4 gtk+2>=2.18.5 pygtk>=2.16.0 fuse-python>=0.2.1"
-removedep=""
 
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+build() {
+	go_src_dir
+	burn_patches
+	set -e
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+	install -D -m755 $srcdir/$pkgname/$pkgname $pkgdir/usr/bin/${pkgname}
+	set +e
 }
 
-build()
-{
-go_src_dir
-burn_patches
-
-install -D -m755 $srcdir/$pkgname/$pkgname $pkgdir/usr/bin/${pkgname}
-}
-                                                                                                                  burn_patches                                                                                                      
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
