@@ -1,21 +1,16 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=dracut
-pkgver=013
-pkgbuild=2
+pkgver=023
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Generic, modular, cross-distribution initramfs generation tool"
 
 source=("http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-$pkgver.tar.bz2")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="base sys-kernel"
 
-adddep="kernel fakeroot fakechroot"
+adddep="kernel fakeroot fakechroot gzip cpio bash util-linux-ng"
+build_deps=""
 
 config_files="etc/dracut.conf"
 

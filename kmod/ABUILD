@@ -1,6 +1,5 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com, modified by aix27249, i27249 at gmail.com 
 pkgname=kmod
-pkgver=6
+pkgver=10
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +8,8 @@ shortdesc="A kernel module management tool, a module-init-tools replacement"
 source="ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-$pkgver.tar.xz"
 
 tags="base sys-apps"
+
+build_deps="zlib"
 
 BUILD_SYSTEM="autotools"
 
