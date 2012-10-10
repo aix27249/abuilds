@@ -2,78 +2,62 @@
 
 pkgname=bzip2
 pkgver=1.0.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 SOLIB=1.0.6
 
 shortdesc=('bzip2 (a block-sorting file compressor)')
-longdesc=('Bzip2 compresses files using the Burrows-Wheeler block sorting text compression algorithm, and Huffman coding. Compression is generally considerably better than that achieved by more conventional LZ77/LZ78- based compressors, and approaches the performance of the PPM family of statistical compressors. Julian Seward <jseward@acm.org> is the author of bzip2.')
 
-tags=('base app-arch')
+longdesc=("Bzip2 compresses files using the Burrows-Wheeler block "
+"sorting text compression algorithm, and Huffman coding. Compression "
+"is generally considerably better than that achieved by more conventional "
+"LZ77/LZ78- based compressors, and approaches the performance of the "
+"PPM family of statistical compressors. Julian Seward <jseward@acm.org> "
+"is the author of bzip2.")
+
+tags="base app-arch"
 
 source=(http://www.bzip.org/${pkgver}/bzip2-${pkgver}.tar.gz)
 
 build_deps='aaa_elflibs glibc-solibs'
 
+docs="bzip2.txt *.html README.XML.STUFF"
+
 build() {
-	go_src_dir
-	burn_patches
-	set -e
-	 # add large-file support
-	sed -e 's/^CFLAGS=\(.*\)$/CFLAGS=\1 \$(BIGFILES)/' -i ./Makefile-libbz2_so
-  
-	# use our optimization
-	sed -i "s|-O2|${SLKCFLAGS}|g" Makefile
-	sed -i "s|-O2|${SLKCFLAGS}|g" Makefile-libbz2_so
-	make -f Makefile-libbz2_so || exit 1
-	make || exit 1
-	mkdir -p ${pkgdir}/usr/include
-	cp -a bzlib.h ${pkgdir}/usr/include
-	chown root:root ${pkgdir}/usr/include/bzlib.h
-	chmod 644 ${pkgdir}/usr/include/bzlib.h
-	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-	cp -a libbz2.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.a
-	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
-	cp -a libbz2.so.$SOLIB ${pkgdir}/lib${LIBDIRSUFFIX}/libbz2.so.$SOLIB
-	chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.a
-	chmod 755 ${pkgdir}/lib${LIBDIRSUFFIX}/libbz2.so.$SOLIB
-	mkdir -p ${pkgdir}/bin
-	cat bzip2-shared > ${pkgdir}/bin/bzip2
-	cat bzip2recover > ${pkgdir}/bin/bzip2recover
-	mkdir -p ${pkgdir}/usr/man/man1
-	cat bzip2.1 | gzip -9c > ${pkgdir}/usr/man/man1/bzip2.1.gz
-	echo '.so man1/bzip2.1' | gzip -9c > ${pkgdir}/usr/man/man1/bzip2recover.1.gz
-	mkdir -p ${pkgdir}/usr/doc/bzip2-${pkgver}
-	cp -a CHANGES LICENSE README README.COMPILATION.PROBLEMS \
-	bzip2.txt *.html ${pkgdir}/usr/doc/bzip2-${pkgver}
-	chmod 644 ${pkgdir}/usr/doc/bzip2-${pkgver}/*
+  go_src_dir
+  burn_patches
+  # add large-file support
+  sed -e 's/^CFLAGS=\(.*\)$/CFLAGS=\1 \$(BIGFILES)/' -i ./Makefile-libbz2_so
 
-	# Link up them links
-	( cd ${pkgdir}
-		( cd lib${LIBDIRSUFFIX}
-			rm -f libbz2.so.1.0 libbz2.so.1
-			ln -sf libbz2.so.$SOLIB libbz2.so.1.0
-			ln -sf libbz2.so.1.0 libbz2.so.1
-		)
-		( cd usr/lib${LIBDIRSUFFIX}
-			ln -sf ../../lib${LIBDIRSUFFIX}/libbz2.so.1 libbz2.so
-		)
-		( cd bin ; ln -sf bzip2 bunzip2 )
-		( cd bin ; ln -sf bzip2 bzcat )
-		mkdir -p usr/bin
-		( cd usr/bin
-			ln -sf ../../bin/bzip2 .
-			ln -sf ../../bin/bzip2 bunzip2
-			ln -sf ../../bin/bzip2 bzcat
-			ln -sf bzmore bzless
-		)
-	)
+  # use our optimization
+  sed -i "s|-O2|${CFLAGS}|g" Makefile
+  sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
 
-	# Here are some optional scripts:
-	for file in bzdiff bzgrep bzmore ; do
-		cat $file > ${pkgdir}/usr/bin/$file
-		cat ${file}.1 | gzip -9c > ${pkgdir}/usr/man/man1/${file}.1.gz
-	done
-	chmod 755 ${pkgdir}/bin/* ${pkgdir}/usr/bin/*
-	set +e
+  make -f Makefile-libbz2_so
+  make bzip2 bzip2recover libbz2.a
+  make
+  echo "End build"
+}
+
+after_build() {
+  go_src_dir
+  install -dm755 ${pkgdir}/usr/{bin,lib${LIBDIRSUFFIX},include,man/man1}
+
+  install -m755 bzip2-shared ${pkgdir}/usr/bin/bzip2
+  install -m755 bzip2recover bzdiff bzgrep bzmore ${pkgdir}/usr/bin
+  ln -sf bzip2 ${pkgdir}/usr/bin/bunzip2
+  ln -sf bzip2 ${pkgdir}/usr/bin/bzcat
+
+  install -m755 libbz2.so.${SOLIB} ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  ln -s libbz2.so.${SOLIB} ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.so
+  ln -s libbz2.so.${SOLIB} ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.so.1
+  ln -s libbz2.so.${SOLIB} ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.so.1.0
+  install -m644 libbz2.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libbz2.a
+
+  install -m644 bzlib.h ${pkgdir}/usr/include/
+
+  for file in bzip2.1 bzdiff.1 bzgrep.1 bzmore.1 ; do
+      cat ${file} | gzip -9c > ${pkgdir}/usr/man/man1/${file}.gz
+  done
+  echo "End after_build"
 }
