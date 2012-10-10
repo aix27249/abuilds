@@ -1,9 +1,9 @@
 
 pkgname=glibc-zoneinfo
-pkgver=2.12.2_2011l
+pkgver=2012f
 pkgbuild=1
-_tzcode=2011i
-_tzdata=2011l
+_tzcode=${pkgver}
+_tzdata=${pkgver}
 shortdesc="Sources for time zone and daylight saving time data"
 longdesc="Sources for time zone and daylight saving time data"
 arch=("noarch")
