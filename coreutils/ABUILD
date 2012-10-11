@@ -10,30 +10,25 @@ longdesc=('These are the GNU core utilities, the basic command line programs suc
 tags=('base sys-apps')
 
 source=("http://ftp.gnu.org/gnu/coreutils/coreutils-${pkgver}.tar.xz")
-config_files="etc/DIR_COLORS
-etc/pam.d/su"
+config_files="etc/DIR_COLORS"
 
-build_deps="linux-pam acl gmp libcap"
+build_deps="acl gmp libcap"
 
 build() {
 	go_src_dir
 	burn_patches
 
-	autoreconf -v
-
 	# As we build within fakeroot, FORCE_UNSAFE_CONFIGURE should be set to 1
 	FORCE_UNSAFE_CONFIGURE=1 \
+	DEFAULT_POSIX2_VERSION=199209 \
 	CFLAGS="$SLKCFLAGS" \
-		DEFAULT_POSIX2_pkgver=199209 \
 		./configure \
 		--prefix=/usr \
-		--enable-pam \
-		--enable-install-program=su \
+		--enable-no-install-program=hostname,kill,uptime \
 		--bindir=/bin \
 		--mandir=/usr/man \
 		--infodir=/usr/info \
-		--sysconfdir=/etc \
-		ac_cv_func_openat=no
+		--sysconfdir=/etc
 
 	make -j${numjobs} || make || exit 1
 	make install DESTDIR=$pkgdir
@@ -68,12 +63,6 @@ build() {
 	zcat $filedir/coreutils-dircolors.sh.gz > $pkgdir/etc/profile.d/coreutils-dircolors.sh
 	chmod 755 $pkgdir/etc/profile.d/*
 
-	# Remove things that are provided by other Slackware packages:
-	for dupe in hostname kill uptime ; do
-		rm -f $pkgdir/bin/${dupe} $pkgdir/usr/bin/${dupe} \
-			$pkgdir/usr/sbin/${dupe} $pkgdir/usr/man/man?/${dupe}.* ;
-	done
-
 	# Add ginstall links (there's still a lot of stuff that needs this to compile):
 	( cd $pkgdir/bin ; ln -sf install ginstall )
 	( cd $pkgdir/usr/bin ; ln -sf ../../bin/ginstall ginstall )
@@ -82,7 +71,5 @@ build() {
 
 	rm -rf $pkgdir/usr/info
 
-	# PAM module
-	install -Dm644 $filedir/su.pam $pkgdir/etc/pam.d/su
 
 }
