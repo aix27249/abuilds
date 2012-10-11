@@ -1,48 +1,44 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=infozip
 pkgver=6.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 zipver=30
 unzipver=60
 
-shortdesc="infozip (Info-ZIP's zip and unzip utilities)"
+shortdesc="Info-ZIP's zip and unzip utilities"
 
 source=("ftp://ftp.info-zip.org/pub/infozip/src/unzip${unzipver}.tgz"
-        "ftp://ftp.info-zip.org/pub/infozip/src/zip${zipver}.tgz")
+"ftp://ftp.info-zip.org/pub/infozip/src/zip${zipver}.tgz")
 
 tags="base app-arch"
+build_deps="bzip2"
+build() {
+	cd ${srcdir}/zip${zipver}
+	make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix=/usr generic_gcc -j${numjobs}
+	make -f unix/Makefile INSTALL=/bin/install prefix=${pkgdir}/usr \
+		MANDIR=${pkgdir}/usr/man/man1 install
 
-build_deps="make gcc"
-
-build(){
-  cd ${srcdir}/zip${zipver}
-  make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix=/usr generic_gcc
-  make -f unix/Makefile INSTALL=/bin/install prefix=${pkgdir}/usr \
-                        MANDIR=${pkgdir}/usr/man/man1 install
-
-  cd ${srcdir}/unzip${unzipver}
-  export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DACORN_FTYPE_NFS \
-         -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT -DUNICODE_SUPPORT \
-         -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD -DDATE_FORMAT=DF_YMD \
-         -DUSE_BZIP2 -DNATIVE"
-  make -f unix/Makefile LOCAL_UNZIP="$CFLAGS" prefix=/usr LF2="" \
-          D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 unzips
-  make -f unix/Makefile prefix=${pkgdir}/usr INSTALL_PROGRAM="install" install
-  echo "End build"
+	cd ${srcdir}/unzip${unzipver}
+	export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DACORN_FTYPE_NFS \
+		-DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT -DUNICODE_SUPPORT \
+		-DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD -DDATE_FORMAT=DF_YMD \
+		-DUSE_BZIP2 -DNATIVE"
+	make -f unix/Makefile LOCAL_UNZIP="$CFLAGS" prefix=/usr LF2="" \
+		D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 unzips -j${numjobs}
+	make -f unix/Makefile prefix=${pkgdir}/usr INSTALL_PROGRAM="install" install
 }
 
-after_build(){
-  rm -r ${pkgdir}/usr/doc/*
-  install -dm755 ${pkgdir}/usr/doc/{unzip-${unzipver},zip-${zipver}}
-  cd ${srcdir}/unzip${unzipver}
-  for file in BUGS COPYING.OLD Contents History.* LICENSE README ToDo WHERE ; do
-      install -m644 ${file} ${pkgdir}/usr/doc/unzip-${unzipver}
-  done
-  cd ${srcdir}/zip${zipver}
-  for file in BUGS Betas_Readme.txt CHANGES README.CR LICENSE README TODO WHERE WHATSNEW ; do
-      install -m644 ${file} ${pkgdir}/usr/doc/zip-${zipver}
-  done
-  echo "End after_build"
+after_build() {
+	set -e
+	rm -r ${pkgdir}/usr/doc/*
+	install -dm755 ${pkgdir}/usr/doc/{unzip-${unzipver},zip-${zipver}}
+	cd ${srcdir}/unzip${unzipver}
+	for file in BUGS COPYING.OLD Contents History.* LICENSE README ToDo WHERE ; do
+		install -m644 ${file} ${pkgdir}/usr/doc/unzip-${unzipver}
+	done
+	cd ${srcdir}/zip${zipver}
+	for file in BUGS Betas_Readme.txt CHANGES README.CR LICENSE README TODO WHERE WHATSNEW ; do
+		install -m644 ${file} ${pkgdir}/usr/doc/zip-${zipver}
+	done
+	set +e
 }
