@@ -1,6 +1,6 @@
-# ABUILD for etc files.
+# ABUILD for agilialinux-version
 pkgname=agilialinux-version
-pkgver=8.1
+pkgver=9.0
 pkgbuild=1
 arch=('noarch')
 
@@ -8,12 +8,9 @@ shortdesc=('AgiliaLinux version package')
 longdesc=('This package contains /etc/agilialinux-version, which indicates current system version.')
 
 tags=('base sys-base')
-no_postperm=1
-
 
 build() {
 	set -e
-	mkdir -p ${pkgdir}/etc
-	install -m644 ${filedir}/agilialinux-version ${pkgdir}/etc/agilialinux-version
+	install -Dm644 ${filedir}/agilialinux-version ${pkgdir}/etc/agilialinux-version
 	set +e
 }
