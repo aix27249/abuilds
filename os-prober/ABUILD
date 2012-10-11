@@ -1,20 +1,20 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=os-prober
-pkgver=1.42
+pkgver=1.56
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Utility to detect other OSes on a set of drives."
 longdesc=("Utility to detect other OSes on a set of drives. Used by grub2 to generate config files.")
 
-source="ftp://ftp.us.debian.org/debian/pool/main/o/${pkgname}/${pkgname}_${pkgver}.tar.gz"
+source="ftp://ftp.debian.org/debian/pool/main/o/${pkgname}/${pkgname}_${pkgver}.tar.gz"
 
 tags="base sys-boot"
 
 build()
 {
   go_src_dir
-  make
+  make -j${numjobs}
 }
 
 # No, they cannot have a normal build system. Cause it's so.
