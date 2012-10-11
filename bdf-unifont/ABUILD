@@ -7,7 +7,7 @@ arch=("noarch")
 
 shortdesc=("GNU Unifont Glyphs")
 
-adddep="fontconfig fonts-encodings font-utils"
+adddep="fontconfig encodings font-util"
 tags=("x11-fonts xserver")
 
 source=("http://unifoundry.com/unifont-${pkgver}.bdf.gz n")
