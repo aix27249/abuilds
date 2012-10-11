@@ -47,7 +47,6 @@ build() {
 
 
 
-	rm configure
 	autoreconf
 
 	CFLAGS= ./configure --prefix=/usr \
@@ -79,12 +78,14 @@ build() {
 	install -Dm755 ${filedir}/20_memtest86+ ${pkgdir}/etc/grub.d/20_memtest86+
 
 	## remove gdb debugging related files
-	rm -f "${pkgdir}/usr/lib$/grub/i386-pc"/*.module || true
+	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/*.module || true
 	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/*.image || true
 	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/{kernel.exec,gdb_grub,gmodule.pl} || true
 
-	# Default background and font
+	# Default AgiliaLinux background
 	install -Dm644 ${filedir}/grub640.png ${pkgdir}/boot/grub/grub640.png
+
+	# Default font
 	xzcat ${filedir}/unifont.pf2.xz > ${pkgdir}/boot/grub/unifont.pf2
 
 }
