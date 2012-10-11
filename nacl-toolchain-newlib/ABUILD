@@ -23,20 +23,19 @@ build() {
 	set -e
 	cd ${srcdir}/
 	mkdir -p ${srcdir}/SRC
+
 	mv ${srcdir}/binutils-${binutilsver} ${srcdir}/SRC/binutils
 	mv ${srcdir}/newlib-${newlibver} ${srcdir}/SRC/newlib
 	mv ${srcdir}/gcc-${gccver} ${srcdir}/SRC/gcc
+
 	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclbinutils-${binutilsver}-r${pkgver}.patch
 	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclnewlib-${newlibver}-r${pkgver}.patch
 	patch -d ${srcdir}/SRC -p0 < ${srcache}/naclgcc-${gccver}-r${pkgver}.patch
-	echo "Go to make sex with your Sweetie, or "Build the Eiffel Tower with chopsticks" (or self-abuse XD), or, or... {insert here "which takes a long time"}... this take a very LONG, LONG TIME"
-	make PREFIX="${srcdir}"/build CANNED_REVISION="yes" build-with-newlib
+
+	# Go to make sex with your Sweetie, or "Build the Eiffel Tower with chopsticks" (or self-abuse XD), or, or... {insert here "which takes a long time"}... this take a very LONG, LONG TIME
+	make PREFIX="${srcdir}"/${pkgname} CANNED_REVISION="yes" build-with-newlib
+	install -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+	mv ${pkgname} ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}
 	set +e
-}
-
-
-after_build() {
-	mkdir ${pkgdir}/opt
-	mv ${srcdir}/build/ ${pkgdir}/opt/${pkgname}
 }
 
