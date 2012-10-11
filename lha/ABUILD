@@ -1,33 +1,21 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=lha
-pkgver=1.14i
-pkgbuild=1
+pkgver=114i
+pkgbuild=2
 arch=('auto')
 
 shortdesc="LHa is an archiving and compressing utility written by Tsugio Okamoto."
 
-source=("git:http://scm.sourceforge.jp/gitroot/lha/lha.git")
+source=("http://slackware.rol.ru/slackware/slackware-14.0/source/a/lha/lha-114i.tar.gz")
 
 tags="base app-arch"
 
-build_deps="make automake autoconf"
+build() {
+	go_src_dir
+	burn_patches
 
-docs="INSTALL ChangeLog olddoc/CHANGES.euc olddoc/PROBLEMS.euc olddoc/README.euc"
+	make -j${numjobs} || make
+	install -Dm0755 src/lha ${pkgdir}/usr/bin/lha
+	install -Dm0644 debian/lha.1 ${pkgdir}/usr/man/man1/lha.1
+	install man/lha.man ${pkgdir}/usr/man/jp/man1/lha.1
 
-before_build(){
-  go_src_dir
-  autoreconf -is
 }
-
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-
-INSTALL_KEYS="DESTDIR=${pkgdir}"
