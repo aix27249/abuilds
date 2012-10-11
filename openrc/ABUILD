@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=openrc
 pkgver=0.8.3
-pkgbuild=5
+pkgbuild=6
 arch=('auto')
 
 # Package description
@@ -15,7 +15,7 @@ source=("http://mirror.yandex.ru/gentoo-distfiles/distfiles/openrc-${pkgver}.tar
 tags="base sys-base"
 
 # Manually-added dependencies
-adddep="etc>=16.0 sed grep"
+adddep="etc>=16.0 sed grep sysvinit"
 
 config_files="etc/rc.conf
 etc/inittab
