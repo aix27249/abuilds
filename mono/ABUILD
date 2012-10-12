@@ -1,0 +1,40 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=mono
+pkgver=2.11.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Free implementation of the .NET platform including runtime and compiler"
+
+source=("http://download.mono-project.com/sources/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-util develop"
+
+build_deps="make gcc"
+
+docs="mcs/MIT.X11"
+
+build() {
+  go_src_dir
+  # build mono
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --with-libgdiplus=installed
+  make || return 1
+  make DESTDIR=${pkgdir} install || return 1
+
+  # build jay
+  cd mcs/jay
+  make || return 1
+  make DESTDIR=${pkgdir} prefix=/usr INSTALL=../../install-sh install
+}
+
+
+after_build(){
+  go_src_dir
+  #fix .pc file to be able to request mono on what it depends, fixes #go-oo build
+  sed -i -e "s:#Requires:Requires:" ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/mono.pc
+  echo "End after_build"
+}
