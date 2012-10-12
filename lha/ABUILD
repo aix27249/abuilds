@@ -1,0 +1,21 @@
+pkgname=lha
+pkgver=114i
+pkgbuild=2
+arch=('auto')
+
+shortdesc="LHa is an archiving and compressing utility written by Tsugio Okamoto."
+
+source=("http://slackware.rol.ru/slackware/slackware-14.0/source/a/lha/lha-114i.tar.gz")
+
+tags="base app-arch"
+
+build() {
+	go_src_dir
+	burn_patches
+
+	make -j${numjobs} || make
+	install -Dm0755 src/lha ${pkgdir}/usr/bin/lha
+	install -Dm0644 debian/lha.1 ${pkgdir}/usr/man/man1/lha.1
+	install man/lha.man ${pkgdir}/usr/man/jp/man1/lha.1
+
+}

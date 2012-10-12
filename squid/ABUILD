@@ -1,5 +1,5 @@
 pkgname=squid
-pkgver=3.2.1
+pkgver=3.2.2
 pkgbuild=1
 arch=("auto")
 shortdesc=("HTTP/FTP proxy")
@@ -15,6 +15,7 @@ etc/squid/squid.conf
 etc/squid/cachemgr.conf
 etc/squid/msntauth.conf"
 
+build_deps="libcap openssl linux-pam perl libtool"
 
 build() {
 	go_src_dir
@@ -58,7 +59,8 @@ build() {
 		--enable-digest-auth-helpers="ldap password" \
 		--enable-negotiate-auth-helpers="squid_kerb_auth" \
 		--enable-external-acl-helpers="ip_user ldap_group session unix_group wbinfo_group" \
-		--with-large-files
+		--with-large-files \
+		--disable-ipv6
 
 	make -j${numjobs} all
 	make install DESTDIR=${pkgdir}

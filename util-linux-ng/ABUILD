@@ -1,6 +1,6 @@
 # util-linux-ng ABUILD
 pkgname=util-linux-ng
-pkgver=2.20.1
+pkgver=2.22
 pkgbuild=1
 arch=('auto')
 
@@ -9,15 +9,14 @@ longdesc=('The util-linux package is a huge collection of random utilities that 
 
 tags=('base sys-apps')
 
-source=("ftp://ftp.infradead.org/pub/util-linux/v2.20/util-linux-${pkgver}.tar.bz2")
-
+source=("ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-${pkgver}.tar.xz")
+config_files="etc/pam.d/su"
+build_deps="udev linux-pam acl"
 build() {
 	go_src_dir
 	burn_patches
 
-	
-	CFLAGS="$SLKCFLAGS" \
-	./configure \
+		./configure \
 		--prefix=/usr \
 		--bindir=/bin \
 		--sbindir=/sbin \
@@ -26,23 +25,27 @@ build() {
 		--localstatedir=/var \
 		--mandir=/usr/man \
 		--infodir=/usr/info \
-		--docdir=/usr/doc/util-linux-ng-$pkgver \
 		--enable-arch \
 		--enable-agetty \
 		--enable-kill \
 		--disable-last \
+		--disable-line \
 		--enable-partx \
 		--enable-mesg \
 		--enable-raw \
 		--enable-rename \
-		--enable-reset \
-		--disable-login-utils \
 		--enable-schedutils \
 		--enable-wall \
-		--enable-libmount-mount \
 		--enable-libuuid \
 		--enable-write \
-		--enable-use-tty-group
+		--enable-use-tty-group \
+		--enable-raw \
+		--enable-vipw \
+		--enable-newgrp \
+		--enable-chfn-chsh \
+		--enable-write \
+		--enable-mesg \
+		--enable-socket-activation
 
 	make -j${numjobs} 
 	make  DESTDIR=$pkgdir install
@@ -57,22 +60,26 @@ build() {
 		# Now since stuff will start looking in this new place,
 		# we have no choice but to link these:
 		( cd ${pkgdir}/sbin
-			ln -sf ../bin/fdformat .
+		ln -sf ../bin/fdformat .
 		)
 	fi
 
 	# Now let's add some important symlinks :)
 	( cd ${pkgdir}/sbin
-		ln -s ../bin/mount .
-		ln -s ../bin/umount .
-		ln -s hwclock clock
-		cd ${pkgdir}/bin
-		ln -s ../sbin/readprofile .
-		ln -s ../sbin/tunelp .
-		ln -s ../sbin/raw .
-		cd ${pkgdir}/usr/man/man8
-		ln -s hwclock.8 clock.8
+	ln -s ../bin/mount .
+	ln -s ../bin/umount .
+	ln -s hwclock clock
+	cd ${pkgdir}/bin
+	ln -s ../sbin/readprofile .
+	ln -s ../sbin/tunelp .
+	ln -s ../sbin/raw .
+	cd ${pkgdir}/usr/man/man8
+	ln -s hwclock.8 clock.8
 	)
+
+	# PAM module
+	install -Dm644 $filedir/su.pam $pkgdir/etc/pam.d/su
+
 	# That's all about this hell. Yes, system core packages are complex a bit...
 
 }

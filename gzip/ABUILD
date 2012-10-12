@@ -1,0 +1,18 @@
+pkgname=gzip
+pkgver=1.5
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("GNU file compression utility")
+longdesc=("Gzip reduces the size of the named files using Lempel-Ziv coding (LZ77). Whenever possible, each file is replaced by one with the extension .gz, while keeping the same ownership modes, access and modification times.")
+
+tags=("base app-arch")
+
+build_deps=""
+
+source=("ftp://ftp.gnu.org/pub/gnu/gzip/gzip-$pkgver.tar.xz")
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
