@@ -9,11 +9,7 @@ config() {
   fi
   # Otherwise, we leave the .new copy for the admin to consider...
 }
-
-config etc/conf.d/sysklogd.new
-config etc/logrotate.d/syslog.new
-config etc/syslog.conf.new
-
+# Don't move it to config_files, since these ones are placeholders
 config var/log/cron.new
 config var/log/debug.new
 config var/log/maillog.new
