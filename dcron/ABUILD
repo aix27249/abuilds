@@ -2,7 +2,7 @@
 
 pkgname=dcron
 pkgver=4.5
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=("Dillon's Cron daemon")
@@ -17,7 +17,7 @@ build_deps='glibc-solibs'
 build() {
 	go_src_dir
 	burn_patches
-	set -e
+
 	CFLAGS+="$SLKCFLAGS" make -j${numjobs}
 	strip --strip-unneeded crond crontab
 
@@ -58,6 +58,6 @@ build() {
 
 	# Logrotate script
 	install -Dm644 ${filedir}/dcron.logrotate ${pkgdir}/etc/logrotate.d/cron
-	set +e
+	
 
 }
