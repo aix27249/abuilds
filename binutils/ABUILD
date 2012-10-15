@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("binutils (GNU binary development tools)")
 
-build_deps="glibc-solibs zlib"
+build_deps="glibc-solibs zlib gcc"
 
 tags=("develop sys-devel")
 source=("http://ftp.gnu.org/gnu/binutils/binutils-${pkgver}.tar.bz2")

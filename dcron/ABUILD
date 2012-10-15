@@ -12,8 +12,6 @@ tags=("base sys-process")
 
 source=("http://www.jimpryor.net/linux/releases/dcron-${pkgver}.tar.gz")
 
-build_deps='glibc-solibs'
-
 build() {
 	go_src_dir
 	burn_patches

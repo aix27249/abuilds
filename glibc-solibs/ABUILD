@@ -13,7 +13,7 @@ source=("http://ftp.gnu.org/gnu/glibc/glibc-${pkgver}.tar.xz")
 pkglist="i18n"
 
 config_files="etc/nscd.conf"
-build_deps="kernel-headers binutils"
+build_deps="kernel-headers binutils gcc"
 
 i18n() {
 	pkgname=glibc-i18n
