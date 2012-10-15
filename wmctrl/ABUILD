@@ -2,22 +2,12 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=wmctrl
 pkgver=1.07
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="wmctrl (tool to interact with an X Window Manager)"
+shortdesc="a command line tool to interact with an X Window Manager"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("The wmctrl program is a UNIX/Linux command line tool to interact with an"
-	  "EWMH/NetWM compatible X Window Manager. The tool provides command line"
-	  "access to almost all the features defined in the EWMH specification. It"
-	  "can be used, for example, to obtain information about the window manager,"
-	  "to get a detailed list of desktops and managed windows, to switch and"
-	  "resize desktops, to make windows full-screen, always-above or sticky, and"
-	  "to activate, close, move, resize, maximize and minimize them. The command"
-	  "line access to these window management functions makes it easy to automate"
-	  "and execute them from any application that is able to run a command in"
-	  "response to an event. Homepage: http://tripie.sweb.cz/utils/wmctrl/"
-)
+#longdesc=("")
 
 source=("http://tripie.sweb.cz/utils/wmctrl/dist/${pkgname}-${pkgver}.tar.gz")
 
@@ -26,7 +16,7 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 
-tags="x11-misc utils"     			#short and long tags / длинный и короткий тег
+tags="x11-misc utils"     	#short and long tags / длинный и короткий тег
 build_deps="" 			#
 
 provides=""
