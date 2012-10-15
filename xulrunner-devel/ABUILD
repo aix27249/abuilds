@@ -1,45 +1,19 @@
-#----------------------------- General vars --------------------------------------
-#based on http://repos.archlinux.org/wsvn/packages/xulrunner/trunk/PKGBUILD
-#------------------------- Основные переменные -----------------------------------
 pkgname=xulrunner
-pkgver=15.0
+pkgver=16.0.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Xulrunner - common Mozilla runtime"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("XULRunner is most common runtime needed for Mozilla applications such as Firefox, Thunderbird, Seamonkey"
-)
 
 source=("ftp://ftp.mozilla.org/pub/xulrunner/releases/${pkgver}/source/xulrunner-${pkgver}.source.tar.bz2")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs net-libs"     			#short and long tags / длинный и короткий тег
-build_deps="autoconf>=2.13 yasm" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
+tags="libs net-libs"
+build_deps="autoconf>=2.13 yasm"
 
 pkglist="xd"
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-
-build()
-{
+build() {
 	go_src_dir
 
 	sed "${filedir}/mozconfig" -e "s,%libdir%,${LIBDIRSUFFIX},g" > ".mozconfig" || exit 1
@@ -54,11 +28,7 @@ build()
 	make -j1 -f client.mk DESTDIR="${pkgdir}" install
 }
 
-
-#ran after function build() 
-#после сборки
-after_build()
-{
+after_build() {
 	cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 	ln -s xulrunner-${pkgver} xulrunner
 	cd -
@@ -71,7 +41,7 @@ after_build()
 
 }
 
-xd(){
+xd() {
 	pkgname=xulrunner-devel
 	shortdesc="Xulrunner development files"
 }
