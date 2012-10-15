@@ -1,7 +1,5 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mozilla-thunderbird
-pkgver=15.0.1
+pkgver=16.0.1
 _pkgver=${pkgver}
 pkgbuild=1
 arch=('any')
@@ -14,60 +12,31 @@ source=("ftp://ftp.mozilla.org/pub/thunderbird/releases/${pkgver}/source/thunder
 "ftp://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/linux-i686/xpi/uk.xpi n o"
 )
 
-#patch_opts=("003--mozilla-jemalloc.patch 0"
-#"300-xulrunner-fix-jemalloc-vs-aslr.patch 0")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
 tags="xapps mail-client"
-adddep=""
-removedep=""
 
-build_deps=""
-
-#author=Unnamed_Hero
-#email=sorry@email.hide
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+build() {
+	go_src_dir
+	burn_patches
+	export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/thunderbird"
+	sed "${filedir}/mozconfig" -e "s,%libdir%,${LIBDIRSUFFIX},g" > ".mozconfig"
+	make -j1 -f client.mk build MOZ_MAKE_FLAGS="-j${numjobs}"
+	make -j1 -f client.mk DESTDIR=${pkgdir} install
 }
 
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/thunderbird"
-sed "${filedir}/mozconfig" -e "s,%libdir%,${LIBDIRSUFFIX},g" > ".mozconfig" || exit 1
-make -j1 -f client.mk build MOZ_MAKE_FLAGS="-j${numjobs}"
-make -j1 -f client.mk DESTDIR=${pkgdir} install
-}
+after_build() {
+	go_src_dir
+	for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
+		install -Dm644 other-licenses/branding/thunderbird/mailicon${i/x*/}.png ${pkgdir}/usr/share/icons/hicolor/$i/apps/thunderbird.png
+	done
 
-#ran after function build() 
-#после сборки
-after_build()
-{
+	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/dictionaries
+	ln -sf /usr/share/hunspell ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/dictionaries
 
-for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
-  install -Dm644 other-licenses/branding/thunderbird/mailicon${i/x*/}.png ${pkgdir}/usr/share/icons/hicolor/$i/apps/thunderbird.png
-done
+	_langs="ru uk"
+	for _lang in ${_langs}
+	do
+		install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/extensions/langpack-${_lang}@thunderbird.mozilla.org.xpi
+	done
 
-rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/dictionaries
-ln -sf /usr/share/hunspell ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/dictionaries
-
-_langs="ru uk"
-for _lang in ${_langs}
-do
-install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird-${_pkgver}/extensions/langpack-${_lang}@thunderbird.mozilla.org.xpi || exit 1
-done
-
-rm -r ${pkgdir}/usr/{include,lib${LIBDIRSUFFIX}/thunderbird-devel-${_pkgver},share/idl}
-	
+	rm -r ${pkgdir}/usr/{include,lib${LIBDIRSUFFIX}/thunderbird-devel-${_pkgver},share/idl}
 }

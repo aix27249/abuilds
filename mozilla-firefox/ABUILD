@@ -1,6 +1,6 @@
 # Mozilla-firefox
 pkgname=mozilla-firefox
-pkgver=15.0.1
+pkgver=16.0.1
 _pkgver=${pkgver}
 pkgbuild=1
 arch=('auto')
@@ -15,8 +15,9 @@ source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source
 )
 tags="xapps www-client"
 adddep="libvpx>=0.9.7"
-removedep=""
-conflicts=""
+
+build_deps="xulrunner xulrunner-devel"
+
 before_build()
 {
 	go_src_dir
