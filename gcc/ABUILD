@@ -212,19 +212,19 @@ after_build() {
 			${pkgdir}/usr/lib${LIBDIRSUFFIX}/gcc/${ARCH}-slackware-linux/${pkgver}/specs
 	fi
 
-	rm $pkgdir/usr/bin/{{$TARGET-,}gfortran,{$TARGET-,}gccgo,gnat*}
-	rm $pkgdir/usr/lib${LIBDIRSUFFIX}/*.so*
-	rm $pkgdir/usr/lib${LIBDIRSUFFIX}/lib{ffi,gfortran,go{,begin},objc,quadmath}.a
-	rm $pkgdir/usr/lib/${LIBDIRSUFFIX}/libgfortran.spec
-	rm -r $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{ada{include,lib},finclude,include/objc}
-	rm $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/include/{ffi{,target}.h,quadmath{,_weak}.h}
-	rm $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{cc1obj{,plus},f951,gnat1,go1}
-	rm $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{libcaf_single,libgfortranbegin}.a
-	rm -r $pkgdir/usr/lib${LIBDIRSUFFIX}/go
-	rm $pkgdir/usr/info/{gccgo,gfortran,gnat*,libgomp,libquadmath,libitm}.info
-	rm $pkgdir/usr/share/locale/{de,fr}/LC_MESSAGES/libstdc++.mo
-	rm $pkgdir/usr/man/man1/{gccgo,gfortran}.1
-	rm $pkgdir/usr/man/man3/ffi*
+	rm -f $pkgdir/usr/bin/{{$TARGET-,}gfortran,{$TARGET-,}gccgo,gnat*}
+	rm -f $pkgdir/usr/lib${LIBDIRSUFFIX}/*.so*
+	rm -f $pkgdir/usr/lib${LIBDIRSUFFIX}/lib{ffi,gfortran,go{,begin},objc,quadmath}.a
+	rm -f $pkgdir/usr/lib/${LIBDIRSUFFIX}/libgfortran.spec
+	rm -rf $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{ada{include,lib},finclude,include/objc}
+	rm -f $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/include/{ffi{,target}.h,quadmath{,_weak}.h}
+	rm -f $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{cc1obj{,plus},f951,gnat1,go1}
+	rm -f $pkgdir/usr/lib${LIBDIRSUFFIX}/gcc/$TARGET/${pkgver}/{libcaf_single,libgfortranbegin}.a
+	rm -rf $pkgdir/usr/lib${LIBDIRSUFFIX}/go
+	rm -f $pkgdir/usr/info/{gccgo,gfortran,gnat*,libgomp,libquadmath,libitm}.info
+	rm -f $pkgdir/usr/share/locale/{de,fr}/LC_MESSAGES/libstdc++.mo
+	rm -f $pkgdir/usr/man/man1/{gccgo,gfortran}.1
+	rm -f $pkgdir/usr/man/man3/ffi*
 
 	# POSIX conformance launcher scripts for c89 and c99
 	cat > $pkgdir/usr/bin/c89 <<"EOF"
@@ -257,8 +257,6 @@ EOF
 
 	install -dm755 ${pkgdir}/usr/man/man3
 	install -m644 ${srcdir}/libstdc++-api.${_libstdcppmanver}.man/man3/* ${pkgdir}/usr/man/man3/
-
-	chmod 755 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgcc_s.so.1
 
 	# The (huge) static GNU java libraries are not packaged.  In nearly all
 	# cases one or more dependencies will not be available as static anyway.
@@ -306,16 +304,6 @@ EOF
 		done
 		rm $pkgdir/tmp-la-file
 	)
-
-	## Strip bloated binaries and libraries:
-	( cd ${pkgdir}
-		find . -name "lib*so*" -exec strip --strip-unneeded "{}" \;
-		find . -name "lib*a" -exec strip -g "{}" \;
-		strip --strip-unneeded usr/bin/* 2> /dev/null
-		find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
-		find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
-	)
-
 }
 
 gxx_prep() {
