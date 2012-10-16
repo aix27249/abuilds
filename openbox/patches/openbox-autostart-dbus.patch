@@ -1,0 +1,14 @@
+--- a/data/autostart/openbox-autostart.in.orig	2012-10-17 01:40:40.000000000 +0400
++++ a/data/autostart/openbox-autostart.in	2012-10-17 01:42:52.500104291 +0400
+@@ -11,6 +11,11 @@
+ fi
+ test -z $BG || $BG -solid "#303030"
+ 
++# DBus: check and launch if nessecary
++if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
++       eval `dbus-launch --auto-syntax --exit-with-session`
++fi
++
+ GLOBALAUTOSTART="@rcdir@/autostart"
+ AUTOSTART="${XDG_CONFIG_HOME:-"$HOME/.config"}/openbox/autostart"
+ 

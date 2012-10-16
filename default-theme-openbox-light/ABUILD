@@ -1,16 +1,15 @@
 pkgname=default-theme-openbox-light
-pkgver=2.0.5
-pkgbuild=5
+pkgver=2.0.6
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="default light design for openbox setup variant"
-adddep="pyxdg"
+adddep="pyxdg openbox"
 
 
 tags="x11-themes themes"
 
-build() 
-{
+build() {
 	cd $pkgdir
 	burn_patches
 
