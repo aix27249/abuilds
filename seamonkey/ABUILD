@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=seamonkey
-pkgver=2.12
+pkgver=2.13.1
 pkgbuild=1
 arch=("auto")
 
@@ -132,7 +132,7 @@ after_build() {
      > ${pkgdir}/install/doinst.sh
 
     # Install russian langpack
-    (cd ${pkgdir}/usr/lib/seamonkey-2.1/distribution/extensions/
+    (cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/distribution/extensions/
       wget -c http://releases.mozilla.org/pub/mozilla.org/${pkgname}/releases/${pkgver}/langpack/${pkgname}-${pkgver}.ru.langpack.xpi
     #  chmod +x ${filedir}/mozilla-add-global-extension.sh
     #  ${filedir}/mozilla-add-global-extension.sh \
@@ -142,7 +142,7 @@ after_build() {
     #rm -rf xpilang
 
     # Install russian dictonaries & locale
-    ( cd ${pkgdir}/usr/lib/seamonkey-2.1/
+    ( cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/
         cp ${filedir}/ru.{aff,dic} ./dictionaries/
         echo 'ru' > update.locale
     )
