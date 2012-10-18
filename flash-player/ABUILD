@@ -30,4 +30,9 @@ kde() {
 
 kde_prep() {
 	cp -a ${srcdir}/usr ${pkgdir}
+	if [ "$LIBDIRSUFFIX" != "" ] ; then
+		rm -rf ${pkgdir}/usr/lib
+	else
+		rm -rf ${pkgdir}/usr/lib64
+	fi
 }
