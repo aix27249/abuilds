@@ -2,14 +2,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=djview4
-pkgver=4.8
+pkgver=4.9
 pkgbuild=1
 arch=('auto')
 
-shortdesc="DjVu Viewer"
+shortdesc="a portable djvu viewer"
+
+#shortdesc="DjVu Viewer"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit. Homepage: http://djvu.sourceforge.net/djview4.html"
-)
+#longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit. Homepage: http://djvu.sourceforge.net/djview4.html"
+#)
 
 source=("http://downloads.sourceforge.net/project/djvu/DjView/${pkgver}/${pkgname/4/}-${pkgver}.tar.gz")
 
@@ -54,7 +56,7 @@ echo ""
 go_src_dir
 # thx Arch Linux
 sed 's/netscape/mozilla/g' -i ./nsdejavu/Makefile.in || exit 1
-	sed 's/swap/rofl_swap/g' -i ./src/qdjvuwidget.cpp || exit 1
+sed 's/swap/rofl_swap/g'   -i ./src/qdjvuwidget.cpp  || exit 1
 
 }
 
@@ -81,25 +83,28 @@ echo ""
 
 #mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
 
-icon_desk(){
- desktopdir='/usr/share/djvu/djview4/desktop'
-        install -Dm644 ${pkgdir}${desktopdir}/hi32-djview4.png \
-                ${pkgdir}/usr/share/icons/hicolor/32x32/apps/djvulibre-djview4.png
-        install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
-                ${pkgdir}/usr/share/icons/hicolor/64x64/apps/djvulibre-djview4.png
+desktopdir="${pkgdir}/usr/share/djvu/djview4/desktop"
+for i in 32 64 ; do
+ if [ ! -d $pkgdir/usr/share/icons/hicolor/${i}x${i} ]; then
+  install -Dm644 ${desktopdir}/hi${i}-djview4.png \
+	  ${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/djvulibre-djview4.png || exit 1
+ fi
+done
+if [ ! -d ${pkgdir}/usr/share/pixmaps ]; then
+ #install -Dm644 ${desktopdir}/hi64-djview4.png \
+ #	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png || exit 1
+ install -Dm644 ${desktopdir}/hi-djview4.svgz \
+	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.svgz || exit 1
+fi
+if [ ! -d ${pkgdir}/usr/share/applications ]; then
+ install -Dm644 ${desktopdir}/djvulibre-djview4.desktop \
+	 ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
+fi
+rm -vR ${desktopdir}
 
-        install -Dm644 ${pkgdir}${desktopdir}/hi64-djview4.png \
-                ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png
-
-        install -Dm644 ${pkgdir}${desktopdir}/djvulibre-djview4.desktop \
-                ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop
-
- rm -R ${pkgdir}${desktopdir}
-
- # 's|Qt;Graphics;Viewer;|Viewer;Office;Qt;|'
- sed -i "/^Categories/s|Graphics|Office|" \
-	${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
-}
-icon_desk
+desktopfile="${pkgdir}/usr/share/applications/djvulibre-djview4.desktop"
+if [ -z `cat $desktopfile | grep Office` ]; then
+ sed -i "/^Categories/s|Graphics|Office|" $desktopfile || exit 1
+fi
 
 }
