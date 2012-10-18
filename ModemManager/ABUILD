@@ -14,8 +14,6 @@ tags="network net-misc"
 
 adddep="ppp>=2.4.5 NetworkManager>=0.9 usb-modeswitch"
 
-build_deps="gcc make perl perl-xml-parser" 
-
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 --bindir=/usr/bin \
