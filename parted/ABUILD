@@ -1,6 +1,6 @@
 # Parted ABUILD
 pkgname=parted
-pkgver=2.3
+pkgver=3.1
 pkgbuild=1
 arch=('auto')
 
@@ -9,9 +9,9 @@ longdesc=('GNU Parted is a program for creating, destroying, resizing, checking 
 
 tags=('base sys-apps')
 
-source=('http://ftp.gnu.org/gnu/parted/parted-2.3.tar.xz')
+source=('http://ftp.gnu.org/gnu/parted/parted-3.1.tar.xz')
 
-build_deps='aaa_elflibs glibc-solibs util-linux-ng'
+build_deps='glibc-solibs util-linux-ng'
 
 before_build() {
  echo ""
