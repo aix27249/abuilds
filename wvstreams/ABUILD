@@ -1,0 +1,41 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=wvstreams
+pkgver=4.6.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A network programming library written in C++"
+
+source=("http://wvstreams.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-libs libs"
+
+build_deps="make gcc"
+
+docs="Doxyfile "
+
+build() {
+  go_src_dir
+  burn_patches
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --without-dbus \
+              --with-pam \
+              --with-openssl \
+              --without-tcl \
+              --without-qt
+  make COPTS="$CFLAGS -fPIC" CXXOPTS="$CXXFLAGS -fPIC -fpermissive -fno-tree-dce -fno-optimize-sibling-calls" VERBOSE=1
+  make DESTDIR=${pkgdir} install
+}
+
+after_build(){
+  go_src_dir
+  # FS#15974
+  # --without-dbus still installs the pkg-config file
+  rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/libwvdbus.pc
+  # --without-qt still installs the pkg-config file
+  rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/libwvqt.pc
+}
