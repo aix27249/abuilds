@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=wvdial
+pkgver=1.61
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A dialer program to connect to the Internet"
+
+source=("http://wvstreams.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="network net-dialup"
+
+build_deps="wvstreams"
+
+adddep="ppp"
+
+docs="FAQ"
+
+build() {
+  go_src_dir
+ ./configure
+  make LOCKDEV="-llockdev"
+  make prefix="${pkgdir}"/usr PPPDIR="${pkgdir}"/etc/ppp/peers install
+}
+
