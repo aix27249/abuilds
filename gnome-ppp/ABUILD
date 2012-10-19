@@ -11,7 +11,7 @@ source=("http://gd.tuwien.ac.at/opsys/linux/gentoo/distfiles/${pkgname}-${pkgver
 
 tags="net-misc xapps"
 
-build_deps="make gcc libglade"
+build_deps="make gcc libglade perl perl-xml-parser"
 
 adddep="wvdial"
 
