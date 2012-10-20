@@ -1,0 +1,35 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=photoprint
+pkgver=0.4.2-pre2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PhotoPrint is a utility designed to assist in the process of printing digital photographs under Linux and other UNIX-like operating systems."
+
+source=("http://www.blackfiveimaging.co.uk/photoprint/${pkgname}-${pkgver}.tar.gz")
+
+tags="base net-print"
+
+build_deps="gutenprint netpbm libtiff libjpeg lcms"
+
+adddep=""
+
+before_build(){
+  for file in $(find -name '*.c' -or -name '*.cpp' -or -name '*.h'); do sed -i 's|#include <glib/[^>]*>|#include <glib.h>|' $file ; done
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
