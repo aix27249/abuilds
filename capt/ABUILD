@@ -45,13 +45,16 @@ tags="drivers net-print"
 build()
 {
     cd ${pkgdir}
-    if [ -n $LIBDIRSUFFIX = 64 ]; then
+if [ "`echo $LIBDIRSUFFIX`" == "64" ]; then
         rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.x86_64.rpm #2> /dev/null
         rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.x86_64.rpm #2> /dev/null
-    else
+
+ mv -v $pkgdir/usr/lib/* $pkgdir/usr/lib64 && rm -rfv $pkgdir/usr/lib || exit 1
+
+else
         rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.i386.rpm #2> /dev/null
         rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.i386.rpm #2> /dev/null
-    fi
+fi
     mkdir -p ${pkgdir}/var/ccpd
     mkdir -p ${pkgdir}/var/captmon
     install -D -m644 ${srcdir}/${foldername}/Doc/LICENSE-captdrv-${pkgver}E.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-captdrv-${pkgver}E.txt
