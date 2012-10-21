@@ -1,33 +1,66 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=plasmoid-yawp
-pkgver=0.3.5
-pkgbuild=2
+pkgver=0.4.3
+pkgbuild=1
 arch=('auto')
 
-shortdesc="yaWP (Yet Another Weather Plasmoid)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("http://kde-look.org/content/show.php?content=94106")
+shortdesc="yaWP: Yet Another Weather Plasmoid"
+#longdesc=(""
+#)
 
-source=("svn:https://yawp.svn.sourceforge.net/svnroot/yawp/trunk")
+source=("http://downloads.sourceforge.net/project/yawp/yawp/${pkgver}/${pkgname/plasmoid-/}-${pkgver}.tar.bz2")
 
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
 tags="kde4 kde-misc"
 
-build() 
-{
-go_src_dir
-burn_patches
+#dependencies only needed to build package
+build_deps=""
 
-rm -rf build 
-mkdir build && cd build || exit 1 
-cmake \
--DCMAKE_C_FLAGS="$SLKCFLAGS" \
--DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
--DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
--DLIB_SUFFIX=${LIBDIRSUFFIX} ..
+provides=""
+conflicts=""
 
-make -j${numjobs} || exit 1
-make install DESTDIR=$startdir/pkg || exit 1
+adddep=""
+removedep=""
 
-}
+#for multi pkg abuild
+pkglist=
 
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}
