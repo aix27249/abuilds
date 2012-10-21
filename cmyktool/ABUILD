@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=cmyktool
+pkgver=0.1.6-pre1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Utility intended to build on the functionality of my old CMYK separation plugin for the GIMP."
+
+source=("http://www.blackfiveimaging.co.uk/cmyktool/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-gfx xapps"
+
+build_deps="gawk"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
