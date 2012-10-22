@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=eviacam
+pkgver=1.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Is a mouse replacement software that moves the pointer as you move your head."
+
+source=("http://sourceforge.net/projects/eviacam/files/${pkgname}/${pkgver}/${pkgname}_${pkgver}.orig.tar.gz")
+
+tags="media-video xapps"
+
+build_deps="wxwidgets opencv"
+
+docs="AGRAIMENTS.txt"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

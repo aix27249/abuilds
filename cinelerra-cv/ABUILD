@@ -1,0 +1,46 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=cinelerra-cv
+pkgver=2.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Professional video editing and compositing environment"
+
+source=("git:git://git.cinelerra.org/CinelerraCV.git cinelerra-cv")
+
+tags="media-video xapps"
+
+build_deps="git nasm a52dec e2fsprogs libavc1394 libiec61883 libsndfile libtiff mjpegtools fftw libXv faad2 faac mesa openexr freetype"
+
+docs="doc/TRANSLATIONS doc/README_en"
+
+before_build(){
+  go_src_dir
+  install -D -m644 ${filedir}/ru.po po/ru.po
+  sed -i "s/Exec=cinelerra/Exec=env LC_MESSAGES=en_US.UTF-8 cinelerra/" image/cinelerra.desktop
+  sed -i "s|lib/cinelerra|lib"${LIBDIRSUFFIX}"/cinelerra|" configure.in
+  # if you don't need OpenGL comment out the next line (and no glu/mesa dep)
+  sed -i '/\/X11R6/s///' configure.in
+  ./autogen.sh
+  echo "End before_build"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-buildinfo=git/recompile \
+--enable-opengl \
+--disable-esd \
+--disable-ffmpeg"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

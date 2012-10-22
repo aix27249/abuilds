@@ -17,13 +17,13 @@ checkconfig() {
 start() {
 	checkconfig || return 1
 	ebegin "Starting noip"
-	start-stop-daemon --quiet --start -x /usr/bin/noip2 -- -c /etc/no-ip2.conf
+	start-stop-daemon --quiet --start -x /usr/sbin/noip2 -- -c /etc/no-ip2.conf
 	eend $? "noip did not start, error code $?"
 }
 
 stop() {
 	ebegin "Stopping noip"
-	start-stop-daemon --oknodo --quiet --stop -x /usr/bin/noip2
+	start-stop-daemon --quiet --stop -x /usr/sbin/noip2
 	noip_ecode=$?
 	eend $noip_ecode "Error stopping the noip daemon, error $noip_ecode"
 	checkconfig || return 1

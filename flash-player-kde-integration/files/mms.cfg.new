@@ -1,2 +1,4 @@
-#Hardware video decoding
-EnableLinuxHWVideoDecode=0
+# Adobe Flash configuration
+
+# Hardware video decoding
+#EnableLinuxHWVideoDecode=0

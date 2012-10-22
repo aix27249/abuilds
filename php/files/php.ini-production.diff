@@ -1,0 +1,103 @@
+--- php.ini-production.orig	2012-09-13 01:27:16.000000000 +0400
++++ php.ini-production	2012-09-19 01:47:26.730028132 +0400
+@@ -816,7 +816,7 @@
+ 
+ ; Directory in which the loadable extensions (modules) reside.
+ ; http://php.net/extension-dir
+-; extension_dir = "./"
++extension_dir = "/usr/lib/php/extensions/"
+ ; On windows:
+ ; extension_dir = "ext"
+ 
+@@ -956,47 +956,41 @@
+ ; extension folders as well as the separate PECL DLL download (PHP 5).
+ ; Be sure to appropriately set the extension_dir directive.
+ ;
+-;extension=php_bz2.dll
+-;extension=php_curl.dll
+-;extension=php_fileinfo.dll
+-;extension=php_gd2.dll
+-;extension=php_gettext.dll
+-;extension=php_gmp.dll
+-;extension=php_intl.dll
+-;extension=php_imap.dll
+-;extension=php_interbase.dll
+-;extension=php_ldap.dll
+-;extension=php_mbstring.dll
+-;extension=php_exif.dll      ; Must be after mbstring as it depends on it
+-;extension=php_mysql.dll
+-;extension=php_mysqli.dll
+-;extension=php_oci8.dll      ; Use with Oracle 10gR2 Instant Client
+-;extension=php_oci8_11g.dll  ; Use with Oracle 11gR2 Instant Client
+-;extension=php_openssl.dll
+-;extension=php_pdo_firebird.dll
+-;extension=php_pdo_mssql.dll
+-;extension=php_pdo_mysql.dll
+-;extension=php_pdo_oci.dll
+-;extension=php_pdo_odbc.dll
+-;extension=php_pdo_pgsql.dll
+-;extension=php_pdo_sqlite.dll
+-;extension=php_pgsql.dll
+-;extension=php_pspell.dll
+-;extension=php_shmop.dll
+-
+-; The MIBS data available in the PHP distribution must be installed. 
+-; See http://www.php.net/manual/en/snmp.installation.php 
+-;extension=php_snmp.dll
+-
+-;extension=php_soap.dll
+-;extension=php_sockets.dll
+-;extension=php_sqlite.dll
+-;extension=php_sqlite3.dll
+-;extension=php_sybase_ct.dll
+-;extension=php_tidy.dll
+-;extension=php_xmlrpc.dll
+-;extension=php_xsl.dll
+-;extension=php_zip.dll
++extension=bcmath.so
++extension=bz2.so
++extension=calendar.so
++extension=ctype.so
++extension=curl.so
++extension=dba.so
++extension=exif.so
++extension=ftp.so
++extension=gd.so
++extension=gettext.so
++extension=gmp.so
++extension=iconv.so
++extension=ldap.so
++extension=mbstring.so
++extension=mysql.so
++extension=mysqli.so
++extension=openssl.so
++extension=pdo.so
++extension=pdo_mysql.so
++extension=pdo_pgsql.so
++extension=pdo_sqlite.so
++extension=pgsql.so
++extension=pspell.so
++extension=shmop.so
++extension=snmp.so
++extension=soap.so
++extension=sqlite.so
++extension=tokenizer.so
++extension=wddx.so
++extension=xmlreader.so
++extension=xmlrpc.so
++extension=xmlwriter.so
++extension=xsl.so
++extension=zip.so
++extension=zlib.so
+ 
+ ;;;;;;;;;;;;;;;;;;;
+ ; Module Settings ;
+@@ -1487,7 +1481,7 @@
+ ; where MODE is the octal representation of the mode. Note that this
+ ; does not overwrite the process's umask.
+ ; http://php.net/session.save-path
+-;session.save_path = "/tmp"
++session.save_path = "/var/lib/php"
+ 
+ ; Whether to use cookies.
+ ; http://php.net/session.use-cookies

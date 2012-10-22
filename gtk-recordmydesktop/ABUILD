@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=gtk-recordmydesktop
+pkgver=0.3.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="recordMyDesktop is a program that captures audio-video data of a linux desktop session"
+
+source=("http://sourceforge.net/projects/recordmydesktop/files/gtk-recordMyDesktop/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+tags="media-video xapps"
+
+build_deps="python"
+
+adddep="python recordmydesktop"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

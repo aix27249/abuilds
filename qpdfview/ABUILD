@@ -1,23 +1,23 @@
 #ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=plasmoid-yawp
-pkgver=0.4.3
+pkgname=qpdfview
+pkgver=0.3.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="yaWP: Yet Another Weather Plasmoid"
+shortdesc="a tabbed PDF viewer using the poppler library"
 #longdesc=(""
 #)
 
-source=("http://downloads.sourceforge.net/project/yawp/yawp/${pkgver}/${pkgname/plasmoid-/}-${pkgver}.tar.bz2")
+source=("https://launchpad.net/qpdfview/trunk/${pkgver}/+download/qpdfview-${pkgver}.tar.gz")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="kde4 kde-misc"
+tags="xapps app-text"
 
 #dependencies only needed to build package
 build_deps=""
@@ -51,12 +51,9 @@ custom_opts=""
 #
 #}
 
-BUILD_SYSTEM="cmake"
-BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=RELEASE \
--DLIB_DIR=lib${LIBDIRSUFFIX} \
--DLIB_SUFFIX=${LIBDIRSUFFIX} \
-../"
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
 
 #ran after function build() 
 #после сборки

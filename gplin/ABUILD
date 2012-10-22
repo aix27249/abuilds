@@ -1,0 +1,36 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=gplin
+pkgver=0.0.1-pre10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tools to aid in the process of tuning and linearizing printers using Gutenprint."
+
+source=("http://www.blackfiveimaging.co.uk/linearize/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-gfx xapps"
+
+build_deps="make gcc"
+
+docs="ABOUT-NLS"
+
+before_build(){
+  for file in $(find -name '*.c' -or -name '*.cpp' -or -name '*.h'); do sed -i 's|#include <glib/[^>]*>|#include <glib.h>|' $file ; done
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

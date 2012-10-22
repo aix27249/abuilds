@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=scummvm
-pkgver=1.3.0
+pkgver=1.5.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="ScummVM: Script Creation Utility for Maniac Mansion"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files. The clever part about this: ScummVM just replaces the executables shipped with the games, allowing you to play them on systems for which they were never designed! ScummVM is released under the GPL, so it's more than free. Compatibility < http://www.scummvm.org/compatibility > . Game data files < http://wiki.scummvm.org/index.php/Datafiles > . Homepage < http://www.scummvm.org > ."
-)
+#longdesc=("ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files. The clever part about this: ScummVM just replaces the executables shipped with the games, allowing you to play them on systems for which they were never designed! ScummVM is released under the GPL, so it's more than free. Compatibility < http://www.scummvm.org/compatibility > . Game data files < http://wiki.scummvm.org/index.php/Datafiles > . Homepage < http://www.scummvm.org > ."
+#)
 
 source=("http://downloads.sourceforge.net/project/scummvm/scummvm/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
@@ -21,7 +21,7 @@ patch_opts=("")
 tags="games-emulation games" #games-engines
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="binutils"
 
 provides=""
 conflicts=""
@@ -47,10 +47,16 @@ custom_opts=""
 
 #ran before function build()
 #запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
+before_build()
+{
+echo ""
+
+go_src_dir
+if [ -n "`cat ./configure | grep " strings "`" ]; then
+ sed -i "s| strings | strings-GNU |" ./configure || exit 1
+fi
+
+}
 
 BUILD_SYSTEM="autotools"
 
@@ -67,7 +73,8 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --mandir=/usr/man \
 --docdir=/usr/doc/${pkgname}-${pkgver} \
---disable-debug"
+--disable-debug \
+--enable-release"
 
 #--datarootdir=/opt/${pkgname}
 #--enable-plugins
@@ -81,16 +88,16 @@ after_build()
 {
 echo ""
 
-go_src_dir
-
 # other doc
 if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc ]; then
+ cp -arfv $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/* $pkgdir/usr/doc/${pkgname}-${pkgver}
  rm -rfv $pkgdir/usr/doc/${pkgname}-${pkgver}/doc || exit 1
 fi
 
 # desktop
 if [ ! -f ${pkgdir}/usr/share/applications/${pkgname}.desktop ]; then
- install -Dm644 dists/${pkgname}.desktop \
+ go_src_dir
+ install -Dm644 ./dists/${pkgname}.desktop \
 	${pkgdir}/usr/share/applications/${pkgname}.desktop || exit 1
 fi
 

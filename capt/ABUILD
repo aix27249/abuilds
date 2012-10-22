@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=capt
-pkgver=2.30
-foldername=Linux_CAPT_PrinterDriver_V230_uk_EN
+pkgver=2.40
+foldername=Linux_CAPT_PrinterDriver_V240_uk_EN
 pkgbuild=1
 arch=('auto')
 
@@ -37,66 +37,25 @@ longdesc=("Canon CAPT Printer Driver for Linux."
 "
 )
 
-source=("http://gdlp01.c-wss.com/gds/4/0900007724/11/${foldername}.tar.gz")
-
-patch_opts=("")
+source=("http://gdlp01.c-wss.com/gds/4/0900007724/12/${foldername}.tar.gz")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="drivers net-print"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
 
 build()
 {
     cd ${pkgdir}
-    if [ -n $LIBDIRSUFFIX = 64 ]; then
+if [ "`echo $LIBDIRSUFFIX`" == "64" ]; then
         rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.x86_64.rpm #2> /dev/null
         rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.x86_64.rpm #2> /dev/null
-    else
+
+ mv -v $pkgdir/usr/lib/* $pkgdir/usr/lib64 && rm -rfv $pkgdir/usr/lib || exit 1
+
+else
         rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.i386.rpm #2> /dev/null
         rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.i386.rpm #2> /dev/null
-    fi
+fi
     mkdir -p ${pkgdir}/var/ccpd
     mkdir -p ${pkgdir}/var/captmon
     install -D -m644 ${srcdir}/${foldername}/Doc/LICENSE-captdrv-${pkgver}E.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-captdrv-${pkgver}E.txt
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-    echo ""
 }

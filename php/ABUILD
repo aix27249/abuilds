@@ -2,7 +2,7 @@
 
 pkgname=php
 pkgver=5.3.17
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('php (HTML-embedded scripting language)')
@@ -151,10 +151,10 @@ build() {
 	find . -name "*.orig" -exec rm {} \;
 
 	# Patch ini files:
-	zcat ${filedir}/php.ini-development.diff.gz \
+	cat ${filedir}/php.ini-development.diff \
 		| sed -e "s#usr/lib/php#usr/lib${LIBDIRSUFFIX}/php#" \
 		| patch -p0 --verbose --backup --suffix=.orig || exit 1
-	zcat ${filedir}/php.ini-production.diff.gz \
+	cat ${filedir}/php.ini-production.diff \
 		| sed -e "s#usr/lib/php#usr/lib${LIBDIRSUFFIX}/php#" \
 		| patch -p0 --verbose --backup --suffix=.orig || exit 1
 	

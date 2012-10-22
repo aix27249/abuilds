@@ -1,0 +1,32 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xplc
+pkgver=0.3.13
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Cross-Platform Lightweight Components"
+
+source=("http://downloads.sourceforge.net/${pkgname}/$pkgname-$pkgver.tar.gz")
+
+tags="base sys-libs"
+
+build_deps="make gcc"
+
+docs="Doxyfile CREDITS"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--without-libuuid"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

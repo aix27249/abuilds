@@ -1,23 +1,23 @@
 #ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=plasmoid-yawp
-pkgver=0.4.3
+pkgname=dolphin-dropbox-plugin
+pkgver=1.2
 pkgbuild=1
 arch=('auto')
 
-shortdesc="yaWP: Yet Another Weather Plasmoid"
+shortdesc="This plugin does not include Dropbox client itself, it's just a plugin for Dolphin"
 #longdesc=(""
 #)
 
-source=("http://downloads.sourceforge.net/project/yawp/yawp/${pkgver}/${pkgname/plasmoid-/}-${pkgver}.tar.bz2")
+source=("hg:https://bitbucket.org/cancel/${pkgname}")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="kde4 kde-misc"
+tags="www-misc kde4"
 
 #dependencies only needed to build package
 build_deps=""
@@ -25,7 +25,7 @@ build_deps=""
 provides=""
 conflicts=""
 
-adddep=""
+adddep="kde-baseapps dropbox"
 removedep=""
 
 #for multi pkg abuild
