@@ -56,6 +56,7 @@ java() {
 	pkgname=gcc-java
 	shortdesc=("Java support for GCC")
 	longdesc=("Java support for the GNU Compiler Collection. This package contains those parts of the compiler collection needed to compile programs written in the Java programming language. The base gcc package is also required.")
+	adddep="gcc-java-libs"
 }
 
 objc() {
@@ -86,6 +87,9 @@ go() {
 javalibs() {
 	pkgname=gcc-java-libs
 	shortdesc="Runtime libraries that comes with gcc-java"
+	arch=("noarch")
+	tags=("sys-devel virtual"
+	adddep="gcc-java"
 }
 
 
@@ -227,6 +231,10 @@ after_build() {
 	rm -f $pkgdir/usr/man/man1/{gccgo,gfortran}.1
 	rm -f $pkgdir/usr/man/man3/ffi*
 
+	# Remove java from gcc package (just because it is packed separately
+	rm -f ${pkgdir}/usr/bin/{aot-compile,gappletviewer,gc-analyze,gcj*,gij,gjar*,gjavah,gkeytool,gorbd,grmic,grmi*,gserialver,gtnameserv,jcf-dump,jv-convert,rebuild-gcj-db,${TARGET}-gcj*}
+
+
 	# POSIX conformance launcher scripts for c89 and c99
 	cat > $pkgdir/usr/bin/c89 <<"EOF"
 #!/bin/sh
@@ -268,6 +276,9 @@ EOF
 	rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libiberty.a
 	rm -f ${pkgdir}/usr/lib/libiberty.a # catch-all
 
+	# libffi provided by libffi package:
+	rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libffi*
+
 	# Fix stuff up:
 	( cd ${pkgdir}
 		# *not* ${LIBDIRSUFFIX}
@@ -287,6 +298,9 @@ EOF
 		ln -sf gcc-${pkgver} ${TARGET}-gcc-${pkgver}
 		ln -sf g++-gcc-${pkgver} ${TARGET}-c++
 		ln -sf g++-gcc-${pkgver} ${TARGET}-g++
+		ln -sf gcc-ar ${TARGET}-gcc-ar
+		ln -sf gcc-nm ${TARGET}-gcc-nm
+		ln -sf gcc-ranlib ${TARGET}-gcc-ranlib
 	)
 
 	( cd ${pkgdir}/usr/man/man1
@@ -407,3 +421,8 @@ java_prep() {
 
 }
 
+javalibs_prep() {
+	# Size of gcc-java-libs is almost equal to gcc-java, so I believe that there is no need to separate gcc-java-libs package.
+	# Make it virtual, until we find out that previous statement is wrong.
+	echo "Making virtual package"
+}
