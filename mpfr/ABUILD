@@ -11,7 +11,7 @@ longdesc=("The MPFR library is a C library for multiple-precision floating-point
 
 tags=("dev-libs libs")
 
-build_deps="gmp>=5.0"
+build_deps="gmp"
 
 source=("http://www.mpfr.org/mpfr-current/mpfr-${pkgver}.tar.xz")
 build() {
