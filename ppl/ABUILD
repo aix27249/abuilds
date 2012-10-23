@@ -16,24 +16,46 @@ source=("http://bugseng.com/products/ppl/download/ftp/releases/$pkgver/ppl-$pkgv
 # Tags
 tags="develop sys-devel"
 
-# Manually-added dependencies
-adddep=""
 build_deps="gmp"
+pkglist="static ppldocs"
 
-# Build system
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
---bindir=/usr/bin \
---sbindir=/usr/sbin \
---libexecdir=/usr/libexec \
---includedir=/usr/include \
---mandir=/usr/man \
---infodir=/usr/info \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---sysconfdir=/etc \
---localstatedir=/var \
---enable-ppl_lcdd \
---enable-ppl_lpsol \
---enable-interfaces='c,cxx' \
---enable-optimization=sspeed"
+	--bindir=/usr/bin \
+	--sbindir=/usr/sbin \
+	--libexecdir=/usr/libexec \
+	--includedir=/usr/include \
+	--mandir=/usr/man \
+	--infodir=/usr/info \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--enable-ppl_lcdd \
+	--docdir=/usr/doc \
+	--enable-ppl_lpsol \
+	--enable-interfaces='c,cxx' \
+	--enable-optimization=sspeed"
+
+static() {
+	pkgname=ppl-static
+	shortdesc="PPL static libs"
+	adddep="ppl"
+}
+
+ppldocs() {
+	pkgname=ppl-docs
+	shortdesc="PPL Documentation"
+	arch=("noarch")
+}
+
+static_prep() {
+	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+	mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+}
+
+ppldocs_prep() {
+	mkdir -p ${pkgdir}/usr
+	mv ${p_pkgdir}/usr/doc ${pkgdir}/usr
+}
 
