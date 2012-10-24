@@ -1,12 +1,15 @@
 pkgname=docbook-xml
 pkgver=4.5
-pkgbuild=1
+pkgbuild=2
 shortdesc="A widely used XML scheme for writing documentation and help"
 longdesc="A widely used XML scheme for writing documentation and help"
 arch="noarch"
 url="http://www.oasis-open.org/docbook/"
 license=('MIT')
 adddep=('libxml2')
+
+build_deps="libxml2"
+
 tags=("app-text libs")
 source=("http://www.docbook.org/xml/4.5/docbook-xml-4.5.zip n"
         "http://www.docbook.org/xml/4.4/docbook-xml-4.4.zip n"
