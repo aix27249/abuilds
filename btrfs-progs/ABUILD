@@ -1,5 +1,5 @@
 pkgname=btrfs-progs
-pkgver=0.19.20120110
+pkgver=0.19.20121005
 pkgbuild=1
 arch=('auto')
 
@@ -11,11 +11,13 @@ source=("ftp://ftp.archlinux.org/other/$pkgname/$pkgname-$pkgver.tar.xz")
 
 tags="base sys-fs"
 
+build_deps="e2fsprogs glibc-solibs"
+
 build()
 {
 	go_src_dir
 	burn_patches
-	make CFLAGS="$CFLAGS $SLKCFLAGS" all convert -j${numjobs}
+	make CFLAGS="$CFLAGS" -j${numjobs}
 	make prefix=$pkgdir/usr bindir=$pkgdir/sbin install
 }
 
