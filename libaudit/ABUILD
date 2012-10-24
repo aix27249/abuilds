@@ -2,7 +2,7 @@
 
 pkgname=libaudit
 pkgver=1.7.13
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("The audit-libs package contains the dynamic libraries needed for applications to use the audit framework.")
