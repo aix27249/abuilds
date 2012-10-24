@@ -2,12 +2,15 @@
 
 pkgname=docbook2x
 pkgver=0.8.8
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("A software package that converts DocBook documents into the traditional Unix man page format and the GNU Texinfo format.")
 
 tags=("app-text console")
+
+adddep="perl-XML-SAX perl-xml-parser perl-sgmls libxslt jade"
+build_deps="perl-XML-SAX perl-xml-parser perl-sgmls libxslt jade"
 
 source=("http://downloads.sourceforge.net/$pkgname/docbook2X-$pkgver.tar.gz")
 
