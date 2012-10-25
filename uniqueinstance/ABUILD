@@ -1,0 +1,35 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=uniqueinstance
+pkgver=1.4.2
+pkgbuild=1
+arch=('auto')
+LAZVER=$(A=$(lazarus -v); echo ${A::8})
+name_gr="lazarus"
+
+shortdesc="Prohibit the launch of more than one copy of the application"
+
+source=("svn:https://svn.bountysource.com/luipack/trunk/uniqueinstance/")
+
+tags="dev-util develop"
+
+build_deps="lazarus subversion"
+
+adddep="lazarus"
+
+custom_opts="no_strip no_postperm"
+
+build(){
+  go_src_dir
+  lazdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+  install -m 775 -d ${lazdir}/components/${pkgname} || exit 1
+  rm -r .svn
+  cp -R * ${lazdir}/components/${pkgname}
+
+  find ${lazdir} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
+  find ${lazdir} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
+  find ${lazdir} ! -perm 0664 ! -perm 0755 ! -perm 0775 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
+  find ${lazdir} -perm 0755 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0775
+  find ${lazdir} ! -perm 0664 -name \*.bmp -type f -print0 -exec chmod -v 0664 {} \;
+  echo "End build"
+}
