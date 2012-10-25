@@ -9,8 +9,8 @@ shortdesc=("OpenRC - universal init system")
 longdesc=("OpenRC is a dependency based init system that works with the system provided init program, normally /sbin/init. It is not a replacement for /sbin/init. OpenRC is 100% compatible with  Gentoo init scripts, which means you can probably find one for the daemons you want to start in the  Gentoo Portage Tree. OpenRC also provides an init script that runs BSD rc.d style scripts too, making it easy to port your BSD system to OpenRC")
 
 # Source URL
-source=("http://mirror.yandex.ru/gentoo-distfiles/distfiles/openrc-${pkgver}.tar.bz2")
-
+#source=("http://mirror.yandex.ru/gentoo-distfiles/distfiles/openrc-${pkgver}.tar.bz2")
+source=("https://github.com/funtoo/openrc/tarball/openrc-${pkgver}")
 # Tags
 tags="base sys-base"
 

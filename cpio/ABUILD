@@ -31,11 +31,10 @@ BUILD_KEYS="--prefix=/usr \
 INSTALL_KEYS="DESTDIR=${pkgdir} INSTALL='install -p'"
 
 after_build() {
-	set -e
-	# Empty dir, remove it
 
+	rm -rf ${pkgdir}/usr/libexec
+	
 	# Don't clobber mt
 	mv ${pkgdir}/bin/mt ${pkgdir}/bin/mt-GNU
 	mv ${pkgdir}/usr/man/man1/mt.1 ${pkgdir}/usr/man/man1/mt-GNU.1
-	set +e
 }
