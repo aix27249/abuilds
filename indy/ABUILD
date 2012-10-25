@@ -1,14 +1,12 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
 pkgname=indy
 pkgver=10.2.0.3
 pkgbuild=2
 arch=('auto')
-if [ -x /usr/bin/fpc ] ; then
-	FPCVER=$(fpc -iV)
-fi
-
-if [ -x /usr/bin/lazarus ] ; then
-	LAZVER=$(A=$(lazarus -v); echo ${A::8})
-fi
+FPCVER=$(fpc -iV)
+LAZVER=$(A=$(lazarus -v); echo ${A::8})
+name_gr="lazarus"
 
 shortdesc="Indy.Sockets (FreePascal Version)"
 
@@ -20,16 +18,21 @@ build_deps="fpc lazarus"
 
 adddep="fpc=${FPCVER} lazarus"
 
-custom_opts="no_strip"
+custom_opts="no_strip no_postperm"
 
 build(){
-	go_src_dir
-	burn_patches
-	set -e
-	install -m 775 -d ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages
-	install -m 775 -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/components
-	cp -R fpc ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy
-	cp -R lazarus ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/components/indy
-	rm -R ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy/debian
-	set +e
+  go_src_dir
+  lazdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
+  install -m 775 -d ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages || exit 1
+  install -m 775 -d ${lazdir}/components || exit 1
+  cp -R fpc ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy
+  cp -R lazarus ${lazdir}/components/indy
+  rm -R ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy/debian
+
+  find ${lazdir} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
+  find ${lazdir} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
+  find ${lazdir} ! -perm 0664 ! -perm 0755 ! -perm 0775 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
+  find ${lazdir} -perm 0755 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0775
+  find ${lazdir} ! -perm 0664 -name \*.bmp -type f -print0 -exec chmod -v 0664 {} \;
+  echo "End build"
 }
