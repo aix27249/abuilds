@@ -1,35 +1,33 @@
-#ABUILD created by/создан: Drakmail, coder at iso-art.ru 
 pkgname=nano
 pkgver=2.2.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Pico editor clone with enhancements"
-longdesc=("Клон редактора Pico с расширенными возможностями")
 
 source=("http://www.nano-editor.org/dist/v2.2/${pkgname}-${pkgver}.tar.gz")
 
 tags="console app-text"
 
+config_files="etc/nanorc"
+build_deps="ncurses"
+
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---mandir=/usr/man \
---program-prefix= \
---enable-color \
---enable-nanorc \
---enable-multibuffer \
---disable-wrapping-as-root \
---program-suffix="
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--enable-color \
+	--enable-nanorc \
+	--enable-multibuffer \
+	--disable-wrapping-as-root \
+	--program-suffix="
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-after_build()
-{
-install -DTm644 ${srcdir}/${pkgname}-${pkgver}/doc/nanorc.sample ${pkgdir}/etc/nanorc
+
+after_build() {
+	install -DTm644 ${srcdir}/${pkgname}-${pkgver}/doc/nanorc.sample ${pkgdir}/etc/nanorc
 }
