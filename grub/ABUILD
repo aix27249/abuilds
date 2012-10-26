@@ -1,6 +1,6 @@
 pkgname=grub
 pkgver=2.00
-pkgbuild=2
+pkgbuild=3
 shortdesc="The GNU GRand Unified Bootloader"
 longdesc="The GNU GRand Unified Bootloader"
 arch=('auto')
@@ -25,7 +25,6 @@ config_files="etc/default/grub"
 build() {
 	go_src_dir
 	burn_patches
-
 
 	# fix unifont.bdf location
 	sed -i 's|/usr/share/fonts/unifont|/usr/share/fonts/unifont /usr/share/fonts/misc|g' configure.ac

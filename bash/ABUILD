@@ -13,7 +13,7 @@ longdesc=('The GNU Bourne-Again SHell. Bash is a sh-compatible command interpret
 
 tags=("app-shells base")
 
-build_deps="readline"
+build_deps="readline groff"
 
 source=("http://ftp.gnu.org/gnu/bash/bash-${_basever}.tar.gz")
 

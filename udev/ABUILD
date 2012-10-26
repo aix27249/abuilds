@@ -16,7 +16,7 @@ etc/modprobe.d/blacklist.conf"
 
 adddep="pciutils usbutils"
 
-build_deps="kmod util-linux-ng gobject-introspection acl"
+build_deps="kmod util-linux-ng gobject-introspection acl gperf"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--sysconfdir=/etc \

@@ -20,5 +20,5 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
 	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
-	mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libcryptsetup.so* ${pkgdir}/lib/
+	mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libcryptsetup.so* ${pkgdir}/lib${LIBDIRSUFFIX}/
 }

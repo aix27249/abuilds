@@ -12,7 +12,7 @@ tags=("app-text develop")
 source=("http://download.sourceforge.net/openjade/OpenSP-$pkgver.tar.gz")
 
 build_deps="docbook-xsl xmlto"
-
+adddep="perl-XML-SAX"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \

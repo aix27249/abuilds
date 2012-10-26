@@ -20,5 +20,5 @@ BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sys
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
-	rm ${pkgdir}/usr/lib/libsysfs.a
+	rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libsysfs.a
 }
