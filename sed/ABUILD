@@ -18,3 +18,8 @@ BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --bindir=/bin --without-included-regex"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
+after_build() {
+	# This symlink is required by some programs
+	mkdir -p ${pkgdir}/usr/bin
+	ln -s ../../bin/sed ${pkgdir}/usr/bin/sed
+}
