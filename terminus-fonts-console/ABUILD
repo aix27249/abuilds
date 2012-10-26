@@ -11,7 +11,7 @@ tags=("base media-fonts")
 
 source=("http://downloads.sourceforge.net/project/terminus-font/terminus-font-${pkgver}/terminus-font-${pkgver}.tar.gz")
 
-build_deps="perl"
+build_deps="perl bdftopcf"
 
 pkglist="x11"
 
