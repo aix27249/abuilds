@@ -1,61 +1,32 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libpng
-pkgver=1.2.44
+pkgver=1.5.13
+_apngver=${pkgver}
 pkgbuild=1
 arch=('auto')
 
 shortdesc="libpng (Portable Network Graphics library)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("PNG (Portable Network Graphics) is an extensible file format for the lossless, portable, well-compressed storage of raster images. PNG provides a patent-free replacement for GIF and can also replace many common uses of TIFF. Indexed-color, grayscale, and truecolor images are supported, plus an optional alpha channel. Sample depths range from 1 to 16 bits."
-)
 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2"
-"http://littlesvr.ca/apng/diff/libpng-1.2.43-apng.patch")
+"http://downloads.sourceforge.net/sourceforge/libpng-apng/libpng-$_apngver-apng.patch.gz")
 
-patch_opts=("")
+tags="media-libs libs"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
+build_deps="zlib"
 
-tags="media-libs libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+before_build() {
+	# Add animated PNG (apng) support
+	patch -p1 -i ${srcache}/libpng-${_apngver}-apng.patch
 }
 
-build()
-{
-go_src_dir
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--mandir=/usr/man \
+	--docdir=/usr/doc"
 
-  # Add animated PNG (apng) support
-  # see http://hp.vector.co.jp/authors/VA013651/freeSoftware/apng.html
-  patch -Np0 -i "${src_cache_dir}/libpng-1.2.43-apng.patch" || return 1
-  libtoolize --force --copy || return 1
-  aclocal || return 1
-  autoconf || return 1
-  automake --add-missing || return 1
-
-  ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} || return 1
-  make ECHO=echo || return 1
-  make ECHO=echo DESTDIR="${pkgdir}" install || return 1
+after_build() {
+	go_src_dir
+	cd contrib/pngminus
+	make PNGLIB="-L${pkgdir}/usr/lib${LIBDIRSUFFIX} -lpng" -f makefile.std png2pnm pnm2png
+	install -m755 png2pnm pnm2png ${pkgdir}/usr/bin/
 }
-
