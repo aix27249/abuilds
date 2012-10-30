@@ -1,6 +1,6 @@
 # Package metadata
 pkgname=libusb1
-pkgver=1.0.12
+pkgver=1.0.14
 pkgbuild=1
 arch="auto"
 
