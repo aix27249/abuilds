@@ -1,0 +1,45 @@
+pkgname=cdrtools
+pkgver=3.01a08
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("CD-R, ISO and related tools")
+longdesc=("Tools for mastering and writing compact discs. cdda2wav -- CD audio sampling utility. cdrecord -- burn discs in most ATAPI and SCSI CD-R drives. mkisofs -- create ISO9660/HFS/Joliet CD-ROM images. mkzftree -- compress a file tree to make a compressed CD-ROM.")
+
+tags=("console app-cdr")
+
+source=("ftp://ftp.berlios.de/pub/cdrecord/alpha/cdrtools-$pkgver.tar.gz")
+
+build_deps="acl"
+
+config_files="etc/default/cdrecord"
+
+build() {
+	go_src_dir
+	burn_patches
+
+	sed -i 's|/opt/schily|/usr|g' DEFAULTS/Defaults.linux
+	sed -i 's|DEFINSGRP=.*|DEFINSGRP=root|' DEFAULTS/Defaults.linux
+	export GMAKE_NOWARN=true
+
+	make -e -j${numjobs} INS_BASE=/usr DEFMANBASE=. || true 
+	# Without this second run, cdda2wav is skipped...
+	make -e INS_BASE=/usr DEFMANBASE=. 
+	make -e install INS_BASE=/usr DEFMANBASE=. DESTDIR=${pkgdir} 
+
+	# Note: this package uses /usr/lib in ALL architectures. Will see if it can be fixed later...
+	
+	rm -rf ${pkgdir}/usr/include \
+		${pkgdir}/usr/lib/profiled \
+		${pkgdir}/usr/lib/*.a \
+		${pkgdir}/usr/man/man5
+
+	# Next big hole? ;)   (don't ship rscsi)
+	rm -r ${pkgdir}/usr/sbin
+	rm -f ${pkgdir}/etc/default/rscsi ${pkgdir}/usr/man/man1/rscsi.1
+
+	# Remove dupes:
+	rm -rf ${pkgdir}/usr/share/doc
+	rmdir ${pkgdir}/usr/share
+}
+
