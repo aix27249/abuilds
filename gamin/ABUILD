@@ -1,0 +1,36 @@
+pkgname=gamin
+pkgver=0.1.10
+pkgbuild=4
+arch=("auto")
+
+shortdesc=("gamin (A minimalist FAM replacement)")
+longdesc=("Gamin is a file and directory monitoring system defined to be a subset of the FAM (File Alteration Monitor) system. The homepage for Gamin is: http://www.gnome.org/~veillard/gamin/")
+
+tags=("libs app-admin")
+
+source=("http://www.gnome.org/~veillard/${pkgname}/sources/${pkgname}-${pkgver}.tar.gz")
+
+build_deps="glibc-solibs"
+config_files="etc/gamin/gaminrc"
+
+# Note: package depends on python *optionally*, and maybe we should split it out into gamin-python
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--mandir=/usr/man \
+	--sysconfdir=/etc \
+	--with-threads \
+	--disable-debug-api \
+	--enable-inotify \
+	--disable-dnotify \
+	--enable-shared=yes \
+	--enable-static=no \
+	--disable-docs \
+	--libexecdir=/usr/lib${LIBDIRSUFFIX}/gamin"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+
+after_build() {
+	install -Dm0644 ${filedir}/gaminrc ${pkgdir}/etc/gamin/gaminrc
+}
