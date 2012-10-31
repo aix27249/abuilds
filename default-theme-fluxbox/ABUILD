@@ -1,5 +1,5 @@
 pkgname=default-theme-fluxbox
-pkgver=0.4.6
+pkgver=0.4.7
 pkgbuild=1
 arch=('noarch')
 
@@ -13,7 +13,7 @@ build()
 cd $pkgdir
 
 
-mkdir -p $pkgdir/etc/skel/{.gvfs,.themes,.fonts,.tuxcmd,.fluxbox,.gkrellm2,.config,Desktop,Media,Documents,Download} || exit 1
+mkdir -p $pkgdir/etc/skel/{.icons,.gvfs,.themes,.fonts,.tuxcmd,.fluxbox,.gkrellm2,.config,Desktop,Media,Documents,Download} || exit 1
 mkdir -p $pkgdir/usr/share/wallpapers || exit 1
 mkdir -p $pkgdir/usr/bin || exit 1
 
@@ -26,10 +26,12 @@ cp  -R $startdir/hand/etc/skel/.fluxbox/* $pkgdir/etc/skel/.fluxbox || exit 1
 cp  -R $startdir/hand/etc/skel/.gkrellm2/* $pkgdir/etc/skel/.gkrellm2 || exit 1
 cp  -R $startdir/hand/etc/skel/.config/* $pkgdir/etc/skel/.config || exit 1
 cp -R $startdir/hand/etc/skel/.themes/*  $pkgdir/etc/skel/.themes || exit 1
+cp -R $startdir/hand/etc/skel/.icons/*  $pkgdir/etc/skel/.icons || exit 1
+
 
 find $pkgdir -type d -exec chmod 755 {} \; || exit 1
 find $pkgdir -type f -exec chmod 644 {} \; || exit 1
-find $pkgdir/etc/skel \( -iname "*.sh" -o -iname "*.start" -o -iname "stage.1" -o -iname "wpa" \) -exec chmod 755 {} \; || exit 1
+find $pkgdir/etc/skel \( -iname "*.sh" -o -iname "*.start" -o -iname "wpa" \) -exec chmod 755 {} \; || exit 1
 chmod 755 $pkgdir/usr/bin/startfluxbox-rus || exit 1
 
 }
