@@ -1,0 +1,40 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=xscreensaver
+pkgver=5.20
+pkgbuild=1
+arch=('auto')
+
+
+shortdesc="Screen saver and locker for the X Window System"
+
+source=("http://www.jwz.org/xscreensaver/${pkgname}-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps sys-auth"
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+go_src_dir
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+    --libexecdir=/usr/lib${LIBDIRSUFFIX} --with-x-app-defaults=/usr/share/X11/app-defaults \
+    --with-pam --with-login-manager --with-gtk --with-gl \
+    --without-gle --with-pixbuf --with-jpeg
+  make
+
+  make install_prefix="${pkgdir}" install
+  install -D -m644 $filedir/xscreensaver.pam "${pkgdir}/etc/pam.d/xscreensaver"
+  chmod 755 "${pkgdir}/usr/bin/xscreensaver"
+  echo "NotShowIn=KDE;GNOME;" >> "${pkgdir}/usr/share/applications/xscreensaver-properties.desktop"
+}
+
+
