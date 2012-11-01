@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=skb
-pkgver=0.3
+pkgver=0.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Simple keyboard layout indicator"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("http://plhk.ru"
-)
+#longdesc=("http://plhk.ru"
+#)
 
 source=("http://plhk.ru/static/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
@@ -18,7 +18,7 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="app-misc console"
+tags="app-misc utils"
 
 #dependencies only needed to build package
 build_deps=""
