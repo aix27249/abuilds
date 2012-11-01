@@ -1,24 +1,97 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru
-
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=gajim
-pkgver=0.15.1
+pkgver=0.15.2
 pkgbuild=1
 
 arch=('auto')
+#arch=('noarch')
 
-shortdesc="A full featured and easy to use Jabber client"
+shortdesc="Gajim, a Jabber client"
 
-source=("http://gajim.org/downloads/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+#longdesc=("The goal of Gajim is to provide a full featured and easy to use Jabber/XMPP client. Gajim works nicely with GNOME, but does not require it to run. It is released under the GNU General Public License. Homepage: http://www.gajim.org")
+#-ruler---|--------------------------------------------------------------------------|
+#longdesc=("Цель Gajim — предоставить полнофункциональный и простой в использовании jabber-клиент. Gajim хорошо работает в среде GNOME, но не требует её для работы. Он выпущен на условиях Стандартной общественной лицензии (GNU General Public License). Сайт: http://www.gajim.org"
+#)
 
+
+srcver=${pkgver/_/-}
+srctar="${pkgname}-${srcver}.tar.gz"
+source_tar=("http://gajim.org/downloads/0.15/${srctar}")
+source_now=("hg:http://hg.gajim.org/gajim")
+
+if [ ! -f $srcache/${srctar} ]; then
+ wget -c -P $srcache $source_tar
+fi
+
+if [ -f $srcache/${srctar} ]; then
+ source=$source_tar
+else
+ source=$source_now
+fi
+
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
 tags="net-im xapps"
 
-build_deps="intltool gettext python perl perl-xml-parser gcc"
+#dependencies only needed to build package
+build_deps=""
 
-adddep="pyOpenSSL pygobject pycairo pygtk dbus-python gtkspell aspell aspell-en aspell-ru pycrypto avahi python"
+provides=""
+conflicts=""
+
+adddep="pyOpenSSL pygobject pycairo pygtk dbus-python gtkspell aspell aspell-en aspell-ru bind-utils pycrypto"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+
+# Agilia
+#sed -i \
+# "s|        'Arch Linux': '/etc/arch-release',|'AgiliaLinux': '/etc/agilialinux-version', 'Arch Linux': '/etc/arch-release',|" \
+#	${srcdir}/${pkgname}-${srcver}/src/common/helpers.py || exit 1
+
+#cp -vf ${filedir}/helpers.py ${srcdir}/${pkgname}-${srcver}/src/common/ || exit 1
+
+#sed -i \
+#	-e "s|'Arch Linux': '/etc/arch-release',|'AgiliaLinux': '/etc/agilialinux-version'|" \
+#	-e '889,908d' ${srcdir}/${pkgname}-${srcver}/src/common/helpers.py || exit 1
+
+# Skel / config_ru
+#mkdir -p $pkgdir/etc/skel/.config/gajim
+#chmod -vR 755 $pkgdir/etc/skel/.config/
+#cp -v ${filedir}/config ${pkgdir}/etc/skel/.config/gajim
+#chmod -v 644 ${pkgdir}/etc/skel/.config/gajim/config || exit 1
+
+}
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+if [ -n "`echo $source | grep $source_tar`" ]; then
+ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+else
+ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+fi
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -31,8 +104,42 @@ BUILD_KEYS="--prefix=/usr \
 --docdir=/usr/doc/${pkgname}-${pkgver} \
 --enable-site-packages"
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build(){
- sed '/exit/d' -i ${pkgdir}/usr/bin/gajim
+#ran after function build() 
+#после сборки
+after_build()
+{
+echo ""
+
+# You must not launch gajim as root, it is INSECURE
+cd $pkgdir/usr/bin
+patch -p0 < $filedir/gajim-allow-root.diff || exit 1
+
+#--------------------------------------------------------------------------
+
+#Comment=A GTK+ Jabber client
+#Comment[ru]=Jabber-клиент на GTK+
+#Comment[uk]=Jabber клієнт, що базується на GTK+
+
+# Gajim.desktop
+#cd $pkgdir/usr/share/applications
+
+# Name
+#sed -i \
+# -e "/^Name=/s| Instant Messenger||" \
+# -e '/^Name\[/d' ${pkgname}.desktop || exit 1
+
+# -e "s|Клиент для мгновенных сообщений Gajim|Gajim IM|" \
+# -e "s|Програма для обміну миттєвими повідомленнями Gajim|Gajim IM|" \
+
+# Comment
+#sed -i \
+# -e "/^Comment=/s|A GTK+ Jabber client|Gajim Instant Messenger|" \
+# -e "s|Jabber-клиент на GTK+|Клиент для мгновенных сообщений Gajim|" \
+# -e "s|Jabber клієнт, що базується на GTK+|Програма для обміну миттєвими повідомленнями Gajim|" \
+# ${pkgname}.desktop || exit 1
+
+#patch ${pkgname}.desktop < ${filedir}/gajim-desktop-icon.diff || exit 1
+
 }

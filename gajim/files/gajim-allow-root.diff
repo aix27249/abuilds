@@ -1,0 +1,10 @@
+--- gajim.orig	2011-01-04 23:29:07.335998877 +0000
++++ gajim	2011-01-04 23:29:30.404000742 +0000
+@@ -24,7 +24,6 @@
+ APP=`basename $0`
+ if test $(id -u) -eq 0; then
+ 	echo "You must not launch $APP as root, it is INSECURE"
+-	exit 1
+ fi
+ 
+ [ "$APP" = "gajim-history-manager" ] && APP="history_manager"
