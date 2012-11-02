@@ -1,18 +1,16 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=openshot
-pkgver=1.4.2
+pkgver=1.4.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A non-linear video editor"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("OpenShot Video Editor is a free, open-source video editor for Linux licensed under the GPL version 3.0. http://www.openshotvideo.com"
-)
+
+longdesc=("OpenShot Video Editor is a free, open-source video editor for Linux "
+"licensed under the GPL version 3.0. http://www.openshotvideo.com")
 
 source=("http://launchpad.net/${pkgname}/1.4/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
 
 tags="media-video xapps"
 
@@ -21,7 +19,6 @@ build_deps="python=2.6.6"
 adddep="python=2.6.6 mlt python-mlt pygoocanvas pil librsvg sdl pyxdg frei0r-plugins blender pycairo"
 
 build() {
- # cd ${srcdir}/${pkgname}-${pkgver}
   go_src_dir
   python setup.py install --prefix=/usr --root=${pkgdir} --optimize=1 || return 1
 }
