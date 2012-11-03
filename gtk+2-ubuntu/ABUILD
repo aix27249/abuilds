@@ -1,0 +1,72 @@
+pkgname=gtk+2-ubuntu
+
+provides=${pkgname/-ubuntu/}
+#conflicts=${pkgname/-ubuntu/}
+
+pkggtk2="`mpkg-show gtk+2 | grep gtk+2 | awk {'print $2'}`"
+pkgver=${pkggtk2/-*/}
+pkgbuild=${pkggtk2/*-/}
+
+tree=`echo $pkgver | cut -d . -f 1-2`
+
+arch=('auto')
+
+shortdesc="GTK+ version 2 (multi-platform GUI toolkit)"
+longdesc=("This is GTK+, a multi-platform toolkit for creating graphical user interfaces. Offering a complete set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites.")
+
+config_files="etc/gtk-2.0/im-multipress.conf"
+
+source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/$tree/gtk+-${pkgver}.tar.xz")
+
+tags="libs x11-libs"
+pkglist= #"gtk_update_icon_cache"
+adddep="gtk-update-icon-cache"
+
+#----------------------------------------------------------------------------------------------
+before_build() {
+	cd "${srcdir}/gtk+-${pkgver}"
+	burn_patches
+
+	# Autoconf changes linux to linux-gnu.
+	# Our host is $ARCH-slackware-linux not $ARCH-slackware-linux-gnu:
+	sed -i -e 's#linux|linux-gnu|#linux|linux|#' config.sub
+}
+build() {
+	CXX=/bin/false ./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--disable-static \
+		--mandir=/usr/man \
+		--program-prefix= \
+		--program-suffix= \
+		--with-xinput=yes \
+		--build=$ARCH-slackware-linux || exit 1
+	make -j${numjobs} || make || exit 1
+	make DESTDIR="$pkgdir" install || exit 1
+}
+after_build() {
+	echo 'gtk-fallback-icon-theme = "gnome"' > "${pkgdir}/etc/gtk-2.0/gtkrc"
+
+	# Checking the host
+	host="$ARCH-slackware-linux"
+	compile_host=$(grep 'host_triplet =' gtk/Makefile | sed -e "s/.* = //")
+	if [ "x$compile_host" != "x$host" ]; then
+		echo "Host mismatch: compile='$compile_host', SlackBuild='$host'" && exit 1
+	fi
+	rm $pkgdir/usr/bin/gtk-update-icon-cache
+}
+#----------------------------------------------------------------------------------------------
+
+
+gtk_update_icon_cache() {
+	pkgname=gtk-update-icon-cache
+	shortdesc="GTK icon cache update tool"
+	longdesc="GTK icon cache updater"
+}
+gtk_update_icon_cache_prep() {
+	go_src_dir
+	cd gtk
+	install -D -m755 gtk-update-icon-cache $pkgdir/usr/bin/gtk-update-icon-cache
+}
