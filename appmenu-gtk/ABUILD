@@ -1,0 +1,91 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=appmenu-gtk
+pkgver=12.10.2
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Application menu module for GTK+"
+#longdesc=(""
+#)
+
+source=(
+"https://launchpad.net/appmenu-gtk/`echo $pkgver | cut -d . -f 1-2`/${pkgver}/+download/appmenu-gtk-${pkgver}.tar.gz"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs x11-misc"
+
+#dependencies only needed to build package
+build_deps="dbusmenu-gtk"
+
+provides=""
+conflicts=""
+
+#adddep="gtk+2-ubuntu"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-gtk2"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+
+if [ ! -d $pkgdir/etc/profile.d/ ]; then
+	mkdir -p $pkgdir/etc
+fi
+
+if [ -f $pkgdir/etc/X11/Xsession.d/80appmenu ]; then
+ mv -v $pkgdir/etc/X11/Xsession.d/ $pkgdir/etc/profile.d/ \
+  && rmdir $pkgdir/etc/X11/ \
+  || exit 1
+ cd $pkgdir/etc/profile.d/ 
+  mv -v 80appmenu appmenu.sh
+  chmod 755 ./appmenu.sh || exit 1
+fi
+
+}
