@@ -1,0 +1,90 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=dbusmenu-gtk
+pkgver=12.10.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DBus Menu"
+#longdesc=(""
+#)
+
+source=(
+"https://launchpad.net/dbusmenu/`echo $pkgver | cut -d . -f 1-2`/${pkgver}/+download/lib${pkgname/-gtk/}-${pkgver}.tar.gz"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs x11-misc"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+before_build()
+{
+# HAVE_VALGRIND_FALSE
+export HAVE_VALGRIND_FALSE="yes"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-tests \
+--disable-vala \
+--disable-scrollkeeper \
+--disable-dumper \
+--disable-introspection \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--with-html-dir=/usr/doc/${pkgname}-${pkgver} \
+--with-gtk=2"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+#go_src_dir
+#  make -C libdbusmenu-glib DESTDIR="$pkgdir/" install || exit 1
+#  make -C tools DESTDIR="$pkgdir/" install || exit 1
+#  make -C docs DESTDIR="$pkgdir/" install || exit 1
+#  make -j1 -C libdbusmenu-gtk DESTDIR="$pkgdir/" install || exit 1
+#}
