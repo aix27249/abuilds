@@ -2,7 +2,7 @@
 pkgname=mc
 pkgver=4.8.6
 srcver=${pkgver//_/-}
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('Midnight Commander is a text based file manager')
