@@ -1,28 +1,24 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=docbook-utils
 pkgver=0.6.14
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="Shell scripts for managing docbook"
 
 tags="console app-text"
 
-adddep="bash"
+adddep="perl openjade perl-sgmls docbook-xml docbook-sgml docbook-xsl docbook-dsssl"
+build_deps="asciidoc openjade docbook-sgml sgml-common docbook-dsssl"
 
 source="ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$pkgname-$pkgver.tar.gz"
 
+numjobs=1
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
