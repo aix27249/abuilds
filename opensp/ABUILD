@@ -11,7 +11,7 @@ tags=("app-text develop")
 
 source=("http://download.sourceforge.net/openjade/OpenSP-$pkgver.tar.gz")
 
-build_deps="docbook-xsl xmlto"
+build_deps="docbook-xsl xmlto docbook-xml"
 adddep="perl-XML-SAX"
 
 BUILD_SYSTEM="autotools"
@@ -22,6 +22,7 @@ BUILD_KEYS="--prefix=/usr \
 	--enable-http \
 	--enable-default-catalog=/etc/sgml/catalog:/etc/xml/catalog \
 	--enable-default-search-path=/usr/share/sgml:/usr/share/xml \
+	--disable-doc-build \
 	--enable-xml-messages"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
