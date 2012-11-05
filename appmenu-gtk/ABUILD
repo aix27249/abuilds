@@ -1,31 +1,33 @@
 #ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=kfaenza-icon-theme
-pkgver=0.8.9
+pkgname=appmenu-gtk
+pkgver=12.10.2
 pkgbuild=2
-arch=('noarch')
+arch=('auto')
 
-shortdesc="Faenza icon theme for KDE4"
+shortdesc="Application menu module for GTK+"
 #longdesc=(""
 #)
 
-source=("http://omploader.org/vYjR0NQ")
+source=(
+"https://launchpad.net/appmenu-gtk/`echo $pkgver | cut -d . -f 1-2`/${pkgver}/+download/appmenu-gtk-${pkgver}.tar.gz"
+)
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="themes x11-themes"
+tags="libs x11-misc"
 
 #dependencies only needed to build package
-build_deps="faenza-icon-theme"
+build_deps="dbusmenu-gtk"
 
 provides=""
 conflicts=""
 
-adddep="faenza-icon-theme oxygen-icons"
+#adddep="gtk+2-ubuntu"
 removedep=""
 
 #for multi pkg abuild
@@ -35,11 +37,11 @@ pkglist=
 #numjobs=1
 
 #additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs="AUTHORS COPYING"
+docs=
 gendeps_blacklist=
 
 #custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts="no_strip skip_gendeps"
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
@@ -51,40 +53,39 @@ custom_opts="no_strip skip_gendeps"
 #
 #}
 
-build()
-{
-go_src_dir
-burn_patches
+BUILD_SYSTEM="autotools"
 
-pkgdir_i="${pkgdir}/usr/share/icons"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" # --help"
 
-  install -d "${pkgdir_i}"
-  cp -r "${srcdir}/KFaenza" "${pkgdir_i}"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-gtk2"
 
-  find "${pkgdir_i}" -type f -exec chmod 644 {} \;
-  find "${pkgdir_i}" -type d -exec chmod 755 {} \;
-  find "${pkgdir_i}" -type f -name '.directory' -delete
-
-rm -v "${pkgdir_i}"/KFaenza/INSTALL
-
-# Docs
-if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
- mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-fi
-
-cat "${pkgdir_i}"/KFaenza/index.theme | grep "Comment=" | sed "s/Comment=//" \
-	> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
-
-f_ver="`mpkg-show faenza-icon-theme | grep faenza-icon-theme | awk {'print $2'}`"
-cd /usr/doc/faenza-icon-theme-${f_ver/-*/}
-cp -v $docs ${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-
-}
-
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-#after_build()
-#{
+after_build()
+{
 
-#}
+if [ ! -d $pkgdir/etc/profile.d/ ]; then
+	mkdir -p $pkgdir/etc
+fi
+
+if [ -f $pkgdir/etc/X11/Xsession.d/80appmenu ]; then
+ mv -v $pkgdir/etc/X11/Xsession.d/ $pkgdir/etc/profile.d/ \
+  && rmdir $pkgdir/etc/X11/ \
+  || exit 1
+ cd $pkgdir/etc/profile.d/ 
+  mv -v 80appmenu appmenu.sh
+  chmod 755 ./appmenu.sh || exit 1
+fi
+
+}

@@ -2,15 +2,33 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
-pkgver=1.0.1
-pkgbuild=5
+pkgver=1.1.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Clementine Music Player based on Amarok 1.4"
-longdesc=("Clementine is a music player. It is inspired by Amarok 1.4, focusing on a fast and easy-to-use interface for searching and playing your music. Clementine is Free Software under the GPL v3. Homepage: http://www.clementine-player.org")
+#longdesc=("Clementine is a music player. It is inspired by Amarok 1.4, focusing on a fast and easy-to-use interface for searching and playing your music. Clementine is Free Software under the GPL v3. Homepage: http://www.clementine-player.org")
 
-source=("http://clementine-player.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
-#source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
+
+# google-code
+#git config --global http.sslverify false
+
+srcver=${pkgver/_/}
+srctar="${pkgname}-${srcver}.tar.gz"
+source_tar=("http://clementine-player.googlecode.com/files/${srctar}")
+source_now=("git:https://code.google.com/p/clementine-player")
+
+if [ ! -f $srcache/${srctar} ]; then
+ wget -c -P $srcache $source_tar
+fi
+
+if [ -f $srcache/${srctar} ]; then
+ source=$source_tar
+else
+ pkgver=${pkgver/_rc*/}
+ source=$source_now
+fi
+
 
 patch_opts=("")
 
@@ -20,7 +38,7 @@ patch_opts=("")
 tags="media-sound xapps"
 
 #dependencies only needed to build package
-build_deps="qjson liblastfm sip"
+build_deps="protobuf qjson liblastfm sip"
 
 provides=""
 conflicts=""
@@ -106,5 +124,4 @@ for i in 16 32 64 ; do
     $pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/application-x-clementine.png
  fi
 done
-
 }

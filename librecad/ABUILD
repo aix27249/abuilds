@@ -1,0 +1,64 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=librecad
+pkgver=2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A 2D CAD drawing tool based on the community edition of QCad."
+
+source=("git:git://github.com/LibreCAD/LibreCAD.git")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="xapps app-editors"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+go_src_dir
+export CPPFLAGS="-std=c++0x"
+  qmake librecad.pro
+  make
+
+
+
+  install -D -m 755 unix/librecad "${pkgdir}/usr/bin/librecad"
+  install -D -m 755 unix/ttf2lff "${pkgdir}/usr/bin/ttf2lff"
+
+  mkdir -p "${pkgdir}/usr/share/librecad"
+  cp -r unix/resources/{doc,plugins,library,patterns,fonts,qm} "${pkgdir}/usr/share/librecad"
+
+  install -D -m 644 "${filedir}/librecad.desktop" "${pkgdir}/usr/share/applications/librecad.desktop"
+  install -D -m 644 librecad/res/main/librecad.png "${pkgdir}/usr/share/pixmaps/librecad.png"
+}
+
+

@@ -19,7 +19,8 @@ elif [ "`ps -e | grep xdm`" ]; then
 fi
 
 depend() {
-   need xdm
+   use logger dns
+   need net xdm
    after xdm
 }
 
@@ -36,7 +37,7 @@ start() {
                     -xkb \
                     -rfbauth /etc/x11vnc/passwd \
                     -noncache \
-                    -rfbport 5900 \
+                    -rfbport 5688 \
                     -o /var/log/x11vnc.log -loop
   if [ ! -f ${PIDFILE} ]; then
      eerror "Failed to start x11vnc"

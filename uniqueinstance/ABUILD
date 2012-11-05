@@ -1,33 +1,30 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
-pkgname=indy
-pkgver=10.2.0.3
-pkgbuild=2
+pkgname=uniqueinstance
+pkgver=1.4.2
+pkgbuild=1
 arch=('auto')
-FPCVER=$(fpc -iV)
 LAZVER=$(A=$(lazarus -v); echo ${A::8})
 name_gr="lazarus"
 
-shortdesc="Indy.Sockets (FreePascal Version)"
+shortdesc="Prohibit the launch of more than one copy of the application"
 
-source=("http://www.indyproject.org/Sockets/fpc/${pkgname}-${pkgver}.tar.gz")
+source=("svn:https://svn.bountysource.com/luipack/trunk/uniqueinstance/")
 
 tags="dev-util develop"
 
-build_deps="fpc lazarus"
+build_deps="lazarus subversion"
 
-adddep="fpc=${FPCVER} lazarus"
+adddep="lazarus"
 
 custom_opts="no_strip no_postperm"
 
 build(){
   go_src_dir
   lazdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
-  install -m 775 -d ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages || exit 1
-  install -m 775 -d ${lazdir}/components || exit 1
-  cp -R fpc ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy
-  cp -R lazarus ${lazdir}/components/indy
-  rm -R ${pkgdir}/usr/share/fpc/${FPCVER}/src/packages/indy/debian
+  install -m 775 -d ${lazdir}/components/${pkgname} || exit 1
+  rm -r .svn
+  cp -R * ${lazdir}/components/${pkgname}
 
   find ${lazdir} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
   find ${lazdir} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775

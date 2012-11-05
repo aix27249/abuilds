@@ -1,31 +1,31 @@
 #ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=kfaenza-icon-theme
-pkgver=0.8.9
-pkgbuild=2
-arch=('noarch')
+pkgname=appmenu-qt
+pkgver=0.2.6
+pkgbuild=1
+arch=('auto')
 
-shortdesc="Faenza icon theme for KDE4"
+shortdesc="Application menu for Qt"
 #longdesc=(""
 #)
 
-source=("http://omploader.org/vYjR0NQ")
+source=("https://launchpad.net/appmenu-qt/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="themes x11-themes"
+tags="x11-misc libs"
 
 #dependencies only needed to build package
-build_deps="faenza-icon-theme"
+build_deps=""
 
 provides=""
 conflicts=""
 
-adddep="faenza-icon-theme oxygen-icons"
+adddep=""
 removedep=""
 
 #for multi pkg abuild
@@ -35,11 +35,11 @@ pkglist=
 #numjobs=1
 
 #additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs="AUTHORS COPYING"
+docs=
 gendeps_blacklist=
 
 #custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts="no_strip skip_gendeps"
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
@@ -51,36 +51,12 @@ custom_opts="no_strip skip_gendeps"
 #
 #}
 
-build()
-{
-go_src_dir
-burn_patches
-
-pkgdir_i="${pkgdir}/usr/share/icons"
-
-  install -d "${pkgdir_i}"
-  cp -r "${srcdir}/KFaenza" "${pkgdir_i}"
-
-  find "${pkgdir_i}" -type f -exec chmod 644 {} \;
-  find "${pkgdir_i}" -type d -exec chmod 755 {} \;
-  find "${pkgdir_i}" -type f -name '.directory' -delete
-
-rm -v "${pkgdir_i}"/KFaenza/INSTALL
-
-# Docs
-if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
- mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-fi
-
-cat "${pkgdir_i}"/KFaenza/index.theme | grep "Comment=" | sed "s/Comment=//" \
-	> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
-
-f_ver="`mpkg-show faenza-icon-theme | grep faenza-icon-theme | awk {'print $2'}`"
-cd /usr/doc/faenza-icon-theme-${f_ver/-*/}
-cp -v $docs ${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-
-}
-
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
 
 #ran after function build() 
 #после сборки

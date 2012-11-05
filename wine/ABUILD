@@ -1,7 +1,7 @@
+# Abuild by Unnamed_Hero sorry@email.hide
 #----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=wine
-pkgver=1.5.13
+pkgver=1.5.16
 pkgbuild=1
 arch=('i686')
 shortdesc="Wine - Wine Is Not Emulator"
@@ -10,33 +10,14 @@ longdesc=${shortdesc}
 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 #"http://downloads.sourceforge.net/wine/wine_gecko-1.1.0-x86.cab n")
-
-#patch_opts=("")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
-
-tags="xapps app-emulation"     			#short and long tags / длинный и короткий тег
-
+tags="xapps app-emulation"     			#short and long tags
 build_deps="flex bison" 			#work only in MOPS
 adddep=""
 removedep=""
 
-#author=Unnamed_Hero
-#email=sorry@email.hide
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
 #----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
 #set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
 build() 
 {
 go_src_dir
@@ -46,25 +27,22 @@ LDFLAGS="$SLKLDFLAGS" \
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 ./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---without-xinput2 \
---with-x
-                  
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static \
+    --mandir=/usr/man \
+    --program-prefix= \
+    --program-suffix= \
+    --without-xinput2 \
+    --with-x
 make -j${numjobs} || exit 1
 make install DESTDIR=${pkgdir} || exit 1
 }
 
 #ran after function build() 
-#после сборки
 #after_build()
 #{
 #    mkdir -p ${pkgdir}/usr/share/wine/gecko
 #    cp -a ${srcache}/wine_gecko-1.1.0-x86.cab ${pkgdir}/usr/share/wine/gecko || exit 1
-    
 #}
