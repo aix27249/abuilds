@@ -1,19 +1,12 @@
 pkgname=libusb
-pkgver=0.1.4
+pkgver=0.1.12.1
 pkgbuild=1
-arch=("auto")
+arch=("noarch")
 
-shortdesc=("libusb (USB library)")
-longdesc=("This is libusb, a library which allows userspace application access to USB devices. It is used to connect to USB devices like scanners.")
+shortdesc=("libusb->libusb-compat transition package")
 
-tags=("libs sys-libs")
-
-source=("http://sourceforge.net/projects/libusb/files/libusb-compat-0.1/libusb-compat-${pkgver}/libusb-compat-${pkgver}.tar.bz2")
-
-build_deps="libusb1"
-
-
-BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
+tags=("virtual sys-libs")
+adddep="libusb-compat"
+build() {
+	echo "Building virtual package"
+}
