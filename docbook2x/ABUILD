@@ -9,8 +9,8 @@ shortdesc=("A software package that converts DocBook documents into the traditio
 
 tags=("app-text console")
 
-adddep="perl-XML-SAX perl-xml-parser perl-sgmls libxslt jade"
-build_deps="perl-XML-SAX perl-xml-parser perl-sgmls libxslt jade"
+adddep="perl-XML-SAX perl-xml-parser perl-sgmls libxslt openjade"
+build_deps="perl-XML-SAX perl-xml-parser perl-sgmls libxslt openjade"
 
 source=("http://downloads.sourceforge.net/$pkgname/docbook2X-$pkgver.tar.gz")
 
