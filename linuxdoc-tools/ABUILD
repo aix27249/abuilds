@@ -8,7 +8,8 @@ arch=("auto")
 shortdesc=("utilities for working with DocBook and SGML - virtual package")
 tags=("app-text develop")
 
-build_deps="openjade groff"
+build_deps="openjade groff perl"
+adddep="asciidoc sgml-common docbook-sgml opensp openjade docbook-dsssl docbook-utils docbook-xml docbook-xsl xmlto perl-sgmls"
 source=("http://ftp.de.debian.org/debian/pool/main/l/${pkgname}/${pkgname}_${pkgver}.tar.gz")
 before_build() {
 	go_src_dir
