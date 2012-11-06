@@ -7,7 +7,7 @@ shortdesc=('bdftopcf')
 longdesc=('bdftopcf is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-apps xserver')
-
+build_deps="util-macros xproto libXfont fontsproto"
 source=("http://xorg.freedesktop.org/archive/individual/app/bdftopcf-${pkgver}.tar.bz2")
 
 
