@@ -1,57 +1,19 @@
-#!/bin/bash
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=fakeroot
-pkgver=1.18
+pkgver=1.18.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Fakeroot makes it possible to run commands in an environment  faking root privileges"
 
-source=("http://ftp.de.debian.org/debian/pool/main/f/fakeroot/${pkgname}_${pkgver}.orig.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
-
-tags="develop dev-util"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS"
-CFLAGS="$SLKCFLAGS"
-export CFLAGS LDFLAGS
-
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---docdir=/usr/doc/$pkgname-$pkgver
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
+source=("http://ftp.debian.org/debian/pool/main/f/fakeroot/${pkgname}_${pkgver}.orig.tar.bz2")
+tags="develop dev-util"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="-prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--with-ipc=sysv \
+	--docdir=/usr/doc/$pkgname-$pkgver"
 
