@@ -2,7 +2,7 @@
 
 pkgname=cyrus-sasl
 pkgver=2.1.23
-pkgbuild=7
+pkgbuild=8
 arch=('auto')
 
 shortdesc=('cyrus-sasl (Simple Authentication and Security Layer)')
@@ -13,7 +13,7 @@ tags=('dev-libs network')
 source=("ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-${pkgver}.tar.gz")
 config_files="etc/conf.d/saslauthd"
 
-build_deps='krb5 openssl-solibs glibc-solibs'
+build_deps='openssl-solibs glibc-solibs'
 
 
 BUILD_SYSTEM='autotools'

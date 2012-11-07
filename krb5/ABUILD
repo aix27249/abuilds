@@ -12,7 +12,7 @@ tags=("libs net-libs")
 
 source=("http://web.mit.edu/kerberos/dist/${pkgname}/1.10/${pkgname}-${pkgver}-signed.tar")
 
-build_deps="e2fsprogs openldap perl"
+build_deps="e2fsprogs openldap perl openssl"
 config_files="etc/krb5.conf
 var/lib/krb5kdc/kdc.conf"
 
