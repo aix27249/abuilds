@@ -1,0 +1,29 @@
+#ABUILD created by/создан: medved, medved55rus at gmail.com 
+#----------------------------- General vars --------------------------------------
+pkgname=xf86-video-fbdev
+pkgver=0.4.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="X.org framebuffer video driver"
+
+source=("http://xorg.freedesktop.org/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="xserver x11-drivers"
+
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
