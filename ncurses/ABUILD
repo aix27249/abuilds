@@ -12,7 +12,7 @@ tags=("libs sys-libs")
 
 source=("ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-build_deps="glibc-solibs gpm"
+build_deps="glibc-solibs"
 if [ "$ARCH" = "x86_64" ] ; then
 	X86_64OPTS=" --with-chtype=long --with-mmask-t=long "
 fi
