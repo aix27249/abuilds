@@ -13,7 +13,9 @@ tags=("libs dev-libs")
 source=("ftp://ftp.gnu.org/gnu/gmp/gmp-${pkgver}.tar.xz")
 
 before_build() {
- 	[ "$ARCH" = "i686" ] && export ABI=32
+ 	if [ "$ARCH" != "x86_64" ] ; then
+		export ABI=32
+	fi
 }
 
 
