@@ -19,3 +19,8 @@ docs="CHANGES.txt CREDITS.txt license/Artistic.txt license/GNU_GPL.txt license/G
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
 
+after_build(){
+  go_src_dir
+  find ${pkgdir} -name perllocal.pod -delete
+  find ${pkgdir} -name .packlist -delete
+}
