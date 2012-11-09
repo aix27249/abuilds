@@ -2,7 +2,7 @@
 pkgname=text-glob
 pkgver=0.09
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="Match globbing patterns against text"
 
