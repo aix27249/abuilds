@@ -21,6 +21,5 @@ BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
 
 after_build(){
   go_src_dir
-  find ${pkgdir} -name perllocal.pod -delete
-  find ${pkgdir} -name .packlist -delete
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 }
