@@ -2,7 +2,7 @@
 pkgname=number-compare
 pkgver=0.03
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="Perl/CPAN Module Number::Compare."
 
