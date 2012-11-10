@@ -1,0 +1,24 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=net-ip
+pkgver=1.25
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Perl Module:  Easy manipulation of IPv4 and IPv6 addresses"
+
+source=("http://www.cpan.org/authors/id/M/MA/MANU/Net-IP-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}
