@@ -13,7 +13,7 @@ tags="libs dev-perl"
 
 build_deps="make perl"
 
-adddep="perl http-date http-message"
+adddep="http-date http-message"
 
 docs="Changes"
 
@@ -22,5 +22,6 @@ BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
 
 after_build(){
   go_src_dir
+  make test
   rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 }
