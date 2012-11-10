@@ -1,8 +1,9 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 
 # Package metadata
 pkgname=sylpheed
-pkgver=3.2.0
+pkgver=3.3.0
+linkver=${pkgver::3}
 pkgbuild=1
 arch=("auto")
 
@@ -12,7 +13,7 @@ longdesc=("Sylpheed is an e-mail client based on GTK+ GUI toolkit. It runs on X 
 "Homepage: http://sylpheed.sraoss.jp/en/")
 
 # Source URL
-source=("http://sylpheed.sraoss.jp/sylpheed/v3.2/sylpheed-${pkgver}.tar.bz2")
+source=("http://sylpheed.sraoss.jp/sylpheed/v${linkver}/${pkgname}-${pkgver}.tar.bz2")
 
 # Tags
 tags=("network mail-client")
@@ -34,7 +35,7 @@ after_build() {
     install -m 0644 sylpheed.desktop ${pkgdir}/usr/share/applications/sylpheed.desktop
     install -m 0644 sylpheed-128x128.png ${pkgdir}/usr/share/pixmaps/sylpheed.png
 
-    ( cd ${pkgdir}/usr/doc/$PRGNAM-$VERSION
+    ( cd ${pkgdir}/usr/doc/$pkgname-$pkgver
 	ln -s ../../share/sylpheed/faq faq
 	ln -s ../../share/sylpheed/manual manual
     )
