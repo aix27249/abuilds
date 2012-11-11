@@ -1,0 +1,38 @@
+#!/sbin/runscript
+
+PID_FC=`pidof -o %PPID /usr/bin/freshclam`
+PID_CD=`pidof -o %PPID /usr/sbin/clamd`
+
+depend() {
+  need net
+  use dns
+}
+
+start() {
+  if [ "$START_CLAMD" == "yes" ]; then
+     ebegin "Starting ClamD"
+     [ -z "$PID_CD" ] && start-stop-daemon --start \
+                       --quiet \
+                       --background \
+                       --exec /usr/sbin/clamd
+  fi
+  sleep 1
+  if [ "$START_FRESHCLAM" == "yes" ]; then
+     ebegin "Starting FreshClam"
+     [ -z "$PID_FC" ] && /usr/bin/freshclam -p /var/run/clamav/freshclam.pid -d $FRESHCLAM_OPTS
+  fi
+  eend $?
+}
+
+stop () {
+  if [ "$START_CLAMD" == "yes" ]; then
+     ebegin "Stopping ClamD"
+     [ -n "$PID_CD" ] && kill $PID_CD &> /dev/null
+  fi
+  if [ "$START_FRESHCLAM" == "yes" ]; then
+     ebegin "Stopping FreshClam"
+     [ -n "$PID_FC" ] && kill $PID_FC &> /dev/null
+  fi
+  eend $?
+}
+
