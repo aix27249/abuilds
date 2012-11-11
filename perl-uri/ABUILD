@@ -3,7 +3,7 @@
 pkgname=perl-uri
 pkgver=1.60
 pkgbuild=1
-arch=("auto")
+arch=("noarch")
 
 shortdesc=("Uniform Resource Identifiers (absolute and relative) for Perl")
 
