@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-net-dns
+pkgver=0.68
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Perl Module: Interface to the DNS resolver"
+
+source=("http://www.cpan.org/authors/id/O/OL/OLAF/Net-DNS-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+adddep="perl-digest-hmac perl-net-ip"
+
+build_deps="perl ${adddep}"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find "${pkgdir}" -name .packlist -delete
+  find "${pkgdir}" -name perllocal.pod -delete
+}
