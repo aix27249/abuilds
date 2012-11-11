@@ -11,9 +11,9 @@ source=("http://search.cpan.org/CPAN/authors/id/P/PV/PVANDRY/gettext-${pkgver}.t
 
 tags="libs dev-perl"
 
-build_deps="perl"
-
 adddep="gettext"
+
+build_deps="perl ${adddep}"
 
 docs="Changes"
 
