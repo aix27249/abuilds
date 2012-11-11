@@ -8,7 +8,7 @@ shortdesc=('AgiliaLinux version package')
 longdesc=('This package contains /etc/agilialinux-version, which indicates current system version.')
 
 tags=('base sys-base')
-
+build_deps="mkpkg"
 build() {
 	set -e
 	install -Dm644 ${filedir}/agilialinux-version ${pkgdir}/etc/agilialinux-version

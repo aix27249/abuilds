@@ -11,7 +11,7 @@ adddep="fontconfig encodings font-util"
 tags=("x11-fonts xserver")
 
 source=("http://unifoundry.com/unifont-${pkgver}.bdf.gz n")
-
+build_deps="mkpkg"
 build() {
 	install -Dm0644 ${srcache}/unifont-${pkgver}.bdf.gz ${pkgdir}/usr/share/fonts/misc/unifont.bdf.gz
 	gunzip ${pkgdir}/usr/share/fonts/misc/unifont.bdf.gz
