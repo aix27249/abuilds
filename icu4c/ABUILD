@@ -1,79 +1,22 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=icu4c
-pkgver=49.1.2
+pkgver=50.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="International Components for Unicode"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("The C and C++ languages and many operating system environments do not provide full support for Unicode and standards-compliant text handling services. Even though some platforms do provide good Unicode text handling services, portable application code can not make use of them. The ICU4C libraries fills in this gap. ICU4C provides an open, flexible, portable foundation for applications to use for their software globalization requirements. ICU4C closely tracks industry standards, including Unicode and CLDR (Common Locale Data Repository). ICU Home Page: http://www.icu-project.org"
-)
 
 source=("http://download.icu-project.org/files/${pkgname}/${pkgver}/${pkgname}-${pkgver//./_}-src.tgz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="dev-libs libs"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs="" #license.html readme.html icu4c.css unicode-license.txt"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-
-mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-cp -v ${srcdir}/icu/{license.html,readme.html,icu4c.css,unicode-license.txt} \
-	${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-}
 src_subdir=source/
+
+build_deps="glibc-solibs gcc-libs"
+
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

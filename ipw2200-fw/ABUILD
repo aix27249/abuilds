@@ -10,7 +10,7 @@ tags=("network net-wireless")
 
 source=("http://bughost.org/firmware/${pkgname}-${pkgver}.tgz")
 
-build_deps=""
+build_deps="mkpkg"
 
 build() {
 	go_src_dir

@@ -11,7 +11,7 @@ tags=("develop sys-devel")
 
 source=("http://www.kotnet.org/~skimo/isl/$pkgname-$pkgver.tar.bz2")
 
-build_deps=""
+build_deps="gmp glibc-solibs"
 
 
 BUILD_SYSTEM="autotools"
