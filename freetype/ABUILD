@@ -1,23 +1,14 @@
-# $Id: PKGBUILD 69127 2010-02-17 20:32:42Z jgc $
-# Maintainer: Jan de Groot <jgc@archlinux.org>
-
 pkgname=freetype
 pkgver=2.4.10
-pkgbuild=1
+pkgbuild=2
 shortdesc="TrueType font rendering library"
 longdesc="TrueType font rendering library"
 arch=('auto')
-source=("http://download.savannah.gnu.org/releases/freetype/freetype-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/sourceforge/freetype/freetype-${pkgver}.tar.bz2")
 tags=("libs media-libs")
-build() {
-	go_src_dir
-	burn_patches
-	#echo "Bytecode patch..."
-	#zcat ${filedir}/freetype.bytecode.interpreter.diff.gz | patch -p1 -R --verbose || exit 1
-	#echo "Subpixel patch..."
-	#zcat ${filedir}/freetype.subpixel.rendering.diff.gz | patch -p1 -R --verbose || exit 1
-	echo "Configuring"
-	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX || exit 1
-	make -j${numjobs} || exit 1
-	make DESTDIR="${pkgdir}" install || exit 1
-}
+
+build_deps="bzip2 zlib"
+adddep="bash"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
+

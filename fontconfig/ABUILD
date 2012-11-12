@@ -1,6 +1,6 @@
 pkgname=fontconfig
 pkgver=2.10.1
-pkgbuild=4
+pkgbuild=5
 arch=("auto")
 
 shortdesc=("fontconfig (Font library and tools)")
@@ -9,16 +9,28 @@ longdesc=("Fontconfig is a library and tools designed to provide system-wide fon
 tags=("xserver x11-utils")
 
 source=("http://www.fontconfig.org/release/$pkgname-$pkgver.tar.gz")
-
+build_deps="bzip2 expat freetype"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --localstatedir=/var --disable-docs"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--mandir=/usr/man \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--disable-docs \
+	--with-add-fonts=/usr/share/fonts \
+	--with-templatedir=/etc/fonts/conf.avail \
+	--with-xmldir=/etc/fonts \
+	--with-default-fonts=/usr/share/fonts"
+
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 
 after_build() {
 	rm -rf ${pkgdir}/usr/share/doc
 	( cd ${pkgdir}/etc/fonts/conf.d
+	
+	# FIXME: Maybe we should leave these settings to user?
 	for fontconf in \
 		20-unhint-small-vera.conf \
 		30-urw-aliases.conf \
@@ -34,7 +46,7 @@ after_build() {
 		69-unifont.conf \
 		80-delicious.conf \
 		90-synthetic.conf ; do
-	ln -sf ../../../usr/share/fontconfig/conf.avail/$fontconf . || exit 1
+	ln -sf ../conf.avail/$fontconf . || exit 1
 done
 
 )

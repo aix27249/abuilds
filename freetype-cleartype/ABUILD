@@ -1,71 +1,25 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=freetype-cleartype
 pkgver=2.4.10
-pkgbuild=2
-arch=('any')
+pkgbuild=4
+arch=('auto')
 shortdesc="TrueType font rendering library, with infinality.net cleartype patchset"
-
-
 source=("http://downloads.sourceforge.net/sourceforge/freetype/freetype-${pkgver}.tar.bz2")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
 tags="libs x11-libs"
-adddep=""
-removedep=""
-
 provides="freetype"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
+build_deps="bzip2 zlib"
+adddep="bash"
 
-#author=Unnamed_Hero
-#email=sorry@email.hide
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-	echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-	go_src_dir
-
-	burn_patches
-
-	LDFLAGS="$SLKLDFLAGS -lm" \
-		CFLAGS="$SLKCFLAGS" \
-		CXXFLAGS="$SLKCFLAGS" \
-		./configure --prefix=/usr \
-		--sysconfdir=/etc \
-		--localstatedir=/var \
-		--libdir=/usr/lib${LIBDIRSUFFIX} \
-		--disable-static \
-		--mandir=/usr/man \
-		--program-prefix= \
-		--program-suffix= 
-
-	make -j${numjobs} || exit 1
-	make install DESTDIR=${pkgdir} || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
+after_build() {
 	mkdir -p ${pkgdir}/etc/{profile.d,fonts,skel}
-	install -m644 ${filedir}/local.conf ${pkgdir}/etc/fonts || exit 1
-	install -m755 ${filedir}/infinality-settings.sh ${pkgdir}/etc/profile.d/infinality-settings.sh || exit 1
-	install -Dm644 ${filedir}/Xresources ${pkgdir}/usr/doc/freetype-cleartype-${pkgver}/Xresources.example || exit 1
+	install -m644 ${filedir}/local.conf ${pkgdir}/etc/fonts
+	install -m755 ${filedir}/infinality-settings.sh ${pkgdir}/etc/profile.d/infinality-settings.sh
+	install -Dm644 ${filedir}/Xresources ${pkgdir}/usr/doc/freetype-cleartype-${pkgver}/Xresources.example
 
 	cd ${pkgdir}/etc/fonts
-	patch -p0 < ${filedir}/enable-bitmap.patch || exit 1
-	patch -p0 < ${filedir}/disable_ter_ttf.patch || exit 1
-	patch -p0 < ${filedir}/freetype-localconf-fix.patch || exit 1
+	patch -p0 < ${filedir}/enable-bitmap.patch
+	patch -p0 < ${filedir}/disable_ter_ttf.patch
+	patch -p0 < ${filedir}/freetype-localconf-fix.patch
 
 }
