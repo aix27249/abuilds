@@ -1,9 +1,9 @@
 pkgname=python-beaker
-pkgver=1.5.4
+pkgver=1.6.3
 pkgbuild=1
 arch='auto'
 shortdesc='Caching and sessions WSGI middleware for use with web applications and stand-alone Python scripts and applications'
 source=(http://cheeseshop.python.org/packages/source/B/Beaker/Beaker-$pkgver.tar.gz)
 tags="libs dev-python"
-
+build_deps="python pysetuptools"
 BUILD_SYSTEM="python"

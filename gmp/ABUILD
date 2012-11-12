@@ -5,12 +5,20 @@ pkgver=5.0.5
 pkgbuild=1
 arch=("auto")
 
-shortdesc=("gmp (GNU multiple precision arithmetic library)")
+shortdesc=("GNU multiple precision arithmetic library")
 longdesc=("GNU MP is a library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating point numbers. It has a rich set of functions, and the functions have a regular interface.")
 
 tags=("libs dev-libs")
 
 source=("ftp://ftp.gnu.org/gnu/gmp/gmp-${pkgver}.tar.xz")
+
+# FIXME: this build_deps ARE incorrect.
+# Real build deps is glibc, gcc and gcc-g++, but they are build-essential. 
+# We need to prevent a loop (because gcc requires gmp), so we will specify glibc-solibs here only.
+# Maybe, it will be better to specify real build_deps and define a proper loop order.
+# 
+
+build_deps="glibc-solibs"
 
 before_build() {
  	if [ "$ARCH" != "x86_64" ] ; then
