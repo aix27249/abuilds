@@ -8,6 +8,7 @@ shortdesc="A tool to copy files into or out of a cpio or tar archive"
 source=("ftp://ftp.gnu.org/gnu/cpio/cpio-${pkgver}.tar.gz")
 
 tags="base app-arch"
+build_deps="glibc-solibs"
 
 before_build() {
 	go_src_dir
@@ -31,7 +32,6 @@ BUILD_KEYS="--prefix=/usr \
 INSTALL_KEYS="DESTDIR=${pkgdir} INSTALL='install -p'"
 
 after_build() {
-
 	rm -rf ${pkgdir}/usr/libexec
 	
 	# Don't clobber mt
