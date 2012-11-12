@@ -1,0 +1,19 @@
+pkgname=bison
+pkgver=2.6.5
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Parser generator similar to yacc")
+longdesc=("GNU "Bison" is a general-purpose parser generator that converts a grammar description for an LALR(1) context-free grammar into a C program to parse that grammar. Bison is upward compatible with Yacc: all properly-written Yacc grammars ought to work with Bison with no change. Anyone familiar with Yacc should be able to use Bison with little trouble.")
+
+tags=("develop sys-devel")
+
+source=("http://ftp.gnu.org/gnu/bison/bison-${pkgver}.tar.xz")
+
+build_deps="glibc-solibs"
+adddep="m4 bash"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
