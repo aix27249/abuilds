@@ -8,7 +8,8 @@ longdesc=("Gzip reduces the size of the named files using Lempel-Ziv coding (LZ7
 
 tags=("base app-arch")
 
-build_deps=""
+build_deps="glibc-solibs"
+adddep="bash"
 
 source=("ftp://ftp.gnu.org/pub/gnu/gzip/gzip-$pkgver.tar.xz")
 

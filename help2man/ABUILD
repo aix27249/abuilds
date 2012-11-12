@@ -1,0 +1,23 @@
+pkgname=help2man
+pkgver=1.40.12
+pkgbuild=1
+arch="auto"
+
+# Package description
+shortdesc=("Help to man converter")
+source=("ftp://ftp.gnu.org/gnu/help2man/help2man-${pkgver}.tar.gz")
+
+tags="develop dev-util"
+
+# FIXME: locale-gettext eventually should be renamed to perl-locale-gettext to conform naming standards
+adddep="bash locale-gettext"
+build_deps="locale-gettext"
+
+# Build system
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--mandir=/usr/man \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--localstatedir=/var \
+	--sysconfdir=/etc"
+
