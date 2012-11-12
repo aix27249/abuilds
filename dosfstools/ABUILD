@@ -11,7 +11,7 @@ longdesc=("Utilities for creating FAT filesystems (mkdosfs), and for checking an
 tags=("base sys-fs")
 
 source=("http://www.daniel-baumann.ch/software/dosfstools/$pkgname-$pkgver.tar.bz2")
-build_deps=""
+build_deps="glibc-solibs"
 
 build() {
 	go_src_dir

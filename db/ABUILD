@@ -10,6 +10,7 @@ shortdesc=("Berkeley embedded database system")
 tags=("libs dev-libs")
 
 source=("http://download.oracle.com/berkeley-db/db-${pkgver}.tar.gz")
+build_deps="glibc-solibs gcc-libs"
 
 build() {
 	go_src_dir

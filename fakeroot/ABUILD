@@ -7,6 +7,9 @@ shortdesc="Fakeroot makes it possible to run commands in an environment  faking 
 
 source=("http://ftp.debian.org/debian/pool/main/f/fakeroot/${pkgname}_${pkgver}.orig.tar.bz2")
 tags="develop dev-util"
+build_deps="glibc-solibs"
+adddep="sed util-linux-ng bash coreutils"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="-prefix=/usr \
 	--sysconfdir=/etc \

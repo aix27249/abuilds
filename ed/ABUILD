@@ -11,7 +11,7 @@ longdesc=("GNU ed is an 8-bit clean, more or less POSIX-compliant implementation
 tags=("base sys-base")
 
 source=("ftp://ftp.gnu.org/gnu/ed/${pkgname}-${pkgver}.tar.gz")
-
+build_deps="glibc-solibs"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc CFLAGS=\"$CFLAGS\" LDFLAGS=\"$LDFLAGS\""

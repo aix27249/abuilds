@@ -9,6 +9,7 @@ longdesc=('System configuration files. The /etc directory is traditionally the l
 
 tags=('base sys-base')
 custom_opts="no_postperm skip_gendeps"
+build_deps="mkpkg"
 
 source=("https://github.com/aix27249/agilialinux-etc/tarball/${pkgver}")
 adddep="agilialinux-version"
@@ -16,14 +17,6 @@ adddep="agilialinux-version"
 build() {
 	go_src_dir
 	burn_patches
-
-	# For now, let's use old and time-proven method with doinst.sh to handle .new files.
-	# Also, this magic doesn't work :)
-	#for i in $(find . -name '*.new') ; do
-	#	normname=$(dirname $i)/$(basename $i .new)
-	#	config_files="$config_files $normname"
-	#	mv $i $normname
-	#done
 
 	for dir in etc usr var ; do
 		mv -v $dir ${pkgdir}/

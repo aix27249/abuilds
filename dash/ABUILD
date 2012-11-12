@@ -11,7 +11,7 @@ tags=("app-shells console")
 
 source=("http://gondor.apana.org.au/~herbert/dash/files/dash-${pkgver}.tar.gz")
 
-build_deps=""
+build_deps="glibc-solibs"
 
 
 BUILD_SYSTEM="autotools"

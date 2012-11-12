@@ -1,14 +1,15 @@
 pkgname=dejavu-fonts-ttf
 pkgver=2.33
-pkgbuild=2
+pkgbuild=3
 arch=('noarch')
 
 shortdesc="Font family based on the Bitstream Vera Fonts with a wider range of characters"
 
 source=("http://downloads.sourceforge.net/project/dejavu/dejavu/${pkgver}/dejavu-fonts-ttf-${pkgver}.tar.bz2"
-		"http://downloads.sourceforge.net/project/dejavu/dejavu/${pkgver}/dejavu-lgc-fonts-ttf-${pkgver}.tar.bz2")
+	"http://downloads.sourceforge.net/project/dejavu/dejavu/${pkgver}/dejavu-lgc-fonts-ttf-${pkgver}.tar.bz2")
 
 tags="media-fonts xserver"
+build_deps="mkpkg"
 
 build()
 {

@@ -12,7 +12,8 @@ tags=("base sys-base")
 
 source=("ftp://ftp.gnu.org/pub/gnu/findutils/${pkgname}-${pkgver}.tar.gz")
 
-build_deps=""
+build_deps="glibc-solibs"
+adddep="bash"
 
 before_build() {
 	go_src_dir

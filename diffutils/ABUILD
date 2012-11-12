@@ -1,0 +1,22 @@
+pkgname=diffutils
+pkgver=3.2
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("diffutils (finds differences between files)")
+longdesc=("The GNU diff utilities finds differences between files. A major use for this package is to make source code patches.")
+
+tags=("console sys-devel")
+
+source=("ftp://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+
+build_deps="glibc-solibs"
+adddep="bash"
+before_build() {
+	# fix glibc-2.16 build issue
+	sed -i -e '/gets is a/d' lib/stdio.in.h
+}
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

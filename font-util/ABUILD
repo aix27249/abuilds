@@ -7,11 +7,17 @@ shortdesc=('font-util')
 longdesc=('font-util is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-fonts xserver')
-
+build_deps="util-macros"
 source=("http://xorg.freedesktop.org/archive/individual/font/font-util-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--infodir=/usr/info \
+	--mandir=/usr/man \
+	--with-fontrootdir=/usr/share/fonts \
+	--with-mapdir=/usr/share/fonts/util"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 
