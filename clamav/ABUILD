@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru.
 pkgname=clamav
 pkgver=0.97.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Clam AntiVirus is an open source (GPL) anti-virus toolkit for UNIX"
@@ -47,7 +47,7 @@ INSTALL_KEYS="DESTDIR=${pkgdir}"
 after_build(){
   go_src_dir
   install -D -m644 "${filedir}/clamav.logrotate" "${pkgdir}/etc/logrotate.d/clamav"
-  install -D -m644 "${filedir}/clamav" "${pkgdir}/etc/init.d/clamav"
+  install -D -m755 "${filedir}/clamav" "${pkgdir}/etc/init.d/clamav"
   install -D -m644 "${filedir}/clamav.confd" "${pkgdir}/etc/conf.d/clamav"
   install -d -o 64 -g 64 ${pkgdir}/var/{clamav,log/clamav,lib/clamav,run/clamav}
   chown clamav:clamav ${pkgdir}/var/clamav \

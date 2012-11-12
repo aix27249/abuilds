@@ -4,8 +4,8 @@ PID_FC=`pidof -o %PPID /usr/bin/freshclam`
 PID_CD=`pidof -o %PPID /usr/sbin/clamd`
 
 depend() {
-  need net
-  use dns
+  need net localmount
+  use logger dns
 }
 
 start() {
