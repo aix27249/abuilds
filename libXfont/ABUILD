@@ -3,12 +3,13 @@ pkgver=1.4.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXfont')
-longdesc=('libXfont is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=("X11 font rasterization library")
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXfont-${pkgver}.tar.bz2")
+build_deps="fontsproto freetype libfontenc xproto bzip2 xtrans util-macros"
+adddep="fontsproto xproto"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
