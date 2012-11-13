@@ -2,7 +2,7 @@
 
 pkgname=shadow
 pkgver=4.1.5.1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("shadow password suite")
@@ -47,8 +47,10 @@ build() {
 	export LDFLAGS="$SLKLDFLAGS -lcrypt"
 	./configure --prefix=/usr --libdir=/lib${LIBDIRSUFFIX} \
 		--mandir=/usr/man --sysconfdir=/etc \
-		--enable-shared --disable-static \
-		--with-libpam --without-selinux
+		--disable-shared --enable-static \
+		--with-libpam --without-selinux \
+		--without-tcb \
+		--without-group-name-max-length
 	make -j${numjobs} || make
 	make install DESTDIR=${pkgdir}
 
@@ -78,7 +80,11 @@ build() {
 	# login.defs
 	install -Dm644 "${filedir}/login.defs" "$pkgdir/etc/login.defs"
 
-	set +e
+	# Remove static libs, since they are internal-only
+	rm -f ${pkgdir}/{,usr}/lib${LIBDIRSUFFIX}/lib{misc,shadow}.{a,la}
+
 
 }
+
+
 
