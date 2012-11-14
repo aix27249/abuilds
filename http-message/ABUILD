@@ -1,0 +1,27 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=http-message
+pkgver=6.03
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="HTTP style messages"
+
+source=("http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/HTTP-Message-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="make perl"
+
+adddep="encode-locale html-parser http-date lwp-mediatypes perl-uri"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

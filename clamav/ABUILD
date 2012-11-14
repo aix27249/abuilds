@@ -1,51 +1,57 @@
-#ABUILD created by/создан: CyberMix, mos.mix at gmail.com 
+#ABUILD created by/создан: khvalera, khvalera at narod.ru.
 pkgname=clamav
-pkgver=0.97.3
-pkgbuild=3
+pkgver=0.97.6
+pkgbuild=2
 arch=('auto')
 
-shortdesc="Clam Antivirus"
-longdesc=("Clam AntiVirus is an open source (GPL) anti-virus toolkit for UNIX, designed especially for e-mail scanning on mail gateways. It provides a number of utilities including a flexible and scalable multi-threaded daemon, a command line scanner and advanced tool for automatic database updates. The core of the package is an anti-virus engine available in a form of shared library.")
+shortdesc="Clam AntiVirus is an open source (GPL) anti-virus toolkit for UNIX"
 
 source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 
 tags="utils app-misc"
 
+adddep="zlib"
+
+docs="UPGRADE"
+
+custom_opts="no_postperm"
+
+config_files='/etc/clamav/freshclam.conf
+/etc/clamav/clamd.conf
+/etc/conf.d/clamav'
+
+before_build(){
+  if ! [[ "$(less /etc/group | grep clamav)" && "$(less /etc/passwd | grep clamav)" ]] ; then
+      echo "You need to create a user and group clamav"
+      echo "sudo useradd -u 64 -g clamav -c 'Clam AntiVirus' -d /dev/null -s /bin/false clamav"
+      echo "sudo groupadd -g 64 clamav"
+      exit
+  fi
+  echo "End before_build"
+}
+
 BUILD_SYSTEM="autotools"
+
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
+--sysconfdir=/etc/clamav \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---disable-clamav \
 --with-dbdir=/var/lib/clamav \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build() {
-	install -D -m644 etc/clamd.conf "$pkgdir/etc/clamav/clamd.conf"
-	install -D -m644 etc/freshclam.conf "$pkgdir/etc/clamav/freshclam.conf"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-	install -D -m644 ../clamav.logrotate "$pkgdir/etc/logrotate.d/clamav"
-	install -D -m644 ../clamav.confd "$pkgdir/etc/conf.d/clamav"
-	install -D -m755 ../clamav "$pkgdir/etc/rc.d/clamav"
-	
-	groupadd clamav
-	useradd -g clamav clamav
-	
-	mkdir /var/clamav
-	chown clamav:clamav /var/clamav
-	mkdir /var/log/clamav/
-	chown clamav:clamav /var/log/clamav/
-	mkdir /usr/share/clamav
-	chown clamav:clamav /usr/share/clamav
-
-	rm "$pkgdir"/var/lib/clamav/*.cvd
-	touch /var/log/freshclam.log
-	chmod 600 /var/log/freshclam.log
-
-	chown -R clamav:clamav /var/log/clamav
-	chowm clamav:clamav /var/log/freshclam.log
+after_build(){
+  go_src_dir
+  install -D -m644 "${filedir}/clamav.logrotate" "${pkgdir}/etc/logrotate.d/clamav"
+  install -D -m755 "${filedir}/clamav" "${pkgdir}/etc/init.d/clamav"
+  install -D -m644 "${filedir}/clamav.confd" "${pkgdir}/etc/conf.d/clamav"
+  install -d -o 64 -g 64 ${pkgdir}/var/{clamav,log/clamav,lib/clamav,run/clamav}
+  chown clamav:clamav ${pkgdir}/var/clamav \
+                      ${pkgdir}/var/run/clamav \
+                      ${pkgdir}/var/log/clamav \
+                      ${pkgdir}/var/lib/clamav
 }

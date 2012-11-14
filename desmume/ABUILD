@@ -1,0 +1,27 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+pkgname=desmume
+pkgver=0.9.8
+pkgbuild=1
+arch=('auto')
+shortdesc="Nintendo DS emulator"
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+#----------------------------- AgiliaLinux vars --------------------------------------
+#short and long tags / длинный и короткий тег
+tags="games games-emulation"
+build_deps="agg gtkglext libpcap alsa-lib soundtouch freeglut lua" # zziplib
+#----------------------------- Make PKG --------------------------------------
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --mandir=/usr/man \
+    --enable-wifi \
+    --program-prefix= \
+    --program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

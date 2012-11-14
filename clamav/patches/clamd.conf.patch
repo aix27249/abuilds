@@ -1,6 +1,6 @@
---- clamav-0.97/etc/clamd.conf.orig	2011-01-20 14:12:41.000000000 +0000
-+++ clamav-0.97/etc/clamd.conf	2011-03-11 21:29:45.000000000 +0000
-@@ -5,7 +5,7 @@
+--- etc/clamd.conf_old	2012-06-12 16:03:26.000000000 +0300
++++ etc/clamd.conf	2012-11-11 23:16:25.990000010 +0300
+@@ -5,13 +5,13 @@
  
  
  # Comment or remove the line below.
@@ -9,16 +9,39 @@
  
  # Uncomment this option to enable logging.
  # LogFile must be writable for the user running daemon.
-@@ -58,7 +58,7 @@
+ # A full path is required.
+ # Default: disabled
+-#LogFile /tmp/clamd.log
++LogFile /var/log/clamav/clamd.log
+ 
+ # By default the log file is locked for writing - the lock protects against
+ # running clamd multiple times (if want to run another clamd, please
+@@ -31,7 +31,7 @@
+ 
+ # Log time with each message.
+ # Default: no
+-#LogTime yes
++LogTime yes
+ 
+ # Also log clean files. Useful in debugging but drastically increases the
+ # log size.
+@@ -53,20 +53,20 @@
+ 
+ # Log additional information about the infected file, such as its
+ # size and hash, together with the virus name.
+-#ExtendedDetectionInfo yes
++ExtendedDetectionInfo yes
+ 
  # This option allows you to save a process identifier of the listening
  # daemon (main thread).
  # Default: disabled
 -#PidFile /var/run/clamd.pid
-+PidFile /var/run/clamd.pid
++PidFile /var/run/clamav/clamd.pid
  
  # Optional path to the global temporary directory.
  # Default: system specific (usually /tmp or /var/tmp).
-@@ -66,7 +66,7 @@
+-#TemporaryDirectory /var/tmp
++TemporaryDirectory /tmp
  
  # Path to the database directory.
  # Default: hardcoded (depends on installation options)
@@ -32,11 +55,11 @@
  # Path to a local socket file the daemon will listen on.
  # Default: disabled (must be specified by a user)
 -#LocalSocket /tmp/clamd.socket
-+LocalSocket /var/run/clamd.socket
++LocalSocket /var/lib/clamav/clamd.socket
  
  # Sets the group ownership on the unix socket.
  # Default: disabled (the primary group of the user running clamd)
-@@ -157,8 +157,8 @@
+@@ -156,8 +156,8 @@
  # Don't scan files and directories matching regex
  # This directive can be used multiple times
  # Default: scan all
@@ -47,34 +70,3 @@
  
  # Maximum depth directories are scanned at.
  # Default: 15
---- clamav-0.97/etc/freshclam.conf	2011-03-12 09:25:47.000000000 +0000
-+++ clamav-0.97/etc/freshclam.conf.orig	2011-03-12 09:25:37.000000000 +0000
-@@ -5,16 +5,16 @@
- 
- 
- # Comment or remove the line below.
--#Example
-+Example
- 
- # Path to the database directory.
- # WARNING: It must match clamd.conf's directive!
- # Default: hardcoded (depends on installation options)
--DatabaseDirectory /var/lib/clamav
-+#DatabaseDirectory /var/lib/clamav
- 
- # Path to the log file (make sure it has proper permissions)
- # Default: disabled
--UpdateLogFile /var/log/freshclam.log
-+#UpdateLogFile /var/log/freshclam.log
- 
- # Maximum size of the log file.
- # Value of 0 disables the limit.
-@@ -118,7 +118,7 @@
- 
- # Send the RELOAD command to clamd.
- # Default: no
--#NotifyClamd /etc/clamd.conf
-+#NotifyClamd /path/to/clamd.conf
- 
- # Run command after successful database update.
- # Default: disabled

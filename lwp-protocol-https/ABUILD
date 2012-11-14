@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=lwp-protocol-https
+pkgver=6.03
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Provide https support for LWP::UserAgent"
+
+source=("http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/LWP-Protocol-https-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="io-socket-ssl mozilla-ca net-http libwww"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

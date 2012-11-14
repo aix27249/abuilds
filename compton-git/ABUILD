@@ -7,7 +7,7 @@ arch=('auto')
 
 shortdesc="Compositor for X, and a fork of xcompmgr"
 
-source=("git:https://github.com/chjj/${provides}")
+source=("git:git://github.com/chjj/compton.git")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="x11-apps xserver"
@@ -17,15 +17,15 @@ provides="compton"
 #----------------------------- Make PKG --------------------------------------
 before_build()
 {
-go_src_dir
+  go_src_dir
 }
 
 build()
 {
-make
+  make
 }
 
 after_build()
 {
-make DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install
 }

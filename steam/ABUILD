@@ -1,0 +1,51 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+#----------------------------- General vars --------------------------------------
+pkgname=steam
+pkgver=1.0.0.14_beta
+pkgbuild=1
+pkgsrc=steam.deb
+arch=('auto')
+
+shortdesc="Digital distribution client - closed beta - bootstrap package"
+
+source=("http://media.steampowered.com/client/installer/${pkgsrc}")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+tags="games games-util"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="bash desktop-file-utils hicolor-icon-theme  curl gnutls
+  libogg pixman sdl libtheora libvorbis alsa-lib glibc>=2.15 cairo cups dbus
+  fontconfig freetype libgcrypt gdk-pixbuf glib2 gtk+2 nspr nss openal pango libpng
+  libX11 libXext libXfixes libXi libXrandr libXrender zlib"
+#libjpeg-turbo
+removedep=""
+
+#----------------------------- Make PKG --------------------------------------
+build()
+{
+    go_src_dir
+    ar x $srcache/$pkgsrc
+    bsdtar xf data.tar.gz
+
+    # Replace [ ] with [[ ]] in /usr/bin/steam
+    sed "s/\[/\[\[/g" -i "$srcdir/usr/bin/steam"
+    sed "s/\]/\]\]/g" -i "$srcdir/usr/bin/steam"
+    cp -dpr --no-preserve=ownership "$srcdir/usr" "$pkgdir"
+
+    # Install license
+    install -Dm644 "$srcdir/usr/share/doc/steam/copyright" "$pkgdir/usr/share/licenses/steam/LICENSE"
+}
+
+
+#ran after function build() 
+#after_build()
+#{
+#}

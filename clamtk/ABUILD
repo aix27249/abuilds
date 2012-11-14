@@ -1,0 +1,40 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=clamtk
+pkgver=4.42
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GUI front-end for ClamAV using gtk2-perl"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="app-misc utils"
+
+adddep="clamav perl-gtk2 udev perl-date-calc perl-gettext perl-file-find-rule perl-libwww perl-net-dns perl-http-message"
+
+docs="CHANGES DISCLAIMER"
+
+build(){
+  go_src_dir
+  install -Dm755  clamtk ${pkgdir}/usr/bin/clamtk
+
+  # libs
+  for n in lib/* ; do
+      install -Dm644 ${n} ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/ClamTk/`basename ${n}`
+  done
+
+  #localization
+  for n in po/*.mo ; do
+      install -Dm644 ${n} ${pkgdir}/usr/share/locale/`basename ${n} .mo`/LC_MESSAGES/clamtk.mo
+  done
+
+  # man pages
+  install -Dm644 clamtk.1.gz ${pkgdir}/usr/man/man1/clamtk.1.gz
+  # pixmaps
+  install -Dm644 images/clamtk.xpm ${pkgdir}/usr/share/pixmaps/clamtk.xpm
+  install -Dm644 images/clamtk.png ${pkgdir}/usr/share/pixmaps/clamtk.png
+  install -Dm644 images/clamtk-loader.gif ${pkgdir}/usr/share/pixmaps/clamtk-loader.gif
+  # menu
+  install -Dm644  clamtk.desktop ${pkgdir}/usr/share/applications/clamtk.desktop
+}
