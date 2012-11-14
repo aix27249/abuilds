@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-gettext
+pkgver=1.05
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Permits access from Perl to the gettext() family of functions"
+
+source=("http://search.cpan.org/CPAN/authors/id/P/PV/PVANDRY/gettext-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+adddep="gettext"
+
+build_deps="perl ${adddep}"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find "${pkgdir}" -name .packlist -delete
+  find "${pkgdir}" -name perllocal.pod -delete
+}

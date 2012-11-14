@@ -2,7 +2,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=ms-sys
 pkgver=2.3.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Tool for writing MS-compatible boot records"
@@ -23,7 +23,7 @@ build()
 {
 go_src_dir
 make
-make PREFIX=$pkgdir install || exit 1
+make PREFIX=$pkgdir/usr install || exit 1
 }
 
 

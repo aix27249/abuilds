@@ -12,8 +12,6 @@ tags="libs dev-perl"
 
 build_deps="perl"
 
-adddep="perl"
-
 docs="Changes"
 
 BUILD_SYSTEM="perl"
@@ -21,5 +19,6 @@ BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
 
 after_build(){
   go_src_dir
+  make test
   rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 }

@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=thunar-sendto-clamtk
+pkgver=0.03
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A simple plugin to allow right-click scanning in Thunar."
+
+source=("http://clamtk.sourceforge.net/thunar-sendto-clamtk/${pkgver}/thunar-sendto-clamtk-${pkgver}.tar.gz")
+
+tags="xfce xfce-base"
+
+adddep="thunar clamtk"
+
+docs="DISCLAIMER"
+
+build(){
+  go_src_dir
+  install -Dm644 thunar-sendto-clamtk.1.gz ${pkgdir}/usr/man/man1/thunar-sendto-clamtk.1.gz
+  install -Dm644 thunar-sendto-clamtk.desktop ${pkgdir}/usr/share/Thunar/sendto/thunar-sendto-clamtk.desktop
+}
+
