@@ -1,70 +1,20 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-XML-NamespaceSupport
 pkgver=1.11
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Generic namespace helpers (ported from SAX2)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Generic namespace helpers (ported from SAX2)"
-)
-
 source=("http://www.cpan.org/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs dev-libs"
+build_deps="perl"
+build() {
+	go_src_dir
+	burn_patches
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make pure_install doc_install DESTDIR=$pkgdir
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
-
-build()
-{
-go_src_dir
-PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
-make pure_install doc_install DESTDIR=$pkgdir
-find $pkgdir -name '.packlist' -delete
-find $pkgdir -name '*.pod' -delete
+	find $pkgdir -name '.packlist' -delete
+	find $pkgdir -name '*.pod' -delete
 }
 
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

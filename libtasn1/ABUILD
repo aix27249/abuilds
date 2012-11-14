@@ -1,0 +1,25 @@
+pkgname=libtasn1
+pkgver=3.0
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("ASN.1 library")
+longdesc=("Libtasn1 is the ASN.1 library used by GnuTLS, GNU Shishi and some other packages.The goal of this implementation is to be highly portable, and only require an ANSI C89 platform. It was written by Fabio Fiorina, and has been shipped as part of GnuTLS. Libtasn1 didn''t have its own home page until now but you can refer to http://redmine.josefsson.org/wiki/libtasn1/Libtasn1")
+
+tags=("dev-libs libs")
+
+source=("http://ftp.gnu.org/gnu/libtasn1/${pkgname}-${pkgver}.tar.gz")
+
+build_deps="glibc-solibs"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--libdir=/usr/lib$LIBDIRSUFFIX \
+	--mandir=/usr/man \
+	--sysconfdir=/etc \
+	--with-packager=AgiliaLinux \
+	--with-packager-bug-reports=\"http://bugs.agilialinux.ru/\" \
+	--with-packager-version=${pkgver}-${pkgbuild}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

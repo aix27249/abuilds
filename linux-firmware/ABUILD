@@ -10,7 +10,7 @@ shortdesc=("A huge collection of linux firmwares")
 tags=("sys-kernel base")
 
 source=("git:git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git")
-
+build_deps="mkpkg"
 build() {
 	set -e
 	go_src_dir

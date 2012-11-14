@@ -2,7 +2,7 @@
 
 pkgname=xz
 pkgver=5.0.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('Compression utility based on the LZMA algorithm')
@@ -11,21 +11,21 @@ longdesc=('LZMA is a general purporse compression algorithm designed by Igor Pav
 tags=('base app-arch')
 
 source=(http://tukaani.org/xz/xz-${pkgver}.tar.gz)
-
+build_deps="glibc-solibs"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
-  --libdir=/usr/lib${LIBDIRSUFFIX} \
-  --docdir=/usr/doc/xz-${pkgver} \
-  --sysconfdir=/etc \
-  --mandir=/usr/man \
-  --enable-shared \
-  --disable-static \
-  --disable-rpath"
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--docdir=/usr/doc/xz-${pkgver} \
+	--sysconfdir=/etc \
+	--mandir=/usr/man \
+	--enable-shared \
+	--disable-static \
+	--disable-rpath"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 after_build() {
 	go_src_dir
-	
+
 	# It might be advisable to have the libraries in /lib${LIBDIRSUFFIX}:
 	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
 	mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/liblzma.so.* ${pkgdir}/lib${LIBDIRSUFFIX}

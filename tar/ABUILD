@@ -3,12 +3,13 @@ pkgver=1.26
 pkgbuild=2
 arch=("auto")
 
-shortdesc=("tar (archiving utility)")
+shortdesc=("Archiving utility")
 longdesc=("This is the GNU version of tar, an archiving program designed to store and extract files from an archive file known as a tarfile. A tarfile may be made on a tape drive, however, it is also common to write a tarfile to a normal file. Slackware's package system uses tarfiles compressed with GNU gzip.")
 
 tags=("base app-arch")
 
-build_deps=""
+build_deps="glibc-solibs"
+adddep="bash"
 
 source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.bz2"
 "ftp://ftp.gnu.org/gnu/tar/tar-1.13.tar.gz n")
@@ -47,12 +48,10 @@ BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 	--infodir=/usr/info \
 	--docdir=/usr/doc/tar-${pkgver} \
-	--enable-backup-scripts \
-	--build=$ARCH-slackware-linux"
+	--enable-backup-scripts"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 after_build() {
-	set -e
 	mkdir -p ${pkgdir}/bin
 	mv ${pkgdir}/usr/bin/tar ${pkgdir}/bin
 	( cd ${pkgdir}/usr/bin ; ln -sf /bin/tar . )
@@ -73,7 +72,6 @@ after_build() {
 	# Russian manual for tar
 	mkdir -p ${pkgdir}/usr/man/ru/man1
 	cat ${filedir}/tar.1-ru.gz > ${pkgdir}/usr/man/ru/man1/tar.1.gz
-	set +e
 
 }
 

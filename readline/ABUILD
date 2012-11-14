@@ -2,7 +2,7 @@
 
 pkgname=readline
 _basever=6.2
-_patchlevel=002
+_patchlevel=004
 pkgver=$_basever.$_patchlevel
 pkgbuild=1
 arch=("auto")
@@ -13,11 +13,11 @@ longdesc=("The GNU Readline library provides a set of functions for use by appli
 tags=("libs sys-libs")
 
 source=("http://ftp.gnu.org/gnu/readline/readline-$_basever.tar.gz")
+build_deps="ncurses"
 
 build() {
 	go_src_dir
 	burn_patches
-	set -e
 	if [ $_patchlevel -gt 00 ]; then
 		mkdir _patches
 		for (( p=1; p<=$((10#${_patchlevel})); p++ )); do
@@ -32,9 +32,6 @@ build() {
 	CFLAGS="$SLKCFLAGS" ./configure --prefix=/usr --libdir=/lib${LIBDIRSUFFIX} --mandir=/usr/man --docdir=/usr/doc
 	make SHLIB_LIBS=-lncursesw -j${numjobs}
 	make install DESTDIR=${pkgdir}
-	
-
-	echo "Moving stuff"
 
 	# FHS recommends only shared libs in /lib
 	install -dm755 $pkgdir/usr/lib${LIBDIRSUFFIX}
@@ -44,9 +41,6 @@ build() {
 	cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 	ln -sv /lib${LIBDIRSUFFIX}/libreadline.so .
 	ln -sv /lib${LIBDIRSUFFIX}/libhistory.so .
-
-
-	set +e
 
 }
 

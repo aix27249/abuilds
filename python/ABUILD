@@ -10,6 +10,7 @@ longdesc=("Python is an interpreted, interactive, object-oriented programming la
 tags=("dev-lang develop")
 
 source=("http://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.bz2")
+build_deps="openssl readline sqlite bzip2 gdbm expat libffi"
 
 build() {
 	go_src_dir

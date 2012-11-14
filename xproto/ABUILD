@@ -1,14 +1,14 @@
 pkgname=xproto
 pkgver=7.0.23
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('xproto')
-longdesc=('xproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('X11 core wire protocol and auxiliary headers')
 
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xproto-${pkgver}.tar.bz2")
+build_deps="mkpkg"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"

@@ -10,7 +10,7 @@ tags=("develop sys-devel")
 source=("ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.xz")
 
 build_deps="perl"
-adddep="awk m4 diffutils bash"
+adddep="gawk m4 diffutils bash"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \

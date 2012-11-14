@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=openrc
 pkgver=0.8.3
-pkgbuild=6
+pkgbuild=7
 arch=('auto')
 
 # Package description
@@ -16,7 +16,7 @@ tags="base sys-base"
 
 # Manually-added dependencies
 adddep="etc>=16.0 sed grep sysvinit"
-
+build_deps="glibc-solibs"
 config_files="etc/rc.conf
 etc/inittab
 etc/conf.d/keymaps
