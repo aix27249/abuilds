@@ -9,7 +9,7 @@ longdesc=("This is a library that defines common error values for all GnuPG comp
 tags=("dev-libs network")
 
 source=("ftp://ftp.gnupg.org/gcrypt/libgpg-error/${pkgname}-${pkgver}.tar.bz2")
-build_deps="glibc"
+build_deps="glibc-solibs"
 adddep="bash"
 
 BUILD_SYSTEM="autotools"
