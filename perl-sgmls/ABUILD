@@ -1,11 +1,10 @@
 pkgname=perl-sgmls
-pkgver=1.03i2
-pkgbuild=1
+pkgver=1.03ii
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Perl SGMLS postprocessor"
-source="http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-$pkgver.tar.gz"
-
+source=("http://search.cpan.org/CPAN/authors/id/D/DM/DMEGG/SGMLSpm-${pkgver}.tar.gz")
 tags="libs dev-perl"
 build_deps="perl"
 

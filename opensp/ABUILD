@@ -26,3 +26,6 @@ BUILD_KEYS="--prefix=/usr \
 	--enable-xml-messages"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
+after_build() {
+	( cd ${pkgdir}/usr/bin ; ln -s onsgmls nsgmls )
+}

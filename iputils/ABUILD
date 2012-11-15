@@ -26,8 +26,9 @@ build() {
 			xf=${file/.sgml/.xml}
 			osx -xlower -xno-nl-in-tag $file > $xf || true
 			sed -i "s|<refname>\(.*\), \(.*\)</refname>|<refname>\1</refname>, <refname>\2</refname>|g" $xf
-			docbook2man $xf
+			#docbook2man $xf
 		done
+		make man
 	)
 
 	install -dm755 ${pkgdir}/usr/{bin,sbin} ${pkgdir}/bin

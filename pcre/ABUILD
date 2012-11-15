@@ -24,7 +24,7 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 after_build() {
 	go_src_dir
 	install -dm755 ${pkgdir}/lib${LIBDIRSUFFIX}
-	mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libpcre.so.* ${pkgdir}/lib${LIBDIRSUFFIX}/
-	ln -sf /lib${LIBDIRSUFFIX}/libpcre.so.0 "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/libpcre.so
+	mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libpcre.so* ${pkgdir}/lib${LIBDIRSUFFIX}/
+	ln -s ../../lib${LIBDIRSUFFIX}/libpcre.so.1 "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/libpcre.so
 }
 
