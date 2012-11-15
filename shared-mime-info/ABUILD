@@ -9,6 +9,6 @@ adddep=('libxml2>=2.7.3' 'glib2>=2.26.0')
 source=("http://freedesktop.org/~hadess/${pkgname}-${pkgver}.tar.xz")
 tags=("libs x11-misc")
 build_deps="libxml2 glib2 intltool pkg-config"
-
+numjobs=1
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-update-mimedb"
