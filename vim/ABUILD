@@ -6,19 +6,19 @@ pkgver=7.3.712
 pkgbuild=5
 arch=('auto')
 
-shortdesc=('vim (Vi IMproved)')
+shortdesc=('Vi IMproved')
 longdesc=('Vim is an almost compatible version of the UNIX editor vi. Many new features have been added: multi level undo, command line history, filename completion, block operations, and more. Vim development is led by Bram Moolenaar. This package also contains the Exuberant Ctags program written by Darren Hiebert.')
 
 tags=('app-editors console')
 
 source=("ftp://ftp.vim.org/pub/vim/unix/vim-${_basever}.tar.bz2")
 
-build_deps='acl attr gpm glibc-solibs lftp'
+build_deps='acl attr gpm glibc-solibs lftp rsync'
 
 PYVER=$(python -V 2>&1 | cut -f 2 -d' ' | cut -f 1-2 -d.)
 CTAGSVER=5.8
 
-# Error protection
+config_files="usr/share/vim/vimrc"
 
 config_vim() {
 CFLAGS="$SLKCFLAGS" \
@@ -32,8 +32,7 @@ CFLAGS="$SLKCFLAGS" \
   --enable-multibyte \
   --enable-cscope \
   --with-features=huge \
-  --with-compiledby="AgiliaLinux" \
-  --build=$ARCH-slackware-linux
+  --with-compiledby="AgiliaLinux"
 
   # I had been adding this, but got 100% complaints and 0% kudos:
   #  --enable-rubyinterp
@@ -71,8 +70,7 @@ build() {
 		-exec chmod 644 {} \;
 	CFLAGS="$SLKCFLAGS" LDFLAGS="$SLKLDFLAGS" \
 	./configure \
-		--prefix=/usr \
-		--build=$ARCH-slackware-linux
+		--prefix=/usr
 	make -j${numjobs} || make || exit 1
 	mkdir -p $pkgdir/usr/bin
 	cat ctags > $pkgdir/usr/bin/ctags
@@ -117,7 +115,7 @@ build() {
 	zcat $filedir/vim.vimrc.diff.gz | patch -p1 --verbose || exit 1
 
 	# Add patched vimrc to the package:
-	cat runtime/vimrc.new > $pkgdir/usr/share/vim/vimrc.new
+	cat runtime/vimrc.new > $pkgdir/usr/share/vim/vimrc
 
 	# Fix manpage symlinks:
 	if [ -d $pkgdir/usr/man ]; then
