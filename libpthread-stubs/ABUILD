@@ -2,26 +2,19 @@
 
 pkgname=libpthread-stubs
 pkgver=0.3
-pkgbuild=10
+pkgbuild=11
 arch=('auto')
 
 shortdesc=('libpthread-stubs')
-longdesc=('libpthread-stubs is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xcb.freedesktop.org/dist/libpthread-stubs-${pkgver}.tar.bz2")
 
-build_deps='glibc-solibs x11-skel'
+build_deps='glibc-solibs'
 
-before_build() {
- echo ""
-}
 adddep="glibc-solibs"
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-after_build() {
- echo ""
-}
 
