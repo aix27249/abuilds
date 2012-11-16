@@ -43,7 +43,7 @@ after_build() {
 
 	# clone gentoo initscripts only for development, for stable package, use local copy instead. I leave here a path to git repo for future.
 	#git clone git://git.overlays.gentoo.org/proj/udev-gentoo-scripts.git
-	( cd ${filedir}/udev-gentoo-scripts
+	( cd ${filedir}/gentoo-scripts
 		install -Dm755 init.d/* ${pkgdir}/etc/init.d
 		cp -r {conf.d,modprobe.d} ${pkgdir}/etc
 		install -Dm755 helpers/* ${pkgdir}/lib/udev/
