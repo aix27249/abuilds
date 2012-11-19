@@ -2,6 +2,7 @@
 
 pkgname=vim
 _basever=7.3
+_srcver=73
 pkgver=7.3.712
 pkgbuild=5
 arch=('auto')
@@ -11,43 +12,40 @@ longdesc=('Vim is an almost compatible version of the UNIX editor vi. Many new f
 
 tags=('app-editors console')
 
-source=("ftp://ftp.vim.org/pub/vim/unix/vim-${_basever}.tar.bz2")
+CTAGSVER=5.8
+source=("ftp://ftp.vim.org/pub/vim/unix/vim-${_basever}.tar.bz2"
+"http://citylan.dl.sourceforge.net/project/ctags/ctags/$CTAGSVER/ctags-$CTAGSVER.tar.gz")
 
-build_deps='acl attr gpm glibc-solibs lftp rsync'
+build_deps='acl attr gpm glibc-solibs lftp rsync python'
 
 PYVER=$(python -V 2>&1 | cut -f 2 -d' ' | cut -f 1-2 -d.)
-CTAGSVER=5.8
 
 config_files="usr/share/vim/vimrc"
 
 config_vim() {
-CFLAGS="$SLKCFLAGS" \
-./configure \
-  $* \
-  --prefix=/usr \
-  --enable-pythoninterp \
-  --with-python-config-dir=/usr/lib${LIBDIRSUFFIX}/python$PYVER/config \
-  --enable-perlinterp \
-  --disable-tclinterp \
-  --enable-multibyte \
-  --enable-cscope \
-  --with-features=huge \
-  --with-compiledby="AgiliaLinux"
+	CFLAGS="$SLKCFLAGS" \
+		./configure \
+		$* \
+		--prefix=/usr \
+		--enable-pythoninterp \
+		--with-python-config-dir=/usr/lib${LIBDIRSUFFIX}/python$PYVER/config \
+		--enable-perlinterp \
+		--disable-tclinterp \
+		--enable-multibyte \
+		--enable-cscope \
+		--with-features=huge \
+		--with-compiledby="AgiliaLinux"
 
-  # I had been adding this, but got 100% complaints and 0% kudos:
-  #  --enable-rubyinterp
+	# I had been adding this, but got 100% complaints and 0% kudos:
+	#  --enable-rubyinterp
 }
 
-
-
-
-
 build() {
-	mkdir -p $startdir/__vim_patches
-	cd $startdir/__vim_patches
+	mkdir -p $srcdir/__vim_patches
+	cd $srcdir/__vim_patches
 	tar xf ${filedir}/vim_patches.tar.xz
-	go_src_dir
-	for i in $startdir/__vim_patches/vim_patches/* ; do
+	cd ${srcdir}/vim${_srcver}
+	for i in $srcdir/__vim_patches/vim_patches/* ; do
 		echo Patching $i
 		patch -p0 < $i || exit 1 > /dev/null
 		pkgver=`basename $i`
@@ -56,12 +54,7 @@ build() {
 	echo "VIM version: $pkgver"
 
 	# Build CTAGS
-	mkdir $startdir/ctags-$CTAGSVER
-	cd $startdir/ctags-$CTAGSVER
-
-	wget http://citylan.dl.sourceforge.net/project/ctags/ctags/$CTAGSVER/ctags-$CTAGSVER.tar.gz
-	tar xf ctags-$CTAGSVER.tar.gz
-	cd ctags-$CTAGSVER
+	cd $srcdir/ctags-$CTAGSVER
 	chown -R root:root .
 	find . \
 		\( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -69,31 +62,25 @@ build() {
 		\( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
 		-exec chmod 644 {} \;
 	CFLAGS="$SLKCFLAGS" LDFLAGS="$SLKLDFLAGS" \
-	./configure \
+		./configure \
 		--prefix=/usr
-	make -j${numjobs} || make || exit 1
-	mkdir -p $pkgdir/usr/bin
-	cat ctags > $pkgdir/usr/bin/ctags
-	chmod 755 $pkgdir/usr/bin/ctags
-	mkdir -p $pkgdir/usr/man/man1
-	cat ctags.1 | gzip -9c > $pkgdir/usr/man/man1/ctags.1.gz
-	mkdir -p $pkgdir/usr/doc/ctags-$CTAGSVER
-	cp -a \
-		COPYING EXTENDING.html FAQ INSTALL INSTALL.oth NEWS README \
-		$pkgdir/usr/doc/ctags-$CTAGSVER
-	chmod 644 $pkgdir/usr/doc/ctags-$CTAGSVER/*
-
-	go_src_dir
+	make -j${numjobs} || make
+	install -Dm0755 ctags $pkgdir/usr/bin/ctags
+	install -Dm0644 ctags.1 $pkgdir/usr/man/man1/ctags.1
 	
+	cd ${srcdir}/vim${_srcver}
+
 	# If there's no syntax update, create one:
 	rm -rf runtime/syntax.orig
 	cp -a runtime/syntax runtime/syntax.orig
-	echo "Fetching vim syntax updates from ftp.nluug.nl..."
-	rsync -avzcP ftp.nluug.nl::Vim/runtime/syntax/ runtime/syntax/
+
+	#You can fetch vim syntax updates from ftp.nluug.nl, but we'll use local snapshot instead
+	#rsync -avzcP ftp.nluug.nl::Vim/runtime/syntax/ runtime/syntax/
+	( cd runtime ; tar xf ${filedir}/syntax.tar.xz )
 	diff -u -r --new-file runtime/syntax.orig runtime/syntax | gzip -9c > $startdir/vim-runtime-syntax.diff.gz
 	rm -rf runtime/syntax
 	mv runtime/syntax.orig runtime/syntax
-	
+
 
 	echo "Applying syntax updates"
 	# Apply the syntax update:
@@ -103,8 +90,8 @@ build() {
 
 	# Configure vim. For gvim, there will be little other options
 	config_vim --without-x --disable-gui
-	make -j${numjobs} || make || exit 1
-	make install DESTDIR=$pkgdir || exit 1
+	make -j${numjobs} || make
+	make install DESTDIR=$pkgdir
 
 	rsync -lprvt $pkgdir/usr/share/man/ $pkgdir/usr/man/
 	rm -r $pkgdir/usr/share/man
@@ -112,7 +99,7 @@ build() {
 	cp -a runtime/vimrc_example.vim runtime/vimrc.new
 
 	# Don't make backups in /var/spool/cron/*, which fixes "crontab -e":
-	zcat $filedir/vim.vimrc.diff.gz | patch -p1 --verbose || exit 1
+	zcat $filedir/vim.vimrc.diff.gz | patch -p1 --verbose
 
 	# Add patched vimrc to the package:
 	cat runtime/vimrc.new > $pkgdir/usr/share/vim/vimrc
@@ -120,15 +107,15 @@ build() {
 	# Fix manpage symlinks:
 	if [ -d $pkgdir/usr/man ]; then
 		( cd $pkgdir/usr/man
-			for manpagedir in $(find . -type d -name "man*") ; do
-				( cd $manpagedir
-					for eachpage in $( find . -type l -maxdepth 1) ; do
-						ln -s $( readlink $eachpage ).gz $eachpage.gz
-						rm $eachpage
-					done
-					gzip -9 *.?
-				)
+		for manpagedir in $(find . -type d -name "man*") ; do
+			( cd $manpagedir
+			for eachpage in $( find . -type l -maxdepth 1) ; do
+				ln -s $( readlink $eachpage ).gz $eachpage.gz
+				rm $eachpage
 			done
+			gzip -9 *.?
+			)
+		done
 		)
 	fi
 
@@ -145,7 +132,7 @@ build() {
 	( cd $pkgdir/usr/bin ; ln -sf vim eview )
 	( cd $pkgdir/usr/bin ; rm -rf evim )
 	( cd $pkgdir/usr/bin ; ln -sf vim evim )
-	
+
 
 }
 
