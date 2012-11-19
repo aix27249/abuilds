@@ -1,5 +1,5 @@
---- modules/pam_namespace/Makefile~	2012-10-12 10:59:13.557550706 +0200
-+++ modules/pam_namespace/Makefile	2012-10-12 10:59:13.564217270 +0200
+--- a/modules/pam_namespace/Makefile.in.orig	2012-10-12 10:59:13.557550706 +0200
++++ a/modules/pam_namespace/Makefile.in	2012-10-12 10:59:13.564217270 +0200
 @@ -869,7 +869,7 @@
 
 

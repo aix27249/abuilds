@@ -1,14 +1,10 @@
 pkgname=libmpc
-pkgver=0.9
-pkgbuild=2
+pkgver=1.0.1
+pkgbuild=1
 arch=('auto')
 shortdesc="multiple precision complex floating-point library"
 source=("http://www.multiprecision.org/mpc/download/mpc-${pkgver/_/-}.tar.gz")
 tags="develop dev-libs"
-
-before_build() {
-	autoreconf
-}
 
 build_deps="mpfr"
 
@@ -19,9 +15,8 @@ BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--disable-static \
 	--infodir=/usr/info \
-	--mandir=/usr/man \
-	--program-prefix= \
-	--program-suffix="
+	--mandir=/usr/man"
+
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
