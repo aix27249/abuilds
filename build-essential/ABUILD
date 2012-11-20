@@ -6,7 +6,7 @@ arch=('noarch')
 shortdesc="Generic build environment (meta package)"
 tags="virtual dev-libs"
 
-adddep="gcc gcc-g++ make autoconf automake intltool kernel-headers gettext-tools pkg-config diffutils libxslt mkpkg"
+adddep="binutils gcc gcc-g++ make autoconf automake intltool kernel-headers gettext-tools pkg-config diffutils libxslt mkpkg"
 build_deps="mkpkg"
 
 build() {
