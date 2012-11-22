@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=tor
-pkgver=0.2.2.39
+pkgver=0.2.3.25
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Tor: Anonymity Online"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Tor is free software and an open network that helps you defend against a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security known as traffic analysis. Homepage: https://www.torproject.org"
-)
+#longdesc=("Tor is free software and an open network that helps you defend against a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security known as traffic analysis. Homepage: https://www.torproject.org"
+#)
 
 source=("https://www.torproject.org/dist/${pkgname}-${pkgver}.tar.gz")
 
@@ -75,10 +75,8 @@ after_build()
 {
 echo ""
 
-install -Dm755 $filedir/tor.initd-r4 \
-	$pkgdir/etc/init.d/tor || exit 1
-install -Dm0644 $filedir/logrotate.tor \
-	$pkgdir/etc/logrotate.d/tor.new || exit 1
+install -Dm755 $filedir/tor.initd-r4 $pkgdir/etc/init.d/tor || exit 1
+install -Dm0644 $filedir/logrotate.tor $pkgdir/etc/logrotate.d/tor.new || exit 1
 
 mv $pkgdir/etc/tor/torrc.sample $pkgdir/etc/tor/torrc.new || exit 1
 mv $pkgdir/etc/tor/tor-tsocks.conf $pkgdir/etc/tor/tor-tsocks.conf.new || exit 1
