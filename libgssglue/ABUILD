@@ -10,10 +10,6 @@ source=("http://www.citi.umich.edu/projects/nfsv4/linux/$pkgname/$pkgname-$pkgve
 
 tags="dev-libs libs"
 
-build_deps=""
-
-adddep=""
-
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -27,5 +23,9 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build(){
+  go_src_dir
+  install -Dm644 "${filedir}"/gssapi_mech.conf "${pkgdir}/"etc/gssapi_mech.conf
+}
