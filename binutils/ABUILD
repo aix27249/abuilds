@@ -2,12 +2,12 @@
 
 pkgname=binutils
 pkgver=2.23.1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("binutils (GNU binary development tools)")
 
-build_deps="glibc-solibs zlib gcc"
+build_deps="glibc-solibs zlib gcc bison"
 
 tags=("develop sys-devel")
 source=("http://ftp.gnu.org/gnu/binutils/binutils-${pkgver}.tar.bz2")
