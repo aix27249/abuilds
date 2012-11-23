@@ -5,14 +5,14 @@ pkgver=s20121011
 pkgbuild=1
 arch=("auto")
 
-shortdesc=("iputils (a collection of common network tools)")
+shortdesc=("A collection of common network tools")
 longdesc=("The iputils package contains network tools found on nearly all *NIX systems, along with an extra or two. Some of the utilities found here include arping, clockdiff, ping, ping6, rarpd, rdisc, tracepath, tracepath6, and traceroute6. iputils is maintained by YOSHIFUJI Hideaki.")
 
 tags=("network net-misc")
 
 source=("http://www.skbuff.net/iputils/iputils-${pkgver}.tar.bz2")
 
-build_deps="libcap openssl sysfsutils"
+build_deps="libcap openssl sysfsutils opensp perl-sgmls"
 
 
 build() {
