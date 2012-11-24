@@ -13,7 +13,7 @@ source=("git:git://github.com/aix27249/mpkg.git")
 
 # Tags
 tags="base sys-libs"
-build_deps="mpkgsupport ncurses"
+build_deps="mpkgsupport ncurses cmake"
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \

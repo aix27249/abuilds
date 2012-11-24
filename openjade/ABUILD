@@ -11,7 +11,7 @@ tags=("app-text develop")
 
 source=("http://sourceforge.net/projects/openjade/files/openjade/1.3.3/openjade-${pkgver/_/-}.tar.gz")
 
-build_deps="perl"
+build_deps="perl opensp glibc-solibs gcc-libs"
 
 build() {
 	go_src_dir

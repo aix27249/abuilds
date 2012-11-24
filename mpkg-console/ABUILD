@@ -15,7 +15,7 @@ tags="base sys-pkgtools"
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
-build_deps="mpkg-core"
+build_deps="mpkg-core cmake"
 
 build() {
 	go_src_dir

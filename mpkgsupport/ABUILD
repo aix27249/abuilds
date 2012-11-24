@@ -18,7 +18,7 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DSYSCONF_INSTALL_DIR=/etc \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 -DMAN_INSTALL_DIR=/usr/man"
-build_deps="glibc-solibs gcc-libs"
+build_deps="glibc-solibs gcc-libs cmake"
 
 build() {
 	go_src_dir

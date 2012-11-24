@@ -51,6 +51,7 @@ BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --loc
 	--enable-rpath=yes \
 	--enable-vfs-mcfs=yes \
 	--enable-static=no \
+	--without-x \
 	--with-slang-libs=/usr/lib$LIBDIRSUFFIX"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
