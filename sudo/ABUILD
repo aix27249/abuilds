@@ -12,7 +12,7 @@ tags=("console sys-auth")
 
 source=("http://www.sudo.ws/sudo/dist/$pkgname-$pkgver.tar.gz")
 
-build_deps="glibc-solibs linux-pam"
+build_deps="glibc-solibs linux-pam libaudit"
 config_files="etc/sudoers"
 
 BUILD_SYSTEM="autotools"

@@ -12,7 +12,7 @@ longdesc=("Pluggable Authentication Modules for Linux")
 
 tags=("base sys-libs")
 
-build_deps="db libtirpc flex docbook-xml docbook-xsl cracklib"
+build_deps="db libtirpc flex docbook-xml docbook-xsl cracklib libaudit"
 
 config_files="etc/security/access.conf
 etc/security/group.conf
@@ -53,11 +53,11 @@ build() {
 	
 	# build pam_unix2 module
 	# 
-		cd $srcdir/pam_unix2-${unix2_ver}
-	  	patch -Np1 -i ${filedir}/pam_unix2-glibc216.patch
-		./configure --libdir=/lib${LIBDIRSUFFIX}
-		make -j${numjobs}
-		make DESTDIR=$pkgdir install
+	#	cd $srcdir/pam_unix2-${unix2_ver}
+	#  	patch -Np1 -i ${filedir}/pam_unix2-glibc216.patch
+	#	./configure --libdir=/lib${LIBDIRSUFFIX}
+	#	make -j${numjobs}
+	#	make DESTDIR=$pkgdir install
 
 	# add the realtime permissions for audio users
 	sed -i 's|# End of file||' $pkgdir/etc/security/limits.conf

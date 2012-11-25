@@ -10,7 +10,7 @@ longdesc=("This set of login related programs utilizes an alternate, non-readabl
 
 tags=("base sys-auth")
 
-build_deps="linux-pam acl"
+build_deps="linux-pam acl libaudit"
 
 source=("http://pkg-shadow.alioth.debian.org/releases/shadow-$pkgver.tar.bz2")
 config_files="etc/login.defs
