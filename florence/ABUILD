@@ -3,13 +3,14 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=florence
 pkgver=0.5.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="On-screen virtual keyboard"
 #longdesc=(""
 #)
 
+#source=("http://downloads.sourceforge.net/project/florence/florence/${pkgver}-gtk2/${pkgname}-${pkgver}.tar.bz2")
 source=("http://downloads.sourceforge.net/project/florence/florence/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
@@ -17,7 +18,7 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="utils x11-misc"
+tags="xapps x11-misc"
 
 #dependencies only needed to build package
 build_deps=""
