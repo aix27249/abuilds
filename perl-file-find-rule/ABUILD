@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=perl-file-find-rule
+pkgver=0.33
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Perl/CPAN Module File::Find::Rule."
+
+source=("http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/File-Find-Rule-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+adddep="perl-text-glob perl-number-compare"
+
+build_deps="perl ${adddep}"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

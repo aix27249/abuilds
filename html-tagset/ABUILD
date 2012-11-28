@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=html-tagset
+pkgver=3.20
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Data tables useful in parsing HTML"
+
+source=("http://www.cpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="make perl"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

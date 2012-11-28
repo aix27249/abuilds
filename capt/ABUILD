@@ -1,61 +1,28 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=capt
 pkgver=2.40
 foldername=Linux_CAPT_PrinterDriver_V240_uk_EN
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Canon CAPT Printer Driver for Linux"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Canon CAPT Printer Driver for Linux."
-"Supported products:
-  i-SENSYS LBP-2900
-  i-SENSYS LBP3000
-  i-SENSYS LBP3010
-  i-SENSYS LBP3100
-  i-SENSYS LBP3250
-  i-SENSYS LBP3310
-  i-SENSYS LBP5050
-  i-SENSYS LBP5050n
-  i-SENSYS LBP6000
-  i-SENSYS LBP6000B
-  i-SENSYS LBP6300dn
-  i-SENSYS LBP7200Cdn
-  Laser Shot LBP-1120
-  Laser Shot LBP-1210
-  Laser Shot LBP2900
-  LaserShot LBP3000
-  Laser Shot LBP3300
-  LBP-3200
-  LBP5000
-  LBP5100
-  LBP5300"
-"By install this you agreed Canon software license agreement which can be found on follow link:
-    http://support-au.canon.com.au/contents/AU/EN/0900772408.html
-"
-)
 
 source=("http://gdlp01.c-wss.com/gds/4/0900007724/12/${foldername}.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="drivers net-print"
+build_deps="rpmextract"
+build() {
+	cd ${pkgdir}
+	if [ "$ARCH" == "x86_64" ]; then
+		rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.x86_64.rpm #2> /dev/null
+		rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.x86_64.rpm #2> /dev/null
 
-build()
-{
-    cd ${pkgdir}
-if [ "`echo $LIBDIRSUFFIX`" == "64" ]; then
-        rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.x86_64.rpm #2> /dev/null
-        rpmextract ${srcdir}/${foldername}/64-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.x86_64.rpm #2> /dev/null
+		mv -v $pkgdir/usr/lib/* $pkgdir/usr/lib64 && rm -rfv $pkgdir/usr/lib || exit 1
 
- mv -v $pkgdir/usr/lib/* $pkgdir/usr/lib64 && rm -rfv $pkgdir/usr/lib || exit 1
-
-else
-        rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.i386.rpm #2> /dev/null
-        rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.i386.rpm #2> /dev/null
-fi
-    mkdir -p ${pkgdir}/var/ccpd
-    mkdir -p ${pkgdir}/var/captmon
-    install -D -m644 ${srcdir}/${foldername}/Doc/LICENSE-captdrv-${pkgver}E.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-captdrv-${pkgver}E.txt
+	else
+		rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.i386.rpm #2> /dev/null
+		rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.i386.rpm #2> /dev/null
+	fi
+	mkdir -p ${pkgdir}/var/ccpd
+	mkdir -p ${pkgdir}/var/captmon
+	install -D -m644 ${srcdir}/${foldername}/Doc/LICENSE-captdrv-${pkgver}E.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-captdrv-${pkgver}E.txt
 }

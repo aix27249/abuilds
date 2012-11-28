@@ -4,7 +4,7 @@
 #
 #------------------------- Основные переменные -----------------------------------
 pkgname=virtualbox
-pkgver=4.2.0
+pkgver=4.2.4
 pkgbuild=1
 arch=('auto')
 
@@ -12,7 +12,7 @@ arch=('auto')
 shortdesc=("VirtualBox: Powerful x86 virtualization")
 longdesc=("VirtualBox: Personal Use Binaries Edition")
 
-_boxbuild=80737
+_boxbuild=81684
 if [ "$ARCH" = "i686" ];then
 _suffix=Linux_x86
 elif [ "$ARCH" = "x86_64" ];then

@@ -2,13 +2,12 @@
 
 pkgname=xfce4-genmon-plugin
 pkgver=3.4.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
-tree=`echo ${pkgver} | cut -d . -f 1-2`
 
 shortdesc="Plugin that monitors customizable programs stdout for the Xfce4 panel"
 
-source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-extra"
 
@@ -26,7 +25,6 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix= \
---disable-debug"
+--program-suffix="
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"

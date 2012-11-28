@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=http-daemon
+pkgver=6.01
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A simple http server class"
+
+source=("http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/HTTP-Daemon-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="http-date http-message"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

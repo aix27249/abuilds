@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=text-glob
+pkgver=0.09
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Match globbing patterns against text"
+
+source=("http://search.cpan.org/CPAN/authors/id/R/RC/RCLAMP/Text-Glob-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

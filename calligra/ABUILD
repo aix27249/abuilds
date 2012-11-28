@@ -1,16 +1,296 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=calligra
-pkgver=2.4.0
+pkgver=2.5.4
 pkgbuild=1
 arch=('auto')
- 
-shortdesc=('Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project.')
 
-tags=('kde-base kde4')
- 
-source="ftp://ftp.kde.org/pub/kde/stable/calligra-${pkgver}/calligra-$pkgver.tar.bz2"
+shortdesc="Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project"
+#longdesc=(""
+#)
+
+source=(
+"http://download.kde.org/stable/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2"
+"http://download.kde.org/stable/calligra-${pkgver}/calligra-l10n/calligra-l10n-ru-${pkgver}.tar.bz2"
+"http://download.kde.org/stable/calligra-${pkgver}/calligra-l10n/calligra-l10n-uk-${pkgver}.tar.bz2"
+)
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+#tags="virtual app-office"
+tags="kde4 app-office"
+
+#dependencies only needed to build package
+build_deps="linuxdoc-tools boolstuff tinyxml"
+
+provides=""
+conflicts=""
+
+#for multi pkg abuild
+pkglist= #('calligra-filters'	\
+#         'calligra-libs'	\
+#         'calligra-plugins'	\
+#         'calligra-tools'	\
+#         'calligra-karbon'	\
+#         'calligra-kexi'	\
+#         'calligra-plan'	\
+#         'calligra-stage'	\
+#         'calligra-krita'	\
+#         'calligra-sheets'	\
+#         'calligra-words'	\
+#         'calligra-handbook'	\
+#         'calligra-braindump'	\
+#         'calligra-flow'	)
+
+adddep= #"$pkglist"
+removedep=""
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+src_subdir="${srcdir}/${pkgname}-${pkgver}"
+
 BUILD_SYSTEM="cmake"
-BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
--DCMAKE_INSTALL_PREFIX=/usr \
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
--DENABLE_ACTIVE=OFF \
-"
+-DBUILD_active=OFF \
+../"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+
+# language
+for lang in ru uk; do
+ mkdir -p "${srcdir}"/${pkgname}-l10n-$lang-${pkgver}/build_$lang
+ cd "${srcdir}"/${pkgname}-l10n-$lang-${pkgver}/build_$lang
+ cmake "${srcdir}"/${pkgname}-l10n-$lang-${pkgver} \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DCMAKE_BUILD_TYPE=RELEASE \
+  -DLIB_DIR=lib${LIBDIRSUFFIX} \
+  -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+ && make \
+ && make DESTDIR="${pkgdir}"  install \
+ || exit 1
+done
+
+}
+
+
+#-----------------------------
+
+
+# filters
+calligra-filters() {
+ pkgname=calligra-filters
+ pkgdesc="Filters for the Calligra office suite"
+ arch=('auto')
+ tags="xapps app-office"
+ # desc
+ shortdesc=$pkgdesc
+}
+calligra-filters_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/filters
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# libs
+calligra-libs() {
+  pkgname=calligra-libs
+  pkgdesc="Libraries for the Calligra office suite"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-libs_prep() {
+  for d in interfaces libs pics servicetypes templates; do
+    cd "${srcdir}"/${p_pkgname}-${pkgver}/${d}
+    make DESTDIR="${pkgdir}" install
+  done
+}
+
+
+# plugins
+calligra-plugins() {
+  pkgname=calligra-plugins
+  pkgdesc="Plugins for the Calligra office suite"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-plugins_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/plugins
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# tools
+calligra-tools() {
+  pkgname=calligra-tools
+  pkgdesc="Tools for the Calligra office suite"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-tools_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/tools
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# karbon
+calligra-karbon() {
+  pkgname=calligra-karbon
+  pkgdesc="Create scalable vector drawings"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-karbon_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/karbon
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# kexi
+calligra-kexi() {
+  pkgname=calligra-kexi
+  pkgdesc="Develop desktop database applications"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-kexi_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/kexi
+  make DESTDIR="${pkgdir}" install
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/doc/kexi
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# plan
+calligra-plan() {
+  pkgname=calligra-plan
+  pkgdesc="Calligra Project Management Component"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-plan_prep() {
+  cd "${srcdir}/${p_pkgname}-${pkgver}"/plan
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# stage
+calligra-stage() {
+  pkgname=calligra-stage
+  pkgdesc="Write presentation documents"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-stage_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/stage
+  make DESTDIR="${pkgdir}" install
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/doc/stage
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# krita
+calligra-krita() {
+  pkgname=calligra-krita
+  pkgdesc="Edit and paint images"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-krita_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/krita
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# sheets
+calligra-sheets() {
+  pkgname=calligra-sheets
+  pkgdesc="Write spreadsheet documents"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-sheets_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/sheets
+  make DESTDIR="${pkgdir}" install
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/doc/sheets
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# words
+calligra-words() {
+  pkgname=calligra-words
+  pkgdesc="Word Processor"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-words_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/words
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# handbook
+calligra-handbook() {
+  pkgname=calligra-handbook
+  pkgdesc="Documentation for Calligra"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-handbook_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/doc/calligra
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# braindump
+calligra-braindump() {
+  pkgname=calligra-braindump
+  pkgdesc="Notes and idea gathering"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-braindump_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/braindump
+  make DESTDIR="${pkgdir}" install
+}
+
+
+# flow
+calligra-flow() {
+  pkgname=calligra-flow
+  pkgdesc="Flowchart & Diagram Editing"
+  arch=('auto')
+  tags="xapps app-office"
+}
+calligra-flow_prep() {
+  cd "${srcdir}"/${p_pkgname}-${pkgver}/flow
+  make DESTDIR="${pkgdir}" install
+}

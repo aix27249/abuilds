@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=www-robotrules
+pkgver=6.02
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Database of robots.txt-derived permissions"
+
+source=("http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/WWW-RobotRules-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl-uri"
+
+docs="Changes"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

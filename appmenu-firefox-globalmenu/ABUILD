@@ -1,0 +1,88 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=appmenu-firefox-globalmenu
+pkgver=3.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Appmenu support for Firefox"
+#longdesc=(""
+#)
+
+if [ "`uname -m`" == "x86_64" ]; then
+ deb_a="amd64"
+else
+ deb_a="i386"
+fi
+deb_v="16.0.2+build1-0ubuntu0.12.04.1"
+deb_p="firefox-globalmenu_${deb_v}_${deb_a}.deb"
+
+source=("http://mirror.yandex.ru/ubuntu/pool/main/f/firefox/${deb_p}")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="libs x11-misc"
+
+#dependencies only needed to build package
+build_deps="mozilla-firefox"
+
+provides=""
+conflicts=""
+
+adddep="mozilla-firefox appmenu-gtk"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs="$srcdir/usr/share/doc/firefox-globalmenu/copyright"
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+# deb
+ar p $srcache/$deb_p data.tar.gz | tar zx || exit 1
+
+# extensions
+f_ver="`mpkg-show mozilla-firefox | grep mozilla-firefox | awk {'print $2'}`"
+f_dir="$pkgdir/usr/lib${LIBDIRSUFFIX}/firefox-${f_ver/-*/}/extensions"
+mkdir -p $f_dir
+find $srcdir -type f -name ".mkdir.done" -exec rm -v {} ";"
+find $srcdir -type d -name "globalmenu@ubuntu.com" -exec cp -rv {} $f_dir ";"
+}
+
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+
+go_src_dir
+ar p $srcache/$deb_p control.tar.gz | tar zx || exit 1
+cat ./control > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/about || exit 1
+
+}
