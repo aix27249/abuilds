@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.5.7
+pkgver=3.6.8
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -10,7 +10,7 @@ if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
 else 
 	srcver=`echo $kernel_ver | sed 's/\.0$//g'`
 fi
-kernel_base=`echo $kernel_ver | sed 's/^[^.]*\.//' | sed 's/\..*$//'`
+kernel_base=${kernel_ver::3}
 
 pkgbuild=1
 arch=("auto")
@@ -45,7 +45,7 @@ modules() {
 headers() {
 	pkgname=kernel-headers
 	arch=("auto")
-	shortdesc=('kernel-headers (Linux kernel include files)')
+	shortdesc=('Linux kernel include files')
 	longdesc=('These are the include files from the Linux kernel. You will need these to compile most system software for Linux.')
 
 	tags=('develop sys-kernel')
@@ -54,7 +54,7 @@ headers() {
 firmware() {
 	pkgname=kernel-firmware
 	arch=("fw")
-	shortdesc=('kernel-firmware (Firmware installed by the kernel)')
+	shortdesc=('Firmware installed by the kernel')
 	longdesc=('These are the firmware files from the Linux kernel. You will need these to use certain hardware with Linux.')
 
 	tags=('base sys-kernel')
@@ -63,7 +63,7 @@ firmware() {
 sources() {
 	pkgname=kernel-source
 	arch=('auto')
-	shortdesc=('kernel-source (Linux kernel source)')
+	shortdesc=('Linux kernel source')
 	longdesc=('Source code for Linus Torvalds Linux kernel. This is the complete source code for the Linux kernel.')
 
 	tags=('develop sys-kernel')
@@ -105,8 +105,6 @@ build() {
 	# Applying generic patches. If you want to apply something personal, just put it into patches directory
 	burn_patches
 
-	set -e
-
 	# Check if we are using prepared patches:
 	if [ ! -f $patchdir/aufs*-standalone.patch ] ; then
 		apply_aufs_from_git
@@ -115,9 +113,9 @@ build() {
 
 	# Now copy kernel config
 	if [ "$ARCH" = "x86_64" ] ; then
-		cat $filedir/3.$kernel_base.defconfig-x86_64 > .config
+		cat $filedir/$kernel_base.defconfig-x86_64 > .config
 	else
-		cat $filedir/3.$kernel_base.defconfig-x86 > .config
+		cat $filedir/$kernel_base.defconfig-x86 > .config
 	fi
 
 	# Running make oldconfig seems to be a good idea when upgrading kernel version. Note that here can be interactive questions.
@@ -130,12 +128,10 @@ build() {
 	# Now, let's build the kernel
 	make -j${numjobs}
 	echo "Kernel compiled, going into packaging"
-	set +e
 }
 
 after_build() {
 	go_src_dir
-	set -e
 	mkdir -p ${pkgdir}/boot
 	cp arch/x86/boot/bzImage ${pkgdir}/boot/vmlinuz-${kernel_ver}
 	ln -s vmlinuz-${kernel_ver} $pkgdir/boot/vmlinuz
@@ -143,12 +139,10 @@ after_build() {
 	ln -s System.map-${kernel_ver} $pkgdir/boot/System.map
 	cp .config $pkgdir/boot/config-${kernel_ver}
 	ln -s config-${kernel_ver} $pkgdir/boot/config
-	set +e
 }
 
 modules_prep() {
 	go_src_dir
-	set -e
 	make modules_install INSTALL_MOD_PATH=${pkgdir}
 
 	# Remove firmware from modules package. I don't know why it installs together with modules...
@@ -166,12 +160,10 @@ if [ -x sbin/depmod ]; then
 fi
 
 EOF
-	set +e
 }
 
 headers_prep() {
 	go_src_dir
-	set -e
 	make headers_install INSTALL_HDR_PATH=${pkgdir}/usr
 	( cd $pkgdir/usr/include && mv asm asm-x86 && ln -s asm-x86 asm )
 	find $pkgdir/usr/include -name '.install' | xargs rm
@@ -179,20 +171,16 @@ headers_prep() {
 
 	# Copy aufs-tree manually, since we removed dirty hacks
 	install -m644 include/linux/aufs_type.h ${pkgdir}/usr/include/linux/
-	set +e
 }
 
 firmware_prep() {
 	go_src_dir
-	set -e
 	make firmware_install INSTALL_FW_PATH=${pkgdir}/lib/firmware
 	cp -a firmware/WHENCE ${pkgdir}/lib/firmware
-	set +e
 }
 
 sources_prep() {
 	go_src_dir
-	set -e
 	mkdir -p $pkgdir/usr/src/linux-${kernel_ver}
 	echo "Copying kernel tree, please wait. It may take about 10 minutes"
 	cp -ard ./* $pkgdir/usr/src/linux-${kernel_ver}/
@@ -202,5 +190,4 @@ sources_prep() {
 	( cd $pkgdir/usr/src ; ln -s linux-$kernel_ver linux )
 	# recreate config. I forgot why it was needed, but it takes no time, so let it be.
 	cat .config > $pkgdir/usr/src/linux-$kernel_ver/.config
-	set +e
 }
