@@ -2,7 +2,7 @@
 
 pkgname=nvidia-kernel
 pkgver=304.48
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 KERNEL=${KERNEL:-`uname -r`}
