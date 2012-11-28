@@ -2,7 +2,7 @@
 
 pkgname=nvidia-kernel-legacy173
 pkgver=173.14.36
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 provides=nvidia-kernel
 KERNEL=${KERNEL:-$(uname -r)}
