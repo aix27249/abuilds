@@ -18,7 +18,7 @@ provides="lazarus"
 
 build() {
     go_src_dir
-    make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 clean bigide || return 1
+    make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 clean bigide
 }
 
 after_build()
@@ -40,7 +40,7 @@ after_build()
     install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png
   
     rm -r ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/install
-    find ${pkgdir} -type d -name .svn -exec rm -rf {} \;
+    find ${pkgdir} -type d -name .svn -exec rm -rf {} \; || true
 
     # install config
     mkdir -p ${pkgdir}/etc/lazarus
