@@ -1,6 +1,6 @@
 # Mozilla-firefox
 pkgname=mozilla-firefox
-pkgver=16.0.1
+pkgver=17.0.1
 _pkgver=${pkgver}
 pkgbuild=1
 arch=('auto')
@@ -81,7 +81,7 @@ after_build() {
 	do
 		install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/extensions/langpack-${_lang}@firefox.mozilla.org.xpi || exit 1
 	done
-
+	install -Dm644 ${filedir}/vendor.js $pkgdir/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/defaults/preferences/vendor.js
 	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/searchplugins
 	cp -a ${filedir}/searchplugins /${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}
 
