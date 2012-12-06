@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=vlc
-pkgver=2.0.1
+pkgver=2.0.4
 pkgbuild=3
 arch=('auto')
 
@@ -23,7 +23,7 @@ gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio
 expat sqlite qt4 yasm libbluray"
 
 removedep="xulrunner"
-
+custom_opts="no_ccache"
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
