@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=appmenu-firefox-globalmenu
-pkgver=3.5.4
+
 pkgbuild=1
 arch=('auto')
 
@@ -15,7 +15,11 @@ if [ "`uname -m`" == "x86_64" ]; then
 else
  deb_a="i386"
 fi
-deb_v="16.0.2+build1-0ubuntu0.12.04.1"
+ff_pkg="`mpkg-show mozilla-firefox | grep mozilla-firefox | awk {'print $2'}`"
+ff_ver=${ff_pkg/-*/}
+ff_build=${ff_pkg/*-/}
+ff_ext="$pkgdir/usr/lib${LIBDIRSUFFIX}/firefox-${ff_ver}/extensions"
+deb_v="${ff_ver}+build1-0ubuntu0.12.04.1"
 deb_p="firefox-globalmenu_${deb_v}_${deb_a}.deb"
 
 source=("http://mirror.yandex.ru/ubuntu/pool/main/f/firefox/${deb_p}")
@@ -68,11 +72,13 @@ burn_patches
 ar p $srcache/$deb_p data.tar.gz | tar zx || exit 1
 
 # extensions
-f_ver="`mpkg-show mozilla-firefox | grep mozilla-firefox | awk {'print $2'}`"
-f_dir="$pkgdir/usr/lib${LIBDIRSUFFIX}/firefox-${f_ver/-*/}/extensions"
-mkdir -p $f_dir
-find $srcdir -type f -name ".mkdir.done" -exec rm -v {} ";"
-find $srcdir -type d -name "globalmenu@ubuntu.com" -exec cp -rv {} $f_dir ";"
+mkdir -p $ff_ext
+find $srcdir -type f -name ".mkdir.done" -exec rm -v {} ";" || exit 1
+find $srcdir -type d -name "globalmenu@ubuntu.com" -exec cp -rv {} $ff_ext ";" || exit 1
+
+# ver
+pkgver="`cat $ff_ext/globalmenu@ubuntu.com/install.rdf | grep em:version | awk -F '[<>]' '/em:version/ {print $3}'`"
+#rm $ff_ext/globalmenu@ubuntu.com/install.rdf
 }
 
 
