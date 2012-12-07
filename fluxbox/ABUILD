@@ -9,8 +9,7 @@ arch=('auto')
 shortdesc="Fluxbox is yet another windowmanager for X"
 
 source=("git:git://git.fluxbox.org/fluxbox.git")
-patch_opts=("")
-
+custom_opts="no_ccache"
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
