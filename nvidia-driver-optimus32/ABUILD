@@ -1,6 +1,5 @@
-# Original ABUILD by fat0troll, modified by K900
 pkgname=nvidia-driver-optimus
-pkgver=304.48
+pkgver=304.64
 pkgbuild=1
 arch=('auto')
 
@@ -16,7 +15,6 @@ fi
 source=("ftp://download.nvidia.com/XFree86/Linux-${TARGET}/${pkgver}/NVIDIA-Linux-${TARGET}-${pkgver}.run n")
 
 provides="nvidia-driver"
-conflicts="libgl-nvidia libglx-nvidia"
 adddep="nvidia-kernel libgl libglx"
 
 tags="drivers x11-drivers"
