@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 pkgname=fpc
 pkgver=2.6.2-rc1
-pkgbuild=4
+pkgbuild=1
 arch=('auto')
 ver=${pkgver:0:5}${pkgver:6:3}
 
