@@ -1,7 +1,7 @@
 pkgname=broadcom-wl
 pkgver=5.100.82.112
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=8
+pkgbuild=9
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
@@ -21,6 +21,8 @@ longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/supp
 
 source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${arch_src}-v${pkgver_src}.tar.gz")
 
+BUILD_PARAMS="API=WEXT"
+
 tags="network net-wireless"
 adddep="kernel==${KERNPKGVER}"
 #dependencies only needed to build package
@@ -29,8 +31,8 @@ build() {
 	burn_patches
 	set -e
 	sed -i 's/`uname -r`/${KERNEL}/g' Makefile
-	make KERNEL=${KERNEL} -j${numjobs}
-	make install KERNEL=${KERNEL} DESTDIR=${pkgdir}
+	make KERNEL=${KERNEL} ${BUILD_PARAMS} -j${numjobs} 
+	make install KERNEL=${KERNEL}  ${BUILD_PARAMS} DESTDIR=${pkgdir}
 
 	# Modprobe stuff: blacklist conflicting modules
 	mkdir -p ${pkgdir}/etc/modprobe.d
