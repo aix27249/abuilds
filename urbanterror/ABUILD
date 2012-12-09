@@ -1,85 +1,55 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
 pkgname=urbanterror
-pkgver=4.1.1
+pkgver=4.2.007
 pkgbuild=1
 arch=('auto')
 
-shortdesc="tactical shooter on q3 engine"
-longdesc=("Urban Terror is a team-based tactical shooter based on the Quake 3 Engine (Stand-Alone Version)")
+shortdesc="A team-based tactical shooter based on the Quake 3 Engine"
 
-source=("ftp://ftp.snt.utwente.nl/pub/games/urbanterror/full_install/linux_or_mac/UrbanTerror${pkgver//./}.zip"
-"http://ftp.snt.utwente.nl/pub/games/urbanterror/iourbanterror/source/complete/ioUrbanTerrorSource_2007_12_20.zip")
+source=("https://github.com/Barbatos/ioq3-for-UrbanTerror-4/archive/release-${pkgver}.tar.gz")
 
 tags="games games-fps"
 
-adddep="urbanterror-data"
+build_deps="sdl openal curl"
 
-pkglist="urbanterror_data"
+adddep="urbanterror-data=>${pkgver} openal curl"
 
-urbanterror_data() {
-	pkgname=urbanterror-data
-	arch=('noarch')
+custom_opts="no_copydoc"
 
-	shortdesc="tactical shooter on q3 engine (data files)"
-	longdesc=("Urban Terror is a team-based tactical shooter based on the Quake 3 Engine. This package contains data files")
-	adddep="urbanterror"
-
+#===================================
+before_build(){
+  cd ${srcdir}/ioq3-for-UrbanTerror-4-release-${pkgver}
+  sed -i 's|"Quake III Arena"|"Urban Terror"|g' \
+         code/q3_ui/ui_mods.c \
+         code//q3_ui/ui_servers2.c
+  sed -i 's|"/.q3a"|"/.urbanterror"|g' \
+         code/sys/sys_unix.c \
+         code/unix/unix_shared.c
+  echo "End before_build"
 }
 
-
-build() {
-	set -e
-	cd $srcdir
-	patch -Np0 -i ${filedir}/urbanterror_home.patch
-	#compile client
-	cd $srcdir/ioUrbanTerrorClientSource
-	patch -Np0 -i ${filedir}/default-curl_lib.patch
-	make -j1
-	#compile server
-	cd $srcdir/ioUrbanTerrorServerSource
-	patch -Np1 -i $filedir/cmd.c.patch
-	patch -Np1 -i $filedir/g_cmds.c.patch
-	patch -Np1 -i $filedir/qcommon.h.patch
-	patch -Np1 -i $filedir/sv_client.c.patch
-	patch -Np1 -i $filedir/sv_main.c.patch
-	make -j1
-	set +e
+#===================================
+build(){
+  cd ${srcdir}/ioq3-for-UrbanTerror-4-release-${pkgver}
+  make
+  echo "End build"
 }
 
-after_build() {
-	set -e
-	## prepare folder
-	install -d $pkgdir/opt/urbanterror/q3ut4/
-	
-	cd $pkgdir/opt/urbanterror
-	
-	# copy execs
-	install -m755 $srcdir/ioUrbanTerrorClientSource/build/release-linux-*/ioUrbanTerror.* ioUrbanTerror
-	install -m755 $srcdir/ioUrbanTerrorServerSource/build/release-linux-*/ioUrTded.* ioUrTded
+#===================================
+after_build(){
+  cd ${srcdir}/ioq3-for-UrbanTerror-4-release-${pkgver}
+  install -dm755 ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  install -Dm644 ./{COPYING.txt,ChangeLog,README,id-readme.txt,md4-readme.txt,ioUrbanTerror_README.txt} \
+                ${pkgdir}/usr/doc/${pkgname}-${pkgver}
 
+  # Copy binaries.
+  install -Dm755 build/release-linux-*/Quake3-UrT-Ded.* ${pkgdir}/usr/bin/ioUrTded
+  install -Dm755 build/release-linux-*/Quake3-UrT.* ${pkgdir}/usr/bin/ioUrbanTerror
 
-	cd $pkgdir/opt/urbanterror
-
-	## desktop launcher
-	install -Dm644 $filedir/urbanterror.desktop $pkgdir/usr/share/applications/urbanterror.desktop
-	install -Dm644 $filedir/urbanterror.png $pkgdir/usr/share/pixmaps/urbanterror.png
-
-	## launch scripts
-	install -Dm755 $filedir/urbanterror.sh $pkgdir/usr/bin/urbanterror
-	install -Dm755 $filedir/urbanterror-server.sh $pkgdir/usr/bin/urbanterror-server
-	set +e
-}
-
-urbanterror_data_prep() {
-	set -e
-	## copy base UT files to package urbanterror-data
-	#install -m644 $srcdir/UrbanTerror/q3ut4/*.{cfg,pk3,txt} baseut4/ #needs more room on disk
-	mkdir -p $pkgdir/opt/urbanterror/q3ut4
-	cd $pkgdir/opt/urbanterror
-	for i in $srcdir/UrbanTerror/q3ut4/*.{cfg,pk3,txt}; do
-	    mv "$i" q3ut4/
-	    chmod 644 "q3ut4/$(basename "$i")"
-	done
-	set +e
-
+  # Copy launch scripts.
+  install -Dm755 ${filedir}/urbanterror.sh ${pkgdir}/usr/bin/urbanterror
+  install -Dm755 ${filedir}/urbanterror-server.sh ${pkgdir}/usr/bin/urbanterror-server
+  install -Dm644  code/unix/iourbanterror.png ${pkgdir}/usr/share/pixmaps/urbanterror.png
+  echo "End after_build"
 }
