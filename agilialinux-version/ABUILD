@@ -1,6 +1,6 @@
 # ABUILD for etc files.
 pkgname=agilialinux-version
-pkgver=8.1
+pkgver=8.1.1
 pkgbuild=1
 arch=('noarch')
 
