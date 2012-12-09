@@ -1,6 +1,6 @@
 # ABUILD by K900
 pkgname=analitza
-pkgver=4.9.3
+pkgver=4.9.4
 pkgbuild=1
 arch=('auto')
 shortdesc="Math library for KAlgebra"
