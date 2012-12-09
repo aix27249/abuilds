@@ -3,7 +3,7 @@ pkgname=vhba-module
 KERNEL=${KERNEL:-$(uname -r)}
 KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
 
-pkgver=20100822
+pkgver=20120422
 FINAL_VER=${pkgver}_$(echo $KERNEL | tr - _)
 pkgbuild=4
 arch=('auto')
@@ -14,7 +14,7 @@ longdesc=("$shortdesc")
 
 adddep="kernel==${KERNEL}"
 
-source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${_pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${_pkgver}.tar.bz2")
 
 tags="drivers sys-fs"
 
@@ -22,7 +22,6 @@ build() {
 	go_src_dir
 	burn_patches
 	set -e
-	git apply -p2 $filedir/fix.patch
 	make KDIR=${KERNELPATH} -j${numjobs}
 	install -D vhba.ko "$pkgdir/lib/modules/${KERNEL}/extra/vhba.ko"
 	set +e
