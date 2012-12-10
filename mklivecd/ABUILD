@@ -19,6 +19,7 @@ adddep="bash>=4.0 wget rsync syslinux>=4.0 cdrtools fakeroot fakechroot mpkg-con
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
+build_deps="cmake"
 
 build() {
 	go_src_dir
