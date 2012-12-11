@@ -5,7 +5,7 @@ KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
 
 pkgver=20120422
 FINAL_VER=${pkgver}_$(echo $KERNEL | tr - _)
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 _pkgver=${pkgver}
 pkgver=${FINAL_VER}

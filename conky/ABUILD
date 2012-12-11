@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=conky
 pkgver=1.9.0
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 shortdesc="a light-weight system monitor"
@@ -20,13 +20,13 @@ patch_opts=("")
 tags="app-admin utils"
 
 #dependencies only needed to build package
-build_deps="audacious"
+build_deps= #"audacious"
 
 provides=""
 conflicts=""
 
-adddep=""
-removedep="audacious"
+adddep= #"tolua++"
+removedep= #"audacious"
 
 #for multi pkg abuild
 pkglist=
@@ -73,9 +73,9 @@ BUILD_KEYS="--prefix=/usr \
 --enable-wlan \
 --enable-lua \
 --enable-lua-cairo \
---enable-lua-imlib2 \
---enable-audacious"
+--enable-lua-imlib2"
 
+#--enable-audacious
 #--enable-xmms2 \
 #--enable-bmpx \
 #--enable-nvidia"
