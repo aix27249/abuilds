@@ -1,0 +1,112 @@
+pkgname=avahi
+pkgver=0.6.29
+pkgbuild=1
+arch=('auto')
+
+shortdesc="avahi (service discovery aka zeroconf) "
+longdesc=("Avahi is an Implementation the DNS Service Discovery and Multicast DNS specifications"
+"for Zeroconf Computing. It uses D-BUS for communication between user applications "
+"and a system daemon. The daemon is used to coordinate application efforts in caching "
+"replies, necessary to minimize the traffic imposed on networks. This kind of "
+"technology is already found in Apple MacOS X (branded Rendezvous Bonjour and "
+"sometimes Zeroconf) and is very convenient. "
+)
+
+source=("http://avahi.org/download/${pkgname}-${pkgver}.tar.gz")
+pkglist="gtk qt"
+
+gtk() {
+	pkgname=avahi-gtk
+	adddep=avahi
+	shortdesc="GTK UI bindings for Avahi"
+	longdesc="GTK UI bindings for Avahi"
+}
+
+qt() {
+	pkgname=avahi-qt
+	adddep=avahi
+	shortdesc="Qt4 UI bindings for Avahi"
+	longdesc="Qt4 UI bindings for Avahi"
+}
+
+gtk_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX
+	mkdir -p ${pkgdir}/usr/bin
+	mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/libavahi-ui* ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	for i in ${p_pkgdir}/usr/bin/* ; do
+		GCHK=`objdump -x $i | grep NEEDED | grep libgtk || exit 0`
+		if [ "$GCHK" != "" ] ; then
+			mv $i ${pkgdir}/usr/bin/
+		fi
+	done
+	set +e
+}
+
+qt_prep() {
+	set -e
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX
+	mkdir -p ${pkgdir}/usr/bin
+	mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/libavahi-qt4* ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	for i in ${p_pkgdir}/usr/bin/* ; do
+		GCHK=`objdump -x $i | grep NEEDED | grep libavahi-qt4 || exit 0`
+		if [ "$GCHK" != "" ] ; then
+			mv $i ${pkgdir}/usr/bin/
+		fi
+	done
+	set +e
+}
+
+tags="network net-dns"
+build() {
+	go_src_dir
+	burn_patches
+	set -e
+
+	LDFLAGS="$SLKLDFLAGS" \
+	CFLAGS="$SLKCFLAGS" \
+	CXXFLAGS="$SLKCFLAGS" \
+	./configure --prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--disable-static \
+		--mandir=/usr/man \
+		--program-prefix= \
+		--program-suffix= \
+		--enable-shared \
+		--disable-monodoc \
+		--disable-mono \
+		--enable-python-dbus \
+		--enable-pygtk \
+		--enable-glib \
+		--enable-dbus \
+		--enable-python \
+		--enable-gtk \
+		--disable-gtk3 \
+		--disable-qt3 \
+		--enable-qt4 \
+		--enable-core-docs \
+		--enable-introspection \
+		--with-avahi-user=avahi \
+		--with-avahi-group=avahi \
+		--with-autoipd-user=avahi-autoipd \
+		--with-autoipd-group=avahi-autoipd \
+		--with-distro=gentoo 
+                                                  
+	make -j${numjobs} || exit 1
+	make install DESTDIR=$pkgdir || exit 1
+
+	mkdir -p ${pkgdir}/var/run/avahi-daemon
+	mkdir -p ${pkgdir}/var/run/avahi-autoipd
+
+	# Remove extraneous icons from gnome menus
+	rm -fr $pkgdir/usr/share/applications/bssh.desktop
+	rm -fr $pkgdir/usr/share/applications/bvnc.desktop
+
+	# Why did we need this?
+	#mv $pkgdir/etc/dbus-1/system.d/avahi-dbus.conf $pkgdir/etc/dbus-1/system.d/avahi-dbus.conf.new
+	set +e
+
+}
+
