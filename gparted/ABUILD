@@ -1,12 +1,14 @@
 # GParted ABUILD.
 pkgname=gparted
-pkgver=0.14.0
+pkgver=0.14.1
 pkgbuild=1
+arch=('auto')
+
 shortdesc="Partition table editor, frontend to GNU Parted"
 longdesc="Partition table editor similar to PartitionMagic, frontend to GNU Parted."
 
-arch=('auto')
 source=(http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2)
+
 adddep=("e2fsprogs dosfstools jfsutils ntfsprogs reiserfsprogs xfsprogs xdg-utils")
 tags=("sys-fs xapps")
 
@@ -15,7 +17,6 @@ BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-doc --disable-scrollkeeper"
 
 after_build() {
-	set -e
-	sed -i -e "s:Exec=gksu:Exec=xdg-su -c:g" ${pkgdir}/usr/share/applications/gparted.desktop
-	set +e
+ sed -i "/^Exec=/s|=.*|=xdg-su -c /usr/sbin/gparted %f|" \
+	 ${pkgdir}/usr/share/applications/gparted.desktop || exit 1
 }
