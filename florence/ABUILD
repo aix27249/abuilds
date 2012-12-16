@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=florence
 pkgver=0.5.3
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="On-screen virtual keyboard"
@@ -77,7 +77,13 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-#after_build()
-#{
+after_build()
+{
+icdesk="${pkgdir}/usr/share/applications/$pkgname.desktop"
+icdesk_n="`cat ${icdesk} | grep 'Categories=Application;Accessibility;'`"
 
-#}
+if [ -n "$icdesk_n" ]; then
+ sed -i "/^Categories=/s|Accessibility|GTK;Utility|" ${icdesk} || exit 1
+fi
+
+}
