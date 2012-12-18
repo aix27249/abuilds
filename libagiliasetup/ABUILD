@@ -14,7 +14,7 @@ source=("git:git://github.com/aix27249/mpkg.git")
 # Tags
 tags="libs sys-libs"
 # Many additional dependencies which are used indirectly during setup process.
-adddep="bash>=4.0 wget e2fsprogs xfsprogs reiserfsprogs jfsutils btrfs-progs rsync sed"
+adddep="bash>=4.0 wget e2fsprogs xfsprogs reiserfsprogs jfsutils btrfs-progs rsync sed laptop-detect"
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
