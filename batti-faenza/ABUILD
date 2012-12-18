@@ -1,6 +1,6 @@
 pkgname=batti-faenza
 pkgver=0.3.8
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="batti with Faenza icon theme support"
@@ -9,4 +9,6 @@ tags="app-laptop xapps"
 provides="batti"
 adddep="upower>=0.9.4 faenza-icon-theme>=0.9.2 dbus-python pygtk gtk+2 hicolor-icon-theme"
 BUILD_SYSTEM="python"
-
+after_build() {
+	install -Dm0644 ${filedir}/batti.desktop ${pkgdir}/etc/xdg/autostart/batti.desktop
+}

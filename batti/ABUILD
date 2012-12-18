@@ -1,6 +1,6 @@
 pkgname=batti
 pkgver=0.3.8
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Simple battery monitor for the system tray"
@@ -8,3 +8,6 @@ source=("http://${pkgname}-gtk.googlecode.com/files/${pkgname}-${pkgver}.tar.gz"
 tags="app-laptop xapps"
 adddep="upower>=0.9.4 dbus-python pygtk gtk+2 hicolor-icon-theme"
 BUILD_SYSTEM="python"
+after_build() {
+	install -Dm0644 ${filedir}/batti.desktop ${pkgdir}/etc/xdg/autostart/batti.desktop
+}
