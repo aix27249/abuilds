@@ -3,7 +3,7 @@
 pkgname=tango-icon-theme
 pkgver=0.8.90
 pkgbuild=2
-arch=("auto")
+arch="noarch"
 
 shortdesc=("Tango icon theme (Another standard icon theme)")
 longdesc=("The Tango Desktop Project has designed a basic set of desktop icons that follow the style guidelines. The set has been created as a proof of concept for the style, but works rather well as a replacement for the base theme under GNOME and KDE. Tango's home page is: http://tango.freedesktop.org")
@@ -13,7 +13,7 @@ tags=("libs x11-themes")
 source=("http://tango.freedesktop.org/releases/tango-icon-theme-${pkgver}.tar.gz")
 
 build_deps="automake perl-xml-parser icon-naming-utils gettext intltool imagemagick"
-
+custom_opts="skip_gendeps no_strip"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
