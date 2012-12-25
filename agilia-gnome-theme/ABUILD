@@ -1,13 +1,13 @@
 pkgname=agilia-gnome-theme
 pkgver=2.3
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="AgiliaLinux GNOME2 defaults and settings"
 
 tags="themes x11-themes"
 
-adddep="GConf"
+adddep="GConf hicolor-icon-theme gnome-icon-theme gnome-backgrounds gtk2-sammy-theme prudence-theme prudence-icon-theme openzone-cursors droid-fonts-ttf"
 
 build() {
 	install -Dm0644 $filedir/dmrc $pkgdir/etc/skel/.dmrc
