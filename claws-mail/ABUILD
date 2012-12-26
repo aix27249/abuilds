@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=claws-mail
-pkgver=3.8.1
+pkgver=3.9.0
 pkgbuild=3
 arch=('auto')
 
@@ -14,7 +14,7 @@ source=("http://downloads.sourceforge.net/project/sylpheed-claws/Claws%20Mail/${
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
 tags="mail-client network"
-
+custom_opts="no_ccache"
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
@@ -30,7 +30,7 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --enable-largefile \
---enable-nls \
---enable-crash-dialog"
+--enable-nls "
+#--enable-crash-dialog"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
