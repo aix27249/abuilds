@@ -1,2 +1,2 @@
-usr/bin/gdk-pixbuf-query-loaders --update-cache
+chroot . usr/bin/gdk-pixbuf-query-loaders --update-cache
 
