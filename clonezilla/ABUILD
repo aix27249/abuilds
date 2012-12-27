@@ -1,15 +1,15 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=drbl
-pkgver=2.1.51
+pkgname=clonezilla
+pkgver=3.1.38
 pkgbuild=1
 arch=('auto')
 
-shortdesc="DRBL (Diskless Remote Boot in Linux) is a free software, open source solution to managing the deployment of the GNU/Linux operating system across many clients"
+shortdesc="The Free and Open Source Software for Disk Imaging and Cloning"
 
-source=("http://free.nchc.org.tw/drbl-core/src/unstable/drbl-${pkgver}.tar.bz2")
-#http://downloads.sourceforge.net/project/drbl/drbl_stable/$pkgver/$pkgname-$pkgver.tar.bz2")
+source=("http://free.nchc.org.tw/drbl-core/src/unstable/clonezilla-${pkgver}.tar.bz2")
+#http://free.nchc.org.tw/drbl-core/src/stable/$pkgname-$pkgver.tar.bz2")
 
 
 #----------------------------- AgiliaLinux vars --------------------------------------
@@ -17,7 +17,9 @@ source=("http://free.nchc.org.tw/drbl-core/src/unstable/drbl-${pkgver}.tar.bz2")
 #short and long tags / длинный и короткий тег
 tags="app-admin utils"
 
-adddep="bash bc"
+
+adddep="pigz partclone ntfsprogs coreutils partimage drbl"
+
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
@@ -28,12 +30,21 @@ build()
 
 go_src_dir
 
-make DESTDIR=$pkgdir install  
-#  cd $pkgdir/opt/drbl/lang
- # make all  
- # cd $pkgdir/opt/drbl/sbin
- # make all
+cd $srcdir/$pkgname-$pkgver
+  make DESTDIR=$pkgdir install  
+  install -m755 -d $pkgdir/usr/bin
+  touch $pkgdir/usr/bin/clonezilla
+  echo "#!/bin/sh" > $pkgdir/usr/bin/clonezilla
+  echo "/opt/drbl/sbin/clonezilla" >> $pkgdir/usr/bin/clonezilla
+  chmod 0755 $pkgdir/usr/bin/clonezilla
+  chmod +x $pkgdir/usr/bin/clonezilla
 
 }
+after_build()
+{
 
+ln -s /usr/bin/strings-GNU $pkgdir/usr/bin/strings
+
+
+}
 
