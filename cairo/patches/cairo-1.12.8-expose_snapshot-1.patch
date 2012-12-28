@@ -1,17 +1,15 @@
-Submitted By: Andrew Benton <andy@benton.eu.com>
-Date: 2012-04-22
+Submitted By:            Armin K. <krejzi at email dot com>
 Initial Package Version: 1.12.0
-Upstream Status: Unknown
-Origin: Mozilla. From the Firefox-12 source.
-Description: this is gfx/cairo/expose-snapshot.patch applied to the system
-cairo to expose some private functions. It allows Firefox to be compiled
-with --enable-system-cairo
-more details https://bugzilla.mozilla.org/show_bug.cgi?id=722975
+Upstream Status:         Unknown
+Origin:                  Mozilla. From the Firefox-12 source.
+Description:             this is gfx/cairo/expose-snapshot.patch applied to the system
+                         Cairo to expose some private functions. It allows Firefox to
+                         be compiled with --enable-system-cairo
+                         More details https://bugzilla.mozilla.org/show_bug.cgi?id=722975
+                         Based on Andy's patch, but rediffed for Cairo 1.12.4.
 
-
-diff -Naur cairo-1.12.0.orig/src/cairo-analysis-surface.c cairo-1.12.0/src/cairo-analysis-surface.c
---- cairo-1.12.0.orig/src/cairo-analysis-surface.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/cairo-analysis-surface.c	2012-03-31 18:23:49.418555251 +0100
+--- cairo.orig/src/cairo-analysis-surface.c	2012-04-29 11:04:27.000000000 +0200
++++ cairo/src/cairo-analysis-surface.c	2012-10-07 20:22:22.407783487 +0200
 @@ -125,7 +125,7 @@
      _cairo_surface_init (&proxy->base, &proxy_backend, NULL, target->content);
  
@@ -21,7 +19,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo-analysis-surface.c cairo-1.12.0/src/cairo
  
      return &proxy->base;
  }
-@@ -914,7 +914,7 @@
+@@ -916,7 +916,7 @@
  };
  
  cairo_surface_t *
@@ -30,9 +28,8 @@ diff -Naur cairo-1.12.0.orig/src/cairo-analysis-surface.c cairo-1.12.0/src/cairo
  {
      cairo_surface_t *surface;
  
-diff -Naur cairo-1.12.0.orig/src/cairo-analysis-surface-private.h cairo-1.12.0/src/cairo-analysis-surface-private.h
---- cairo-1.12.0.orig/src/cairo-analysis-surface-private.h	2010-06-13 20:57:57.000000000 +0100
-+++ cairo-1.12.0/src/cairo-analysis-surface-private.h	2012-03-31 18:20:23.918442633 +0100
+--- cairo.orig/src/cairo-analysis-surface-private.h	2010-06-13 21:58:21.000000000 +0200
++++ cairo/src/cairo-analysis-surface-private.h	2012-10-07 20:22:22.407783487 +0200
 @@ -68,7 +68,4 @@
  _cairo_analysis_surface_merge_status (cairo_int_status_t status_a,
  				      cairo_int_status_t status_b);
@@ -41,10 +38,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-analysis-surface-private.h cairo-1.12.0/s
 -_cairo_null_surface_create (cairo_content_t content);
 -
  #endif /* CAIRO_ANALYSIS_SURFACE_H */
-diff -Naur cairo-1.12.0.orig/src/cairo-cogl-surface.c cairo-1.12.0/src/cairo-cogl-surface.c
---- cairo-1.12.0.orig/src/cairo-cogl-surface.c	2012-03-12 08:25:12.000000000 +0000
-+++ cairo-1.12.0/src/cairo-cogl-surface.c	2012-03-31 18:23:49.351889619 +0100
-@@ -1399,7 +1399,7 @@
+--- cairo.orig/src/cairo-cogl-surface.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/cairo-cogl-surface.c	2012-10-07 20:22:22.407783487 +0200
+@@ -1403,7 +1403,7 @@
  					     reference_surface->ignore_alpha,
  					     NULL, COGL_TEXTURE (texture));
  
@@ -53,10 +49,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-cogl-surface.c cairo-1.12.0/src/cairo-cog
  
      /* Attaching the snapshot will take a reference on the clone surface... */
      cairo_surface_destroy (clone);
-diff -Naur cairo-1.12.0.orig/src/cairo.h cairo-1.12.0/src/cairo.h
---- cairo-1.12.0.orig/src/cairo.h	2012-03-23 18:08:55.000000000 +0000
-+++ cairo-1.12.0/src/cairo.h	2012-03-31 18:20:23.918442633 +0100
-@@ -220,6 +220,15 @@
+--- cairo.orig/src/cairo.h	2012-03-29 12:05:32.000000000 +0200
++++ cairo/src/cairo.h	2012-10-07 20:22:22.408783503 +0200
+@@ -232,6 +232,15 @@
  typedef void (*cairo_destroy_func_t) (void *data);
  
  /**
@@ -72,7 +67,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo.h cairo-1.12.0/src/cairo.h
   * cairo_user_data_key_t:
   * @unused: not used; ignore.
   *
-@@ -2351,6 +2360,14 @@
+@@ -2414,6 +2423,14 @@
  			     void			 *user_data,
  			     cairo_destroy_func_t	 destroy);
  
@@ -87,7 +82,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo.h cairo-1.12.0/src/cairo.h
  #define CAIRO_MIME_TYPE_JPEG "image/jpeg"
  #define CAIRO_MIME_TYPE_PNG "image/png"
  #define CAIRO_MIME_TYPE_JP2 "image/jp2"
-@@ -2627,6 +2644,11 @@
+@@ -2690,6 +2707,11 @@
  cairo_public cairo_raster_source_finish_func_t
  cairo_raster_source_pattern_get_finish (cairo_pattern_t *pattern);
  
@@ -99,10 +94,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo.h cairo-1.12.0/src/cairo.h
  /* Pattern creation functions */
  
  cairo_public cairo_pattern_t *
-diff -Naur cairo-1.12.0.orig/src/cairo-image-source.c cairo-1.12.0/src/cairo-image-source.c
---- cairo-1.12.0.orig/src/cairo-image-source.c	2012-03-12 08:25:12.000000000 +0000
-+++ cairo-1.12.0/src/cairo-image-source.c	2012-03-31 18:23:49.368556027 +0100
-@@ -663,7 +663,7 @@
+--- cairo.orig/src/cairo-image-source.c	2012-04-29 11:04:27.000000000 +0200
++++ cairo/src/cairo-image-source.c	2012-10-07 20:22:22.408783503 +0200
+@@ -670,7 +670,7 @@
      _cairo_surface_init (&proxy->base, &proxy_backend, NULL, image->content);
  
      proxy->image = image;
@@ -111,10 +105,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-image-source.c cairo-1.12.0/src/cairo-ima
  
      return &proxy->base;
  }
-diff -Naur cairo-1.12.0.orig/src/cairoint.h cairo-1.12.0/src/cairoint.h
---- cairo-1.12.0.orig/src/cairoint.h	2012-03-22 23:04:07.000000000 +0000
-+++ cairo-1.12.0/src/cairoint.h	2012-03-31 18:20:23.918442633 +0100
-@@ -1372,17 +1372,9 @@
+--- cairo.orig/src/cairoint.h	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/cairoint.h	2012-10-07 20:22:22.409783519 +0200
+@@ -1382,17 +1382,9 @@
  cairo_private cairo_surface_t *
  _cairo_surface_snapshot (cairo_surface_t *surface);
  
@@ -131,11 +124,10 @@ diff -Naur cairo-1.12.0.orig/src/cairoint.h cairo-1.12.0/src/cairoint.h
 -_cairo_surface_detach_snapshot (cairo_surface_t *snapshot);
 +		 	     const cairo_surface_backend_t *backend);
  
- cairo_private void
+ cairo_private cairo_status_t
  _cairo_surface_begin_modification (cairo_surface_t *surface);
-diff -Naur cairo-1.12.0.orig/src/cairo-recording-surface.c cairo-1.12.0/src/cairo-recording-surface.c
---- cairo-1.12.0.orig/src/cairo-recording-surface.c	2012-03-12 08:25:12.000000000 +0000
-+++ cairo-1.12.0/src/cairo-recording-surface.c	2012-03-31 18:23:49.421888532 +0100
+--- cairo.orig/src/cairo-recording-surface.c	2012-10-05 15:06:00.000000000 +0200
++++ cairo/src/cairo-recording-surface.c	2012-10-07 20:22:22.410783534 +0200
 @@ -553,7 +553,7 @@
      _cairo_surface_init (&proxy->base, &proxy_backend, NULL, image->content);
  
@@ -145,7 +137,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo-recording-surface.c cairo-1.12.0/src/cair
  
      return &proxy->base;
  }
-@@ -1634,7 +1634,7 @@
+@@ -1944,7 +1944,7 @@
      cairo_surface_t *analysis_surface;
      cairo_status_t status;
  
@@ -154,9 +146,8 @@ diff -Naur cairo-1.12.0.orig/src/cairo-recording-surface.c cairo-1.12.0/src/cair
      analysis_surface = _cairo_analysis_surface_create (null_surface);
      cairo_surface_destroy (null_surface);
  
-diff -Naur cairo-1.12.0.orig/src/cairo-script-surface.c cairo-1.12.0/src/cairo-script-surface.c
---- cairo-1.12.0.orig/src/cairo-script-surface.c	2012-02-29 12:10:06.000000000 +0000
-+++ cairo-1.12.0/src/cairo-script-surface.c	2012-03-31 18:23:49.401888843 +0100
+--- cairo.orig/src/cairo-script-surface.c	2012-04-29 11:04:27.000000000 +0200
++++ cairo/src/cairo-script-surface.c	2012-10-07 20:22:22.410783534 +0200
 @@ -1117,7 +1117,7 @@
  				 "dup /s%d exch def ",
  				 surface->base.unique_id);
@@ -166,10 +157,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-script-surface.c cairo-1.12.0/src/cairo-s
      cairo_surface_destroy (&surface->base);
  }
  
-diff -Naur cairo-1.12.0.orig/src/cairo-surface.c cairo-1.12.0/src/cairo-surface.c
---- cairo-1.12.0.orig/src/cairo-surface.c	2012-03-12 08:25:12.000000000 +0000
-+++ cairo-1.12.0/src/cairo-surface.c	2012-03-31 18:23:49.488554164 +0100
-@@ -325,14 +325,14 @@
+--- cairo.orig/src/cairo-surface.c	2012-09-27 22:38:56.000000000 +0200
++++ cairo/src/cairo-surface.c	2012-10-07 20:25:31.030695973 +0200
+@@ -330,14 +330,14 @@
  _cairo_surface_detach_snapshots (cairo_surface_t *surface)
  {
      while (_cairo_surface_has_snapshots (surface)) {
@@ -186,7 +176,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface.c cairo-1.12.0/src/cairo-surface.
  {
      assert (snapshot->snapshot_of != NULL);
  
-@@ -346,7 +346,7 @@
+@@ -351,7 +351,7 @@
  }
  
  void
@@ -195,7 +185,7 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface.c cairo-1.12.0/src/cairo-surface.
  				 cairo_surface_t *snapshot,
  				 cairo_surface_func_t detach_func)
  {
-@@ -356,7 +356,7 @@
+@@ -361,7 +361,7 @@
      cairo_surface_reference (snapshot);
  
      if (snapshot->snapshot_of != NULL)
@@ -204,27 +194,17 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface.c cairo-1.12.0/src/cairo-surface.
  
      snapshot->snapshot_of = surface;
      snapshot->snapshot_detach = detach_func;
-@@ -390,7 +390,7 @@
- 
+@@ -1461,7 +1461,7 @@
+     /* update the current snapshots *before* the user updates the surface */
      _cairo_surface_detach_snapshots (surface);
      if (surface->snapshot_of != NULL)
 -	_cairo_surface_detach_snapshot (surface);
 +	cairo_surface_detach_snapshot (surface);
- 
      _cairo_surface_detach_mime_data (surface);
- }
-@@ -897,7 +897,7 @@
-     /* update the snapshots *before* we declare the surface as finished */
-     _cairo_surface_detach_snapshots (surface);
-     if (surface->snapshot_of != NULL)
--	_cairo_surface_detach_snapshot (surface);
-+	cairo_surface_detach_snapshot (surface);
  
-     surface->finished = TRUE;
- 
-diff -Naur cairo-1.12.0.orig/src/cairo-surface-private.h cairo-1.12.0/src/cairo-surface-private.h
---- cairo-1.12.0.orig/src/cairo-surface-private.h	2012-02-15 14:20:37.000000000 +0000
-+++ cairo-1.12.0/src/cairo-surface-private.h	2012-03-31 18:20:23.918442633 +0100
+     return __cairo_surface_flush (surface, flags);
+--- cairo.orig/src/cairo-surface-private.h	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/cairo-surface-private.h	2012-10-07 20:22:22.412783564 +0200
 @@ -46,8 +46,6 @@
  #include "cairo-clip-private.h"
  #include "cairo-surface-backend-private.h"
@@ -234,10 +214,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface-private.h cairo-1.12.0/src/cairo-
  struct _cairo_surface {
      const cairo_surface_backend_t *backend;
      cairo_device_t *device;
-diff -Naur cairo-1.12.0.orig/src/cairo-surface-snapshot.c cairo-1.12.0/src/cairo-surface-snapshot.c
---- cairo-1.12.0.orig/src/cairo-surface-snapshot.c	2012-02-29 12:10:06.000000000 +0000
-+++ cairo-1.12.0/src/cairo-surface-snapshot.c	2012-03-31 18:23:49.368556027 +0100
-@@ -242,7 +242,7 @@
+--- cairo.orig/src/cairo-surface-snapshot.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/cairo-surface-snapshot.c	2012-10-07 20:22:22.412783564 +0200
+@@ -281,7 +281,7 @@
      snapshot->base.device_transform = surface->device_transform;
      snapshot->base.device_transform_inverse = surface->device_transform_inverse;
  
@@ -246,11 +225,10 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface-snapshot.c cairo-1.12.0/src/cairo
  				    &snapshot->base,
  				    _cairo_surface_snapshot_copy_on_write);
  
-diff -Naur cairo-1.12.0.orig/src/cairo-surface-subsurface.c cairo-1.12.0/src/cairo-surface-subsurface.c
---- cairo-1.12.0.orig/src/cairo-surface-subsurface.c	2012-03-13 20:54:35.000000000 +0000
-+++ cairo-1.12.0/src/cairo-surface-subsurface.c	2012-03-31 18:23:49.488554164 +0100
-@@ -564,10 +564,10 @@
- 	    ss->target->unique_id, snapshot->unique_id));
+--- cairo.orig/src/cairo-surface-subsurface.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/cairo-surface-subsurface.c	2012-10-07 20:22:22.412783564 +0200
+@@ -562,10 +562,10 @@
+     return;
  
      if (ss->snapshot)
 -	_cairo_surface_detach_snapshot (ss->snapshot);
@@ -262,9 +240,8 @@ diff -Naur cairo-1.12.0.orig/src/cairo-surface-subsurface.c cairo-1.12.0/src/cai
 +    cairo_surface_attach_snapshot (ss->target, &ss->base,
  				    _cairo_surface_subsurface_detach_snapshot);
  }
-diff -Naur cairo-1.12.0.orig/src/cairo-vg-surface.c cairo-1.12.0/src/cairo-vg-surface.c
---- cairo-1.12.0.orig/src/cairo-vg-surface.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/cairo-vg-surface.c	2012-03-31 18:23:49.381889154 +0100
+--- cairo.orig/src/cairo-vg-surface.c	2012-04-19 14:17:58.000000000 +0200
++++ cairo/src/cairo-vg-surface.c	2012-10-07 20:22:22.413783579 +0200
 @@ -986,7 +986,7 @@
  	return status;
      }
@@ -274,10 +251,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-vg-surface.c cairo-1.12.0/src/cairo-vg-su
  				    _vg_surface_remove_from_cache);
  
  DONE:
-diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface.c cairo-1.12.0/src/cairo-xcb-surface.c
---- cairo-1.12.0.orig/src/cairo-xcb-surface.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/cairo-xcb-surface.c	2012-03-31 18:23:49.365222745 +0100
-@@ -494,7 +494,7 @@
+--- cairo.orig/src/cairo-xcb-surface.c	2012-09-27 22:38:56.000000000 +0200
++++ cairo/src/cairo-xcb-surface.c	2012-10-07 20:22:58.916347305 +0200
+@@ -500,7 +500,7 @@
      if (unlikely (image->status))
  	return image->status;
  
@@ -286,18 +262,17 @@ diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface.c cairo-1.12.0/src/cairo-xcb-
  
  DONE:
      *image_out = (cairo_image_surface_t *) image;
-@@ -737,7 +737,7 @@
+@@ -748,7 +748,7 @@
  				       &surface->fallback_damage);
  
- 	if (status == CAIRO_STATUS_SUCCESS) {
+ 	if (status == CAIRO_STATUS_SUCCESS && ! surface->base._finishing) {
 -	    _cairo_surface_attach_snapshot (&surface->base,
 +	    cairo_surface_attach_snapshot (&surface->base,
  					    &surface->fallback->base,
  					    cairo_surface_finish);
  	}
-diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface-core.c cairo-1.12.0/src/cairo-xcb-surface-core.c
---- cairo-1.12.0.orig/src/cairo-xcb-surface-core.c	2012-02-02 00:47:50.000000000 +0000
-+++ cairo-1.12.0/src/cairo-xcb-surface-core.c	2012-03-31 18:23:49.365222745 +0100
+--- cairo.orig/src/cairo-xcb-surface-core.c	2012-02-02 01:48:14.000000000 +0100
++++ cairo/src/cairo-xcb-surface-core.c	2012-10-07 20:22:22.414783595 +0200
 @@ -440,7 +440,7 @@
      if (unlikely (pixmap->base.status))
  	return pixmap;
@@ -307,10 +282,9 @@ diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface-core.c cairo-1.12.0/src/cairo
  
      if (pattern->base.extend != CAIRO_EXTEND_NONE) {
  	if (extents->x < 0 || extents->y < 0 ||
-diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface-render.c cairo-1.12.0/src/cairo-xcb-surface-render.c
---- cairo-1.12.0.orig/src/cairo-xcb-surface-render.c	2012-02-02 00:47:50.000000000 +0000
-+++ cairo-1.12.0/src/cairo-xcb-surface-render.c	2012-03-31 18:23:49.391888998 +0100
-@@ -1284,7 +1284,7 @@
+--- cairo.orig/src/cairo-xcb-surface-render.c	2012-09-27 22:38:56.000000000 +0200
++++ cairo/src/cairo-xcb-surface-render.c	2012-10-07 20:22:22.414783595 +0200
+@@ -1295,7 +1295,7 @@
  	    return picture;
      }
  
@@ -319,30 +293,8 @@ diff -Naur cairo-1.12.0.orig/src/cairo-xcb-surface-render.c cairo-1.12.0/src/cai
  				    &picture->base,
  				    NULL);
  
-diff -Naur cairo-1.12.0.orig/src/cairo-xlib-source.c cairo-1.12.0/src/cairo-xlib-source.c
---- cairo-1.12.0.orig/src/cairo-xlib-source.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/cairo-xlib-source.c	2012-03-31 18:23:49.491887446 +0100
-@@ -790,7 +790,7 @@
- 	_cairo_surface_has_snapshot (&src->base, dst->base.backend);
-     if (snapshot == NULL || snapshot->screen != dst->screen) {
- 	if (snapshot)
--	    _cairo_surface_detach_snapshot (&snapshot->base);
-+	    cairo_surface_detach_snapshot (&snapshot->base);
- 
- 	snapshot = (cairo_xlib_surface_t *)
- 	    _cairo_surface_create_similar_scratch (&dst->base,
-@@ -811,7 +811,7 @@
- 	    return _cairo_surface_create_in_error (status);
- 	}
- 
--	_cairo_surface_attach_snapshot (&src->base,
-+	cairo_surface_attach_snapshot (&src->base,
- 					&snapshot->base,
- 					cairo_surface_finish);
- 
-diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-i915-shader.c cairo-1.12.0/src/drm/cairo-drm-i915-shader.c
---- cairo-1.12.0.orig/src/drm/cairo-drm-i915-shader.c	2012-02-02 00:47:50.000000000 +0000
-+++ cairo-1.12.0/src/drm/cairo-drm-i915-shader.c	2012-03-31 18:23:49.331889930 +0100
+--- cairo.orig/src/drm/cairo-drm-i915-shader.c	2012-02-02 01:48:14.000000000 +0100
++++ cairo/src/drm/cairo-drm-i915-shader.c	2012-10-07 20:22:22.416783627 +0200
 @@ -1656,7 +1656,7 @@
  						 image, &s);
  
@@ -352,9 +304,8 @@ diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-i915-shader.c cairo-1.12.0/src/dr
  							&s->intel.drm.base,
  							intel_surface_detach_snapshot);
  
-diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-i965-shader.c cairo-1.12.0/src/drm/cairo-drm-i965-shader.c
---- cairo-1.12.0.orig/src/drm/cairo-drm-i965-shader.c	2012-03-12 08:25:12.000000000 +0000
-+++ cairo-1.12.0/src/drm/cairo-drm-i965-shader.c	2012-03-31 18:23:49.481887600 +0100
+--- cairo.orig/src/drm/cairo-drm-i965-shader.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/drm/cairo-drm-i965-shader.c	2012-10-07 20:22:22.416783627 +0200
 @@ -281,7 +281,7 @@
  	return status;
      }
@@ -373,9 +324,8 @@ diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-i965-shader.c cairo-1.12.0/src/dr
  		s = NULL;
  	    }
  
-diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-intel-surface.c cairo-1.12.0/src/drm/cairo-drm-intel-surface.c
---- cairo-1.12.0.orig/src/drm/cairo-drm-intel-surface.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/drm/cairo-drm-intel-surface.c	2012-03-31 18:23:49.318556804 +0100
+--- cairo.orig/src/drm/cairo-drm-intel-surface.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/drm/cairo-drm-intel-surface.c	2012-10-07 20:22:22.417783642 +0200
 @@ -105,7 +105,7 @@
      if (unlikely (image->status))
  	return image->status;
@@ -385,9 +335,8 @@ diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-intel-surface.c cairo-1.12.0/src/
  
  DONE:
      *image_out = (cairo_image_surface_t *) cairo_surface_reference (image);
-diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-radeon-surface.c cairo-1.12.0/src/drm/cairo-drm-radeon-surface.c
---- cairo-1.12.0.orig/src/drm/cairo-drm-radeon-surface.c	2012-02-12 09:46:01.000000000 +0000
-+++ cairo-1.12.0/src/drm/cairo-drm-radeon-surface.c	2012-03-31 18:23:49.331889930 +0100
+--- cairo.orig/src/drm/cairo-drm-radeon-surface.c	2012-09-13 13:38:21.000000000 +0200
++++ cairo/src/drm/cairo-drm-radeon-surface.c	2012-10-07 20:22:22.417783642 +0200
 @@ -107,7 +107,7 @@
      if (unlikely (status))
  	return status;
@@ -397,10 +346,9 @@ diff -Naur cairo-1.12.0.orig/src/drm/cairo-drm-radeon-surface.c cairo-1.12.0/src
  
  DONE:
      *image_out = (cairo_image_surface_t *) cairo_surface_reference (image);
-diff -Naur cairo-1.12.0.orig/test/xcb-snapshot-assert.c cairo-1.12.0/test/xcb-snapshot-assert.c
---- cairo-1.12.0.orig/test/xcb-snapshot-assert.c	2012-02-02 00:47:51.000000000 +0000
-+++ cairo-1.12.0/test/xcb-snapshot-assert.c	2012-03-31 18:23:49.421888532 +0100
-@@ -60,7 +60,7 @@
+--- cairo.orig/test/xcb-snapshot-assert.c	2012-05-24 11:15:54.000000000 +0200
++++ cairo/test/xcb-snapshot-assert.c	2012-10-07 20:22:22.417783642 +0200
+@@ -68,7 +68,7 @@
  }
  
  CAIRO_TEST (xcb_snapshot_assert,
@@ -409,9 +357,8 @@ diff -Naur cairo-1.12.0.orig/test/xcb-snapshot-assert.c cairo-1.12.0/test/xcb-sn
  	    "xcb", /* keywords */
  	    NULL, /* requirements */
  	    2, 2,
-diff -Naur cairo-1.12.0.orig/test/xcb-stress-cache.c cairo-1.12.0/test/xcb-stress-cache.c
---- cairo-1.12.0.orig/test/xcb-stress-cache.c	2012-02-02 00:47:51.000000000 +0000
-+++ cairo-1.12.0/test/xcb-stress-cache.c	2012-03-31 18:23:49.498554008 +0100
+--- cairo.orig/test/xcb-stress-cache.c	2012-02-02 01:48:15.000000000 +0100
++++ cairo/test/xcb-stress-cache.c	2012-10-07 20:22:22.417783642 +0200
 @@ -48,7 +48,7 @@
   *   already full, so a random cache entry is picked and removed.
   * - The surface that was added before is picked and gets fed to
