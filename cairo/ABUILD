@@ -2,7 +2,7 @@
 
 pkgname=cairo
 pkgver=1.12.8
-pkgbuild=3
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('cairo (graphics library used by GTK+)')
@@ -11,6 +11,9 @@ longdesc=('Cairo is a vector graphics library designed to provide high-quality d
 tags=('libs x11-libs')
 
 source=("http://cairographics.org/releases/cairo-${pkgver}.tar.xz")
+
+# Changelogs are 6mb big, so let's disable doc copying.
+custom_opts="no_copydoc"
 
 before_build() {
 	go_src_dir
@@ -32,7 +35,8 @@ BUILD_KEYS="--prefix=/usr \
 	--disable-static \
 	--enable-tee \
 	--disable-xcb-xlib \
-	--docdir=/usr/doc $INSANE_OPTIONS"
+	--docdir=/usr/doc \
+	$INSANE_OPTIONS"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
