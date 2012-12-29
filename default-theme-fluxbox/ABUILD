@@ -1,6 +1,6 @@
 pkgname=default-theme-fluxbox
 pkgver=0.4.8
-pkgbuild=2
+pkgbuild=3
 arch=('noarch')
 
 shortdesc="default design for fluxbox setup variant"
