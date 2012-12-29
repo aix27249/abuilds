@@ -1,6 +1,6 @@
 pkgname=QtCurve-Gtk2
 pkgver=1.8.15
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="KDE-oriented Gtk style: Gtk build"
