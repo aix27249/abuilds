@@ -1,26 +1,28 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=coolreader
-pkgver=3.0.21
+pkgver=3.0.45
 pkgbuild=1
 arch=('auto')
 
-shortdesc="CoolReader Engine"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("CoolReader Engine is fast and small cross-platform XML/CSS based rendering library for writing E-Book readers for desktops as well as for handheld devices. Supported e-book formats: FB2, TXT, RTF, TCR, HTML, EPUB. CoolReader3 is e-book viewer based on Co"
-	  ""
-	  "Homepage: http://crengine.sourceforge.net/"
-)
+shortdesc="E-Book viewer for comfort reading"
+#longdesc=(""
+#)
 
-source=("git:git://crengine.git.sourceforge.net/gitroot/crengine/crengine")
+#source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/cr3_${pkgver}.orig.tar.gz")
+source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/coolreader3-${pkgver}.tar.bz2")
+#source=("git:git://crengine.git.sourceforge.net/gitroot/crengine/crengine")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-text xapps"
 
-tags="utils app-text"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
+#dependencies only needed to build package
+build_deps=""
 
 provides=""
 conflicts=""
@@ -28,32 +30,70 @@ conflicts=""
 adddep=""
 removedep=""
 
+#for multi pkg abuild
+pkglist=
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
 gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
+#запускается перед сборкой.
 before_build()
 {
-echo ""
+go_src_dir
+
+cmkfile="./cr3qt/CMakeLists.txt"
+# CHANGELOG
+if [ -n "`cat $cmkfile | grep INSTALL | grep CR3_CHANGELOG | grep "share/doc/cr3"`" ]; then
+ sed -i "/^INSTALL( FILES \${CR3_CHANGELOG}/s|share/doc/cr3|doc/${pkgname}-${pkgver}|" $cmkfile || exit 1
+fi
+# bg
+if [ -n "`cat $cmkfile | grep INSTALL | grep "data/textures" | grep "share/cr3/textures"`" ]; then
+ sed -i "/^INSTALL( DIRECTORY data\/textures/s|share/cr3/textures|share/cr3|" $cmkfile || exit 1
+fi
+if [ -n "`cat $cmkfile | grep INSTALL | grep "data/backgrounds" | grep "share/cr3/backgrounds"`" ]; then
+ sed -i "/^INSTALL( DIRECTORY data\/backgrounds/s|share/cr3/backgrounds|share/cr3|" $cmkfile || exit 1
+fi
+
 }
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+\
+-D GUI=QT \
+-D CMAKE_BUILD_TYPE=Release \
+-D MAX_IMAGE_SCALE_MUL=2 \
+-D DOC_DATA_COMPRESSION_LEVEL=3 \
+-D DOC_BUFFER_SIZE=0x1400000 \
+\
 ../"
 
 #ran after function build() 
 #после сборки
 after_build()
 {
-echo ""
-rm -rf ${pkgdir}/usr/doc
+go_src_dir
+
+DOCS="AUTHORS BUGS BUILD COPYING NEWS README TODO LICENSE License"
+for d in $DOCS; do
+ if [[ ! -f "${pkgdir}/usr/doc/${pkgname}-${pkgver}/$d" && \
+	-f "./cr3gui/$d" && \
+        -s "./cr3gui/$d" ]]; then
+  cat ./cr3gui/$d > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/$d || exit 1
+ fi
+done
+
 }
