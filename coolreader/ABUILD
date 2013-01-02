@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=coolreader
-pkgver=3.0.45
+pkgver=3.0.56
 pkgbuild=1
 arch=('auto')
 
@@ -10,8 +10,8 @@ shortdesc="E-Book viewer for comfort reading"
 #longdesc=(""
 #)
 
-#source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/cr3_${pkgver}.orig.tar.gz")
-source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/coolreader3-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/cr3_${pkgver}.orig.tar.gz")
+#source=("http://downloads.sourceforge.net/project/crengine/CoolReader3/cr3-${pkgver}/coolreader3-${pkgver}.tar.bz2")
 #source=("git:git://crengine.git.sourceforge.net/gitroot/crengine/crengine")
 
 patch_opts=("")
