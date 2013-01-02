@@ -1,0 +1,35 @@
+pkgname=liblinebreak
+pkgver=2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An implementation of the line breaking algorithm"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("An implementation of the line breaking algorithm as described in Unicode 5.2.0 Standard Annex 14, Revision 24"
+)
+
+source=("http://downloads.sourceforge.net/vimgadgets/liblinebreak-$pkgver.tar.gz")
+
+
+tags="libs dev-libs"
+custom_opts="no_ccache"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
