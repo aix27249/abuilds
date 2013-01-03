@@ -1,36 +1,21 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=claws-mail
 pkgver=3.9.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
 
 source=("http://downloads.sourceforge.net/project/sylpheed-claws/Claws%20Mail/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="mail-client network"
-custom_opts="no_ccache"
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---enable-largefile \
---enable-nls "
-#--enable-crash-dialog"
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--enable-largefile \
+	--enable-nls"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
