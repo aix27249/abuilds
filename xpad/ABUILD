@@ -2,16 +2,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=xpad
-pkgver=4.0
-pkgbuild=2
+pkgver=4.1
+pkgbuild=1
 arch=('auto')
 
-shortdesc="Xpad is a virtual sticky pad system using GTK+ 2"
+shortdesc="Xpad is a sticky note application for jotting down things to remember"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Xpad is a sticky note application for jotting down things to remember. Xpad is released under the terms of the GPL v3+. Homepage: http://mterry.name/xpad/"
-)
+#longdesc=("Xpad is a virtual sticky pad system using GTK+ 2. Xpad is released under the terms of the GPL v3+. Homepage: http://mterry.name/xpad/")
 
 source=("http://launchpad.net/xpad/trunk/${pkgver}/+download/xpad-${pkgver}.tar.bz2")
+#source=("bzr:lp:xpad")
 
 patch_opts=("")
 
@@ -47,14 +47,18 @@ custom_opts=""
 
 #ran before function build()
 #запускается перед сборкой
-before_build()
-{
-echo ""
-}
+#before_build()
+#{
+#echo ""
+#}
 
 BUILD_SYSTEM="autotools"
 
+if [ "$source" == "bzr:lp:xpad" ]; then
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh && ./configure"
+else
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+fi
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -70,7 +74,7 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-echo ""
-}
+#after_build()
+#{
+#echo ""
+#}
