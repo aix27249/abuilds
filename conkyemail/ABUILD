@@ -2,17 +2,17 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=conkyemail
-pkgver=2.13
-pkgbuild=2
-#arch=('auto')
+pkgver=2.15
+pkgbuild=1
 arch=('noarch')
 
-shortdesc="Conky Email"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Email inbox count script with ssl capabilities, for use in Conky"
-)
+shortdesc="Email inbox count script with ssl capabilities, for use in Conky"
 
-source=("https://launchpad.net/~conkyhardcore/+archive/ppa/+files/${pkgname}_${pkgver}.tar.gz")
+#shortdesc="Conky Email"
+#-ruler---|--------------------------------------------------------------------------|
+#longdesc=("Email inbox count script with ssl capabilities, for use in Conky")
+
+source=("https://launchpad.net/~conky-companions/+archive/ppa/+files/conkyemail_${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -27,7 +27,7 @@ build_deps=""
 provides=""
 conflicts=""
 
-adddep=""
+adddep="python-keyring"
 removedep=""
 
 #for multi pkg abuild
@@ -64,13 +64,16 @@ BUILD_KEYS=
 #после сборки
 after_build()
 {
-echo ""
+if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
+ mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+fi
 
-# 2.11
-#sed -i 's,/usr/bin/python2,/usr/bin/python,g' ${pkgdir}/usr/bin/conkyEmail || exit 1
+if [[ ! -f "${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT" ]]; then
+ if [[ -f "${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/${pkgname}-${pkgver}-py2.6.egg-info" ]]; then
+  mv -v ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/${pkgname}-${pkgver}-py2.6.egg-info \
+	${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
+ fi 
+fi
 
-mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/*egg-info \
-	${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
+rm -vrf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
 }

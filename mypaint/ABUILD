@@ -1,23 +1,71 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=mypaint
-pkgver=1.0.0
+pkgver=1.1.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="A graphics editor for painters, with brush dynamics."
+shortdesc="MyPaint is a fast and easy open-source graphics application."
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("MyPaint is a fast and easy open-source graphics application for digital painters. It lets you focus on the art instead of the program. You work on your canvas with minimum distractions, bringing up the interface only when you need it."
+)
 
-adddep="numpy python-protobuf pygtk"
+source=("http://download.gna.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
-source="http://download.gna.org/$pkgname/$pkgname-$pkgver.tar.bz2"
+patch_opts=("")
 
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
 tags="xapps media-gfx"
 
-before_build() {
-	# scons не нужен.
-	go_src_dir
-	sed "s@prefix/lib@prefix/lib$LIBDIRSUFFIX@g" -i SConstruct
-	sed "s@lib/mypaint@lib$LIBDIRSUFFIX/mypaint@g" -i mypaint.py
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="pygtk>=2.22.0 python-protobuf>=2.3.0 python swig numpy pycairo libpng lcms2 json-c"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
 }
 
-BUILD_SYSTEM="scons"
-INSTALL_KEYS="prefix=\"$pkgdir/usr\""
+build()
+{
+	go_src_dir
+	burn_patches
+	set -e
+	sed -i "s|lib/mypaint|lib${LIBDIRSUFFIX}/mypaint|g" SConstruct mypaint.py # с версии 1.1.0 эта штука не работает
+	scons
+	scons prefix=${pkgdir}/usr install
+	set +e
+}
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+if [ ! -z "${LIBDIRSUFFIX}" ]
+then
+mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib${LIBDIRSUFFIX} # по этому переименовываем руками
+fi
+}
