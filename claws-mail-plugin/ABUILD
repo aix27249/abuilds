@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=claws-mail-plugin
 pkgver=3.9.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Plugins for claws-mail"
