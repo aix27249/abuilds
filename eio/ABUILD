@@ -1,90 +1,24 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=eio
-svnrev=53304
-pkgver=svn
+pkgver=1.7.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="eio"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This library is intended to provide non blocking IO by using thread for all operation that may block. It depends only on eina and ecore right now. It should integrate all the features/functions of Ecore_File that could block."
-	  ""
-	  "Homepage: http://www.enlightenment.org/"
-)
+shortdesc="Eio, async I/O library of Enlightenment DR17 project."
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://download.enlightenment.org/releases/${pkgname}-${pkgver}.tar.gz")
+tags="e17 sys-libs"
 
-source=("")
+build_deps="ecore"
+BUILD_SYSTEM="autotools"
 
-patch_opts=("")
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="libs sys-libs"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-if [ -d /tmp/e17 ]; then
-	cp -r /tmp/e17/$pkgname $srcdir
-else
-	cd ${srcdir}
-	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/$pkgname
-fi
-}
-
-build()
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./autogen.sh \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix=
-
-pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2-`.$svnrev
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
