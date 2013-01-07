@@ -1,96 +1,30 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=evas
-svnrev=53304
-pkgver=svn
+pkgver=1.7.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Evas (one of the Enlightenment DR17 foundation libraries)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Evas is a hardware-accelerated canvas API for X-Windows that can draw anti-aliased text, smooth super and sub-sampled images, alpha-blend, as well as drop down to using normal X11 primitives such as pixmaps, lines and rectangles for speed if your CPU or graphics hardware are too slow."
-	  ""
-	  "Homepage: http://www.enlightenment.org/
-"
-)
+shortdesc="Canvas and scenegraph rendering library of Enlightenment DR17 project."
+source=("http://download.enlightenment.org/releases/${pkgname}-${pkgver}.tar.gz")
 
-source=("")
+tags="e17 x11-libs"
+build_deps="eet eina"
 
-patch_opts=("")
+BUILD_SYSTEM="autotools"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="libs x11-libs"
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--enable-software-xlib \
+	--enable-xrender-x11 \
+	--enable-gl-x11 \
+	--enable-fb \
+	--enable-build-examples"
 
-#dependencies only needed to build package
-build_deps=""
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-provides=""
-conflicts=""
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-if [ -d /tmp/e17 ]; then
-	cp -r /tmp/e17/$pkgname $srcdir
-else
-	cd ${srcdir}
-	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/$pkgname
-fi
-}
-
-build()
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./autogen.sh \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-software-xlib \
---enable-xrender-x11 \
---enable-gl-x11 \
---enable-fb \
---enable-build-examples
-
-pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2- | sed "s/-/_/"`.$svnrev
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
