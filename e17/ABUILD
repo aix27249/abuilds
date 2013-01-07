@@ -2,8 +2,8 @@
 
 pkgname=e17
 pkgver=1.0
-pkgbuild=1
-arch=("auto")
+pkgbuild=2
+arch=("noarch")
 
 shortdesc=("Enlightement E17 meta package")
 
