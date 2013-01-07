@@ -1,23 +1,23 @@
-#ABUILD created by/создан: Kroll, krlgs at front.ru 
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
-pkgname=extundelete
-pkgver=0.2.4
-pkgbuild=1
+pkgname=plasmoid-geek-clock
+pkgver=1.0
+pkgbuild=2
 arch=('auto')
 
-shortdesc="extundelete is a utility that can recover deleted files from an ext3 or ext4 partition."
-#longdesc=(""
-#)
+shortdesc="Geek Clock, a KDE 4 plasmoid"
+longdesc=("Those are the simple analog clock but instead of regular numbers on the clock dial they have equivalent notations from mathematics, physics and computer science. License: GPL. Homepage: http://www.kde-look.org/content/show.php?content=107807"
+)
 
-source=("http://downloads.sourceforge.net/project/extundelete/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://w2f2.com/projects/geekclock/geek-clock-plasmoid-${pkgver}-src.tar.gz")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="utils sys-apps"
+tags="kde4 kde-misc"
 
 #dependencies only needed to build package
 build_deps=""
@@ -25,7 +25,7 @@ build_deps=""
 provides=""
 conflicts=""
 
-adddep=""
+adddep="kdebase-workspace"
 removedep=""
 
 #for multi pkg abuild
@@ -51,20 +51,12 @@ custom_opts=""
 #
 #}
 
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
 
 #ran after function build() 
 #после сборки

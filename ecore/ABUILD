@@ -1,93 +1,28 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=ecore
-svnrev=53304
-pkgver=svn
+pkgver=1.7.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Ecore (one of the Enlightenment DR17 foundation libraries)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Ecore is is the core event abstraction layer and X abstraction layer that makes doing selections, Xdnd, general X stuff, and event loops, timeouts and idle handlers fast, optimized, and convenient."
-	  ""
-	  "Homepage: http://www.enlightenment.org/"
-)
+shortdesc="Core mainloop, display abstraction and utility library of Enlightenment DR17 project."
+source=("http://download.enlightenment.org/releases/${pkgname}-${pkgver}.tar.gz")
 
-source=("")
+tags="e17 dev-libs"
 
-patch_opts=("")
+build_deps="evas_generic_loaders"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="libs dev-libs"
+BUILD_SYSTEM="autotools"
 
-#dependencies only needed to build package
-build_deps=""
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--enable-ecore-evas-software-x11 \
+	--enable-ecore-evas-xrender-x11 \
+	--enable-ecore-evas-opengl-x11"
 
-provides=""
-conflicts=""
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-if [ -d /tmp/e17 ]; then
-	cp -r /tmp/e17/$pkgname $srcdir
-else
-	cd ${srcdir}
-	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/$pkgname
-fi
-}
-
-build()
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./autogen.sh \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-ecore-evas-software-x11 \
---enable-ecore-evas-xrender-x11 \
---enable-ecore-evas-opengl-x11
-
-pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2- | sed "s/-/_/"`.$svnrev
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

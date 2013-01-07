@@ -1,92 +1,25 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=eina
-svnrev=53304
-pkgver=svn
+pkgver=1.7.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Eina (one of the Enlightenment DR17 foundation libraries)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Eina is a multi-platform library that provides optimized data types and a few tools that could be used for projects. The Eina library implements given data types in an efficient way, and it also provides some useful tools like opening shared libraries, errors management, type conversion, time accounting and memory pool."
-	  ""
-	  "Homepage: http://www.enlightenment.org/"
-)
+shortdesc="Eina is a core data structure and common utility library of Enlightenment DR17 project."
 
-source=("")
+source=("http://download.enlightenment.org/releases/${pkgname}-${pkgver}.tar.gz")
+tags="e17 dev-libs"
 
-patch_opts=("")
+build_deps="glibc-solibs"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="libs dev-libs"
+BUILD_SYSTEM="autotools"
 
-#dependencies only needed to build package
-build_deps=""
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
 
-provides=""
-conflicts=""
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-if [ -d /tmp/e17 ]; then
-	cp -r /tmp/e17/$pkgname $srcdir
-else
-	cd ${srcdir}
-	svn checkout --revision $svnrev http://svn.enlightenment.org/svn/e/trunk/$pkgname
-fi
-}
-
-build()
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./autogen.sh \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix=
-
-#pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2-`.$svnrev
-pkgver=`cat Makefile | grep "^VERSION" | cut -d "=" -f2 | cut -c2- | sed "s/-/_/"`.$svnrev
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-rm -rf $pkgdir/usr/bin
-}
