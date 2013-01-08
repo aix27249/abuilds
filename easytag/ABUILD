@@ -1,0 +1,99 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=easytag
+pkgver=2.1.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="EasyTAG is a utility for viewing and editing tags"
+#longdesc=(""
+#)
+
+source=("http://downloads.sourceforge.net/project/easytag/easytag%20%28gtk%202%29/2.1/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-sound xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+before_build()
+{
+
+pfile_s (){
+pfile="./src/about.c"
+# ABOUT: CHANGELOG
+if [ -n "`cat $pfile | grep PACKAGE_DATA_DIR | grep ChangeLog | grep gchar`" ]; then
+ sed -i "/^gchar/s|PACKAGE_DATA_DIR|/usr/doc/${pkgname}-${pkgver}|" $pfile || exit 1
+fi
+# ABOUT: logo
+if [ -n "`cat $pfile | grep PACKAGE_DATA_DIR | grep EasyTAG_logo.xpm | grep pixmap`" ]; then
+ sed -i "/^pixmap/s|PACKAGE_DATA_DIR|/usr/doc/${pkgname}-${pkgver}|" $pfile || exit 1
+fi
+}
+
+# don't perfect work
+#pfile_s
+
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure" #--help"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+# README_win32.txt
+if [ -f ${pkgdir}/usr/doc/${pkgname}-${pkgver}/README_win32.txt ]; then
+ rm -v ${pkgdir}/usr/doc/${pkgname}-${pkgver}/README_win32.txt
+fi
+# 2 ChangeLog
+if [[ -f ${pkgdir}/usr/share/easytag/ChangeLog && \
+	-f ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ChangeLog ]]
+then
+ rm ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ChangeLog
+fi
+}
