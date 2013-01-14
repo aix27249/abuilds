@@ -1,14 +1,66 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=qmmp
-pkgver=0.5.4
+pkgver=0.6.6
 pkgbuild=1
 arch=('auto')
 
-shortdesc="qmmp is an audio-player, written with help of Qt library. The user interface is similar to winamp or xmms. Alternative user interfaces also are available."
-#source=("svn:http://qmmp.googlecode.com/svn/trunk/")
-source=("http://qmmp.googlecode.com/files/qmmp-${pkgver}.tar.bz2")
+shortdesc="Qt-based Multimedia Player"
+#longdesc=(""
+#)
 
+source=("http://qmmp.ylsoftware.com/files/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
 tags="xapps media-sound"
-build_deps="cmake>=2.4.8"
-BUILD_SYSTEM="cmake"
-BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RELEASE -DLIB_DIR=lib${LIBDIRSUFFIX}"
 
+#dependencies only needed to build package
+build_deps="cmake"
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}
