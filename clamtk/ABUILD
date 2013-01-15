@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=clamtk
-pkgver=4.43
+pkgver=4.44
 pkgbuild=1
 arch=('auto')
 
