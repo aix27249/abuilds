@@ -1,6 +1,6 @@
-#ABUILD created by/создан: Drakmail, coder at iso-art.ru
+#ABUILD created by/создан: Drakmail, coder at iso-art.ru, modified by Alexander Sokolov sokoloff.a at gmail.com
 pkgname=razor-qt
-pkgver=0.4.1
+pkgver=0.5.1
 pkgbuild=1
 arch=('auto')
  
@@ -8,7 +8,9 @@ shortdesc="Razor is a toolbox-like desktop-environment, written in Qt"
 source=("https://github.com/downloads/Razor-qt/${pkgname}/razorqt-${pkgver}.tar.bz2")
 tags="xapps x11-apps"
 provides="razor-qt"
- 
+
+build_deps="polkit-qt-1"
+
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \

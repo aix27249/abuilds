@@ -1,0 +1,55 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=zbar-gtk
+pkgver=0.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source software suite for reading bar codes from various sources (GTK)"
+
+source=("http://downloads.sourceforge.net/project/zbar/zbar/${pkgver}/zbar-${pkgver}.tar.bz2")
+
+tags="media-gfx xapps"
+
+build_deps="python"
+
+provides="zbar"
+
+pkglist="zbar-qt"
+
+custom_opts="no_copydoc"
+
+#=========================
+zbar-qt(){
+pkgname=zbar-qt
+provides="zbar"
+shortdesc="An open source software suite for reading bar codes from various sources (QT)"
+}
+
+#=========================
+zbar-qt_prep(){
+  go_src_dir
+  sed -i 's|linux/videodev.h|libv4l1-videodev.h|g' {zbar/video/v4l1.c,include/config.h.in,configure.ac,configure}
+  ./configure --prefix=/usr \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --mandir=/usr/man \
+              --docdir=/usr/doc \
+              --without-gtk
+  make || return 1
+  make DESTDIR="$pkgdir/" install
+  echo "End zbar-qt"
+}
+
+#=========================
+build() {
+  go_src_dir
+  sed -i 's|linux/videodev.h|libv4l1-videodev.h|g' {zbar/video/v4l1.c,include/config.h.in,configure.ac,configure}
+  ./configure --prefix=/usr \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --mandir=/usr/man \
+              --docdir=/usr/doc \
+              --without-qt
+  make || return 1
+  make DESTDIR="$pkgdir/" install
+  echo "End zbar-gtk"
+}

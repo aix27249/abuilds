@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=scummvm
 pkgver=1.5.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="ScummVM: Script Creation Utility for Maniac Mansion"
@@ -12,11 +12,12 @@ shortdesc="ScummVM: Script Creation Utility for Maniac Mansion"
 #)
 
 source=("http://downloads.sourceforge.net/project/scummvm/scummvm/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+#source=("git:git://github.com/scummvm/scummvm.git")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------i
 #short and long tags / длинный и короткий тег
 tags="games-emulation games" #games-engines
 
@@ -30,7 +31,7 @@ adddep=""
 removedep=""
 
 #for multi pkg abuild
-pkglist= #extras
+pkglist= #"extras"
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
@@ -69,12 +70,18 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\
 #--program-prefix= \
 #--program-suffix= \
 
+if [ "`echo $pkglist`" == "extras" ]; then
+ add="--enable-all-engines --enable-plugins"
+fi
+
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --mandir=/usr/man \
 --docdir=/usr/doc/${pkgname}-${pkgver} \
 --disable-debug \
---enable-release"
+--enable-release \
+--enable-engine=sword25 \
+$add"
 
 #--datarootdir=/opt/${pkgname}
 #--enable-plugins
@@ -118,7 +125,7 @@ rm -v ${pkgdir}/usr/share/${pkgname}/sky.cpt || exit 1
 rm -v ${pkgdir}/usr/share/${pkgname}/queen.tbl || exit 1
 
 # A dictionary for use with Sierra AGI titles on devices that has no built-in keyboard
-rm -v ${pkgdir}/usr/share/${pkgname}/pred.dic || exit 1
+#rm -v ${pkgdir}/usr/share/${pkgname}/pred.dic || exit 1
 
 # Translations Data File Format, translations.dat (from gui/themes directory)
 # It contains the data needed by ScummVM to display a translated GUI. 

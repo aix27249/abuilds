@@ -1,52 +1,59 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=codeblocks
-pkgver=10.05
+pkgver=12.11
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The open source, cross platform, free C++ IDE"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Code::Blocks is a free C++ IDE built to meet the most demanding needs of its users. It is designed to be very extensible and fully configurable. Homepage: http://www.codeblocks.org/home"
-)
+#longdesc=(""
+#)
 
-source=("http://download.berlios.de/${pkgname}/${pkgname}-${pkgver}-1debian-src.tar.bz2")
+source=("http://sourceforge.net/projects/codeblocks/files/Sources/${pkgver}/codeblocks_${pkgver}-1.tar.gz")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="dev-util xapps"
 
-tags="develop dev-util"    	#short and long tags / длинный и короткий тег
-build_deps="" 			#
+#dependencies only needed to build package
+build_deps=""
 
 provides=""
 conflicts=""
 
-adddep=""
+adddep="codeblocks-ru"
 removedep=""
 
+#for multi pkg abuild
+pkglist=
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
 gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-cd src
-tar xvf ${pkgname}_${pkgver}-1.tar.?z* || exit 1
-mv ${pkgname}-${pkgver} ../
-cd ../ && rm -rf ./src
-}
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
 
 BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -55,10 +62,14 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
+--program-suffix= \
+--with-contrib-plugins=all"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
 #ran after function build() 
 #после сборки
-after_build()
-{
- echo ""
-}
+#after_build()
+#{
+
+#}

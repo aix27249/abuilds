@@ -2,7 +2,7 @@
 
 pkgname=ntp
 pkgver=4.2.6p5
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 config_files="etc/ntp.conf
 etc/ntp-client.conf
@@ -13,7 +13,7 @@ longdesc=("The Network Time Protocol (NTP) is used to synchronize the time of a 
 
 tags=("net-misc network")
 source=("http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-${pkgver}.tar.gz")
-
+build_deps="libcap libnl openssl readline"
 build() {
 	go_src_dir
 	burn_patches

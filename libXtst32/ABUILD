@@ -1,5 +1,5 @@
 pkgname=libXtst
-pkgver=1.2.0
+pkgver=1.2.1
 pkgbuild=1
 arch=('auto')
 
@@ -8,7 +8,7 @@ longdesc=('libXtst is part of X11. For more information about the X.Org Foundati
 
 tags=('x11-libs xserver')
 
-source=("http://xorg.freedesktop.org/archive/individual/lib/libXtst-1.1.0.tar.bz2")
+source=("http://xorg.freedesktop.org/archive/individual/lib/libXtst-${pkgver}.tar.bz2")
 
 
 BUILD_SYSTEM='autotools'

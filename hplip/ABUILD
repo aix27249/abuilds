@@ -3,7 +3,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=hplip
-pkgver=3.12.4
+pkgver=3.12.11
 pkgbuild=1
 arch=('auto')
 
@@ -13,14 +13,28 @@ source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgnam
 
 #short and long tags / длинный и короткий тег
 tags="net-print drivers"
-
-adddep="pycairo pygobject dbus-python"
-
+build_deps="sane"
+adddep="PyQt pycairo pygobject dbus-python pil sip"
+custom_opts="no_ccache"
 
 build()
 {
 
 go_src_dir
+burn_patches
+ # fix rc script path - FS#31921
+ sed -i 's|\/etc\/init.d\/cupsys|\/etc\/rc.d\/cupsd|g' setup.py
+
+ # https://bugs.archlinux.org/task/30085 - hack found in Gentoo
+ # Use system foomatic-rip for hpijs driver instead of foomatic-rip-hplip
+ # The hpcups driver does not use foomatic-rip
+local i
+for i in ppd/hpijs/*.ppd.gz ; do
+rm -f ${i}.temp
+gunzip -c ${i} | sed 's/foomatic-rip-hplip/foomatic-rip/g' | \
+gzip > ${i}.temp || return 1
+mv ${i}.temp ${i}
+done
 
 export AUTOMAKE='automake --foreign'
 autoreconf --force --install
@@ -43,9 +57,19 @@ autoreconf --force --install
 --enable-new-hpcups \
 --enable-hpijs-install \
 --enable-qt4 \
+--enable-doc-build \
+--enable-dbus-build \
+--enable-network-build \
+--enable-scan-build \
+--enable-fax-build \
 --enable-udev-acl-rules  || exit 1
 
 make DESTDIR=$pkgdir install || exit 1
+
+ # remove config provided by sane and autostart of hp-daemon
+ rm -rf "$pkgdir"/etc/{sane.d,xdg} || exit 1
+# remove HAL .fdi file because HAL is no longer used
+ rm -rf "$pkgdir"/usr/share/hal || exit 1
 
 }
 

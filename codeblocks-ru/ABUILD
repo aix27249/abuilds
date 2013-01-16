@@ -1,21 +1,71 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=codeblocks-ru
 pkgver=0.0
-pkgbuild=2
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="Code::Blocks russian translation"
+#longdesc=(""
+#)
 
-source=("svn:https://codeblocks-ru.svn.sourceforge.net/svnroot/codeblocks-ru codeblocks-ru")
-tags="develop app-i18n"
-adddep="codeblocks"
+source=("svn:https://codeblocks-ru.svn.sourceforge.net/svnroot/codeblocks-ru")
 
-build() {
-	set -e
-	cd $srcdir/$pkgname
-	msgfmt codeblocks.po -o codeblocks.mo
+patch_opts=("")
 
-	mkdir -p $pkgdir/usr/share/codeblocks/locale/ru_RU/
-	cp -a ./codeblocks.mo $pkgdir/usr/share/codeblocks/locale/ru_RU/
-	set +e
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-i18n xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+build()
+{
+go_src_dir
+burn_patches
+
+msgfmt codeblocks.po -o codeblocks.mo
+ 
+mkdir -p $pkgdir/usr/share/codeblocks/locale/ru_RU/
+cp -a ./codeblocks.mo $pkgdir/usr/share/codeblocks/locale/ru_RU/
 }
 
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+
+#}

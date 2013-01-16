@@ -1,0 +1,27 @@
+#!/sbin/runscript
+# Copyright (C) 2004-2008 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# Contributed by Sven Wegener (swegener@gentoo.org)
+
+depend() {
+	after network
+	need dbus
+}
+
+start() {
+        eval args=\$autoipd_${IFVAR}
+
+	ebegin "Starting avahi-autoipd"
+	/usr/sbin/avahi-autoipd --daemonize --syslog --wait ${args} "${IFACE}"
+	eend "${?}" || return 1
+
+	return 0
+}
+
+stop() {
+	/usr/sbin/avahi-autoipd --check --syslog "${IFACE}" || return 0
+
+	ebegin "Stopping avahi-autoipd"
+	/usr/sbin/avahi-autoipd --kill --syslog "${IFACE}"
+	eend "${?}"
+}

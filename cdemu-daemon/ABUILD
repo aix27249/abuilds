@@ -1,25 +1,21 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=cdemu-daemon
-pkgver=1.4.0
+pkgver=1.5.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="CDEmu daemon"
-longdesc=("$shortdesc")
+shortdesc="CDemu - a virtual CD/DVD drive for Linux. Daemon part."
 
 adddep="vhba-module"
 
-source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${pkgver}.tar.gz")
-
+source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${pkgver}.tar.bz2")
+build_deps="libmirage"
 tags="libs sys-fs"
+config_files="etc/conf.d/cdemud"
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---libdir=/usr/lib${LIBDIRSUFFIX}"
+	--sysconfdir=/etc \
+	--libdir=/usr/lib${LIBDIRSUFFIX}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 

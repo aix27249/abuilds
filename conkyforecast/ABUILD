@@ -2,17 +2,17 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=conkyforecast
-pkgver=2.15
-pkgbuild=3
-#arch=('auto')
+pkgver=2.24
+pkgbuild=1
 arch=('noarch')
 
-shortdesc="Conky Weather Forecast"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Weather forecast script with support for language files, for use in Conky"
-)
+shortdesc="Weather forecast script with support for language files, for use in Conky"
 
-source=("https://launchpad.net/~conkyhardcore/+archive/ppa/+files/${pkgname}_${pkgver}.tar.gz")
+#shortdesc="Conky Weather Forecast"
+#-ruler---|--------------------------------------------------------------------------|
+#longdesc=("Weather forecast script with support for language files, for use in Conky")
+
+source=("https://launchpad.net/~conky-companions/+archive/ppa/+files/conkyforecast_${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -50,11 +50,13 @@ custom_opts=""
 #запускается перед сборкой
 before_build()
 {
-echo ""
 
 # Fix font path
-sed -i 's,/usr/share/fonts/truetype/conkyforecast,/usr/share/fonts/TTF,g' \
+if [ -n "`cat ${srcdir}/src/setup.py | grep "/usr/share/fonts/truetype/conkyforecast"`" ]; then
+ sed -i 's,/usr/share/fonts/truetype/conkyforecast,/usr/share/fonts/TTF,g' \
 	${srcdir}/src/setup.py || exit 1
+fi
+
 }
 
 BUILD_SYSTEM="python"
@@ -78,31 +80,38 @@ rm -r ${pkgdir}/usr/share/fonts/TTF/*.tar.gz || exit 1
 #cp -v ${pkgdir}/usr/share/conkyforecast/conkyForecast.config ${pkgdir}/etc/skel/.conkyForecast.config
 #chmod 644 ${pkgdir}/etc/skel/.conkyForecast.config || exit 1
 
-mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/*egg-info \
-	${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
+if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
+ mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+fi
+
+if [[ ! -f "${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT" ]]; then
+ if [[ -f "${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/${pkgname}-${pkgver}-py2.6.egg-info" ]]; then
+  mv -v ${pkgdir}/usr/lib${LIBDIRSUFFIX}/python2.6/site-packages/${pkgname}-${pkgver}-py2.6.egg-info \
+	${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
+ fi 
+fi
+
+rm -vrf ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
 }
 
 # TTF
 ttf(){
 	pkgname="conkyforecast-fonts"
 	#arch=('auto')
-	#shortdesc="FONTS"
-	longdesc=("There are several fonts included in the release")
+	shortdesc="Conky Weather Forecast"
+	#longdesc=("There are several fonts included in the release")
 	tags="xserver media-fonts"
 	#adddep=""
 	#conflicts=""
 	#provides=""
 }
 ttf_prep(){
-mkdir -p ${pkgdir}/usr/share/fonts
-mv ${p_pkgdir}/usr/share/fonts/TTF ${pkgdir}/usr/share/fonts || exit 1
+ mkdir -p ${pkgdir}/usr/share/fonts
+ mv ${p_pkgdir}/usr/share/fonts/TTF ${pkgdir}/usr/share/fonts || exit 1
+ rm -rfv ${p_pkgdir}/usr/share/fonts/
 
-rm -rfv ${p_pkgdir}/usr/share/fonts/
-
-mkdir -p ${pkgdir}/usr/share/fonts/OTF
-find ${pkgdir}/usr/share/fonts/TTF \
+ mkdir -p ${pkgdir}/usr/share/fonts/OTF
+ find ${pkgdir}/usr/share/fonts/TTF \
 	-name *otf \
 	-exec mv -v {} ${pkgdir}/usr/share/fonts/OTF ";" || exit 1
 }

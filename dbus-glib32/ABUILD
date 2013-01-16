@@ -1,0 +1,19 @@
+pkgname=dbus-glib
+pkgver=0.100
+pkgbuild=1
+arch=('auto')
+tags="libs dev-libs"
+shortdesc="Glib bindings for DBus"
+longdesc=("This package includes the glib bindings for the dbus IPC library.")
+
+source=("http://dbus.freedesktop.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-introspection"

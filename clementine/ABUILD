@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=clementine
-pkgver=1.1.0
+pkgver=1.1.1
 pkgbuild=1
 arch=('auto')
 
@@ -43,11 +43,11 @@ build_deps="protobuf qjson liblastfm sip"
 provides=""
 conflicts=""
 
-adddep="gst-ffmpeg gst-plugins-ugly gst-plugins-good"
+adddep="gst-plugins-ugly gst-plugins-good gst-plugins-bad gst-plugins-base gst-ffmpeg" #${pkgname}-data>=${pkgver}"
 removedep=""
 
 #for multi pkg abuild
-pkglist=
+#pkglist=
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
@@ -66,21 +66,7 @@ custom_opts=""
 #запускается перед сборкой.
 #before_build()
 #{
-#
-   # https://bugs.gentoo.org/401713?id=401713
-   #patch -Np1 -i ../clementine-fresh-start.patch
-
-   # http://code.google.com/p/clementine-player/issues/detail?id=2752
-   #patch -Np1 -i ../clementine-fix-albumcoverfetch-crash.patch
-
-   # Use libimobiledevice new "udid" field instead of "uuid".
-   #patch -Np1 -i ../imobiledevice.patch
-
-   # Re enable appmenu
-   #patch -Np1 -i ../appmenu.patch
-#
 #}
-
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="\
@@ -114,7 +100,9 @@ after_build()
 {
 echo ""
 
-#if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1; fi
+#if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then 
+# rm -rfv $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1
+#fi
 
 go_src_dir
 
@@ -124,4 +112,28 @@ for i in 16 32 64 ; do
     $pkgdir/usr/share/icons/hicolor/${i}x${i}/apps/application-x-clementine.png
  fi
 done
+
+}
+
+
+#pkglist="data"
+
+#----------------------------- 
+# Data
+data(){
+ pkgname="${p_pkgname}-data"
+ pkgver="${p_pkgver}"
+ pkgbuild="${p_kgbuild}"
+ arch=('noarch')
+ shortdesc="Data files for Clementine, a music player"
+ #longdesc=("")
+ #tags=""
+ #adddep="${p_pkgname}>=${pkgver_data}"
+ #docs=""
+ #provides=""
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv -v ${p_pkgdir}/usr/doc	${pkgdir}/usr || exit 1
+ mv -v ${p_pkgdir}/usr/share	${pkgdir}/usr || exit 1
 }

@@ -1,0 +1,15 @@
+pkgname=apackager
+pkgver=1.0_beta1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="APackager: package manager GUI"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+tags="xapps x11-apps"
+build_deps="mpkgsupport mpkg-core qt4 cmake"
+adddep="xdg-utils hicolor-icon-theme desktop-file-utils"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE=Release"

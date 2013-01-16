@@ -1,0 +1,25 @@
+pkgname=evas_generic_loaders
+pkgver=1.7.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Extra loaders for GPL loaders and unstable libraries of Enlightenment DR17 project."
+source=("http://download.enlightenment.org/releases/${pkgname}-${pkgver}.tar.gz")
+
+tags="e17 x11-libs"
+
+build_deps="evas"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

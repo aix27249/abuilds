@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=NetworkManager
 pkgver=0.9.2.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 config_files="etc/NetworkManager/NetworkManager.conf"

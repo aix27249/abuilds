@@ -2,9 +2,10 @@
 
 pkgname=foomatic-db
 pkgbase=foomatic
-_snapdate=20110410
-_relver=4.0.7
-pkgver=${_relver}_${_snapdate}
+_snapdate=20121104
+_enginever=4.0.8
+_filterver=4.0.17
+pkgver=${_filterver}_${_snapdate}
 
 pkgbuild=1
 arch=("noarch")
@@ -15,10 +16,10 @@ longdesc=("Foomatic - The collected knowledge about printers, drivers, and drive
 tags=("console net-print")
 pkglist="engine nonfree filters"
 adddep="perl libxml2"
-source=("http://www.linuxprinting.org/download/foomatic/$pkgbase-filters-${_relver}.tar.gz"
-	"http://www.linuxprinting.org/download/foomatic/$pkgbase-db-engine-${_relver}.tar.gz"
-        "http://www.linuxprinting.org/download/foomatic/$pkgbase-db-4.0-${_snapdate}.tar.gz"
-        "http://www.linuxprinting.org/download/foomatic/$pkgbase-db-nonfree-${_snapdate}.tar.gz")
+source=("http://www.openprinting.org/download/foomatic/$pkgbase-filters-${_filterver}.tar.gz"
+	"http://www.openprinting.org/download/foomatic/$pkgbase-db-engine-${_enginever}.tar.gz"
+        "http://www.openprinting.org/download/foomatic/$pkgbase-db-4.0-${_snapdate}.tar.gz"
+        "http://www.openprinting.org/download/foomatic/$pkgbase-db-nonfree-${_snapdate}.tar.gz")
 
 filters() {
 	pkgname=foomatic-filters
@@ -47,7 +48,7 @@ nonfree() {
 
 filters_prep() {
 	set -e
-	cd ${srcdir}/foomatic-filters-${_relver}
+	cd ${srcdir}/foomatic-filters-${_filterver}
 	./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib${LIBDIRSUFFIX} --mandir=/usr/man
 	make -j${numjobs}
 	make DESTDIR=${pkgdir} install
@@ -57,7 +58,7 @@ filters_prep() {
 
 engine_prep() {
 	set -e
-	cd ${srcdir}/foomatic-db-engine-${_relver}
+	cd ${srcdir}/foomatic-db-engine-${_enginever}
 	./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --mandir=/usr/man
 	make -j${numjobs}
 	eval `perl -V:archname`

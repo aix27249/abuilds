@@ -1,26 +1,23 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#ABUILD created by/создан: Kroll, krlgs at front.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=extundelete
-pkgver=0.2.0
+pkgver=0.2.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="An ext3 and ext4 file undeletion utility"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("extundelete is a utility that can recover deleted files from an ext3 or ext4 partition. The ext3 file system is the most common file system when using Linux, and ext4 is its successor. extundelete uses the information stored in the partition's journal to attempt to recover a file that has been deleted from the partition. There is no guarantee that any particular file will be able to be undeleted, so always try to have a good backup system in place, or at least put one in place after recovering your files!"
-""
-"Homepage: http://extundelete.sourceforge.net"
-)
+shortdesc="extundelete is a utility that can recover deleted files from an ext3 or ext4 partition."
+#longdesc=(""
+#)
 
-source=("http://downloads.sourceforge.net/project/extundelete/extundelete/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/extundelete/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="sys-fs utils"
+tags="utils sys-apps"
 
 #dependencies only needed to build package
 build_deps=""
@@ -41,17 +38,17 @@ pkglist=
 docs=
 gendeps_blacklist=
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
 custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
+#запускается перед сборкой.
 #before_build()
 #{
-#echo ""
+#
 #}
 
 BUILD_SYSTEM="autotools"
@@ -71,7 +68,7 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-echo ""
-}
+#after_build()
+#{
+
+#}

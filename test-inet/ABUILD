@@ -1,0 +1,18 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=test-inet
+pkgver=0.0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A smal script for testing the Internet for xfce4-genmon-plugin"
+
+source=("git:https://github.com/khvalera/test-inet.git")
+
+tags="console net-misc"
+
+adddep="xfce4-genmon-plugin"
+
+build(){
+  go_src_dir
+  install -Dm755  test-inet.sh ${pkgdir}/usr/sbin/test-inet.sh
+}

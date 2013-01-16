@@ -1,0 +1,56 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=msmtp
+pkgver=1.4.30
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An SMTP client. Includes queue scripts and vim syntax highlighting"
+
+source=("http://sourceforge.net/projects/${pkgname}/files/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="network net-mail"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#ran after function build() 
+#после сборки
+after_build()
+{
+ install -Dm644 scripts/vim/msmtp.vim \
+    $pkgdir/usr/share/vim/vimfiles/syntax/msmtp.vim
+
+  sed -i "s:LOG=~/log/msmtp.queue.log:LOG=~/.msmtp.queue/msmtp.queue.log:g" scripts/msmtpq/msmtpq
+
+  for _i in msmtp{q,-queue}; do
+    install -D scripts/msmtpq/$_i $pkgdir/usr/bin/$_i
+  done
+
+  install -Dm644 scripts/msmtpq/README.msmtpq \
+    $pkgdir/usr/share/doc/msmtp/README.msmtpq
+  for _i in msmtprc-{system,user}.example; do
+    install -Dm644 doc/$_i $pkgdir/usr/share/doc/msmtp/$_i
+  done
+
+
+}

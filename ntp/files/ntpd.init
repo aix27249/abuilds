@@ -21,7 +21,7 @@ start() {
 	checkconfig || return $?
 
 	ebegin "Starting ntpd"
-	start-stop-daemon --start --exec /usr/sbin/ntpd \
+	start-stop-daemon --start --exec /usr/bin/ntpd \
 	    --pidfile /var/run/ntpd.pid \
 	    -- -p /var/run/ntpd.pid ${NTPD_OPTS}
 	eend $? "Failed to start ntpd"
