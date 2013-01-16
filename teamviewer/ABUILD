@@ -1,0 +1,38 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=teamviewer
+pkgver=8.0.16675_beta
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Software for Remote Support and Online Meetings"
+
+source=("http://www.teamviewer.com/download/version_8x/${pkgname}_linux.deb")
+
+tags="xapps app-emulation x86"
+
+if [ "$ARCH" = "x86_64" ] ; then
+   adddep="alsa-lib32 glib232 zlib32"
+   removedep="alsa-lib zlib"
+else
+   adddep="glib2"
+fi
+
+build(){
+  cd ${srcdir}
+  mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver} \
+           ${pkgdir}/usr/share/pixmaps \
+           ${pkgdir}/usr/share/applications \
+           ${pkgdir}/etc/init.d
+  sed -i -e "s|/opt/teamviewer8/tv_bin/desktop/||g" \
+            opt/teamviewer8/tv_bin/desktop/teamviewer-teamviewer8.desktop
+  mv opt/teamviewer8/tv_bin/desktop/teamviewer-teamviewer8.desktop \
+     ${pkgdir}/usr/share/applications
+  mv opt/teamviewer8/tv_bin/desktop/teamviewer.png \
+     ${pkgdir}/usr/share/pixmaps
+  rmdir opt/teamviewer8/tv_bin/desktop
+  mv opt/teamviewer8/*.txt ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  cp -ar * ${pkgdir}/
+  install -Dm755 ${filedir}/teamviewer ${pkgdir}/etc/init.d
+  find ${pkgdir} ! -perm 0664 -name \*.txt -type f -print0 -exec chmod -v 0664 {} \;
+}
