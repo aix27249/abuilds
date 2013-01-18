@@ -1,5 +1,5 @@
 pkgname=apackager
-pkgver=1.0_beta1
+pkgver=1.0_beta2
 pkgbuild=1
 arch=('auto')
 
