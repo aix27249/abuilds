@@ -1,20 +1,18 @@
 pkgname=QtCurve-Gtk2
-pkgver=1.8.15
-pkgbuild=2
+pkgver=1.8.16
+pkgbuild=1
 arch=('auto')
 
 shortdesc="KDE-oriented Gtk style: Gtk build"
-longdesc=("QtCurve (KDE4, KDE3, Gtk3, & Gtk2 Theme): http://kde-look.org/content/show.php?content=40492"
-)
+#longdesc=(
+#"QtCurve (KDE4, KDE3, Gtk3, & Gtk2 Theme): http://kde-look.org/content/show.php?content=40492"
+#)
 
 source=("http://craigd.wikispaces.com/file/view/QtCurve-Gtk2-${pkgver}.tar.bz2")
 tags="themes x11-themes"
-
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=Release \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} ../"
-
-
