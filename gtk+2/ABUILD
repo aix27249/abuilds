@@ -1,5 +1,5 @@
 pkgname=gtk+2
-pkgver=2.24.10
+pkgver=2.24.14
 tree=`echo $pkgver | cut -d . -f 1-2`
 pkgbuild=1
 arch=('auto')
@@ -14,7 +14,8 @@ source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/$tree/gtk+-${pkgver}.tar.xz
 tags="libs x11-libs"
 
 # Automatically-generated build_deps. Subject to revision.
-build_deps=""
+build_deps="atk bzip2 cairo cups gcc-libs e2fsprogs expat fontconfig freetype gdk-pixbuf glib2 glibc-solibs gnutls krb5 libffi libgcrypt libgpg-error libpng libtasn1 libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libXrandr libXrender pango pixman"
+
 pkglist="gtk_update_icon_cache"
 adddep="gtk-update-icon-cache"
 
