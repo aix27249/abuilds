@@ -10,6 +10,9 @@ longdesc=("xine-lib is a free (GPL licensed) high-performance multimedia playbac
 
 tags=("xapps media-video")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 glibc-solibs aalib audiofile expat faad2 lcms libogg libpng ncurses slang1 svgalib wavpack fontconfig esound libmng libtheora libvorbis speex libxcb sdl libXvMC gcc gpm libXv libXrandr libXinerama libXt libXrender libXext libSM libXdmcp libXau libICE fftw libv4l liblqr-1 libX11 flac jack1 libcaca libcdio libffi util-linux-ng freetype xz alsa-lib libtool vcdimager smbclient mesa libgl libjpeg glib2 libav libtiff gdk-pixbuf imagemagick lcms2"
+
 source=("http://downloads.sourceforge.net/sourceforge/xine/${pkgname}-${pkgver}.tar.xz")
 gendeps_blacklist=/usr/lib$LIBDIRSUFFIX/xine/plugins/
 

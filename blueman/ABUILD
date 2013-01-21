@@ -14,6 +14,9 @@ source=("http://download.tuxfamily.org/blueman/blueman-${pkgver}.tar.gz")
 # Tags
 tags="xapps net-wireless"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libffi bluez fontconfig libXau libXdmcp libXrender libxcb pango libX11 glib2 freetype zlib gtk+2 gdk-pixbuf cairo xcb-util pixman startup-notification python notify-python hicolor-icon-theme polkit-gnome obex-data-server pygobject xdg-utils dbus-python"
+
 # Manually-added dependencies
 adddep="notify-python hicolor-icon-theme polkit-gnome obex-data-server pygobject xdg-utils dbus-python"
 

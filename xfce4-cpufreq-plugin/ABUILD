@@ -5,6 +5,9 @@ pkgbuild=4
 shortdesc="CPU frequency plugin for the Xfce4 panel"
 arch='auto'
 tags='xfce xfce-extra'
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs util-linux-ng expat libffi libpng zlib fontconfig libICE libXau libXdmcp freetype libSM libxcb pixman libX11 libXrender glib2 atk cairo libxfce4util pango gdk-pixbuf gtk+2 startup-notification xcb-util libxfcegui4 xfce4-panel"
 #depends=('xfce4-panel>=4.7.4' 'libxfcegui4' 'hicolor-icon-theme')
 source=(http://archive.xfce.org/src/panel-plugins/${pkgname}/1.0/${pkgname}-${pkgver}.tar.bz2)
 

@@ -16,6 +16,9 @@ source=("http://ftp.gnome.org/pub/gnome/sources/NetworkManager/0.9/NetworkManage
 # Tags
 tags=("network net-misc")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="libnl libtasn1 glibc-solibs polkit gnutls libffi util-linux-ng zlib udev glib2 dbus-glib libgpg-error libgcrypt dbus ppp iptables dhcp wireless-tools wpa_supplicant rp-pppoe"
+
 # Manually-added dependencies
 adddep="ppp>=2.4.5 iptables dhcp wireless-tools wpa_supplicant rp-pppoe"
 

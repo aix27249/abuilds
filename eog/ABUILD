@@ -19,7 +19,9 @@ patch_opts=("")
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 
 tags="gnome media-gfx"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat lcms libexif libpng ORBit2 libxml2 librsvg gcc libffi GConf fontconfig libXau libXdmcp libXext libXrandr libXrender libjpeg libxcb dbus-glib pango atk dbus libX11 glib2 freetype zlib gtk+2 python gdk-pixbuf cairo xcb-util xcb-util-renderutil pixman startup-notification gnome-desktop"
 
 provides=""
 conflicts=""

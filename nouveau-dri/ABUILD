@@ -9,6 +9,9 @@ shortdesc=('mesa (a 3-D graphics library)')
 longdesc=('Mesa is a 3-D graphics library with an API very similar to that of another well-known 3-D graphics library. :-) The Mesa libraries are used by X to provide both software and hardware accelerated graphics. Mesa was written by Brian Paul.')
 
 tags=('x11-libs xserver')
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs expat glibc-solibs gcc libffi libdrm-nouveau mesa libgl"
 adddep="libgl"
 removedep="libdrm-nouveau-dev"
 if [ "${_git}" = "true" ] ; then

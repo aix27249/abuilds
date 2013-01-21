@@ -1,13 +1,9 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gksu
 pkgver=2.0.2
-pkgbuild=9
+pkgbuild=10
 arch=('auto')
 
 shortdesc="GTK graphical su front-end"
-longdesc=("GKSu is a simple program-frontend for su/sudo which works around libgksu"
-)
 
 source=("http://people.debian.org/~kov/gksu/${pkgname}-${pkgver}.tar.gz")
 
@@ -15,18 +11,17 @@ tags="x11-libs libs"
 
 pkglist="nautilus"
 
-nautilus()
-{
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libffi libpng zlib libgpg-error ORBit2 libgcrypt libgnome-keyring glib2 atk cairo libgtop pango gdk-pixbuf gtk+2 GConf xcb-util startup-notification libgksu libXrender libX11 libxcb pixman libXdmcp libXau fontconfig freetype dbus"
+nautilus() {
 	pkgname=gksu-gnome
 	shortdesc="GNOME extension from GKSU"
 	longdesc="GKSu is a simple program-frontend for su/sudo. This package contains Nautilus extension for gksu"
 	tags="gnome gnome-extra"
-	pkg_files=gnome
 	adddep="gksu==$pkgver"
 }
 
-build()
-{
+build() {
 	go_src_dir
 	burn_patches
 	sed -i -e 's|/usr/bin/x-terminal-emulator|-l gnome-terminal|g' gksu.desktop || exit 1
@@ -51,13 +46,15 @@ build()
 	done
 }
 
-after_build()
-{
-	mkdir -p $startdir/gnome/usr/lib${LIBDIRSUFFIX}
-	mkdir -p $startdir/gnome/usr/share/applications
-	mv -f $pkgdir/usr/lib${LIBDIRSUFFIX}/nautilus \
-		$startdir/gnome/usr/lib${LIBDIRSUFFIX}
-	mv -f $pkgdir/usr/share/applications/gksu.desktop \
-		$startdir/gnome/usr/share/applications/
+nautilus_prep() {
+	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+	mkdir -p ${pkgdir}/usr/share/applications
+	mv -f $p_pkgdir/usr/lib${LIBDIRSUFFIX}/nautilus \
+		$pkgdir/usr/lib${LIBDIRSUFFIX}
+	mv -f $p_pkgdir/usr/share/applications/gksu.desktop \
+		$pkgdir/usr/share/applications/
+
+
+
 }
-                   
+                  

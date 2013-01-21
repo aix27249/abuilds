@@ -17,6 +17,9 @@ source=("http://www.claws-mail.org/downloads/plugins/vcalendar-2.0.14.tar.gz"
 
 tags="mail-client network"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs expat libpng glibc-solibs libxml2 libnotify libcanberra rtmpdump atk pango libffi zlib gtk+2 glib2 gdk-pixbuf libXau libXdmcp libxcb libX11 libXext libXrender freetype libssh2 fontconfig openssl-solibs curl cairo pixman claws-mail"
+
 adddep="claws-mail=3.9.0"
 custom_opts="no_ccache"
 

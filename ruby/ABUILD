@@ -10,6 +10,9 @@ longdesc=("Ruby is an interpreted scripting language for quick and easy object-o
 
 tags=("develop dev-ruby")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="db gdbm glibc-solibs libffi libtermcap ncurses openssl-solibs readline tcl tk zlib"
+
 source=("ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-${pkgver//_/-}.tar.bz2")
 
 pkglist="rubydocs"

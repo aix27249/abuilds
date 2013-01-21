@@ -7,6 +7,9 @@ shortdesc="librsvg (SVG library)"
 
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.34/${pkgname}-${pkgver}.tar.bz2")
 tags="libs gnome-base"
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs expat libpng glibc-solibs libxml2 pango libffi zlib glib2 gdk-pixbuf cairo libXau libXdmcp libxcb libX11 libXrender freetype pixman fontconfig"
 BUILD_SYSTEM="autotools"
 
 BUILD_KEYS="--prefix=/usr \

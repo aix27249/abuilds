@@ -21,8 +21,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="libs x11-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng ncurses libxcb libffi fontconfig libXdmcp libXau libXrender cairo libX11 gdk-pixbuf pango pixman atk glib2 freetype zlib gtk+2"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

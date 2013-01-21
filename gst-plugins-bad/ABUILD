@@ -16,6 +16,9 @@ source=("http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${
 # Tags
 tags="libs media-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs openssl-solibs faad2 gsm libdca libdvdread libmpcdec libpng neon xvidcore orc libdvdnav sdl jasper librsvg dirac schroedinger gcc celt libdc1394 libxml2 cairo libvpx faac rtmpdump fftw libofa libmms soundtouch libmodplug libvdpau libX11 libsndfile glib2 gdk-pixbuf libffi zlib gstreamer gst-plugins-base mjpegtools"
+
 
 # Build system
 BUILD_SYSTEM="autotools"

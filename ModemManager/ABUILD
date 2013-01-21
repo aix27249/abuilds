@@ -12,6 +12,9 @@ source=("http://ftp.acc.umu.se/pub/GNOME/sources/ModemManager/${pkgver%.*.*}/Mod
 
 tags="network net-misc"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="glibc-solibs udev libffi zlib glib2 dbus-glib dbus ppp NetworkManager usb-modeswitch"
+
 adddep="ppp>=2.4.5 NetworkManager>=0.9 usb-modeswitch"
 
 BUILD_SYSTEM="autotools"

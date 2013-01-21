@@ -12,6 +12,9 @@ source=("http://cloud.github.com/downloads/xsisqox/Viewnior/${pkgname}-${pkgver}
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 tags="media-gfx xapps"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng fontconfig libXau libXdmcp libxcb libXrender cairo libffi pango gdk-pixbuf pixman libX11 atk glib2 freetype gtk+2"
+
 
 BUILD_SYSTEM="autotools"
 

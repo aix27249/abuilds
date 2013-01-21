@@ -10,6 +10,9 @@ longdesc=("gutenprint (IJS printer driver for Ghostscript and CUPS)")
 
 tags=("console net-print")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 cups gcc-libs e2fsprogs glibc-solibs expat freetype libffi libpng libtasn1 ncurses zlib libgpg-error libXau libXdmcp readline libgcrypt fontconfig libxcb pixman libX11 libXrender glib2 atk cairo pango ghostscript gdk-pixbuf gtk+2 krb5 gnutls gimp foomatic-db-engine"
+
 source=("http://downloads.sourceforge.net/gimp-print/$pkgname-$pkgver.tar.bz2")
 adddep="foomatic-db-engine"
 

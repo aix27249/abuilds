@@ -6,6 +6,9 @@ shortdesc="library for parsing playlists"
 source=("ftp://ftp.gnome.org/pub/gnome/sources//${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 tags="dev-libs libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="acl attr bzip2 dbus glibc-solibs openssl-solibs expat libffi libtasn1 zlib libgpg-error ORBit2 libarchive libgcrypt sqlite libgnome-keyring libproxy libxml2 libsoup gnutls GConf glib2 xz gmime"
+
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \

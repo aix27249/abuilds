@@ -14,6 +14,9 @@ source=("http://ftp.gnome.org/pub/GNOME/sources/network-manager-applet/0.9/netwo
 # Tags
 tags="xapps net-misc"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libtasn1 libgpg-error ORBit2 libgcrypt libxcb libgnome-keyring gcc libffi GConf fontconfig libXdmcp libXau libXrender cairo libnotify util-linux-ng gnome-bluetooth libX11 gnutls gtk+2 gdk-pixbuf dbus-glib pango glib2 pixman atk dbus freetype zlib udev NetworkManager NetworkManager ppp polkit-gnome gnome-icon-theme libnotify"
+
 adddep="NetworkManager>=0.9.0 ppp>=2.4.5 polkit-gnome gnome-icon-theme libnotify"
 
 # Build system

@@ -14,6 +14,9 @@ source=("http://ftp.gnome.org/pub/GNOME/sources/NetworkManager-pptp/0.9/NetworkM
 # Tags
 tags="xapps net-misc"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libtasn1 libgpg-error fontconfig libgcrypt libxcb libgnome-keyring libXrender libXdmcp libXau cairo libX11 gnutls dbus dbus-glib pixman gdk-pixbuf atk pango libffi util-linux-ng freetype NetworkManager glib2 gtk+2 udev pptp ppp"
+
 # Manually-added dependencies
 adddep="pptp ppp>=2.4.5"
 

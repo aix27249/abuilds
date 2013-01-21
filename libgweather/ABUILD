@@ -5,6 +5,9 @@ arch=('auto')
 shortdesc="GWeather shared library"
 source=("ftp://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.bz2")
 tags="libs dev-libs"
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs dbus glibc-solibs expat libffi libpng libtasn1 zlib libgpg-error fontconfig libXau libXdmcp pixman ORBit2 libgcrypt libxcb sqlite libgnome-keyring libX11 libXrender libproxy libxml2 atk cairo gdk-pixbuf pango libsoup gnutls GConf freetype glib2 gtk+2"
 numjobs=1
 
 before_build()

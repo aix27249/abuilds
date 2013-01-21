@@ -21,8 +21,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="gnome gnome-extra"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs djvulibre expat libpng libgpg-error ORBit2 libgcrypt libgnome-keyring libxml2 curl cyrus-sasl gcc libffi GConf libXdamage libXcomposite fontconfig libICE libSM libXau libXdmcp libXext libXfixes libXi libXrandr libXrender libjpeg libxcb util-linux-ng libspectre libidn pango atk dbus libX11 glib2 freetype zlib openldap nautilus xz gtk+2 openssl-solibs libtiff3 openjpeg ghostscript lcms2 gdk-pixbuf cairo poppler libXinerama libXcursor pixman"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides="evince"
 conflicts=""

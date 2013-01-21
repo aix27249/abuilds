@@ -11,6 +11,9 @@ source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-${pkgv
 
 tags="libs x11-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="glibc-solibs libpng libxcb libXdmcp libXau libX11 libffi xz zlib libjpeg glib2 libtiff"
+
 
 
 BUILD_SYSTEM="autotools"

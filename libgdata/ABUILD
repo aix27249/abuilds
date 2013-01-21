@@ -8,6 +8,9 @@ numjobs=1
 source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 tags="develop dev-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="dbus glibc-solibs libffi libtasn1 zlib libgpg-error ORBit2 libgcrypt sqlite libgnome-keyring libproxy libxml2 libsoup gnutls GConf glib2"
+
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \

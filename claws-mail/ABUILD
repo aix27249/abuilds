@@ -7,6 +7,9 @@ shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
 
 source=("http://downloads.sourceforge.net/project/sylpheed-claws/Claws%20Mail/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 tags="mail-client network"
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs db expat libpng enchant gpgme libetpan glibc-solibs cyrus-sasl libidn rtmpdump gnutls atk pango libffi gtk+2 glib2 openldap gdk-pixbuf libXau libXdmcp libxcb libX11 libXext libICE libSM libXrender freetype libssh2 startup-notification fontconfig dbus-glib openssl-solibs libgpg-error curl dbus cairo pixman"
 BUILD_SYSTEM="autotools"
 
 BUILD_KEYS="--prefix=/usr \

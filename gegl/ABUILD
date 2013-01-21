@@ -12,6 +12,8 @@ source=("ftp://ftp.gtk.org/pub/${pkgname}/`echo $pkgver | cut -d . -f 1-2`/${pkg
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="libs media-gfx"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat ilmbase libffi libjpeg libpng svgalib zlib libXau libXdmcp freetype openexr libxcb libX11 xcb-util-renderutil libXext libXrender libXrandr sdl libxml2 cairo pango jasper libav librsvg gcc fontconfig glib2 pixman gdk-pixbuf babl"
 #----------------------------- Make PKG --------------------------------------
 BUILD_SYSTEM="autotools"
 

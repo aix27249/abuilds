@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="libs dev-libs"
 
-#dependencies only needed to build package
+# Automatically-generated build_deps. Subject to revision.
 build_deps=""
+
+#dependencies only needed to build package
 
 provides=""
 conflicts=""

@@ -10,6 +10,9 @@ source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.28/${pkgname}-${pkg
 
 tags="gnome-base gnome"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat freetype libffi libpng libsigc++ zlib libXau libXdmcp libpthread-stubs fontconfig libxcb pixman libX11 xcb-util-renderutil libXext libXrender libXres libxml2 glib2 ORBit2 atk cairo dbus-glib libgtop pango atkmm cairomm gdk-pixbuf glibmm gtk+2 gtkmm librsvg pangomm startup-notification xcb-util gcc GConf dbus libwnck"
+
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"

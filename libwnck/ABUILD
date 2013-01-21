@@ -9,6 +9,9 @@ arch=('auto')
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgbranch}/${pkgname}-${pkgver}.tar.bz2")
 tags=("libs x11-libs")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libffi fontconfig libXau libXdmcp libXext libXrender libxcb pango atk libX11 glib2 freetype zlib gtk+2 gdk-pixbuf cairo xcb-util libXres pixman startup-notification"
+
 BUILD_SYSTEM='autotools'
 BUILD_KEYS=" --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \

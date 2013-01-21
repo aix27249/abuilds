@@ -13,6 +13,9 @@ source=("http://people.debian.org/~kov/gksu/${pkgname}-${pkgver}.tar.gz")
 
 tags="x11-libs libs"     			#short and long tags / длинный и короткий тег
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libgpg-error fontconfig ORBit2 libgcrypt libgnome-keyring GConf libgtop dbus atk pango libffi startup-notification zlib glib2 gtk+2 gdk-pixbuf cairo libXau libXdmcp libxcb xcb-util libX11 libXrender freetype pixman"
+
 
 build() {
 	go_src_dir

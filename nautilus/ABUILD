@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="gnome gnome-base"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libexif libpng ORBit2 libxml2 libunique gcc libffi GConf libXdamage libXcomposite fontconfig libICE libSM libXau libXdmcp libXext libXfixes libXi libXrandr libXrender libxcb util-linux-ng dbus-glib pango atk dbus libX11 glib2 freetype zlib gtk+2 gdk-pixbuf cairo xcb-util libXinerama libXcursor pixman startup-notification gnome-desktop udisks"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

@@ -16,6 +16,9 @@ source=("http://ftp.gnome.org/pub/GNOME/sources/NetworkManager-openvpn/0.9/Netwo
 # Tags
 tags="xapps net-misc"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs expat libpng libtasn1 libgpg-error libgcrypt libxcb libgnome-keyring libffi fontconfig libXdmcp libXau libXrender cairo util-linux-ng libX11 gnutls gtk+2 gdk-pixbuf dbus-glib pango glib2 pixman atk dbus freetype zlib udev NetworkManager ppp openvpn"
+
 # Manually-added dependencies
 adddep="ppp>=2.4.5 openvpn"
 

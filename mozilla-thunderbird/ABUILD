@@ -14,6 +14,9 @@ source=("ftp://ftp.mozilla.org/pub/thunderbird/releases/${pkgver}/source/thunder
 
 tags="xapps mail-client"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs glibc-solibs man-pages gcc libevent libnotify hunspell atk pango libffi gtk+2 libvpx libjpeg glib2 gdk-pixbuf cairo libX11 libXext libXt libXrender freetype pixman nss nspr startup-notification dbus sqlite fontconfig dbus-glib alsa-lib"
+
 build() {
 	go_src_dir
 	burn_patches
