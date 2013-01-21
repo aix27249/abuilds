@@ -2,17 +2,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=warzone2100
-pkgver=2.3.9
+pkgver=3.1.0
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="Warzone 2100: A Real-Time Strategy game"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Warzone 2100 is a real-time strategy game, originally developed by Pumpkin Studios and published by Eidos Interactive, now developed by the Warzone 2100 Project. Compared to other real-time strategy games, it has a greater focus on artillery, radar, and counter-battery technologies, more frequent in-game cinematic updates as game play progresses, a massive research tree, as well as a vehicle design system. Homepage: http://wz2100.net"
-)
+#longdesc=("Warzone 2100 is a real-time strategy game, originally developed by Pumpkin Studios and published by Eidos Interactive, now developed by the Warzone 2100 Project. Compared to other real-time strategy games, it has a greater focus on artillery, radar, and counter-battery technologies, more frequent in-game cinematic updates as game play progresses, a massive research tree, as well as a vehicle design system. Homepage: http://wz2100.net")
 
-#source=("http://downloads.sourceforge.net/project/warzone2100/releases/${pkgver}/${pkgname}-${pkgver}.tar.xz")
-source=("http://downloads.sourceforge.net/project/warzone2100/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/project/warzone2100/releases/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+#source=("http://downloads.sourceforge.net/project/warzone2100/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -78,7 +77,6 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 #после сборки
 after_build()
 {
-echo ""
 
 if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
  rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
@@ -92,7 +90,6 @@ cd ${pkgdir}/usr/share
 # desktop
 [ -d ${pkgdir}/opt/applications ] && mv -v ${pkgdir}/opt/applications ./
 # icons 
-#[ -d ${pkgdir}/opt/icons ] && mv -v ${pkgdir}/opt/icons ./
 [ -d ${pkgdir}/opt/icons ] && mv -v ${pkgdir}/opt/icons ./pixmaps
 
 }
@@ -101,8 +98,8 @@ cd ${pkgdir}/usr/share
 bin(){
 	pkgname="${p_pkgname}-bin"
 	arch=('auto')
-	shortdesc="Binary files for Warzone 2100"
-	longdesc=("Warzone 2100: A Real-Time Strategy game")
+	#shortdesc="Binary files for Warzone 2100"
+	#longdesc=("Warzone 2100: A Real-Time Strategy game")
 	tags="games games-strategy"
 }
 bin_prep(){

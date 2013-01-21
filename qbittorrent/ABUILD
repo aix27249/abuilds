@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
-pkgver=3.0.6
+pkgver=3.0.8
 pkgbuild=1
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
@@ -13,12 +13,28 @@ shortdesc="qBittorrent - A BitTorrent client in Qt4"
 
 srcver=${pkgver/_/}
 srcsf="http://downloads.sourceforge.net/project/qbittorrent/qbittorrent"
+srctar=${pkgname}-${srcver}.tar.xz
+source_tar_un="${srcsf}-unstable/${srctar}"
+source_tar="${srcsf}/${pkgname}-${pkgver}/${srctar}"
+source_git="git:git://github.com/qbittorrent/qBittorrent.git"
+
+# src
 if [ "$pkgver" != "$srcver" ]; then
- source=("${srcsf}-unstable/${pkgname}-${pkgver/_/}.tar.xz")
+ src=("${source_tar_un}")
 else
- source=("${srcsf}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz")
+ src=("${source_tar}")
 fi
 
+# source
+if [ ! -f "$srcache/${srctar}" ]; then
+ wget -c -P $srcache $src
+fi
+
+if [ -f "$srcache/${srctar}" ]; then
+ source=($src)
+else
+ source=($source_git)
+fi
 
 patch_opts=("")
 
