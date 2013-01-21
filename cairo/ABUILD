@@ -10,6 +10,9 @@ longdesc=('Cairo is a vector graphics library designed to provide high-quality d
 
 tags=('libs x11-libs')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 expat libpng glibc-solibs glib2 libXau libXdmcp libxcb libX11 libXext libXrender freetype pixman fontconfig"
+
 source=("http://cairographics.org/releases/cairo-${pkgver}.tar.xz")
 
 # Changelogs are 6mb big, so let's disable doc copying.

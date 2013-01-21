@@ -8,6 +8,9 @@ longdesc=('xcursorgen is part of X11. For more information about the X.Org Found
 
 tags=('x11-apps xserver')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="libpng glibc-solibs libX11 libXcursor"
+
 source=("http://xorg.freedesktop.org/archive/individual/app/xcursorgen-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'

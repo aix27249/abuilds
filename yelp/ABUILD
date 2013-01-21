@@ -21,8 +21,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="gnome gnome-extra"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk bzip2 cairo dbus dbus-glib fontconfig freetype GConf gdk-pixbuf glib2 glibc-solibs gtk+2 libgcrypt libgpg-error libICE libpng libSM libsoup libX11 libxml2 libxslt pango rarian startup-notification webkit zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

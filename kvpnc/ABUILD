@@ -5,6 +5,9 @@ shortdesc="KVpnc is a KDE Desktop Environment frontend for various vpn clients"
 longdesc="KVpnc is a KDE Desktop Environment frontend for various vpn clients. Homepage: http://home.gna.org/kvpnc"
 arch=("auto")
 tags=("xapps net-misc")
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="acl attr bzip2 gcc-libs dbusmenu-qt expat fontconfig freetype gcc glib2 glibc-solibs kdelibs libattica libgcrypt libgpg-error libICE libpng libSM libX11 libXau libxcb libXcursor libXdmcp libXext libXfixes libXft libXi libxml2 libXpm libXrender libXtst openssl-solibs phonon qt4 soprano strigi udev utempter util-linux-ng xz zlib"
 source=(http://download.gna.org/$pkgname/$pkgname-${pkgver}-kde4.tar.bz2)
 
 BUILD_SYSTEM="cmake"

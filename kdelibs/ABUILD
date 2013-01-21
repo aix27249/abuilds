@@ -13,6 +13,9 @@ longdesc=('System libraries and other resources required by KDE.')
 
 tags=('kde-base kde4')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs utempter ilmbase libpng libungif enchant openexr libxslt jasper krb5 e2fsprogs glibc-solibs gcc libxml2 acl attr libXScrnSaver pcre aspell xz polkit-qt-1 strigi phonon udev qca libjpeg libXau libXdmcp libX11 libXext libICE libSM libXpm libXcursor libXfixes libXrender libXft libXtst soprano herqq libattica dbusmenu-qt qt4"
+
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/kdelibs-${pkgver}.tar.xz")
 
 

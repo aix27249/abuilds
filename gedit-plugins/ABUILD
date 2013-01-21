@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="app-text gnome"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs expat fontconfig freetype gcc GConf gdk-pixbuf gedit glib2 glibc-solibs gtk+2 gtksourceview gucharmap libpng libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libxml2 libXrandr libXrender ORBit2 pango pixman python zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

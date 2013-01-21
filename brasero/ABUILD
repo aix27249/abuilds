@@ -16,6 +16,9 @@ source=("http://ftp.acc.umu.se/pub/GNOME/sources/brasero/2.28/brasero-${pkgver}.
 # Tags
 tags="xapps app-cdr"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs dbus dbus-glib expat fontconfig freetype gcc GConf gdk-pixbuf glib2 glibc-solibs gst-plugins-base gstreamer gtk+2 libICE libpng libSM libunique libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libxml2 libXrandr libXrender ORBit2 pango pixman util-linux-ng zlib"
+
 # Manually-added dependencies
 adddep=""
 

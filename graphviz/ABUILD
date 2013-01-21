@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="utils media-gfx"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs expat fontconfig freetype gcc gd gdk-pixbuf ghostscript glib2 glibc-solibs gtk+2 libICE libjpeg libpng librsvg libSM libX11 libXau libXaw libxcb libXdmcp libXext libxml2 libXmu libXpm libXrender libXt lua pango perl pixman python tk util-linux-ng xcb-util zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

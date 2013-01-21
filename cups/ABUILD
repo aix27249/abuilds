@@ -8,6 +8,9 @@ longdesc=('The Common UNIX Printing System provides a portable printing layer fo
 
 tags=('base net-print')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs glibc-solibs libcap libpng libusb openslp popt libgpg-error libgcrypt krb5 e2fsprogs gcc tdb acl linux-pam gnutls dbus smbclient libjpeg openldap libtiff"
+
 source=("http://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2")
 
 

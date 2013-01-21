@@ -18,7 +18,9 @@ patch_opts=("")
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 
 tags="gnome-extra gnome"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libnotify libpng libX11 pango"
 
 provides=""
 conflicts=""

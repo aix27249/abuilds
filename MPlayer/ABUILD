@@ -11,6 +11,9 @@ source=("svn:svn://svn.mplayerhq.hu/mplayer/trunk")
 
 tags="xapps media-video"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs enca aalib faad2 gsm libdca libmad libogg libpng libungif lzo ncurses opencore-amr svgalib xvidcore fontconfig lame libmng libtheora speex libdv sdl libXvMC dirac schroedinger fribidi libXxf86vm libXxf86dga libXv libXinerama libXScrnSaver libXext faac rtmpdump libvdpau libX11 jack1 openal libcaca libcdio freetype x264 alsa-lib smbclient mesa libgl libvpx libjpeg openjpeg"
+
 pkglist=mencoder
 
 config_files=("etc/mplayer/mplayer.conf

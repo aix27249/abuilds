@@ -10,6 +10,9 @@ shortdesc=('KDE Base Workspace')
 
 tags=('kde-base kde4')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs libpng libraw1394 libusb qimageblitz glibc-solibs gcc libxml2 libXxf86misc libXdamage libXcomposite libXScrnSaver linux-pam ConsoleKit prison pciutils cln libqalculate strigi phonon lm_sensors libjpeg glib2 libXau libXdmcp libX11 libXext libICE libSM libXpm libXcursor libXfixes libXrender freetype libXft libXi libXinerama libxkbfile libXrandr libXres libXtst libXxf86vm mesa libgl fontconfig soprano dbusmenu-qt dbus qt4 kdelibs kdepimlibs kactivities python ruby kde-base-artwork"
+
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 config_files="etc/kdm/kdmrc

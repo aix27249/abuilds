@@ -16,6 +16,9 @@ source=("http://ftp.gnome.org/pub/gnome/sources/gdm/2.20/gdm-${pkgver}.tar.bz2")
 # Tags
 tags="xapps gnome-base"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk bzip2 cairo gcc-libs dbus dbus-glib expat fontconfig freetype gcc gdk-pixbuf glib2 glibc-solibs gtk+2 libart_lgpl libaudit libdmx libglade libgnomecanvas libpng librsvg libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libxml2 libXrandr libXrender linux-pam pango pixman xcb-util zlib"
+
 # Manually-added dependencies
 adddep=""
 

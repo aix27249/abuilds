@@ -10,6 +10,9 @@ longdesc=("An interpreter for the PostScript language")
 
 tags=("app-text console")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs glibc-solibs lcms libpng libgpg-error fontconfig libgcrypt jasper krb5 e2fsprogs libXt libXext libSM libICE cairo libX11 libidn gnutls dbus atk pango freetype libjpeg glib2 gtk+2 libtiff cups gdk-pixbuf"
+
 source=("http://downloads.ghostscript.com/public/ghostscript-${pkgver}.tar.bz2")
 
 

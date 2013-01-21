@@ -16,6 +16,9 @@ source=("http://www.galago-project.org/files/releases/source/notify-python/notif
 # Tags
 tags="libs dev-python"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs expat fontconfig freetype gcc gdk-pixbuf glib2 glibc-solibs gtk+2 libnotify libpng libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libXrandr libXrender pango pixman python zlib"
+
 build() {
 	go_src_dir
 	burn_patches

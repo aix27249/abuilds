@@ -14,6 +14,9 @@ config_files="etc/plymouth/plymouthd.conf"
 
 tags="base sys-boot"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs glibc-solibs atk expat libpng zlib fontconfig libXau libXdmcp libpciaccess pixman glib2 libdrm libxcb gdk-pixbuf libXrender cairo pango gtk+2 gcc libX11 freetype dracut"
+
 adddep="dracut"
 
 BUILD_SYSTEM="autotools"

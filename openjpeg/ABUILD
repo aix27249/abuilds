@@ -9,6 +9,9 @@ shortdesc=("An open source JPEG 2000 codec")
 
 tags=("libs media-libs")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="glibc-solibs libpng zlib libtiff lcms2"
+
 source=("http://openjpeg.googlecode.com/files/openjpeg-${pkgver}.tar.gz")
 
 

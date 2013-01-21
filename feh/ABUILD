@@ -19,8 +19,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="media-gfx xapps"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="curl giblib glibc-solibs imlib2 libpng libX11 libXinerama"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

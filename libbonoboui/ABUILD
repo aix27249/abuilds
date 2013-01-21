@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="libs gnome-base"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk avahi cairo gcc-libs dbus dbus-glib expat fontconfig freetype gcc GConf gdk-pixbuf glib2 glibc-solibs gnome-vfs gtk+2 libart_lgpl libbonobo libcanberra libglade libgnome libgnomecanvas libICE libogg libpng libpthread-stubs libSM libtool libvorbis libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libxml2 libXrandr libXrender openssl-solibs ORBit2 pango pixman popt util-linux-ng xcb-util zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

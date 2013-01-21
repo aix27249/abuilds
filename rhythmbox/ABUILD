@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="gnome media-sound"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk brasero bzip2 cairo gcc-libs dbus dbus-glib enchant expat fontconfig freetype GConf gdk-pixbuf geoclue glib2 glibc-solibs gmime gnome-media gnutls gpgme gst-plugins-base gstreamer gtk+2 icu4c json-glib libgcrypt libgnome-keyring libgpg-error libgpod libICE libjpeg libmtp libmusicbrainz libnotify libpng libproxy libSM libsoup libtasn1 libusb libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libxml2 libXrandr libXrender libxslt libXt ORBit2 pango pixman python sqlite totem-pl-parser udev util-linux-ng webkit zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

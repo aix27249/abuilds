@@ -19,8 +19,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="app-editors xapps"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs fontconfig freetype gamin gcc gdk-pixbuf glib2 glibc-solibs gtk+2 libICE libpng libSM libX11 libXext libxml2 libXrender pango python"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

@@ -8,6 +8,9 @@ arch=('auto')
 source=("http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz")
 tags=("libs media-libs")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="expat fontconfig freetype gd glibc-solibs libexif libjpeg libpng libtool libusb libusb1 libX11 libXau libxcb libXdmcp libXpm"
+
 numjobs=1
 
 build() {

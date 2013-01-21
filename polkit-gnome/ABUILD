@@ -11,6 +11,9 @@ source=("http://hal.freedesktop.org/releases/${pkgname}-${pkgver}.tar.bz2")
 patch_opts=("")
 
 tags="libs sys-auth"
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo gcc-libs expat fontconfig freetype gcc gdk-pixbuf glib2 glibc-solibs gtk+2 libpng libX11 libXau libxcb libXdmcp libXrender pango pixman polkit zlib"
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"

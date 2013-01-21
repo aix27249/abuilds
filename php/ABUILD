@@ -9,6 +9,9 @@ shortdesc=('php (HTML-embedded scripting language)')
 longdesc=('PHP is an HTML-embedded scripting language. It shares syntax characteristics with C, Java, and Perl. The primary objective behind this language is to make a fast and easy-to-use scripting language for dynamic web sites. More information can be found online at http://www.php.net/')
 
 tags=('server dev-lang')
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 db gdbm libmcrypt libpng mm libxslt t1lib gmp krb5 e2fsprogs glibc-solibs libxml2 pcre net-snmp aspell libtool postgresql libjpeg openldap libX11 libXpm freetype sqlite openssl-solibs mysql curl"
 gendeps_blacklist='usr/lib'${LIBDIRSUFFIX}'/php/extensions*'
 
 config_files="etc/httpd/php.ini

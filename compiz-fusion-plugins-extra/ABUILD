@@ -9,6 +9,9 @@ longdesc=("This is extra compiz plugins which provides effects and other compiz 
 source=("http://releases.compiz.org/${pkgver}/compiz-plugins-extra-${pkgver}.tar.bz2")
 tags="x11-misc xapps"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libICE libnotify libpng libSM libX11 libXcomposite libXdamage libXext libXfixes libXinerama libxml2 libXrandr libXrender libxslt mesa pango startup-notification zlib"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \

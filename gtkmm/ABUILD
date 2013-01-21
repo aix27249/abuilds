@@ -16,6 +16,9 @@ source=("http://ftp.gnome.org/pub/GNOME/sources/gtkmm/2.24/gtkmm-${pkgver}.tar.b
 # Tags
 tags="libs dev-cpp"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk atkmm bzip2 cairo cairomm gcc-libs expat fontconfig freetype gcc gdk-pixbuf glib2 glibc-solibs glibmm gtk+2 libpng libsigc++ libX11 libXau libxcb libXdmcp libXrender pango pangomm pixman zlib"
+
 # Build system
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \

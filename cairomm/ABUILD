@@ -16,6 +16,9 @@ source=("http://www.cairographics.org/releases/cairomm-${pkgver}.tar.gz")
 # Tags
 tags="libs dev-cpp"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="cairo gcc-libs expat fontconfig freetype gcc glibc-solibs libpng libsigc++ libX11 libXau libxcb libXdmcp libXrender pixman zlib"
+
 # Manually-added dependencies
 adddep=""
 

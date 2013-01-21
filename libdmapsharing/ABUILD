@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="avahi dbus gcc gdk-pixbuf glib2 glibc-solibs gnutls gst-plugins-base gstreamer libgcrypt libgpg-error libpng libsoup libtasn1 libxml2 zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

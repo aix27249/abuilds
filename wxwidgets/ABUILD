@@ -9,6 +9,9 @@ shortdesc=("wxWidgets: cross-platform GUI library")
 
 tags=("libs x11-libs")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs glibc-solibs expat libmspack libpng fontconfig esound sdl gcc libXxf86vm libXinerama libSM atk pango freetype mesa libgl libjpeg glib2 gtk+2 libtiff gdk-pixbuf"
+
 source=("http://prdownloads.sourceforge.net/wxwindows/wxWidgets-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM="autotools"

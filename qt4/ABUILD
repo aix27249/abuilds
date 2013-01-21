@@ -9,6 +9,9 @@ longdesc=('Qt is a complete and well-developed object-oriented framework for dev
 
 tags=('libs x11-libs')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs libpng libmng unixodbc glibc-solibs man-pages gcc libxml2 gstreamer gst-plugins-base libjpeg glib2 libtiff3 libX11 libXext libICE libSM libXrender freetype libgl sqlite fontconfig openssl-solibs alsa-lib dbus"
+
 source=("http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-${pkgver}.tar.gz")
 
 pkglist="qtdoc"

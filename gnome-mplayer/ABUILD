@@ -22,8 +22,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="xapps media-video"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="alsa-lib atk cairo dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libgpod libnotify libpng libX11 libXScrnSaver pango"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

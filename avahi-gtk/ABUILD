@@ -58,6 +58,9 @@ qt_prep() {
 }
 
 tags="network net-dns"
+
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk avahi avahi cairo gcc-libs dbus expat fontconfig freetype gcc gdbm gdk-pixbuf glib2 glibc-solibs gtk+2 libpng libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libXrandr libXrender pango pixman zlib"
 build() {
 	go_src_dir
 	burn_patches

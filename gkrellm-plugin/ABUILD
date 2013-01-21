@@ -26,6 +26,9 @@ source=("http://space.dl.sourceforge.net/project/gkrellmoon/gkrellmoon/0.6/gkrel
 #short and long tags / длинный и короткий тег
 tags="xapps x11-utils"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="alsa-lib atk cairo fontconfig freetype gdk-pixbuf gkrellm gkrellm glib glib2 glibc-solibs gtk+ gtk+2 imlib libpng libX11 libXext pango"
+
 adddep="gkrellm"
 
 numjobs=1

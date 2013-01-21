@@ -13,6 +13,9 @@ source=("http://downloads.sourceforge.net/sourceforge/lxde/${pkgname}-${pkgver}.
 
 tags="lxde lxde-base"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libpng pango"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"

@@ -18,6 +18,9 @@ source=("http://members.dslextreme.com/users/billw/$pkgname/$pkgname-$pkgver.tar
 #short and long tags / длинный и короткий тег
 tags="xapps x11-utils"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libICE libpng libSM libX11 openssl-solibs pango"
+
 
 removedep="lm_sensors"
 

@@ -11,6 +11,9 @@ source="http://megaui.net/fukuchi/works/${_pkgname}/${_pkgname}-${pkgver}.tar.bz
 
 tags="libs media-libs"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="glibc-solibs libpng zlib"
+
 before_build()
 {
 	go_src_dir

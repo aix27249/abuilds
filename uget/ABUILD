@@ -16,6 +16,9 @@ source=("http://downloads.sourceforge.net/project/urlget/uget%20%28stable%29/$pk
 # Tags
 tags="app-misc xapps"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk cairo curl fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer gtk+2 libnotify libpng libxml2 pango"
+
 # Manually-added dependencies
 adddep=""
 

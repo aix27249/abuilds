@@ -17,8 +17,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="develop dev-python"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk bzip2 cairo gcc-libs expat fontconfig freetype gdk-pixbuf glib2 glibc-solibs gtk+2 libart_lgpl libgnomecanvas libpng libX11 libXau libxcb libXcomposite libXcursor libXdamage libXdmcp libXext libXfixes libXi libXinerama libXrandr libXrender pango pixman python zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""

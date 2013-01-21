@@ -8,6 +8,9 @@ shortdesc="Video manipulation utilities"
 source=("http://downloads.sourceforge.net/sourceforge/mjpeg/${pkgname}-${pkgver}.tar.gz")
 tags="libs media-video"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs expat libjpeg libpng svgalib fontconfig libpthread-stubs libxcb libdv sdl glibc-solibs gcc libXrandr libXrender libXext libXdmcp libXau cairo libX11 freetype pixman glib2 gdk-pixbuf atk pango gtk+2 libffi zlib"
+
 before_build() {
 	go_src_dir
 	sed -i -e '/ARCHFLAGS=/s:=.*:=:' configure

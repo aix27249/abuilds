@@ -10,6 +10,9 @@ longdesc=('Poppler is a library based on the xpdf PDF viewer developed by Derek 
 
 tags=('app-text libs')
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs glibc-solibs libpng curl gcc fontconfig libjpeg pango atk glib2 freetype gtk+2 qt4 libtiff3 openjpeg lcms2 gdk-pixbuf cairo"
+
 source=("http://poppler.freedesktop.org/poppler-${pkgver}.tar.gz")
 
 BUILD_SYSTEM='autotools'

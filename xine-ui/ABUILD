@@ -10,6 +10,9 @@ longdesc=("Xine is a free multimedia player. It plays back CDs, DVDs, and VCDs, 
 
 tags=("xapps media-video")
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="glibc-solibs libpng curl libXtst libXxf86vm libXv libXinerama libXft libXScrnSaver libXext libX11 libcaca readline libjpeg xine-lib lirc"
+
 source=("http://downloads.sourceforge.net/sourceforge/xine/${pkgname}-${pkgver}.tar.xz")
 
 

@@ -14,6 +14,9 @@ source=("http://downloads.sourceforge.net/inkscape/inkscape-${pkgver}.tar.bz2")
 # Tags
 tags="xapps media-gfx"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="bzip2 gcc-libs gc gsl libpng libsigc++ popt libxslt gtkspell GConf glibc-solibs gcc gnome-vfs libxml2 perl libwpd libwpg glibmm pangomm atkmm gtkmm cairomm aspell atk pango gtk+2 python glib2 imagemagick lcms2 gdk-pixbuf libX11 freetype poppler fontconfig cairo"
+
 # Manually-added dependencies
 adddep=""
 SLKCFLAGS="$SLKCFLAGS -O3  -fopenmp -funroll-loops -ffast-math -fgraphite-identity -floop-interchange -floop-strip-mine -ftree-parallelize-loops=8 -pthread -floop-block -fomit-frame-pointer -fPIC"

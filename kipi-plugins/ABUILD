@@ -10,6 +10,9 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${_p
 
 tags="xapps media-gfx"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="gcc-libs expat gcc gdk-pixbuf glib2 glibc-solibs kdelibs kdepimlibs libgl libgpod libICE libimobiledevice libjpeg libkdcraw libkexiv2 libkgeomap libkipi libksane libplist libpng libSM libtiff3 libvkontakte libX11 libXau libXdmcp libXext libXft libxml2 libXpm libXrandr libxslt mesa opencv openssl-solibs phonon qca qjson qt4 soprano usbmuxd"
+
 adddep="libkface libkgeomap"
 
 pkglist="kipi face marble vkont"

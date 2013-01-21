@@ -20,8 +20,10 @@ patch_opts=("")
 #short and long tags / длинный и короткий тег
 tags="gnome media-video"
 
+# Automatically-generated build_deps. Subject to revision.
+build_deps="atk avahi bluez cairo gcc-libs dbus dbus-glib expat fontconfig freetype gcc GConf gdk-pixbuf glib2 glibc-solibs gmime gnutls gpgme gst-plugins-base gst-plugins-base gst-plugins-good gstreamer gstreamer gtk+2 libepc libgcrypt libgdata libgnome-keyring libgpg-error libICE libpng libproxy libSM libsoup libtasn1 libunique libX11 libXau libxcb libXdmcp libXext libXi libxml2 libXrandr libXrender libXtst libXxf86vm nautilus ORBit2 pango pixman python sqlite totem-pl-parser util-linux-ng zlib"
+
 #dependencies only needed to build package
-build_deps=""
 
 provides=""
 conflicts=""
