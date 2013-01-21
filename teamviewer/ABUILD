@@ -13,9 +13,11 @@ tags="xapps app-emulation x86"
 
 if [ "$ARCH" = "x86_64" ] ; then
    adddep="alsa-lib32 glib232 zlib32"
+   build_deps="${adddep} libXtst32"
    removedep="alsa-lib zlib"
 else
    adddep="glib2"
+   build_deps="${adddep} libXtst"
 fi
 
 build(){
