@@ -12,10 +12,12 @@ source=("http://www.teamviewer.com/download/version_8x/${pkgname}_linux.deb")
 tags="xapps app-emulation x86"
 
 if [ "$ARCH" = "x86_64" ] ; then
-   adddep="alsa-lib32 glib232 zlib32"
+   adddep="glib232 alsa-lib32 zlib32"
+   build_deps="${adddep} gcc32 libXtst32 libXdamage32 libXfixes32 libXext32 libX1132 libXau32 glibc-solibs32"
    removedep="alsa-lib zlib"
 else
    adddep="glib2"
+   build_deps="${adddep} alsa-lib zlib gcc libXtst libXdamage libXfixes libXext libX11 libXau glibc-solibs"
 fi
 
 build(){
