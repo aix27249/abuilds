@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=audacity
-pkgver=2.0.2
+pkgver=2.0.3
 pkgbuild=1
 arch=('auto')
 
@@ -10,7 +10,7 @@ shortdesc="Audacity: Free Audio Editor and Recorder"
 #longdesc=(""
 #)
 
-source=("http://audacity.googlecode.com/files/${pkgname}-minsrc-${pkgver}.tar.bz2")
+source=("http://audacity.googlecode.com/files/${pkgname}-minsrc-${pkgver}.tar.xz")
 
 patch_opts=("")
 
@@ -20,7 +20,7 @@ patch_opts=("")
 tags="xapps media-sound"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="portaudio"
 
 provides=""
 conflicts=""
@@ -85,10 +85,10 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-if [ -d ${pkgdir}/usr/share/doc/${pkgname} ]; then
- mv -vn ${pkgdir}/usr/share/doc/${pkgname}/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}
- rm -rf ${pkgdir}/usr/share/doc/
-fi
-}
+#after_build()
+#{
+#if [ -d ${pkgdir}/usr/share/doc/${pkgname} ]; then
+# mv -vn ${pkgdir}/usr/share/doc/${pkgname}/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+# rm -rf ${pkgdir}/usr/share/doc/
+#fi
+#}
