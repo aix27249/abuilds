@@ -1,25 +1,14 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=rxvt-unicode
-pkgver=9.15
+pkgver=9.16
 pkgbuild=2
 arch=('auto')
 
 shortdesc="An unicode enabled rxvt-clone terminal emulator (urxvt)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("rxvt-unicode is a clone of the well known terminal emulator rxvt, modified to store text in Unicode and to use locale-correct input and output. It also supports mixing multiple fonts at the same time, including Xft fonts, real transparency, and an optional embedded Perl interpreter that allows you to extend your terminal easily.")
 
 source=("http://dist.schmorp.de/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps x11-terms"
 
-#-------------------------- Сборка пакета ------------------------------------
 
 build()
 {
