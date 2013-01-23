@@ -1,16 +1,11 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=lm_sensors
-pkgver=3.3.2
+pkgver=3.3.3
 pkgbuild=4
 arch=('auto')
 
 shortdesc="Lm_sensors - Linux hardware monitoring"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=(" ")
 
-source=("http://dl.lm-sensors.org/$pkgname/releases/$pkgname-$pkgver.tar.bz2")
+source=("http://dl.lm-sensors.org/lm-sensors/releases/$pkgname-$pkgver.tar.bz2")
 tags="console sys-apps"
 
 build()
