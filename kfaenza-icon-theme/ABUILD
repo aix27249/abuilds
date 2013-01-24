@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=kfaenza-icon-theme
 pkgver=0.8.9
-pkgbuild=3
+pkgbuild=4
 arch=('noarch')
 
 shortdesc="Faenza icon theme for KDE4"
@@ -186,13 +186,16 @@ fi
 done
 }
 
-i_gajim
-#i_ffox
-i_gvim
-i_dolphin
-#i_smplayer0
-#i_clementine
-
+# fix .xpm-16 and other mimetypes
+i_m16 (){
+cd ${pkgdir_i}/KFaenza/mimetypes/16/
+ln -sf ./image-x-generic.png image.png
+ln -sf ./image-x-generic.png image-x-tga.png
+ln -sf ./image-x-generic.png gnome-mime-application-x-killustrator.png
+ln -sf ./image-x-generic.png gnome-mime-image-x-cmu-raster.png
+ln -sf ./image-x-generic.png gnome-mime-image-x-xpixmap.png
+ln -sf ./image-x-generic.png gnome-mime-image.png
+}
 
 # brown-folders
 kf_br (){
@@ -208,6 +211,14 @@ sed -i \
  -e "s| KDE port| KDE port with brown folders|" \
  ${dir_br}/index.theme || exit 1
 }
+
+i_gajim
+#i_ffox
+i_gvim
+i_dolphin
+#i_smplayer0
+#i_clementine
+i_m16
 #kf_br
 
 
@@ -255,8 +266,7 @@ KFaenza icon patch by AndrejSoroj
 http://kde-look.org/content/show.php/KFaenza+icon+patch?content=153813
 
 Description:
-Icon patch for the KFaezna icon theme:
-http://kde-look.org/content/show.php/KFaenza?content=143890
+Icon patch for the KFaezna icon theme
 
 License: GPL
 
@@ -269,5 +279,5 @@ EOF
 #после сборки
 #after_build()
 #{
-
+#
 #}
