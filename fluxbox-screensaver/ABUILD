@@ -1,0 +1,28 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=fluxbox-screensaver
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Screensaver for fluxbox setup variant"
+
+source=("/my/brain/")
+
+tags="utils app-admin" 
+
+
+
+build()
+{
+
+cp -Rf  $startdir/hand/etc  $pkgdir || exit 1
+cp -Rf  $startdir/hand/usr  $pkgdir || exit 1 
+chmod 755 $pkgdir/usr/bin/* || exit 1
+find $pkgdir -type d -exec chmod 755 {} \; || exit 1
+
+chmod 644 $pkgdir/etc/skel/.xscreensaver || exit 1
+
+}
+
