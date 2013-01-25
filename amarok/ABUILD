@@ -1,12 +1,13 @@
 pkgname=amarok
 pkgver=2.7.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Amarok is a powerful music player")
 tags=("kde4 media-sound")
 
 build_deps="liblastfm mysql-static-libs"
+adddep="phonon-gstreamer"
 
 if [ "$pkgname" == "amarok" ]; then
  source=("http://download.kde.org/stable/amarok/${pkgver}/src/amarok-${pkgver}.tar.bz2")
@@ -21,7 +22,6 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 -DKDE4_BUILD_TESTS=OFF \
--DDEBUG_BUILD_TYPE=OFF \
 ../"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
