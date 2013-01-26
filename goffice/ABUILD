@@ -1,6 +1,6 @@
 pkgname=goffice
 pkgver=0.10
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="GOffice (document utilities)"
@@ -8,8 +8,7 @@ shortdesc="GOffice (document utilities)"
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver}/${pkgname}-${pkgver}.0.tar.xz")
 
 tags="libs x11-libs"
-
-adddep="intltool perl-xml-parser "
+custom_opts="no_ccache"
 
 BUILD_SYSTEM="autotools"
 
