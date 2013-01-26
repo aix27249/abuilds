@@ -7,9 +7,8 @@ shortdesc="AbiWord (a lightweight and featureful Word Processor)"
 
 source=("http://www.abisource.com/downloads/${pkgname}/${pkgver}/source/${pkgname}-${pkgver}.tar.gz")
 
-#short and long tags / длинный и короткий тег
 tags="xapps app-office"
-
+custom_opts="no_ccache"
 
 BUILD_SYSTEM="autotools"
 
