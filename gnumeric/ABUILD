@@ -1,58 +1,14 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gnumeric
-pkgver=1.10.13
+pkgver=1.12.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Gnumeric (GNOME spreadsheet app)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("The Gnumeric spreadsheet is part of the GNOME desktop environment: a project to create a free, user friendly desktop environment. The goal of Gnumeric is to be the best possible spreadsheet. We are not attempting to clone existing applications. However, Gnumeric can read files saved with other spreadsheets and we offer a customizable feel that attempts to minimize the costs of transition."
-	  ""
-	  "Homepage: http://projects.gnome.org/gnumeric/"
-)
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps app-office"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+custom_opts="no_ccache"
 
 BUILD_SYSTEM="autotools"
 
@@ -66,7 +22,6 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---disable-schemas-install \
 --enable-ssindex"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
@@ -77,6 +32,6 @@ after_build()
 {
 echo ""
 install -d "${pkgdir}/usr/share/gconf/schemas"
-gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gnumeric "${pkgdir}"/etc/gconf/schemas/*.schemas
+#gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gnumeric "${pkgdir}"/etc/gconf/schemas/*.schemas
 rm -rf "${pkgdir}/etc"
 }
