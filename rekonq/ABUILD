@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=rekonq
-pkgver=2.0
+pkgver=2.1
 pkgbuild=1
 arch=('auto')
 
@@ -10,7 +10,8 @@ shortdesc="a web browser for KDE based on WebKit"
 #longdesc=(""
 #)
 
-source=("http://downloads.sourceforge.net/project/rekonq/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+#source=("http://downloads.sourceforge.net/project/rekonq/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/rekonq/2.0/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
 
