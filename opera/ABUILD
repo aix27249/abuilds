@@ -1,7 +1,7 @@
 pkgname=opera
-pkgver=12.12
+pkgver=12.13
 d_ver=`echo $pkgver | sed 's/\.//g'`
-revnum=1707
+revnum=1734
 pkgbuild=1
 arch=('auto')
 shortdesc="Opera browser"
