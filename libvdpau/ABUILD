@@ -1,5 +1,5 @@
 pkgname=libvdpau
-pkgver=0.4.1
+pkgver=0.5
 pkgbuild=1
 arch=('auto')
 shortdesc="VDPAU library"
@@ -9,13 +9,11 @@ source=("http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar
 tags="libs x11-libs"
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man"
 
 after_build() {
 	set -e

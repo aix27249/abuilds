@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=foobnix
-pkgver=2.5.37
+pkgver=2.6.09
 pkgbuild=3
 arch=('auto')
 
 shortdesc="Simple and powerful player for Linux, Windows, MacOS"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=(" ")
-
+custom_opts="no_ccache"
 source=("git:https://github.com/zavlab1/foobnix.git")
 
 
@@ -25,7 +25,7 @@ build() {
  go_src_dir
 cd src
   python setup.py install --root=$pkgdir --optimize=1 || exit 1
-cp -R $srcache/foobnix.git.src/dist/share/* $pkgdir/usr/share || exit 1
+#cp -R $srcache/foobnix.git.src/dist/share/* $pkgdir/usr/share || exit 1
 }
 
 

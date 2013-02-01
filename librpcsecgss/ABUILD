@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=librpcsecgss
+pkgver=0.19
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Library for RPCSECGSS support"
+
+source=("http://www.citi.umich.edu/projects/nfsv4/linux/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="dev-libs libs"
+
+build_deps="pkg-config autoconf libgssglue"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

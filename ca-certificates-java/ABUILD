@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ca-certificates-java
-pkgver=20110912
+pkgver=20121112+nmu1
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +9,7 @@ shortdesc="Common CA certificates for Java."
 source="http://ftp.debian.org/debian/pool/main/c/${pkgname}/${pkgname}_${pkgver}.tar.gz"
 
 tags="network net-misc"
+build_deps="jdk-openjdk"
 
 build()
 {

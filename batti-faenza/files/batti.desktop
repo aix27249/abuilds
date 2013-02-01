@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Battery indicator
+Name[ru]=Индикатор батареи
+Comment=Displays battery status
+Comment[ru]=Показывает состояние батареи
+Icon=batti
+Exec=batti
+Terminal=false
+Type=Application

@@ -1,14 +1,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=openttd
-pkgver=1.1.1
+pkgver=1.2.3
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="OpenTTD is an Open Source clone of Transport Tycoon Deluxe"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("OpenTTD is an open source clone of the Microprose game Transport Tycoon Deluxe, a popular game originally written by Chris Sawyer. It attempts to mimic the original game as closely as possible while extending it with new features. OpenTTD is licensed under the GNU General Public License version 2.0. Homepage: http://www.openttd.org"
-)
+#longdesc=("OpenTTD is an open source clone of the Microprose game Transport Tycoon Deluxe, a popular game originally written by Chris Sawyer. It attempts to mimic the original game as closely as possible while extending it with new features. OpenTTD is licensed under the GNU General Public License version 2.0. Homepage: http://www.openttd.org")
 
 if [ -z "`echo $pkgver | grep "_"`" ]; then
  srcver=${pkgver}/${pkgname}-${pkgver}
@@ -34,7 +33,7 @@ build_deps=""
 provides=""
 conflicts="${pkgname}-data"
 
-adddep="${pkgname}-bin openttd-opensfx openttd-opengfx" #${pkgname}-data
+adddep="${pkgname}-bin==${pkgver} openttd-opensfx openttd-opengfx" #${pkgname}-data
 removedep=""
 
 #for multi pkg abuild
@@ -96,13 +95,16 @@ bin(){
 	pkgname="${p_pkgname}-bin"
 	arch=('auto')
 	shortdesc="Binary files for OpenTTD"
-	longdesc=("OpenTTD is an Open Source clone of Transport Tycoon Deluxe")
+	#longdesc=("OpenTTD is an Open Source clone of Transport Tycoon Deluxe")
 	tags="games games-simulation"
 }
 bin_prep(){
  mkdir -p ${pkgdir}/usr
  mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
 }
+
+#-----------------------------
+#-----------------------------
 
 # Data
 data(){

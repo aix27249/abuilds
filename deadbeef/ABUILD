@@ -1,126 +1,16 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
-
 pkgname=deadbeef
-#pkgname=deadbeef-debug
-
 pkgver=0.5.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="DeaDBeeF - Ultimate Music Player For GNU/Linux"
-#longdesc=(""
-#)
 
 
-srcver=${pkgver/_/-}
-srctar="${pkgname}-${srcver}.tar.bz2"
-#source_tar=("http://downloads.sourceforge.net/project/deadbeef/${srcver}/${srctar}")
-source_tar=("http://downloads.sourceforge.net/project/deadbeef/${srctar}")
-source_now=("git:git://deadbeef.git.sourceforge.net/gitroot/deadbeef/deadbeef")
-
-if [ ! -f $srcache/${srctar} ]; then
- wget -c -P $srcache $source_tar
-fi
-
-if [ -f $srcache/${srctar} ]; then
- source=$source_tar
-else
- pkgver=${pkgver/_rc*/}
- source=$source_now
-fi
-
-if [ -n "`echo ${pkgname} | grep debug`" ]; then
- provides=${pkgname/-debug/}
- custom_opts="no_strip"
-fi
-
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://downloads.sourceforge.net/project/deadbeef/${pkgname}-${pkgver}.tar.bz2")
 tags="media-sound xapps"
-
-#dependencies only needed to build package
 build_deps="perl-xml-parser yasm"
 
-# yasm | ffap - Monkey's audio (APE) decoder
-
-
-provides=""
-conflicts=""
-
-adddep="" # lame libmms freepats mp4ff
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-#custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-before_build()
-{
-	echo ""
-	go_src_dir
- 
-	if [ -n "`echo $source | grep git`" ]; then
-		# devel
-		#git remote update
-		#git checkout -b devel origin/devel || exit 1
- 
-		# master
-		git checkout master || exit 1
-		#git checkout master; git pull
-	fi
- 
-	# MIDI
-	#sed -i 's|++/timidity-|/|' ./plugins/wildmidi/wildmidiplug.c || exit 1
-}
-
-
 BUILD_SYSTEM="autotools"
- 
-if [ -n "`echo $source | grep git`" ]; then
-	if [ -n "`echo $pkgname | grep debug`" ]; then
-		BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" \
-			CFLAGS=\"-O0 -g\" \
-			CXXFLAGS=\"$SLKCFLAGS\" \
-			./autogen.sh && \
-			./configure" # --help"
-	else
-		BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" \
-			CFLAGS=\"$SLKCFLAGS\" \
-			CXXFLAGS=\"$SLKCFLAGS\" \
-			./autogen.sh && \
-			./configure" # --help"
-	fi
-elif [ -n "`echo $pkgbuild | grep debug`" ]; then
-	BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" \
-		CFLAGS=\"-O0 -g\" \
-		CXXFLAGS=\"$SLKCFLAGS\" \
-		./configure" # --help"
-else
-	BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" \
-		CFLAGS=\"$SLKCFLAGS\" \
-		CXXFLAGS=\"$SLKCFLAGS\" \
-		./configure" #--help"
-fi
  
 BUILD_KEYS="--prefix=/usr \
 	--sysconfdir=/etc \
@@ -128,8 +18,6 @@ BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--disable-static \
 	--mandir=/usr/man \
-	--program-prefix= \
-	--program-suffix= \
 	--docdir=/usr/doc/${pkgname}-${pkgver} \
 	--enable-notify \
 	--enable-mms \
@@ -139,15 +27,7 @@ BUILD_KEYS="--prefix=/usr \
 	--disable-pulse \
 	--disable-gtk3 \
 	--disable-portable \
-	--disable-ffmpeg \
-	|| exit 1"
+	--disable-ffmpeg"
  
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-
-#ran after function build() 
-#после сборки
-#after_build()
-#{
-
-#}

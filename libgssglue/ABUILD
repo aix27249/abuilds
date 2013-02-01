@@ -2,7 +2,7 @@
 
 pkgname=libgssglue
 pkgver=0.4
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Exports a gssapi interface which calls other random gssapi libraries")
@@ -24,3 +24,4 @@ after_build() {
 	mkdir ${pkgdir}/etc
 	cat ${filedir}/gssapi_mech.conf | sed -e "s#lib/#lib${LIBDIRSUFFIX}/#g" > ${pkgdir}/etc/gssapi_mech.conf
 }
+

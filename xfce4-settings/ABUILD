@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-settings
-pkgver=4.10.0
-pkgbuild=2
+pkgver=4.11.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Settings manager for xfce"

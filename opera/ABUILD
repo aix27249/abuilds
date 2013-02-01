@@ -1,11 +1,11 @@
 pkgname=opera
-pkgver=12.10
+pkgver=12.12
 d_ver=`echo $pkgver | sed 's/\.//g'`
-revnum=1652
+revnum=1707
 pkgbuild=1
 arch=('auto')
 shortdesc="Opera browser"
-
+custom_opts="no_ccache"
 # Don't generate deps, specify it manually.
 custom_opts="skip_gendeps"
 adddep="freetype glib2 fontconfig gcc libxml2 glibc-solibs cxxlibs zlib libXrender libXt libICE libSM libX11"
@@ -20,7 +20,6 @@ tags="proprietary www-client xapps"
 build()
 {
 	go_src_dir
-	burn_patches
 	./install --prefix /usr --repackage ${pkgdir}/usr
 }
 

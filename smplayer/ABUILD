@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=smplayer
-pkgver=0.8.0
+pkgver=0.8.3
 pkgbuild=1
 arch="auto"
 
@@ -23,6 +23,11 @@ build() {
 	burn_patches
 	set -e
 	sed -i "s|translations/smplayer_gl.ts|#translations/smplayer_gl.ts|" src/smplayer.pro
+ 
+ smdoc="/share/doc/packages/smplayer"
+ if [ -n "`cat ./Makefile | grep DOC_PATH | grep $smdoc`" ]; then
+  sed -i "/^DOC_PATH=/s|$smdoc|/doc/${pkgname}-${pkgver}|" ./Makefile || exit 1
+ fi
 
 	make PREFIX=/usr -j${numjobs}
 	make PREFIX=/usr DESTDIR=${pkgdir} install

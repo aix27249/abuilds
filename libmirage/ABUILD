@@ -1,23 +1,19 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=libmirage
-pkgver=1.4.0
+pkgver=1.5.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="CDEmu image library"
-longdesc=("$shortdesc")
 
-source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/sourceforge/cdemu/${pkgname}-${pkgver}.tar.bz2")
 
 tags="libs sys-fs"
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---libdir=/usr/lib${LIBDIRSUFFIX}"
+	--sysconfdir=/etc \
+	--libdir=/usr/lib${LIBDIRSUFFIX}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 

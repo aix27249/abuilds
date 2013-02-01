@@ -2,13 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=partclone
-pkgver=0.2.48
+pkgver=0.2.56
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Back up and restore used-blocks of a partition"
 
-source=("https://downloads.sourceforge.net/project/${pkgname}/stable/$pkgver/${pkgname}_${pkgver}.tar.gz")
+source=("http://free.nchc.org.tw/drbl-core/src/unstable/partclone-${pkgver}.tar.gz")
+#https://downloads.sourceforge.net/project/${pkgname}/stable/$pkgver/${pkgname}_${pkgver}.tar.gz")
 
 
 #----------------------------- AgiliaLinux vars --------------------------------------

@@ -2,14 +2,15 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qcomicbook
-pkgver=0.7.2
+pkgver=0.9.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Free comic book reader for GNU/Linux"
+shortdesc="QComicBook is a viewer for comic book archives"
+
+#shortdesc="Free comic book reader"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("QComicBook is a viewer for comic book archives (.cbr, .cbz and alike) containing jpeg/png/xpm/gif/bmp images, which aims at speed, convenience and ease of use. QComicBook was written in C++ and uses the great Qt library. It doesn't depend on KDE or any other desktop environment and works pretty well with GNOME, XFCE and others. Homepage: http://qcomicbook.linux-projects.net"
-)
+#longdesc=("QComicBook is a viewer for comic book archives (.cbr, .cbz and alike) containing jpeg/png/xpm/gif/bmp images, which aims at speed, convenience and ease of use. QComicBook was written in C++ and uses the great Qt library. It doesn't depend on KDE or any other desktop environment and works pretty well with GNOME, XFCE and others. Homepage: http://qcomicbook.linux-projects.net")
 
 source=("http://qcomicbook.linux-projects.net/releases/${pkgname}-${pkgver}.tar.gz")
 
