@@ -14,11 +14,8 @@ tags="media-gfx xapps"
 build() {
   
 go_src_dir
-echo "pwd"
-pwd
 cd ..
 [ -d bld ] || mkdir bld && cd bld || exit 1
-pwd
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
