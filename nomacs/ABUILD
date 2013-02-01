@@ -1,0 +1,30 @@
+pkgname=nomacs
+pkgver=0.4.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Qt image viewer"
+
+source=("http://downloads.sourceforge.net/project/$pkgname/$pkgname-$pkgver/$pkgname-$pkgver-source.zip")
+
+tags="media-gfx xapps"
+
+
+
+build() {
+  
+go_src_dir
+echo "pwd"
+pwd
+cd ..
+[ -d bld ] || mkdir bld && cd bld || exit 1
+pwd
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX}
+
+  make
+  make DESTDIR="$pkgdir/" install
+}
+
