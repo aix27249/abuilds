@@ -19,7 +19,7 @@ shortdesc=("Linux kernel")
 longdesc=("This is a Linux kernel with built-in support for most disk controllers and filesystems.")
 
 tags=("base sys-kernel")
-adddep="kernel-modules==$pkgver linux-firmware"
+adddep="linux-firmware"
 
 source=("ftp://ftp.kernel.org/pub/linux/kernel/v3.x/linux-${srcver}.tar.xz")
 
