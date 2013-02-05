@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.6.11
+pkgver=3.7.6
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -19,7 +19,7 @@ shortdesc=("Linux kernel")
 longdesc=("This is a Linux kernel with built-in support for most disk controllers and filesystems.")
 
 tags=("base sys-kernel")
-adddep="kernel-modules==$pkgver linux-firmware"
+adddep="linux-firmware"
 
 source=("ftp://ftp.kernel.org/pub/linux/kernel/v3.x/linux-${srcver}.tar.xz")
 
@@ -77,7 +77,7 @@ apply_aufs_from_git() {
 
 
 	# Remove Kbuild, as it should never be copied (see aufs readme)
-	rm ../aufs3-standalone/include/linux/Kbuild
+#	rm ../aufs3-standalone/include/linux/Kbuild
 
 	# Copy aufs tree
 	cp -rv ../aufs3-standalone/Documentation .
