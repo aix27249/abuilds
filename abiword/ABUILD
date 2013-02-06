@@ -1,14 +1,15 @@
 pkgname=abiword
 pkgver=2.9.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="AbiWord (a lightweight and featureful Word Processor)"
 
 source=("http://www.abisource.com/downloads/${pkgname}/${pkgver}/source/${pkgname}-${pkgver}.tar.gz")
 
+#short and long tags / длинный и короткий тег
 tags="xapps app-office"
-custom_opts="no_ccache"
+
 
 BUILD_SYSTEM="autotools"
 
