@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=redland
 pkgver=1.0.16
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Redland is a library that provides a high-level interface for the Resource Description Framework"
@@ -78,7 +78,7 @@ sed -i -e 's# -lltdl$# #' -e '/^LIBS =/s# = # = -lltdl #' src/Makefile
   
 make -j${numjobs}
 make DESTDIR="${pkgdir}" install
-rm -rf "${pkgdir}/usr/lib/redland"
+rm -rf "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland"
 
 }
 
@@ -86,21 +86,21 @@ rm -rf "${pkgdir}/usr/lib/redland"
 
 storage-mysql_prep() {
 go_src_dir
-install -dm755 "${pkgdir}/usr/lib/redland"
-install -m755 src/.libs/librdf_storage_mysql.so "${pkgdir}/usr/lib/redland/librdf_storage_mysql.so"
+install -dm755 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland"
+install -m755 src/.libs/librdf_storage_mysql.so "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland/librdf_storage_mysql.so"
 }
 storage-postgresql_prep() {
 go_src_dir
-  install -dm755 "${pkgdir}/usr/lib/redland"
-  install -m755 src/.libs/librdf_storage_postgresql.so "${pkgdir}/usr/lib/redland/"
+  install -dm755 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland"
+  install -m755 src/.libs/librdf_storage_postgresql.so "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland/"
 }
 storage-virtuoso_prep() {
 go_src_dir
-  install -dm755 "${pkgdir}/usr/lib/redland"
-  install -m755 src/.libs/librdf_storage_virtuoso.so "${pkgdir}/usr/lib/redland/"
+  install -dm755 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland"
+  install -m755 src/.libs/librdf_storage_virtuoso.so "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland/"
 }
 storage-sqlite_prep() {
 go_src_dir
-  install -dm755 "${pkgdir}/usr/lib/redland"
-  install -m755 src/.libs/librdf_storage_sqlite.so "${pkgdir}/usr/lib/redland/"
+  install -dm755 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland"
+  install -m755 src/.libs/librdf_storage_sqlite.so "${pkgdir}/usr/lib${LIBDIRSUFFIX}/redland/"
 }
