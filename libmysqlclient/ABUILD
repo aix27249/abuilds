@@ -1,6 +1,6 @@
 pkgname=mysql
 pkgver=5.5.30
-pkgbuild=3
+pkgbuild=4
 arch=("auto")
 
 source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgver}.tar.gz"
@@ -109,7 +109,7 @@ mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}
 
 libmysqlclient() {
 pkgname=libmysqlclient
-shortdesc=("Static libraries for MySQL")
+shortdesc=("MySQL client libraries")
 tags="develop dev-db"
 	adddep="mysql"
 }  
@@ -127,7 +127,6 @@ libmysqlclient_prep(){
 	fi
 mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a ${startdir}/mysql-static-libs/usr/lib${LIBDIRSUFFIX}/
 
-rm "${p_pkgdir}"/usr/bin/{mysql_config,mysql_client_test_embedded,mysqltest_embedded}
 rm "${p_pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
 rm -r "${p_pkgdir}"/usr/include/
 	rm -r ${p_pkgdir}/usr/docs
