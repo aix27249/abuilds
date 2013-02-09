@@ -1,11 +1,11 @@
 #ABUILD created by/создан: Drakmail, coder at iso-art.ru, modified by Alexander Sokolov sokoloff.a at gmail.com
 pkgname=razor-qt
-pkgver=0.5.1
+pkgver=0.5.2
 pkgbuild=1
 arch=('auto')
  
 shortdesc="Razor is a toolbox-like desktop-environment, written in Qt"
-source=("https://github.com/downloads/Razor-qt/${pkgname}/razorqt-${pkgver}.tar.bz2")
+source=("http://razor-qt.org/downloads/razorqt-${pkgver}.tar.bz2")
 tags="xapps x11-apps"
 provides="razor-qt"
 
