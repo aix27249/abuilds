@@ -1,7 +1,7 @@
 /var/log/mail.* {
   rotate 5
   notifempty
-  size=16M
+  size=10M
   missingok
   compress
   nodelaycompress
