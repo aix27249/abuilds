@@ -1,17 +1,43 @@
-# Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=xfce4-vala
-pkgver=4.8.1
+pkgver=4.10.2
 pkgbuild=1
-shortdesc="Vala bindings for the Xfce framework"
-arch='auto'
-tags='xfce xfce-extra'
-source=("http://git.xfce.org/bindings/${pkgname}/snapshot/${pkgname}-${pkgname}-${pkgver}.tar.bz2")
+arch=('auto')
 
-build() {
-	cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
-	./autogen.sh --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib{$LIBDIRSUFFIX} \
-	--localstatedir=/var
-	make || return 1
-    cd "${srcdir}/${pkgname}-${pkgname}-${pkgver}"
-	make DESTDIR=${pkgdir} install || return 1
+shortdesc="Vala bindings for the Xfce framework"
+
+source=("http://git.xfce.org/bindings/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xfce xfce-extra"
+
+build_deps="vala"
+
+docs=
+
+before_build(){
+  go_src_dir
+  valapkg=`find /usr/lib${LIBDIRSUFFIX}/pkgconfig/ -name libvala*.pc`
+  valaver=`pkg-config --modversion ${valapkg}`
+  if [ `grep -o "\." <<<"${valaver}" | wc -l` = "2" ]; then
+     valaver=${valaver%.*}
+  fi
+  sed "s|0.16|${valaver}|g" -i configure.ac.in acinclude.m4
+  find vapi -type f  -name *.vapi -print0 | xargs -0 grep -l "0.16" | xargs sed -i "s|0.16|"${valaver}"/|g"
+  ./autogen.sh
 }
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" VALA_LIBS="/usr/lib${LIBDIRSUFFIX}" VALA_CFLAGS="/usr/include/vala-0.18" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

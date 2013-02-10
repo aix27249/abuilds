@@ -1,8 +1,6 @@
-# mysql ABUILD by aix27249.
-
 pkgname=mysql
-pkgver=5.5.27
-pkgbuild=1
+pkgver=5.5.30
+pkgbuild=4
 arch=("auto")
 
 source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgver}.tar.gz"
@@ -10,12 +8,16 @@ source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgve
 shortdesc="mysql (SQL-based relational database server)"
 longdesc="MySQL is a fast, multi-threaded, multi-user, and robust SQL (Structured Query Language) database server. It comes with a nice API which makes it easy to integrate into other applications. The home page for MySQL is http://www.mysql.com/"
 
+custom_opts="no_ccache"
 tags="server dev-db"
 config_files="etc/my.cnf
 etc/conf.d/mysql"
-pkglist="mysql_static"
-BUILD_SYSTEM="cmake"
-BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+pkglist="mysql_static libmysqlclient"
+
+build() {  
+go_src_dir
+cmake ../${pkgname}-${pkgver} \
+-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_BUILD_TYPE=RELEASE \
 	-DLIB_SUFFIX=${LIBDIRSUFFIX} \
 	-DLIB_DIR=lib${LIBDIRSUFFIX} \
@@ -47,17 +49,18 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 	-DWITHOUT_ARCHIVE_STORAGE_ENGINE=1 \
 	-DWITHOUT_BLACKHOLE_STORAGE_ENGINE=1 \
 	-DWITHOUT_FEDERATED_STORAGE_ENGINE=1 \
-	-DWITH_INNOBASE_STORAGE_ENGINE=1"
+	-DWITH_INNOBASE_STORAGE_ENGINE=1
+}
 
-after_build() {  
+after_build(){
 	go_src_dir
-	set -e
-	cd build
+  make DESTDIR="${pkgdir}" install
 
-	for dir in include libmysql libmysqld libservices client support-files; do
+  install -dm700 "${pkgdir}"/var/lib/mysql
+
+	for dir in include libservices client support-files; do
 		make -C ${dir} DESTDIR="${pkgdir}" install
 	done
-
 	# wonder if anyone needs those?
 	rm -r ${pkgdir}/usr/{mysql-test,sql-bench,data}
 
@@ -69,7 +72,6 @@ after_build() {
 	for man in mysql_config mysql_client_test_embedded mysqltest_embedded mysql mysqladmin mysqlcheck mysqldump mysqlimport mysqlshow mysqlslap; do
 		install -m644 "${srcdir}/${pkgname}-${pkgver}/man/$man.1" "${pkgdir}/usr/man/man1/$man.1"
 	done
-
 	# OpenRC init and config
 	install -Dm755 ${filedir}/mysql ${pkgdir}/etc/init.d/mysql
 	install -Dm644 ${filedir}/mysql.confd ${pkgdir}/etc/conf.d/mysql
@@ -77,9 +79,6 @@ after_build() {
 	# Copy small one to /etc/my.cnf: in many other distros this is default, and users will feel better if they see it:
 	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf
 
-
-	# remove docs
-	rm -r ${pkgdir}/usr/docs
 
 	# This is where the socket is stored
 	mkdir -p ${pkgdir}/var/run/mysql
@@ -91,11 +90,8 @@ after_build() {
 		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
 		rmdir ${pkgdir}/usr/lib
 	fi
-
-
-	( cd ${pkgdir}/usr/bin ; patch -p0 < ${filedir}/fix-mysql-install-db.patch ; rm -f ${pkgdir}/usr/bin/*~ )
-	set +e
 }
+
 
 mysql_static() {
 	pkgname=mysql-static-libs
@@ -103,17 +99,41 @@ mysql_static() {
 	longdesc=("This package contains static libs from mysql. It is very huge, so it was moved to separate package. It is required to build some programs, such as Amarok.")
 	tags="develop dev-db"
 	adddep="mysql"
-
 	# mkpkg bug workaround: http://trac.agilialinux.ru/ticket/1281
 	config_files=
 }
 
 mysql_static_prep() {
-	set -e
-	install -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-	#mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/mysql/plugin/*.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/mysql/plugin/
-	mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/*.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
-	set +e
-
-
+mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}
 }
+
+libmysqlclient() {
+pkgname=libmysqlclient
+shortdesc=("MySQL client libraries")
+tags="develop dev-db"
+	adddep="mysql"
+}  
+
+
+libmysqlclient_prep(){
+  for dir in include libmysql libmysqld libservices; do
+    make -C ${dir} DESTDIR="${pkgdir}" install
+  done
+  # lib64 is handled bad now, we need a fix location:
+	if [ "$LIBDIRSUFFIX" = "64" ] ; then
+	mkdir ${pkgdir}/usr/lib64
+		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
+		rmdir ${pkgdir}/usr/lib
+	fi
+mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a ${startdir}/mysql-static-libs/usr/lib${LIBDIRSUFFIX}/
+
+rm "${p_pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
+rm -r "${p_pkgdir}"/usr/include/
+	rm -r ${p_pkgdir}/usr/docs
+}
+
+
+ 
+
+
+

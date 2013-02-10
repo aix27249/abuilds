@@ -1,0 +1,36 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=winff
+pkgver=1.4.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GUI for ffmpeg"
+
+source=("http://winff.googlecode.com/files/winff-${pkgver}-source.tar.gz")
+
+tags="media-video xapps"
+
+build_deps="lazarus"
+
+adddep="libav"
+
+docs="changelog.txt docs/WinFF.*.*"
+
+build(){
+  go_src_dir
+  lazbuild --lazarusdir=/usr/lib${LIBDIRSUFFIX}/lazarus winff.lpr --ws=gtk2
+}
+
+after_build(){
+  go_src_dir
+  install -Dm 755 ${pkgname} ${pkgdir}/usr/bin/winff
+  install -Dm 644 ${filedir}/winff.desktop ${pkgdir}/usr/share/applications/winff.desktop
+  install -Dm 644 winff-icons/16x16/winff.png ${pkgdir}/usr/share/icons/hicolor/16x16/apps/winff.png
+  install -Dm 644 winff-icons/24x24/winff.png ${pkgdir}/usr/share/icons/hicolor/24x24/apps/winff.png
+  install -Dm 644 winff-icons/32x32/winff.png ${pkgdir}/usr/share/icons/hicolor/32x32/apps/winff.png
+  install -Dm 644 winff-icons/48x48/winff.png ${pkgdir}/usr/share/icons/hicolor/48x48/apps/winff.png
+  install -dm 755 ${pkgdir}/usr/share/winff/languages/
+  install -Dm 644 presets.xml ${pkgdir}/usr/share/winff/presets.xml
+  find . -name "*.po"  -exec install -Dm 644 {} ${pkgdir}/usr/share/winff/languages/ \; &> /dev/null
+}

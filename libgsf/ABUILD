@@ -1,56 +1,14 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libgsf
-pkgver=1.14.21
+pkgver=1.14.25
 pkgbuild=1
 arch=('auto')
 
 shortdesc="libgsf (structured file I/O library)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("libgsf aims to provide an efficient extensible I/O abstraction for dealing with different structured file formats. libgsf is used by libwv2, which is used by various word processors to import .doc format files."
-)
 
-source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs gnome-extra"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+custom_opts="no_ccache"
 
 BUILD_SYSTEM="autotools"
 
@@ -69,11 +27,8 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-echo ""
 install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
 gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/libgsf-gnome.schemas" --domain libgsf "${pkgdir}/etc/gconf/schemas/"*.schemas || return 1
 rm -rf ${pkgdir}/etc

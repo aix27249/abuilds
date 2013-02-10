@@ -2,14 +2,15 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=iotop
-pkgver=0.4.4
+pkgver=0.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="iotop - simple top-like I/O monitor"
+shortdesc="simple top-like I/O monitor"
+
+#shortdesc="iotop - simple top-like I/O monitor"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Iotop is a Python program with a top like UI used to show of behalf of which process is the I/O going on. Iotop is licensed under the terms of the GNU GPL. Iotop's homepage: http://guichaz.free.fr/iotop"
-)
+#longdesc=("Iotop is a Python program with a top like UI used to show of behalf of which process is the I/O going on. Iotop is licensed under the terms of the GNU GPL. Iotop's homepage: http://guichaz.free.fr/iotop")
 
 source=("http://guichaz.free.fr/iotop/files/${pkgname}-${pkgver}.tar.bz2")
 
@@ -44,23 +45,23 @@ gendeps_blacklist=
 
 #ran before function build()
 #запускается перед сборкой
-before_build()
-{
-echo ""
-}
+#before_build()
+#{
+#echo ""
+#}
 
 BUILD_SYSTEM="python"
 #
-#MAKE_WORD="python setup.py build"
+MAKE_WORD="python setup.py build"
 #
 BUILD_KEYS=
 
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-echo ""
+#after_build()
+#{
+#echo ""
 #mv $pkgdir/usr/share/man $pkgdir/usr
 #rm -rf $pkgdir/usr/share
-}
+#}

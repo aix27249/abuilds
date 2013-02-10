@@ -1,23 +1,24 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=parcellite
-pkgver=1.0.2rc2
+pkgver=1.1.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc="The lightweight GTK+ clipboard manager."
+shortdesc="The lightweight GTK+ clipboard manager"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Parcellite is a lightweight GTK+ clipboard manager. This is a stripped down, basic-features-only clipboard manager with a small memory footprint for those who like simplicity.")
+#longdesc=("Легковесный менеджер буфера обмена на GTK+")
 
-source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/project/parcellite/parcellite/parcellite-${pkgver/_/}/parcellite-${pkgver/_/}.tar.gz")
+#source=("svn:https://parcellite.svn.sourceforge.net/svnroot/parcellite/trunk")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="xapps x11-misc"
+tags="x11-misc xapps"
 
 #dependencies only needed to build package
 build_deps=""
@@ -53,7 +54,8 @@ custom_opts=""
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
+	./configure" #./autogen.sh && ./configure" # --help"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -61,6 +63,9 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
 --enable-nls \
 --disable-gtktest \
 --disable-glibtest"
@@ -69,7 +74,7 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
-echo ""
-}
+#after_build()
+#{
+#echo ""
+#}

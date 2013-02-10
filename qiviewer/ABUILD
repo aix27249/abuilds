@@ -1,0 +1,28 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=qiviewer
+pkgver=0.5.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Another image viewer written in Qt4"
+
+source=("http://qiviewer.googlecode.com/files/qiviewer-${pkgver}.tar.bz2")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="media-gfx xapps"
+
+
+build() {
+go_src_dir
+cd src
+        qmake  PREFIX=/usr
+        make
+        make install INSTALL_ROOT="${pkgdir}"
+}
+
+

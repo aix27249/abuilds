@@ -2,60 +2,29 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qupzilla
-pkgver=1.1.8
+pkgver=1.4.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="QupZilla is a new and very fast QtWebKit browser. It aims to be a lightweight web browser available through all major platforms."
 
-source=("https://github.com/nowrep/QupZilla/tarball/v${pkgver}")
+source=("git:git://github.com/QupZilla/qupzilla.git")
 
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="www-client xapps"
 
-#dependencies only needed to build package
-build_deps="qt4"
 
-provides=""
-conflicts=""
+build()
+{
+go_src_dir
+ if [ ! "$ARCH" = "x86_64" ] ; then
+export 	USE_LIBPATH="/usr/lib"
+else
+export 	USE_LIBPATH="/usr/lib64"
+fi
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
-
-BUILD_SYSTEM="qmake"
-BUILD_KEYS="*.pro PREFIX=/usr"
-
-
-#ran after function build() 
-#после сборки
-#after_build()
-#{
-
-#}
+ qmake
+    make clean
+    make
+    make INSTALL_ROOT="$pkgdir/" install
+}

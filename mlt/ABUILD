@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=mlt
-pkgver=0.8.0
+pkgver=0.8.8
 pkgbuild=1
 arch=('auto')
 
