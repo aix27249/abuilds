@@ -2,78 +2,33 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=medit
-pkgver=1.0.3
+pkgver=1.1.92
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Текстовый редактор+"
+shortdesc="Text edit 5+!"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Изначально бывший простым встроенным редактором GGAP, проект перерос в отдельный текстовый редактор. Цель теперь состоит в том, чтобы сделать текстовый редактор удобным и для программирования и для повседневной работы. Возможности: -Настраиваемая подсветка синтаксиса -Настраиваемые "горячие клавиши" -Кроссплатформенность: работает как в Linux так и в Windows -Плагины: могут быть написаны на С или на Python -Настраиваемые инструменты доступные из главного и контекстного меню. Могут быть написаны на Python или Lua, а так же могут быть Shell-скриптами. -Поиск и замена регулярных выражений -Фронтенды к grep и find -Встроенный просмотрщик файловой системы и прочее")
 
-source=("http://downloads.sourceforge.net/project/mooedit/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://citylan.dl.sourceforge.net/project/mooedit/${pkgname}/1.1.2/${pkgname}-${pkgver}-devel.tar.bz2")
 
-patch_opts=("")
+#http://citylan.dl.sourceforge.net/project/mooedit/medit/1.1.2/medit-1.1.92-devel.tar.bz2
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
 tags="app-editors xapps"
 
-#dependencies only needed to build package
-build_deps=""
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
+build()
 {
-echo ""
-}
-
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
+go_src_dir
+./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---enable-nls \
---disable-debug \
---disable-dev-mode \
---enable-coverage \
---disable-install-hooks \
---with-fam \
---with-python"
+--enable-nls 
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+make DESTDIR=$pkgdir install
 }
