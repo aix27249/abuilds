@@ -1,0 +1,7 @@
+#!/bin/sh
+# Needed to make symlinks/shortcuts work.
+# the binaries must run with correct working directory
+cd "/usr/share/doom3/"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+exec doomded.x86 "$@"
+
