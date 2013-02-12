@@ -1,0 +1,55 @@
+<bookmarks>
+<group name="root">
+    <group name="Russian">
+           <bookmark name="Radio ROKS Украина" url="http://www.radioroks.com.ua/RadioROKS.m3u"/>
+           <bookmark name="Metro" url="http://d-j.ru:7000/gardarica_96.m3u"/>
+           <bookmark name="Наше радио" url="http://d-j.ru:7000/nasheradio.m3u"/>
+           <bookmark name="Сибирь" url="http://d-j.ru:7000/radiosibir_192.m3u"/>
+           <bookmark name="Радио 13" url="http://d-j.ru:7000/radio13.m3u"/>
+           <bookmark name="Ultra" url="http://d-j.ru:7000/radio_ultra_192.m3u"/>
+           <bookmark name="Сlubberry FM" url="http://d-j.ru:7000/clubberryfm.m3u"/>
+           <bookmark name="Солнечное" url="http://d-j.ru:7000/setmedia_solnechnoe.m3u"/>
+           <bookmark name="SanFM" url="http://d-j.ru:7000/sanfm_alternative.m3u"/>
+           <bookmark name="Кабриолет" url="http://d-j.ru:7000/setmedia_kabriolet.m3u"/>
+           <bookmark name="ХИТрое" url="http://d-j.ru:7000/hitroe_96.m3u"/>
+           <bookmark name="Японское радио" url="http://d-j.ru:7000/japanradio.m3u"/>
+           <bookmark name="Радио Мир" url="http://d-j.ru:7000/mir.m3u"/>
+           <bookmark name="Яскраве радiо" url="http://d-j.ru:7000/vobur.m3u"/>
+    </group>
+    <group name="Jazz">
+           <bookmark name="Smooth Jazz" url="http://smoothjazz.com/streams/smoothjazz_128.pls"/>
+           <bookmark name="Cool Jazz" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=30773"/>
+           <bookmark name="Trumpet Jazz" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1377234"/>
+    </group>
+    <group name="Latin">
+           <bookmark name="Onda Tropical" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=506392"/>
+           <bookmark name="Top Latino Radio" url="http://online.radiodifusion.net:8020/listen.pls"/>
+           <bookmark name="Salsa Stream" url="http://listen.sky.fm/public3/salsa.pls"/>
+    </group>
+    <group name="Classic Rock">
+           <bookmark name="181.FM Classic Hits" url="http://sc-rly.181.fm:80/stream/1094"/>
+           <bookmark name=".977 Classic Rock" url="http://www.977music.com/tunein/web/classicrock.asx"/>
+   </group>
+   <group name="Classical">
+           <bookmark name="KDFC" url="http://provisioning.streamtheworld.com/pls/KDFCFM.pls"/>
+           <bookmark name="Classic FM" url="http://media-ice.musicradio.com/ClassicFMMP3.m3u"/>
+           <bookmark name="WCPE" url="http://www.ibiblio.org/wcpe/wcpe.pls"/>
+           <bookmark name="CINEMIX" url="http://cinemix.us/cine.asx"/>
+   </group>
+   <group name="Pop / Rock">
+           <bookmark name="Radio Paradise" url="http://www.radioparadise.com/musiclinks/rp_128aac.m3u"/>
+           <bookmark name=".977 The Hitz Channel" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1280356"/>
+           <bookmark name="Enjoy Station" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1377285"/>
+           <bookmark name="80s Sky.FM" url="http://listen.sky.fm/public3/the80s.pls"/>
+    </group>
+    <group name="Oldies">
+           <bookmark name="AM 1710" url="http://lin2.ash.fast-serv.com:9022/listen.pls"/>
+           <bookmark name="WNAR" url="http://live.wnar-am.com:8500/listen.pls"/>
+    </group>
+    <group name="Chill">
+           <bookmark name="Groove Salad" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1325107"/>
+           <bookmark name="181.FM" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1275050"/>
+           <bookmark name="Lounge Radio" url="http://yp.shoutcast.com/sbin/tunein-station.pls?id=1288934"/>
+    </group>
+    </group>
+</bookmarks>
