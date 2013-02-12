@@ -1,50 +1,21 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+
 pkgname=postfix
-pkgver=2.8.2
-pkgbuild=2
+pkgver=2.9.6
+pkgbuild=1
 arch=('auto')
 
 shortdesc="alternative to the widely-used Sendmail program"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("Postfix attempts to be fast, easy to administer, and secure, while at the same time being sendmail compatible enough to not upset existing users. Thus, the outside has a sendmail-ish flavor, but the inside is completely different."
 "Build with sqlite3 support."
 )
 
 source=("http://de.postfix.org/ftpmirror/official/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="server mail-mta"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
 conflicts="sendmail"
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
 docs="AAAREADME COMPATIBILITY COPYRIGHT HISTORY IPv6-ChangeLog PORTING RELEASE_NOTES TLS_ACKNOWLEDGEMENTS TLS_CHANGES TLS_LICENSE US_PATENT_6321267 implementation-notes examples"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
 config_files="etc/postfix/aliases.db
 etc/postfix/access
 etc/postfix/aliases
@@ -60,8 +31,7 @@ etc/postfix/transport
 etc/postfix/virtual
 etc/logrotate.d/postfix"
 
-#ran before function build()
-#запускается перед сборкой
+
 before_build()
 {
     go_src_dir
@@ -81,72 +51,58 @@ before_build()
 
 }
 
+
 build()
 {
-    #Build params. Костыль, заменю.
-    config_directory=/etc/postfix
-    daemon_directory=/usr/libexec/postfix
-    command_directory=/usr/sbin
-    queue_directory=/var/spool/postfix
-    sendmail_path=/usr/sbin/sendmail
-    newaliases_path=/usr/bin/newaliases
-    mailq_path=/usr/bin/mailq
-    html_directory=/usr/doc/${pkgname}/html
-    manpage_directory=/usr/man
-    readme_directory=/usr/doc/${pkgname}/README_FILES
     mail_owner=postfix
     setgid_group=postdrop
-    temp_dir=/tmp
+
     go_src_dir
     burn_patches
     set -e
 
     make -j${numjobs}
 
-    # startdir/pkgname - костыль.
     make non-interactive-package \
-	install_root=${pkgdir} \
-	tempdir=$temp_dir \
-	config_directory=$config_directory \
-        daemon_directory=$daemon_directory \
-        command_directory=$command_directory \
-        queue_directory=$queue_directory \
-        sendmail_path=$sendmail_path \
-        newaliases_path=$newaliases \
-        mailq_path=$mailq_path \
+        install_root=${pkgdir} \
+        tempdir=/tmp \
+        config_directory=/etc/postfix \
+        daemon_directory=/usr/libexec/postfix \
+        command_directory=/usr/sbin \
+        queue_directory=/var/spool/postfix \
+        sendmail_path=/usr/sbin/sendmail \
+        newaliases_path=/usr/bin/newaliases \
+        mailq_path=/usr/bin/mailq \
         mail_owner=$mail_owner \
         setgid_group=$setgid_group \
-        html_directory=$html_directory \
-        manpage_directory=$manpage_directory \
-        readme_directory=$readme_directory \
-	-j ${numjobs}
+        html_directory=/usr/doc/${pkgname}/html \
+        manpage_directory=/usr/man \
+        readme_directory=/usr/doc/${pkgname}/README_FILES \
+        -j ${numjobs}
     set +e
 
 }
 
 
-#ran after function build()
-#после сборки
 after_build() {
-	go_src_dir
-	set -e
-	bin/postconf -c ${pkgdir}/etc/postfix -e \
-		"alias_maps = hash:/etc/postfix/aliases" \
-		"alias_database = hash:/etc/postfix/aliases"
-	touch ${pkgdir}/etc/postfix/aliases.db
+    go_src_dir
+    set -e
+    bin/postconf -c ${pkgdir}/etc/postfix -e \
+	"alias_maps = hash:/etc/postfix/aliases" \
+	"alias_database = hash:/etc/postfix/aliases"
+    touch ${pkgdir}/etc/postfix/aliases.db
 
-	( cd ${pkgdir}/usr/libexec/postfix
-		grep manpage postfix-files | while read line; do
-			MANPAGE="$(echo "$line" | cut -d: -f1)"
-			sed -i s#"$MANPAGE"#"$MANPAGE.gz"# postfix-files ;
-		done
-	)
+    ( cd ${pkgdir}/usr/libexec/postfix
+	grep manpage postfix-files | while read line; do
+	    MANPAGE="$(echo "$line" | cut -d: -f1)"
+	    sed -i s#"$MANPAGE"#"$MANPAGE.gz"# postfix-files ;
+	done
+    )
 
- 
-	mkdir -p ${pkgdir}/etc/init.d
-	install -m 0755 ${filedir}/postfix ${pkgdir}/etc/init.d/postfix
-	mkdir -p ${pkgdir}/etc/logrotate.d
-	cat ${filedir}/logrotate.postfix > ${pkgdir}/etc/logrotate.d/postfix
+    mkdir -p ${pkgdir}/etc/init.d
+    install -m 0755 ${filedir}/postfix ${pkgdir}/etc/init.d/postfix
+    mkdir -p ${pkgdir}/etc/logrotate.d
+    cat ${filedir}/logrotate.postfix > ${pkgdir}/etc/logrotate.d/postfix
 
-	set +e
+    set +e
 }

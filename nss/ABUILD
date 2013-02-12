@@ -1,61 +1,29 @@
-#----------------------------- General vars --------------------------------------
-#based on http://repos.archlinux.org/wsvn/packages/nss/trunk/PKGBUILD
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=nss
-pkgver=3.13.6
+pkgver=3.14.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Mozilla Network Security Services"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS"
-)
-
+longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS")
 source=("ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
-
-#patch_opts=("add_spi+cacert_ca_certs.patch 2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs net-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
+tags="libs net-libs"
+build_deps="perl"
 conflicts="seamonkey-solibs"
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 build()
 {
-go_src_dir
-burn_patches
-
+  go_src_dir
+  burn_patches
 
   # Respect LDFLAGS
   sed -e 's/\$(MKSHLIB) -o/\$(MKSHLIB) \$(LDFLAGS) -o/g' \
       -i mozilla/security/coreconf/rules.mk
       
   # Generate certdata.c from certdata.txt
-  cd mozilla/security/nss/lib/ckfw/builtins
-  make generate
+  #cd mozilla/security/nss/lib/ckfw/builtins
+  #make generate
   go_src_dir
   
   export BUILD_OPT=1
@@ -116,12 +84,4 @@ burn_patches
 
   install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/include/nss/" || return 1
 
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
 }
