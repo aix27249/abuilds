@@ -1,0 +1,23 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+
+pkgname=glm
+pkgver=0.9.4.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="C++ mathematics library for 3D software based on the OpenGL Shading Language (GLSL) specification"
+source=("http://sourceforge.net/projects/ogl-math/files/${pkgname}-${pkgver}/${pkgname}-${pkgver}.zip")
+tags="develop dev-libs"
+
+build()
+{
+    go_src_dir
+    cd ..
+    mkdir -p $pkgdir/usr/include/glm
+    mkdir -p $pkgdir/usr/share/doc
+    cp -r glm $pkgdir/usr/include
+    cp -r doc $pkgdir/usr/share/doc/glm
+    rm -f $pkgdir/usr/include/glm/CMakeLists.txt
+    find $pkgdir -type f -exec chmod 644 {} \;
+    find $pkgdir -type d -exec chmod 755 {} \;
+}
