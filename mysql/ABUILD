@@ -1,6 +1,6 @@
 pkgname=mysql
 pkgver=5.5.30
-pkgbuild=4
+pkgbuild=5
 arch=("auto")
 
 source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgver}.tar.gz"
@@ -8,7 +8,6 @@ source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgve
 shortdesc="mysql (SQL-based relational database server)"
 longdesc="MySQL is a fast, multi-threaded, multi-user, and robust SQL (Structured Query Language) database server. It comes with a nice API which makes it easy to integrate into other applications. The home page for MySQL is http://www.mysql.com/"
 
-custom_opts="no_ccache"
 tags="server dev-db"
 config_files="etc/my.cnf
 etc/conf.d/mysql"
@@ -77,14 +76,16 @@ after_build(){
 	install -Dm644 ${filedir}/mysql.confd ${pkgdir}/etc/conf.d/mysql
 
 	# Copy small one to /etc/my.cnf: in many other distros this is default, and users will feel better if they see it:
-	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf
+	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf || exit 1
 
 
 	# This is where the socket is stored
 	mkdir -p ${pkgdir}/var/run/mysql
-	chown mysql.mysql ${pkgdir}/var/run/mysql
+	chown  -R mysql.mysql ${pkgdir}/var/run/mysql
 	chmod 0755 ${pkgdir}/var/run/mysql
-
+	chown -R mysql.mysql ${pkgdir}/var/lib/mysql
+	chmod 0755 ${pkgdir}/var/lib/mysql
+	
 	# lib64 is handled bad now, we need a fix location:
 	if [ "$LIBDIRSUFFIX" = "64" ] ; then
 		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
@@ -127,9 +128,10 @@ libmysqlclient_prep(){
 	fi
 mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a ${startdir}/mysql-static-libs/usr/lib${LIBDIRSUFFIX}/
 
-rm "${p_pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
-rm -r "${p_pkgdir}"/usr/include/
-	rm -r ${p_pkgdir}/usr/docs
+rm -rf "${p_pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
+rm -rf  "${pkgdir}"/usr/include/
+	rm -rf ${p_pkgdir}/usr/docs
+	 
 }
 
 
