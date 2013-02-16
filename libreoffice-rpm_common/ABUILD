@@ -1,0 +1,102 @@
+pkgname=libreoffice-rpm
+pkgver=4.0.0
+pkgbuild=1
+if [ `uname -m` = "x86_64" ]
+then
+B_ARCH="x86_64"
+L_ARCH="x86-64"
+else
+B_ARCH="i586"
+L_ARCH="x86"
+fi
+
+
+arch=("noarch")
+
+shortdesc="LibreOffice is the free power-packed Open Source personal productivity suite, that gives you six feature-rich applications for all your document production and data processing needs:"
+
+source=("http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm.tar.gz n"
+"http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz n "
+"http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz n ")
+
+tags="virtual app-office"
+
+provides="libreoffice"
+
+adddeps=" graphite2 hsqldb-java jre libreoffice-rpm_common libreoffice-rpm_langpack_ru libreoffice-rpm_helppack_ru"
+
+pkglist="libreoffice-rpm_common libreoffice-rpm_langpack_ru libreoffice-rpm_helppack_ru"
+
+numjobs=1
+
+custom_opts="skip_gendeps"
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+
+go_src_dir
+cd ${pkgdir}
+
+}
+
+libreoffice-rpm_common() {
+
+pkgname=libreoffice-rpm_common
+shortdesc="Common files for LibreOffice productivity suite"
+arch=("$B_ARCH")
+tags="xapps app-office"
+
+}
+
+libreoffice-rpm_common_prep() {
+
+cd ${pkgdir}
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm.tar.gz | tar xz
+find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
+find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
+rm -rf LibreOf*rpm*
+
+}
+
+libreoffice-rpm_langpack_ru() {
+
+pkgname=libreoffice-rpm_langpack_ru
+shortdesc="Russian lang forLibreOffice"
+arch=("$B_ARCH")
+tags="xapps app-office"
+
+}
+
+libreoffice-rpm_langpack_ru_prep() {
+
+cd ${pkgdir}
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz | tar xz
+find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
+find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
+rm -rf LibreOf*rpm_langpack_ru*
+
+}
+
+libreoffice-rpm_helppack_ru() {
+
+pkgname=libreoffice-rpm_helppack_ru
+shortdesc="Help files for LibreOffice"
+arch=("$B_ARCH")
+tags="xapps app-office"
+
+}
+
+libreoffice-rpm_helppack_ru_prep() {
+
+cd ${pkgdir}
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz | tar xz
+find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
+find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
+rm -rf LibreOf*rpm*helppack_ru*
+
+}
