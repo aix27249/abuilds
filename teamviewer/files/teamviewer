@@ -1,14 +1,12 @@
 #!/sbin/runscript
 
-prog="teamviewerd"
-prog_path="/opt/teamviewer8/tv_bin/$prog"
-prog_args="-d"
+prog_path="/opt/teamviewer8/tv_bin/teamviewerd"
 pidfile="/var/run/teamviewerd.pid"
 
 depend() {
    use logger dns
    need net xdm
-   after xdm
+   after xdm   
 }
 
 start() {
@@ -25,12 +23,10 @@ start() {
 
 stop () {
   ebegin "Stopping teamviewerd"
-  if [ -r ${pidfile} ] ; then
-       echo "Found pidfile ${pidfile} $(cat ${pidfile})"
-       start-stop-daemon --stop \
-                         --quiet \
-                         --pidfile=${pidfile} --retry 20
-  fi
+  echo "Found pidfile ${pidfile} $(cat ${pidfile})"
+  kill `cat ${pidfile}` >/dev/null 2>&1
+  rm -rf ${pidfile} >/dev/null 2>&1
   eend $?
 }
+
 
