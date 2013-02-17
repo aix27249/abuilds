@@ -57,9 +57,12 @@ libreoffice-rpm_common_prep() {
 
 cd ${pkgdir}
 cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm.tar.gz | tar xz
+find $pkgdir -iname "*suse*.rpm" -exec rm -f {} \;
+find $pkgdir -iname "*mandriva*.rpm" -exec rm -f {} \;
 find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
 find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
 rm -rf LibreOf*rpm*
+rm -rf $pkgdir/usr/lib
 
 }
 
