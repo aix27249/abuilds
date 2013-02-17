@@ -1,51 +1,41 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 #----------------------------- General vars --------------------------------------
 pkgname=steam
-pkgver=1.0.0.14_beta
+pkgver=1.0.0.28
 pkgbuild=1
-pkgsrc=steam.deb
 arch=('auto')
 
-shortdesc="Digital distribution client - closed beta - bootstrap package"
+shortdesc="Digital distribution client - bootstrap package"
 
-source=("http://media.steampowered.com/client/installer/${pkgsrc}")
-
-patch_opts=("")
+source=("http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${pkgver}.tar.gz")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="games games-util"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
 adddep="bash desktop-file-utils hicolor-icon-theme  curl gnutls
-  libogg pixman sdl libtheora libvorbis alsa-lib glibc>=2.15 cairo cups dbus
-  fontconfig freetype libgcrypt gdk-pixbuf glib2 gtk+2 nspr nss openal pango libpng
-  libX11 libXext libXfixes libXi libXrandr libXrender zlib"
+  libogg pixman alsa-lib cairo dbus fontconfig freetype libgcrypt gdk-pixbuf glib2 
+  pango libpng libX11 libXext libXfixes libXi libXrandr libXrender zlib"
+#glibc>=2.15
 #libjpeg-turbo
-removedep=""
+
 
 #----------------------------- Make PKG --------------------------------------
 build()
 {
     go_src_dir
-    ar x $srcache/$pkgsrc
-    bsdtar xf data.tar.gz
+    burn_patches
+    make -C . DESTDIR=$pkgdir install
+    #ar x $srcache/$pkgsrc
+    #bsdtar xf data.tar.gz
 
     # Replace [ ] with [[ ]] in /usr/bin/steam
-    sed "s/\[/\[\[/g" -i "$srcdir/usr/bin/steam"
-    sed "s/\]/\]\]/g" -i "$srcdir/usr/bin/steam"
-    cp -dpr --no-preserve=ownership "$srcdir/usr" "$pkgdir"
+    #sed "s/\[/\[\[/g" -i "$srcdir/usr/bin/steam"
+    #sed "s/\]/\]\]/g" -i "$srcdir/usr/bin/steam"
+    #cp -dpr --no-preserve=ownership "$srcdir/usr" "$pkgdir"
 
     # Install license
-    install -Dm644 "$srcdir/usr/share/doc/steam/copyright" "$pkgdir/usr/share/licenses/steam/LICENSE"
+    install -Dm644 "$pkgdir/usr/share/doc/steam/steam_install_agreement.txt" "$pkgdir/usr/share/licenses/steam/LICENSE"
+
+    # blank steamdeps because apt-get
+    ln -sf /bin/true "$pkgdir/usr/bin/steamdeps"
 }
-
-
-#ran after function build() 
-#after_build()
-#{
-#}
