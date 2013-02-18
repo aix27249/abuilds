@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qpdfview
-pkgver=0.3.7
+pkgver=0.4
 pkgbuild=1
 arch=('auto')
 
@@ -52,12 +52,12 @@ custom_opts=""
 #}
 
 BUILD_SYSTEM="qmake"
-BUILD_KEYS="*.pro PREFIX=/usr"
-
+BUILD_KEYS="*.pro PREFIX=/usr \
+	PLUGIN_INSTALL_PATH=/usr/lib${LIBDIRSUFFIX}/${pkgname}"
 
 #ran after function build() 
 #после сборки
 #after_build()
 #{
-
+#
 #}
