@@ -1,6 +1,6 @@
 pkgname=printproto
 pkgver=1.0.5
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('printproto')
@@ -12,5 +12,9 @@ source=("http://xorg.freedesktop.org/archive/individual/proto/printproto-${pkgve
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build(){
+  sed -i -e "s|PrivateRec|DevUnion|" ${pkgdir}/usr/include/X11/extensions/Printstr.h
+  echo "End after_build"
+}
