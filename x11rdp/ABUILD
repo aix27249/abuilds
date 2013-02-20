@@ -1,0 +1,34 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=x11rdp
+pkgver=0.5.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="The RDP Protocol for X11."
+
+source=("http://server1.xrdp.org/xrdp/x11rdp_xorg71.tar.gz")
+
+tags="x11-misc server"
+
+build_deps="gcc openssl linux-pam make"
+
+#That would at compile time there was no mistake:
+#xprint.c: error: 'struct _XpContext' has no member named 'funcs'
+#edit: /usr/include/X11/extensions/Printstr.h
+#PrivateRec *devPrivates;
+#DevUnion *devPrivates;
+
+build() {
+  go_src_dir
+  mkdir -p ${pkgdir}/usr/bin
+  sh buildx.sh ${pkgdir}/usr
+  echo "End build"
+}
+
+after_build(){
+  mv ${pkgdir}/usr/bin/X11rdp ${filedir}
+  rm -r ${pkgdir}
+  install -Dm755 ${filedir}/X11rdp /${pkgdir}/usr/bin/X11rdp
+  echo "End after_build"
+}
