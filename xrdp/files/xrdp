@@ -1,0 +1,38 @@
+#!/sbin/runscript
+
+SBINDIR=/usr/sbin
+LOG=/var/log
+CFGDIR=/etc/xrdp
+pidfilxrdpe="/var/run/xrdp.pid"
+pidfilsesman="/var/run/xrdp-sesman.pid"
+
+depend() {
+   use logger dns
+   need net
+}
+
+start() {
+  if ! [ -r ${pidfilxrdpe} ] ; then
+        ebegin "Starting: xrdp"
+        start-stop-daemon --start \
+                          --quiet \
+                          --pidfile ${pidfilxrdpe} \
+                          --exec ${SBINDIR}/xrdp >> $LOG/xrdp.log
+
+  fi
+  if ! [ -r ${pidfilsesman} ] ; then
+        ebegin "Starting: xrdp-sesman"
+        start-stop-daemon --start \
+                          --quiet \
+                          --pidfile ${pidfilsesman} \
+                          --exec $SBINDIR/xrdp-sesman >> $LOG/xrdp-sesman.log
+
+  fi
+}
+
+stop () {
+  ebegin "Stopping: xrdp and sesman"
+  $SBINDIR/xrdp-sesman --kill >> $LOG/xrdp-sesman.log
+  $SBINDIR/xrdp --kill >> $LOG/xrdp.log
+  eend $?
+}

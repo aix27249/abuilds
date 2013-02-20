@@ -1,0 +1,45 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+pkgname=xrdp
+pkgver=0.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The terminal server (RDP) with open source."
+
+source=("http://sourceforge.net/projects/xrdp/files/${pkgname}/${pkgver}/${pkgname}-v${pkgver}.tar.gz")
+
+tags="x11-misc server"
+
+build_deps="gcc make linux-pam openssl"
+
+adddep="x11rdp"
+
+config_files="etc/${pkgname}/rsakeys.ini
+etc/${pkgname}/sesman.ini
+etc/${pkgname}/xrdp.ini"
+
+before_build(){
+  go_src_dir
+  ./bootstrap
+  echo "End before_build"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  install -Dm755 ${startdir}/files/xrdp ${pkgdir}/etc/init.d/xrdp
+  echo "End after_build"
+}
