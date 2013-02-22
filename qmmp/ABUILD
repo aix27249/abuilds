@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qmmp
-pkgver=0.6.6
+pkgver=0.6.7
 pkgbuild=1
 arch=('auto')
 
@@ -20,7 +20,7 @@ patch_opts=("")
 tags="xapps media-sound"
 
 #dependencies only needed to build package
-build_deps="cmake"
+build_deps=""
 
 provides=""
 conflicts=""
@@ -62,5 +62,5 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 #после сборки
 #after_build()
 #{
-
+#
 #}
