@@ -2,11 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=calligra
-pkgver=2.6.0
+pkgver=2.6.1
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project"
+shortdesc="Calligra is a graphic art and office suite by KDE"
+
+#shortdesc="Calligra Suite. The integrated work applications suite"
+#shortdesc="Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project"
 #longdesc=(""
 #)
 
@@ -83,7 +86,6 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 #после сборки
 after_build()
 {
-
 # language
 for lang in ru uk; do
  mkdir -p "${srcdir}"/${pkgname}-l10n-$lang-${pkgver}/build_$lang
@@ -97,12 +99,10 @@ for lang in ru uk; do
  && make DESTDIR="${pkgdir}"  install \
  || exit 1
 done
-
 }
 
-
 #-----------------------------
-
+# multi pkg
 
 # filters
 calligra-filters() {
