@@ -35,16 +35,11 @@ build() {
 	set -e
 	
 	# Хук в натуре
-	if  [ -f  /usr/src/linux-3.7.9/include/linux/version.h ] 
+	if  [ /usr/src/linux-3.7.9/include/linux/version.h ] 
 	then
 	    echo " Все пучком " 
-	else 
-	echo  "##############################################################################################################"
-	echo
-	echo    " ln -s /usr/src/linux-3.7.9/include/generated/uapi/linux/version.h /usr/src/linux-3.7.9/include/linux/version.h "
-	echo
-	echo                                    "Run this command"
-	echo "#################################################################################################################"
+	else
+	    ln -s /usr/src/linux-3.7.9/include/generated/uapi/linux/version.h /usr/src/linux-3.7.9/include/linux/version.h
 	fi
 	
 	cd $srcdir
