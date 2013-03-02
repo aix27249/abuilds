@@ -1,21 +1,12 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=foobnix
-pkgver=2.6.09
+pkgver=2.6.10
 pkgbuild=3
 arch=('auto')
 
 shortdesc="Simple and powerful player for Linux, Windows, MacOS"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=(" ")
-custom_opts="no_ccache"
-source=("git:https://github.com/zavlab1/foobnix.git")
 
+source=("git:git://github.com/zavlab1/foobnix.git")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="media-sound xapps"
 
 adddep="chardet simplejson gst-plugins-ugly  pygobject gstreamer 
