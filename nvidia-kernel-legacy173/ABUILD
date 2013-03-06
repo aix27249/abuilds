@@ -34,7 +34,14 @@ build() {
 	sh $srcache/NVIDIA-Linux-${TARGET}-${pkgver_orig}-pkg${pkgvariant}.run --extract-only
 	cd NVIDIA-Linux-${TARGET}-${pkgver_orig}-pkg${pkgvariant}/usr/src/nv/
 
-	SYSSRC=$KERNELPATH make module -j${numjobs}
+
+patch  -i $filedir/3.7_kernel.patch || exit 1
+make 
+#SYSSRC=/usr/lib/modules/${_kernver}/build/ module
+
+
+#	SYSSRC=$KERNELPATH
+	 make module -j${numjobs}
 
 	mkdir -p $pkgdir/lib/modules/$KERNEL/kernel/drivers/video
 	install -m 0664 nvidia.ko $pkgdir/lib/modules/$KERNEL/kernel/drivers/video/
