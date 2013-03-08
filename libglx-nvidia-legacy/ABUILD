@@ -2,7 +2,7 @@
 
 pkgname=nvidia-driver-legacy
 pkgver=304.84
-pkgbuild=1
+pkgbuild=2
 mesa_version=8.0.4
 p_pkgbuild=${pkgbuild}
 arch=('auto')
@@ -33,7 +33,7 @@ libgl_nvidia-legacy() {
 	longdesc="libGL from nvidia driver. Replaces mesa-based libgl package for nvidia users"
 	provides=libgl
 	# Force version to match mesa version
-	adddep="nvidia-driver==${p_pkgver}"
+	adddep="nvidia-driver-legacy==${p_pkgver}"
 	pkgbuild=${p_pkgver}_${p_pkgbuild}
 	pkgver=$mesa_version
 }
@@ -44,7 +44,7 @@ libgl32_nvidia-legacy() {
 	longdesc="libGL from nvidia driver. Replaces mesa-based libgl package for nvidia users"
 	provides=libgl32
 	# Force version to match mesa version
-	adddep="nvidia-driver==${p_pkgver}"
+	adddep="nvidia-driver-legacy==${p_pkgver}"
 	pkgbuild=${p_pkgver}_${p_pkgbuild}
 	pkgver=$mesa_version
 	tags='compat32 x11-libs'
@@ -57,7 +57,7 @@ libglx_nvidia-legacy() {
 	longdesc="libglx from nvidia driver. Replaces xorg-based libglx package for nvidia users"
 	provides=libglx
 	# Force version to match mesa version
-	adddep="nvidia-driver==${p_pkgver}"
+	adddep="nvidia-driver-legacy==${p_pkgver}"
 	pkgver=${p_pkgver}
 	pkgbuild=${p_pkgbuild}
 }
