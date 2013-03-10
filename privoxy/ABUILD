@@ -2,14 +2,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=privoxy
-pkgver=3.0.19
-pkgbuild=1
+pkgver=3.0.21
+pkgbuild=2
 arch=('auto')
 
 shortdesc="a non-caching web proxy"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Privoxy is a non-caching web proxy with advanced filtering capabilities for enhancing privacy, modifying web page data and HTTP headers, controlling access, and removing ads and other obnoxious Internet junk. Privoxy has a flexible configuration and can be customized to suit individual needs and tastes. It has application for both stand-alone systems and multi-user networks. Privoxy is Free Software and licensed under the GNU GPLv2. Privoxy is an associated project of Software in the Public Interest (SPI). Homepage: http://www.privoxy.org"
-)
+#longdesc=("Privoxy is a non-caching web proxy with advanced filtering capabilities for enhancing privacy, modifying web page data and HTTP headers, controlling access, and removing ads and other obnoxious Internet junk. Privoxy has a flexible configuration and can be customized to suit individual needs and tastes. It has application for both stand-alone systems and multi-user networks. Privoxy is Free Software and licensed under the GNU GPLv2. Privoxy is an associated project of Software in the Public Interest (SPI). Homepage: http://www.privoxy.org")
 
 source=("http://downloads.sourceforge.net/project/ijbswa/Sources/${pkgver}%20%28stable%29/privoxy-${pkgver}-stable-src.tar.gz")
 
@@ -72,12 +71,11 @@ sed -i \
 build()
 {
 go_src_dir
-cd .
 burn_patches
 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS"
+export LDFLAGS="$SLKLDFLAGS"
+export CXXFLAGS="$SLKCFLAGS"
+export CFLAGS="$SLKCFLAGS"
 
 autoheader
 autoconf
@@ -96,7 +94,7 @@ autoconf
 #  --with-user=privoxy \
 #  --with-group=privoxy || exit 1
 
-make -j2 || make || exit 1
+make -j${numjobs} || make || exit 1
 make DESTDIR=$pkgdir install || exit 1
 }
 
@@ -112,14 +110,24 @@ install -Dm755 $filedir/privoxy.initd \
 install -Dm0644 $filedir/privoxy.logrotate \
 	$pkgdir/etc/logrotate.d/privoxy.new || exit 1
 
-cd $pkgdir/etc/privoxy
-mv config $pkgdir/usr/doc/${pkgname}-${pkgver}/config.orig-${pkgver}
-install -m 644 $filedir/config.tor ./config || exit 1
+# config
+if [ -f $pkgdir/etc/privoxy/config ]; then
+ mv -v $pkgdir/etc/privoxy/config $pkgdir/usr/doc/${pkgname}-${pkgver}/config.orig-${pkgver}
+elif [ -f $pkgdir/etc/privoxy/config.new ]; then
+ mv -v $pkgdir/etc/privoxy/config.new $pkgdir/usr/doc/${pkgname}-${pkgver}/config.orig-${pkgver}
+fi
+install -m 644 $filedir/config.tor $pkgdir/etc/privoxy/config.new || exit 1
 
-PKG=$pkgdir
-# Make .new files so we dont clobber existing configuration
-find $PKG/etc/privoxy -type f -exec mv {} {}.new \;
+# Make .new files so we don't clobber the existing configuration.
+# The makefile already adds the .new extension to some files,
+# perhaps those are the only ones that are meant to be edited?
+find $pkgdir/etc/privoxy -name '*.new' -prune -o -type f -exec mv {} {}.new \;
 
-# Remove this directory since it's empty and part of Slackware base 
-rmdir $PKG/var/run
+# Don't clobber the logfile either.
+if [ -f $pkgdir/var/log/privoxy/logfile ]; then
+ mv -v $pkgdir/var/log/privoxy/logfile $pkgdir/var/log/privoxy/logfile.new
+fi
+
+# Remove this directory since it's empty 
+rmdir -v $pkgdir/var/run
 }
