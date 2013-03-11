@@ -1,13 +1,15 @@
 pkgname=geany-plugins
-pkgver=1.22
+pkgver=1.23
 pkgbuild=1
 arch=('auto')
+
 shortdesc="Plugins for Geany"
-longdesc=("A collection of different plugins for Geany, a lightweight IDE")
+#longdesc=("A collection of different plugins for Geany, a lightweight IDE")
+
 source=("http://plugins.geany.org/geany-plugins/${pkgname}-${pkgver}.tar.bz2")
 tags="dev-util utils"
 build_deps="ctpl geany"
-adddep="geany>=1.22"
+adddep="geany==$pkgver"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -22,4 +24,3 @@ BUILD_KEYS="--prefix=/usr \
     --libexecdir=/usr/lib${LIBDIRSUFFIX}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
