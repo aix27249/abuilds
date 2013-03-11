@@ -1,0 +1,35 @@
+
+pkgname=grub2
+pkgver=2.00
+pkgbuild=3
+shortdesc="The GNU GRand Unified Bootloader"
+longdesc="The GNU GRand Unified Bootloader"
+arch=('auto')
+source=("ftp://ftp.gnu.org/gnu/grub/grub-${pkgver}.tar.xz")
+tags=("base sys-boot")
+build_deps="bison flex"
+adddep="os-prober"
+custom_opts="no_ccache"
+
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+rm -f "${pkgdir}/usr/lib${LIBDIRSUFFIX}/grub/i386-pc"/*.module || true
+rm -f "${pkgdir}/usr/lib${LIBDIRSUFFIX}/grub/i386-pc"/*.image || true
+rm -f "${pkgdir}/usr/lib${LIBDIRSUFFIX}/grub/i386-pc"/{kernel.exec,gdb_grub,gmodule.pl} || true
+}
