@@ -1,9 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 pkgname=fpc
-pkgver=2.6.2-rc1
+pkgver=2.6.2
 pkgbuild=1
 arch=('auto')
-ver=${pkgver:0:5}${pkgver:6:3}
 
 shortdesc="Free Pascal Compiler (FPC)"
 
@@ -12,8 +11,8 @@ longdesc=("Free Pascal (aka FPK Pascal) is a 32 and 64 bit professional Pascal c
 "ARM. The following operating systems are supported: Linux, FreeBSD, Haiku, Mac OS X/Darwin, DOS,"
 " Win32, Win64, WinCE, OS/2, Netware (libc and classic) and MorphOS. http://www.freepascal.org")
 
-source=("ftp://ftp.freepascal.org/pub/fpc/beta/${pkgver}/source/fpcbuild-${ver}.tar.gz"
-        "ftp://ftp.freepascal.org/pub/fpc/beta/${pkgver}/docs/doc-html.tar.gz")
+source=("ftp://ftp.freepascal.org/pub/fpc/dist/${pkgver}/source/fpcbuild-${pkgver}.tar.gz"
+        "ftp://ftp.freepascal.org/pub/fpc/dist/${pkgver}/docs/doc-html.tar.gz")
 
 tags="develop dev-util"
 
@@ -53,17 +52,17 @@ fpcsrc() {
 
 #============================
 fpcdemo_prep(){
-  cd ${srcdir}/fpcbuild-${ver}
-  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver:0:5} || exit 1
-  cp -a demo ${pkgdir}/usr/share/fpc/${pkgver:0:5}/ || exit 1
+  cd ${srcdir}/fpcbuild-${pkgver}
+  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver} || exit 1
+  cp -a demo ${pkgdir}/usr/share/fpc/${pkgver}/ || exit 1
   echo "End fpcdemo"
 }
 
 #===========================
 fpcsrc_prep() {
-  cd ${srcdir}/fpcbuild-${ver}
-  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver:0:5}/src/ || exit 1
-  cp -R src/* ${pkgdir}/usr/share/fpc/${pkgver:0:5}/src/ || exit 1
+  cd ${srcdir}/fpcbuild-${pkgver}
+  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver}/src/ || exit 1
+  cp -R src/* ${pkgdir}/usr/share/fpc/${pkgver}/src/ || exit 1
   find src -name *.bat -type f -exec rm {} \;
   echo "End fpcsrc"
 }
@@ -71,14 +70,14 @@ fpcsrc_prep() {
 #===========================
 fpcdocs_prep() {
   cd ${srcdir}
-  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver:0:5}/docs/ || exit 1
-  cp -R doc/* ${pkgdir}/usr/share/fpc/${pkgver:0:5}/docs/ || exit 1
+  install -m 775 -d ${pkgdir}/usr/share/fpc/${pkgver}/docs/ || exit 1
+  cp -R doc/* ${pkgdir}/usr/share/fpc/${pkgver}/docs/ || exit 1
   echo "End fpcdocs"
 }
 
 #===========================
 before_build(){
-  cd ${srcdir}/fpcbuild-${ver}
+  cd ${srcdir}/fpcbuild-${pkgver}
   install -d src || exit 1
   cp -R fpcsrc/* src/ || exit 1
   echo "End before_build"
@@ -86,35 +85,35 @@ before_build(){
 
 #===========================
 build() {
-  cd ${srcdir}/fpcbuild-${ver}
+  cd ${srcdir}/fpcbuild-${pkgver}
   fpcmake -r -Tall || exit 1
   make NOGDB=1 \
   INSTALL_PREFIX=${pkgdir}/usr \
-  INSTALL_DOCDIR=${pkgdir}/usr/doc/${pkgname}-${pkgver:0:5} install || exit 1
+  INSTALL_DOCDIR=${pkgdir}/usr/doc/${pkgname}-${pkgver} install || exit 1
   echo "End build"
 }
 
 #===========================
 after_build()
 {
-  cd ${srcdir}/fpcbuild-${ver}
-  find ${pkgdir}/usr/doc/${pkgname}-${pkgver:0:5} -name examples -type d | xargs rm -R
+  cd ${srcdir}/fpcbuild-${pkgver}
+  find ${pkgdir}/usr/doc/${pkgname}-${pkgver} -name examples -type d | xargs rm -R
 
   [ "${LIBDIRSUFFIX}" = "64" ] && mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 
   if [ "${LIBDIRSUFFIX}" = "64" ]; then
-     ln -s /usr/lib${LIBDIRSUFFIX}/fpc/${pkgver:0:5}/ppcx64 ${pkgdir}/usr/bin/ || exit 1
+     ln -s /usr/lib${LIBDIRSUFFIX}/fpc/${pkgver}/ppcx64 ${pkgdir}/usr/bin/ || exit 1
   else
-     ln -s /usr/lib${LIBDIRSUFFIX}/fpc/${pkgver:0:5}/ppc386 ${pkgdir}/usr/bin/ || exit 1
+     ln -s /usr/lib${LIBDIRSUFFIX}/fpc/${pkgver}/ppc386 ${pkgdir}/usr/bin/ || exit 1
   fi
 
   install -m 755 -d ${pkgdir}/etc || exit 1
-  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver:0:5}/samplecfg \
-  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver:0:5} \
+  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver}/samplecfg \
+  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver} \
   ${pkgdir}/etc  || exit 1
 
   sed -i -e "s:${pkgdir}::g" ${pkgdir}/etc/fpc.cfg  || exit 1
-  sed -i -e "s:${pkgdir}::g" ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver:0:5}/ide/text/fp.cfg  || exit 1
+  sed -i -e "s:${pkgdir}::g" ${pkgdir}/usr/lib${LIBDIRSUFFIX}/fpc/${pkgver}/ide/text/fp.cfg  || exit 1
   sed -i -e "s|GlobalPrefix=.*|GlobalPrefix=/usr/lib${LIBDIRSUFFIX}/fpc/../../|g" ${pkgdir}/etc/fppkg/default || exit 1
   sed -i -e "s|CompilerConfigDir=.*|CompilerConfigDir=/etc/fppkg|g" ${pkgdir}/etc/fppkg.cfg || exit 1
 
