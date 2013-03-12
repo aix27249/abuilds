@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=nvidia-utils-bumblebee
-pkgver=304.48
+pkgver=310.32
 pkgbuild=1
 arch=('auto')
 
@@ -44,18 +44,8 @@ pkglist=
 docs=
 gendeps_blacklist=
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
 custom_opts=""
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
 
 build()
 {
@@ -64,13 +54,12 @@ build()
 	cd NVIDIA-Linux-${TARGET}-${pkgver} || exit 1
 	chown -R root:root .
 	chmod -R u+w,go+r-w,a-s .
-	mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee || exit 1
-	cp -arv *.so* *.la *.a tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee || exit 1
+	mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee 
+#	cp -arv *.so* *.la *.a tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee
+cp -arv *.so* *.la tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee
+
 }
 
-
-#ran after function build() 
-#после сборки
 after_build()
 {
 	cd $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-bumblebee || exit 1
