@@ -1,5 +1,5 @@
 pkgname=nvidia-driver-optimus
-pkgver=304.64
+pkgver=310.32
 pkgbuild=1
 arch=('auto')
 
@@ -27,7 +27,8 @@ build()
 	chown -R root:root .
 	chmod -R u+w,go+r-w,a-s .
 	mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
-	cp -arv *.so* *.la *.a tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
+#	cp -arv *.so* *.la *.a tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
+cp -arv *.so* *.la tls $pkgdir/usr/lib$LIBDIRSUFFIX/nvidia-optimus
 }
 
 after_build()
