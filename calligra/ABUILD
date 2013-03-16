@@ -95,12 +95,13 @@ for lang in ru uk; do
   -DCMAKE_BUILD_TYPE=RELEASE \
   -DLIB_DIR=lib${LIBDIRSUFFIX} \
   -DLIB_SUFFIX=${LIBDIRSUFFIX} \
- && make \
- && make DESTDIR="${pkgdir}"  install \
+ && make -j${numjobs} \
+ && make DESTDIR="${pkgdir}" install \
  || exit 1
 done
 }
 
+# w/o
 #-----------------------------
 # multi pkg
 
