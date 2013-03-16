@@ -1,0 +1,169 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=vlc
+pkgver=2.0.5
+pkgbuild=7
+arch=('auto')
+
+shortdesc="VLC (VideoLAN Client multimedia player)"
+
+source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="xapps media-video"
+custom_opts="no_ccache"
+#dependencies only needed to build package
+build_deps="libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad
+orc schroedinger libdca twolame libmpcdec libass libebml libmatroska libdvbpsi libmodplug
+libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt
+gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp 
+expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus"
+
+pkglist="vlc-plugins-ext"
+
+removedep="xulrunner"
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+build()
+{
+go_src_dir
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-nls \
+--disable-static \
+--enable-shared \
+--enable-libass \
+--enable-fast-install \
+--disable-a52
+
+make -j${numjobs} || exit 1
+make install DESTDIR=${pkgdir} || exit 1
+}
+
+
+after_build()
+{
+find  ${pkgdir} -name \*.la -exec rm -f {} \;
+mkdir -p ${pkgdir}/usr/doc/$pkgname-$pkgver
+cp -a ${pkgdir}/usr/share/doc/vlc/* ${pkgdir}/usr/doc/$pkgname-$pkgver/
+rm -rf ${pkgdir}/usr/share/doc
+}
+
+vlc-plugins-ext() {
+	pkgname=vlc-plugins-ext
+	shortdesc="Ext plugin pask for vlc"
+	adddep="vlc==${p_pkgver}"
+	pkgver=${p_pkgver}
+	pkgbuild=7
+}
+
+vlc-plugins-ext_prep() 
+{
+
+dest=/usr/lib${LIBDIRSUFFIX}/vlc/plugins
+
+main_dest=${dest}/audio_filter
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libcompressor_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libkaraoke_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libsamplerate_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libspeex_resampler_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/audio_mixer
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libfixed32_mixer_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/audio_output
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libadummy_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libamem_plugin.so ${pkgdir}${main_dest} || echo "no"
+#mv ${p_pkgdir}${main_dest}/libaout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libjack_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libpulse_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/video_output
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libvout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+#mv ${p_pkgdir}${main_dest}/libout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/access_output
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libaccess_output_shout_plugin.so ${pkgdir}${main_dest} || echo "no"
+#mv ${p_pkgdir}${main_dest}/libaccess_dv_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libdc1394_plugin.so ${pkgdir}${main_dest} || echo "no"
+#mv ${p_pkgdir}${main_dest}/libaccess_jack_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/access
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libaccess_jack_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libaccess_dv_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/demux
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libgme_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libflacsys_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libdemux_stl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libimage_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libmod_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libmpc_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/codec
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libcrystalhd_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libddummy_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libedummy_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libstl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libschroedinger_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libtwolame_plugin.so* ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libspeex_plugin.so* ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libflac_plugin.so* ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libfluidsynth_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libzvbi_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libkate_plugin.so ${pkgdir}${main_dest}	|| echo "no"
+mv ${p_pkgdir}${main_dest}/liblibass_plugin.so ${pkgdir}${main_dest}	|| echo "no"
+mv ${p_pkgdir}${main_dest}/libsdl_image_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libtheora_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libopus_plugin.so  ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/control
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libdummy_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/liblirc_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/visualization
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libgoom_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libprojectm_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/misc
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libgnutls_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libmemcpy_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libxosd_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/services_discovery
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libbonjour_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libupnp_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+main_dest=${dest}/notify
+mkdir -p ${pkgdir}${main_dest}
+mv ${p_pkgdir}${main_dest}/libnotify_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libtelepathy_plugin.so ${pkgdir}${main_dest} || echo "no"
+#
+}
