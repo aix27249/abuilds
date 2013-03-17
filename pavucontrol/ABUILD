@@ -1,18 +1,16 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=pavucontrol
-pkgver=0.9.10
+pkgver=1.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="PulseAudio Volume Control 0.9.10"
+shortdesc="PulseAudio Volume Control 1.0"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control"
-"tool (mixer) for the PulseAudio sound server. In contrast to classic mixer tools this"
-"one allows you to control both the volume of hardware devices and of each playback" "stream separately."
+longdesc=("PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control tool (mixer) for the PulseAudio sound server. In contrast to classic mixer tools this one allows you to control both the volume of hardware devices and of each playback" "stream separately."
 )
 
-source=("http://0pointer.de/lennart/projects/pavucontrol/pavucontrol-0.9.10.tar.gz")
+source=("http://0pointer.de/lennart/projects/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -52,7 +50,7 @@ BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
+--disable-gtk3 \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
