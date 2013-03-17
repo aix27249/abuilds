@@ -1,6 +1,6 @@
 pkgname=alsa-plugins
 pkgver=1.0.26
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 shortdesc="Extra ALSA plugins"
 source=("ftp://ftp.alsa-project.org/pub/plugins/$pkgname-$pkgver.tar.bz2")
