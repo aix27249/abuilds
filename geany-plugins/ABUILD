@@ -1,6 +1,6 @@
 pkgname=geany-plugins
 pkgver=1.23
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Plugins for Geany"
@@ -9,7 +9,7 @@ shortdesc="Plugins for Geany"
 source=("http://plugins.geany.org/geany-plugins/${pkgname}-${pkgver}.tar.bz2")
 tags="dev-util utils"
 build_deps="ctpl geany"
-adddep="geany==$pkgver"
+adddep="geany>=$pkgver"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
