@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
-pkgver=3.0.8
+pkgver=3.0.9
 pkgbuild=1
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
@@ -10,31 +10,7 @@ shortdesc="qBittorrent - A BitTorrent client in Qt4"
 #shortdesc="qBittorrent: Free and reliable P2P Bittorrent client"
 #longdesc=("An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. qBittorrent official website: http://www.qbittorrent.org")
 
-
-srcver=${pkgver/_/}
-srcsf="http://downloads.sourceforge.net/project/qbittorrent/qbittorrent"
-srctar=${pkgname}-${srcver}.tar.xz
-source_tar_un="${srcsf}-unstable/${srctar}"
-source_tar="${srcsf}/${pkgname}-${pkgver}/${srctar}"
-source_git="git:git://github.com/qbittorrent/qBittorrent.git"
-
-# src
-if [ "$pkgver" != "$srcver" ]; then
- src=("${source_tar_un}")
-else
- src=("${source_tar}")
-fi
-
-# source
-if [ ! -f "$srcache/${srctar}" ]; then
- wget -c -P $srcache $src
-fi
-
-if [ -f "$srcache/${srctar}" ]; then
- source=($src)
-else
- source=($source_git)
-fi
+source=("http://downloads.sourceforge.net/project/qbittorrent/qbittorrent/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
 patch_opts=("")
 
@@ -73,6 +49,26 @@ custom_opts=""
 before_build()
 {
 echo ""
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr --disable-geoip-database"
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+
+#ran after function build()
+#после сборки
+after_build()
+{
+echo ""
+ 
+#cp -v $srcache/CHANGELOG_${pkgver//./_} $pkgdir/usr/doc/${pkgname}-${pkgver}/CHANGELOG
+
+cd $pkgdir/usr/doc/${pkgname}-${pkgver}/
+[ -f ./README.os2 ] &&  rm -v $pkgdir/usr/doc/${pkgname}-${pkgver}/README.os2
+[ -f ./doc/qbittorrent.1 ] && rm -v ./doc/qbittorrent*.1 && rmdir -v ./doc
+ 
+# nogui ver
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
 qb_nogui () {
@@ -101,7 +97,7 @@ CXXFLAGS="$SLKCFLAGS" \
 	--disable-gui \
 	--disable-libnotify \
 	|| exit 1
-make -j2 || make || exit 1
+make -j${numjobs} || make || exit 1
 make install INSTALL_ROOT=$pkgdir || exit 1
  
 find $pkgdir | xargs file | grep -e "executable" -e "shared object" | grep ELF \
@@ -109,34 +105,7 @@ find $pkgdir | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 }
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
-}
-
-
-
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr --disable-geoip-database"
-
-INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
-
-
-
-#ran after function build()
-#после сборки
-after_build()
-{
-echo ""
- 
-#cp -v $srcache/CHANGELOG_${pkgver//./_} $pkgdir/usr/doc/${pkgname}-${pkgver}/CHANGELOG
- 
-# nogui ver
 #qb_nogui
- 
-cd $pkgdir/usr/doc/${pkgname}-${pkgver}/
-  if [ -f ./README.os2 ]; then rm -v $pkgdir/usr/doc/${pkgname}-${pkgver}/README.os2 || exit 1; fi
-  if [ -f ./doc/qbittorrent.1 ]; then rm -v ./doc/qbittorrent*.1 && rmdir -v ./doc || exit 1; fi
  
 echo ""
 }
