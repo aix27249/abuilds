@@ -1,9 +1,11 @@
 pkgname=pulseaudio
-pkgver=1.1
+pkgver=3
 pkgbuild=2
 arch=('auto')
 shortdesc="PulseAudio sound server"
-source=("http://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.gz")
+#source=("http://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.gz")
+source=("git:git://anongit.freedesktop.org/pulseaudio/pulseaudio")
+build_deps="json-c bluez"
 tags="libs media-sound"
 pkglist="libpulse"
 config_files="etc/pulse/daemon.conf
@@ -18,7 +20,7 @@ libpulse()
 }
 
 BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS//-Wl,--as-needed}\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS//-Wl,--as-needed}\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -29,12 +31,12 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix= \
 --with-database=tdb \
---disable-hal \
+--enable-bluez \
 --disable-rpath \
 --disable-default-build-tests \
 --disable-tcpwrap"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
+#--disable-hal \
 after_build()
 {
 	set -e
@@ -48,9 +50,13 @@ after_build()
 	# Move to libpulse
 	mkdir -p "$srcdir"/libpulse/{etc/pulse,usr/{lib$LIBDIRSUFFIX,share/,man/man5/}}
 	mv {"$pkgdir","$srcdir/libpulse"}/etc/pulse/client.conf
-	mv "$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulse{,dsp,-simple,-mainloop-glib}.so* \
-		"$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulsecommon-*.so \
+	mv "$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulse{,-simple,-mainloop-glib}.so* \
 		"$srcdir/libpulse/usr/lib$LIBDIRSUFFIX"
+		
+		mkdir -p ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio
+	mv	${pkgdir}/usr/lib${LIBDIRSUFFIX}/pulseaudio/libpulsedsp.so ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio 
+	mv	${pkgdir}/usr/lib${LIBDIRSUFFIX}/pulseaudio/libpulsecommon-*.so ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio
+		
 	mv {"$pkgdir","$srcdir/libpulse"}/usr/lib$LIBDIRSUFFIX/pkgconfig
 	mv {"$pkgdir","$srcdir/libpulse"}/usr/include
 	mv {"$pkgdir","$srcdir/libpulse"}/usr/man/man5/pulse-client.conf.5
