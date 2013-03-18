@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=gxneur
-pkgver=0.16.0
-pkgbuild=2
+pkgver=0.16.0+hg1108
+pkgbuild=3
 arch=('auto')
 
 shortdesc="X Neural Switcher - auto keyboard layout switcher"
