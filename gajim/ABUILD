@@ -1,35 +1,12 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gajim
-pkgver=0.15.2
+pkgver=0.15.3
 pkgbuild=1
-
 arch=('auto')
-#arch=('noarch')
 
 shortdesc="Gajim, a Jabber client"
+#longdesc=("")
 
-#longdesc=("The goal of Gajim is to provide a full featured and easy to use Jabber/XMPP client. Gajim works nicely with GNOME, but does not require it to run. It is released under the GNU General Public License. Homepage: http://www.gajim.org")
-#-ruler---|--------------------------------------------------------------------------|
-#longdesc=("Цель Gajim — предоставить полнофункциональный и простой в использовании jabber-клиент. Gajim хорошо работает в среде GNOME, но не требует её для работы. Он выпущен на условиях Стандартной общественной лицензии (GNU General Public License). Сайт: http://www.gajim.org"
-#)
-
-
-srcver=${pkgver/_/-}
-srctar="${pkgname}-${srcver}.tar.gz"
-source_tar=("http://gajim.org/downloads/0.15/${srctar}")
-source_now=("hg:http://hg.gajim.org/gajim")
-
-if [ ! -f $srcache/${srctar} ]; then
- wget -c -P $srcache $source_tar
-fi
-
-if [ -f $srcache/${srctar} ]; then
- source=$source_tar
-else
- source=$source_now
-fi
-
+source=("http://gajim.org/downloads/${pkgver%.*}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -65,33 +42,12 @@ gendeps_blacklist=
 before_build()
 {
 echo ""
-
-# Agilia
-#sed -i \
-# "s|        'Arch Linux': '/etc/arch-release',|'AgiliaLinux': '/etc/agilialinux-version', 'Arch Linux': '/etc/arch-release',|" \
-#	${srcdir}/${pkgname}-${srcver}/src/common/helpers.py || exit 1
-
-#cp -vf ${filedir}/helpers.py ${srcdir}/${pkgname}-${srcver}/src/common/ || exit 1
-
-#sed -i \
-#	-e "s|'Arch Linux': '/etc/arch-release',|'AgiliaLinux': '/etc/agilialinux-version'|" \
-#	-e '889,908d' ${srcdir}/${pkgname}-${srcver}/src/common/helpers.py || exit 1
-
-# Skel / config_ru
-#mkdir -p $pkgdir/etc/skel/.config/gajim
-#chmod -vR 755 $pkgdir/etc/skel/.config/
-#cp -v ${filedir}/config ${pkgdir}/etc/skel/.config/gajim
-#chmod -v 644 ${pkgdir}/etc/skel/.config/gajim/config || exit 1
-
 }
+
 
 BUILD_SYSTEM="autotools"
 
-if [ -n "`echo $source | grep $source_tar`" ]; then
- BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-else
- BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
-fi
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -106,40 +62,16 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
+
 #ran after function build() 
 #после сборки
 after_build()
 {
 echo ""
 
-# You must not launch gajim as root, it is INSECURE
-cd $pkgdir/usr/bin
-patch -p0 < $filedir/gajim-allow-root.diff || exit 1
-
-#--------------------------------------------------------------------------
-
-#Comment=A GTK+ Jabber client
-#Comment[ru]=Jabber-клиент на GTK+
-#Comment[uk]=Jabber клієнт, що базується на GTK+
-
-# Gajim.desktop
-#cd $pkgdir/usr/share/applications
-
-# Name
-#sed -i \
-# -e "/^Name=/s| Instant Messenger||" \
-# -e '/^Name\[/d' ${pkgname}.desktop || exit 1
-
-# -e "s|Клиент для мгновенных сообщений Gajim|Gajim IM|" \
-# -e "s|Програма для обміну миттєвими повідомленнями Gajim|Gajim IM|" \
-
-# Comment
-#sed -i \
-# -e "/^Comment=/s|A GTK+ Jabber client|Gajim Instant Messenger|" \
-# -e "s|Jabber-клиент на GTK+|Клиент для мгновенных сообщений Gajim|" \
-# -e "s|Jabber клієнт, що базується на GTK+|Програма для обміну миттєвими повідомленнями Gajim|" \
-# ${pkgname}.desktop || exit 1
-
-#patch ${pkgname}.desktop < ${filedir}/gajim-desktop-icon.diff || exit 1
+# gajim-allow-root
+if [[ -n "`sed -n '27p' ${pkgdir}/usr/bin/gajim | grep 'exit 1'`" ]]; then
+ sed -i '27d' ${pkgdir}/usr/bin/gajim || exit 1
+fi
 
 }
