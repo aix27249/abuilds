@@ -2,8 +2,8 @@
 
 # Package metadata
 pkgname=bluez
-pkgver=4.90
-pkgbuild=1
+pkgver=5.2
+pkgbuild=2
 arch="auto"
 
 # Package description
@@ -26,20 +26,11 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --sysconfdir=/etc \
 --localstatedir=/var \
---enable-alsa \
---enable-gstreamer \
 --enable-usb \
---enable-netlink \
 --enable-tools \
---enable-bccmd \
---enable-hid2hci \
---enable-hidd \
---enable-dfutool \
---enable-pand \
---enable-dund \
+--disable-systemd \
 --enable-cups \
---enable-udevrules \
---enable-configfiles"
+--enable-library"
 
 
 
