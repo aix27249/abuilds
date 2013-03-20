@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=plasmoid-yawp
-pkgver=0.4.3
+pkgver=0.4.4
 pkgbuild=1
 arch=('auto')
 
@@ -60,7 +60,17 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 
 #ran after function build() 
 #после сборки
-#after_build()
-#{
-
-#}
+after_build()
+{
+if [[ -d $pkgdir/usr/share/doc/plasma-applet-yawp ]]; then
+ cd ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+ if [[ ! -f COPYRIGHT || ! -f copyright ]]; then
+  mv -v $pkgdir/usr/share/doc/plasma-applet-yawp/COPYRIGHT ./ \
+  || \
+  mv -v $pkgdir/usr/share/doc/plasma-applet-yawp/copyright ./ \
+  && mv -v copyright COPYRIGHT
+ fi
+ rm -rfv $pkgdir/usr/share/doc/plasma-applet-yawp
+ rmdir -v $pkgdir/usr/share/doc || exit 1
+fi
+}
