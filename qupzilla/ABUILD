@@ -1,8 +1,6 @@
-#ABUILD created by/создан: Drakmail, drakmail at gmail.com
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=qupzilla
-pkgver=1.4.1
+pkgver=1.5.1
 pkgbuild=1
 arch=('auto')
 
@@ -26,5 +24,11 @@ fi
  qmake
     make clean
     make
+
     make INSTALL_ROOT="$pkgdir/" install
+    
+    mkdir  -p $pkgdir/etc/bash-completion.d
+install -Dm644 $srcdir/qupzilla_git_qupzilla.git.src/linux/completion/qupzilla \
+    $pkgdir/etc/bash-completion.d/
+
 }
