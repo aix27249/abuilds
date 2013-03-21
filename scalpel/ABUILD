@@ -1,0 +1,35 @@
+pkgname=scalpel
+pkgver=2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Scalpel is a fast file carver that reads a database of header "
+
+source=("http://www.digitalforensicssolutions.com/Scalpel/scalpel-2.0.tar.gz")
+
+tags="app-admin
+utils"
+
+build()
+{
+
+go_src_dir
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man 
+
+make DESTDIR=$pkgdir install
+
+
+}
+
+after_build()
+{
+
+mkdir -p ${pkgdir}/etc/scalpel
+cp ${filedir}/scalpel.conf ${pkgdir}/etc/scalpel/
+chmod 644 ${pkgdir}/etc/scalpel/scalpel.conf
+
+}
