@@ -2,7 +2,7 @@
 
 pkgname=dbus
 pkgver=1.6.8
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc=('dbus (D-Bus message bus system)')
