@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=smplayer
-pkgver=0.8.3
+pkgver=0.8.4
 pkgbuild=1
 arch="auto"
 
@@ -36,9 +36,11 @@ build() {
 	ln -s /usr/share/icons/hicolor/64x64/apps/smplayer.png \
 		          ${pkgdir}/usr/share/pixmaps/
 
-	sed -i 's|Exec=smplayer %U|Exec=smplayer %F|' ${pkgdir}/usr/share/applications/smplayer.desktop
+	sed -i 's|Exec=smplayer %U|Exec=smplayer %F|' \
+		${pkgdir}/usr/share/applications/smplayer.desktop
 	sed -i 's|Exec=smplayer -add-to-playlist %U|Exec=smplayer -add-to-playlist %F|' \
 		${pkgdir}/usr/share/applications/smplayer_enqueue.desktop
+
 	set +e
 }
 
