@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qmmp-plugin-pack
-pkgver=0.6.5
+pkgver=0.6.6
 pkgbuild=1
 arch=('auto')
 
@@ -20,7 +20,7 @@ patch_opts=("")
 tags="xapps media-sound"
 
 #dependencies only needed to build package
-build_deps="mpg123 yasm"
+build_deps="qmmp mpg123 yasm"
 
 provides=""
 conflicts=""
