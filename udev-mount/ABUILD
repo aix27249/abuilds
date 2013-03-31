@@ -1,8 +1,5 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=udev-mount
-pkgver=0.6.4
+pkgver=0.6.5
 pkgbuild=3
 arch=('noarch')
 
@@ -10,13 +7,9 @@ shortdesc="Auto mount for fluxbox setup variant"
 
 source=("/my/brain/")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils app-admin" 
 
 adddep=" udev disktype rxvt-unicode sudo libaosd "
-
-#----------------------------- Make PKG --------------------------------------
 
 build()
 {
