@@ -2,15 +2,15 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qt-creator
-pkgver=2.3.1
+pkgver=2.7.0
 pkgbuild=1
 arch=('auto')
-_qtver=4.7.4
+_qtver=4.8.4
 shortdesc="Qt Creator is a cross-platform integrated development environment (IDE) tailored to the needs of Qt developers."
 
 source=(
-"http://get.qt.nokia.com/qtcreator/${pkgname}-${pkgver}-src.tar.gz"
-"http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${_qtver}.tar.gz"
+"http://origin.releases.qt-project.org/qtcreator/2.7.0/${pkgname}-${pkgver}-src.tar.gz"
+"http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-${_qtver}.tar.gz"
 )
 
 patch_opts=("")
@@ -53,8 +53,8 @@ custom_opts=""
 build() {
 go_src_dir
 burn_patches
-cp -a /usr/include/Qt/qconfig.h ${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.7.4/src/corelib/global/qconfig.h
-qmake PREFIX=/usr -r "QT_PRIVATE_HEADERS=${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.7.4/include" IDE_LIBRARY_BASENAME=lib${LIBDIRSUFFIX}
+cp -a /usr/include/Qt/qconfig.h ${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.8.4/src/corelib/global/qconfig.h
+qmake PREFIX=/usr -r "QT_PRIVATE_HEADERS=${startdir}/qt-creator.src/qt-everywhere-opensource-src-4.8.4/include" IDE_LIBRARY_BASENAME=lib${LIBDIRSUFFIX}
 
 make -j${numjobs}
 
