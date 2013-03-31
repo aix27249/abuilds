@@ -2,38 +2,31 @@
 
 pkgname=wxwidgets
 pkgver=2.9.4
-pkgbuild=4
+pkgbuild=5
 arch=("auto")
 
 shortdesc=("wxWidgets: cross-platform GUI library")
 
 tags=("libs x11-libs")
 
-#source=("http://prdownloads.sourceforge.net/wxwindows/wxWidgets-${pkgver}.tar.bz2")
 source=("http://downloads.sourceforge.net/project/wxwindows/2.9.4/wxWidgets-${pkgver}.tar.bz2")
-BUILD_SYSTEM="autotools"
-BUILD_KEYS="--sysconfdir=/etc \
-  --libdir=/usr/lib${LIBDIRSUFFIX} \
-  --mandir=/usr/man \
-  --prefix=/usr \
-  --enable-unicode \
-  --enable-plugins \
-  --with-sdl \
-  --with-opengl \
-  --with-libmspack \
-  --enable-graphics_ctx \
-  --enable-shared"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
-after_build() {
-	go_src_dir
-	set -e
-	#make -j${numjobs} -C contrib/src/
-	#make -C contrib/src/ install DESTDIR=$pkgdir
-echo " Тута такого нет в новой версии! "
-	#( cd ${pkgdir}/usr/include ; ln -sf wx-2.8/wx wx )
-	
-	set +e
+build() {
+  go_src_dir
 
+  ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --with-gtk=2 --with-opengl --enable-unicode \
+    --enable-graphics_ctx --enable-mediactrl --with-regex=builtin \
+    --with-libpng=sys --with-libxpm=sys --with-libjpeg=sys --with-libtiff=sys \
+    --disable-precomp-headers
+  make
+  make -C locale allmo
 }
 
+after_build() {
+  cd "${srcdir}/wxWidgets-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  rm "${pkgdir}/usr/share/locale/it/LC_MESSAGES/wxmsw.mo"
+  install -D -m644 docs/licence.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  rm -f "${pkgdir}/usr/bin/wx-config"
+  ln -s /usr/lib${LIBDIRSUFFIX}/wx/config/gtk2-unicode-2.9 ${pkgdir}/usr/bin/wx-config 
+}
