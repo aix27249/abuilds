@@ -1,5 +1,5 @@
 pkgname=default-theme-fluxbox
-pkgver=0.4.8
+pkgver=0.4.9
 pkgbuild=3
 arch=('noarch')
 
