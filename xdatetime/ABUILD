@@ -1,0 +1,37 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=xdatetime
+pkgver=0.0.0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Changing the date and time in xfce"
+
+source=("git:git://git.code.sf.net/p/xdatetime/code xdatetime-code")
+
+tags="xfce xfce-base"
+
+build_deps="lazarus"
+
+build(){
+ go_src_dir
+ # path to lazbuild
+ export lazbuild=$(which lazbuild)
+
+ ${lazbuild} ${pkgname}.lpi
+ mkdir -p ${pkgdir}/usr/bin \
+          ${pkgdir}/usr/share/pixmaps \
+          ${pkgdir}/usr/share/applications \
+          ${pkgdir}/usr/share/locale/en/LC_MESSAGES \
+          ${pkgdir}/usr/share/locale/ru/LC_MESSAGES \
+          ${pkgdir}/usr/share/locale/uk/LC_MESSAGES
+
+  install -Dm644 PO/${pkgname}.po ${pkgdir}/usr/share/locale/en/LC_MESSAGES/${pkgname}.po
+  msgfmt ${pkgdir}/usr/share/locale/en/LC_MESSAGES/${pkgname}.po \
+         -o ${pkgdir}/usr/share/locale/en/LC_MESSAGES/${pkgname}.mo
+  rm ${pkgdir}/usr/share/locale/en/LC_MESSAGES/${pkgname}.po
+
+  install -Dm755 ${pkgname} ${pkgdir}/usr/bin/${pkgname}
+  install -Dm644 *.png ${pkgdir}/usr/share/pixmaps/
+  install -Dm644 ${pkgname}.desktop ${pkgdir}/usr/share/applications/${pkgname}.desktop
+}
