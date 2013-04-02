@@ -13,6 +13,8 @@ tags="xfce xfce-base"
 
 build_deps="lazarus"
 
+adddep="util-linux-ng"
+
 build(){
  go_src_dir
  # path to lazbuild
