@@ -1,10 +1,10 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=alien-arena
-pkgver=7.60
+pkgver=7.65
 pkgbuild=1
 arch=('auto')
-_date=20120629
+_date=20130207
 
 shortdesc="FREE FPS GAME FOR WINDOWS, LINUX, OSX!"
 longdesc=("Do you like old school deathmatch with modern features? How about rich, "
