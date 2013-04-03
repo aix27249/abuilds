@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=winff
-pkgver=1.4.3
+pkgver=1.5.0
 pkgbuild=1
 arch=('auto')
 
