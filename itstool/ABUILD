@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=itstool
+pkgver=1.2.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="XML to PO and back again"
+
+source=("http://files.itstool.org/itstool/${pkgname}-${pkgver}.tar.bz2")
+
+tags="app-text libs"
+
+build_deps="python libxml2"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
