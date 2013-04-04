@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=rawtherapee
-pkgver=4.0.9
+pkgver=4.0.10
 pkgbuild=2
 arch=('auto')
 
@@ -11,7 +11,7 @@ source=("https://${pkgname}.googlecode.com/files/${pkgname}-${pkgver}.tar.xz")
 
 tags="media-gfx xapps"
 
-build_deps="cmake libjpeg-turbo zlib libtiff mercurial libiptcdata"
+build_deps="cmake libjpeg-turbo zlib libtiff mercurial libiptcdata lcms2 libcanberra"
 
 docs="licenses/README licenses/jdatasrc"
 
