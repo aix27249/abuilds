@@ -88,7 +88,7 @@ build() {
 extpack()
 {
 	pkgname=virtualbox-extpack
-	arch=auto
+	arch=noarch
 	shortdesc="Oracle VirtualBox Extension Pack"
 	longdesc="Support for USB 2.0 devices, VirtualBox RDP and PXE boot for Intel cards."
 	adddep="virtualbox=${pkgver}"
