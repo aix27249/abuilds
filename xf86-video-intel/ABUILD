@@ -1,10 +1,12 @@
 pkgname=xf86-video-intel
-pkgver=2.21.5
+pkgver=2.21.6
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('xf86-video-intel: X11 driver for modern Intel video cards (i810/i830/i915/945G/G965+ etc)')
-longdesc=('xf86-video-intel is a driver for almost all Intel video cards, including i810/i830/i915/945G/G965+/3100/4500.')
+shortdesc=('a driver for almost all Intel video cards')
+
+#shortdesc=('xf86-video-intel: X11 driver for modern Intel video cards (i810/i830/i915/945G/G965+ etc)')
+#longdesc=('xf86-video-intel is a driver for almost all Intel video cards, including i810/i830/i915/945G/G965+/3100/4500.')
 
 tags=('x11-drivers xserver')
 
