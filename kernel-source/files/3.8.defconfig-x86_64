@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 3.8.0 Kernel Configuration
+# Linux/x86_64 3.8.5 Kernel Configuration
 #
 CONFIG_64BIT=y
 CONFIG_X86_64=y
@@ -573,7 +573,7 @@ CONFIG_PCIE_PME=y
 CONFIG_ARCH_SUPPORTS_MSI=y
 CONFIG_PCI_MSI=y
 # CONFIG_PCI_REALLOC_ENABLE_AUTO is not set
-# CONFIG_PCI_STUB is not set
+CONFIG_PCI_STUB=m
 CONFIG_HT_IRQ=y
 CONFIG_PCI_ATS=y
 CONFIG_PCI_IOV=y
@@ -631,7 +631,7 @@ CONFIG_BINFMT_MISC=m
 CONFIG_COREDUMP=y
 CONFIG_IA32_EMULATION=y
 CONFIG_IA32_AOUT=m
-# CONFIG_X86_X32 is not set
+CONFIG_X86_X32=y
 CONFIG_COMPAT=y
 CONFIG_COMPAT_FOR_U64_ALIGNMENT=y
 CONFIG_SYSVIPC_COMPAT=y
@@ -1904,16 +1904,16 @@ CONFIG_FIREWIRE_OHCI=m
 CONFIG_FIREWIRE_SBP2=m
 CONFIG_FIREWIRE_NET=m
 CONFIG_FIREWIRE_NOSY=m
-CONFIG_I2O=y
+CONFIG_I2O=m
 CONFIG_I2O_LCT_NOTIFY_ON_CHANGES=y
 CONFIG_I2O_EXT_ADAPTEC=y
 CONFIG_I2O_EXT_ADAPTEC_DMA64=y
-CONFIG_I2O_CONFIG=y
+CONFIG_I2O_CONFIG=m
 # CONFIG_I2O_CONFIG_OLD_IOCTL is not set
-CONFIG_I2O_BUS=y
-CONFIG_I2O_BLOCK=y
-CONFIG_I2O_SCSI=y
-CONFIG_I2O_PROC=y
+CONFIG_I2O_BUS=m
+CONFIG_I2O_BLOCK=m
+CONFIG_I2O_SCSI=m
+CONFIG_I2O_PROC=m
 CONFIG_MACINTOSH_DRIVERS=y
 CONFIG_MAC_EMUMOUSEBTN=m
 CONFIG_NETDEVICES=y
@@ -3206,6 +3206,7 @@ CONFIG_W1_SLAVE_BQ27000=m
 CONFIG_POWER_SUPPLY=y
 # CONFIG_POWER_SUPPLY_DEBUG is not set
 CONFIG_PDA_POWER=m
+# CONFIG_GENERIC_ADC_BATTERY is not set
 CONFIG_WM831X_BACKUP=m
 CONFIG_WM831X_POWER=m
 CONFIG_TEST_POWER=m
@@ -4705,7 +4706,7 @@ CONFIG_USB_WUSB_CBAF=m
 # USB Host Controller Drivers
 #
 CONFIG_USB_C67X00_HCD=m
-CONFIG_USB_XHCI_HCD=m
+CONFIG_USB_XHCI_HCD=y
 CONFIG_USB_XHCI_PLATFORM=m
 # CONFIG_USB_XHCI_HCD_DEBUGGING is not set
 CONFIG_USB_EHCI_HCD=y
@@ -4987,7 +4988,7 @@ CONFIG_MEMSTICK_JMICRON_38X=m
 CONFIG_MEMSTICK_R592=m
 CONFIG_MEMSTICK_REALTEK_PCI=m
 CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
+CONFIG_LEDS_CLASS=m
 
 #
 # LED drivers
@@ -5335,10 +5336,121 @@ CONFIG_USB_SERIAL_QUATECH2=m
 CONFIG_VT6655=m
 CONFIG_VT6656=m
 CONFIG_DX_SEP=m
+
+#
+# IIO staging drivers
+#
+# CONFIG_IIO_ST_HWMON is not set
+# CONFIG_IIO_SW_RING is not set
+
+#
+# Accelerometers
+#
+# CONFIG_ADIS16201 is not set
+# CONFIG_ADIS16203 is not set
+# CONFIG_ADIS16204 is not set
+# CONFIG_ADIS16209 is not set
+# CONFIG_ADIS16220 is not set
+# CONFIG_ADIS16240 is not set
+# CONFIG_KXSD9 is not set
+# CONFIG_LIS3L02DQ is not set
+# CONFIG_SCA3000 is not set
+
+#
+# Analog to digital converters
+#
+# CONFIG_AD7291 is not set
+# CONFIG_AD7606 is not set
+# CONFIG_AD799X is not set
+# CONFIG_AD7780 is not set
+# CONFIG_AD7816 is not set
+# CONFIG_AD7192 is not set
+# CONFIG_ADT7410 is not set
+# CONFIG_AD7280 is not set
+
+#
+# Analog digital bi-direction converters
+#
+# CONFIG_ADT7316 is not set
+
+#
+# Capacitance to digital converters
+#
+# CONFIG_AD7150 is not set
+# CONFIG_AD7152 is not set
+# CONFIG_AD7746 is not set
+
+#
+# Direct Digital Synthesis
+#
+# CONFIG_AD5930 is not set
+# CONFIG_AD9832 is not set
+# CONFIG_AD9834 is not set
+# CONFIG_AD9850 is not set
+# CONFIG_AD9852 is not set
+# CONFIG_AD9910 is not set
+# CONFIG_AD9951 is not set
+
+#
+# Digital gyroscope sensors
+#
+# CONFIG_ADIS16060 is not set
+# CONFIG_ADIS16080 is not set
+# CONFIG_ADIS16130 is not set
+# CONFIG_ADIS16260 is not set
+# CONFIG_ADXRS450 is not set
+
+#
+# Network Analyzer, Impedance Converters
+#
+# CONFIG_AD5933 is not set
+
+#
+# Inertial measurement units
+#
+# CONFIG_ADIS16400 is not set
+
+#
+# Light sensors
+#
+# CONFIG_SENSORS_ISL29018 is not set
+# CONFIG_SENSORS_ISL29028 is not set
+# CONFIG_SENSORS_TSL2563 is not set
+# CONFIG_TSL2583 is not set
+# CONFIG_TSL2x7x is not set
+
+#
+# Magnetometer sensors
+#
+# CONFIG_SENSORS_AK8975 is not set
+# CONFIG_SENSORS_HMC5843 is not set
+
+#
+# Active energy metering IC
+#
+# CONFIG_ADE7753 is not set
+# CONFIG_ADE7754 is not set
+# CONFIG_ADE7758 is not set
+# CONFIG_ADE7759 is not set
+# CONFIG_ADE7854 is not set
+
+#
+# Resolver to digital converters
+#
+# CONFIG_AD2S90 is not set
+# CONFIG_AD2S1200 is not set
+# CONFIG_AD2S1210 is not set
+
+#
+# Triggers - standalone
+#
+# CONFIG_IIO_PERIODIC_RTC_TRIGGER is not set
+# CONFIG_IIO_GPIO_TRIGGER is not set
+# CONFIG_IIO_SYSFS_TRIGGER is not set
+# CONFIG_IIO_SIMPLE_DUMMY is not set
 CONFIG_ZRAM=m
 # CONFIG_ZRAM_DEBUG is not set
-CONFIG_ZCACHE=y
-CONFIG_ZSMALLOC=y
+CONFIG_ZSMALLOC=m
 CONFIG_WLAGS49_H2=m
 CONFIG_WLAGS49_H25=m
 CONFIG_FB_SM7XX=m
@@ -5400,6 +5512,7 @@ CONFIG_WIMAX_GDM72XX_WIMAX2=y
 CONFIG_WIMAX_GDM72XX_USB=y
 # CONFIG_WIMAX_GDM72XX_SDIO is not set
 CONFIG_CSR_WIFI=m
+# CONFIG_ZCACHE2 is not set
 CONFIG_NET_VENDOR_SILICOM=y
 CONFIG_SBYPASS=m
 CONFIG_BPCTL=m
@@ -5500,9 +5613,103 @@ CONFIG_EXTCON=y
 # Extcon Device Drivers
 #
 CONFIG_EXTCON_GPIO=m
+# CONFIG_EXTCON_ADC_JACK is not set
 CONFIG_EXTCON_ARIZONA=m
 # CONFIG_MEMORY is not set
-# CONFIG_IIO is not set
+CONFIG_IIO=m
+CONFIG_IIO_BUFFER=y
+# CONFIG_IIO_BUFFER_CB is not set
+CONFIG_IIO_KFIFO_BUF=m
+CONFIG_IIO_TRIGGERED_BUFFER=m
+CONFIG_IIO_TRIGGER=y
+CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
+
+#
+# Accelerometers
+#
+CONFIG_HID_SENSOR_ACCEL_3D=m
+
+#
+# Analog to digital converters
+#
+# CONFIG_AD7266 is not set
+# CONFIG_AD7298 is not set
+# CONFIG_AD7791 is not set
+# CONFIG_AD7793 is not set
+# CONFIG_AD7476 is not set
+# CONFIG_AD7887 is not set
+# CONFIG_MAX1363 is not set
+# CONFIG_TI_ADC081C is not set
+# CONFIG_TI_AM335X_ADC is not set
+# CONFIG_VIPERBOARD_ADC is not set
+
+#
+# Amplifiers
+#
+# CONFIG_AD8366 is not set
+
+#
+# Hid Sensor IIO Common
+#
+CONFIG_HID_SENSOR_IIO_COMMON=m
+CONFIG_HID_SENSOR_IIO_TRIGGER=m
+# CONFIG_HID_SENSOR_ENUM_BASE_QUIRKS is not set
+
+#
+# Digital to analog converters
+#
+# CONFIG_AD5064 is not set
+# CONFIG_AD5360 is not set
+# CONFIG_AD5380 is not set
+# CONFIG_AD5421 is not set
+# CONFIG_AD5624R_SPI is not set
+# CONFIG_AD5446 is not set
+# CONFIG_AD5449 is not set
+# CONFIG_AD5504 is not set
+# CONFIG_AD5755 is not set
+# CONFIG_AD5764 is not set
+# CONFIG_AD5791 is not set
+# CONFIG_AD5686 is not set
+# CONFIG_MAX517 is not set
+# CONFIG_MCP4725 is not set
+
+#
+# Frequency Synthesizers DDS/PLL
+#
+
+#
+# Clock Generator/Distribution
+#
+# CONFIG_AD9523 is not set
+
+#
+# Phase-Locked Loop (PLL) frequency synthesizers
+#
+# CONFIG_ADF4350 is not set
+
+#
+# Digital gyroscope sensors
+#
+# CONFIG_ADIS16136 is not set
+# CONFIG_HID_SENSOR_GYRO_3D is not set
+
+#
+# Inertial measurement units
+#
+# CONFIG_ADIS16480 is not set
+
+#
+# Light sensors
+#
+# CONFIG_ADJD_S311 is not set
+# CONFIG_SENSORS_LM3533 is not set
+# CONFIG_VCNL4000 is not set
+# CONFIG_HID_SENSOR_ALS is not set
+
+#
+# Magnetometer sensors
+#
+# CONFIG_HID_SENSOR_MAGNETOMETER_3D is not set
 CONFIG_VME_BUS=m
 
 #
@@ -5790,7 +5997,7 @@ CONFIG_9P_FS=m
 CONFIG_9P_FS_POSIX_ACL=y
 CONFIG_NLS=y
 CONFIG_NLS_DEFAULT="utf8"
-CONFIG_NLS_CODEPAGE_437=y
+CONFIG_NLS_CODEPAGE_437=m
 CONFIG_NLS_CODEPAGE_737=m
 CONFIG_NLS_CODEPAGE_775=m
 CONFIG_NLS_CODEPAGE_850=m
@@ -5803,7 +6010,7 @@ CONFIG_NLS_CODEPAGE_862=m
 CONFIG_NLS_CODEPAGE_863=m
 CONFIG_NLS_CODEPAGE_864=m
 CONFIG_NLS_CODEPAGE_865=m
-CONFIG_NLS_CODEPAGE_866=y
+CONFIG_NLS_CODEPAGE_866=m
 CONFIG_NLS_CODEPAGE_869=m
 CONFIG_NLS_CODEPAGE_936=m
 CONFIG_NLS_CODEPAGE_950=m
