@@ -2,7 +2,7 @@
 
 pkgname=nvidia-driver
 pkgver=310.44
-pkgbuild=5
+pkgbuild=6
 mesa_version=8.0.4
 p_pkgbuild=${pkgbuild}
 arch=('auto')
@@ -26,6 +26,7 @@ fi
 source=("ftp://download.nvidia.com/XFree86/Linux-${TARGET}/${pkgver}/NVIDIA-Linux-${TARGET}-${pkgver}.run n")
 adddep="mesa xorg-server libXvMC libgl libglx"
 build_deps='glibc-solibs'
+removedep="nvidia-driver-legacy"
 
 libgl_nvidia() {
 	pkgname=libgl-nvidia
@@ -34,6 +35,7 @@ libgl_nvidia() {
 	provides=libgl
 	# Force version to match mesa version
 	adddep="nvidia-driver==${p_pkgver}"
+	removedep="nvidia-driver-legacy"
 	pkgbuild=${p_pkgver}_${p_pkgbuild}
 	pkgver=$mesa_version
 }
@@ -45,6 +47,7 @@ libgl32_nvidia() {
 	provides=libgl32
 	# Force version to match mesa version
 	adddep="nvidia-driver==${p_pkgver}"
+	removedep="nvidia-driver-legacy"
 	pkgbuild=${p_pkgver}_${p_pkgbuild}
 	pkgver=$mesa_version
 	tags='compat32 x11-libs'
@@ -58,6 +61,7 @@ libglx_nvidia() {
 	provides=libglx
 	# Force version to match mesa version
 	adddep="nvidia-driver==${p_pkgver}"
+	removedep="nvidia-driver-legacy"
 	pkgver=${p_pkgver}
 	pkgbuild=${p_pkgbuild}
 }
