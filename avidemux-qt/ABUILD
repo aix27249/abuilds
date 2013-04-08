@@ -1,0 +1,80 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=avidemux-gtk
+pkgver=2.6.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Avidemux (Video editor) GTK"
+
+source=("http://downloads.sourceforge.net/sourceforge/avidemux/avidemux_${pkgver}.tar.gz")
+
+tags="xapps media-video"
+
+build_deps="sdl libdca libmad faad2 opencore-amr libvorbis faac lame twolame libmpeg2 xvidcore x264"
+
+adddep=""
+
+provides=avidemux
+
+custom_opts="no_ccache"
+
+pkglist="qt"
+
+#=============================
+Process(){
+  cd ${srcdir}/avidemux_${pkgver}
+
+  export BUILDDIR=$1
+  export SOURCEDIR=$2
+  export EXTRA=$3
+  export FAKEROOT_DIR=$4
+  export PARAL=$5
+
+  rm -Rf ./${BUILDDIR}
+  mkdir ${BUILDDIR} && cd ${BUILDDIR}
+
+  cmake -DFAKEROOT=${FAKEROOT_DIR} \
+        -DCMAKE_EDIT_COMMAND=vim \
+        -DAVIDEMUX_SOURCE_DIR=${srcdir}/avidemux_${pkgver} \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        ${EXTRA} \
+        -G "Unix Makefiles" \
+        ${SOURCEDIR}
+
+  make  ${PARAL}
+  make install DESTDIR=${FAKEROOT_DIR}
+}
+
+#=============================
+build(){
+  go_src_dir
+  mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
+  cat avidemux_icon.png > ${pkgdir}/usr/share/pixmaps/avidemux.png
+  cat avidemux2.desktop > ${pkgdir}/usr/share/applications/avidemux2.desktop
+  mkdir -p ${pkgdir}/usr/man/man1
+  cat man/avidemux.1 | gzip -9c > ${pkgdir}/usr/man/man1/avidemux.1.gz
+  Process buildCore ../avidemux_core '' ${pkgdir}
+  cp -r ${pkgdir}/usr ${startdir}/avidemux-qt
+  Process buildGtk ../avidemux/gtk '' ${pkgdir} "-j 2"
+  Process buildPluginsGtk ../avidemux_plugins -DPLUGIN_UI=GTK ${pkgdir} "-j 2"
+  sed -i 's/avidemux2_gtk/avidemux3_gtk/' ${pkgdir}/usr/share/applications/avidemux2.desktop
+  echo "End build GTK"
+}
+
+#=============================
+qt(){
+  pkgname=avidemux-qt
+  shortdesc="Avidemux (Video editor) QT"
+  provides=avidemux
+}
+
+#=============================
+qt_prep(){
+  go_src_dir
+  Process buildQt4 ../avidemux/qt4 '' ${pkgdir}
+  Process buildPluginsQt4 ../avidemux_plugins -DPLUGIN_UI=QT4 ${pkgdir}
+  sed -i 's/avidemux2_gtk/avidemux3_qt4/' ${pkgdir}/usr/share/applications/avidemux2.desktop
+  mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  cp -r ${startdir}/avidemux-gtk/usr/doc/avidemux-gtk-${pkgver}/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  echo "End build GTK"
+}
