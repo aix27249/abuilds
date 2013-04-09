@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=oxygen-gtk
-pkgver=1.1.5
+pkgver=1.3.2.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A new GTK theme engine built to make GTK applications look native in KDE"
 longdesc=("A new GTK theme engine built to make GTK applications look native in KDE. Can use most of Oxygen's settings, including colors and gradients.")
 
-source="http://kde.mirrors.tds.net/pub/kde/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.bz2"
+source="http://kde.mirrors.tds.net/pub/kde/stable/${pkgname}2/$pkgver/src/${pkgname}2-$pkgver.tar.bz2"
 # Uncomment to build from git
 # source=("git:git://git.kde.org/oxygen-gtk")
 
