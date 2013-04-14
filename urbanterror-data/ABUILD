@@ -1,24 +1,33 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=urbanterror-data
-pkgver=4.2.009
+pkgver=4.2.011
 pkgbuild=1
 arch=('noarch')
 shortdesc="A team-based tactical shooter based on the Quake 3 Engine (data files)"
 
-source=("http://download.urbanterror.info/urt/${pkgver:0:1}${pkgver:2:1}/zips/UrbanTerror${pkgver:0:1}${pkgver:2:1}_full_${pkgver:4:3}.zip")
+source=("http://cdn.urbanterror.info/urt/${pkgver:0:1}${pkgver:2:1}/zips/UrbanTerror${pkgver:0:1}${pkgver:2:1}_full${pkgver:4:3}.zip")
 
 tags="games games-fps"
 
-custom_opts="no_copydoc"
+custom_opts="no_copydoc no_postperm"
+
+name_gr=games
+
+udir=${pkgdir}/usr/share/urbanterror/q3ut4
 
 #===================================
 build(){
   cd ${srcdir}/UrbanTerror42/q3ut4
   install -dm755 ${pkgdir}/usr/{doc/${pkgname}-${pkgver},/share/urbanterror/q3ut4}
-  install -m644 ./{QIIIA_Game_Source_License.doc,readme42.txt,mapcycle.txt} \
+  install -m644 ./{*.doc,*.txt} \
                 ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-  rm ./{QIIIA_Game_Source_License.doc,readme42.txt,mapcycle.txt,Quake3-UrT_Logitech_Game_Recognition.reg}
-  install -Dm644 * ${pkgdir}/usr/share/urbanterror/q3ut4
+  rm -f ./{*.doc,*.txt,*.reg}
+  install -Dm644 * ${udir}
+
+  find ${udir} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
+  find ${udir} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
+  find ${udir} -perm 0644 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
+
   echo "End data"
 }
