@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=urbanterror
-pkgver=4.2.007
+pkgver=4.2.011
 pkgbuild=1
 arch=('auto')
 
