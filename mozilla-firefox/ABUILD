@@ -1,18 +1,31 @@
 # Mozilla-firefox
 pkgname=mozilla-firefox
-pkgver=17.0.1
+
+pkgver=17.0.5
 _pkgver=${pkgver}
+esrver=${pkgver%.*}esr
+
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Mozilla-firefox web browser"
 
 
-
-source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2"
+if [[ "$esrver" == "$pkgver" ]]; then
+source=(
+"ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2"
 "ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/ru.xpi n o"
 "ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/uk.xpi n o"
 )
+elif [[ "$esrver" == ${pkgver%.*}esr ]]; then
+source=(
+"ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}esr/source/firefox-${pkgver}esr.source.tar.bz2"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver%.*}esr/linux-i686/xpi/ru.xpi n o"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver%.*}esr/linux-i686/xpi/uk.xpi n o"
+)
+fi
+
+
 tags="xapps www-client"
 adddep="libvpx>=0.9.7"
 
