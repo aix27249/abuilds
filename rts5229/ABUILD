@@ -1,0 +1,99 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=rts5229
+
+srcver=1.07
+KERNEL=${KERNEL:-`uname -r`}
+KERNPKGVER=$(echo $KERNEL | tr - _)
+FINAL_VER=${srcver}_${KERNPKGVER}
+# Fix pkgver so it will contain kernel version
+pkgver=${FINAL_VER}
+
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Linux driver for Realtek PCI-Express card reader chip"
+#longdesc=(""
+#)
+
+source=("http://dev.gentoo.org/~vikraman/distfiles/rts5229-${srcver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="drivers sys-libs"
+
+#dependencies only needed to build package
+build_deps="kernel-source"
+
+provides=""
+conflicts=""
+
+adddep="kernel==${KERNPKGVER}"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
+
+
+build()
+{
+go_src_dir
+
+#tar xjvf ./$pkgname.tar.bz2
+#cd $pkgname
+
+  sed '41 c\\tcp $(TARGET_MODULE).ko ${DESTDIR}/lib/modules/$(shell uname -r)/kernel/drivers/scsi -f' \
+	  Makefile > MakefileMod
+  rm Makefile
+  mv MakefileMod Makefile
+  mkdir -p $pkgdir/lib/modules/$(uname -r)/kernel/drivers/scsi
+  make
+  make DESTDIR="$pkgdir" install
+
+# doinst.sh
+sed "s%@KERNEL@%${KERNEL}%" ${filedir}/doinst.sh > ${pkgdir}/install/doinst.sh
+
+# (c)
+FILEC="./Makefile"
+if \
+[[ -n "`sed -n '22p' $FILEC | grep "Makefile for"`" \
+&& -n "`sed -n '3p'  $FILEC | grep "(c)"`" \
+]]; then
+ if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
+  mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+ fi
+ sed -e 's|^# *||' -e '1,20!d' $FILEC > ${pkgdir}/usr/doc/${pkgname}-${pkgver}/Copyright
+fi
+}
+
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+#
+#}
