@@ -1,58 +1,16 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=libogg
-pkgver=1.2.2
+pkgver=1.3.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="libogg (Ogg Bitstream library) "
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Libogg is a library for manipulating ogg bitstreams. It handles both making ogg bitstreams and getting packets from ogg bitstreams. libogg is needed to use the Ogg Vorbis audio format."
-	  ""
-	  "Homepage: http://www.xiph.org/"
-)
- 
-source=("http://downloads.xiph.org/releases/ogg/${pkgname}-${pkgver}.tar.gz")
+shortdesc="Ogg bitstream and framing library"
 
-patch_opts=("")
+source=("http://downloads.xiph.org/releases/ogg/${pkgname}-${pkgver}.tar.xz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
-#dependencies only needed to build package
 build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
 
@@ -67,14 +25,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
-cp -a $pkgdir/usr/share/doc/$pkgname-$pkgver/* $pkgdir/usr/doc/$pkgname-$pkgver/
-rm -rf $pkgdir/usr/share/doc
-}
