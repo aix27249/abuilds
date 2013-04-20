@@ -1,6 +1,6 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=gmp
-pkgver=5.0.5
+pkgver=5.1.1
 pkgbuild=1
 arch=('auto')
 
