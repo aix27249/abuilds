@@ -1,6 +1,6 @@
 
 pkgname=flash-player
-pkgver=11.2.202.275
+pkgver=11.2.202.280
 pkgbuild=1
 arch=('auto')
 
