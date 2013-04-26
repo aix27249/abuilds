@@ -1,6 +1,6 @@
 # GParted ABUILD.
 pkgname=gparted
-pkgver=0.14.1
+pkgver=0.16.0
 pkgbuild=1
 arch=('auto')
 
