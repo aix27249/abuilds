@@ -1,8 +1,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=vlc
-pkgver=2.0.5
-pkgbuild=7
+pkgver=2.0.6
+pkgbuild=8
 arch=('auto')
 
 shortdesc="VLC (VideoLAN Client multimedia player)"
@@ -15,11 +15,11 @@ source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgnam
 tags="xapps media-video"
 custom_opts="no_ccache"
 #dependencies only needed to build package
-build_deps="libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad
-orc schroedinger libdca twolame libmpcdec libass libebml libmatroska libdvbpsi libmodplug
-libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt
-gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp 
-expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus"
+build_deps="libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad \
+orc schroedinger libdca twolame libmpcdec libass libebml libmatroska  libmodplug \
+libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt \
+libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp \
+expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus "
 
 pkglist="vlc-plugins-ext"
 
@@ -31,6 +31,8 @@ removedep="xulrunner"
 build()
 {
 go_src_dir
+
+./bootstrap 
 
 LDFLAGS="$SLKLDFLAGS" \
 CFLAGS="$SLKCFLAGS" \
@@ -92,14 +94,16 @@ main_dest=${dest}/audio_output
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libadummy_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libamem_plugin.so ${pkgdir}${main_dest} || echo "no"
-#mv ${p_pkgdir}${main_dest}/libaout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libaout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libjack_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libpulse_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libportaudio_plugin.so ${pkgdir}${main_dest} || echo "no"
 #
 main_dest=${dest}/video_output
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libvout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
-#mv ${p_pkgdir}${main_dest}/libout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libout_sdl_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libxcb_glx_plugin.so ${pkgdir}${main_dest} || echo "no"
 #
 main_dest=${dest}/access_output
 mkdir -p ${pkgdir}${main_dest}
