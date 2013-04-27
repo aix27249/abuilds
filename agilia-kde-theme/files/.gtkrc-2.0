@@ -1,5 +1,6 @@
 
-include "/usr/share/themes/Prudence/gtk-2.0/gtkrc"
+#include "/usr/share/themes/Prudence/gtk-2.0/gtkrc"
+include "/usr/share/themes/oxygen-gtk/gtk-2.0/gtkrc"
 
 style "user-font"
 {
@@ -7,6 +8,9 @@ style "user-font"
 }
 widget_class "*" style "user-font"
 
-gtk-theme-name="Prudence"
+#gtk-theme-name="Prudence"
+gtk-theme-name="oxygen-gtk"
+
 gtk-font-name="Droid Sans Serif 9"
 gtk-icon-theme-name="Prudence-icon"
+
