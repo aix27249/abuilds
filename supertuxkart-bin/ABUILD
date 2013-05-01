@@ -26,7 +26,7 @@ build_deps=""
 provides=""
 conflicts="${pkgname}-data"
 
-adddep= #"${pkgname}-bin ${pkgname}-data"
+adddep="${pkgname}-bin" # ${pkgname}-data"
 removedep=""
 
 #for multi pkg abuild
