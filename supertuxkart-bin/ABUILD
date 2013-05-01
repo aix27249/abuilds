@@ -1,0 +1,105 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=supertuxkart
+pkgver=0.8.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="SuperTuxKart is a Free 3d kart racing game"
+#longdesc=(""
+#)
+
+#source=("http://downloads.sourceforge.net/project/supertuxkart/SuperTuxKart/${pkgver}/${pkgname}-${pkgver}-src.tar.bz2")
+source=("svn:https://supertuxkart.svn.sourceforge.net/svnroot/supertuxkart/main/trunk")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+#tags="virtual games-sports"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts="${pkgname}-data"
+
+adddep= #"${pkgname}-bin ${pkgname}-data"
+removedep=""
+
+#for multi pkg abuild
+pkglist="bin" # data"
+if [ -z "$pkglist" ]; then
+ tags="games games-sports"
+else
+ tags="virtual games-sports"
+fi
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой.
+before_build()
+{
+go_src_dir
+  cd lib/irrlicht/source/Irrlicht
+  make NDEBUG=1 || exit 1
+
+  #cd ${srcdir}/SuperTuxKart-${pkgver}
+  #convert "data/${pkgname}_64.xpm" "data/$pkgname.png" || exit 1
+  #install -Dm644 "data/$pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png" || exit 1
+go_src_dir
+}
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DIRRLICHT_DIR='$srcdir/irrlicht' \
+-DCMAKE_CXX_FLAGS='-lpthread -lm -ldl' \
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+
+bin(){
+	pkgname="${p_pkgname}-bin"
+	arch=('auto')
+	shortdesc="Binary files for ${p_pkgname}"
+	tags="games games-sports"
+}
+bin_prep(){
+ mkdir -p ${pkgdir}/usr
+ mv -v ${p_pkgdir}/usr/bin ${pkgdir}/usr
+}
+
+#ran after function build() 
+#после сборки
+#after_build()
+#{
+#}
+
+data(){
+	pkgname="${p_pkgname}-data"
+	arch=('noarch')
+	shortdesc="Data files for ${p_pkgname}"
+	tags="games games-sports"
+	adddep="${p_pkgname}-bin"
+}
+data_prep(){
+ mkdir -p ${pkgdir}/usr/
+ mv -v ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
+}
