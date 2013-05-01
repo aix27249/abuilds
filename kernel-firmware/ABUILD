@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.8.6
+pkgver=3.8.10
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -14,7 +14,7 @@ kernel_base=${kernel_ver::3}
 
 
 
-pkgbuild=2
+pkgbuild=4
 arch=("auto")
 
 shortdesc=("Linux kernel")
@@ -147,6 +147,19 @@ headers_prep() {
 
 go_src_dir
   make INSTALL_HDR_PATH=${pkgdir}/usr headers_install
+
+
+ 
+
+  for i in acpi asm-generic config crypto drm generated linux math-emu \
+    media net pcmcia scsi sound trace uapi video xen; do
+    cp -a include/${i} "${pkgdir}/usr/include"
+  done
+
+  # copy arch includes for external modules
+  mkdir -p ${pkgdir}/usr/include/arch/x86/
+  cp -a arch/x86/include "${pkgdir}/usr/include/arch/x86/"
+
 
   # use headers from libdrm
   rm -r ${pkgdir}/usr/include/drm
