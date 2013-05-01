@@ -4,7 +4,7 @@
 #
 #------------------------- Основные переменные -----------------------------------
 pkgname=virtualbox
-pkgver=4.2.10
+pkgver=4.2.12
 pkgbuild=1
 arch=('auto')
 
@@ -12,7 +12,7 @@ arch=('auto')
 shortdesc=("VirtualBox: Powerful x86 virtualization")
 longdesc=("VirtualBox: Personal Use Binaries Edition")
 
-_boxbuild=84104
+_boxbuild=84980
 if [ "$ARCH" = "i686" ];then
 _suffix=Linux_x86
 elif [ "$ARCH" = "x86_64" ];then
@@ -88,7 +88,7 @@ build() {
 extpack()
 {
 	pkgname=virtualbox-extpack
-	arch=noarch
+	arch=auto
 	shortdesc="Oracle VirtualBox Extension Pack"
 	longdesc="Support for USB 2.0 devices, VirtualBox RDP and PXE boot for Intel cards."
 	adddep="virtualbox=${pkgver}"
