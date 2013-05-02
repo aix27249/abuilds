@@ -1,6 +1,5 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=jovie
-pkgver=4.9.5
+pkgver=4.10.2
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +8,8 @@ shortdesc="A KDE TTS application"
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
 tags="kde4 app-accessibility"
+
+build_deps="speech-dispatcher"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
