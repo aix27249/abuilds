@@ -1,0 +1,19 @@
+pkgname=print-manager
+conflicts=printer-applet
+
+pkgver=4.10.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Print Manager (formerly printer-applet) KDE's printer applet"
+
+source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
+
+tags="kde4 app-arch"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
