@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ktimer
-pkgver=4.9.5
+pkgver=4.10.2
 pkgbuild=1
 arch=('auto')
 
