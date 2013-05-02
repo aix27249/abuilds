@@ -1,12 +1,12 @@
 pkgname=digikam
-pkgver=2.9.0
+pkgver=3.1.0
 _pkgver=${pkgver//_/-}
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Digital photo management application for KDE"
 
-source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${_pkgver}.tar.bz2")
+source=("http://download.kde.org/stable/${pkgname}/${pkgname}-${_pkgver}.tar.bz2")
 
 tags="xapps media-gfx"
 
@@ -44,6 +44,9 @@ build() {
 
 	cd ../po
 	make install DESTDIR=${pkgdir}
+
+	# Fix conflicts with kde-l10n-*
+	rm "${pkgdir}"/usr/share/locale/*/LC_MESSAGES/libkipi.mo
 
 	#from archlinux
 	# these are in oxygen-icons
