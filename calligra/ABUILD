@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=calligra
 pkgver=2.6.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Calligra is a graphic art and office suite by KDE"
