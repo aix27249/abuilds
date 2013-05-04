@@ -2,7 +2,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=vlc
 pkgver=2.0.6
-pkgbuild=8
+pkgbuild=9
 arch=('auto')
 
 shortdesc="VLC (VideoLAN Client multimedia player)"
@@ -34,9 +34,6 @@ go_src_dir
 
 ./bootstrap 
 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
 ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
@@ -44,13 +41,10 @@ CXXFLAGS="$SLKCFLAGS" \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---program-prefix= \
---program-suffix= \
 --enable-nls \
 --disable-static \
 --enable-shared \
 --enable-libass \
---enable-fast-install \
 --disable-a52
 
 make -j${numjobs} || exit 1
@@ -116,6 +110,7 @@ main_dest=${dest}/access
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libaccess_jack_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libaccess_dv_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libpulsesrc_plugin.so ${pkgdir}${main_dest} || echo "no"
 #
 main_dest=${dest}/demux
 mkdir -p ${pkgdir}${main_dest}
@@ -164,6 +159,8 @@ main_dest=${dest}/services_discovery
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libbonjour_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libupnp_plugin.so ${pkgdir}${main_dest} || echo "no"
+mv ${p_pkgdir}${main_dest}/libpulselist_plugin.so ${pkgdir}${main_dest} || echo "no"
+
 #
 main_dest=${dest}/notify
 mkdir -p ${pkgdir}${main_dest}
