@@ -35,10 +35,10 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=libreoffice
 
-pkgver=4.0.3.1
+pkgver=4.0.3.3
 lover=${pkgver%.*}
 
-pkgbuild=2
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="LibreOffice is an Open Source, community-developed, office productivity suit"
@@ -59,7 +59,7 @@ source=("http://download.documentfoundation.org/libreoffice/src/${lover}/libreof
 "http://dev-www.libreoffice.org/src/dc3d21a3921931096d6e80f6701f6763-libexttextcat-3.4.0.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/libmspub-0.0.5.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/8755aac23317494a9028569374dc87b2-liborcus_0.3.0.tar.bz2 n"
-"http://dev-www.libreoffice.org/src/libvisio-0.0.25.tar.bz2 n"
+"http://dev-www.libreoffice.org/src/libvisio-0.0.26.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/1f24ab1d39f4a51faf22244c94a6203f-xmlsec1-1.2.14.tar.gz n"
 "http://dev-www.libreoffice.org/src/9f9e15966b5624834157fe3d748312bc-mdds_0.6.1.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip n"
@@ -136,10 +136,8 @@ export LDFLAGS="$SLKLDFLAGS"
 }
 
 build(){
-#go_src_dir
-#burn_patches
-
 cd ${srcdir}/libreoffice-$pkgver || exit 1
+burn_patches
 
 ./autogen.sh \
 \
