@@ -1,5 +1,6 @@
 #ABUILD created by/создан: NK, nk-man at yandex.ru
 
+
 # Thanks to
 #
 # - aix27249, Unnamed_Hero and Ben, AgiliaLinux
@@ -13,6 +14,7 @@
 #
 # - sberg, LO-Team
 #   irc #libreoffice-dev
+
 
 #*************************************
 # WARNING : 
@@ -28,11 +30,12 @@
 # -fomit-frame-pointer
 # happens to negatively impact the bridges/source/cpp_uno code only on x86, not x86_64
 
+
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=libreoffice
 
-pkgver=4.0.3.1
+pkgver=4.0.3.3
 lover=${pkgver%.*}
 
 pkgbuild=1
@@ -56,7 +59,7 @@ source=("http://download.documentfoundation.org/libreoffice/src/${lover}/libreof
 "http://dev-www.libreoffice.org/src/dc3d21a3921931096d6e80f6701f6763-libexttextcat-3.4.0.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/libmspub-0.0.5.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/8755aac23317494a9028569374dc87b2-liborcus_0.3.0.tar.bz2 n"
-"http://dev-www.libreoffice.org/src/libvisio-0.0.25.tar.bz2 n"
+"http://dev-www.libreoffice.org/src/libvisio-0.0.26.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/1f24ab1d39f4a51faf22244c94a6203f-xmlsec1-1.2.14.tar.gz n"
 "http://dev-www.libreoffice.org/src/9f9e15966b5624834157fe3d748312bc-mdds_0.6.1.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip n"
@@ -81,7 +84,7 @@ build_deps="npapi-sdk openldap npapi-sdk doxygen sane infozip boost apache-ant u
 # mpkg-install apache-ant perl-Archive-Zip beanshell vigra libtextcat lucene2 junit jdk doxygen npapi-sdk
 
 #adddep="jre hsqldb-java graphite2"
-adddep="jre hsqldb-java graphite2 libreoffice-common libreoffice-writer libreoffice-calc libreoffice-base libreoffice-math libreoffice-impress libreoffice-math libreoffice-draw"
+adddep="jre hsqldb-java graphite2 libreoffice-common>=${pkgver} libreoffice-writer>=${pkgver} libreoffice-calc>=${pkgver} libreoffice-base>=${pkgver} libreoffice-math>=${pkgver} libreoffice-impress>=${pkgver} libreoffice-math>=${pkgver} libreoffice-draw>=${pkgver}"
 
 removedep=""
 
@@ -133,10 +136,8 @@ export LDFLAGS="$SLKLDFLAGS"
 }
 
 build(){
-#go_src_dir
-#burn_patches
-
 cd ${srcdir}/libreoffice-$pkgver || exit 1
+burn_patches
 
 ./autogen.sh \
 \
@@ -347,7 +348,7 @@ flist_eater_apps (){
 lokde() {
  	pkgname=libreoffice-kde-integration
 	adddep="libreoffice-common>=${pkgver}"
-	shortdesc="LibreOffice KDE integration"
+	shortdesc="LibreOffice plugin that enables integration into the KDE4 desktop environment"
 	arch=('auto')
 	tags="xapps app-office"
 }
@@ -357,7 +358,7 @@ lokde_prep() {
 # GNOME
 lognome(){
 	pkgname=libreoffice-gnome-integration
-	shortdesc="Libreoffice plugin that enables integration into the Gnome and other gtk desktop environment."
+	shortdesc="Libreoffice plugin that enables integration into the Gnome and other gtk desktop environment"
 	adddep="libreoffice-common>=${pkgver}"
 	arch=('auto')
 	tags="xapps app-office"
@@ -481,7 +482,7 @@ lomath_prep() {
 #******************************************
 loimpress(){
 	pkgname=libreoffice-impress
-	shortdesc="Libreoffice Impress is a presentation program"
+	shortdesc="Libreoffice Impress - a presentation program"
 	adddep="libreoffice-common>=${pkgver}"
 	arch=('auto')
 	tags="xapps app-office"
@@ -492,7 +493,7 @@ loimpress_prep() {
 #******************************************
 lowriter(){
 	pkgname=libreoffice-writer
-	shortdesc="Libreoffice Writer is a word processor"
+	shortdesc="Libreoffice Writer - a word processor"
 	adddep="libreoffice-common>=${pkgver}"
 	arch=('auto')
 	tags="xapps app-office"
@@ -518,7 +519,10 @@ losdk_prep() {
 
 losdkdoc() {
 	pkgname=libreoffice-sdk-doc
-	adddep="libreoffice-common>=${pkgver} libreoffice-sdk>=${pkgver}"
+
+	#adddep="libreoffice-common>=${pkgver} libreoffice-sdk>=${pkgver}"
+	adddep="libreoffice-common>=${pkgver} libreoffice-sdk"
+
 	shortdesc="LibreOffice SDK documentation"
 	arch=('auto')
 	tags="xapps app-office"
