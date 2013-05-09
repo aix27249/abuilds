@@ -1,14 +1,14 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ca-certificates-java
 pkgver=20121112+nmu2
-pkgbuild=1
-arch=('auto')
+pkgbuild=2
+arch="auto"
 
 shortdesc="Common CA certificates for Java."
 
 source="http://ftp.debian.org/debian/pool/main/c/${pkgname}/${pkgname}_${pkgver}.tar.gz"
 
 tags="network net-misc"
+adddep="ca-certificates jdk-openjdk"
 build_deps="jdk-openjdk"
 
 build()
@@ -21,3 +21,4 @@ build()
 	install -D -m755 UpdateCertificates.class ${pkgdir}/usr/share/ca-certificates-java/UpdateCertificates.class
 	install -D -m755 ${filedir}/init-jks-keystore ${pkgdir}/usr/sbin/init-jks-keystore
 }
+
