@@ -1,5 +1,5 @@
 pkgname=pykde4
-pkgver=4.10.2
+pkgver=4.10.3
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
