@@ -1,7 +1,7 @@
 pkgname=print-manager
 conflicts=printer-applet
 
-pkgver=4.10.2
+pkgver=4.10.3
 pkgbuild=1
 arch=('auto')
 
