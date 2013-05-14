@@ -1,21 +1,51 @@
 #----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=nspr
-pkgver=4.9.4
+pkgver=4.9.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Netscape Portable Runtime"
-longdesc=("This library provides platform independent non-GUI operating system facilities")
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("This library provides platform independent non-GUI operating system facilities"
+)
+
 source=("ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${pkgver}/src/${pkgname}-${pkgver}.tar.gz")
-tags="net-libs libs"
-build_deps="glibc"
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+
+tags="net-libs libs"     			#short and long tags / длинный и короткий тег
+build_deps="" 			#
+
+provides=""
 conflicts="seamonkey-solibs"
 
+adddep=""
+removedep=""
+
+
+#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+
+docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+gendeps_blacklist=
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+echo ""
+}
 
 build()
 {
-  go_src_dir
-  burn_patches
+go_src_dir
+burn_patches
   [ "$ARCH" = "x86_64" ] && confflags="--enable-64bit"
   unset CFLAGS
   unset CXXFLAGS
@@ -49,4 +79,10 @@ build()
         "${pkgdir}/usr/include/nspr/md"
 
 
+}
+#ran after function build() 
+#после сборки
+after_build()
+{
+ echo ""
 }
