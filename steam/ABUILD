@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 #----------------------------- General vars --------------------------------------
 pkgname=steam
-pkgver=1.0.0.28
+pkgver=1.0.0.39
 pkgbuild=1
 arch=('auto')
 
@@ -12,30 +12,46 @@ source=("http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="games games-util"
 
-adddep="bash desktop-file-utils hicolor-icon-theme  curl gnutls
-  libogg pixman alsa-lib cairo dbus fontconfig freetype libgcrypt gdk-pixbuf glib2 
-  pango libpng libX11 libXext libXfixes libXi libXrandr libXrender zlib"
-#glibc>=2.15
-#libjpeg-turbo
+if [ "${LIBDIRSUFFIX}" = "i686" ]; then
+adddep="bash xterm glibc-i18n libX11 libxcb libXau libXdmcp glibc-solibs cxxlibs mesa
+        desktop-file-utils hicolor-icon-theme alsa-lib curl libogg pixman
+        cairo dbus fontconfig freetype gdk-pixbuf glib2 pango libpng zlib
+        glibc libgl flash-player"
+#libjpeg-turbo gcc-libs
+fi
+if [ "${LIBDIRSUFFIX}" = "64" ]; then
+adddep="bash xterm glibc-i18n32 libX1132 libxcb32 libXau32 libXdmcp32 glibc-solibs32
+        cxxlibs32 mesa32 desktop-file-utils hicolor-icon-theme alsa-lib32 libgl32 curl
+        libogg32 pixman32 cairo32 dbus32 fontconfig32 freetype32 gdk-pixbuf32 glib232
+        pango32 libpng32 zlib32 glibc32 libgl32"
+#libjpeg-turbo32 gcc-libs32 flash-player32
+fi
 
+#-------------------------------------------------------------------
+bootstrap(){
+  mkdir "${srcdir}/bootstrap"
+  cd "${srcdir}/bootstrap"
+  tar -xf ${srcdir}/steam/bootstraplinux_ubuntu12_32.tar.xz
+  sed -i '/#!\/usr\/bin\/env bash/a xterm -bg "#383635" -fg "#d1cfcd" -T $"Install glibc" -e "/usr/bin/steam-glibc.sh" || \
+  /bin/bash -c "/usr/bin/steam-glibc.sh"' steam.sh
+  tar cf - ./* | xz -f > "bootstraplinux_ubuntu12_32.tar.xz"
+  cp -f bootstraplinux_ubuntu12_32.tar.xz ${srcdir}/steam/bootstraplinux_ubuntu12_32.tar.xz
+}
 
 #----------------------------- Make PKG --------------------------------------
-build()
-{
-    go_src_dir
-    burn_patches
-    make -C . DESTDIR=$pkgdir install
-    #ar x $srcache/$pkgsrc
-    #bsdtar xf data.tar.gz
+build(){
+  bootstrap
 
-    # Replace [ ] with [[ ]] in /usr/bin/steam
-    #sed "s/\[/\[\[/g" -i "$srcdir/usr/bin/steam"
-    #sed "s/\]/\]\]/g" -i "$srcdir/usr/bin/steam"
-    #cp -dpr --no-preserve=ownership "$srcdir/usr" "$pkgdir"
+  cd ${srcdir}/steam
+  burn_patches
+  sed -i -e '/share\/doc\/$(PACKAGE)/d' Makefile
+  make -C . DESTDIR=${pkgdir} install
 
-    # Install license
-    install -Dm644 "$pkgdir/usr/share/doc/steam/steam_install_agreement.txt" "$pkgdir/usr/share/licenses/steam/LICENSE"
+  # blank steamdeps because apt-get
+  ln -sf /bin/true "${pkgdir}/usr/bin/steamdeps"
 
-    # blank steamdeps because apt-get
-    ln -sf /bin/true "$pkgdir/usr/bin/steamdeps"
+  install -Dm755 "${filedir}/steam-glibc.sh" "${pkgdir}/usr/bin/steam-glibc.sh"
+  if [ "${LIBDIRSUFFIX}" = "i686" ]; then
+     sed -i 's|glibc32|glibc|g' "${pkgdir}/usr/bin/steam-glibc.sh"
+  fi
 }
