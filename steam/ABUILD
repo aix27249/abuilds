@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 pkgname=steam
 pkgver=1.0.0.39
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Digital distribution client - bootstrap package"
@@ -11,15 +11,14 @@ source=("http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 tags="games games-util"
-
-if [ "${LIBDIRSUFFIX}" = "i686" ]; then
+if [ "${ARCH}" = "i686" ]; then
 adddep="bash xterm glibc-i18n libX11 libxcb libXau libXdmcp glibc-solibs cxxlibs mesa
         desktop-file-utils hicolor-icon-theme alsa-lib curl libogg pixman
         cairo dbus fontconfig freetype gdk-pixbuf glib2 pango libpng zlib
         glibc libgl flash-player"
 #libjpeg-turbo gcc-libs
 fi
-if [ "${LIBDIRSUFFIX}" = "64" ]; then
+if [ "${ARCH}" = "x86_64" ]; then
 adddep="bash xterm glibc-i18n32 libX1132 libxcb32 libXau32 libXdmcp32 glibc-solibs32
         cxxlibs32 mesa32 desktop-file-utils hicolor-icon-theme alsa-lib32 libgl32 curl
         libogg32 pixman32 cairo32 dbus32 fontconfig32 freetype32 gdk-pixbuf32 glib232
@@ -51,7 +50,7 @@ build(){
   ln -sf /bin/true "${pkgdir}/usr/bin/steamdeps"
 
   install -Dm755 "${filedir}/steam-glibc.sh" "${pkgdir}/usr/bin/steam-glibc.sh"
-  if [ "${LIBDIRSUFFIX}" = "i686" ]; then
+  if [ "${ARCH}" = "i686" ]; then
      sed -i 's|glibc32|glibc|g' "${pkgdir}/usr/bin/steam-glibc.sh"
   fi
 }
