@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 pkgname=steam
 pkgver=1.0.0.39
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Digital distribution client - bootstrap package"
@@ -10,7 +10,8 @@ shortdesc="Digital distribution client - bootstrap package"
 source=("http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${pkgver}.tar.gz")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
-tags="games games-util"
+tags="games games-util x86"
+
 if [ "${ARCH}" = "i686" ]; then
 adddep="bash xterm glibc-i18n libX11 libxcb libXau libXdmcp glibc-solibs cxxlibs mesa
         desktop-file-utils hicolor-icon-theme alsa-lib curl libogg pixman
@@ -28,8 +29,10 @@ fi
 
 #-------------------------------------------------------------------
 bootstrap(){
-  mkdir "${srcdir}/bootstrap"
-  cd "${srcdir}/bootstrap"
+  echo "Start repacking bootstrap"
+  dirbs="${srcdir}/steam/bootstrap"
+  mkdir "${dirbs}"
+  cd "${dirbs}"
   tar -xf ${srcdir}/steam/bootstraplinux_ubuntu12_32.tar.xz
   sed -i '/#!\/usr\/bin\/env bash/a xterm -bg "#383635" -fg "#d1cfcd" -T $"Install glibc" -e "/usr/bin/steam-glibc.sh" || \
   /bin/bash -c "/usr/bin/steam-glibc.sh"' steam.sh
