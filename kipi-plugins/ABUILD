@@ -1,5 +1,5 @@
 pkgname=digikam
-pkgver=3.1.0
+pkgver=3.2.0
 _pkgver=${pkgver//_/-}
 pkgbuild=1
 arch=('auto')
