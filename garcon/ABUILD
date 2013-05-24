@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=garcon
-pkgver=0.2.0
+pkgver=0.2.1
 pkgbuild=1
 arch=('auto')
 
