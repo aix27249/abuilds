@@ -1,13 +1,13 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-appfinder
-pkgver=4.10.0
+pkgver=4.10.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="An application finder for Xfce"
 
-source=("http://archive.xfce.org/xfce/${pkgver%.*}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-base"
 
