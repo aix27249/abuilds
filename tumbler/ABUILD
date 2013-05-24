@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=tumbler
-pkgver=0.1.25
+pkgver=0.1.29
 pkgbuild=1
 arch=('auto')
 
