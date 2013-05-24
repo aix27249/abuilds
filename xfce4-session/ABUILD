@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-session
-pkgver=4.10.0
-pkgbuild=2
+pkgver=4.10.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A session manager for Xfce"
