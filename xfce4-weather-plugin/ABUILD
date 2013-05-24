@@ -1,14 +1,13 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-weather-plugin
-pkgver=0.8.2
+pkgver=0.8.3
 pkgbuild=1
 arch=('auto')
-tree=`echo ${pkgver} | cut -d . -f 1-2`
 
 shortdesc="A weather plugin for the Xfce4 panel"
 
-source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-extra"
 
