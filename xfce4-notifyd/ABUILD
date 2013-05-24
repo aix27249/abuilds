@@ -1,14 +1,13 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=xfce4-notifyd
-pkgver=0.2.2
-pkgbuild=3
+pkgver=0.2.4
+pkgbuild=1
 arch=('auto')
-tree=`echo $pkgver | cut -d . -f 1-2`
 
 shortdesc="Notification daemon for the Xfce desktop"
 
-source=("http://archive.xfce.org/src/apps/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-extra"
 
