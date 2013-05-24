@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=thunar
-pkgver=1.5.3
-pkgbuild=2
+pkgver=1.6.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Modern file manager for Xfce"
@@ -32,7 +32,7 @@ BUILD_KEYS="--prefix=/usr \
 --enable-notifications \
 --enable-exif \
 --enable-pcre \
+--enable-gtk-doc \
 --disable-debug"
-#--enable-gtk-doc \
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
