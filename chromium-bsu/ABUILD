@@ -1,39 +1,35 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=chromium-bsu
-pkgver=0.9.15
+pkgver=0.9.15.1
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("You are captain of the cargo ship Chromium B.S.U., responsible for delivering supplies to our troops on the front line. Chromium B.S.U. is a fast paced, arcade-style, top-scrolling shooter. It uses OpenGL for graphics, and OpenAL for sound effects."
-""
-"License: Artistic License, MIT License."
-""
-"Homepage: http://chromium-bsu.sf.net"
-)
+#longdesc=("You are captain of the cargo ship Chromium B.S.U., responsible for delivering supplies to our troops on the front line. Chromium B.S.U. is a fast paced, arcade-style, top-scrolling shooter. It uses OpenGL for graphics, and OpenAL for sound effects. License: Artistic License, MIT License. Homepage: http://chromium-bsu.sf.net")
 
-source=("http://downloads.sourceforge.net/project/chromium-bsu/Chromium%20B.S.U.%20source%20code/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=("http://downloads.sourceforge.net/project/chromium-bsu/Chromium%20B.S.U.%20source%20code/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="virtual games-action"
+#tags="virtual games-action"
+tags="games games-action"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="ftgl"
 
 provides=""
-conflicts=""
+conflicts="${pkgname}-data"
 
-adddep="${pkgname}-bin ${pkgname}-data"
+adddep="${pkgname}-bin" #${pkgname}-data"
 removedep=""
 
 #for multi pkg abuild
-pkglist="bin data"
+pkglist="bin" #data"
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
@@ -76,12 +72,13 @@ after_build()
 echo ""
 }
 
+
 # Bin
 bin(){
 	pkgname="${p_pkgname}-bin"
 	arch=('auto')
 	shortdesc="Binary files for Chromium B.S.U."
-	longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
+	#longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
 	tags="games games-action"
 }
 bin_prep(){
@@ -89,12 +86,14 @@ bin_prep(){
  mv ${p_pkgdir}/usr/bin ${pkgdir}/usr || exit 1
 }
 
+
+#-------------------------- 
 # Data
 data(){
 	pkgname="${p_pkgname}-data"
 	arch=('noarch')
 	shortdesc="Data files for Chromium B.S.U."
-	longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
+	#longdesc=("Chromium B.S.U. is a fast paced, arcade-style, top-scrolling space shooter")
 	tags="games games-action"
 	adddep="${p_pkgname}-bin==${pkgver}"
 	#docs=""
@@ -105,4 +104,8 @@ data_prep(){
  mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
  mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
  mv ${p_pkgdir}/usr/doc ${pkgdir}/usr || exit 1
+ # Icon: cromium-bsu != chromium
+ cd ${pkgdir}/usr/share/applications
+ sed -i "/^Icon=/s|chromium-bsu|/usr/share/pixmaps/chromium-bsu.png|" \
+	 ${p_pkgname}.desktop || exit 1
 }
