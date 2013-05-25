@@ -1,5 +1,5 @@
 pkgname=gajim
-pkgver=0.15.3
+pkgver=0.15.4
 pkgbuild=1
 arch=('auto')
 
