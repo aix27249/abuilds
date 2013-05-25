@@ -1,6 +1,6 @@
 pkgname=amarok
-pkgver=2.7.0
-pkgbuild=2
+pkgver=2.7.1
+pkgbuild=1
 arch=("auto")
 
 shortdesc=("Amarok is a powerful music player")
