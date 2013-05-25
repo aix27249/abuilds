@@ -2,14 +2,14 @@
 
 pkgname=kdelibs
 pkgver=4.10.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 # Conflicts with gnome-menus, so it is ok to configure it.
 config_files="etc/xdg/menus/applications.menu"
 
 shortdesc=('kdelibs (KDE libraries)')
-longdesc=('System libraries and other resources required by KDE.')
+longdesc=('System libraries and other resources required by KDE')
 
 tags=('kde-base kde4')
 
