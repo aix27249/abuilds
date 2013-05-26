@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=scummvm
-pkgver=1.5.0
-pkgbuild=2
+pkgver=1.6.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="ScummVM: Script Creation Utility for Maniac Mansion"
@@ -63,12 +63,6 @@ BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
 	./configure" # --help"
-
-#--sysconfdir=/etc \
-#--localstatedir=/var \
-#--disable-static \
-#--program-prefix= \
-#--program-suffix= \
 
 if [ "`echo $pkglist`" == "extras" ]; then
  add="--enable-all-engines --enable-plugins"
