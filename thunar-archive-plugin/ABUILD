@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=thunar-archive-plugin
-pkgver=0.3.0
-pkgbuild=4
+pkgver=0.3.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Create and deflate archives in thunar"
