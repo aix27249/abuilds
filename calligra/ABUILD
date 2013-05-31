@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=calligra
-pkgver=2.6.3
-pkgbuild=2
+pkgver=2.6.4
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Calligra is a graphic art and office suite by KDE"
