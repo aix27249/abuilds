@@ -1,0 +1,22 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=ethtool-wol
+pkgver=0.0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="The script starts the Wake-On-LAN for ethtool"
+
+source=("git:https://github.com/khvalera/ethtool-wol.git")
+
+tags="network net-misc"
+
+adddep="ethtool"
+
+build(){
+  go_src_dir
+  ls
+  install -Dm0644 ethtool-wol.conf ${pkgdir}/etc/conf.d/ethtool-wol
+  install -Dm0755 ethtool-wol.init ${pkgdir}/etc/init.d/ethtool-wol
+  echo "End build"
+}
