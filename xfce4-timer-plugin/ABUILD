@@ -1,14 +1,13 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-timer-plugin
-pkgver=1.0.0
+pkgver=1.5.0
 pkgbuild=1
 arch=('auto')
-tree=`echo ${pkgver} | cut -d . -f 1-2`
 
 shortdesc="Plugin to track time for the Xfce panel"
 
-source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-extra"
 
