@@ -1,0 +1,27 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=ethtool
+pkgver=6
+pkgbuild=2
+arch=('auto')
+
+shortdesc="ethtool is a small utility for examining and tuning your Ethernet based network interface."
+
+source=("https://downloads.sourceforge.net/project/gkernel/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="network net-misc"
+
+build_deps="make gcc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
