@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
 pkgver=3.0.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
 
