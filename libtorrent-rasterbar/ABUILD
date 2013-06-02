@@ -1,10 +1,14 @@
 pkgname=libtorrent-rasterbar
-pkgver=0.16.1
+pkgver=0.16.10
 pkgbuild=1
 arch=('auto')
 
-shortdesc="C++ bittorrent library by Rasterbar Software"
-longdesc=("Bittorrent library by Rasterbar Software (Arvid Norberg). libtorrent-rasterbar is a C++ library that aims to be a good alternative to all the other bittorrent implementations around. The main goals of libtorrent-rasterbar are:  * to be cpu efficient * to be memory efficient * to be very easy to use. Homepage: http://code.google.com/p/libtorrent/")
+
+shortdesc="A C++ bittorrent library designed to run on anything from embedded systems to large scale seed servers"
+
+#shortdesc="C++ bittorrent library by Rasterbar Software"
+#longdesc=("Bittorrent library by Rasterbar Software (Arvid Norberg). libtorrent-rasterbar is a C++ library that aims to be a good alternative to all the other bittorrent implementations around. The main goals of libtorrent-rasterbar are:  * to be cpu efficient * to be memory efficient * to be very easy to use. Homepage: http://code.google.com/p/libtorrent/")
+
 
 source=("http://libtorrent.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
 tags="libs net-libs"
@@ -16,13 +20,12 @@ BUILD_KEYS="--prefix=/usr \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
---enable-shared \
 --disable-examples \
 --disable-debug \
+--enable-shared \
 --enable-python-binding \
 --with-boost-python=boost_python-mt \
 --with-boost-libdir=/usr/lib${LIBDIRSUFFIX} \
 --with-boost-system=boost_system-mt"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
