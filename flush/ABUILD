@@ -2,7 +2,7 @@
 
 pkgname=flush
 pkgver=0.9.12
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="GTK-based BitTorrent client"
