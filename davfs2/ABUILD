@@ -2,20 +2,13 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=davfs2
-pkgver=1.4.6
-pkgbuild=3
+pkgver=1.4.7
+pkgbuild=1
 arch=('auto')
 
 shortdesc="mount a WebDAV resource as a regular file system"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Web Distributed Authoring and Versioning (WebDAV), an extension to the HTTP-protocol, allows authoring of resources on a remote web server. davfs2 provides the ability to access such resources like a typical filesystem, allowing for use by standard applications with no built-in support for WebDAV.
-
-davfs2 is designed to fully integrate into the filesystem semantics of Unix-like systems (mount, umount, et c.). davfs2 makes mounting by unprivileged users as easy and secure as possible.
-
-davfs2 does extensive caching to make the file system responsive, to avoid unnecessary network traffic and to prevent data loss, and to cope for slow or unreliable connections.
-
-davfs2 will work with most WebDAV servers needing little or no configuration. "
-)
+#longdesc=("Web Distributed Authoring and Versioning (WebDAV), an extension to the HTTP-protocol, allows authoring of resources on a remote web server. davfs2 provides the ability to access such resources like a typical filesystem, allowing for use by standard applications with no built-in support for WebDAV. davfs2 is designed to fully integrate into the filesystem semantics of Unix-like systems (mount, umount, et c.). davfs2 makes mounting by unprivileged users as easy and secure as possible. davfs2 does extensive caching to make the file system responsive, to avoid unnecessary network traffic and to prevent data loss, and to cope for slow or unreliable connections. davfs2 will work with most WebDAV servers needing little or no configuration.")
 
 source=("http://mirrors.zerg.biz/nongnu/davfs2/${pkgname}-${pkgver}.tar.gz")
 
@@ -60,17 +53,20 @@ echo ""
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="dav_user=nobody dav_group=wheel LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_WORD="dav_user=nobody dav_group=wheel \
+	LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
+--disable-debug \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---enable-largefile"
+--enable-largefile \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
