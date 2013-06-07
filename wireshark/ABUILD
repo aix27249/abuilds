@@ -1,16 +1,60 @@
+#ABUILD created by/создан: CyberMix, mos.mix at gmail.com 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=wireshark
-pkgver=1.4.4
-pkgbuild=2
+pkgver=1.10.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Wireshark network sniffer"
+#-ruler---|--------------------------------------------------------------------------|
+longdesc=("Wireshark is a network protocol analyzer for Unix and Windows")
 
-source=("http://media-2.cacetech.com/${pkgname}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("http://wiresharkdownloads.riverbed.com/wireshark/src/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
 tags="network net-analyzer"
 
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into /usr/docs/${pkgname} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip
+custom_opts=""
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+#ran before function build()
+#запускается перед сборкой
+before_build()
+{
+	echo ""
+}
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 	--sysconfdir=/etc \
 	--localstatedir=/var \
@@ -21,17 +65,21 @@ BUILD_KEYS="--prefix=/usr \
 	--program-suffix= \
 	--with-ssl \
 	--with-zlib=no"
-INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build() {
-	set -e
-	install -Dm755 .libs/wireshark "$pkgdir/usr/bin/wireshark"
+install -Dm755 .libs/wireshark "$pkgdir/usr/bin/wireshark"
 
-	for d in 16 32 48; do
-		install -Dm644 image/hi${d}-app-wireshark.png ${pkgdir}/usr/share/icons/hicolor/${d}x${d}/apps/wireshark.png
-	done
+for d in 16 32 48; do
+	  install -Dm644 image/hi${d}-app-wireshark.png ${pkgdir}/usr/share/icons/hicolor/${d}x${d}/apps/wireshark.png
+  done
 
-	install -Dm644 wireshark.desktop ${pkgdir}/usr/share/applications/wireshark.desktop
-	set +e
-}
+  install -Dm644 wireshark.desktop ${pkgdir}/usr/share/applications/wireshark.desktop
+
+  INSTALL_KEYS="DESTDIR=$pkgdir"
+
+  #ran after function build() 
+  #после сборки
+  after_build()
+  {
+	  echo ""
+  }
 
