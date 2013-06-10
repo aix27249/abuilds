@@ -1,0 +1,74 @@
+--- wscript.orig       2011-02-21 11:43:43.000000000 -0700
++++ wscript    2011-02-21 11:44:51.000000000 -0700
+@@ -39,6 +39,12 @@
+   opt.tool_options('compiler_cxx')
+   opt.tool_options('compiler_cc')
+   opt.tool_options('misc')
++  opt.add_option( '--libdir'
++              , action='store'
++              , type='string'
++              , default=False
++              , help='Install into this libdir [Default: ${PREFIX}/lib]'
++              )
+   opt.add_option( '--debug'
+                 , action='store_true'
+                 , default=False
+@@ -208,6 +214,11 @@
+ 
+   o = Options.options
+ 
++  if o.libdir:
++    conf.env['LIBDIR'] = o.libdir
++  else:
++    conf.env['LIBDIR'] = conf.env['PREFIX'] + '/lib'
++
+   conf.env["USE_DEBUG"] = o.debug
+   # Snapshot building does noet seem to work on cygwin and mingw32
+   conf.env["SNAPSHOT_V8"] = not o.without_snapshot and not sys.platform.startswith("win32")
+@@ -707,7 +718,7 @@
+     if bld.env["USE_DEBUG"]:
+       dtrace_g = dtrace.clone("debug")
+ 
+-    bld.install_files('${PREFIX}/lib/dtrace', 'src/node.d')
++    bld.install_files('${LIBDIR}/dtrace', 'src/node.d')
+ 
+     if sys.platform.startswith("sunos"):
+       #
+@@ -761,7 +772,7 @@
+   node.uselib = 'RT EV OPENSSL CARES EXECINFO DL KVM SOCKET NSL UTIL OPROFILE'
+   node.add_objects = 'eio http_parser'
+   if product_type_is_lib:
+-    node.install_path = '${PREFIX}/lib'
++    node.install_path = '${LIBDIR}'
+     node.vnum = "4.0.0" # FIXME: Should probably be based on VERSION
+   else:
+     node.install_path = '${PREFIX}/bin'
+@@ -819,7 +830,7 @@
+     bld.env.append_value('LINKFLAGS', '-Wl,--export-all-symbols')
+     bld.env.append_value('LINKFLAGS', '-Wl,--out-implib,default/libnode.dll.a')
+     bld.env.append_value('LINKFLAGS', '-Wl,--output-def,default/libnode.def')
+-    bld.install_files('${PREFIX}/lib', "build/default/libnode.*")
++    bld.install_files('${LIBDIR}', "build/default/libnode.*")
+ 
+   def subflags(program):
+     x = { 'CCFLAGS'   : " ".join(program.env["CCFLAGS"]).replace('"', '\\"')
+@@ -865,8 +876,8 @@
+     bld.install_files('${PREFIX}/share/man/man1/', 'doc/node.1')
+ 
+   bld.install_files('${PREFIX}/bin/', 'tools/node-waf', chmod=0755)
+-  bld.install_files('${PREFIX}/lib/node/wafadmin', 'tools/wafadmin/*.py')
+-  bld.install_files('${PREFIX}/lib/node/wafadmin/Tools', 'tools/wafadmin/Tools/*.py')
++  bld.install_files('${LIBDIR}/node/wafadmin', 'tools/wafadmin/*.py')
++  bld.install_files('${LIBDIR}/node/wafadmin/Tools', 'tools/wafadmin/Tools/*.py')
+ 
+   # create a pkg-config(1) file
+   node_conf = bld.new_task_gen('subst', before="cxx")
+@@ -874,7 +885,7 @@
+   node_conf.target = 'tools/nodejs.pc'
+   node_conf.dict = subflags(node)
+ 
+-  bld.install_files('${PREFIX}/lib/pkgconfig', 'tools/nodejs.pc')
++  bld.install_files('${LIBDIR}/pkgconfig', 'tools/nodejs.pc')
+ 
+ def shutdown():
+   Options.options.debug
