@@ -1,16 +1,15 @@
 pkgname=chromium
-pkgver=20.0.1094.1
-pkgbuild=2
+pkgver=24.0.1312.52
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Chromium browser"
 
-source=("http://gsdview.appspot.com/chromium-browser-official/chromium-${pkgver}.tar.bz2")
+source=("https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${pkgver}.tar.bz2")
 
-patch_opts=("")
 
 tags="network www-client"
-build_deps="yasm flex nacl-toolchain-newlib"
+build_deps="yasm flex nacl-toolchain-newlib libevent"
 
 build() {
 	cd ${srcdir}/chromium-${pkgver}
@@ -22,73 +21,65 @@ build() {
 	# Enable proud path
 	CHROMIUM_HOME="usr/lib${LIBDIRSUFFIX}/chromium"
 	# Configure…
+	export -n CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
 	build/gyp_chromium -f make build/all.gyp --depth=. \
-		-Dgcc_version=45 \
-		-Dno_strict_aliasing=1 \
 		-Dwerror= \
-		-Dlinux_sandbox_path=/${CHROMIUM_HOME}/chromium-sandbox \
-		-Dlinux_sandbox_chrome_path=/${CHROMIUM_HOME}/chrome \
+		-Dlinux_link_gnome_keyring=0 \
+		-Dlinux_sandbox_path=/usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox \
 		-Dlinux_strip_binary=1 \
-		-Drelease_extra_cflags="${CFLAGS}" \
+		-Dlinux_use_gold_binary=0 \
+		-Dlinux_use_gold_flags=0 \
+		-Dno_strict_aliasing=1 \
 		-Dffmpeg_branding=Chrome \
 		-Dproprietary_codecs=1 \
+		-Duse_gconf=0 \
+		-Duse_gnome_keyring=0 \
+		-Duse_kerberos=0 \
+		-Duse_system_bzip2=1 \
+		-Duse_system_ffmpeg=0 \
+		-Duse_system_libevent=1 \
+		-Duse_system_libpng=0 \
 		-Duse_system_libjpeg=1 \
 		-Duse_system_libxslt=1 \
 		-Duse_system_libxml=1 \
-		-Duse_system_bzip2=1 \
-		-Duse_system_icu=1 \
-		-Duse_system_zlib=1 \
-		-Duse_system_libpng=1 \
-		-Duse_system_ffmpeg=0 \
-		-Duse_system_yasm=1 \
-		-Duse_system_libevent=1 \
 		-Duse_system_ssl=0 \
-		-Ddisable_sse2=1 \
-		-Dv8_use_snapshot=0 \
-		-Dlinux-use-tcmalloc=0 \
-		-Denable_webrtc=0 \
-		-Ddisable_nacl=0 \
-		-Dremove_webcore_debug_symbols=1 \
+		-Duse_system_zlib=0 \
+		-Duse_system_yasm=1 \
+		-Ddisable_nacl=1 \
+		-Drelease_extra_cflags="$CFLAGS" \
 		$([ "${ARCH}" == "x86_64" ] && echo '-Dtarget_arch=x64' || echo '-Dtarget_arch=ia32')	
 
 	# Build this shit!
-	make -j${numjobs} chrome chrome_sandbox BUILDTYPE=Release || make chrome chrome_sandbox BUILDTYPE=Release || exit 1
+	make -j${numjobs} chrome chrome_sandbox BUILDTYPE=Release V=1 || make chrome chrome_sandbox BUILDTYPE=Release V=1 || exit 1
 	set +e
 }
 
 
 after_build() {
 	go_src_dir
-	set -e
-	install -m 0755 -D out/Release/chrome ${pkgdir}/${CHROMIUM_HOME}/chromium
-	install -m 4555 -o root -g root -D out/Release/chrome_sandbox \
-		${pkgdir}/${CHROMIUM_HOME}/chromium-sandbox
-		install -m 0644 -D out/Release/chrome.pak \
-		${pkgdir}/${CHROMIUM_HOME}/chrome.pak
-	install -m 0644 -D out/Release/resources.pak \
-		${pkgdir}/${CHROMIUM_HOME}/resources.pak
-	install -m 0755 -D out/Release/libffmpegsumo.so \
-		${pkgdir}/${CHROMIUM_HOME}/libffmpegsumo.so
-	
-	# these links are needed when building with system ffmpeg
-	#ln -s /usr/lib${LIBDIRSUFFIX}/libavcodec.so.52 ${pkgdir}/${CHROMIUM_HOME}/
-	#ln -s /usr/lib${LIBDIRSUFFIX}/libavformat.so.52 ${pkgdir}/${CHROMIUM_HOME}/
-	#ln -s /usr/lib${LIBDIRSUFFIX}/libavutil.so.50 ${pkgdir}/${CHROMIUM_HOME}/
+	cd out/Release/
+	mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	mkdir -p $pkgdir/usr/bin
+	install -m 0755 -D chrome $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	install -m 4555 -o root -g root -D chrome_sandbox $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	install -m 0755 -D libffmpegsumo.so $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	cp *.pak $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	cp -a locales/ $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	cp -a resources/ $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
+	find $pkgdir -name '*.d' -type f -delete
 
-	cp -a out/Release/locales out/Release/resources \
-		${pkgdir}/${CHROMIUM_HOME}/
-	find ${pkgdir}/${CHROMIUM_HOME}/ -name '*.d' -type f -delete
-	install -m 0644 -D out/Release/chrome.1 \
-		${pkgdir}/usr/share/man/man1/chromium.1
-	install -m 0644 -D ${filedir}/chromium.desktop \
-		${pkgdir}/usr/share/applications/chromium.desktop
-	for size in 16 22 24 32 48 64 128 256; do
-		install -m 0644 -D \
-			chrome/app/theme/chromium/product_logo_${size}.png \
-			${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png
-	done
-	install -m 0755 -D ${filedir}/chromium.sh ${pkgdir}/usr/bin/chromium
-	mkdir -p $pkgdir/usr/share/gnome-control-center/default-apps
-	cp ${filedir}/chromium.xml ${pkgdir}/usr/share/gnome-control-center/default-apps/
-	set +e
+	mkdir -p $pkgdir/usr/man/man1
+	install -m 0644 -D chrome.1 $pkgdir/usr/man/man1/
+	mkdir -p $pkgdir/usr/share/pixmaps
+	cp product_logo_48.png $pkgdir/usr/share/pixmaps/chromium.png
+	mkdir -p $pkgdir/usr/share/applications
+	install -m 0644 $filedir/chromium.desktop $pkgdir/usr/share/applications
+
+  	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome $pkgdir/usr/bin/chrome
+  	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome $pkgdir/usr/bin/chromium
+	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox $pkgdir/usr/bin/chrome_sandbox
+
+	cd ../../
+
 }
+
