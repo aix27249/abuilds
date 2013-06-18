@@ -1,0 +1,18 @@
+#!/sbin/runscript
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting php-fpm"
+	start-stop-daemon --start --quiet --pidfile /var/run/php-fpm.pid \
+		--startas /usr/bin/php-fpm
+	eend $?
+}
+
+stop() {
+	ebegin "Shutting down php-fpm"
+	start-stop-daemon --stop --quiet --pidfile /var/run/php-fpm.pid
+	eend $?
+}
