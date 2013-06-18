@@ -9,7 +9,7 @@ _user=nobody
 _group=nobody
 
 pkgname=nginx
-pkgver=1.0.4
+pkgver=1.5.1
 pkgbuild=1
 shortdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 longdesc="lightweight HTTP server and IMAP/POP3 proxy server"
@@ -24,7 +24,7 @@ backup=("etc/nginx/conf/nginx.conf"
 	"etc/nginx/conf/mime.types"
 	"etc/nginx/conf/fastcgi_params"
 	"etc/logrotate.d/nginx")
-source=(http://sysoev.ru/nginx/nginx-${pkgver}.tar.gz)
+source=(http://nginx.org/download/nginx-${pkgver}.tar.gz)
 
 build() {
 	local _src_dir=$srcdir/nginx-${pkgver}
@@ -76,8 +76,6 @@ EOF
 	ln -s $_log_path $pkgdir/$_server_root/logs
 	ln -s $_doc_root $pkgdir/$_server_root/html
 
-	install -D -m755 $srcdir/nginx $pkgdir/etc/rc.d/nginx
-	install -D -m644 LICENSE $pkgdir/usr/share/licenses/nginx/LICENSE
 	mkdir -p $pkgdir/etc/conf.d
 	echo "NGINX_CONFIG=/etc/nginx/conf/nginx.conf" >$pkgdir/etc/conf.d/nginx
 	rm -rf $pkgdir/var/run
