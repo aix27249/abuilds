@@ -8,11 +8,13 @@ arch=('auto')
 
 shortdesc="Mozilla-firefox web browser"
 
+
 source=(
 "ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}esr/source/firefox-${pkgver}esr.source.tar.bz2"
 "ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}esr/linux-i686/xpi/ru.xpi n o"
 "ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}esr/linux-i686/xpi/uk.xpi n o"
 )
+
 
 tags="xapps www-client"
 adddep="libvpx>=0.9.7"
