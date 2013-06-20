@@ -1,0 +1,42 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=gadmin-openvpn-server
+pkgver=0.1.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A GTK+ graphical user interface for OpenVPN (server)"
+
+source=("http://dalalven.dtdns.net/linux/gadmin-openvpn/server/${pkgname}-${pkgver}.tar.gz")
+
+tags="network dev-db"
+
+build_deps="pkg-config gcc"
+
+adddep="openvpn bridge-utils gksu"
+
+before_build(){
+  go_src_dir
+  # some "patching" needed
+  find . -type f -exec sed -i 's%/etc/init.d%/etc/rc.d%g;s%/usr/lib/openvpn/plugin/lib/openvpn-auth-pam.so%/usr/lib/openvpn/openvpn-auth-pam.so%g' '{}' \;
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  install -m644 -D "${filedir}/gadmin-openvpn-server.desktop" "${pkgdir}/usr/share/applications/gadmin-openvpn-server.desktop"
+  rm -R ${pkgdir}/usr/doc
+}
