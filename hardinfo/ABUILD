@@ -1,0 +1,46 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=hardinfo
+pkgver=0.5.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A system information and benchmark tool"
+
+source=("http://download.berlios.de/hardinfo/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+tags="base app-admin"
+
+build_deps=""
+
+adddep=""
+
+docs=
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+before_build(){
+  go_src_dir
+  sed -i 's|{ DB_PREFIX "debian_version",	"deb"  },|{ DB_PREFIX "hardinfo.distro",       "arch"  },\
+    { DB_PREFIX "debian_version",	"deb"  },|' computer.h
+}
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  install -D -m644 "${filedir}"/hardinfo.distro "${pkgdir}/etc/hardinfo.distro"
+  rmdir ${pkgdir}/usr/local
+}
