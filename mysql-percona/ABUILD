@@ -1,0 +1,146 @@
+pkgname=mysql-percona
+pkgver=5.5.31_rel30.3
+pkgbuild=1
+arch=("auto")
+
+source="http://www.percona.com/downloads/Percona-Server-${pkgver%.*_*}/Percona-Server-${pkgver/_rel/-}/source/Percona-Server-${pkgver/_/-}.tar.gz"
+
+shortdesc="A backwards-compatible drop-in replacement for MySQL that provides improved performance, diagnostics and instrumentation"
+
+tags="server dev-db"
+config_files="etc/my.cnf
+etc/conf.d/mysql"
+pkglist="mysql_static libmysqlclient"
+provides="mysql"
+#numjobs=1
+build() {  
+	go_src_dir
+	cmake "../Percona-Server-${pkgver/_/-}" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=RELEASE \
+		-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+		-DLIB_DIR=lib${LIBDIRSUFFIX} \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DMYSQL_DATADIR=/var/lib/mysql \
+		-DSYSCONFDIR=/etc \
+		-DINSTALL_INFODIR=share/mysql/docs \
+		-DINSTALL_MANDIR=man \
+		-DINSTALL_PLUGINDIR=/usr/lib${LIBDIRSUFFIX}/mysql/plugin \
+		-DINSTALL_SCRIPTDIR=bin \
+		-DINSTALL_INCLUDEDIR=include/mysql \
+		-DINSTALL_DOCREADMEDIR=share/mysql \
+		-DINSTALL_SUPPORTFILESDIR=share/mysql \
+		-DINSTALL_MYSQLSHAREDIR=share/mysql \
+		-DINSTALL_MYSQLDATADIR=/var/lib/mysql \
+		-DINSTALL_SHAREDIR=share/mysql \
+		-DWITH_READLINE=ON \
+		-DWITH_ZLIB=system \
+		-DWITH_SSL=system \
+		-DWITH_LIBWRAP=ON \
+		-DDEFAULT_CHARSET=utf8 \
+		-DDEFAULT_COLLATION=utf8_general_ci \
+		-DWITH_EXTRA_CHARSETS=all \
+		-DWITH_EMBEDDED_SERVER=OFF \
+		-DWITH_UNIT_TESTS=OFF \
+		-DMYSQL_UNIX_ADDR=/var/run/mysql/mysql.sock \
+		-DENABLED_LOCAL_INFILE=ON \
+		-DWITH_PARTITION_STORAGE_ENGINE=1 \
+		-DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \
+		-DWITHOUT_ARCHIVE_STORAGE_ENGINE=1 \
+		-DWITHOUT_BLACKHOLE_STORAGE_ENGINE=1 \
+		-DWITHOUT_FEDERATED_STORAGE_ENGINE=1 \
+		-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+		-DCMAKE_C_FLAGS="-fPIC ${CFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -fomit-frame-pointer" \
+		-DCMAKE_CXX_FLAGS="-fPIC ${CXXFLAGS} -fno-strict-aliasing -DBIG_JOINS=1 -felide-constructors -fno-rtti -fpermissive"
+}
+
+after_build(){
+	go_src_dir
+	make DESTDIR="${pkgdir}" install
+
+	install -dm700 "${pkgdir}"/var/lib/mysql
+
+	for dir in include libservices client support-files; do
+		make -C ${dir} DESTDIR="${pkgdir}" install
+	done
+	# wonder if anyone needs those?
+	rm -r ${pkgdir}/usr/{mysql-test,sql-bench,data}
+
+	# install scripts
+	install -d "${pkgdir}/usr/bin"
+	install -m755 scripts/mysql_config "${pkgdir}/usr/bin/"
+	install -d "${pkgdir}/usr/man/man1"
+	# ...and manuals...
+	for man in mysql_config mysql_client_test_embedded mysqltest_embedded mysql mysqladmin mysqlcheck mysqldump mysqlimport mysqlshow mysqlslap; do
+		install -m644 "${srcdir}/Percona-Server-${pkgver/_/-}/man/$man.1" "${pkgdir}/usr/man/man1/$man.1"
+	done
+	# OpenRC init and config
+	install -Dm755 ${filedir}/mysql ${pkgdir}/etc/init.d/mysql
+	install -Dm644 ${filedir}/mysql.confd ${pkgdir}/etc/conf.d/mysql
+
+	# Copy small one to /etc/my.cnf: in many other distros this is default, and users will feel better if they see it:
+	cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf || exit 1
+
+
+	# This is where the socket is stored
+	mkdir -p ${pkgdir}/var/run/mysql
+	chown  -R mysql.mysql ${pkgdir}/var/run/mysql
+	chmod 0755 ${pkgdir}/var/run/mysql
+	chown -R mysql.mysql ${pkgdir}/var/lib/mysql
+	chmod 0755 ${pkgdir}/var/lib/mysql
+
+	# lib64 is handled bad now, we need a fix location:
+	if [ "$LIBDIRSUFFIX" = "64" ] ; then
+		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
+		rmdir ${pkgdir}/usr/lib
+	fi
+}
+
+
+mysql_static() {
+	pkgname=mysql-static-libs-percona
+	provides=mysql-static-libs
+	shortdesc=("Static libraries for Percona Server")
+	longdesc=("This package contains static libs from mysql. It is very huge, so it was moved to separate package. It is required to build some programs, such as Amarok.")
+	tags="develop dev-db"
+	adddep="mysql"
+	# mkpkg bug workaround: http://trac.agilialinux.ru/ticket/1281
+	config_files=
+}
+
+mysql_static_prep() {
+	mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}
+	mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+}
+
+libmysqlclient() {
+	pkgname=libmysqlclient-percona
+	provides=libmysqlclient
+	shortdesc=("MySQL client libraries (from Percona Server)")
+	tags="develop dev-db"
+	adddep="mysql"
+}  
+
+
+libmysqlclient_prep(){
+	for dir in include libmysql libservices; do
+		make -C ${dir} DESTDIR="${pkgdir}" install
+	done
+	# lib64 is handled bad now, we need a fix location:
+	if [ "$LIBDIRSUFFIX" = "64" ] ; then
+		mkdir ${pkgdir}/usr/lib64
+		mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
+		rmdir ${pkgdir}/usr/lib
+	fi
+
+	rm -rf "${p_pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
+	rm -rf  "${pkgdir}"/usr/include/
+	rm -rf ${p_pkgdir}/usr/docs
+
+}
+
+
+
+
+
+
