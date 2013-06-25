@@ -1,0 +1,36 @@
+From c901f2479301f77329dd04cf53603d1ec237fce7 Mon Sep 17 00:00:00 2001
+From: Boris Pek <tehnick-8@yandex.ru>
+Date: Tue, 25 Jun 2013 22:20:25 +0300
+Subject: [PATCH] Fix build with GCC < 4.6.
+
+---
+ extra/magnet.cpp | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/extra/magnet.cpp b/extra/magnet.cpp
+index e1d8be3..93c5b97 100644
+--- a/extra/magnet.cpp
++++ b/extra/magnet.cpp
+@@ -34,13 +34,14 @@ bool magnet::parseUri(const string& uri, StringMap& params) {
+         StringTokenizer<string> mag(uri.substr(8), '&');
+         StringMap hashes;
+         string type, param;
+-        for(auto& idx: mag.getTokens()) {
+-            auto pos = idx.find('=');
++        TStringList searchlist = mag.getTokens();
++        for (auto idx = searchlist.begin(); idx != searchlist.end(); ++idx) {
++            auto pos = idx->find('=');
+             if(pos != string::npos) {
+-                type = Text::toLower(Util::encodeURI(idx.substr(0, pos), true));
+-                param = Util::encodeURI(idx.substr(pos + 1), true);
++                type = Text::toLower(Util::encodeURI(idx->substr(0, pos), true));
++                param = Util::encodeURI(idx->substr(pos + 1), true);
+             } else {
+-                type = Util::encodeURI(idx, true);
++                type = Util::encodeURI(*idx, true);
+                 param.clear();
+             }
+ 
+-- 
+1.8.3.1
+
