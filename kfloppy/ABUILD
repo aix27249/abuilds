@@ -1,10 +1,9 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kfloppy
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Floppy disk formatting for KDE."
+shortdesc="Floppy disk formatting for KDE"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
