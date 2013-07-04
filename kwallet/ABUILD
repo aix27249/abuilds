@@ -1,10 +1,9 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kwallet
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KDE's secure storage for passwords."
+shortdesc="KDE's secure storage for passwords"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
