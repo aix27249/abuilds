@@ -5,19 +5,18 @@ pkgbuild=1
 arch=('auto')
 
 shortdesc=('Core KDE PIM libraries')
-#longdesc=('This module includes libraries that are central to the development and execution of a KDE-PIM application.')
+longdesc=('This module includes libraries that are central to the development and execution of a KDE-PIM application.')
 
 tags=('kde-base kde4')
 
+#source=("svn:svn://anonsvn.kde.org/home/kde/trunk/KDE/${pkgname}")
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 build_deps="akonadi>=1.9.1"
 
-
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 fi
-
 
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
