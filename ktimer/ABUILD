@@ -1,10 +1,9 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ktimer
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KTimer is a little tool to execute programs after some time."
+shortdesc="KTimer is a little tool to execute programs after some time"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
