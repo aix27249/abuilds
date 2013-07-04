@@ -1,5 +1,5 @@
 pkgname=nepomuk-core
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=("auto")
 
@@ -19,5 +19,4 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 	-DMAN_INSTALL_DIR=/usr/man \
 	-DSYSCONF_INSTALL_DIR=/etc \
 	-DCMAKE_BUILD_TYPE=Release"
-
 INSTALL_KEYS="DESTDIR=$pkgdir"
