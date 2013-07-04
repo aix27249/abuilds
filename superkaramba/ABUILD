@@ -1,10 +1,9 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=superkaramba
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KDE's deprecated widget system."
+shortdesc="SuperKaramba - Desktop Widgets"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
