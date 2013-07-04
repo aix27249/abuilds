@@ -1,9 +1,10 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kmouth
 pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KMouth is a KDE TTS interface"
+shortdesc="KMouth is a KDE TTS interface."
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
