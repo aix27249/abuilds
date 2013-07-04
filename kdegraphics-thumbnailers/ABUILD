@@ -1,9 +1,10 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kdegraphics-thumbnailers
 pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Thumbnailers for graphics file formats"
+shortdesc="Thumbnailers for graphics file formats."
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
