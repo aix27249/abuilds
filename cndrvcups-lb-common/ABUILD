@@ -1,0 +1,173 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=cndrvcups-lb-common
+pkgver=2.60
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Common printer driver modules for cndrvcups-lb package"
+
+source=("http://pdisp01.c-wss.com/gdl/WWUFORedirectTarget.do?id=MDEwMDAwMjcwODA4&cmp=ABS&lang=EN.tar.gz")
+
+tags="net-print drivers x86"
+
+build_deps="autoconf automake"
+
+pkglist="lb"
+
+lb(){
+  pkgname=cndrvcups-lb
+
+  shortdesc="Canon UFR II / LIPSLX Printer Driver for Linux with support for LBP/iR/MF printers"
+
+  build_deps="autoconf automake cndrvcups-lb-common"
+
+  adddep="cndrvcups-lb-common"
+}
+
+build(){
+
+  cd ${srcdir}/Linux_UFRII_PrinterDriver_V260_uk_EN/Sources
+  tar xf cndrvcups-common-${pkgver}-1.tar.gz
+
+  cd "cndrvcups-common-${pkgver}/buftool"
+  sed -i 's/AM_CONFIG_HEADER/#AM_CONFIG_HEADER/' configure.in
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --enable-progpath=/usr/bin --libdir=/usr/lib${LIBDIRSUFFIX}
+  make
+
+  cd ../cngplp
+  _cflags="${CFLAGS}"
+  CFLAGS="${CFLAGS} $(pkg-config --cflags --libs gmodule-2.0)"
+  sed -i 's/AM_CONFIG_HEADER/#AM_CONFIG_HEADER/' configure.in
+  sed -i 's/AM_PROG_CC_STDC/#AM_PROG_CC_STDC/' configure.in
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+  make
+
+  CFLAGS="${_cflags}"
+  cd ../c3plmod_ipc
+  make
+
+  mkdir -p ${pkgdir}/usr/{bin,lib,include}
+  [ "${LIBDIRSUFFIX}" = "64" ] && mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mkdir -p ${pkgdir}/usr/share/{caepcm,cngplp,locale/ja/LC_MESSAGES}
+
+  cd ..
+  make install DESTDIR=${pkgdir}
+
+  cd c3plmod_ipc
+  make install DESTDIR=${pkgdir} LIBDIR=/usr/lib${LIBDIRSUFFIX}
+
+  cd ..
+  install -m 755 libs/libcaiowrap.so.1.0.0 ${pkgdir}/usr/lib
+  install -m 755 libs/libcaiousb.so.1.0.0 ${pkgdir}/usr/lib
+
+  install -m 755 libs/libc3pl.so.0.0.1 ${pkgdir}/usr/lib
+  install -m 755 libs/libcaepcm.so.1.0 ${pkgdir}/usr/lib
+
+  install -c -m 755 libs/libColorGear.so.0.0.0 ${pkgdir}/usr/lib
+  install -c -m 755 libs/libColorGearC.so.0.0.0 ${pkgdir}/usr/lib
+
+  install -m 644 data/CA*  ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNZ0*  ${pkgdir}/usr/share/caepcm
+  install -s -m 755 libs/c3pldrv ${pkgdir}/usr/bin
+
+  install -m 755 libs/libcanon_slim.so.1.0.0 ${pkgdir}/usr/lib
+
+  cd ${pkgdir}/usr/lib
+  ln -sf libc3pl.so.0.0.1 libc3pl.so.0
+  ln -sf libc3pl.so.0.0.1 libc3pl.so
+  ln -sf libcaepcm.so.1.0 libcaepcm.so.1
+  ln -sf libcaepcm.so.1.0 libcaepcm.so
+  ln -sf libcaiowrap.so.1.0.0 libcaiowrap.so.1
+  ln -sf libcaiowrap.so.1.0.0 libcaiowrap.so
+  ln -sf libcaiousb.so.1.0.0  libcaiousb.so.1
+  ln -sf libcaiousb.so.1.0.0  libcaiousb.so
+  ln -sf libcanon_slim.so.1.0.0 libcanon_slim.so.1
+  ln -sf libcanon_slim.so.1.0.0 libcanon_slim.so
+  ln -sf libColorGear.so.0.0.0  libColorGear.so.0
+  ln -sf libColorGear.so.0.0.0  libColorGear.so
+  ln -sf libColorGearC.so.0.0.0 libColorGearC.so.0
+  ln -sf libColorGearC.so.0.0.0 libColorGearC.so
+
+  cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  ln -sf libcanonc3pl.so.1.0.0 libcanonc3pl.so
+  ln -sf libcanonc3pl.so.1.0.0 libcanonc3pl.so.1
+  echo "End cndrvcups-lb-common"
+}
+
+lb_prep(){
+
+  cd ${srcdir}/Linux_UFRII_PrinterDriver_V260_uk_EN/Sources
+  tar xf ${pkgname}-${pkgver}-1.tar.gz
+
+  cd "${pkgname}-${pkgver}/ppd"
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr
+  cd ../pstoufr2cpca
+  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.in
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+  cd ../backend
+  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.in
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+  cd ../cpca
+  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.in
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --enable-progpath=/usr/bin --libdir=/usr/lib${LIBDIRSUFFIX} --disable-static
+  cd ../cngplp
+  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.in
+  aclocal
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+  cd files
+  autoreconf -vi
+  ./autogen.sh --prefix=/usr
+  cd ..
+  make
+
+  mkdir -p ${pkgdir}/usr/{bin,include,lib}
+  mkdir -p ${pkgdir}/usr/share/{cups/model,caepcm,cngplp,cnpkbidi,ufr2filter}
+
+  cd ${srcdir}/Linux_UFRII_PrinterDriver_V260_uk_EN/Sources/${pkgname}-${pkgver}
+  make install DESTDIR=${pkgdir}
+
+  install -m 4755 libs/cnpkmoduleufr2  ${pkgdir}/usr/bin
+  install -m 755 libs/libcanonufr2.la  ${pkgdir}/usr/lib
+  install -s -m 755 libs/libcanonufr2.so.1.0.0  ${pkgdir}/usr/lib
+  install -s -m 755 libs/libufr2filter.so.1.0.0   ${pkgdir}/usr/lib
+  install -s -m 755 libs/libEnoJBIG.so.1.0.0   ${pkgdir}/usr/lib
+  install -c -s -m 755 libs/libEnoJPEG.so.1.0.0   ${pkgdir}/usr/lib
+  install -s -m 755 libs/cnpkbidi   ${pkgdir}/usr/bin
+  install -s -m 755 libs/libcaiocnpkbidi.so.1.0.0   ${pkgdir}/usr/lib
+
+  install -m 644 data/CNC*  ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNL6* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNL8* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNL9* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNLC* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNLA* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNLB* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CNLD* ${pkgdir}/usr/share/caepcm
+  install -c -m 644 data/CNLF* ${pkgdir}/usr/share/caepcm
+  install -c -m 644 data/CNLG* ${pkgdir}/usr/share/caepcm
+  install -m 644 data/CnLB* ${pkgdir}/usr/share/caepcm
+  install -m 644 libs/cnpkbidi_info* ${pkgdir}/usr/share/cnpkbidi
+  install -m 644 libs/ThLB*  ${pkgdir}/usr/share/ufr2filter
+  install -m 755 libs/libcnlbcm.so.1.0     ${pkgdir}/usr/lib
+
+  cd "${pkgdir}/usr/lib"
+  ln -sf libcanonufr2.so.1.0.0 libcanonufr2.so
+  ln -sf libcanonufr2.so.1.0.0 libcanonufr2.so.1
+  ln -sf libufr2filter.so.1.0.0 libufr2filter.so
+  ln -sf libufr2filter.so.1.0.0 libufr2filter.so.1
+  ln -sf libEnoJBIG.so.1.0.0 libEnoJBIG.so
+  ln -sf libEnoJBIG.so.1.0.0 libEnoJBIG.so.1
+  ln -sf libEnoJPEG.so.1.0.0 libEnoJPEG.so
+  ln -sf libEnoJPEG.so.1.0.0 libEnoJPEG.so.1
+  ln -sf libcaiocnpkbidi.so.1.0.0 libcaiocnpkbidi.so
+  ln -sf libcaiocnpkbidi.so.1.0.0 libcaiocnpkbidi.so.1
+  ln -sf libcnlbcm.so.1.0  libcnlbcm.so.1
+  ln -sf libcnlbcm.so.1.0  libcnlbcm.so
+}
