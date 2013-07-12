@@ -1,0 +1,32 @@
+pkgname=agibuild
+pkgver=0.3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Automatic package builder for AgiliaLinux"
+source=("https://github.com/SirAnthony/autobuild/archive/${pkgver}.tar.gz"
+	"https://raw.github.com/SirAnthony/skyfront/master/skyfront.py o")
+tags="dev-util develop"
+
+build_deps="python swig"
+adddep="python"
+
+before_build()
+{
+  go_src_dir
+  rm agibuild/skyfront.py
+  cp ${srcache}/skyfront.py agibuild/
+}
+
+BUILD_SYSTEM="python"
+MAKE_WORD="python setup.py build"
+
+#ran after function build() 
+after_build()
+{
+  go_src_dir
+  install -Dm644 $filedir/agibuild.conf ${pkgdir}/etc/agibuild.conf
+  mkdir -p ${pkgdir}/usr/share/${pkgname}
+  cp -r scripts loops ${pkgdir}/usr/share/${pkgname}
+  install -Dm755 agibuild.py ${pkgdir}/usr/bin/agibuild
+}
