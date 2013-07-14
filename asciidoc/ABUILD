@@ -1,31 +1,25 @@
-#ABUILD created by/создан: medved, medved55rus at gmail.com 
-#----------------------------- General vars --------------------------------------
 pkgname=asciidoc
 pkgver=8.6.8
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
-shortdesc="Text document format for short documents, articles, books and UNIX man pages."\
-
+shortdesc="Text document format for short documents, articles, books and UNIX man pages."
 source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="app-text console"
 
-adddep="python"
+adddep="python libxslt docbook-xsl"
+build_deps="python libxslt docbook-xsl"
 
-#----------------------------- Make PKG --------------------------------------
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
