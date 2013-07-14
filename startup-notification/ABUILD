@@ -3,7 +3,7 @@
 # Package metadata
 pkgname=startup-notification
 pkgver=0.12
-pkgbuild=2
+pkgbuild=3
 arch="auto"
 
 # Package description
@@ -15,6 +15,7 @@ source=("http://www.freedesktop.org/software/startup-notification/releases/start
 
 # Tags
 tags="x11-libs libs"
+build_deps="libX11 xcb-util"
 
 # Build system
 BUILD_SYSTEM="autotools"
