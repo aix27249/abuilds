@@ -1,11 +1,9 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libdca
 pkgver=0.0.5
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
-shortdesc="Libdca (Free DTS Coherent Acoustics decoder)"
+shortdesc="Free library for decoding DTS Coherent Acoustics streams"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("The DTS Coherent Acoustics standard is used in a variety of applications, including DvD, DTS audio CD and radio broadcasting."
 	  ""
@@ -14,35 +12,8 @@ longdesc=("The DTS Coherent Acoustics standard is used in a variety of applicati
 
 source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+tags="libs media-libs"
+build_deps="gcc"
 
 BUILD_SYSTEM="autotools"
 
@@ -59,9 +30,10 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+after_build() {
+  rm -f "${pkgdir}/usr/man/man1"/{extract_dts,dtsdec}.1
+  ln -s dcadec.1.gz "${pkgdir}/usr/man/man1/dtsdec.1.gz"
+  ln -s extract_dca.1.gz "${pkgdir}/usr/man/man1/extract_dts.1.gz"
+  # remove dangling symlink
+  rm "${pkgdir}/usr/lib${LIBDIRSUFFIX}/libdts.a"
 }
