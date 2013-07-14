@@ -1,6 +1,6 @@
 
 pkgname=nss
-pkgver=3.14.1
+pkgver=3.14.3
 pkgbuild=1
 arch=('auto')
 
@@ -9,7 +9,7 @@ shortdesc="Mozilla Network Security Services"
 longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS")
 source=("ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
 tags="libs net-libs"
-build_deps="perl"
+build_deps="perl nspr sqlite zlib"
 conflicts="seamonkey-solibs"
 
 build()
@@ -20,12 +20,12 @@ build()
   # Respect LDFLAGS
   sed -e 's/\$(MKSHLIB) -o/\$(MKSHLIB) \$(LDFLAGS) -o/g' \
       -i mozilla/security/coreconf/rules.mk
-      
+
   # Generate certdata.c from certdata.txt
   #cd mozilla/security/nss/lib/ckfw/builtins
   #make generate
   go_src_dir
-  
+
   export BUILD_OPT=1
   export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
   export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
@@ -83,5 +83,4 @@ build()
   done
 
   install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/include/nss/" || return 1
-
 }
