@@ -1,0 +1,16 @@
+pkgname=time
+pkgver=1.7
+pkgbuild=2
+arch=("auto")
+
+shortdesc=("The GNU time command for measuring program resource use")
+
+tags=("base sys-process")
+
+source=("http://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+build_deps="glibc-solibs"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --infodir=/usr/info"
+INSTALL_KEYS="exec_prefix=${pkgdir}/usr infodir=${pkgdir}/usr/info"
+
