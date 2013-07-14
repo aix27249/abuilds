@@ -1,7 +1,7 @@
 # xcb-util
 pkgname=xcb-util
 pkgver=0.3.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xcb-util')
@@ -13,6 +13,7 @@ source=("http://xcb.freedesktop.org/dist//xcb-util-${pkgver}.tar.bz2")
 
 # for compatibility and transition
 adddep="xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm"
+build_deps="gperf util-macros libxcb"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-static"
