@@ -1,16 +1,18 @@
 pkgname=compositeproto
 pkgver=0.4.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('compositeproto')
 longdesc=('compositeproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+build_deps="fixesproto util-macros"
+adddep="fixesproto"
 
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/compositeproto-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
