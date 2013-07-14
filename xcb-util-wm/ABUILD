@@ -1,6 +1,6 @@
 pkgname=xcb-util-wm
 pkgver=0.3.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=("Utility libraries for XC Binding - client and window-manager helpers for ICCCM")
@@ -8,7 +8,7 @@ shortdesc=("Utility libraries for XC Binding - client and window-manager helpers
 tags=('x11-xcbs xserver')
 
 source=("http://xcb.freedesktop.org/dist/${pkgname}-${pkgver}.tar.bz2")
-
+build_deps="util-macros libxcb"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-static"
