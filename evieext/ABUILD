@@ -1,17 +1,14 @@
 pkgname=evieext
 pkgver=1.1.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('evieext')
+shortdesc=('X11 Event Interception extension wire protocol')
 longdesc=('evieext is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
-
 tags=('x11-protos xserver')
-
 source=("http://xorg.freedesktop.org/archive/individual/proto/evieext-${pkgver}.tar.bz2")
+build_deps="util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-
