@@ -1,54 +1,15 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=orc
-pkgver=0.4.11
+pkgver=0.4.17
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The Oil Runtime Compiler (and OIL stands for Optimized Inner Loops)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Entropy Wave Inc (http://entropywave.com/) presents Orc, the sucessor to Liboil - The Library of Optimized Inner Loops. Orc is a library and set of tools for compiling and executing very simple programs that operate on arrays of data.  The language is a generic assembly language that represents many of the features available in SIMD architectures, including saturated addition and subtraction, and many arithmetic operations."
-	  ""
-	  "Homepage: http://code.entropywave.com/projects/orc/"
-)
-
 source=("http://code.entropywave.com/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="develop dev-util"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+tags="develop dev-util"
+build_deps="glibc"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -60,10 +21,3 @@ BUILD_KEYS="--prefix=/usr \
 --docdir=/usr/doc/${pkgname}-${pkgver}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
