@@ -1,14 +1,12 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=fbset
 pkgver=2.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Framebuffer settings"
-
 source="http://users.telenet.be/geertu/Linux/fbdev/fbset-${pkgver}.tar.gz"
-
 tags="console app-misc"
+build_deps="glibc"
 
 build()
 {
