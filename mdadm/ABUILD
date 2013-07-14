@@ -1,0 +1,25 @@
+pkgname=mdadm
+pkgver=3.2.6
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Manage RAID arrays")
+longdesc=("mdadm is a utility program for creating, managing, and monitoring Linux MD (Software RAID) devices. Unlike the older raidtools package, mdadm is a single program (which should make it easier to use). mdadm was written by Neil Brown. Development of mdadm is sponsored by CSE@UNSW (The School of Computer Science and Engineering at The University of New South Wales).")
+
+tags=("base sys-fs")
+
+source=("ftp://ftp.kernel.org/pub/linux/utils/raid/mdadm/mdadm-$pkgver.tar.bz2")
+config_files="etc/mdadm.conf"
+
+build_deps="glibc-solibs"
+
+build() {
+	go_src_dir
+	burn_patches
+	sed -i "s,-Werror,," Makefile
+	make CXFLAGS="$CFLAGS" MANDIR=/usr/man
+	make install MANDIR=/usr/man DESTDIR=${pkgdir}
+
+	install -Dm0644 mdadm.conf-example ${pkgdir}/etc/mdadm.conf
+
+}
