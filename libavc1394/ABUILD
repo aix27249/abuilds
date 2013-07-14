@@ -1,72 +1,15 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libavc1394
 pkgver=0.5.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="libavc1394 is a programming interface for the 1394 Trade Association AV/C (Audio/Video Control) Digital Interface Command Set."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Программный интерфейс для IEEE1394"
-)
-
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
+tags="libs sys-libs"
+build_deps="libraw1394"
 
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
-
-tags="libs sys-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#author=Unnamed_Hero
-#email=sorry@email.hide
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= 
-                  
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--libdir=/usr/lib$LIBDIRSUFFIX \
+--mandir=/usr/man"
