@@ -1,6 +1,6 @@
 pkgname=xextproto
 pkgver=7.2.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xextproto')
@@ -9,8 +9,9 @@ longdesc=('xextproto is part of X11. For more information about the X.Org Founda
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xextproto-${pkgver}.tar.bz2")
+build_deps="xmlto util-macros docbook-xsl"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
