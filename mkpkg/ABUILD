@@ -1,6 +1,6 @@
 pkgname=mkpkg
 pkgver=1.3.2
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 shortdesc="mkpkg: AgiliaLinux package building tool"
 
