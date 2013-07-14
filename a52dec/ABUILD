@@ -2,7 +2,7 @@
 
 pkgname=a52dec
 pkgver=0.7.4
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="A free library for decoding ATSC A/52 streams"
@@ -33,5 +33,4 @@ INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
  install -m644 liba52/a52_internal.h "${pkgdir}/usr/include/a52dec/"
- echo "End after_build"
 }
