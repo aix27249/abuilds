@@ -1,60 +1,15 @@
-#http://projects.archlinux.org/svntogit/packages.git/tree/libmythes/trunk/PKGBUILD
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mythes
-pkgver=1.2.1
+pkgver=1.2.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="MyThes is a simple thesaurus that uses a structured text data file and an index file with binary search to lookup words and phrases and return information on part of speech, meanings, and synonyms"
-#-ruler---|--------------------------------------------------------------------------|
-
 source=("http://downloads.sourceforge.net/sourceforge/hunspell/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs dev-libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
+build_deps="glibc perl hunspell"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -66,13 +21,11 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-# run the example program:
-./example th_en_US_new.idx th_en_US_new.dat checkme.lst
-# run the example program with stemming and morphological generation:
- # e.g. to check mouse, mice, rodents, eats, eaten, ate, eating etc. words
-./example morph.idx morph.dat morph.lst morph.aff morph.dic
+  # run the example program:
+  ./example th_en_US_new.idx th_en_US_new.dat checkme.lst
+  # run the example program with stemming and morphological generation:
+  # e.g. to check mouse, mice, rodents, eats, eaten, ate, eating etc. words
+  ./example morph.idx morph.dat morph.lst morph.aff morph.dic
 }
