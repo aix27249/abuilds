@@ -1,6 +1,6 @@
 pkgname=xrdb
 pkgver=1.0.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xrdb')
@@ -9,6 +9,7 @@ longdesc=('xrdb is part of X11. For more information about the X.Org Foundation 
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xrdb-${pkgver}.tar.bz2")
+build_deps="libX11 libXmu util-macros"
 
 
 BUILD_SYSTEM='autotools'
