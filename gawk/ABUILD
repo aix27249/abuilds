@@ -1,0 +1,25 @@
+pkgname=gawk
+pkgver=4.1.0
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Pattern scanning and processing language")
+tags=("base sys-base")
+
+source=("ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+build_deps="glibc-solibs readline"
+adddep="bash"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --libexecdir=/usr/lib${LIBDIRSUFFIX}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	# Slackware build scripts moves these two utilities into /bin, let't preserve this layout for compatibility
+	mkdir -p ${pkgdir}/bin
+	for i in awk gawk gawk-${pkgver} ; do
+		mv ${pkgdir}/usr/bin/$i ${pkgdir}/bin/$i
+		ln -sf ../../bin/$i ${pkgdir}/usr/bin/$i
+	done
+}
