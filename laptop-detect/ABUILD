@@ -2,7 +2,7 @@
 
 pkgname=laptop-detect
 pkgver=0.13.7
-pkgbuild=1
+pkgbuild=2
 arch=("noarch")
 
 shortdesc=("attempt to detect a laptop")
@@ -10,6 +10,7 @@ longdesc=("laptop-detect attempts to determine whether it is being run on a lapt
 
 tags=("utils app-admin")
 
+build_deps="mkpkg"
 adddep="dmidecode"
 
 source=("http://ftp.de.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_${pkgver}.tar.gz")
