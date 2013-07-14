@@ -1,144 +1,44 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=infozip
-
 pkgver=6.0
+pkgbuild=4
 pkgver_unzip=$pkgver
 pkgver_zip=3.0
-
-pkgbuild=2
 arch=('auto')
 
 shortdesc="Info-ZIP's zip and unzip utilities"
-#longdesc=(""
-#)
-
 source=(
 "http://downloads.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%20${pkgver_unzip}/unzip${pkgver_unzip/./}.tar.gz"
 "http://downloads.sourceforge.net/project/infozip/Zip%203.x%20%28latest%29/${pkgver_zip}/zip${pkgver_zip/./}.tar.gz"
 )
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="base app-arch"
+build_deps="bzip2"
 
-#dependencies only needed to build package
-build_deps=""
+build() {
+	go_src_dir
+	burn_patches
 
-provides=""
-conflicts=""
+	# ZIP
+	cd $srcdir/zip${pkgver_zip/./}
+	make -f unix/Makefile \
+		LOCAL_ZIP="$CFLAGS" \
+		prefix=/usr generic_gcc -j${numjobs}
+	make -f unix/Makefile \
+		INSTALL=/bin/install \
+		prefix=${pkgdir}/usr \
+		MANDIR=${pkgdir}/usr/share/man/man1 install
 
-adddep=""
-removedep=""
+	cd $srcdir/unzip${pkgver_unzip/./}
+	export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DACORN_FTYPE_NFS \
+		-DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT -DUNICODE_SUPPORT \
+		-DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD -DDATE_FORMAT=DF_YMD \
+		-DUSE_BZIP2 -DNATIVE"
+	sed -i "/MANDIR =/s#)/#)/share/#" unix/Makefile
+	make -f unix/Makefile LOCAL_UNZIP="$CFLAGS" prefix=/usr LF2="" \
+		D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 unzips -j${numjobs}
+	make -f unix/Makefile prefix=${pkgdir}/usr INSTALL_PROGRAM="install" install
 
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
-
-build()
-{
-go_src_dir
-burn_patches
-
-PKG=${pkgdir}
-
-
-# ZIP
-cd $srcdir/zip${pkgver_zip/./}
-# gcc
-#
-# Patrick
-#make -f unix/Makefile generic_gcc || exit 1
-#mkdir -p $PKG/usr/bin
-#cat zip > $PKG/usr/bin/zip
-#cat zipnote > $PKG/usr/bin/zipnote
-#cat zipsplit > $PKG/usr/bin/zipsplit
-#cat zipcloak > $PKG/usr/bin/zipcloak
-#
-# Arch
-make -f unix/Makefile \
-	LOCAL_ZIP="$CFLAGS" \
-	prefix=/usr generic_gcc || exit 1
-make -f unix/Makefile \
-	INSTALL=/bin/install \
-	prefix=${pkgdir}/usr \
-	MANDIR=${pkgdir}/usr/share/man/man1 install || exit 1
-
-# UnZIP
-cd $srcdir/unzip${pkgver_unzip/./}
-# gcc
-#
-# Patrick
-#make -f unix/Makefile generic || exit 1
-# bin
-#cat unzip > $PKG/usr/bin/unzip
-#cat unzipsfx > $PKG/usr/bin/unzipsfx
-#cat funzip > $PKG/usr/bin/funzip
-#cat unix/zipgrep > $PKG/usr/bin/zipgrep
-#
-# Arch
-# set CFLAGS -- from Debian
-export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DACORN_FTYPE_NFS \
-  -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT -DUNICODE_SUPPORT \
-  -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD -DDATE_FORMAT=DF_YMD \
-  -DUSE_BZIP2 -DNATIVE"
-sed -i "/MANDIR =/s#)/#)/share/#" unix/Makefile || exit 1
-# make -- from Debian
-make -f unix/Makefile LOCAL_UNZIP="$CFLAGS" prefix=/usr LF2="" \
-  D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 unzips || exit 1
-# install -- from Debian
-make -f unix/Makefile prefix=${pkgdir}/usr INSTALL_PROGRAM="install" install || exit 1
-
-# zipinfo 
-cd $pkgdir/usr/bin
-ln -sf unzip zipinfo
+	cd $pkgdir/usr/bin
+	ln -sf unzip zipinfo
 
 }
 
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-
-# DOCS
-if [ -d ${pkgdir}/usr/doc/ ]; then
- rm -rf ${pkgdir}/usr/doc/${pkgname}-${pkgver}/*
-fi
-mkdir -p \
- ${pkgdir}/usr/doc/${pkgname}-${pkgver}/zip-${pkgver_zip} \
- ${pkgdir}/usr/doc/${pkgname}-${pkgver}/unzip-${pkgver_unzip}
-
-# unzip
-cd $srcdir/unzip${pkgver_unzip/./}
-cp -av BUGS COPYING* Contents History.* INSTALL LICENSE README ToDo WHERE \
-	${pkgdir}/usr/doc/${pkgname}-${pkgver}/unzip-${pkgver_unzip}
-# zip
-cd $srcdir/zip${pkgver_zip/./}
-cp -va BUGS CHANGES INSTALL LICENSE README* TODO US* WHATSNEW WHERE \
-	${pkgdir}/usr/doc/${pkgname}-${pkgver}/zip-${pkgver_zip}
-
-}
