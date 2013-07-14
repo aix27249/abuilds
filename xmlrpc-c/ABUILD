@@ -1,54 +1,22 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=xmlrpc-c
-pkgver=1.22.04
+pkgver=1.33.03
 pkgbuild=1
 arch=('auto')
 
 shortdesc="XML-RPC C library - an implementation of the xmlrpc protocol"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("XML-RPC for C/C++ is programming libraries and related tools to help you write an XML-RPC server or client in C or C++."
-	  ""
-	  "Homepage: http://xmlrpc-c.sourceforge.net/"
-)
-
+"Homepage: http://xmlrpc-c.sourceforge.net/")
 source=("svn:https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/advanced xmlrpc-c")
+tags="libs dev-libs"
+build_deps="libtool setconf libxml2 curl"
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs dev-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
 if [ ${arch} != "x86_64" ] ; then
-	numjobs=1
+  numjobs=1
 fi
 
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -57,10 +25,3 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
