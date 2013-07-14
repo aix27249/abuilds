@@ -1,6 +1,5 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=icedtea-web
-pkgver=1.2.1
+pkgver=1.4
 pkgbuild=1
 arch=('auto')
 adddep='jre-openjdk'
@@ -12,6 +11,7 @@ build_deps="jre-openjdk jdk-openjdk junit npapi-sdk gtk+2 rhino"
 tags="libs dev-java"
 
 pkglist="docs"
+
 
 build() {
 	go_src_dir
@@ -28,7 +28,6 @@ build() {
 	--with-jdk-home=${JAVA_HOME} \
 	--docdir=/usr/doc/$pkgname \
 	--datarootdir=/usr/share \
-
 
 
 	make -j$numjobs || echo "MAKE FAIL"
