@@ -2,13 +2,13 @@
 
 pkgname=jdk
 pkgver=7
-pkgbuild=1
+pkgbuild=2
 arch=("noarch")
 
 shortdesc=("Sun Java to OpenJDK virtual package: JDK transition")
 
 tags=("virtual dev-java")
-
+build_deps="mkpkg"
 adddep="jdk-openjdk"
 
 source=("")
