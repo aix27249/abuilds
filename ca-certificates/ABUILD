@@ -1,5 +1,5 @@
 pkgname=ca-certificates
-pkgver=20120623
+pkgver=20130119
 pkgbuild=1
 arch=('noarch')
 
