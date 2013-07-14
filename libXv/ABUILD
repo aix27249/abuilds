@@ -1,14 +1,15 @@
 pkgname=libXv
-pkgver=1.0.7
+pkgver=1.0.8
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXv')
+shortdesc=('X11 Video extension library')
 longdesc=('libXv is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXv-${pkgver}.tar.bz2")
+build_deps="libXext videoproto pkg-config"
 
 
 BUILD_SYSTEM='autotools'
