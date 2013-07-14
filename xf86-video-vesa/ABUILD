@@ -1,6 +1,6 @@
 pkgname=xf86-video-vesa
 pkgver=2.3.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xf86-video-vesa: generic X11 driver for VESA-compatible cards.')
@@ -9,9 +9,9 @@ longdesc=('xf86-video-vesa: generic X11 driver for VESA-compatible cards.')
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-vesa-${pkgver}.tar.bz2")
+build_deps="xorg-server resourceproto scrnsaverproto"
+
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-
