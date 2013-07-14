@@ -1,11 +1,11 @@
-#!/sbin/runscript                                                                                                 
-                                                                                                     
+#!/sbin/runscript
+
 depend(){
 	before fsck localmount
 }
-                                             
-start() {                                                                                                         
-	ebegin "Initializing Linux SoftRaid support"      
+
+start() {
+	ebegin "Initializing Linux SoftRaid support"
 	mdadm -A -s
 	eend 0
 }
