@@ -1,32 +1,31 @@
 # ABUILD for etc files.
 pkgname=etc
 pkgver=16.8
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc=('System configuration files')
 longdesc=('System configuration files. The /etc directory is traditionally the location where configuration files are found.')
 
 tags=('base sys-base')
-no_postperm=1
-pkglist="version"
+custom_opts="no_postperm skip_gendeps"
+build_deps="mkpkg"
+
+source=("https://github.com/aix27249/agilialinux-etc/tarball/${pkgver}")
 adddep="agilialinux-version"
+
 build() {
-	set -e
-	cd $pkgdir
-	tar xvf $filedir/etc.tar.xz
-	rm ${pkgdir}/usr/sbin/timeconfig
-	set +e
+	go_src_dir
+	burn_patches
+
+	for dir in etc usr var ; do
+		mv -v $dir ${pkgdir}/
+	done
+
+	# remove adduser, it is in shadow
+	rm "$pkgdir/usr/sbin/adduser"
+	find "$pkgdir/usr/share/locale" -name "adduser.mo" -exec rm -v {} \;
+
 }
 
-version() {
-	pkgname=agilialinux-version
-	pkgver=8.0_rc1
-}
 
-version_prep() {
-	set -e
-	mkdir -p ${pkgdir}/etc
-	cat ${filedir}/agilialinux-version > ${pkgdir}/etc/agilialinux-version
-	set +e
-}
