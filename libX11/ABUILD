@@ -1,16 +1,17 @@
 pkgname=libX11
-pkgver=1.5.0
+pkgver=1.6.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libX11')
+shortdesc=('X11 client-side library')
 longdesc=('libX11 is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libX11-${pkgver}.tar.bz2")
+build_deps="libxcb xproto kbproto util-macros xextproto xtrans inputproto"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-xcb=yes"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-xcb=yes"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
