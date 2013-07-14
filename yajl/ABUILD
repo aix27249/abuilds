@@ -1,6 +1,3 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=yajl
 pkgver=2.0.4
 pkgbuild=1
@@ -9,47 +6,10 @@ arch=('auto')
 shortdesc="Yet Another JSON Library"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("YAJL is a small event-driven (SAX-style) JSON parser written in ANSI C, and a small validating JSON generator. YAJL is released under the BSD license")
-
 source=("git:git://github.com/lloyd/$pkgname")
-
 patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="dev-libs libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="cmake"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
@@ -57,10 +17,3 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 ../"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
