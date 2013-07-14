@@ -1,6 +1,6 @@
 pkgname=xf86rushproto
 pkgver=1.1.2
-pkgbuild=10
+pkgbuild=11
 arch=('auto')
 
 shortdesc=('xf86rushproto')
@@ -10,7 +10,7 @@ tags=('x11-protos xserver')
 
 source=('http://xorg.freedesktop.org/archive/individual/proto/xf86rushproto-1.1.2.tar.bz2')
 
-build_deps='x11-skel'
+build_deps='gcc'
 
 before_build() {
  echo ""
