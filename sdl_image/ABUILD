@@ -1,17 +1,12 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=sdl_image
 pkgver=1.2.12
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="A simple library to load images of various formats as SDL surfaces"
-
 source=("http://www.libsdl.org/projects/SDL_image/release/SDL_image-${pkgver}.tar.gz")
-
 tags="media-libs libs"
-
-build_deps="make sdl>=1.2.13 libpng libjpeg libtiff zlib"
+build_deps="make sdl libpng libjpeg libtiff zlib"
 
 docs=CHANGES
 
