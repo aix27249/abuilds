@@ -1,65 +1,19 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-extutils-pkgconfig
 downname=ExtUtils-PkgConfig
-pkgver=1.12
-pkgbuild=2
+pkgver=1.14
+pkgbuild=1
 arch=('auto')
 
 shortdesc="ExtUtils::PkgConfig (perl module)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("ExtUtils::PkgConfig is a very simplistic interface to pkg-config, intended for use in the Makefile.PL of perl extensions which bind libraries that pkg-config knows. It is really just boilerplate code that you would've written yourself."
-"Homepage: http://search.cpan.org/dist/ExtUtils-PkgConfig/"
-)
-
-source=("http://cpan.rinet.ru/authors/id/T/TS/TSCH/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://downloads.sourceforge.net/sourceforge/gtk2-perl/${downname}-${pkgver}.tar.gz")
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="perl"
+adddep="perl"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL PREFIX=/usr && make"
 INSTALL_WORD="make install INSTALLDIRS=vendor"
 
-#ran after function build()
-#после сборки
 after_build()
 {
     # Remove perllocal.pod and other special files that don't need to be installed,
