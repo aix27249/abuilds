@@ -40,7 +40,7 @@
 
 #include <linux/limits.h>
 
-#define AUFS_VERSION	"3.8-20130325"
+#define AUFS_VERSION	"3.x-rcN-20130701"
 
 /* todo? move this to linux-2.6.19/include/magic.h */
 #define AUFS_SUPER_MAGIC	('a' << 24 | 'u' << 16 | 'f' << 8 | 's')
@@ -77,7 +77,7 @@ typedef int16_t aufs_bindex_t;
 #define AUFS_WH_PFX		".wh."
 #define AUFS_WH_PFX_LEN		((int)sizeof(AUFS_WH_PFX) - 1)
 #define AUFS_WH_TMP_LEN		4
-/* a limit for rmdir/rename a dir */
+/* a limit for rmdir/rename a dir and copyup */
 #define AUFS_MAX_NAMELEN	(NAME_MAX \
 				- AUFS_WH_PFX_LEN * 2	/* doubly whiteouted */\
 				- 1			/* dot */\
@@ -94,7 +94,7 @@ typedef int16_t aufs_bindex_t;
 #define AUFS_WKQ_NAME		AUFS_NAME "d"
 #define AUFS_MFS_DEF_SEC	30 /* seconds */
 #define AUFS_MFS_MAX_SEC	3600 /* seconds */
-#define AUFS_PLINK_WARN		100 /* number of plinks */
+#define AUFS_PLINK_WARN		50 /* number of plinks in a single bucket */
 
 /* pseudo-link maintenace under /proc */
 #define AUFS_PLINK_MAINT_NAME	"plink_maint"
@@ -119,6 +119,7 @@ typedef int16_t aufs_bindex_t;
 #define AUFS_BRPERM_RR		"rr"
 #define AUFS_BRRATTR_WH		"wh"
 #define AUFS_BRWATTR_NLWH	"nolwh"
+#define AUFS_BRATTR_UNPIN	"unpin"
 
 /* ---------------------------------------------------------------------- */
 
