@@ -1,16 +1,16 @@
 pkgname=util-macros
 pkgver=1.17
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('util-macros')
-longdesc=('util-macros is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('X.Org Autotools macros')
 
 tags=('x11-utils xserver')
+build_deps="mkpkg"
 
 source=("http://xorg.freedesktop.org/archive/individual/util/util-macros-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
