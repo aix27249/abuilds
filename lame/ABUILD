@@ -1,64 +1,16 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=lame
-pkgver=3.98.4
+pkgver=3.99.5
 pkgbuild=2
 arch=('auto')
 
 shortdesc="LAME is a high quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("LAME development started around mid-1998. Mike Cheng started it as a patch against the 8hz-MP3 encoder sources. After some quality concerns raised by others, he decided to start from scratch based on the dist10 sources. His goal was only to speed up the dist10 sources, and leave its quality untouched. That branch (a patch against the reference sources) became Lame 2.0, and only on Lame 3.81 did we replaced of all dist10 code, making LAME no more only a patch."
-	  ""
-	  "Homepage: http://lame.sourceforge.net/"
-)
- 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="ncurses nasm"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -71,8 +23,6 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
 echo ""
