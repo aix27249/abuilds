@@ -1,18 +1,16 @@
 pkgname=font-bh-ttf
 pkgver=1.0.3
-pkgbuild=1
+pkgbuild=2
 arch=("noarch")
 
 shortdesc=("font-bh-ttf")
 longdesc=("font-bh-ttf is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org")
 
 tags=("x11-fonts xserver")
+build_deps="encodings font-alias xorg-font-utils fontconfig"
 
 source=("http://xorg.freedesktop.org/archive/individual/font/font-bh-ttf-${pkgver}.tar.bz2")
-
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-
