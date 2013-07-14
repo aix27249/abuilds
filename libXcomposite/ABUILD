@@ -1,14 +1,15 @@
 pkgname=libXcomposite
-pkgver=0.4.3
+pkgver=0.4.4
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXcomposite')
+shortdesc=('X11 Composite extension library')
 longdesc=('libXcomposite is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXcomposite-${pkgver}.tar.bz2")
+build_deps="libXfixes compositeproto util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
