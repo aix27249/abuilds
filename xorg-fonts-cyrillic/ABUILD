@@ -1,0 +1,46 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=xorg-fonts-cyrillic
+pkgver=1.0.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="X.org cyrillic fonts"
+url="http://xorg.freedesktop.org/releases/individual/font/"
+source=("${url}/font-cronyx-cyrillic-${pkgver}.tar.bz2"
+	"${url}/font-misc-cyrillic-${pkgver}.tar.bz2"
+	"${url}/font-screen-cyrillic-1.0.4.tar.bz2"
+	"${url}/font-winitzki-cyrillic-${pkgver}.tar.bz2")
+
+tags="xserver x11-fonts"
+build_deps="encodings font-alias xorg-font-utils fontconfig"
+conflicts="font-cronyx-cyrillic font-misc-cyrillic font-screen-cyrillic font-winitzki-cyrillic"
+
+adddep="xorg-font-utils"
+
+build()
+{
+    cd "${srcdir}"
+    for dir in *; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    ./configure --prefix=/usr --with-fontrootdir=/usr/share/fonts
+	    make -j${numjobs}
+	    popd
+	fi
+    done
+}
+
+
+after_build()
+{
+    cd "${srcdir}"
+    install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+    for dir in *; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    make DESTDIR="${pkgdir}" install
+	    install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.${dir%-*}"
+	    popd
+        fi
+    done
+}
