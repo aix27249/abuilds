@@ -1,14 +1,15 @@
 pkgname=libXrandr
-pkgver=1.4.0
+pkgver=1.4.1
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXrandr')
+shortdesc=('X11 RandR extension library')
 longdesc=('libXrandr is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXrandr-${pkgver}.tar.bz2")
+build_deps="libXext libXrender randrproto util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
