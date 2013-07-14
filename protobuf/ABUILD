@@ -1,17 +1,18 @@
 pkgname=protobuf
-pkgver=2.4.1
+pkgver=2.5.0
 pkgbuild=1
 arch=('auto')
 shortdesc="A way of encoding structured data in an efficient yet extensible format"
 source=("http://$pkgname.googlecode.com/files/$pkgname-$pkgver.tar.bz2")
 tags="libs dev-libs"
+build_deps="gcc zlib python pysetuptools"
 pkglist="python_protobuf"
 
 python_protobuf()
 {
 	pkgname=python-protobuf
 	shortdesc="protobuf Python API"
-	adddep="protobuf=$pkgver"
+	adddep="protobuf=$pkgver python"
 }
 
 before_build()
