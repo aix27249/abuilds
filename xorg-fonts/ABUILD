@@ -1,0 +1,15 @@
+pkgname=xorg-fonts
+pkgver=1.0
+pkgbuild=1
+arch=("noarch")
+
+shortdesc=("Virtual package to all xorg fonts.")
+
+tags=("x11-fonts virtual")
+build_deps="xorg-font-utils xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-cyrillic xorg-fonts-misc xorg-fonts-type1 font-bh-ttf font-bitstream-speedo"
+adddep=("xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-cyrillic xorg-fonts-misc 
+	 xorg-fonts-type1 font-bh-ttf font-bitstream-speedo")
+
+build() {
+	echo "Building virtual package"
+}
