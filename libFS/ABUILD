@@ -1,12 +1,12 @@
 pkgname=libFS
-pkgver=1.0.4
+pkgver=1.0.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libFS')
-longdesc=('libFS is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('X11 Font Services Library')
 
 tags=('x11-libs xserver')
+build_deps="glibc xproto fontsproto"
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libFS-${pkgver}.tar.bz2")
 
