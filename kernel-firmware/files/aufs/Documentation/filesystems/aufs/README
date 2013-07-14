@@ -115,20 +115,20 @@ represents the linux kernel version, "linux-3.x". For instance,
 
 o aufs3-linux tree
 $ git clone --reference /your/linux/git/tree \
-	git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-linux.git \
+	git://git.code.sf.net/p/aufs/aufs3-linux aufs-aufs3-linux \
 	aufs3-linux.git
 - if you don't have linux GIT tree, then remove "--reference ..."
 $ cd aufs3-linux.git
 $ git checkout origin/aufs3.0
 
 o aufs3-standalone tree
-$ git clone git://aufs.git.sourceforge.net/gitroot/aufs/aufs3-standalone.git \
+$ git clone git://git.code.sf.net/p/aufs/aufs3-standalone \
 	aufs3-standalone.git
 $ cd aufs3-standalone.git
 $ git checkout origin/aufs3.0
 
 o aufs-util tree
-$ git clone git://aufs.git.sourceforge.net/gitroot/aufs/aufs-util.git \
+$ git clone git://git.code.sf.net/p/aufs/aufs-util \
 	aufs-util.git
 $ cd aufs-util.git
 $ git checkout origin/aufs3.0
@@ -159,7 +159,7 @@ Also you can view all branches by
 Make sure you have git-checkout'ed the correct branch.
 
 For aufs3-linux tree,
-- enable CONFIG_EXPERIMENTAL and CONFIG_AUFS_FS.
+- enable CONFIG_AUFS_FS.
 - set other aufs configurations if necessary.
 
 For aufs3-standalone tree,
@@ -175,10 +175,13 @@ There are several ways to build.
   CONFIG_AUFS_FS=m. otherwise you don't need ./aufs3-standalone.patch.
 - copy ./{Documentation,fs,include/uapi/linux/aufs_type.h} files to your
   kernel source tree. Never copy $PWD/include/uapi/linux/Kbuild.
-- enable CONFIG_EXPERIMENTAL and CONFIG_AUFS_FS, you can select either
+- enable CONFIG_AUFS_FS, you can select either
   =m or =y.
 - and build your kernel as usual.
 - install the built kernel.
+  Note: Since linux-3.9, every filesystem module requires an alias
+  "fs-<fsname>". You should make sure that "fs-aufs" is listed in your
+  modules.aliases file if you set CONFIG_AUFS_FS=m.
 - install the header files too by "make headers_install" to the
   directory where you specify. By default, it is $PWD/usr.
   "make help" shows a brief note for headers_install.
@@ -196,6 +199,9 @@ There are several ways to build.
   Note: You should read $PWD/fs/aufs/Kconfig carefully which describes
   every aufs configurations.
 - build the module by simple "make".
+  Note: Since linux-3.9, every filesystem module requires an alias
+  "fs-<fsname>". You should make sure that "fs-aufs" is listed in your
+  modules.aliases file.
 - you can specify ${KDIR} make variable which points to your kernel
   source tree.
 - install the files
@@ -314,6 +320,12 @@ Iridium and Inmarsat satellite phone retailer (www.mailasail.com), Nippy
 Max Lekomcev (DOM-TV project) made a donation (2011/7, 12, 2012/3, 6 and
 11).
 Sam Liddicott made a donation (2011/9).
+Era Scarecrow made a donation (2013/4).
+Bor Ratajc made a donation (2013/4).
+Alessandro Gorreta made a donation (2013/4).
+POIRETTE Marc made a donation (2013/4).
+Alessandro Gorreta made a donation (2013/4).
+lauri kasvandik made a donation (2013/5).
 
 Thank you very much.
 Donations are always, including future donations, very important and
