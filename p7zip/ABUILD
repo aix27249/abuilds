@@ -1,94 +1,49 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=p7zip
 pkgver=9.20.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="p7zip (a file archiver)"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("p7zip: p7zip is a quick port of 7z.exe and 7za.exe (command line version of 7zip, whose homepage is http://www.7-zip.org) for Unix. 7-Zip is a file archiver with highest compression ratio. Since 4.10, p7zip (like 7-zip) supports little-endian and big-endian machines.")
-
 source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver}/${pkgname}_${pkgver}_src_all.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-arch console"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="gcc yasm nasm"
+docs="DOCS/*"
 
 build()
 {
-go_src_dir
-burn_patches
+    go_src_dir
+    burn_patches
 
-sed -i "s|^OPTFLAGS=.*|OPTFLAGS=$SLKCFLAGS -L/usr/$SLKLIBDIR -L/$SLKLIBDIR|g" makefile.machine
+    # compile
+    [[ $ARCH = x86_64 ]] \
+        && cp makefile.linux_amd64_asm makefile.machine \
+        || cp makefile.linux_x86_asm_gcc_4.X makefile.machine
 
-# compile
-make all3 || exit
-sed -i "s|DEST_HOME=.*|DEST_HOME=$pkgdir/usr|g" install.sh
-./install.sh
-mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/
-cp bin/7z.so $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/
-chmod 555 $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/7z.so
+    make -j${numjobs} all3 OPTFLAGS="${CXXFLAGS}"
 
-# Install mc's virtual filesystem
-mkdir -p $pkgdir/usr/share/mc/extfs/
-cp contrib/VirtualFileSystemForMidnightCommander/u7z $pkgdir/usr/share/mc/extfs/
-chmod 644 $pkgdir/usr/share/mc/extfs/u7z
-find $pkgdir | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
-find $pkgdir | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
-sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7z
-sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7za
-sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7zr
+    make install \
+        DEST_DIR="${pkgdir}" \
+        DEST_HOME="/usr" \
+        DEST_SHARE="/usr/lib${LIBDIRSUFFIX}/p7zip/" \
+        DEST_SHARE_DOC="/usr/doc/$pkgname-$pkgver/"
 
-# doc
-mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
-cp -a ChangeLog DOCS/* README TODO $pkgdir/usr/doc/$pkgname-$pkgver
-sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7z.1
-sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7za.1
-sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7zr.1
-# find $pkgdir/usr/man -type f -exec gzip -9 {} \;
-}
+    #mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/
+    #cp bin/7z.so $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/
+    #chmod 555 $pkgdir/usr/lib${LIBDIRSUFFIX}/p7zip/7z.so
 
+    # Install mc's virtual filesystem
+    mkdir -p $pkgdir/usr/share/mc/extfs/
+    cp contrib/VirtualFileSystemForMidnightCommander/u7z $pkgdir/usr/share/mc/extfs/
+    chmod 644 $pkgdir/usr/share/mc/extfs/u7z
+    #sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7z
+    #sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7za
+    #sed -i "s|$pkgdir/usr|/usr|g" $pkgdir/usr/bin/7zr
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+    # doc
+    #mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+    #sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7z.1
+    #sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7za.1
+    #sed -i "s|$pkgdir/usr/share/doc/p7zip/DOCS|/usr/doc/$pkgname-$pkgver|g" $pkgdir/usr/man/man1/7zr.1
 }
