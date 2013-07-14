@@ -1,0 +1,19 @@
+pkgname=gperf
+pkgver=3.0.4
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("gperf (a perfect hash function generator)")
+longdesc=("gperf is a perfect hash function generator written in C++. It transforms an n element user-specified keyword set W into a perfect hash function F. gperf currently generates the reserved keyword recognizer for lexical analyzers in several production and research compilers and language processing tools, including GNU C, GNU C++, GNU Java, GNU Pascal, GNU Modula 3, and GNU indent. gperf was written by by Douglas C. Schmidt and Bruno Haible.")
+
+tags=("develop dev-util")
+
+source=("http://ftp.gnu.org/pub/gnu/gperf/${pkgname}-${pkgver}.tar.gz")
+
+build_deps="glibc-solibs gcc"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --docdir=/usr/doc/gperf-${pkgver}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
