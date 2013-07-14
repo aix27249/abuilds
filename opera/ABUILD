@@ -1,14 +1,16 @@
 pkgname=opera
-pkgver=12.14
+pkgver=12.15
 d_ver=`echo $pkgver | sed 's/\.//g'`
-revnum=1738
+revnum=1748
 pkgbuild=1
 arch=('auto')
 shortdesc="Opera browser"
 custom_opts="no_ccache"
 # Don't generate deps, specify it manually.
 custom_opts="skip_gendeps"
-adddep="freetype glib2 fontconfig gcc libxml2 glibc-solibs cxxlibs zlib libXrender libXt libICE libSM libX11"
+adddep="freetype glib2 fontconfig gcc-libs libxml2 glibc-solibs cxxlibs zlib libXrender libXt libICE libSM libX11"
+build_deps="mkpkg"
+
 
 if [ ! "$ARCH" = "x86_64" ] ; then
 	ARCH="i386"
