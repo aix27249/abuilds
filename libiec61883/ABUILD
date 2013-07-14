@@ -1,0 +1,19 @@
+pkgname=libiec61883
+pkgver=1.2.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A higher level API for streaming DV, MPEG-2 and audio over Linux IEEE 1394"
+source=("http://ftp.osuosl.org/pub/linux/libs/ieee1394/${pkgname}-${pkgver}.tar.gz")
+tags="libs media-libs"
+build_deps="libraw1394"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
