@@ -1,43 +1,25 @@
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#http://repos.archlinux.org/wsvn/packages/eric/trunk/
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: Unnamed_Hero, sorry at email.hide 
 pkgname=eric4
-pkgver=4.5.6
+pkgver=4.5.11
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Python IDE written on PyQt with use of QScintilla widget"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=${shortdesc}
-
 source=("http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/${pkgver}/${pkgname}-${pkgver}.tar.gz"
 "http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/${pkgver}/${pkgname}-i18n-ru-${pkgver}.tar.gz")
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-util"
-
-#dependencies only needed to build package
-build_deps="PyQt"
-
+build_deps="PyQt QScintilla"
 adddep="PyQt QScintilla qt4"
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
 
 build()
 {
     go_src_dir
     burn_patches
-    python install.py -c -b /usr/bin -d /usr/lib${LIBDIRSUFFIX}/python2.6/site-packages -i ${pkgdir}
+    python install.py -c -b /usr/bin -i ${pkgdir}
 }
 
-
-#ran after function build() 
-#после сборки
 after_build()
 {
     install -D -m644 eric/icons/default/eric.png ${pkgdir}/usr/share/pixmaps/eric4.png || return 1
