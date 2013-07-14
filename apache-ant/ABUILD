@@ -1,86 +1,38 @@
-#ABUILD created by/создан: Drakmail, coder at dps.ru
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=apache-ant
-pkgver=1.8.2
-pkgbuild=3
+pkgver=1.9.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A java-based build tool."
 
 source=("http://archive.apache.org/dist/ant/binaries/${pkgname}-${pkgver}-bin.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-java"
+build_deps="jdk apache-ant"
+add_dep="jre"
 
-#dependencies only needed to build package
-build_deps=""
+build() {
+  go_src_dir
+  burn_patches
+  # install profile.d script
+  install -dm755 ${pkgdir}/etc/profile.d
+  install -m755 ${filedir}/${pkgname}.sh ${pkgdir}/etc/profile.d/
 
-provides=""
-conflicts=""
+  # Get the ANT_HOME env var
+  source ${filedir}/${pkgname}.sh
 
-adddep=""
-removedep=""
+  cd ${srcdir}/${pkgname}-${pkgver}
+  install -dm755 ${pkgdir}/${ANT_HOME}/{bin,lib}
 
-#for multi pkg abuild
-pkglist=
+  install -m644 ./lib/*.jar ${pkgdir}/${ANT_HOME}/lib
+  cp -Rp ./etc ${pkgdir}/${ANT_HOME}
 
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
+  # Do not copy Windows .bat/.cmd files
+  find ./bin -type f -a ! -name \*.bat -a ! -name \*.cmd \
+    -exec install -m755 {} ${pkgdir}/${ANT_HOME}/bin \;
 
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+  install -m644 LICENSE NOTICE ${pkgdir}/usr/share/licenses/${pkgname}
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-build()
-{
-go_src_dir
-burn_patches
-# install profile.d script
-install -dm755 ${pkgdir}/etc/profile.d
-install -m755 ${filedir}/${pkgname}.sh ${pkgdir}/etc/profile.d/
-
-# Get the ANT_HOME env var
-source ${filedir}/${pkgname}.sh
-
-cd ${srcdir}/${pkgname}-${pkgver}
-install -dm755 ${pkgdir}/${ANT_HOME}/{bin,lib}
-
-install -m644 ./lib/*.jar ${pkgdir}/${ANT_HOME}/lib
-cp -Rp ./etc ${pkgdir}/${ANT_HOME}
-
-# Do not copy Windows .bat/.cmd files
-find ./bin -type f -a ! -name \*.bat -a ! -name \*.cmd \
-  -exec install -m755 {} ${pkgdir}/${ANT_HOME}/bin \;
-
-install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
-install -m644 LICENSE NOTICE ${pkgdir}/usr/share/licenses/${pkgname}
-
-mkdir -p ${pkgdir}/usr/bin
-ln -s /usr/share/java/apache-ant/bin/ant ${pkgdir}/usr/bin/
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+  mkdir -p ${pkgdir}/usr/bin
+  ln -s /usr/share/java/apache-ant/bin/ant ${pkgdir}/usr/bin/
 }
