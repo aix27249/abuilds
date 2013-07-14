@@ -12,7 +12,7 @@ source=("git:git://github.com/aix27249/mpkg.git")
 
 # Tags
 tags="console dev-util"
-build_deps="mpkg-core parted"
+build_deps="mpkgsupport parted cmake"
 
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
