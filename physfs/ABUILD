@@ -1,66 +1,29 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=physfs
-pkgver=2.0.2
-pkgbuild=2
+pkgver=2.0.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A library to provide abstract access to various archives"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Библиотека для доступа к различным архивам"
-)
+source=("http://icculus.org/physfs/downloads/${pkgname}-${pkgver}.tar.bz2")
+tags="libs dev-libs"
+build_deps="cmake doxygen zlib"
+docs="docs/html/*"
 
-source=("http://icculus.org/physfs/downloads/${pkgname}-${pkgver}.tar.gz")
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=Release \
+-DMAN_INSTALL_DIR=/usr/man \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX}\
+-DPHYSFS_BUILD_TEST=OFF \
+-DPHYSFS_BUILD_WX_TEST=OFF"
 
-#patch_opts=("libdir.patch 0")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
-
-tags="libs dev-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#author=Unnamed_Hero
-#email=sorry@email.hide
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-
-export LDFLAGS="$SLKLDFLAGS"
-export CFLAGS="$SLKCFLAGS -fno-strict-aliasing"
-export CXXFLAGS="$SLKCFLAGS -fno-strict-aliasing"
-mkdir -p build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} -DLIB_SUFFIX=${LIBDIRSUFFIX} ../
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
+after_build(){
+  go_src_dir
+  doxygen
+  mkdir -p ${pkgdir}/usr/man/man3
+  install -D -m644 docs/man/man3/* "${pkgdir}/usr/man/man3"
+  for i in author Deinit description extension Free Init major Malloc minor opaque patch Realloc url ; do
+    mv "${pkgdir}/usr/man/man3/$i.3" "${pkgdir}/usr/man/man3/PHYSFS_$i.3"
+  done
 }
