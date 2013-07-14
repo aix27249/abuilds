@@ -1,6 +1,6 @@
 pkgname=xset
 pkgver=1.2.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xset')
@@ -9,6 +9,7 @@ longdesc=('xset is part of X11. For more information about the X.Org Foundation 
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xset-${pkgver}.tar.bz2")
+build_deps="libXmu util-macros"
 
 
 BUILD_SYSTEM='autotools'
