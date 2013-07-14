@@ -1,6 +1,6 @@
 pkgname=sdl_ttf
 pkgver=2.0.11
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="This is a sample library which allows you to use TrueType fonts in your SDL applications."
@@ -9,7 +9,7 @@ source=("http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-${pkgver}.tar.gz
 
 tags="media-libs libs"
 
-build_deps="make libtool gcc pkg-config sdl>=1.2.13"
+build_deps="make libtool gcc pkg-config sdl"
 
 docs=CHANGES
 
