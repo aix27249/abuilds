@@ -1,0 +1,47 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=xorg-fonts-type1
+pkgver=1.0.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="X.org Type1 fonts"
+url="http://xorg.freedesktop.org/releases/individual/font/"
+source=("${url}/font-adobe-utopia-type1-1.0.4.tar.bz2"
+	"${url}/font-bh-type1-${pkgver}.tar.bz2"
+	"${url}/font-bitstream-type1-${pkgver}.tar.bz2"
+	"${url}/font-ibm-type1-${pkgver}.tar.bz2"
+	"${url}/font-xfree86-type1-1.0.4.tar.bz2")
+
+tags="xserver x11-fonts"
+build_deps="encodings font-alias xorg-font-utils fontconfig"
+conflicts="font-adobe-utopia-type1 font-bh-type1 font-bitstream-type1 font-ibm-type1 font-xfree86-type1"
+
+adddep="xorg-font-utils"
+
+build()
+{
+    cd "${srcdir}"
+    for dir in *; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    ./configure --prefix=/usr --with-fontrootdir=/usr/share/fonts
+	    make -j${numjobs}
+	    popd
+	fi
+    done
+}
+
+
+after_build()
+{
+    cd "${srcdir}"
+    install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+    for dir in *; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    make DESTDIR="${pkgdir}" install
+	    install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.${dir%-*}"
+	    popd
+        fi
+    done
+}
