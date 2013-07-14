@@ -1,0 +1,47 @@
+diff --git a/src/xcb_conn.c b/src/xcb_conn.c
+index 7979491..3ff824e 100644
+--- a/src/xcb_conn.c
++++ b/src/xcb_conn.c
+@@ -364,7 +364,7 @@ xcb_connection_t *_xcb_conn_ret_error(int err)
+ 
+ int _xcb_conn_wait(xcb_connection_t *c, pthread_cond_t *cond, struct iovec **vector, int *count)
+ {
+-    int ret;
++    int ret, already_reading;
+ #if USE_POLL
+     struct pollfd fd;
+ #else
+@@ -381,12 +381,20 @@ int _xcb_conn_wait(xcb_connection_t *c, pthread_cond_t *cond, struct iovec **vec
+ #if USE_POLL
+     memset(&fd, 0, sizeof(fd));
+     fd.fd = c->fd;
+-    fd.events = POLLIN;
+ #else
+     FD_ZERO(&rfds);
+-    FD_SET(c->fd, &rfds);
+ #endif
+-    ++c->in.reading;
++
++    already_reading = c->in.reading;
++    if(!already_reading)
++    {
++#if USE_POLL
++        fd.events = POLLIN;
++#else
++        FD_SET(c->fd, &rfds);
++#endif
++        ++c->in.reading;
++    }
+ 
+ #if USE_POLL
+     if(count)
+@@ -444,7 +452,8 @@ int _xcb_conn_wait(xcb_connection_t *c, pthread_cond_t *cond, struct iovec **vec
+ 
+     if(count)
+         --c->out.writing;
+-    --c->in.reading;
++    if(!already_reading)
++        --c->in.reading;
+ 
+     return ret;
+ }

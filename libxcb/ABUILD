@@ -1,6 +1,6 @@
 # libxcb ABUILD
 pkgname=libxcb
-pkgver=1.8.1
+pkgver=1.9.1
 pkgbuild=1
 arch=('auto')
 
@@ -8,19 +8,10 @@ shortdesc=('libxcb (X protocol C-language Binding)')
 longdesc=('The XCB library provides an interface to the X Window System protocol which is fully capable of replacing Xlib. In fact, libX11 makes use of libxcb as much as possible. :-) Porting to XCB has several advantages such as a smaller memory footprint, latency hiding, direct protocol access, and improved thread support.')
 
 tags=('x11-xcbs xserver')
-
 source=("http://xcb.freedesktop.org/dist/libxcb-${pkgver}.tar.bz2")
-
 build_deps='glibc-solibs libXau libXdmcp'
 
-before_build() {
- echo ""
-}
-
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --enable-xinput"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --docdir=/usr/doc/${pkgname}-${pkgver} --enable-xinput"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-after_build() {
- echo ""
-}
 
