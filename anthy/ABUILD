@@ -1,0 +1,18 @@
+pkgname=anthy
+pkgver=9100h
+_filecode=37536
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Hiragana text to Kana Kanji mixed text Japanese input method")
+longdesc=("Anthy is a library for Japanese text input. It converts Hiragana text to Kana Kanji mixed text. anthy home: http://anthy.sourceforge.jp/")
+
+tags=("app-i18n xserver")
+source=("http://dl.sourceforge.jp/anthy/${_filecode}/${pkgname}-${pkgver}.tar.gz")
+build_deps="glibc-solibs"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
