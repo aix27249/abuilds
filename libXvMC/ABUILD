@@ -1,16 +1,16 @@
 pkgname=libXvMC
 pkgver=1.0.7
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('libXvMC')
+shortdesc=('X11 Video Motion Compensation extension library')
 longdesc=('libXvMC is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXvMC-${pkgver}.tar.bz2")
 
-build_deps='libxcb libX11 libXau libXdmcp libXext libXv'
+build_deps='libxcb libX11 libXau libXdmcp libXext libXv pkg-config'
 
 before_build() {
  echo ""
