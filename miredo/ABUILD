@@ -1,8 +1,5 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=miredo
-pkgver=1.2.3
+pkgver=1.2.6
 pkgbuild=1
 arch=('auto')
 
@@ -12,62 +9,22 @@ longdesc=("Miredo is an open-source Teredo IPv6 tunneling software, for Linux an
 "Home: http://www.remlab.net/miredo/"
 )
 
-source=("http://www.remlab.net/files/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://www.remlab.net/files/${pkgname}/${pkgname}-${pkgver}.tar.xz")
 tags="network net-misc"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
+build_deps="judy iproute2 libcap"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
     --disable-static \
     --mandir=/usr/man"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     mkdir -p ${pkgdir}/etc/init.d/ ${pkgdir}/etc/conf.d
