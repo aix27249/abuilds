@@ -1,83 +1,29 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=ladspa
 srcname=ladspa_sdk
 pkgver=1.13
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="LADSPA (Linux Audio Developer's Simple Plugin API)"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("There is a large number of synthesis packages in use or development on the Linux platform at this time. The Linux Audio Developer's Simple Plugin API (LADSPA) attempts to give programmers the ability to write simple plugin audio processors in C/C++ and link them dynamically against a range of host applications."
-	  ""
-	  "Homepage: http://www.ladspa.org/"
-)
-
+"Homepage: http://www.ladspa.org/")
 source=("http://www.ladspa.org/download/${srcname}_${pkgver}.tgz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs="doc/*"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="gcc"
 
 build()
 {
-go_src_dir
-burn_patches
+  go_src_dir
+  burn_patches
 
-cd src
+  cd src
 
-sed -i -e 's/mkdirhier/mkdir -p/' makefile || return 1
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-make targets || return 1
-make INSTALL_PLUGINS_DIR="${pkgdir}/usr/lib${LIBDIRSUFFIX}/ladspa/" \
-INSTALL_INCLUDE_DIR="${pkgdir}/usr/include/" \
-INSTALL_BINARY_DIR="${pkgdir}/usr/bin/" install || return 1
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-cd ..
+  sed -i -e 's/mkdirhier/mkdir -p/' makefile || return 1
+  LDFLAGS="$SLKLDFLAGS" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  make targets || return 1
+  make INSTALL_PLUGINS_DIR="${pkgdir}/usr/lib${LIBDIRSUFFIX}/ladspa/" \
+  INSTALL_INCLUDE_DIR="${pkgdir}/usr/include/" \
+  INSTALL_BINARY_DIR="${pkgdir}/usr/bin/" install || return 1
 }
