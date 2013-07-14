@@ -1,56 +1,56 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=os-prober
-pkgver=1.42
+pkgver=1.58
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Utility to detect other OSes on a set of drives."
-longdesc=("Utility to detect other OSes on a set of drives. Used by grub2 to generate config files.")
 
-source="ftp://ftp.us.debian.org/debian/pool/main/o/${pkgname}/${pkgname}_${pkgver}.tar.gz"
+source="ftp://ftp.debian.org/debian/pool/main/o/${pkgname}/${pkgname}_${pkgver}.tar.gz"
 
 tags="base sys-boot"
+build_deps="glibc-solibs gcc"
+adddep="bash"
 
-build()
-{
-  go_src_dir
-  make
+build() {
+	go_src_dir
+	sed -i -e "s:/lib/ld\*\.so\*:/lib*/ld*.so*:g" os-probes/mounted/common/90linux-distro
+	sed -i -e 's:grub-mount:grub2-mount:g'  common.sh \
+		linux-boot-probes/common/50mounted-tests \
+		os-probes/common/50mounted-tests
+	rm -f Makefile
+	make -j${numjobs} newns
 }
 
-# No, they cannot have a normal build system. Cause it's so.
 
-after_build()
-{
-  # fix lib64
-  sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" common.sh
-  sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" os-probes/common/50mounted-tests
-  sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" linux-boot-probes/common/50mounted-tests
-  sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" os-prober
-  sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" linux-boot-prober
+after_build() {
+	go_src_dir
+	
+	# fix lib64
+	sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" common.sh
+	sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" os-probes/common/50mounted-tests
+	sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" linux-boot-probes/common/50mounted-tests
+	sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" os-prober
+	sed -i -e "s/\/usr\/lib/\/usr\/lib$LIBDIRSUFFIX/g" linux-boot-prober
 
-  install -Dm755 linux-boot-prober $pkgdir/usr/bin/linux-boot-prober
-  install -Dm755 os-prober $pkgdir/usr/bin/os-prober
-  install -Dm755 newns $pkgdir/usr/lib$LIBDIRSUFFIX/os-prober/newns
+	install -Dm755 linux-boot-prober $pkgdir/usr/bin/linux-boot-prober
+	install -Dm755 os-prober $pkgdir/usr/bin/os-prober
+	install -Dm755 newns $pkgdir/usr/lib$LIBDIRSUFFIX/os-prober/newns
+	install -Dm755 common.sh $pkgdir/usr/share/os-prober/common.sh
 
-  install -Dm755 linux-boot-probes/common/50mounted-tests $pkgdir/usr/lib$LIBDIRSUFFIX/linux-boot-probes/50mounted-tests
-  install -Dm755 linux-boot-probes/mounted/x86/40grub $pkgdir/usr/lib$LIBDIRSUFFIX/linux-boot-probes/mounted/40grub
-  install -Dm755 linux-boot-probes/mounted/x86/50lilo $pkgdir/usr/lib$LIBDIRSUFFIX/linux-boot-probes/mounted/50lilo
-  install -Dm755 linux-boot-probes/mounted/common/40grub2 $pkgdir/usr/lib$LIBDIRSUFFIX/linux-boot-probes/mounted/40grub2
-  install -Dm755 linux-boot-probes/mounted/common/90fallback $pkgdir/usr/lib$LIBDIRSUFFIX/linux-boot-probes/mounted/90fallback
+	for dir in os-probes{,/mounted,/init} linux-boot-probes{,/mounted}; do
+	    install -dm755 "$pkgdir/usr/lib/$dir"
+	    install -m755 -t "$pkgdir/usr/lib/$dir" "$dir"/common/*
+	    if [[ -d "$dir"/x86 ]]; then
+		cp -r "$dir"/x86/* "$pkgdir/usr/lib/$dir"
+	    fi
+	done
 
-  install -Dm755 os-probes/common/50mounted-tests $pkgdir/usr/lib$LIBDIRSUFFIX/os-probes/50mounted-tests
-  install -Dm755 os-probes/init/common/10filesystems $pkgdir/usr/lib$LIBDIRSUFFIX/os-probes/init/10filesystems
-  for f in os-probes/mounted/x86/* ; do 
-    install -Dm755 $f $pkgdir/usr/lib$LIBDIRSUFFIX/os-probes/mounted/`basename $f`
-  done
-  install -Dm755 os-probes/mounted/common/40lsb $pkgdir/usr/lib$LIBDIRSUFFIX/os-probes/mounted/40lsb
-  install -Dm755 os-probes/mounted/common/90linux-distro $pkgdir/usr/lib$LIBDIRSUFFIX/os-probes/mounted/90linux-distro
-  install -Dm755 common.sh $pkgdir/usr/share/os-prober/common.sh  
-  install -Dm644 debian/copyright $pkgdir/usr/share/doc/os-prober/copyright  
-  
-  # create a empty labels file, will be used by os-prober at execution
-  mkdir -p $pkgdir/var/lib/os-prober
-  touch $pkgdir/var/lib/os-prober/labels 
-  chmod 644 $pkgdir/var/lib/os-prober/labels
+	install -Dm755 os-probes/mounted/powerpc/20macosx "$pkgdir"/usr/lib/os-probes/mounted/20macosx
+	install -Dm644 debian/copyright $pkgdir/usr/share/doc/os-prober/copyright
+
+	# create a empty labels file, will be used by os-prober at execution
+	install -dm755 "$pkgdir"/var/lib/os-prober
+	touch $pkgdir/var/lib/os-prober/labels
+	chmod 644 $pkgdir/var/lib/os-prober/labels
 
 }
