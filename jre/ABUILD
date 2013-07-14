@@ -2,13 +2,13 @@
 
 pkgname=jre
 pkgver=7
-pkgbuild=1
+pkgbuild=2
 arch=("noarch")
 
 shortdesc=("Sun Java to OpenJDK virtual package")
 
 tags=("virtual dev-java")
-
+build_deps="mkpkg"
 adddep="jre-openjdk icedtea-web"
 
 source=("")
