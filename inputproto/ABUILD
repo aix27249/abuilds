@@ -1,5 +1,5 @@
 pkgname=inputproto
-pkgver=2.2
+pkgver=2.3
 pkgbuild=1
 arch=('auto')
 
@@ -9,8 +9,9 @@ longdesc=('inputproto is part of X11. For more information about the X.Org Found
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/inputproto-${pkgver}.tar.bz2")
+build_deps="util-macros asciidoc"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
