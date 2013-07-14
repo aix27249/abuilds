@@ -1,5 +1,5 @@
 pkgname=openssl
-pkgver=1.0.1c
+pkgver=1.0.1e
 pkgbuild=1
 arch=('auto')
 
@@ -9,12 +9,13 @@ longdesc=("The OpenSSL certificate management tool and the shared libraries that
 tags=('dev-libs network')
 source=("http://www.openssl.org/source/openssl-${pkgver}.tar.gz")
 
-build_deps='glibc-solibs'
+build_deps='glibc-solibs perl'
 pkglist="solibs"
 adddep="openssl-solibs==${pkgver}"
 
 # OpenSSL 1.0.1c fails to build with numjobs>1, so limit it.
-numjobs=1
+# patch must solve this
+#numjobs=1
 
 build() {
 	go_src_dir
@@ -31,12 +32,15 @@ build() {
 		optflags='no-sse2'
 	fi
 
+	#/perl 
+	sed -i '1s,^:$,#!/usr/bin/perl,' Configure
+
 
 	./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib${LIBDIRSUFFIX} \
 		shared zlib enable-md2 ${optflags} "${openssltarget}"
 
-	make depend -j${numjobs} || make ||  exit 1
-	make -j${numjobs} || make || exit 1
+	make depend -j${numjobs} || exit 1
+	make -j${numjobs} || exit 1
 	make install INSTALL_PREFIX=${pkgdir} || exit 1
 
 	# Make the .so.? library symlinks:
@@ -61,12 +65,10 @@ build() {
 
 	mv ${pkgdir}/etc/ssl/openssl.cnf ${pkgdir}/etc/ssl/openssl.cnf.new
 
-
 	mv ${pkgdir}/etc/ssl/man ${pkgdir}/usr
 	( cd ${pkgdir}/usr/man/man1 ; mv passwd.1 ssl_passwd.1 )
 	( cd ${pkgdir}/usr/man/man3 ; mv rand.3 ssl_rand.3 )
 	( cd ${pkgdir}/usr/man/man3 ; mv err.3 ssl_err.3 )
-
 
 	cd ${pkgdir}
 	chmod 755 usr/lib${LIBDIRSUFFIX}/pkgconfig
