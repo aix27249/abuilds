@@ -1,0 +1,22 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org
+pkgname=libdvdnav
+pkgver=4.2.0
+pkgbuild=1
+arch=('auto')
+shortdesc="The library for xine-dvdnav plugin."
+source=("http://dvdnav.mplayerhq.hu/releases/${pkgname}-${pkgver}.tar.bz2")
+patch_opts=("")
+tags="libs media-libs"
+build_deps="libdvdread"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
