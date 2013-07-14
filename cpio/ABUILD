@@ -1,8 +1,6 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=cpio
 pkgver=2.11
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A tool to copy files into or out of a cpio or tar archive"
@@ -10,21 +8,33 @@ shortdesc="A tool to copy files into or out of a cpio or tar archive"
 source=("ftp://ftp.gnu.org/gnu/cpio/cpio-${pkgver}.tar.gz")
 
 tags="base app-arch"
+build_deps="glibc-solibs"
 
-build_deps="gcc make"
+before_build() {
+	go_src_dir
+
+	# Always use 32-bit CRC
+	zcat ${filedir}/cpio.32bit.crc.diff.gz | patch -p1 -F 3 --verbose || exit 1
+}
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---libexecdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+	--bindir=/bin \
+	--enable-mt \
+	--with-rmt=/sbin/rmt \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--libexecdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man"
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=${pkgdir} INSTALL='install -p'"
+
+after_build() {
+	rm -rf ${pkgdir}/usr/libexec
+	
+	# Don't clobber mt
+	mv ${pkgdir}/bin/mt ${pkgdir}/bin/mt-GNU
+	mv ${pkgdir}/usr/man/man1/mt.1 ${pkgdir}/usr/man/man1/mt-GNU.1
+}
