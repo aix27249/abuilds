@@ -1,18 +1,17 @@
 pkgname=zlib
-pkgver=1.2.6
-pkgbuild=2
+pkgver=1.2.8
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A Massively Spiffy Yet Delicately Unobtrusive Compression Library"
 
-source="http://zlib.net/zlib-${pkgver}.tar.gz"
+source=("http://downloads.sourceforge.net/libpng/zlib-${pkgver}.tar.xz")
 
 tags="libs app-arch"
 
+build_deps="glibc-solibs"
+
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"${SLKCFLAGS/-O2/-O3} -fPIC -fno-tree-vectorize -DUNALIGNED_OK\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sharedlibdir=/lib${LIBDIRSUFFIX}"
-
 INSTALL_KEYS="DESTDIR=$pkgdir"
