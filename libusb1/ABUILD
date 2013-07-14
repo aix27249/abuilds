@@ -1,6 +1,6 @@
 # Package metadata
 pkgname=libusb1
-pkgver=1.0.12
+pkgver=1.0.15
 pkgbuild=1
 arch="auto"
 
@@ -12,6 +12,7 @@ source=("http://downloads.sourceforge.net/libusbx/libusbx-${pkgver}.tar.bz2")
 
 # Tags
 tags="libs dev-libs"
+build_deps="glibc-solibs"
 
 # Build system
 BUILD_SYSTEM="autotools"
