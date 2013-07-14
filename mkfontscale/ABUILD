@@ -1,17 +1,17 @@
 pkgname=mkfontscale
 pkgver=1.1.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('mkfontscale')
-longdesc=('mkfontscale is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('Create an index of scalable font files for X')
 
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/mkfontscale-${pkgver}.tar.bz2")
+build_deps="freetype libfontenc util-macros xproto"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 
