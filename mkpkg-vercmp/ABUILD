@@ -1,0 +1,15 @@
+pkgname=mkpkg-vercmp
+pkgver=1.1
+pkgbuild=1
+arch=('noarch')
+shortdesc="Compatibility package for mkpkg-vercmp"
+
+tags="dev-util develop"
+adddep="mpkg-console>=0.17_git20121105"
+build_deps="mkpkg"
+build() {
+	mkdir -p ${pkgdir}/usr/bin
+	# This package required only for compatibility - it creates symlink :)
+	ln -s mpkg-vercmp ${pkgdir}/usr/bin/mkpkg-vercmp
+}
+
