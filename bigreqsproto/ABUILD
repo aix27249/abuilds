@@ -1,6 +1,6 @@
 pkgname=bigreqsproto
 pkgver=1.1.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('bigreqsproto')
@@ -9,6 +9,7 @@ longdesc=('bigreqsproto is part of X11. For more information about the X.Org Fou
 tags=("x11-protos xserver")
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/bigreqsproto-${pkgver}.tar.bz2")
+build_deps="util-macros xmlto docbook-xml"
 
 
 BUILD_SYSTEM='autotools'
