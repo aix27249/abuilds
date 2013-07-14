@@ -1,0 +1,17 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=xorg-font-utils
+pkgver=7.6
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Vitual package for xorg font utilites"
+tags="virtual x11-fonts"
+
+#dependencies only needed to build package
+build_deps="bdftopcf mkfontdir mkfontscale font-util"
+adddep="bdftopcf mkfontdir mkfontscale font-util"
+
+build() {
+    echo "Building virtual package"
+}
+
