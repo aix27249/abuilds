@@ -1,0 +1,47 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=xorg-fonts-100dpi
+pkgver=1.0.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="X.org 100dpi fonts"
+url="http://xorg.freedesktop.org/releases/individual/font/"
+source=("${url}/font-adobe-100dpi-1.0.3.tar.bz2"
+	"${url}/font-adobe-utopia-100dpi-1.0.4.tar.bz2"
+	"${url}/font-bh-100dpi-1.0.3.tar.bz2"
+	"${url}/font-bh-lucidatypewriter-100dpi-1.0.3.tar.bz2"
+	"${url}/font-bitstream-100dpi-1.0.3.tar.bz2")
+
+tags="xserver x11-fonts"
+build_deps="encodings font-alias xorg-font-utils fontconfig"
+conflicts="font-adobe-100dpi font-adobe-utopia-100dpi font-bh-100dpi font-bh-lucidatypewriter-100dpi font-bitstream-100dpi"
+
+adddep="xorg-font-utils"
+
+build()
+{
+    cd "${srcdir}"
+    for dir in font-*-100dpi*; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    ./configure --prefix=/usr --with-fontrootdir=/usr/share/fonts
+	    make -j${numjobs}
+	    popd
+	fi
+    done
+}
+
+
+after_build()
+{
+    cd "${srcdir}"
+    install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+    for dir in font-*-100dpi*; do
+	if [ -d "${dir}" ]; then
+	    pushd ${dir}
+	    make DESTDIR="${pkgdir}" install
+	    install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.${dir%-100dpi-*}"
+	    popd
+        fi
+    done
+}
