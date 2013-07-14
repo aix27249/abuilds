@@ -1,6 +1,6 @@
 pkgname=libpciaccess
 pkgver=0.13.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('libpciaccess')
@@ -9,6 +9,7 @@ longdesc=('libpciaccess is part of X11. For more information about the X.Org Fou
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libpciaccess-${pkgver}.tar.bz2")
+build_deps="pkg-config util-macros"
 
 
 BUILD_SYSTEM='autotools'
