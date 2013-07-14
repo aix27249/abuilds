@@ -1,0 +1,34 @@
+pkgname=rpcbind
+pkgver=0.2.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="portmap replacement which supports RPC over various protocols"
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+tags="network net-fs"
+build_deps="glibc libtirpc pkg-config"
+conflicts="portmap"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--bindir=/sbin \
+--program-prefix= \
+--program-suffix= \
+--enable-warmstarts \
+--with-statedir=/var/run"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+    mkdir -p ${pkgdir}/etc/init.d
+    mkdir -p ${pkgdir}/etc/conf.d
+    install -m 0755 ${filedir}/rpcbind.confd ${pkgdir}/etc/conf.d/rpcbind
+    install -m 0755 ${filedir}/rpcbind.initd ${pkgdir}/etc/init.d/rpcbind
+}
