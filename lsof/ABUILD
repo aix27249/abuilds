@@ -1,25 +1,14 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: Ben, ivan29m at rambler.ru 
 pkgname=lsof
-pkgver=4.86
+pkgver=4.87
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Lists open files for running Unix processes"
 
 source=("ftp://sunsite.ualberta.ca/pub/Mirror/lsof/${pkgname}_${pkgver}.tar.bz2")
-
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="console app-admin"
-
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
+build_deps="gcc"
 
 build()
 {
@@ -39,7 +28,7 @@ cd ${srcdir}/${pkgname}_${pkgver}/${pkgname}_${pkgver}_src
 
 install -Dm0755 -o root -g root lsof ${pkgdir}/usr/sbin/lsof 
 install -Dm0644 -o root -g root lsof.8 ${pkgdir}/usr/share/man/man8/lsof.8 
-   
+
 }
 
 
