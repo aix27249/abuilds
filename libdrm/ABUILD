@@ -1,14 +1,15 @@
 pkgname=libdrm
-pkgver=2.4.38
+pkgver=2.4.45
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libdrm (A library to support Direct Rendering)')
+shortdesc=('Userspace interface to kernel DRM (Direct Rendering) services')
 longdesc=('This library implements an interface to the kernel DRM services. It is used to support hardware accelerated 3-D rendering.')
 
 tags=('libs x11-libs')
 
 source=("http://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+build_deps="glibc libpciaccess udev"
 
 before_build() {
 	go_src_dir
@@ -21,8 +22,7 @@ BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX \
 	--enable-udev \
 	--enable-intel \
 	--enable-radeon \
-	--enable-vmwgfx-experimental-api \
-	--enable-nouveau-experimental-api"
+	--enable-nouveau"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
