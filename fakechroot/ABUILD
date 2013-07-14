@@ -1,14 +1,17 @@
 pkgname=fakechroot
-pkgver=2.12
+pkgver=2.16
 pkgbuild=1
 shortdesc=("Gives a fake chroot environment")
 longdesc=("fakechroot runs a command in an environment were is additional possibility to use chroot(8) command without root privileges. This is useful for allowing users to create own chrooted environment with possibility to install another packages without need for root privileges.")
 arch=('auto')
+
 source=("https://github.com/downloads/fakechroot/fakechroot/fakechroot-${pkgver}.tar.gz")
+
 tags="develop dev-util"
+build_deps="glibc-solibs"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}/libfakeroot"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}/libfakeroot --sysconfdir=/etc"
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
