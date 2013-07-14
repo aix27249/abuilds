@@ -1,8 +1,6 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: Ben, ivan29m at rambler.ru 
 pkgname=libpcap
-pkgver=1.1.1
+pkgver=1.4.0
 pkgbuild=1
 arch=('auto')
 
@@ -13,16 +11,8 @@ Libpcap can provide network statistics collection, security monitoring and netwo
 )
 
 source=("http://www.tcpdump.org/release/$pkgname-$pkgver.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="network net-libs"
-
-#dependencies only needed to build package
-build_deps=""
+build_deps="flex glibc libnl libusb1"
 
 provides=""
 conflicts=""
