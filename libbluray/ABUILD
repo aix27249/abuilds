@@ -1,12 +1,11 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru
-
 pkgname=libbluray
-pkgver=0.2.2
+pkgver=0.3.0
 pkgbuild=1
 arch=('auto')
 shortdesc="Library to access Blu-Ray disks for video playback"
 source=("ftp://ftp.videolan.org/pub/videolan/$pkgname/$pkgver/$pkgname-$pkgver.tar.bz2")
 tags="libs media-video"
+build_deps="libxml2 freetype"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
