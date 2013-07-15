@@ -1,59 +1,12 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=scons
-pkgver=2.0.1
+pkgver=2.3.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Scons ( a software construction tool)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("SCons is a software construction tool (build tool, substitute for Make) implemented in Python, based on the winning design in the Software Carpentry build tool competition (in turn based on the Cons build tool)."
-	  ""
-	  "Homepage: http://scons.org/"
-)
-
+shortdesc="Extensible Python-based build utility"
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="develop dev-python"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+tags="develop dev-python"
+build_deps="python"
 
 BUILD_SYSTEM="python"
-#
-#MAKE_WORD="python setup.py build"
-#
 BUILD_KEYS=
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
