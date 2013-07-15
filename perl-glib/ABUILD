@@ -1,58 +1,14 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-glib
 downname=Glib
-pkgver=1.223
-pkgbuild=2
+pkgver=1.280
+pkgbuild=1
 arch=('auto')
 
-shortdesc="Glib perl bindings"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This module provides perl access to Glib and GLib's GObject libraries."
-"Homepage: http://search.cpan.org/dist/Glib/"
-)
-
+shortdesc="Perl wrappers for glib 2.x, including GObject"
 source=("http://downloads.sourceforge.net/gtk2-perl/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps="perl-extutils-depends perl-extutils-pkgconfig"
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="perl-extutils-depends perl-extutils-pkgconfig glib2 perl"
+adddep="perl glib2"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL \
@@ -63,8 +19,6 @@ BUILD_KEYS="Makefile.PL \
     make
     make test"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     # Remove perllocal.pod and other special files that don't need to be installed,
