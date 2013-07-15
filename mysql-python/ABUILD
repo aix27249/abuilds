@@ -1,68 +1,18 @@
-#ABUILD created by/создан: Drakmail, coder at iso-art.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mysql-python
-pkgver=1.2.3c1
-pkgbuild=2
+pkgver=1.2.4
+pkgbuild=1
 arch=('auto')
 
 shortdesc="MySQL support for Python"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("MySQL support for Python")
-
-source=("http://downloads.sourceforge.net/${pkgname}/MySQL-python-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-${pkgver}.zip")
 tags="dev-python libs"
-
-#dependencies only needed to build package
-build_deps="python"
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="python libmysqlclient pysetuptools mysql"
 
 build()
 {
-go_src_dir
-burn_patches
-cd ${srcdir}/MySQL-python-${pkgver}
-python setup.py install --root=${pkgdir} || return 1
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+  go_src_dir
+  burn_patches
+  python setup.py install --root=${pkgdir} || return 1
 }
