@@ -1,0 +1,14 @@
+pkgname=python-urwid
+pkgver=1.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Urwid is a curses-based user interface library."
+source=("http://excess.org/urwid/urwid-${pkgver}.tar.gz")
+tags="libs dev-python"
+build_deps="python"
+adddep="python"
+provides="urwid"
+
+
+BUILD_SYSTEM="python"
