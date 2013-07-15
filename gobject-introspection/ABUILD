@@ -1,5 +1,5 @@
 pkgname=gobject-introspection
-pkgver=1.32.1
+pkgver=1.36.0
 tree=`echo $pkgver | cut -d . -f 1-2`
 pkgbuild=1
 arch=('auto')
@@ -9,22 +9,15 @@ longdesc=("The goal of the project is to describe the APIs and  collect them in 
 
 source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/$tree/${pkgname}-${pkgver}.tar.xz")
 
-patch_opts=("")
-
+build_deps="glib2 python python-mako libffi libpthread-stubs renderproto kbproto"
 tags="libs dev-libs"
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--enable-doctool"
