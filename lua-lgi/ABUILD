@@ -1,0 +1,34 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=lua-lgi
+pkgver=0.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Lua bindings for gnome/gobject using gobject-introspection library"
+source=("https://github.com/pavouk/lgi/archive/${pkgver}.tar.gz")
+tags="libs dev-libs"
+build_deps="glibc glib2 libffi lua gobject-introspection"
+adddep="lua"
+docs="docs/*"
+
+build() {
+    go_src_dir
+    burn_patches
+    make -j${numjobs}
+}
+
+after_build() {
+    go_src_dir
+    make \
+      LUA_LIBDIR=/usr/lib/lua/5.2 \
+      LUA_SHAREDIR=/usr/share/lua/5.2 \
+      DESTDIR="$pkgdir/" install
+
+    # dump typelib tool
+    install -Dm755 tools/dump-typelib.lua "$pkgdir/usr/bin/dump-typelib"
+
+    # samples
+    install -d "$pkgdir/usr/share/$pkgname/samples/gtk-demo"
+    install -Dm644 samples/*.lua "$pkgdir/usr/share/$pkgname/samples"
+    install -Dm644 samples/gtk-demo/* "$pkgdir/usr/share/$pkgname/samples/gtk-demo"
+}
