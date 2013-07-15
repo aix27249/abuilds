@@ -16,7 +16,7 @@ tags="base sys-pkgtools"
 
 # Manually-added dependencies
 adddep="mpkg-i18n tar>=1.22 xz>=4.999 gzip sed wget"
-
+build_deps="nwidgets mpkgsupport cmake"
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIBDIRSUFFIX"
 
