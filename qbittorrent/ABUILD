@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
-pkgver=3.0.9
-pkgbuild=2
+pkgver=3.0.10
+pkgbuild=1
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
 
@@ -46,10 +46,10 @@ custom_opts=""
 
 #ran before function build()
 #запускается перед сборкой
-before_build()
-{
-echo ""
-}
+#before_build()
+#{
+#echo ""
+#}
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -60,52 +60,8 @@ INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
 #после сборки
 after_build()
 {
-echo ""
- 
-#cp -v $srcache/CHANGELOG_${pkgver//./_} $pkgdir/usr/doc/${pkgname}-${pkgver}/CHANGELOG
-
 cd $pkgdir/usr/doc/${pkgname}-${pkgver}/
-[ -f ./README.os2 ] &&  rm -v $pkgdir/usr/doc/${pkgname}-${pkgver}/README.os2
+[ -f ./README.os2 ] &&  rm -v ./README.os2
 [ -f ./doc/qbittorrent.1 ] && rm -v ./doc/qbittorrent*.1 && rmdir -v ./doc
- 
-# nogui ver
-#--------------------------------------------------------------------------
-#--------------------------------------------------------------------------
-qb_nogui () {
-echo "qb-nogui"
- 
-ARCH=`uname -m`
-if [ "$ARCH" = "i686" ]; then
-  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
-elif [ "$ARCH" = "x86_64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
-fi
- 
-cd $srcdir
-rm -rf ${srcname}-${srcver} || exit 1
-tar xvf $srcache/${srcname}-${srcver}.tar.?z* || exit 1
-go_src_dir
-chown -R root:root .
-chmod -R a-s,u+w,go+r-w .
- 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-	./configure \
-	--prefix=/usr \
-	--disable-geoip-database \
-	--disable-gui \
-	--disable-libnotify \
-	|| exit 1
-make -j${numjobs} || make || exit 1
-make install INSTALL_ROOT=$pkgdir || exit 1
- 
-find $pkgdir | xargs file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
-}
-#--------------------------------------------------------------------------
-#--------------------------------------------------------------------------
-#qb_nogui
- 
 echo ""
 }
