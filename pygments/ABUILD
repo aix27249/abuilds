@@ -1,14 +1,12 @@
-#ABUILD created by: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pygments
-pkgver=1.5
+pkgver=1.6
 pkgbuild=1
 arch=('auto')
 
 shortdesc="a syntax highlighting package written in Python"
 source=("http://pypi.python.org/packages/source/P/Pygments/Pygments-${pkgver}.tar.gz")
 tags="utils dev-python"
+build_deps="python pysetuptools"
 adddep="python"
 
 BUILD_SYSTEM="python"
