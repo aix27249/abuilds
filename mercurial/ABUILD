@@ -1,6 +1,5 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=mercurial
-pkgver=1.9.1
+pkgver=2.6.1
 pkgbuild=1
 arch=('auto')
 
@@ -10,6 +9,7 @@ longdesc=("Mercurial is a free, distributed source control management tool. It e
 source="http://www.selenic.com/$pkgname/release/${pkgname}-${pkgver}.tar.gz"
 
 tags="develop dev-util"
+build_deps="python"
 
 BUILD_SYSTEM="python"
 
