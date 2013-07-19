@@ -1,0 +1,36 @@
+#!/sbin/runscript
+
+DESC="PCSC Lite resource manager"
+NAME=pcscd
+DAEMON=/usr/bin/${NAME}
+IPCDIR=/var/run/pcscd
+PIDFILE=${IPCDIR}/${NAME}.pid
+
+
+depend() {
+  after localmount
+}
+
+start() {
+  ebegin "Starting ${NAME}"
+
+  # create ${IPCDIR} with correct access rights
+  if [ ! -d ${IPCDIR} ]; then
+     rm -rf ${IPCDIR}
+     mkdir ${IPCDIR}
+  fi
+  chmod 0775 ${IPCDIR}
+
+  start-stop-daemon --start --quiet --pidfile ${PIDFILE} --make-pidfile --exec ${DAEMON} --test > /dev/null || return 1
+  start-stop-daemon --start --quiet --pidfile ${PIDFILE} --make-pidfile --exec ${DAEMON} || return 2
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping ${NAME}"
+
+  start-stop-daemon --stop --quiet --pidfile ${PIDFILE} --name ${NAME}
+
+  eend $?
+}
+
