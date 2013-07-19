@@ -12,11 +12,7 @@ tags="dev-libs libs"
 
 build_deps="make gcc pkg-config pcsclite"
 
-provides=""
-
 adddep=""
-
-docs=
 
 BUILD_SYSTEM="autotools"
 
@@ -34,9 +30,3 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-#after_build()
-#{
-
-#}
