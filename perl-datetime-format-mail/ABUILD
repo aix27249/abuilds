@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-datetime-format-mail
+pkgver=0.3001
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Convert between DateTime and RFC2822/822 formats"
+
+source=("http://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-Mail-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-datetime perl-params-validate"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}
