@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-file-rsyncp
+pkgver=0.70
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Perl interface to rsync file list encoding and decoding"
+
+source=("http://search.cpan.org/CPAN/authors/id/C/CB/CBARRATT/File-RsyncP-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find $pkgdir -name '.packlist' -delete
+  find $pkgdir -name '*.pod' -delete
+}
