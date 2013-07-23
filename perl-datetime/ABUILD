@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-datetime
+pkgver=1.03
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A complete, easy to use date and time object"
+
+source=("http://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-math-round perl-params-validate perl-datetime-locale perl-datetime-timezone"
+
+adddep="${build_deps}"
+
+build() {
+  cd  $srcdir/DateTime-$pkgver
+  perl Build.PL installdirs=vendor destdir="$pkgdir/"
+  ./Build
+  ./Build test
+  true
+  ./Build install
+}
+
+after_build(){
+  go_src_dir
+  find $pkgdir -name '.packlist' -delete
+  find $pkgdir -name '*.pod' -delete
+}
