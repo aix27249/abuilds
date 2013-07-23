@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-test-fatal
+pkgver=0.010
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Incredibly simple helpers for testing code with exceptions"
+
+source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Test-Fatal-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl perl-try-tiny"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}
