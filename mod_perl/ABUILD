@@ -1,0 +1,31 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=mod_perl
+pkgver=2.0.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Apache module that embeds the Perl interpreter within the server"
+
+source=("http://apache.org/dist/perl/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl httpd apr-util db perl-linux-pid"
+
+adddep="${build_deps}"
+
+build() {
+  go_src_dir
+
+  # install module in vendor directories.
+  perl Makefile.PL INSTALLDIRS=vendor MP_APXS=/usr/sbin/apxs
+  make
+  make install DESTDIR="${pkgdir}"
+}
+
+after_build(){
+  go_src_dir
+  find $pkgdir -name '.packlist' -delete
+  find $pkgdir -name '*.pod' -delete
+}
