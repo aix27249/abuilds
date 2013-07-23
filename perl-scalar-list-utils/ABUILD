@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-scalar-list-utils
+pkgver=1.27
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Scalar::Util and List::Util perl modules"
+
+source=("http://search.cpan.org/CPAN/authors/id/P/PE/PEVANS/Scalar-List-Utils-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
