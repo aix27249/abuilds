@@ -1,0 +1,24 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-xml-rss
+pkgver=1.54
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Parse or create Rich Site Summaries (RSS)"
+
+source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-RSS-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-datetime perl-html-parser perl-datetime-format-mail perl-datetime-format-w3cdtf"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}
