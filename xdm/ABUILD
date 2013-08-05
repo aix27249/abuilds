@@ -1,6 +1,6 @@
 pkgname=xdm
 pkgver=1.1.11
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xdm: X display manager')
@@ -9,6 +9,7 @@ longdesc=('xdm is a generic X11 login display manager.')
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xdm-${pkgver}.tar.bz2")
+build_deps="pkg-config util-macros xtrans"
 
 config_files="etc/X11/xdm/Xservers
 etc/X11/xdm/Xsession"
