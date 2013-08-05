@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 pkgname=nvidia-cg-toolkit
 pkgver=3.1
-date="February2012"
-pkgbuild=1
+date="April2012"
+pkgbuild=2
 arch=('auto')
 
 shortdesc="NVIDIA Cg libraries"
@@ -14,16 +14,16 @@ else
      source=("http://developer.download.nvidia.com/cg/Cg_${pkgver}/Cg-${pkgver}_${date}_x86.tgz")
 fi
 
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="libs media-gfx"
+build_deps="mkpkg"
 
-#----------------------------- Make PKG --------------------------------------
+
 build()
 {
   go_src_dir
-  
+
   mkdir -p ${pkgdir}/usr/ ${pkgdir}/usr/share/
-  
+
   cp -r ./bin/ ${pkgdir}/usr/
   cp -r ./include/ ${pkgdir}/usr/
   cp -r ./local/Cg/ ${pkgdir}/usr/share/
