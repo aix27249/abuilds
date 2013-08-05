@@ -1,6 +1,6 @@
 pkgname=mozilla-firefox
 
-pkgver=22.0
+pkgver=17.0.8
 _pkgver=${pkgver}
 
 pkgbuild=1
@@ -8,16 +8,18 @@ arch=('auto')
 
 shortdesc="Mozilla-firefox web browser"
 
+
 source=(
-"ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2"
-"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/ru.xpi n o"
-"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/uk.xpi n o"
+"ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}esr/source/firefox-${pkgver}esr.source.tar.bz2"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}esr/linux-i686/xpi/ru.xpi n o"
+"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}esr/linux-i686/xpi/uk.xpi n o"
 )
+
 
 tags="xapps www-client"
 adddep="libvpx>=0.9.7"
 
-build_deps="xulrunner xulrunner-devel libvpx"
+build_deps="xulrunner xulrunner-devel"
 
 before_build()
 {
@@ -80,7 +82,7 @@ after_build() {
 	_langs="ru uk"
 	for _lang in ${_langs}
 	do
-		install -Dm644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/extensions/langpack-${_lang}@firefox.mozilla.org.xpi || exit 1
+		install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/extensions/langpack-${_lang}@firefox.mozilla.org.xpi || exit 1
 	done
 	install -Dm644 ${filedir}/vendor.js $pkgdir/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/defaults/preferences/vendor.js
 	rm -rf ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox-${_pkgver}/searchplugins
