@@ -2,7 +2,7 @@
 
 pkgname=lcms
 pkgver=1.19
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Lightweight color management development library/engine	"
