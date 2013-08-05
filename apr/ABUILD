@@ -1,12 +1,13 @@
 # Apache Portable Runtime ABUILD
 pkgname=apr
-pkgver=1.4.5
+pkgver=1.4.6
 pkgbuild=1
 shortdesc="The Apache Portable Runtime"
 longdesc="The Apache Portable Runtime"
 arch=('auto')
 source=(http://www.apache.org/dist/apr/apr-${pkgver}.tar.bz2)
 tags="libs dev-libs"
+build_deps="util-linux-ng"
 before_build() {
 	go_src_dir
   	export apr_cv_epoll_create1=no
