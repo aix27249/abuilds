@@ -1,5 +1,6 @@
 pkgname=httpd
-pkgver=2.2.22
+pkgver=2.2.24
+ipconnver=0.24
 pkgbuild=1
 arch=('auto')
 
@@ -11,6 +12,9 @@ longdesc=("Apache is an HTTP server designed as a plug-in replacement for the NC
 tags=('server www-apache')
 
 source=("http://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2")
+build_deps="openssl zlib apr-util pcre openldap"
+
+docs=('ABOUT_APACHE Apache.dsw BuildBin.dsp CHANGES INSTALL InstallBin.dsp LAYOUT NOTICE NWGNUmakefile ROADMAP VERSIONING')
 
 config_files='etc/httpd/httpd.conf
 etc/conf.d/apache2
@@ -18,7 +22,9 @@ etc/logrotate.d/httpd
 var/www/htdocs/index.html'
 
 before_build() {
+	#Add mod_limitipconn module
 	go_src_dir
+	wget -O - -c http://dominia.org/djao/limit/mod_limitipconn-${ipconnver}.tar.bz2 | bzip2 -dc | tar -xvf - || exit
 	cat ${filedir}/config.layout.diff | sed -e "s#lib/httpd#lib${LIBDIRSUFFIX}/httpd#" | patch -p1 --verbose || exit 1
 }
 
@@ -40,7 +46,7 @@ BUILD_KEYS="--prefix=/usr \
   --enable-ssl \
   --enable-rewrite \
   --enable-vhost-alias \
-  --enable-proxy \
+  --disable-proxy \
   --enable-cache \
   --enable-mem-cache \
   --enable-file-cache \
@@ -48,7 +54,7 @@ BUILD_KEYS="--prefix=/usr \
   --disable-speling \
   --enable-dav \
   --enable-authnz-ldap \
-  --enable-authn-anon \
+  --disable-authn-anon \
   --enable-authn-alias \
   --enable-sudexec \
   --with-suexec-caller=http \
@@ -56,6 +62,7 @@ BUILD_KEYS="--prefix=/usr \
   --with-suexec-logfile=/var/log/httpd/suexec.log \
   --with-suexec-bin=/usr/sbin/suexec \
   --with-suexec-uidmin=1000 --with-suexec-gidmin=1000 \
+  --with-module=aaa:mod_limitipconn-${ipconnver}/mod_limitipconn.c \
   --mandir=/usr/man \
   --docdir=/usr/doc/${pkgname}-${pkgver} \
   --disable-static \
