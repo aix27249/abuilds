@@ -2,7 +2,7 @@
 
 pkgname=mesa-demos
 pkgver=8.0.1
-pkgbuild=3
+pkgbuild=4
 arch=("auto")
 
 shortdesc=("Mesa utilities and demo programs: glxgears, glxinfo, and so on.")
@@ -11,6 +11,7 @@ longdesc=("Mesa utilities and demo programs: glxgears, glxinfo, and so on.")
 tags=("x11-misc xserver")
 
 source=("ftp://ftp.freedesktop.org/pub/mesa/demos/${pkgver}/mesa-demos-${pkgver}.tar.bz2")
+build_deps="libgl glew"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
