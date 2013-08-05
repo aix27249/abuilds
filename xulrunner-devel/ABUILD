@@ -1,5 +1,5 @@
 pkgname=xulrunner
-pkgver=17.0.1
+pkgver=22.0
 pkgbuild=1
 arch=('auto')
 
@@ -8,7 +8,7 @@ shortdesc="Xulrunner - common Mozilla runtime"
 source=("ftp://ftp.mozilla.org/pub/xulrunner/releases/${pkgver}/source/xulrunner-${pkgver}.source.tar.bz2")
 
 tags="libs net-libs"
-build_deps="autoconf>=2.13 yasm"
+build_deps="autoconf yasm gtk+2 nss nspr libXt libXrender alsa-lib sqlite libvpx python libjpeg bzip2 hunspell libevent startup-notification"
 
 pkglist="xd"
 
@@ -50,16 +50,20 @@ xd_prep() {
 	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 	mv ${p_pkgdir}/usr/{include,share} ${pkgdir}/usr || exit 1
 	mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner-devel-${pkgver} ${pkgdir}/usr/lib${LIBDIRSUFFIX} || exit 1
+
 	cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
 
 	#fix symlinks
 	ln -s xulrunner-devel-${pkgver} xulrunner-devel
-	cd xulrunner-devel-${pkgver}
-	rm -f bin
-	ln -s /usr/lib${LIBDIRSUFFIX}/xulrunner bin
+	( cd xulrunner-devel-${pkgver}
+	  rm -f bin
+	  ln -s /usr/lib${LIBDIRSUFFIX}/xulrunner bin
+	
+	  #wtf mozilla!
+	  chmod +x "sdk/bin/xpt.py"
+	  chmod +x "sdk/bin/xpcshell"
+	)
 
-	#wtf mozilla!
-	chmod +x "${pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner-devel-$pkgver/sdk/bin/xpt.py"
 
 	# Create symlinks, required to build firefox
 	( cd ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner
