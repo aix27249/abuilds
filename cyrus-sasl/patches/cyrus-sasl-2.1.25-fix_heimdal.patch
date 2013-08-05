@@ -1,0 +1,13 @@
+Fix compiling against heimdal
+--- plugins/gssapi.c	2011-05-11 19:25:55.000000000 +0000
++++ plugins/gssapi.c	2011-11-30 14:54:33.000000000 +0000
+@@ -50,6 +50,9 @@
+ #else
+ #include <gssapi/gssapi.h>
+ #endif
++#ifdef KRB5_HEIMDAL
++#include <gssapi/gssapi_krb5.h>
++#endif
+ 
+ #ifdef WIN32
+ #  include <winsock2.h>

@@ -1,0 +1,22 @@
+--- a/configure.in
++++ b/configure.in
+@@ -44,6 +44,8 @@ dnl
+ AC_INIT(lib/saslint.h)
+ AC_PREREQ([2.54])
+ 
++AC_CONFIG_MACRO_DIR([cmulocal] [config])
++
+ dnl use ./config.cache as the default cache file.
+ dnl we require a cache file to successfully configure our build.
+ if test $cache_file = "/dev/null"; then
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -43,6 +43,8 @@ AUTOMAKE_OPTIONS = 1.7
+ #
+ ################################################################
+ 
++ACLOCAL_AMFLAGS = -I cmulocal -I config
++
+ if SASLAUTHD
+ SAD = saslauthd
+ else
