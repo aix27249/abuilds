@@ -1,20 +1,21 @@
 # Qt4 ABUILD
 pkgname=qt4
-pkgver=4.8.4
+pkgver=4.8.5
 pkgbuild=2
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
 longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
-
 tags=('libs x11-libs')
-
-source=("http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-${pkgver}.tar.gz")
-
+source=("http://download.qt-project.org/official_releases/qt/4.8/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
 pkglist="qtdoc"
 
 gendeps_blacklist="usr/lib$LIBDIRSUFFIX/qt/plugins/"
 removedep="mysql postgresql"
+build_deps=("alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
+    libSM freetype libgl libXrandr libXv libXi alsa-lib xdg-utils hicolor-icon-theme \
+    desktop-file-utils mysql cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
+    libxml2 icu4c glib2 openssl-solibs")
 
 before_build() {
 	CXXFLAGS=$SLKCFLAGS
@@ -26,8 +27,8 @@ before_build() {
 	#sed -i "/^QMAKE_RPATH/s| -Wl,-rpath,||g" mkspecs/common/g++.conf
 	sed -i "/^QMAKE_LFLAGS\s/s|+=|+= $LDFLAGS|g" mkspecs/common/g++.conf
 	echo "Using $CXX compiler"
-
 }
+
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="-confirm-license -opensource \
 	-prefix /usr \
@@ -37,13 +38,14 @@ BUILD_KEYS="-confirm-license -opensource \
 	-importdir /usr/lib$LIBDIRSUFFIX/qt/imports \
 	-translationdir /usr/share/qt/translations \
 	-datadir /usr/share/qt \
-	-docdir /usr/doc/qt \
-	-examplesdir /usr/doc/qt/examples \
-	-demosdir /usr/doc/qt/demos \
+	-docdir /usr/doc/qt-${pkgver} \
+	-examplesdir /usr/doc/qt-${pkgver}/examples \
+	-demosdir /usr/doc/qt-${pkgver}/demos \
 	-largefile \
 	-plugin-sql-{psql,mysql,sqlite,odbc} \
 	-system-sqlite \
 	-xmlpatterns \
+	-iconv \
 	-no-phonon \
 	-no-phonon-backend \
 	-svg \
@@ -70,35 +72,69 @@ BUILD_KEYS="-confirm-license -opensource \
 INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
 
 after_build() {
-	# Add profile scripts
-	mkdir -p ${pkgdir}/etc/profile.d
-	sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.sh \
-		> ${pkgdir}/etc/profile.d/qt4.sh
-	sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.csh \
-		> ${pkgdir}/etc/profile.d/qt4.csh
-	chmod 0755 ${pkgdir}/etc/profile.d/*
+  # Add profile scripts
+  mkdir -p ${pkgdir}/etc/profile.d
+  sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.sh \
+    > ${pkgdir}/etc/profile.d/qt4.sh
+  sed -e "s#usr/lib/#usr/lib${LIBDIRSUFFIX}/#g" ${filedir}/profile.d/qt4.csh \
+    > ${pkgdir}/etc/profile.d/qt4.csh
+  chmod 0755 ${pkgdir}/etc/profile.d/*
+
+  # install missing icons and desktop files
+  install -D -m644 src/gui/dialogs/images/qtlogo-64.png \
+    "${pkgdir}"/usr/share/icons/hicolor/64x64/apps/qt4logo.png
+  install -D -m644 tools/assistant/tools/assistant/images/assistant.png \
+    "${pkgdir}"/usr/share/icons/hicolor/32x32/apps/assistant-qt4.png
+  install -D -m644 tools/assistant/tools/assistant/images/assistant-128.png \
+    "${pkgdir}"/usr/share/icons/hicolor/128x128/apps/assistant-qt4.png
+  install -D -m644 tools/designer/src/designer/images/designer.png \
+    "${pkgdir}"/usr/share/icons/hicolor/128x128/apps/designer-qt4.png
+
+  for icon in tools/linguist/linguist/images/icons/linguist-*-32.png ; do
+    size=$(echo $(basename ${icon}) | cut -d- -f2)
+  install -D -m644 ${icon} \
+    "${pkgdir}"/usr/share/icons/hicolor/${size}x${size}/apps/linguist-qt4.png
+  done
+  install -D -m644 tools/qdbus/qdbusviewer/images/qdbusviewer.png \
+    "${pkgdir}"/usr/share/icons/hicolor/32x32/apps/qdbusviewer-qt4.png
+  install -D -m644 tools/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+    "${pkgdir}"/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt4.png
 
 
+  # Useful symlinks for cmake and configure scripts
+  install -d "${pkgdir}"/usr/bin
+  for b in "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/qt4/bin/*; do
+      ln -s /usr/lib${LIBDIRSUFFIX}/qt4/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt4
+  done
 
-	mkdir -p ${pkgdir}/usr/share/pixmaps
-	cp -a ${filedir}/*.png ${pkgdir}/usr/share/pixmaps
+  # install license addition
+  install -D -m644 LGPL_EXCEPTION.txt \
+    ${pkgdir}/usr/share/licenses/${pkgname}/LGPL_EXCEPTION.txt
 
-	mkdir -p ${pkgdir}/usr/share/applications
-	cp -a ${filedir}/*.desktop ${pkgdir}/usr/share/applications
+  # Fix wrong libs path in pkgconfig files
+  find "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" -type f -name '*.pc' \
+      -exec perl -pi -e "s, -L${srcdir}/?\S+,,g" {} \;
+  # Fix wrong bins path in pkgconfig files
+  find "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" -type f -name '*.pc' \
+      -exec sed -i 's|/usr/bin/|/usr/lib${LIBDIRSUFFIX}/qt4/bin/|g' {} \;
 
-	# Archlinux path fixes
-	# Fix wrong path in pkgconfig files
-	find "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" -type f -name '*.pc' \
-		-exec perl -pi -e "s, -L${srcdir}/?\S+,,g" {} \;
+  # Fix wrong path in prl files
+  find "${pkgdir}/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
+      -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
 
-	# Fix wrong path in prl files
-	find "${pkgdir}/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
-		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
+  mkdir -p ${pkgdir}/usr/share/pixmaps
+  cp -a ${filedir}/*.png ${pkgdir}/usr/share/pixmaps
+
+  mkdir -p ${pkgdir}/usr/share/applications
+  cp -a ${filedir}/*.desktop ${pkgdir}/usr/share/applications
+
+  # No application stuff in /usr, move it elsewhere
+  mv ${pkgdir}/usr/tests ${pkgdir}/usr/share/qt/
 
 }
 
 qtdoc() {
-	pkgname=qt4-doc
+  pkgname=qt4-doc
 	shortdesc=("Qt Documentation")
 	longdesc=("This package contains complete Qt programming reference. If you wish to browse documentation using assisant, you need this package.")
 }
@@ -106,7 +142,5 @@ qtdoc() {
 qtdoc_prep() {
 	# Move documentation to separate package:
 	mkdir -p ${pkgdir}/usr/doc
-	mv ${p_pkgdir}/usr/doc/qt ${pkgdir}/usr/doc/qt
+	mv ${p_pkgdir}/usr/doc/qt-${pkgver} ${pkgdir}/usr/doc/qt-${pkgver}
 }
-
-
