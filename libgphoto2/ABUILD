@@ -1,12 +1,13 @@
 
 pkgname=libgphoto2
-pkgver=2.5.0
+pkgver=2.5.2
 pkgbuild=1
 shortdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
 longdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
 arch=('auto')
 source=("http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz")
 tags=("libs media-libs")
+build_deps="libexif libjpeg gd libtool libusb"
 
 numjobs=1
 
@@ -14,7 +15,15 @@ build() {
 	go_src_dir
 	burn_patches
 	set -e
-	udevscriptdir=/lib/udev ./configure --prefix=/usr --with-drivers=all --without-hal --with-libexif=auto --disable-static --disable-rpath --libdir=/usr/lib$LIBDIRSUFFIX
+	udevscriptdir=/lib/udev ./configure --prefix=/usr \
+	  --with-drivers=all \
+	  --without-hal \
+	  --with-libexif=auto \
+	  --disable-static \
+	  --disable-rpath \
+	  --libdir=/usr/lib$LIBDIRSUFFIX \
+	  --docdir=/usr/doc/${pkgname}-${pkgver}
+ 
 	LD_PRELOAD="" make -j${numjobs}
 	make DESTDIR="${pkgdir}" install
 
