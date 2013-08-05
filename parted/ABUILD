@@ -1,7 +1,7 @@
 # Parted ABUILD
 pkgname=parted
 pkgver=3.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('parted (GNU disk partitioning tool)')
@@ -9,14 +9,9 @@ longdesc=('GNU Parted is a program for creating, destroying, resizing, checking 
 
 tags=('base sys-apps')
 
-source=('http://ftp.gnu.org/gnu/parted/parted-3.1.tar.xz')
+source=("http://ftp.gnu.org/gnu/parted/${pkgname}-${pkgver}.tar.xz")
 
 build_deps='glibc-solibs util-linux-ng'
-
-before_build() {
- echo ""
-}
-
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
@@ -30,7 +25,4 @@ BUILD_KEYS="--prefix=/usr \
   --disable-debug \
   --build=$ARCH-slackware-linux"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-after_build() {
- echo ""
-}
 
