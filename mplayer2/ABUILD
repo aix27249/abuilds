@@ -1,0 +1,46 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=mplayer2
+pkgver=2.0
+pkgbuild=3
+realver=`echo $pkgver | sed s/_/-/g`
+arch=('auto')
+
+shortdesc="A fork of MPlayer with some patches."
+longdesc=("A fork of MPlayer with some patches and features added, including MKV segment linking. For anime fans :)")
+
+source="git:git://git.mplayer2.org/mplayer2.git"
+
+tags="xapps media-video"
+build_deps=("a52dec aalib cdparanoia desktop-file-utils enca faad2 ffmpeg fontconfig freetype
+	    lame libass libbluray libdca libdvdcss libdvdnav libdvdread libgl
+	    libjpeg-turbo libmad libquvi libtheora libvdpau libXinerama libXv libXxf86dga libXxf86vm
+	    mpg123 ncurses sdl dejavu-fonts-ttf")
+
+#provides="MPlayer"
+conflicts="MPlayer"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	sed 's/gmplayer/mplayer/g' -i etc/mplayer.desktop
+
+	./configure --prefix=/usr --confdir=/etc/mplayer \
+	  --enable-translation --language=all \
+	  --enable-runtime-cpudetection \
+	  --disable-speex \
+	  --disable-musepack \
+	  --disable-pulse 
+
+	make -j$numjobs
+	make DESTDIR="$pkgdir" install
+}
+
+after_build()
+{
+	mkdir -p $pkgdir/usr/
+	install -Dm644 etc/{codecs.conf,input.conf,example.conf} $pkgdir/etc/mplayer/
+	install -dm755 $pkgdir/usr/share/mplayer/
+	ln -s /usr/share/fonts/TTF/DejaVuSans.ttf $pkgdir/usr/share/mplayer/subfont.ttf
+	rm -r ${pkgdir}/usr/lib
+}
