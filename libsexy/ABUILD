@@ -1,0 +1,23 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=libsexy
+pkgver=0.1.11
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Doing naughty things to good widgets."
+source=("http://releases.chipx86.com/libsexy/libsexy/${pkgname}-${pkgver}.tar.gz")
+tags="libs x11-libs"
+build_deps="iso-codes pkg-config libxml2 gtk+2"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
