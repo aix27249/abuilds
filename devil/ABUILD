@@ -1,63 +1,19 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=devil
 pkgver=1.7.8
 downname=DevIL
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="DevIL (image library)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Developer's Image Library (DevIL) is a programmer's library to develop applications with very powerful image loading capabilities, yet is easy for a developer to learn and use. Ultimate control of images is left to the developer, so unnecessary conversions, etc. are not performed. DevIL utilizes a simple, yet powerful, syntax. DevIL can load, save, convert, manipulate, filter and display a wide variety of image formats."
-"Homepage: http://openil.sourceforge.net/"
-)
-
 source=("http://downloads.sourceforge.net/openil/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
+build_deps="libpng libmng jasper lcms openexr"
 docs="CREDITS INSTALL Libraries.txt"
-gendeps_blacklist=
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
@@ -69,10 +25,3 @@ BUILD_KEYS="--prefix=/usr \
     --with-examples"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
