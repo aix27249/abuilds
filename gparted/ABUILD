@@ -1,7 +1,7 @@
 # GParted ABUILD.
 pkgname=gparted
 pkgver=0.16.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Partition table editor, frontend to GNU Parted"
@@ -11,7 +11,7 @@ tags=("sys-fs xapps")
 
 source=(http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2)
 
-build_deps="perl-xml-parser"
+build_deps="perl-xml-parser pkg-config dosfstools jfsutils ntfs-3g reiserfsprogs xfsprogs mtools gtkmm"
 adddep=("e2fsprogs dosfstools jfsutils ntfsprogs reiserfsprogs xfsprogs xdg-utils")
 
 BUILD_SYSTEM="autotools"
