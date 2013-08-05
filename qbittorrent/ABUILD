@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
-pkgver=3.0.10
-pkgbuild=1
+pkgver=3.0.11
+pkgbuild=2
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
 
