@@ -1,26 +1,18 @@
 pkgname=xf86-video-intel
-pkgver=2.21.12
-pkgbuild=1
+pkgver=2.21.8
+pkgbuild=2
 arch=('auto')
-
 
 shortdesc=('a driver for almost all Intel video cards')
 
 #shortdesc=('xf86-video-intel: X11 driver for modern Intel video cards (i810/i830/i915/945G/G965+ etc)')
 #longdesc=('xf86-video-intel is a driver for almost all Intel video cards, including i810/i830/i915/945G/G965+/3100/4500.')
 
-
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-intel-${pkgver}.tar.bz2")
-
+build_deps="xorg-server xcb-util libXvMC resourceproto scrnsaverproto libX11 libXrender"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--sysconfdir=/etc \
-	--localstatedir=/var \
-	--infodir=/usr/info \
-	--mandir=/usr/man \
-	--disable-static"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
 INSTALL_KEYS="DESTDIR=$pkgdir"
