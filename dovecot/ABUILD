@@ -1,19 +1,24 @@
 pkgname=dovecot
-pkgver=2.0.11
+pkgver=2.2.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="open source IMAP and POP3 server"
 longdesc=("Dovecot is an open source IMAP and POP3 server for Linux/UNIX-like systems, written with security primarily in mind. Although it's written in C, it uses several coding techniques to avoid most of the common pitfalls."
 "Dovecot can work with standard mbox and Maildir formats and it's fully compatible with UW-IMAP and Courier IMAP servers' implementation of them, as well as mail clients accessing the mailboxes directly."
-"Builded without ldap and mysql support."
-)
+"Builded without ldap and mysql support.")
 
-source=("http://www.dovecot.org/releases/2.0/${pkgname}-${pkgver}.tar.gz")
+source=("http://www.dovecot.org/releases/${pkgver%.*}/${pkgname}-${pkgver}.tar.gz")
 
 tags="server net-mail"
+build_deps="openssl sqlite mysql linux-pam libcap openldap nss expat curl bzip2"
 
 config_files="etc/dovecot/dovecot.conf"
+
+before_build() {
+  # fix path in helper script
+  sed -i 's:OPENSSLCONFIG=${OPENSSLCONFIG-dovecot-openssl.cnf}:OPENSSLCONFIG=${OPENSSLCONFIG- /etc/ssl/dovecot-openssl.cnf}:' doc/mkcert.sh
+}
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -29,12 +34,26 @@ BUILD_KEYS="--prefix=/usr \
     --with-libcap \
     --with-ldap \
     --with-nss \
+    --with-ssl=openssl \
+    --with-ssldir=/etc/ssl \
     --disable-static"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
+
 after_build() {
+    go_src_dir
+
     mkdir -p ${pkgdir}/etc/init.d
     install -m0755 ${filedir}/dovecot ${pkgdir}/etc/init.d/dovecot
     install -m0644 ${filedir}/dovecot.conf ${pkgdir}/etc/dovecot/dovecot.conf
+
+    # Maybe we need to keep it at /etc/dovecot?
+    install -d -m755 ${pkgdir}/etc/ssl
+    install -m 644  ${srcdir}/$pkgname-$pkgver/doc/dovecot-openssl.cnf ${pkgdir}/etc/ssl/dovecot-openssl.cnf
+
+    # install mkcert helper script
+    install -m 755 doc/mkcert.sh ${pkgdir}/usr/lib/dovecot/mkcert.sh
+
+    rm ${pkgdir}/etc/dovecot/README
 }
