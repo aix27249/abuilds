@@ -1,6 +1,6 @@
 pkgname=udev
-pkgver=181
-pkgbuild=3
+pkgver=204
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('udev (dynamic device directory system)')
@@ -8,41 +8,118 @@ longdesc=('udev provides a dynamic device directory containing only the files fo
 
 tags=('base sys-fs')
 
-source="ftp://ftp.kernel.org/pub/linux/utils/kernel/hotplug/$pkgname-$pkgver.tar.xz"
+source="http://www.freedesktop.org/software/systemd/systemd-$pkgver.tar.xz"
 
-config_files="etc/conf.d/udev
-etc/udev/udev.conf
-etc/modprobe.d/blacklist.conf"
+#config_files="etc/conf.d/udev
+#etc/udev/udev.conf
+#etc/modprobe.d/blacklist.conf"
 
-adddep="pciutils usbutils"
-BUILD_SYSTEM="autotools"
-BUILD_KEYS="--sysconfdir=/etc \
+adddep="kernel>=2.6.32 openrc>=0.9.9 pciutils usbutils"
+
+build_deps="kmod util-linux-ng gobject-introspection acl gperf kernel-headers"
+
+build() {
+    go_src_dir
+    export ac_cv_prog_ac_ct_GPERF=true
+
+    ./configure --sysconfdir=/etc \
 	--with-rootprefix=/ \
 	--libdir=/usr/lib$LIBDIRSUFFIX \
 	--libexecdir=/lib \
-	--enable-rule_generator \
-	--enable-udev_acl \
-	--enable-floppy \
-	--enable-edd"
+	ac_cv_search_cap_init= \
+	ac_cv_header_sys_capability_h=yes \
+	DBUS_CFLAGS=' ' \
+	DBUS_LIBS=' ' \
+	--bindir=/bin \
+	--docdir=/usr/doc/${pkgname}-${pkgver} \
+	--with-html-dir=/usr/doc/${pkgname}-${pkgver}/html \
+	--without-python \
+	--disable-bootchart \
+	--disable-audit \
+	--disable-coredump \
+	--disable-hostnamed \
+	--disable-ima \
+	--disable-binfmt \
+	--disable-libcryptsetup \
+	--disable-localed \
+	--disable-logind \
+	--disable-myhostname \
+	--disable-nls \
+	--disable-pam \
+	--disable-quotacheck \
+	--disable-readahead \
+	--enable-split-usr \
+	--disable-tcpwrap \
+	--disable-timedated \
+	--disable-xz \
+	--disable-polkit \
+	--disable-gcrypt \
+	--with-firmware-path=/lib/firmware \
+	--with-dbuspolicydir=/usr/share/dbus-1/dbus-1/system.d \
+	--with-dbussessionservicedir=/usr/share/dbus-1/services \
+	--with-dbussystemservicedir=/usr/share/dbus-1/system-services \
+	--with-dbusinterfacedir=/usr/share/dbus-1/interfaces
+
+	# Build gperf targets
+	echo 'BUILT_SOURCES: $(BUILT_SOURCES)' > Makefile.extra
+	make -f Makefile -f Makefile.extra BUILT_SOURCES
+	
+	local targets=(
+		libudev.la systemd-udevd udevadm ata_id cdrom_id collect scsi_id v4l_id accelerometer
+		mtd_probe man/udev.7 man/udevadm.8 man/systemd-udevd.service.8 keymap libgudev-1.0.la)
+
+	make -j${numjobs} "${targets[@]}"
+
+	local install_targets=(
+	    install-libLTLIBRARIES install-includeHEADERS install-libgudev_includeHEADERS install-binPROGRAMS 
+	    install-rootlibexecPROGRAMS install-udevlibexecPROGRAMS install-dist_udevconfDATA install-dist_udevhomeSCRIPTS
+	    install-dist_udevkeymapDATA install-dist_udevkeymapforcerelDATA install-dist_udevrulesDATA install-girDATA
+	    install-man7 install-man8 install-pkgconfiglibDATA install-sharepkgconfigDATA install-typelibsDATA install-dist_docDATA
+	    libudev-install-hook install-directories-hook install-dist_bashcompletionDATA)
+	
+	local lib_LTLIBRARIES="libudev.la  libgudev-1.0.la" \
+	    pkgconfiglib_DATA="src/libudev/libudev.pc src/gudev/gudev-1.0.pc"
+	
+	local systemd_unit=/usr/lib/systemd/system
+	
+	install_targets+=(
+	    rootlibexec_PROGRAMS=systemd-udevd bin_PROGRAMS=udevadm lib_LTLIBRARIES="${lib_LTLIBRARIES}"
+	    MANPAGES="man/udev.7 man/udevadm.8 man/systemd-udevd.service.8"
+	    MANPAGES_ALIAS="" pkgconfiglib_DATA="${pkgconfiglib_DATA}" 
+	    INSTALL_DIRS='/etc/udev/rules.d /etc/udev/hwdb.d'
+	    dist_bashcompletion_DATA="shell-completion/bash/udevadm"
+	)
+
+	#install
+	make -j1 DESTDIR=${pkgdir} "${install_targets[@]}"
+}
+
 
 after_build() {
-	set -e
+
+	# prune_libtool_files
+	find "${pkgdir}" -name '*.la' -delete
+	rm -f "${pkgdir}"/lib/udev/rules.d/99-systemd.rules
+	rm -rf "${pkgdir}"/usr/doc/${pkgname}-${pkgver}/LICENSE.*
 
 	# make symlinks back to where stuff was before
+	# install udevd to /sbin and remove empty and redudant directory
 	mkdir -p ${pkgdir}/sbin
-	( cd ${pkgdir}/sbin ; ln -s ../lib/udev/udevd ${pkgdir}/sbin/udevd )
+	mv ${pkgdir}/lib/systemd/systemd-udevd ${pkgdir}/sbin/udevd
+	rm -r "${pkgdir}"/lib/systemd
 
 	# do you really believe that no one using separate /usr? My home computer doesn't believe that shit, so move important things back please.
-	mv ${pkgdir}/usr/bin/udevadm ${pkgdir}/sbin/udevadm
+	mv ${pkgdir}/bin/udevadm ${pkgdir}/sbin/udevadm
+	mkdir -p ${pkgdir}/usr/bin
 	( cd ${pkgdir}/usr/bin ; ln -s ../../sbin/udevadm udevadm )
 
 	mkdir -p ${pkgdir}/{lib/udev,/etc/{udev/rules.d/,init.d}}
 
 	# clone gentoo initscripts only for development, for stable package, use local copy instead. I leave here a path to git repo for future.
 	#git clone git://git.overlays.gentoo.org/proj/udev-gentoo-scripts.git
-	( cd ${filedir}/udev-gentoo-scripts
+	( cd ${filedir}/gentoo-scripts
 		install -Dm755 init.d/* ${pkgdir}/etc/init.d
-		cp -r {conf.d,modprobe.d} ${pkgdir}/etc
+		cp -r conf.d ${pkgdir}/etc
 		install -Dm755 helpers/* ${pkgdir}/lib/udev/
 		cp rules.d/90-network.rules ${pkgdir}/lib/udev/rules.d
 	)
@@ -57,13 +134,12 @@ after_build() {
 	rm -rf ${pkgdir}/usr/share/gtk-doc
 
 	# Link libgudev-1.0.la to /lib64
-	mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
-	( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libgudev-1.0.la libgudev-1.0.la )
-	( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libudev.la libudev.la )
+	#mkdir -p ${pkgdir}/lib${LIBDIRSUFFIX}
+	#( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libgudev-1.0.la libgudev-1.0.la )
+	#( cd ${pkgdir}/lib${LIBDIRSUFFIX} ; ln -s ../usr/lib${LIBDIRSUFFIX}/libudev.la libudev.la )
 
 	# Copy additional rules
 	cp -v ${filedir}/rules.d/*.rules ${pkgdir}/lib/udev/rules.d/
 
-	set +e
 }
 

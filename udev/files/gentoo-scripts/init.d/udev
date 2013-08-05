@@ -1,0 +1,275 @@
+#!/sbin/runscript
+# Copyright 1999-2010 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+command=/lib/udev/udevd
+command_args="--daemon ${udev_opts}"
+description="udev manages device permissions and symbolic links in /dev"
+
+persistent_cd_disable="${persistent_cd_disable:-no}"
+persistent_net_disable="${persistent_net_disable:-no}"
+rc_coldplug=${rc_coldplug:-${RC_COLDPLUG:-YES}}
+udev_debug="${udev_debug:-no}"
+udev_monitor="${udev_monitor:-no}"
+udev_monitor_keep_running="${udev_monitor_keep_running:-no}"
+udev_settle_timeout="${udev_settle_timeout:-60}"
+kv_min="${kv_min:-2.6.34}"
+
+depend()
+{
+	provide dev
+	need sysfs udev-mount
+	before checkfs fsck
+
+	# udev does not work inside vservers
+	keyword -vserver -lxc
+}
+
+KV_to_int()
+{
+	[ -z $1 ] && return 1
+
+	local x=${1%%[!0-9.]*} y= z=
+	local KV_MAJOR=${x%%.*}
+	y=${x#*.}
+	[ "$x" = "$y" ] && y=0.0
+	local KV_MINOR=${y%%.*}
+	z=${y#*.}
+	[ "$y" = "$z" ] && z=0
+	local KV_MICRO=${z%%.*}
+	local KV_int=$((${KV_MAJOR} * 65536 + ${KV_MINOR} * 256 + ${KV_MICRO} ))
+
+	# We make version 2.2.0 the minimum version we will handle as
+	# a sanity check ... if its less, we fail ...
+	[ "${KV_int}" -lt 131584 ] && return 1
+	
+	echo "${KV_int}"
+}
+
+_RC_GET_KV_CACHE=""
+get_KV()
+{
+	if [ -z "${_RC_GET_KV_CACHE}" ] ; then
+		_RC_GET_KV_CACHE="$(uname -r)"
+	fi
+	echo "$(KV_to_int "${_RC_GET_KV_CACHE}")"
+	return $?
+}
+
+# FIXME
+# Instead of this script testing kernel version, udev itself should
+# Maybe something like udevd --test || exit $?
+check_kernel()
+{
+	if [ $(get_KV) -lt $(KV_to_int ${kv_min}) ]; then
+		eerror "Your kernel is too old to work with this version of udev."
+		eerror "Current udev only supports Linux kernel ${kv_min} and newer."
+		return 1
+	fi
+	return 0
+}
+
+get_rundir()
+{
+	echo $(udevadm info --run)
+}
+
+cleanup()
+{
+	# fail more gracely and not leave udevd running
+	start-stop-daemon --stop --exec /sbin/udevd
+	exit 1
+}
+
+rules_disable_switch()
+{
+	# this function disables rules files
+	# by creating new files with the same name
+	# in a temp rules directory with higher priority
+	local f=$(get_rundir)/rules.d/"$1" bname="$1" onoff="$2"
+
+	if yesno "${onoff}"; then
+		echo "# This file disables ${bname} due to /etc/conf.d/udev" \
+			> "${f}"
+	else
+		rm -f "${f}"
+	fi
+}
+
+is_service_enabled()
+{
+	local svc="$1"
+
+	[ ! -e "/etc/init.d/${svc}" ] && return 1
+
+	[ -e "/etc/runlevels/${RC_BOOTLEVEL}/${svc}" ] && return 0
+	[ -e "/etc/runlevels/${RC_DEFAULTLEVEL}/${svc}" ] && return 0
+	return 1
+}
+
+start_pre()
+{
+	if [ -d /run ]; then
+		checkpath -d -m 0755 -o root:root -q /run/udev
+	fi
+
+	if is_service_enabled network; then
+		# disable network hotplugging
+		local f="$(get_rundir)/rules.d/90-network.rules"
+		echo "# This file disables network hotplug events calling" >> "${f}"
+		echo "# old-style openrc net scripts" >> "${f}"
+		echo "# as we use /etc/init.d/network to set up our network" >> "${f}"
+	fi
+
+	if [ ! -e /etc/runlevels/${RC_DEFAULTLEVEL:-default}/udev-postmount ]; then
+		ewarn "You should add udev-postmount service to your default runlevel."
+	fi
+
+	/lib/udev/write_root_link_rule
+
+	rules_disable_switch 75-persistent-net-generator.rules "${persistent_net_disable}"
+	rules_disable_switch 75-cd-aliases-generator.rules ${persistent_cd_disable}
+	
+	if [ -e /proc/sys/kernel/hotplug ]; then
+		echo "" >/proc/sys/kernel/hotplug
+	fi
+
+	# load unix domain sockets if built as module, Bug #221253
+	# and not yet loaded, Bug #363549
+	if [ ! -e /proc/net/unix ]; then
+		if ! modprobe unix; then
+			eerror "Cannot load the unix domain socket module"
+		fi
+	fi
+
+	if yesno "${udev_debug}"; then
+		command_args="${command_args} --debug 2> $(get_rundir)/udev.log"
+	fi
+}
+
+start_udevmonitor()
+{
+	yesno "${udev_monitor}" || return 0
+
+	udevmonitor_log="$(get_rundir)/udevmonitor.log"
+	udevmonitor_pid="$(get_rundir)/udevmonitor.pid"
+
+	einfo "udev: Running udevadm monitor ${udev_monitor_opts} to log all events"
+	start-stop-daemon --start --stdout "${udevmonitor_log}" \
+		--make-pidfile --pidfile "${udevmonitor_pid}" \
+		--background --exec /sbin/udevadm -- monitor ${udev_monitor_opts}
+}
+
+populate_dev()
+{
+	if get_bootparam "nocoldplug" ; then
+		rc_coldplug="NO"
+		ewarn "Skipping udev coldplug as requested in kernel cmdline"
+	fi
+
+	ebegin "Populating /dev with existing devices through uevents"
+	if ! yesno "${rc_coldplug}"; then
+		# Do not run any init-scripts, Bug #206518
+		udevadm control --property=do_not_run_plug_service=1
+	fi
+	udevadm trigger --type=subsystems --action=add
+	udevadm trigger --type=devices --action=add
+	eend $?
+
+	# we can speed up booting under these conditions:
+	#  * using devtmpfs so kernel creates device nodes for us
+	#  * only using kernel created device nodes at boot
+	# (in /etc/fstab and elsewhere)
+	#
+	ebegin "Waiting for uevents to be processed"
+	udevadm settle --timeout=${udev_settle_timeout}
+	eend $?
+
+	udevadm control --property=do_not_run_plug_service=
+	return 0
+}
+
+check_persistent_net()
+{
+	# check if there are problems with persistent-net
+	local syspath= devs= problem=false
+	for syspath in /sys/class/net/*_rename*; do
+		if [ -d "${syspath}" ]; then
+			devs="${devs} ${syspath##*/}"
+			problem=true
+		fi
+	done
+
+	${problem} || return 0
+
+	eerror "UDEV: Your system has a problem assigning persistent names"
+	eerror "to these network interfaces: ${devs}"
+
+	einfo "Checking persistent-net rules:"
+	# the sed-expression lists all duplicate lines
+	# from the input, like "uniq -d" does, but uniq
+	# is installed into /usr/bin and not available at boot.
+	dups=$(
+	RULES_FILE='/etc/udev/rules.d/70-persistent-net.rules'
+	. /lib/udev/rule_generator.functions
+	find_all_rules 'NAME=' '.*' | \
+	tr ' ' '\n' | \
+	sort | \
+	sed '$!N; s/^\(.*\)\n\1$/\1/; t; D'
+	)
+	if [ -n "${dups}" ]; then
+		ewarn "The rules create multiple entries assigning these names:"
+		eindent
+		ewarn "${dups}"
+		eoutdent
+	else
+		ewarn "Found no duplicate names in persistent-net rules,"
+		ewarn "there must be some other problem!"
+	fi
+	return 1
+}
+
+check_udev_works()
+{
+	# should exist on every system, else udev failed
+	if [ ! -e /dev/zero ]; then
+		eerror "Assuming udev failed somewhere, as /dev/zero does not exist."
+		return 1
+	fi
+	return 0
+}
+
+stop_udevmonitor()
+{
+	yesno "${udev_monitor}" || return 0
+
+	if yesno "${udev_monitor_keep_running}"; then
+		ewarn "udev: udevmonitor is still running and writing into ${udevmonitor_log}"
+	else
+		einfo "udev: Stopping udevmonitor: Log is in ${udevmonitor_log}"
+		start-stop-daemon --stop --pidfile "${udevmonitor_pid}" --exec /sbin/udevadm
+	fi
+}
+
+display_hotplugged_services()
+{
+	local svcfile= svc= services=
+	for svcfile in "${RC_SVCDIR}"/hotplugged/*; do
+		svc="${svcfile##*/}"
+		[ -x "${svcfile}" ] || continue
+
+		services="${services} ${svc}"
+	done
+	[ -n "${services}" ] && einfo "Device initiated services:${HILITE}${services}${NORMAL}"
+}
+
+start_post()
+{
+	start_udevmonitor
+	populate_dev
+	check_persistent_net
+	check_udev_works || cleanup
+	stop_udevmonitor
+	display_hotplugged_services
+	return 0
+}
