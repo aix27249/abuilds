@@ -1,57 +1,15 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=qjoypad
 pkgver=4.1.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Joystick Configuration Utility"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("QJoyPad is a convenient little program with a QT interface that converts movement and button presses on a gamepad or joystick into key presses, mouse clicks, and mouse movement in XWindows."
-"Homepage: http://qjoypad.sourceforge.net/"
-)
+"Homepage: http://qjoypad.sourceforge.net/")
 
 source=("http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps games-util"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="qt4 libXtst"
 
 build()
 {
@@ -63,9 +21,6 @@ build()
 	make DESTDIR="$pkgdir" install
 }
 
-
-#ran after function build() 
-#после сборки
 after_build()
 {
 	install -d ${pkgdir}/usr/share/icons/hicolor/24x24/apps/
