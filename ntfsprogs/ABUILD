@@ -1,5 +1,5 @@
 pkgname=ntfs-3g
-pkgver=2011.4.12
+pkgver=2013.1.13
 pkgbuild=1
 arch=('auto')
 
@@ -10,6 +10,7 @@ source="http://tuxera.com/opensource/ntfs-3g_ntfsprogs-${pkgver}.tgz"
 tags="base sys-fs"
 
 pkglist="progs"
+build_deps="util-linux-ng fuse"
 
 build()
 {
