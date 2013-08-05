@@ -1,17 +1,17 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org
 
 pkgname=ffmpeg
-pkgver=1.0.1
+pkgver=1.2.1
 pkgbuild=1
 arch=('auto')
 conflicts="libav"
 shortdesc="Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything."
 
 source=("http://ffmpeg.org/releases/${pkgname}-${pkgver}.tar.bz2")
-
 tags="libs media-video"
-
-build_deps="yasm"
+build_deps=("yasm alsa-lib bzip2 fontconfig gsm lame libass libbluray libmodplug
+      libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump
+      schroedinger sdl speex v4l-utils x264 xvidcore zlib libvdpau")
 
 build()
 {
@@ -28,41 +28,52 @@ build()
 		--mandir=/usr/man \
 		--disable-static \
 		--enable-shared \
-		--enable-gpl \
-		--enable-version3 \
 		--enable-doc \
-		--enable-ffmpeg \
-		--enable-libass \
 		--enable-avdevice \
+		--enable-avresample \
 		--enable-avcodec \
-		--enable-avformat \
-		--enable-swscale \
-		--enable-postproc \
 		--enable-avfilter \
-		--enable-libopenjpeg \
-		--enable-pthreads \
-		--enable-x11grab \
+		--enable-avformat \
 		--enable-bzlib \
+		--enable-dxva2 \
+		--enable-ffmpeg \
+		--enable-fontconfig \
+		--enable-gpl \
+		--enable-libass \
+		--enable-libbluray \
+		--enable-libfreetype \
+		--enable-libgsm \
+		--enable-libmodplug \
+		--enable-libmp3lame \
 		--enable-libopencore-amrnb \
 		--enable-libopencore-amrwb \
-		--enable-libmp3lame \
+		--enable-libopenjpeg \
+		--enable-librtmp \
 		--enable-libschroedinger \
 		--enable-libspeex \
 		--enable-libtheora \
+		--enable-libv4l2 \
 		--enable-libvorbis \
 		--enable-libvpx \
 		--enable-libx264 \
 		--enable-libxvid \
-		--enable-zlib \
-		--disable-debug \
+		--enable-postproc \
+		--enable-pthreads \
+		--enable-runtime-cpudetect \
+		--enable-swscale \
 		--enable-vdpau \
 		--enable-vaapi \
+		--enable-version3 \
+		--enable-x11grab \
+		--enable-zlib \
+		--disable-debug \
 		--disable-indev=oss \
 		--disable-indev=jack \
 		--disable-outdev=oss
 
 	make -j${numjobs}
 	make tools/qt-faststart -j${numjobs}
+	make doc/ff{mpeg,play,server}.1
 	make DESTDIR="$pkgdir" install install-man
 }
 
