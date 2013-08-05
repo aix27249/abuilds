@@ -1,13 +1,10 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=fbida
-pkgver=2.07
+pkgver=2.09
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Applications for viewing and editing images"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("The fbida project contains a few applications for viewing and editing images, with the main focus being photos. The applications are:"
 "fbi: a image viewer for the linux framebuffer console."
 "fbgs: script for viewing ps/pdf files on the framebuffer console."
@@ -18,47 +15,25 @@ longdesc=("The fbida project contains a few applications for viewing and editing
 )
 
 source=("http://dl.bytesex.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps media-gfx"
+build_deps="giflib libtiff libexif lesstif libpng fontconfig curl"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
 docs="Changes INSTALL VERSION"
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-    echo ""
-}
 
 build()
 {
 	go_src_dir
 	burn_patches
+	sed -e 's:DGifOpenFileName,ungif:DGifOpenFileName,gif:' \
+	    -e 's:-lungif:-lgif:' -i GNUmakefile
 	make config prefix=/usr
 	make prefix=/usr
-	make prefix=/usr DESTDIR=${pkgdir} install
+	make STRIP="" prefix=/usr DESTDIR=${pkgdir} install
 }
 
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-    cp ${srcdir}/${pkgname}-${pkgver}/thumbnail.cgi ${pkgdir}/usr/bin/
+    go_src_dir
+    cp thumbnail.cgi ${pkgdir}/usr/bin/
 }
