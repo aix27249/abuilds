@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 
 pkgname=postfix
-pkgver=2.9.6
+pkgver=2.10.0
 pkgbuild=1
 arch=('auto')
 
@@ -11,6 +11,7 @@ longdesc=("Postfix attempts to be fast, easy to administer, and secure, while at
 )
 
 source=("http://de.postfix.org/ftpmirror/official/${pkgname}-${pkgver}.tar.gz")
+build_deps=("pcre cyrus-sasl libmysqlclient sqlite")
 tags="server mail-mta"
 conflicts="sendmail"
 docs="AAAREADME COMPATIBILITY COPYRIGHT HISTORY IPv6-ChangeLog PORTING RELEASE_NOTES TLS_ACKNOWLEDGEMENTS TLS_CHANGES TLS_LICENSE US_PATENT_6321267 implementation-notes examples"
