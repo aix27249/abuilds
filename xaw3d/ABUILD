@@ -2,16 +2,13 @@
 
 pkgname=xaw3d
 pkgver=1.6.2
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("xaw3d (3D version of libXaw)")
-longdesc=("")
-
 tags=("xserver x11-misc")
-
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXaw3d-${pkgver}.tar.bz2")
-
+build_deps="libXmu util-macros"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
