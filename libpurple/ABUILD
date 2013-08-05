@@ -1,19 +1,18 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#Maintainer: Stanislav N. aka pztrn <pztrn at pztrn dot ru>
 pkgname=pidgin
-pkgver=2.10.6
+pkgver=2.10.7
 pkgbuild=1
 arch=('auto')
 shortdesc="multi-protocol instant messaging client"
-longdesc=("Pidgin is an easy to use and free chat client used by millions. Connect to AIM, MSN, Yahoo, and more chat networks all at once"
-)
-
+longdesc=("Pidgin is an easy to use and free chat client used by millions. Connect to AIM, MSN, Yahoo, and more chat networks all at once")
 source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 tags="net-im xapps"
 adddep="libpurple==$pkgver"
 pkglist="finch libpurple"
+build_deps=("libXScrnSaver nss libSM libidn python hicolor-icon-theme intltool \
+    atk cairo dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer \
+    gtk+2 libICE libSM libX11 libXext libxml2 pango")
 
-#----------------------------- Make PKG --------------------------------------
+
 finch() {
 	pkgname=finch
 	shortdesc=('Console IM client based on libpurple')
@@ -30,11 +29,12 @@ libpurple() {
 	adddep="ca-certificates"
 }
 
-#-------------------------- Сборка пакета ------------------------------------
+
 build()
 {
-go_src_dir
-./configure --prefix=/usr \
+    go_src_dir
+    burn_patches
+    ./configure --prefix=/usr \
 	--libdir=/usr/lib$LIBDIRSUFFIX \
 	--sysconfdir=/etc \
 	--enable-cyrus-sasl \
@@ -46,58 +46,58 @@ go_src_dir
 	--disable-doxygen \
 	--disable-nm \
 	--disable-vv \
-	--enable-gtkspell \
+	--disable-gtkspell \
+	--disable-gstreamer \
 	--with-extraversion=AgiliaLinux \
 	--with-system-ssl-certs=/usr/share/ca-certificates/ || exit 1
-make -j$numjobs || exit 1
+    make -j$numjobs || exit 1
 
-# making pidgin
 
-go_src_dir
-#for linking
-make -C libpurple DESTDIR="${pkgdir}" install-libLTLIBRARIES
+    # making pidgin
+    go_src_dir
+    #for linking
+    make -C libpurple DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
-make -C pidgin DESTDIR="${pkgdir}" install
-make -C doc DESTDIR="${pkgdir}" install
+    make -C pidgin DESTDIR="${pkgdir}" install
+    make -C doc DESTDIR="${pkgdir}" install
 
-#clean up libpurple stuff (it in libpurple package, yeah? :)
-make -C libpurple DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
-install -D -m 0644 pidgin.desktop \
+    #clean up libpurple stuff (it in libpurple package, yeah? :)
+    make -C libpurple DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
+    install -D -m 0644 pidgin.desktop \
 	"${pkgdir}"/usr/share/applications/pidgin.desktop
 
-rm -f "${pkgdir}"/usr/share/man/man1/finch.1
-echo "DONE!"
-read
+    rm -f "${pkgdir}"/usr/share/man/man1/finch.1
+    echo "DONE!"
 }
 
 libpurple_prep()
 {
-set -e
-echo "Making libpurple"
-# making libpurple
+    set -e
+    echo "Making libpurple"
+    # making libpurple
 
-for dir in libpurple share/sounds share/ca-certs m4macros po;
-do
-    echo "Making in ${dir}"
-	make -C "${dir}" DESTDIR="$pkgdir" install
-done
-set +e
+    for dir in libpurple share/sounds share/ca-certs m4macros po;
+    do
+        echo "Making in ${dir}"
+        make -C "${dir}" DESTDIR="$pkgdir" install
+    done
+    set +e
 }
 
 finch_prep()
 {
-set -e
-echo "Making finch"
-# making finch
+    set -e
+    echo "Making finch"
+    # making finch
 
-#for linking
-make -C libpurple DESTDIR="$pkgdir" install-libLTLIBRARIES
+    #for linking
+    make -C libpurple DESTDIR="$pkgdir" install-libLTLIBRARIES
 
-make -C finch DESTDIR="$pkgdir" install
-make -C doc DESTDIR="$pkgdir" install
+    make -C finch DESTDIR="$pkgdir" install
+    make -C doc DESTDIR="$pkgdir" install
 
-#clean up libpurple
-make -C libpurple DESTDIR="$pkgdir" uninstall-libLTLIBRARIES
-rm -f "$pkgdir/usr/share/man/man1/pidgin.1"
-set +e
+    #clean up libpurple
+    make -C libpurple DESTDIR="$pkgdir" uninstall-libLTLIBRARIES
+    rm -f "$pkgdir/usr/share/man/man1/pidgin.1"
+    set +e
 }
