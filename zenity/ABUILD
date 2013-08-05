@@ -1,46 +1,15 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=zenity
-pkgver=2.32.1
+pkgver=3.8.0
 pkgbuild=2
 arch=('auto')
 
 shortdesc="GDialog replacement for GNOME2"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Zenity allows you to display GTK+ dialogs from shell scripts; it is a rewrite of the 'gdialog' command from GNOME 1. Also includes gdialog wrapper for legacy scripts"
-)
+longdesc=("Zenity allows you to display GTK+ dialogs from shell scripts; it is a rewrite of the 'gdialog' command from GNOME 1. Also includes gdialog wrapper for legacy scripts")
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.32/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="gnome-extra gnome"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+tags="gnome-extra gnome"
+build_deps="intltool itstool docbook-xsl gtk+3"
 
 BUILD_SYSTEM="autotools"
 
@@ -52,9 +21,3 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
