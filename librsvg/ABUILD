@@ -1,12 +1,14 @@
 pkgname=librsvg
-pkgver=2.34.0
+pkgver=2.36.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="librsvg (SVG library)"
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.34/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 tags="libs gnome-base"
+build_deps="gdk-pixbuf pango intltool gtk+2 gobject-introspection libcroco"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_KEYS="--prefix=/usr \
@@ -20,6 +22,7 @@ BUILD_KEYS="--prefix=/usr \
 	--program-suffix= \
 	--with-croco \
 	--with-svgz \
+	--enable-pixbuf-loader \
 	--disable-gtk-theme"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
