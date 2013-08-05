@@ -1,122 +1,58 @@
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=imagemagick
-pkgver=6.7.6.3
-pkgbuild=3
+pkgver=6.8.6.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A software suite to create, edit, compose, or convert bitmap images."
-#longdesc=(""
-#)
-
 source=("ftp://sunsite.icm.edu.pl/packages/ImageMagick/ImageMagick-${pkgver%.*}-${pkgver##*.}.tar.xz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps media-gfx"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist="${pkgname}-doc"
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
+build_deps=("libtool lcms2 libXt fontconfig libXext ghostscript openexr libwmf librsvg libxml2 jasper liblqr perl")
+pkglist="imagemagick-doc"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --docdir=/usr/doc/${p_pkgname}-${pkgver} \
+  --disable-static \
+  --mandir=/usr/man \
+  --program-prefix= \
+  --program-suffix= \
+  --with-modules \
+  --with-perl \
+  --with-x \
+  --with-threads \
+  --with-magick_plus_plus \
+  --with-gslib \
+  --with-wmf \
+  --with-lcms \
+  --with-lqr \
+  --with-rsvg \
+  --with-xml \
+  --with-perl-options="INSTALLDIRS=vendor" \
+  --without-dps \
+  --without-included-ltdl"
 
-build() 
-{
-go_src_dir
-burn_patches
+after_build() {
+  # fix weird perl Magick.so permissions
+  chmod 755 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Image/Magick/Magick.so
 
-
-sed -i 's/libltdl.la/libltdl.so/g' configure
-
-
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---with-modules \
---with-perl \
---with-x \
---with-threads \
---with-magick_plus_plus \
---with-gslib \
---with-wmf \
---with-lcms \
---with-rsvg \
---with-xml \
---with-perl-options="INSTALLDIRS=vendor" \
---without-dps \
---without-included-ltdl 
-
-# Disable rpath
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-
-
-make -j${numjob}
-make install DESTDIR=${pkgdir}
-
-}
-#ran after function build() 
-#после сборки
-after_build()
-{
-
-# fix weird perl Magick.so permissions
-chmod 755 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Image/Magick/Magick.so
-
-find ${pkgdir} -name "*.bs" |xargs rm -f
-find ${pkgdir} -name ".packlist" |xargs rm -f
-find ${pkgdir} -name "perllocal.pod" |xargs rm -f
-
+  find ${pkgdir} -name "*.bs" |xargs rm -f
+  find ${pkgdir} -name ".packlist" |xargs rm -f
+  find ${pkgdir} -name "perllocal.pod" |xargs rm -f
 }
 
 imagemagick-doc()
 {
-pkgname=imagemagick-doc
-arch=('noarch')
+  pkgname=imagemagick-doc
+  arch=('noarch')
 }
 
 imagemagick-doc_prep()
 {
-mkdir -p ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}
-mv ${p_pkgdir}/usr/share/doc/ImageMagick/* ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}
+  mkdir -p ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}
+  mv ${p_pkgdir}/usr/share/doc/ImageMagick-${pkgver%%.*}/* ${pkgdir}/usr/doc/${p_pkgname}-${pkgver}
+  rm -f ${p_pkgdir}/usr/share/doc/${p_pkgname}-${pkgver}/{ChangeLog,LICENSE,NEWS.txt}
 }
