@@ -1,62 +1,17 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=uim
-pkgver=1.7.2
+pkgver=1.8.5
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Simple and flexible input method collection and library"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("uim is a input method module library supporting various languages, which become a frontend for Anthy, SKK, Canna, PRIME, T-Code, TUT-Code, Pinyin(Chinese input method), Hangul(Korean input method), IPA(International Phonetic Alphabet) and etc.... Most of the functions are implemented with Scheme, so it's very simple and flexible."
-"This is Anthy-only package."
-)
-
 source=("http://uim.googlecode.com/files/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-i18n xserver"
+build_deps="libXft libedit anthy intltool gettext qt4 gtk+2 sqlite"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs="RELNOTE INSTALL NEWS doc/"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
@@ -84,11 +39,8 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     mkdir -p ${pkgdir}/etc/X11/xinit/xinput.d
     cp ${filedir}/xinput-uim ${pkgdir}/etc/X11/xinit/xinput.d/uim.conf
 }
-
