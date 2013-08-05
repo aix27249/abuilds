@@ -1,29 +1,33 @@
-#ABUILD created by/создан: medved, medved55rus at gmail.com 
-#----------------------------- General vars --------------------------------------
+#ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=gimp
-pkgver=2.8.2
-pkgbuild=2
+pkgver=2.8.6
+pkgbuild=1
 arch=('auto')
 
 shortdesc="GNU Image Manipulation Program."
-
 source=("ftp://ftp.gtk.org/pub/${pkgname}/v`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="xapps media-gfx"
+build_deps="pygtk lcms libXpm libwmf libXmu librsvg libmng dbus-glib \
+            libexif gegl jasper desktop-file-utils hicolor-icon-theme babl gegl \
+            intltool curl ghostscript poppler curl"
 
-#----------------------------- Make PKG --------------------------------------
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---program-prefix= \
---program-suffix="
+--enable-mp \
+--enable-gimp-console \
+--enable-gimp-remote \
+--enable-python \
+--with-gif-compression=lzw \
+--with-libcurl \
+--without-aa \
+--without-hal \
+--without-gvfs \
+--without-gnomevfs"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
