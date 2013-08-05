@@ -1,63 +1,19 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: NK, nk-man at yandex.ru 
 pkgname=djview4
 pkgver=4.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="a portable djvu viewer"
-
-#shortdesc="DjVu Viewer"
-#-ruler---|--------------------------------------------------------------------------|
-#longdesc=("DjView4: a portable djvu viewer. This package contains the djview4 viewer and browser plugin. This new viewer relies on the DjVulibre library and the Qt4 toolkit. Homepage: http://djvu.sourceforge.net/djview4.html"
-#)
-
+shortdesc="A portable djvu viewer"
 source=("http://downloads.sourceforge.net/project/djvu/DjView/${pkgver}/${pkgname/4/}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-text xapps"
+build_deps="qt4 djvulibre"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-
-go_src_dir
-# thx Arch Linux
-sed 's/netscape/mozilla/g' -i ./nsdejavu/Makefile.in || exit 1
-sed 's/swap/rofl_swap/g'   -i ./src/qdjvuwidget.cpp  || exit 1
-
+before_build() {
+    go_src_dir
+    # thx Arch Linux
+    sed 's/netscape/mozilla/g' -i ./nsdejavu/Makefile.in || exit 1
+    sed 's/swap/rofl_swap/g'   -i ./src/qdjvuwidget.cpp  || exit 1
 }
 
 BUILD_SYSTEM="autotools"
@@ -75,36 +31,32 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
 
-#mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
+after_build() {
+    #mv $pkgdir/usr/lib${LIBDIRSUFFIX}/netscape $pkgdir/usr${LIBDIRSUFFIX}/lib/mozilla
 
-desktopdir="${pkgdir}/usr/share/djvu/djview4/desktop"
-for i in 32 64 ; do
- if [ ! -d $pkgdir/usr/share/icons/hicolor/${i}x${i} ]; then
-  install -Dm644 ${desktopdir}/hi${i}-djview4.png \
+    desktopdir="${pkgdir}/usr/share/djvu/djview4/desktop"
+    for i in 32 64 ; do
+     if [ ! -d $pkgdir/usr/share/icons/hicolor/${i}x${i} ]; then
+      install -Dm644 ${desktopdir}/hi${i}-djview4.png \
 	  ${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/djvulibre-djview4.png || exit 1
- fi
-done
-if [ ! -d ${pkgdir}/usr/share/pixmaps ]; then
- #install -Dm644 ${desktopdir}/hi64-djview4.png \
- #	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png || exit 1
- install -Dm644 ${desktopdir}/hi-djview4.svgz \
-	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.svgz || exit 1
-fi
-if [ ! -d ${pkgdir}/usr/share/applications ]; then
- install -Dm644 ${desktopdir}/djvulibre-djview4.desktop \
-	 ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
-fi
-rm -vR ${desktopdir}
+     fi
+    done
+    if [ ! -d ${pkgdir}/usr/share/pixmaps ]; then
+     #install -Dm644 ${desktopdir}/hi64-djview4.png \
+     #	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.png || exit 1
+     install -Dm644 ${desktopdir}/hi-djview4.svgz \
+    	 ${pkgdir}/usr/share/pixmaps/djvulibre-djview4.svgz || exit 1
+    fi
+    if [ ! -d ${pkgdir}/usr/share/applications ]; then
+     install -Dm644 ${desktopdir}/djvulibre-djview4.desktop \
+    	 ${pkgdir}/usr/share/applications/djvulibre-djview4.desktop || exit 1
+    fi
+    rm -vR ${desktopdir}
 
-desktopfile="${pkgdir}/usr/share/applications/djvulibre-djview4.desktop"
-if [ -z `cat $desktopfile | grep Office` ]; then
- sed -i "/^Categories/s|Graphics|Office|" $desktopfile || exit 1
-fi
+    desktopfile="${pkgdir}/usr/share/applications/djvulibre-djview4.desktop"
+    if [ -z `cat $desktopfile | grep Office` ]; then
+     sed -i "/^Categories/s|Graphics|Office|" $desktopfile || exit 1
+    fi
 
 }
