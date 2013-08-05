@@ -1,5 +1,5 @@
 pkgname=cups
-pkgver=1.5.2
+pkgver=1.6.2
 pkgbuild=2
 arch=('auto')
 
@@ -8,24 +8,12 @@ longdesc=('The Common UNIX Printing System provides a portable printing layer fo
 
 tags=('base net-print')
 
-source=("http://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2")
-
+source=("http://www.cups.org/software/${pkgver}/${pkgname}-${pkgver}-source.tar.bz2")
+build_deps="autoconf bc libusb gnutls linux-pam"
 
 before_build() {
 	go_src_dir
 	burn_patches
-	set -e
-	patch -Np1 -i ${filedir}/cups-avahi-1-config.patch
-	patch -Np1 -i ${filedir}/cups-avahi-2-backend.patch
-	patch -Np1 -i ${filedir}/cups-avahi-2-backend-2.patch
-	patch -Np1 -i ${filedir}/cups-avahi-3-timeouts.patch
-	patch -Np1 -i ${filedir}/cups-avahi-4-poll.patch
-	patch -Np1 -i ${filedir}/cups-avahi-5-services.patch
-
-	# Do not export SSL libs in cups-config
-	patch -vNp1 -i "${filedir}/cups-no-export-ssllibs.patch"
-
-	patch -vNp1 -i "${filedir}/cups-no-gcrypt.patch"
 
 	aclocal -I config-scripts
 	autoconf -I config-scripts
@@ -41,7 +29,7 @@ BUILD_KEYS="--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--enable-openssl=no \
 	--enable-gnutls=yes \
 	--enable-cdsassl=no \
-	--docdir=/usr/doc \
+	--docdir=/usr/doc/${pkgname}-${pkgver} \
 	--mandir=/usr/man \
 	--with-php=/usr/bin/php\
 	--enable-pam=yes \
