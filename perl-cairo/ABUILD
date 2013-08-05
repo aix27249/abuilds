@@ -1,58 +1,14 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-cairo
 downname=Cairo
-pkgver=1.062
+pkgver=1.103
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Cairo (perl module)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Perl bindings to the cairo graphics library."
-"Homepage: http://search.cpan.org/dist/Cairo/"
-)
-
-source=("http://cpan.rinet.ru/authors/id/T/TS/TSCH/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+shortdesc="Perl wrappers for cairo"
+source=("http://downloads.sourceforge.net/sourceforge/gtk2-perl/Cairo-${pkgver}.tar.gz")
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep="perl-glib"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="perl cairo xextproto"
+adddep="perl-glib cairo"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL \
@@ -63,8 +19,6 @@ BUILD_KEYS="Makefile.PL \
     make
     make test"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     # Remove perllocal.pod and other special files that don't need to be installed,
