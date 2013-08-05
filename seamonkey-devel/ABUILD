@@ -1,0 +1,105 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org
+
+# Package metadata
+pkgname=seamonkey
+pkgver=2.19
+pkgbuild=1
+arch=("auto")
+build_deps=('pkg-config python yasm mesa autoconf nss nspr sqlite gtk+2 libnotify infozip infozip libvpx')
+
+shortdesc=('open-source web browser suite')
+longdesc=("The SeaMonkey browser suite.  SeaMonkey features a state-of-the-art web browser and powerful email client, as well as a WYSIWYG web page composer and a feature-rich IRC chat client."
+"Visit the SeaMonkey project at this URL:  http://www.mozilla.org/projects/seamonkey/")
+
+source=("http://ftp.mozilla.org/pub/mozilla.org/seamonkey/releases/${pkgver}/source/${pkgname}-${pkgver}.source.tar.bz2")
+tags=("xapps www-client")
+
+docs="LEGAL"
+
+pkglist="devel"
+
+
+
+
+before_build() {
+  go_src_dir
+  sed "${filedir}/mozconfig" \
+    -e "s,%%LIBDIR%%,${LIBDIRSUFFIX},g" \
+    -e "s,%%VERSION%%,${pkgver},g" \
+    -e "s,%%ARCH%%,${ARCH},g" > ".mozconfig" || exit 1
+}
+
+build() {
+  go_src_dir
+  export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/seamonkey-$pkgver"
+  make -j${numjobs} -f client.mk build
+}
+
+after_build() {
+  go_src_dir
+
+  make -f client.mk DESTDIR="$pkgdir" install
+
+  # This remains the standard plugin directory for all browsers.
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/mozilla/plugins
+
+  mkdir -p ${pkgdir}/usr/share/applications
+  cp -a ${filedir}/*.desktop ${pkgdir}/usr/share/applications
+  mkdir -p ${pkgdir}/usr/share/pixmaps
+  cp -a ${filedir}/*.png ${pkgdir}/usr/share/pixmaps
+
+
+  # Install russian langpack
+  ( cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/distribution/extensions/
+    wget -c http://ftp.mozilla.org/pub/mozilla.org/${pkgname}/releases/${pkgver}/langpack/${pkgname}-${pkgver}.ru.langpack.xpi
+  )
+
+  # Install russian dictonaries & locale
+  ( cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/
+    cp ${filedir}/ru.{aff,dic} ./dictionaries/
+    echo 'ru' > update.locale
+  )
+}
+
+
+
+devel() {
+  pkgname=seamonkey-devel
+  shortdesc="Development libs and headers from seamonkey package"
+  adddep="seamonkey"
+}
+
+devel_prep() {
+  go_src_dir
+
+  mkdir -p ${pkgdir}/usr/{lib${LIBDIRSUFFIX},share}
+  mv ${p_pkgdir}/usr/include ${pkgdir}/usr/
+  mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}-${pkgver} \
+     ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+  mv ${p_pkgdir}/usr/share/idl ${pkgdir}/usr/share/
+
+  # Create a more generic include files symlink:
+  ( cd ${pkgdir}/usr/include
+    if [ ! -e seamonkey ]; then
+      ln -sf seamonkey-${pkgver} seamonkey
+    fi
+  )
+
+  # Install pkgconfig files:
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  for file in ${filedir}/pkgconfig/* ; do
+    cat $file \
+      | sed -e "s/@LIB@/lib${LIBDIRSUFFIX}/" \
+      -e "s/@VERSION@/$pkgver/" \
+      > ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/$(basename $file)
+  done
+
+
+  # Add symlinks for the pkgconfig files:
+  ( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
+    ln -s seamonkey-js.pc js.pc
+    ln -s seamonkey-plugin.pc plugin.pc
+    ln -s seamonkey-xpcom.pc xpcom.pc
+  )
+
+}
