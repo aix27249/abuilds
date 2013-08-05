@@ -1,76 +1,21 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gtkglext
 pkgver=1.2.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="GtkGLExt (an OpenGL extension to GTK)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This package is composed of GdkGLExt library and GtkGLExt library. GdkGLExt library provides the GDK objects which support OpenGL rendering in GTK. GtkGLExt library provides the GtkWidget API add-ons to make GTK+ widgets OpenGL-capable."
-	  ""
-	  "Homepage: http://projects.gnome.org/gtkglext/"
-)
-
 source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-
 patch_opts=("gtk2.20.patch 1")
+tags="libs x11-libs"
+build_deps="gtk+2 mesa libXmu pangox-compat"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs x11-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-build()
-{
-go_src_dir
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure \
---prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---enable-gtk-doc \
---enable-debug=no \
---program-prefix= \
---program-suffix= || exit 1
-
-make -j${numjobs} || exit 1
-make install DESTDIR=$startdir/pkg || exit 1
-}
-                                                                                                                  
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --mandir=/usr/man \
+  --enable-debug=no \
+  --program-prefix= \
+  --program-suffix="
