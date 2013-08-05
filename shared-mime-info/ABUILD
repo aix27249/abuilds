@@ -1,19 +1,14 @@
 pkgname=shared-mime-info
-pkgver=0.80
+pkgver=1.1
 arch=('auto')
 pkgbuild=1
 shortdesc="Freedesktop.org Shared MIME Info"
 longdesc=("This package contains: The freedesktop.org shared MIME database spec. The merged GNOME and KDE databases, in the new format. The update-mime-database command, used to install new MIME data. See http://www.freedesktop.org/standards/shared-mime-info.html for more information.")
 
 adddep=('libxml2>=2.7.3' 'glib2>=2.26.0')
-source=("http://freedesktop.org/~hadess/${pkgname}-${pkgver}.tar.bz2")
+source=("http://freedesktop.org/~hadess/${pkgname}-${pkgver}.tar.xz")
 tags=("libs x11-misc")
-
-build() {
-	go_src_dir
-	burn_patches
-  
-	./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-update-mimedb || exit 1
-	make -j${numjobs} || exit 1
-	make DESTDIR="${pkgdir}" install || exit 1
-}
+build_deps="libxml2 glib2 intltool pkg-config"
+numjobs=1
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-update-mimedb"
