@@ -2,7 +2,7 @@
 
 pkgname=neon
 pkgver=0.29.6
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("neon (HTTP and WebDAV client library)")
@@ -11,6 +11,7 @@ longdesc=("neon is an HTTP and WebDAV client library, with a C language API. Bin
 tags=("libs net-misc")
 
 source=("http://www.webdav.org/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+build_deps="expat ca-certificates openssl"
 
 
 before_build() {
@@ -20,6 +21,6 @@ before_build() {
 }
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --with-expat --enable-shared --disable-static --with-ssl=openssl"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --with-expat --enable-shared --disable-static --with-ssl=openssl --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
