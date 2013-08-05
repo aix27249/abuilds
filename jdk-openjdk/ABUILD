@@ -1,29 +1,25 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru.
-
 java_ver=7
-updatever=u5
-openjdk_build=b21
-openjdk_date=27_jun_2011
-icedtea_ver=2.2.1
+updatever=u25
+icedtea_ver=2.3.9
 
 pkgname=jdk-openjdk
 pkgver=${java_ver}.${updatever}_${icedtea_ver}
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Free Java environment based on OpenJDK with IcedTea replacing binary plugs - SDK"
 
 tags="libs sys-libs"
 
-CORBA_CHANGESET=38deb372c569
-HOTSPOT_CHANGESET=889dffcf4a54
-JAXP_CHANGESET=335fb0b059b7
-JAXWS_CHANGESET=5471e01ef43b
-JDK_CHANGESET=6c3b742b735d
-LANGTOOLS_CHANGESET=beea46c7086b
-OPENJDK_CHANGESET=0b776ef59474
+CORBA_CHANGESET=47a6bf94ce11
+JAXP_CHANGESET=d2142901bcb7
+JAXWS_CHANGESET=b1877762d45c
+JDK_CHANGESET=8e91101e36f0
+LANGTOOLS_CHANGESET=fd956199cb82
+OPENJDK_CHANGESET=12b96a57263c
+HOTSPOT_CHANGESET=ad5a321edea2
 
-_url=http://icedtea.classpath.org/hg/release/icedtea7-forest-2.2
+_url=http://icedtea.classpath.org/hg/release/icedtea7-forest-2.3
 source=("http://icedtea.classpath.org/download/source/icedtea-${icedtea_ver}.tar.gz"
         "${_url}/archive/${OPENJDK_CHANGESET}.tar.gz n"             # openjdk.tar.gz
         "${_url}/corba/archive/${CORBA_CHANGESET}.tar.gz n"         # corba.tar.gz
@@ -35,7 +31,7 @@ source=("http://icedtea.classpath.org/download/source/icedtea-${icedtea_ver}.tar
 
 pkglist="jre jdk jdk-source"
 
-build_deps="jdk-openjdk jre-openjdk make gcc gcc-g++ apache-ant libpng gtk+2 alsa-lib libzip cpio rhino"
+build_deps="jdk-openjdk jre-openjdk make gcc gcc-g++ apache-ant libpng gtk+2 alsa-lib infozip cpio rhino lcms2 libXtst"
 
 jvmdir=/usr/lib${LIBDIRSUFFIX}/jvm/java-${java_ver}-openjdk
 
@@ -71,10 +67,10 @@ build() {
  [ -f /etc/profile.d/jdk.sh ] && . /etc/profile.d/jdk.sh
  cp ${patchdir}/*.diff ${srcdir}/icedtea-${icedtea_ver}/patches
  export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff \
-                              patches/fix_corba_cmds_path.diff \
-                              patches/openjdk7_fix_jdk_cmds_path.diff \
-                              patches/openjdk7_nonreparenting-wm.diff \
-                              patches/disable_Werror.diff"
+                              patches/openjdk7_nonreparenting-wm.diff"
+                              #01_fix_openjdk_cmds_path.diff \
+                              #02_fix_corba_cmds_path.diff \
+                              #patches/disable_Werror.diff
 
  ./configure \
         --disable-bootstrap \
