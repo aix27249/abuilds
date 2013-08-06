@@ -2,29 +2,30 @@
 
 pkgname=apr-util
 pkgver=1.5.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('apr-util (Apache Portable Runtime utilities)')
 longdesc=('The mission of the Apache Portable Runtime (APR) is to provide a free library of C data structures and routines, forming a system portability layer to as many operating systems as possible. This package contains additional utility interfaces for APR; including support for XML, LDAP, database interfaces, URI parsing, and more.')
 
 tags=('dev-libs libs')
+build_deps="apr expat db openldap unixodbc sqlite"
 
 source=("http://www.apache.org/dist/apr/apr-util-${pkgver}.tar.bz2")
-
-build_deps="apr sqlite db44 db gdbm openldap"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --with-apr=/usr \
-  --with-dbm=db44 \
-  --with-berkeley-db \
+  --with-dbm=db \
+  --with-berkeley-db=/usr \
   --disable-util-dso \
   --without-gdbm \
   --with-ldap \
+  --disable-static \
   --without-sqlite2 \
   --without-pgsql \
   --without-mysql \
   $ARCH-slackware-linux"
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
