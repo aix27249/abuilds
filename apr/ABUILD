@@ -1,6 +1,6 @@
 # Apache Portable Runtime ABUILD
 pkgname=apr
-pkgver=1.4.6
+pkgver=1.4.8
 pkgbuild=1
 shortdesc="The Apache Portable Runtime"
 longdesc="The Apache Portable Runtime"
