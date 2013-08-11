@@ -1,8 +1,7 @@
-# $Id: PKGBUILD 66522 2010-01-31 13:12:49Z thomas $
-# Maintainer: Thomas Baechler <thomas@archlinux.org>
+
 pkgname=ppp
 pkgver=2.4.5
-pkgbuild=2
+pkgbuild=3
 shortdesc=("A daemon which implements the PPP protocol for dial-up networking")
 longdesc=("A daemon which implements the PPP protocol for dial-up networking")
 arch=("auto") 
@@ -14,6 +13,7 @@ etc/ppp/ip-up
 etc/ppp/ip-down"
 
 tags=("net-dialup network")
+build_deps="glibc libcap"
 
 source=(ftp://ftp.samba.org/pub/ppp/ppp-${pkgver}.tar.gz)
 
