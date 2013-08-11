@@ -1,5 +1,5 @@
 pkgname=os-prober
-pkgver=1.58
+pkgver=1.63
 pkgbuild=1
 arch=('auto')
 
