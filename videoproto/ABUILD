@@ -1,6 +1,6 @@
 pkgname=videoproto
-pkgver=2.3.1
-pkgbuild=2
+pkgver=2.3.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('videoproto')
