@@ -1,5 +1,5 @@
 pkgname=help2man
-pkgver=1.40.12
+pkgver=1.43.3
 pkgbuild=1
 arch="auto"
 
