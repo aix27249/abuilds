@@ -1,5 +1,5 @@
 pkgname=agibuild
-pkgver=0.3.1
+pkgver=0.3.2.2
 pkgbuild=1
 arch=('auto')
 
@@ -8,7 +8,7 @@ source=("https://github.com/SirAnthony/autobuild/archive/${pkgver}.tar.gz"
 	"https://raw.github.com/SirAnthony/skyfront/master/skyfront.py o")
 tags="dev-util develop"
 
-build_deps="python swig"
+build_deps="python swig pysetuptools"
 adddep="python"
 
 before_build()
