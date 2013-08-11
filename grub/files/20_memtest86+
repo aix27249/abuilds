@@ -6,9 +6,9 @@
 
 prefix=/usr
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
+datarootdir=${exec_prefix}/share
 
-. ${libdir}/grub/grub-mkconfig_lib
+. ${datarootdir}/grub/grub-mkconfig_lib
 
 MEMTEST86_IMAGE="/boot/memtest86+/memtest.bin"
 CLASS="--class memtest86 --class gnu --class tool"

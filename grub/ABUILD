@@ -1,6 +1,6 @@
 pkgname=grub
 pkgver=2.00
-pkgbuild=4
+pkgbuild=5
 shortdesc="The GNU GRand Unified Bootloader"
 longdesc="The GNU GRand Unified Bootloader"
 arch=('auto')
