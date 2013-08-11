@@ -1,5 +1,5 @@
 pkgname=xprop
-pkgver=1.2.1
+pkgver=1.2.2
 pkgbuild=1
 arch=('auto')
 
