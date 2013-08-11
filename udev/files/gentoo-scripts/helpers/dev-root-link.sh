@@ -8,7 +8,7 @@
 # For more information, see this bug:
 # https://bugs.gentoo.org/show_bug.cgi?id=438380
 
-RULESDIR=/run/udev/rules.d
+RULESDIR=/etc/udev/rules.d
 
 [ -d $RULESDIR ] || mkdir -p $RULESDIR
 

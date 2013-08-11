@@ -1,6 +1,6 @@
 pkgname=udev
 pkgver=204
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('udev (dynamic device directory system)')
