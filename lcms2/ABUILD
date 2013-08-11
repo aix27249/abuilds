@@ -1,5 +1,5 @@
 pkgname=lcms2
-pkgver=2.4
+pkgver=2.5
 pkgbuild=1
 arch=('auto')
 
