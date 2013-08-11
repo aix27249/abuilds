@@ -1,5 +1,5 @@
 pkgname=libXi
-pkgver=1.7.1
+pkgver=1.7.2
 pkgbuild=1
 arch=('auto')
 
