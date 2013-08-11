@@ -1,5 +1,5 @@
 pkgname=kmod
-pkgver=13
+pkgver=14
 pkgbuild=1
 arch=('auto')
 
