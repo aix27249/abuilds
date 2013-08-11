@@ -1,6 +1,6 @@
 pkgname=mkfontscale
-pkgver=1.1.0
-pkgbuild=2
+pkgver=1.1.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('Create an index of scalable font files for X')
