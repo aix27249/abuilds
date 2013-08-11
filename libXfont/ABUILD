@@ -1,6 +1,6 @@
 pkgname=libXfont
-pkgver=1.4.5
-pkgbuild=2
+pkgver=1.4.6
+pkgbuild=1
 arch=('auto')
 
 shortdesc=("X11 font rasterization library")
