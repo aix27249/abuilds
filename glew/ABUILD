@@ -1,5 +1,5 @@
 pkgname=glew
-pkgver=1.9.0
+pkgver=1.10.0
 pkgbuild=0
 arch=('auto')
 
@@ -17,10 +17,10 @@ build_deps="libXmu libXi mesa"
 
 build()
 {
-go_src_dir
-burn_patches
+  go_src_dir
+  burn_patches
 
-make -j${numjobs} || exit 1
-mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
-make install GLEW_DEST=${pkgdir} LIBDIR=$pkgdir/usr/lib${LIBDIRSUFFIX} INCDIR=/${pkgdir}/usr/include/GL || exit 1
+  make -j${numjobs} || exit 1
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  make install GLEW_DEST=${pkgdir} LIBDIR=$pkgdir/usr/lib${LIBDIRSUFFIX} INCDIR=/${pkgdir}/usr/include/GL || exit 1
 }
