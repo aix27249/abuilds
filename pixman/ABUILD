@@ -1,5 +1,5 @@
 pkgname=pixman
-pkgver=0.30.0
+pkgver=0.30.2
 pkgbuild=1
 arch=('auto')
 
