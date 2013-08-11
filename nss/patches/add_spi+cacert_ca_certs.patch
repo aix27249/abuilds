@@ -1,5 +1,5 @@
---- mozilla/security/nss/lib/ckfw/builtins/certdata.txt.orig	2012-08-19 16:22:51.726895174 +0200
-+++ mozilla/security/nss/lib/ckfw/builtins/certdata.txt	2012-08-19 17:40:41.233306703 +0200
+--- nss/lib/ckfw/builtins/certdata.txt.orig	2012-08-19 16:22:51.726895174 +0200
++++ nss/lib/ckfw/builtins/certdata.txt	2012-08-19 17:40:41.233306703 +0200
 @@ -24454,3 +24454,621 @@
  CKA_TRUST_EMAIL_PROTECTION CK_TRUST CKT_NSS_MUST_VERIFY_TRUST
  CKA_TRUST_CODE_SIGNING CK_TRUST CKT_NSS_MUST_VERIFY_TRUST
