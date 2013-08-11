@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.10.0
+pkgver=3.10.5
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
