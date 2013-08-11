@@ -1,6 +1,6 @@
 # Package metadata
 pkgname=gtkmm
-pkgver=2.24.3
+pkgver=2.24.4
 pkgbuild=1
 arch="auto"
 
