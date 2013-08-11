@@ -1,6 +1,6 @@
 pkgname=libpciaccess
-pkgver=0.13.1
-pkgbuild=2
+pkgver=0.13.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('libpciaccess')
