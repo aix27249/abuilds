@@ -1,6 +1,6 @@
 # util-linux-ng ABUILD
 pkgname=util-linux-ng
-pkgver=2.23.1
+pkgver=2.23.2
 pkgbuild=1
 arch=('auto')
 
@@ -12,9 +12,8 @@ tags=('base sys-apps')
 source=("ftp://ftp.kernel.org/pub/linux/utils/util-linux/v${pkgver%.*}/util-linux-${pkgver}.tar.xz")
 conflicts="eject"
 
-config_files="etc/pam.d/su"
+#config_files="etc/pam.d/su"
 build_deps="udev linux-pam acl shadow coreutils"
-
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -32,6 +31,7 @@ BUILD_KEYS="--prefix=/usr \
   --disable-last \
   --enable-libuuid \
   --disable-line \
+  --disable-login \
   --enable-mesg \
   --enable-newgrp \
   --enable-partx \
@@ -39,6 +39,7 @@ BUILD_KEYS="--prefix=/usr \
   --enable-rename \
   --enable-socket-activation \
   --enable-schedutils \
+  --disable-su \
   --enable-wall \
   --enable-write \
   --enable-use-tty-group \
@@ -74,11 +75,11 @@ after_build() {
   )
 
   # PAM module
-  install -Dm644 $filedir/su.pam $pkgdir/etc/pam.d/su
-  install -m644 "$filedir/su.pam" "${pkgdir}/etc/pam.d/su-l"
-  install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chfn"
-  install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chsh"
-  install -m644 "$filedir/login.pam"  "$pkgdir/etc/pam.d/login"
+  #install -Dm644 $filedir/su.pam $pkgdir/etc/pam.d/su
+  #install -m644 "$filedir/su.pam" "${pkgdir}/etc/pam.d/su-l"
+  #install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chfn"
+  #install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chsh"
+  #install -m644 "$filedir/login.pam"  "$pkgdir/etc/pam.d/login"
 
   # That's all about this hell. Yes, system core packages are complex a bit...
 }
