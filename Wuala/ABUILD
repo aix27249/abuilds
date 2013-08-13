@@ -3,7 +3,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=Wuala
 name=wuala
-pkgver=2_build20110818
+pkgver=2_build20130813
 pkgbuild=1
 arch=('noarch')
 
