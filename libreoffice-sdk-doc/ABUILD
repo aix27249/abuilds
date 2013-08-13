@@ -1,13 +1,13 @@
 #ABUILD created by/создан: Nk, nk-man at yandex.ru
 
 # Thanks to
-# - aix27249, Unnamed_Hero and Ben, AgiliaLinux
+# - aix27249, Unnamed_Hero and Ben - AgiliaLinux
 #   http://www.agilialinux.ru/
-# - AndyRTR, Arch Linux
+# - AndyRTR - Arch Linux
 #   https://projects.archlinux.org/svntogit/packages.git/tree/libreoffice/trunk/PKGBUILD
-# - Alien, Slackware Linux 
+# - Alien - Slackware Linux 
 #   http://alien.slackbook.org/blog/new-libreoffice-and-kde-recompiled-for-slackware-14-0/
-# - sberg, LO-Team
+# - sberg - LO-Team
 #   irc #libreoffice-dev
 
 #*************************************
@@ -31,7 +31,7 @@ pkgname=libreoffice
 pkgver=4.0.5.1
 lover=${pkgver%.*}
 
-pkgbuild=1
+pkgbuild=3
 arch=('noarch')
 
 shortdesc="LibreOffice is an Open Source, community-developed, office productivity suit"
