@@ -3,7 +3,7 @@ pkgname=mozilla-firefox
 pkgver=17.0.8
 _pkgver=${pkgver}
 
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Mozilla-firefox web browser"
