@@ -2,7 +2,7 @@
 
 pkgname=dbus
 pkgver=1.6.12
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=("Freedesktop.org message bus system")
@@ -42,6 +42,9 @@ after_build() {
 	# Add OpenRC scripts
 	mkdir -p ${pkgdir}/etc/init.d
 	install -m755 $filedir/dbus.init ${pkgdir}/etc/init.d/dbus
+	
+	# Add socket dir. DBus cannot do it and keep silent about
+	mkdir -p ${pkgdir}/var/run/dbus
 
 	set +e
 }
