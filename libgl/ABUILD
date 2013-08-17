@@ -32,6 +32,7 @@ before_build() {
 BUILD_WORD="CFLAGS=\"$SLKCFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" CXXFLAGS=\"$SLKCXXFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" LDFLAGS=-L/usr/lib${LIBDIRSUFFIX}/llvm ./configure"
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
+    --sysconfdir=/etc \
     --libdir=/usr/lib$LIBDIRSUFFIX \
     --with-dri-driverdir=/usr/lib$LIBDIRSUFFIX/xorg/modules/dri \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
