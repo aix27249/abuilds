@@ -1,6 +1,6 @@
 pkgname=libX11
 pkgver=1.6.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('X11 client-side library')
@@ -12,6 +12,15 @@ source=("http://xorg.freedesktop.org/archive/individual/lib/libX11-${pkgver}.tar
 build_deps="libxcb xproto kbproto util-macros xextproto xtrans inputproto"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-xcb=yes"
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --datarootdir=/usr/share \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc \
+  --disable-static \
+  --with-xcb=yes"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
