@@ -1,23 +1,19 @@
-# $Id$
-# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
-# Contributor : Giedrius Slavinskas <giedrius25@gmail.com>
-# Ported to AgiliaLinux: aix27249 <i27249@gmail.com>
 
 pkgname=python-babel
-pkgver=0.9.5
-pkgbuild=3
+pkgver=0.9.6
+pkgbuild=1
 shortdesc="A collection of tools for internationalizing Python applications"
-longdesc="A collection of tools for internationalizing Python applications"
-url="http://babel.edgewall.org/"
-license=("BSD")
-arch=('any')
-depends=('python2')
-makedepends=('setuptools')
-source=("http://ftp.edgewall.com/pub/babel/Babel-$pkgver.tar.gz")
-tags=("dev-python develop")
-build() {
-  cd $srcdir/Babel-${pkgver}
+arch=('auto')
 
-  python setup.py install --root=$pkgdir
+build_deps="python pysetuptools"
+adddep="python"
+
+source=("http://ftp.edgewall.com/pub/babel/Babel-$pkgver.tar.gz")
+tags="develop dev-python"
+
+BUILD_SYSTEM="python"
+
+after_build() {
+  go_src_dir
   install -D -m0644 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
 }
