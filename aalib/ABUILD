@@ -1,6 +1,6 @@
 pkgname=aalib
 pkgver=1.4rc5
-pkgbuild=1
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("A portable ASCII art graphic library")
