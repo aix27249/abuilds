@@ -1,15 +1,16 @@
 pkgname=capt
-pkgver=2.40
-foldername=Linux_CAPT_PrinterDriver_V240_uk_EN
+pkgver=2.56
+foldername=Linux_CAPT_PrinterDriver_V256_uk_EN
 pkgbuild=2
 arch=('auto')
 
 shortdesc="Canon CAPT Printer Driver for Linux"
 
-source=("http://gdlp01.c-wss.com/gds/4/0900007724/12/${foldername}.tar.gz")
+source=("http://gdlp01.c-wss.com/gds/6/0100004596/02/${foldername}.tar.gz")
 
 tags="drivers net-print"
-build_deps="rpmextract"
+build_deps="rpm gtk+2"
+
 build() {
 	cd ${pkgdir}
 	if [ "$ARCH" == "x86_64" ]; then
@@ -22,6 +23,8 @@ build() {
 		rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-capt-${pkgver}-1.i386.rpm #2> /dev/null
 		rpmextract ${srcdir}/${foldername}/32-bit_Driver/RPM/cndrvcups-common-${pkgver}-1.i386.rpm #2> /dev/null
 	fi
+	cp -r ${pkgdir}/usr/local/* ${pkgdir}/usr/
+	rm -rf ${pkgdir}/usr/local
 	mkdir -p ${pkgdir}/var/ccpd
 	mkdir -p ${pkgdir}/var/captmon
 	install -D -m644 ${srcdir}/${foldername}/Doc/LICENSE-captdrv-${pkgver}E.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-captdrv-${pkgver}E.txt
