@@ -1,6 +1,6 @@
 pkgname=agibuild
 pkgver=0.3.2.2
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Automatic package builder for AgiliaLinux"
