@@ -1,6 +1,6 @@
 pkgname=python
 pkgver=2.7.5
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 _pybasever=2.7
 
