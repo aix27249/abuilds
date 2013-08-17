@@ -2,17 +2,22 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=smplayer-skins
-pkgver=20121029
+pkgver=20130605
 pkgbuild=1
 arch=('noarch')
 
-shortdesc="Skins for SMPlayer"
+
+shortdesc="This package provides skin themes for SMPlayer"
+
+#shortdesc="Skins for SMPlayer"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("This package provides skin themes for SMPlayer")
+#longdesc=("This package provides skin themes for SMPlayer")
+
 
 source=("http://downloads.sourceforge.net/project/smplayer/SMPlayer-skins/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
 
 patch_opts=("")
+
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
@@ -40,6 +45,7 @@ gendeps_blacklist=
 
 #custom_opts: skip_validate skip_gendeps no_postperm no_strip
 custom_opts=""
+
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
