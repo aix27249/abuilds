@@ -1,6 +1,6 @@
 pkgname=redland
 pkgver=1.0.16
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 shortdesc="Redland is a library that provides a high-level interface for the Resource Description Framework"
