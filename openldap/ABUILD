@@ -2,7 +2,7 @@
 
 pkgname=openldap
 pkgver=2.4.35
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("openldap (OpenLDAP client and server programs)")
