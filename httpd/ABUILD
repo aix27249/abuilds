@@ -1,5 +1,5 @@
 pkgname=httpd
-pkgver=2.2.24
+pkgver=2.2.25
 ipconnver=0.24
 pkgbuild=1
 arch=('auto')
