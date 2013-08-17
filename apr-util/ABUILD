@@ -2,7 +2,7 @@
 
 pkgname=apr-util
 pkgver=1.5.2
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('apr-util (Apache Portable Runtime utilities)')
