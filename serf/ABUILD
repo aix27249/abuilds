@@ -2,7 +2,7 @@
 
 pkgname=serf
 pkgver=1.2.1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("High-performance asynchronous HTTP client library")
