@@ -2,7 +2,7 @@
 
 pkgname=perl
 pkgver=5.18.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("perl (Practical Extraction and Report Language)")
