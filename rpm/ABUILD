@@ -2,7 +2,7 @@
 
 pkgname=rpm
 pkgver=4.11.0.1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("RPM package format tool")
