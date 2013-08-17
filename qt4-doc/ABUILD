@@ -1,7 +1,7 @@
 # Qt4 ABUILD
 pkgname=qt4
 pkgver=4.8.5
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
@@ -34,6 +34,7 @@ BUILD_KEYS="-confirm-license -opensource \
 	-prefix /usr \
 	-sysconfdir /etc \
 	-libdir /usr/lib$LIBDIRSUFFIX \
+	-bindir /usr/lib$LIBDIRSUFFIX/qt/bin \
 	-plugindir /usr/lib$LIBDIRSUFFIX/qt/plugins \
 	-importdir /usr/lib$LIBDIRSUFFIX/qt/imports \
 	-translationdir /usr/share/qt/translations \
@@ -103,8 +104,8 @@ after_build() {
 
   # Useful symlinks for cmake and configure scripts
   install -d "${pkgdir}"/usr/bin
-  for b in "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/qt4/bin/*; do
-      ln -s /usr/lib${LIBDIRSUFFIX}/qt4/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt4
+  for b in "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/qt/bin/*; do
+      ln -s /usr/lib${LIBDIRSUFFIX}/qt/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt4
   done
 
   # install license addition
