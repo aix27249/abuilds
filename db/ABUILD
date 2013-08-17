@@ -2,7 +2,7 @@
 
 pkgname=db
 pkgver=6.0.20
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Berkeley embedded database system")
