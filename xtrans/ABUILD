@@ -1,6 +1,6 @@
 pkgname=xtrans
 pkgver=1.2.7
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xtrans')
@@ -12,7 +12,14 @@ source=("http://xorg.freedesktop.org/archive/individual/lib/xtrans-${pkgver}.tar
 build_deps="gcc"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --datarootdir=/usr/share \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${pkgname}-${pkgver}"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 
