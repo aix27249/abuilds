@@ -2,7 +2,7 @@
 
 pkgname=linux-pam
 pkgver=1.1.6
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 unix2_ver=2.9.1
