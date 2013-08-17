@@ -9,6 +9,7 @@ WICD_PIDFILE=/var/run/wicd/wicd.pid
 
 depend() {
 	need dbus
+	provide net
 }
 
 start() {
