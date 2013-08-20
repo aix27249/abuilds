@@ -2,7 +2,7 @@
 
 pkgname=libproxy
 pkgver=0.4.11
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("A library that provides automatic proxy configuration management")
@@ -15,7 +15,7 @@ build_deps="cmake automoc4 python perl gcc glibc-solibs libICE libpthread-stubs 
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIBEXEC_INSTALL_DIR=/usr/lib/libproxy \
+    -DLIBEXEC_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX}/libproxy \
     -DCMAKE_SKIP_RPATH=ON \
     -DPERL_VENDORINSTALL=yes \
     -DCMAKE_BUILD_TYPE=Release \
