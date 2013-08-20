@@ -2,16 +2,17 @@
 
 pkgname=openjade
 pkgver=1.3.3_pre1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
-shortdesc=("OpenJade")
+shortdesc=("James Clark's implementation of DSSSL engine")
 
 tags=("app-text develop")
 
 source=("http://sourceforge.net/projects/openjade/files/openjade/1.3.3/openjade-${pkgver/_/-}.tar.gz")
 
 build_deps="perl opensp glibc-solibs gcc-libs"
+adddep="sgml-common"
 
 build() {
 	go_src_dir
