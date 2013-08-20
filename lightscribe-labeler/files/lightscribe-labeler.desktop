@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LaCie LightScribe Labeler
+Comment=A program LaCie to print CD-DVD drives LightScribe
+Terminal=false
+Icon=lightscribe-labeler
+Exec=4L-gui
+Type=Application
+Categories=Application;Utility;GTK;DiscBurning;AudioVideo;
