@@ -1,14 +1,15 @@
 pkgname=luit
 pkgver=1.1.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('luit')
+shortdesc=('Filter that can be run between an arbitrary application and a UTF-8 terminal emulator')
 longdesc=('luit is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/luit-${pkgver}.tar.bz2")
+build_deps="libfontenc util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
