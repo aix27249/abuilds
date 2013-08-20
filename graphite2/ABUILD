@@ -1,6 +1,6 @@
 pkgname=graphite2
 pkgver=1.2.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Reimplementation of the SIL Graphite text processing engine"
