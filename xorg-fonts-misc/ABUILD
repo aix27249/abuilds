@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=xorg-fonts-misc
 pkgver=1.0.3
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="X.org misc fonts"
@@ -14,6 +14,7 @@ source=("${url}/font-arabic-misc-${pkgver}.tar.bz2"
 	"${url}/font-jis-misc-${pkgver}.tar.bz2"
 	"${url}/font-micro-misc-${pkgver}.tar.bz2"
 	"${url}/font-misc-ethiopic-${pkgver}.tar.bz2"
+	"${url}/font-misc-misc-1.1.2.tar.bz2"
 	"${url}/font-mutt-misc-${pkgver}.tar.bz2"
 	"${url}/font-schumacher-misc-1.1.2.tar.bz2"
 	"${url}/font-sony-misc-${pkgver}.tar.bz2"
