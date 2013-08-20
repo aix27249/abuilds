@@ -1,6 +1,6 @@
 # ABUILD for mc
 pkgname=mc
-pkgver=4.8.9
+pkgver=4.8.10
 srcver=${pkgver//_/-}
 pkgbuild=1
 arch=('auto')
