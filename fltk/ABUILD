@@ -2,90 +2,91 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=fltk
-pkgver=1.1.10
-pkgbuild=2
+pkgver=1.3.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Fast Light Toolkit, a cross-platform C++ GUI toolkit"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("FLTK provides modern GUI functionality without the bloat and supports 3D graphics via OpenGL® and its built-in GLUT emulation. FLTK is designed to be small and modular enough to be statically linked, but works fine as a shared library. FLTK also includes an excellent UI builder called FLUID that can be used to create applications in minutes. FLTK is provided under the terms of the GNU Library Public License, Version 2 with exceptions that allow for static linking. Homepage: http://www.fltk.org"
-)
+longdesc=("FLTK provides modern GUI functionality without the bloat and supports 3D graphics via OpenGL and its built-in GLUT emulation. FLTK is designed to be small and modular enough to be statically linked, but works fine as a shared library. FLTK also includes an excellent UI builder called FLUID that can be used to create applications in minutes. FLTK is provided under the terms of the GNU Library Public License, Version 2 with exceptions that allow for static linking. Homepage: http://www.fltk.org")
+source=("http://www.fltk.org/tars/releases/$pkgname-$pkgver-source.tar.gz")
 
-source=("http://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/fltk/${pkgver}/${pkgname}-${pkgver}-source.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="x11-libs libs"
+build_deps="mesa glu doxygen libjpeg libpng libXft libXinerama alsa-lib desktop-file-utils xdg-utils"
+adddep="hicolor-icon-theme"
 
-#dependencies only needed to build package
-build_deps=""
+pkglist="games docs"
 
-provides=""
-conflicts=""
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-
-go_src_dir
-# http://slackbuilds.org/repository/13.1/libraries/fltk/
-# Fix linking when --libdir=/usr/lib64 
-sed -i \
-  -e '/RANLIB/s:$(libdir)/\(.*LIBNAME)\):$(libdir)/`basename \1`:g' \
-  src/Makefile || exit
+docs() {
+  pkgname=fltk-docs
+  shortdesc="Graphical user interface toolkit for X (documentation)"
 }
 
-BUILD_SYSTEM="autotools"
+games() {
+  pkgname=fltk-games
+  shortdesc="Example games that accompany FLTK: blocks, checkers and sudoku"
+  adddep="alsa-lib fltk"
+}
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---disable-debug \
---docdir=/usr/doc/${pkgname}-${pkgver} \
-  --enable-gl \
-  --enable-largefile \
-  --enable-threads \
-  --enable-xinerama \
-  --enable-xft \
-  --enable-xdbe \
-  --enable-shared || exit 1"
+build() {
+  go_src_dir
+  sed -i -e 's/$(LINKFLTK)/$(LINKSHARED)/' \
+         -e 's/$(LINKFLTKIMG)/$(LINKSHARED)/' test/Makefile
+  # http://slackbuilds.org/repository/13.1/libraries/fltk/
+  # Fix linking when --libdir=/usr/lib64
+  sed -i -e '/RANLIB/s:$(libdir)/\(.*LIBNAME)\):$(libdir)/`basename \1`:g' \
+            src/Makefile || exit
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static \
+    --mandir=/usr/man \
+    --program-prefix= \
+    --program-suffix= \
+    --disable-debug \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --enable-gl \
+    --enable-largefile \
+    --enable-threads \
+    --enable-xinerama \
+    --enable-xft \
+    --enable-xdbe \
+    --enable-shared || exit 1
 
-#ran after function build() 
-#после сборки
+    (cd documentation; make html)
+}
+
 after_build()
 {
-echo ""
+  go_src_dir
+
+  make DESTDIR="$pkgdir" install
+  (cd fluid; make DESTDIR="$pkgdir" install install-linux)
+  chmod 644 "$pkgdir"/usr/lib/*.a
+  rm -rf ${pkgdir}/usr/share/doc
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+docs_prep() {
+  go_src_dir
+  cd "documentation"
+  install -d "$pkgdir"/usr/doc/${pkgname}-${pkgver}/
+  for _file in html/* ; do
+    install -m644 $_file "$pkgdir"/usr/doc/${pkgname}-${pkgver}/
+  done
+  cd ../test
+  make DESTDIR="$pkgdir" install
+  mv ${pkgdir}/usr/share/doc/fltk/examples ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
+  install -D -m644 ../COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+games_prep() {
+  go_src_dir
+  cd "test"
+  make DESTDIR="$pkgdir" install-linux
+  (cd ../documentation;  make DESTDIR="$pkgdir" install-linux)
+  install -D -m644 ../COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
