@@ -1,6 +1,6 @@
 pkgname=gtk+3
 pkgver=3.8.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="GTK+ version 3 (multi-platform GUI toolkit)"
