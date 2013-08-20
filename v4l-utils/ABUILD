@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=v4l-utils
-pkgver=0.9.5
+pkgver=1.0.0
 pkgbuild=1
 arch="auto"
 
