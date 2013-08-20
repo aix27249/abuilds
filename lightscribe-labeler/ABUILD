@@ -1,0 +1,27 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=lightscribe-labeler
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A program LaCie to print CD-DVD drives LightScribe"
+
+source=("http://www.lacie.com/download/drivers/LaCie%20LightScribe%20Labeler%20${pkgver}%20Linux.rpm")
+
+tags="media-gfx xapps x86"
+
+if [ "${LIBDIRSUFFIX}" = "64" ]; then
+   adddep="lightscribe libXinerama32"
+else
+   adddep="lightscribe libXinerama"
+fi
+
+build(){
+  cd ${srcdir}
+  install -Dm644 ${filedir}/lightscribe-labeler.png \
+                   ${pkgdir}/usr/share/pixmaps/${pkgname}.png
+  cp -R ${srcdir}/* ${pkgdir}
+  install -Dm644 ${srcdir}/usr/4L/doc/4L_User_Manual.pdf ${pkgdir}/usr/doc/${pkgname}-${pkgver}/4L_User_Manual.pdf
+  rm -f -R ${pkgdir}/usr/4L/doc
+}

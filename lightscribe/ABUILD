@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=lightscribe
+pkgver=1.18.27.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Library to work with LightScribe devices"
+
+source=("http://download.lightscribe.com/ls/${pkgname}-${pkgver}-linux-2.6-intel.rpm")
+
+tags="media-gfx xapps"
+
+adddep="libstdc++5-v332"
+
+docs="lightscribeLicense.rtf"
+
+build(){
+  cd ${srcdir}
+  install -D -m644 ${srcdir}/etc/lightscribe.rc ${pkgdir}/etc/lightscribe.rc
+  install -D -m644 ${srcdir}/usr/share/doc/lightscribeLicense.rtf ${pkgdir}/usr/doc/${pkgname}-${pkgver}/lightscribeLicense.rtf
+  cp -R ${srcdir}/usr/lib/ ${pkgdir}/usr/lib/
+  rm ${pkgdir}/usr/lib/lightscribe/libstdc++.so.5.0.7
+}
+

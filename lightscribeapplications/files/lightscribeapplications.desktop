@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LightScribe Applications
+Comment=A program to print CD-DVD drives LightScribe
+Terminal=false
+Icon=lightscribeapplications
+Exec=/opt/lightscribeApplications/SimpleLabeler/SimpleLabeler
+Type=Application
+Categories=Application;Utility;GTK;DiscBurning;AudioVideo;
