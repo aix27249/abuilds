@@ -1,7 +1,7 @@
 pkgname=perl-locale-gettext
 downname=gettext
 pkgver=1.05
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Locale::gettext perl module. Permits access from Perl to the gettext() family of functions"
@@ -9,7 +9,8 @@ shortdesc="Locale::gettext perl module. Permits access from Perl to the gettext(
 source=("http://cpan.rinet.ru/authors/id/P/PV/PVANDRY/${downname}-${pkgver}.tar.gz")
 tags="develop dev-lang"
 build_deps="gettext perl"
-
+provides="locale-gettext"
+conflicts="perl-gettext"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
