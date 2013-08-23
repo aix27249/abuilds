@@ -1,6 +1,6 @@
 pkgname=bash-completion
 pkgver=2.1
-pkgbuild=2
+pkgbuild=1
 arch=("noarch")
 
 shortdesc=("Programmable completion for the bash shell")
