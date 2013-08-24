@@ -1,6 +1,6 @@
 pkgname=udev
-pkgver=204
-pkgbuild=2
+pkgver=206
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('udev (dynamic device directory system)')
@@ -9,18 +9,15 @@ longdesc=('udev provides a dynamic device directory containing only the files fo
 tags=('base sys-fs')
 
 source="http://www.freedesktop.org/software/systemd/systemd-$pkgver.tar.xz"
-
-#config_files="etc/conf.d/udev
-#etc/udev/udev.conf
-#etc/modprobe.d/blacklist.conf"
-
 adddep="kernel>=2.6.32 openrc>=0.9.9 pciutils usbutils"
-
 build_deps="kmod util-linux-ng gobject-introspection acl gperf kernel-headers"
+
 
 build() {
     go_src_dir
-    export ac_cv_prog_ac_ct_GPERF=true
+
+#	DBUS_CFLAGS=' ' \
+#	DBUS_LIBS=' ' \
 
     ./configure --sysconfdir=/etc \
 	--with-rootprefix=/ \
@@ -28,11 +25,11 @@ build() {
 	--libexecdir=/lib \
 	ac_cv_search_cap_init= \
 	ac_cv_header_sys_capability_h=yes \
-	DBUS_CFLAGS=' ' \
-	DBUS_LIBS=' ' \
 	--bindir=/bin \
 	--docdir=/usr/doc/${pkgname}-${pkgver} \
 	--with-html-dir=/usr/doc/${pkgname}-${pkgver}/html \
+	DBUS_CFLAGS=' ' \
+	DBUS_LIBS=' ' \
 	--without-python \
 	--disable-bootchart \
 	--disable-audit \
@@ -54,48 +51,61 @@ build() {
 	--disable-xz \
 	--disable-polkit \
 	--disable-gcrypt \
-	--with-firmware-path=/lib/firmware \
-	--with-dbuspolicydir=/usr/share/dbus-1/dbus-1/system.d \
-	--with-dbussessionservicedir=/usr/share/dbus-1/services \
-	--with-dbussystemservicedir=/usr/share/dbus-1/system-services \
-	--with-dbusinterfacedir=/usr/share/dbus-1/interfaces
+	--disable-tmpfiles \
+	--disable-machined \
+	--disable-xattr \
+	--enable-acl \
+	--enable-kmod \
+	--with-firmware-path="/lib/firmware/updates:/lib/firmware"
 
 	# Build gperf targets
 	echo 'BUILT_SOURCES: $(BUILT_SOURCES)' > Makefile.extra
 	make -f Makefile -f Makefile.extra BUILT_SOURCES
 	
-	local targets=(
-		libudev.la systemd-udevd udevadm ata_id cdrom_id collect scsi_id v4l_id accelerometer
-		mtd_probe man/udev.7 man/udevadm.8 man/systemd-udevd.service.8 keymap libgudev-1.0.la)
-
-	make -j${numjobs} "${targets[@]}"
-
-	local install_targets=(
-	    install-libLTLIBRARIES install-includeHEADERS install-libgudev_includeHEADERS install-binPROGRAMS 
-	    install-rootlibexecPROGRAMS install-udevlibexecPROGRAMS install-dist_udevconfDATA install-dist_udevhomeSCRIPTS
-	    install-dist_udevkeymapDATA install-dist_udevkeymapforcerelDATA install-dist_udevrulesDATA install-girDATA
-	    install-man7 install-man8 install-pkgconfiglibDATA install-sharepkgconfigDATA install-typelibsDATA install-dist_docDATA
-	    libudev-install-hook install-directories-hook install-dist_bashcompletionDATA)
+	local lib_targets=( libudev.la libgudev-1.0.la )
+	make -j${numjobs} "${lib_targets[@]}"
 	
-	local lib_LTLIBRARIES="libudev.la  libgudev-1.0.la" \
-	    pkgconfiglib_DATA="src/libudev/libudev.pc src/gudev/gudev-1.0.pc"
+	local exec_targets=( systemd-udevd udevadm )
+	make -j${numjobs} "${exec_targets[@]}"
 	
-	local systemd_unit=/usr/lib/systemd/system
+	local helper_targets=( ata_id cdrom_id collect scsi_id v4l_id accelerometer mtd_probe )
+	make -j${numjobs} "${helper_targets[@]}"
 	
-	install_targets+=(
-	    rootlibexec_PROGRAMS=systemd-udevd bin_PROGRAMS=udevadm lib_LTLIBRARIES="${lib_LTLIBRARIES}"
-	    MANPAGES="man/udev.7 man/udevadm.8 man/systemd-udevd.service.8"
-	    MANPAGES_ALIAS="" pkgconfiglib_DATA="${pkgconfiglib_DATA}" 
-	    INSTALL_DIRS='/etc/udev/rules.d /etc/udev/hwdb.d'
-	    dist_bashcompletion_DATA="shell-completion/bash/udevadm"
-	)
+	local man_targets=( man/udev.7 man/udevadm.8 man/systemd-udevd.service.8 )
+	make -j${numjobs} "${man_targets[@]}"
 
-	#install
-	make -j1 DESTDIR=${pkgdir} "${install_targets[@]}"
 }
 
 
 after_build() {
+	go_src_dir
+	
+
+	local targets=(
+	    install-libLTLIBRARIES install-includeHEADERS install-libgudev_includeHEADERS install-rootbinPROGRAMS
+	    install-rootlibexecPROGRAMS install-udevlibexecPROGRAMS install-dist_udevconfDATA install-dist_udevrulesDATA
+	    install-girDATA install-pkgconfiglibDATA install-sharepkgconfigDATA install-typelibsDATA install-dist_docDATA 
+	    libudev-install-hook install-directories-hook install-dist_bashcompletionDATA install-man7 install-man8 )
+	
+	local lib_LTLIBRARIES="libudev.la libgudev-1.0.la"
+	local pkgconfiglib_DATA="src/libudev/libudev.pc src/gudev/gudev-1.0.pc"
+	
+	targets+=(
+	    rootlibexec_PROGRAMS=systemd-udevd
+	    rootbin_PROGRAMS=udevadm
+	    lib_LTLIBRARIES="${lib_LTLIBRARIES}"
+	    pkgconfiglib_DATA="${pkgconfiglib_DATA}"
+	    INSTALL_DIRS='/etc/udev/rules.d /etc/udev/hwdb.d'
+	    MANPAGES="man/udev.7 man/udevadm.8 man/systemd-udevd.service.8"
+	    MANPAGES_ALIAS=""
+	    dist_bashcompletion_DATA="shell-completion/bash/udevadm"
+	)
+	
+	
+
+	#install
+	make -j1 DESTDIR=${pkgdir} "${targets[@]}"
+
 
 	# prune_libtool_files
 	find "${pkgdir}" -name '*.la' -delete
@@ -124,9 +134,6 @@ after_build() {
 		cp rules.d/90-network.rules ${pkgdir}/lib/udev/rules.d
 	)
 
-	# Fix /run/udev/rules.d creation
-	( cd ${pkgdir}/etc/init.d ; patch -p0 --verbose < ${filedir}/udev-rulesd-fix.patch )
-
 	# make a place for udev to store the socket
 	mkdir -p ${pkgdir}/run/udev/
 
@@ -140,6 +147,5 @@ after_build() {
 
 	# Copy additional rules
 	cp -v ${filedir}/rules.d/*.rules ${pkgdir}/lib/udev/rules.d/
-
 }
 
