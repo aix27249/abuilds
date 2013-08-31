@@ -2,7 +2,7 @@
 
 pkgname=nfs-utils
 pkgver=1.2.8
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("nfs-utils (Network File System daemons and utilities)")
@@ -76,6 +76,7 @@ EOF
 	# install OpenRC init
 	install -D -m0755 ${filedir}/nfs.init ${pkgdir}/etc/init.d/nfs
 	install -D -m0644 ${filedir}/nfs.conf.d ${pkgdir}/etc/conf.d/nfs.new
+	install -D -m0644 ${filedir}/nfsmount.conf.d ${pkgdir}/etc/conf.d/nfsmount.new
 
 	for i in nfsmount rpc.gssd rpc.idmapd rpc.pipefs rpc.statd rpc.svcgssd ; do
 		install -D -m0755 ${filedir}/$i ${pkgdir}/etc/init.d/$i
