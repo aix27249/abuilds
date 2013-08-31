@@ -2,7 +2,7 @@
 
 pkgname=acpid
 pkgver=2.0.19
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('ACPI daemon')
