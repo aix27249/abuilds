@@ -1,6 +1,6 @@
 pkgname=sysklogd
 pkgver=1.5
-pkgbuild=4
+pkgbuild=5
 arch=("auto")
 
 shortdesc=("Linux system logging utilities")
@@ -32,7 +32,7 @@ build() {
 	install -m0755 syslog_tst ${pkgdir}/usr/sbin/syslog_tst
 
 	mkdir -p ${pkgdir}/var/log
-	for i in cron debug maillog messages secure spooler syslog ; 
+	for i in cron debug mail.log messages secure spooler syslog ; 
 		do touch ${pkgdir}/var/log/$i.new ;
 	done
 }
