@@ -1,24 +1,25 @@
 pkgname=libtirpc
 pkgver=0.2.3
-pkgbuild=2
+pkgbuild=1
 arch=("auto")
 
 shortdesc=("Transport Independent RPC library (SunRPC replacement)")
 
 tags=("libs dev-libs")
 
-#source=("http://downloads.sourceforge.net/sourceforge/libtirpc/${pkgname}-${pkgver}.tar.bz2")
-source=("git:git://git.infradead.org/~steved/libtirpc.git")
+source=("http://downloads.sourceforge.net/sourceforge/libtirpc/${pkgname}-${pkgver}.tar.bz2")
+#source=("git:git://git.infradead.org/~steved/libtirpc.git")
 
 build_deps="libgssglue"
 
 config_files="etc/netconfig"
 
-before_build() {
-	go_src_dir
-	#./bootstrap
-	sh ./autogen.sh
-}
+#before_build() {
+#	go_src_dir
+#	#./bootstrap
+#	sh ./autogen.sh
+#}
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
 INSTALL_KEYS="DESTDIR=$pkgdir"
