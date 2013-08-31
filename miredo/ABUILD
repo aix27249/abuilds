@@ -1,13 +1,11 @@
 pkgname=miredo
 pkgver=1.2.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Teredo client and server."
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("Miredo is an open-source Teredo IPv6 tunneling software, for Linux and the BSD operating systems. It includes functional implementations of all components of the Teredo specification (client, relay and server). It is meant to provide IPv6 connectivity even from behind NAT devices. For more informations, please refer to the introduction."
-"Home: http://www.remlab.net/miredo/"
-)
+"Home: http://www.remlab.net/miredo/")
 
 source=("http://www.remlab.net/files/${pkgname}/${pkgname}-${pkgver}.tar.xz")
 tags="network net-misc"
@@ -27,9 +25,6 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build()
 {
-    mkdir -p ${pkgdir}/etc/init.d/ ${pkgdir}/etc/conf.d
-    install -m 755 ${filedir}/miredo.rc ${pkgdir}/etc/init.d/miredo
-    install -m 755 ${filedir}/miredo-server.rc ${pkgdir}/etc/init.d/miredo-server
-    cp ${filedir}/miredo.conf ${pkgdir}/etc/conf.d/miredo
-    cp ${filedir}/miredo-server.conf ${pkgdir}/etc/conf.d/miredo-server
+    install -D -m 755 ${filedir}/miredo.rc ${pkgdir}/etc/init.d/miredo
+    install -D -m 755 ${filedir}/miredo.conf ${pkgdir}/etc/conf.d/miredo
 }
