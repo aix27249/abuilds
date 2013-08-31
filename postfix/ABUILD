@@ -2,7 +2,7 @@
 
 pkgname=postfix
 pkgver=2.10.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="alternative to the widely-used Sendmail program"
@@ -76,9 +76,9 @@ build()
         mailq_path=/usr/bin/mailq \
         mail_owner=$mail_owner \
         setgid_group=$setgid_group \
-        html_directory=/usr/doc/${pkgname}/html \
+        html_directory=/usr/doc/${pkgname}-${pkgver}/html \
         manpage_directory=/usr/man \
-        readme_directory=/usr/doc/${pkgname}/README_FILES \
+        readme_directory=/usr/doc/${pkgname}-${pkgver}/README_FILES \
         -j ${numjobs}
     set +e
 
