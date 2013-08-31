@@ -1,5 +1,5 @@
 pkgname=rpcbind
-pkgver=0.2.0
+pkgver=0.2.1
 pkgbuild=1
 arch=('auto')
 
@@ -21,14 +21,18 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix= \
 --enable-warmstarts \
+--with-rpcuser=rpc \
 --with-statedir=/var/run"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build()
 {
-    mkdir -p ${pkgdir}/etc/init.d
-    mkdir -p ${pkgdir}/etc/conf.d
-    install -m 0755 ${filedir}/rpcbind.confd ${pkgdir}/etc/conf.d/rpcbind
-    install -m 0755 ${filedir}/rpcbind.initd ${pkgdir}/etc/init.d/rpcbind
+    install -D -m 0644 ${filedir}/rpcbind.confd ${pkgdir}/etc/conf.d/rpcbind
+    install -D -m 0755 ${filedir}/rpcbind.initd ${pkgdir}/etc/init.d/rpcbind
+
+    # install missing man page - https://bugs.archlinux.org/task/21271
+    install -m644 man/rpcinfo.8 $pkgdir/usr/man/man8/
+    # install license
+    install -D -m644 COPYING $pkgdir/usr/share/licenses/rpcbind/COPYING
 }
