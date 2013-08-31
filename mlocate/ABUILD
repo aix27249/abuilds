@@ -2,7 +2,7 @@
 
 pkgname=mlocate
 pkgver=0.26
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Merging locate/updatedb implementation")
@@ -13,6 +13,7 @@ conflicts="slocate"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --localstatedir=/var/lib"
+MAKE_KEYS="groupname=locate"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
