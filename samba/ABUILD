@@ -2,7 +2,7 @@
 
 pkgname=samba
 pkgver=4.0.8
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=("SMB file and print server")
