@@ -1,18 +1,40 @@
 #!/sbin/runscript
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-misc/openssh/files/sshd.rc6.2,v 1.1 2011/01/24 02:55:47 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-misc/openssh/files/sshd.rc6.4,v 1.3 2013/04/24 03:13:03 vapier Exp $
 
-opts="${opts} reload checkconfig gen_keys"
+extra_commands="checkconfig"
+extra_started_commands="reload"
+
+SSHD_CONFDIR=${SSHD_CONFDIR:-/etc/ssh}
+SSHD_CONFIG=${SSHD_CONFIG:-${SSHD_CONFDIR}/sshd_config}
+SSHD_PIDFILE=${SSHD_PIDFILE:-/var/run/${SVCNAME}.pid}
+SSHD_BINARY=${SSHD_BINARY:-/usr/sbin/sshd}
 
 depend() {
 	use logger dns
-	need net
+	if [ "${rc_need+set}" = "set" ]; then
+		: # Do nothing, the user has explicitly set rc_need
+	else
+		warn_addr=''
+		for x in $(awk '/^ListenAddress/{ print $2 }' "$SSHD_CONFIG" 2>/dev/null) ; do
+			case "$x" in
+				0.0.0.0|0.0.0.0:*) ;;
+				::|\[::\]*) ;;
+				*) warn_addr="${warn_addr} $x" ;;
+			esac
+		done
+		unset x
+		if [ "${warn_addr:+set}" = "set" ]; then
+			need net 
+			ewarn "You are binding an interface in ListenAddress statement in your sshd_config!"
+			ewarn "You must add rc_need=\"net.FOO\" to your /etc/conf.d/sshd"
+			ewarn "where FOO is the interface(s) providing the following address(es):"
+			ewarn "${warn_addr}"
+		fi
+		unset warn_addr
+	fi
 }
-
-SSHD_CONFDIR=${SSHD_CONFDIR:-/etc/ssh}
-SSHD_PIDFILE=${SSHD_PIDFILE:-/var/run/${SVCNAME}.pid}
-SSHD_BINARY=${SSHD_BINARY:-/usr/sbin/sshd}
 
 checkconfig() {
 	if [ ! -d /var/empty ] ; then
@@ -25,42 +47,23 @@ checkconfig() {
 		return 1
 	fi
 
-	gen_keys || return 1
+	ssh-keygen -A || return 1
 
-	"${SSHD_BINARY}" -t ${myopts} || return 1
-}
+	[ "${SSHD_PIDFILE}" != "/var/run/sshd.pid" ] \
+		&& SSHD_OPTS="${SSHD_OPTS} -o PidFile=${SSHD_PIDFILE}"
+	[ "${SSHD_CONFDIR}" != "/etc/ssh" ] \
+		&& SSHD_OPTS="${SSHD_OPTS} -f ${SSHD_CONFDIR}/sshd_config"
 
-gen_key() {
-	local type=$1 key ks
-	[ $# -eq 1 ] && ks="${type}_"
-	key="${SSHD_CONFDIR}/ssh_host_${ks}key"
-	if [ ! -e "${key}" ] ; then
-		ebegin "Generating ${type} host key"
-		ssh-keygen -t ${type} -f "${key}" -N ''
-		eend $? || return $?
-	fi
-}
-
-gen_keys() {
-	if egrep -q '^[[:space:]]*Protocol[[:space:]]+.*1' "${SSHD_CONFDIR}"/sshd_config ; then
-		gen_key rsa1 "" || return 1
-	fi
-	gen_key dsa && gen_key rsa && gen_key ecdsa
-	return $?
+	"${SSHD_BINARY}" -t ${SSHD_OPTS} || return 1
 }
 
 start() {
-	local myopts=""
-	[ "${SSHD_PIDFILE}" != "/var/run/sshd.pid" ] \
-		&& myopts="${myopts} -o PidFile=${SSHD_PIDFILE}"
-	[ "${SSHD_CONFDIR}" != "/etc/ssh" ] \
-		&& myopts="${myopts} -f ${SSHD_CONFDIR}/sshd_config"
-
 	checkconfig || return 1
+
 	ebegin "Starting ${SVCNAME}"
 	start-stop-daemon --start --exec "${SSHD_BINARY}" \
 	    --pidfile "${SSHD_PIDFILE}" \
-	    -- ${myopts} ${SSHD_OPTS}
+	    -- ${SSHD_OPTS}
 	eend $?
 }
 
@@ -78,7 +81,7 @@ stop() {
 reload() {
 	checkconfig || return 1
 	ebegin "Reloading ${SVCNAME}"
-	start-stop-daemon --stop --signal HUP --oknodo \
+	start-stop-daemon --signal HUP \
 	    --exec "${SSHD_BINARY}" --pidfile "${SSHD_PIDFILE}"
 	eend $?
 }

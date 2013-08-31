@@ -1,6 +1,6 @@
 pkgname=openssh
 pkgver=6.2p2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=("Secure Shell daemon and clients")
