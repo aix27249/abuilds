@@ -1,5 +1,5 @@
 pkgname=mysql
-pkgver=5.5.32
+pkgver=5.5.33
 pkgbuild=1
 arch=("auto")
 
@@ -13,6 +13,7 @@ config_files="etc/my.cnf
 etc/conf.d/mysql"
 pkglist="mysql_static libmysqlclient"
 build_deps="gcc cmake openssl zlib"
+adddeps="psmisc"
 
 build() {  
   go_src_dir
@@ -77,7 +78,7 @@ after_build(){
   for man in mysql_config mysql_client_test_embedded mysqltest_embedded mysql mysqladmin mysqlcheck mysqldump mysqlimport mysqlshow mysqlslap; do
     install -m644 "${srcdir}/${pkgname}-${pkgver}/man/$man.1" "${pkgdir}/usr/man/man1/$man.1"
   done
- 
+
   # OpenRC init and config
   install -Dm755 ${filedir}/mysql ${pkgdir}/etc/init.d/mysql
   install -Dm644 ${filedir}/mysql.confd ${pkgdir}/etc/conf.d/mysql
@@ -98,7 +99,6 @@ after_build(){
     mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
     rmdir ${pkgdir}/usr/lib
   fi
-  
 }
 
 
