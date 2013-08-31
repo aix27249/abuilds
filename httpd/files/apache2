@@ -1,8 +1,19 @@
 #!/sbin/runscript
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-opts="configdump configtest fullstatus graceful gracefulstop modules reload"
+extra_commands="configtest modules virtualhosts"
+extra_started_commands="configdump fullstatus graceful gracefulstop reload"
+
+description_configdump="Dumps the configuration of the runing apache server. Requires server-info to be enabled and www-client/lynx."
+description_configtest="Run syntax tests for configuration files."
+description_fullstatus="Gives the full status of the server. Requires lynx and server-status to be enabled."
+description_graceful="A graceful restart advises the children to exit after the current request and reloads the configuration."
+description_gracefulstop="A graceful stop advises the children to exit after the current request and stops the server."
+description_modules="Dump a list of loaded Static and Shared Modules."
+description_reload="Kills all children and reloads the configuration."
+description_virtualhosts="Show the settings as parsed from the config file (currently only shows the virtualhost settings)."
+description_stop="Kills all children and stops the server."
 
 depend() {
 	need net
@@ -17,10 +28,14 @@ configtest() {
 }
 
 checkconfd() {
-	PIDFILE="${PIDFILE:-/var/run/httpd/httpd.pid}"
-	TIMEOUT=${TIMEOUT:-10}
+	if [ ! -f /etc/init.d/sysfs ]; then
+		eerror "This init script works only with openrc (baselayout-2)."
+	fi
 
-	SERVERROOT="${SERVERROOT:-/usr}"
+	PIDFILE="${PIDFILE:-/var/run/httpd/httpd.pid}"
+	TIMEOUT=${TIMEOUT:-15}
+
+	SERVERROOT="${SERVERROOT:-/usr/lib/httpd}"
 	if [ ! -d ${SERVERROOT} ]; then
 		eerror "SERVERROOT does not exist: ${SERVERROOT}"
 		return 1
@@ -34,7 +49,7 @@ checkconfd() {
 	fi
 
 	APACHE2_OPTS="${APACHE2_OPTS} -d ${SERVERROOT}"
-	APACHE2_OPTS="${APACHE2_OPTS} -f ${CONFIGFILE} -DSTATUS"
+	APACHE2_OPTS="${APACHE2_OPTS} -f ${CONFIGFILE}"
 	[ -n "${STARTUPERRORLOG}" ] && APACHE2_OPTS="${APACHE2_OPTS} -E ${STARTUPERRORLOG}"
 
 	APACHE2="/usr/sbin/apachectl"
@@ -46,7 +61,7 @@ checkconfig() {
 	${APACHE2} ${APACHE2_OPTS} -t 1>/dev/null 2>&1
 	ret=$?
 	if [ $ret -ne 0 ]; then
-		eerror "${SVCNAME} has detected a syntax error in your configuration files:"
+		eerror "${SVCNAME} has detected an error in your setup:"
 		${APACHE2} ${APACHE2_OPTS} -t
 	fi
 
@@ -61,35 +76,43 @@ start() {
 	ebegin "Starting ${SVCNAME}"
 	${APACHE2} ${APACHE2_OPTS} -k start
 
-	let i=0
+	i=0
 	while [ ! -e "${PIDFILE}" ] && [ $i -lt ${TIMEOUT} ]; do
 		sleep 1 && i=$(expr $i + 1)
 	done
 
-	test $i -le ${TIMEOUT}
-	eend $?
+	eend $(test $i -lt ${TIMEOUT})
 }
 
 stop() {
-	checkconfd || return 1
+	if [ "${RC_CMD}" = "restart" ]; then
+		checkconfig || return 1
+	else
+		checkconfd || return 1
+	fi
+
+	PID=$(cat "${PIDFILE}" 2>/dev/null)
+	if [ -z "${PID}" ]; then
+		einfo "${SVCNAME} not running (no pid file)"
+		return 0
+	fi
 
 	ebegin "Stopping ${SVCNAME}"
 	${APACHE2} ${APACHE2_OPTS} -k stop
 
-	let i=0
-	while pidof "${APACHE2}" >/dev/null && [ $i -lt ${TIMEOUT} ]; do
+	i=0
+	while ( ! test -f "${PIDFILE}" && pgrep -P ${PID} httpd >/dev/null ) \
+		&& [ $i -lt ${TIMEOUT} ]; do
 		sleep 1 && i=$(expr $i + 1)
 	done
 
-	test $i -le ${TIMEOUT}
-	eend $?
+	eend $(test $i -lt ${TIMEOUT})
 }
 
 reload() {
 	RELOAD_TYPE="${RELOAD_TYPE:-graceful}"
 
 	checkconfig || return 1
-	service_started "${SVCNAME}" || return
 
 	if [ "${RELOAD_TYPE}" = "restart" ]; then
 		ebegin "Restarting ${SVCNAME}"
@@ -106,7 +129,6 @@ reload() {
 
 graceful() {
 	checkconfig || return 1
-	service_started "${SVCNAME}" || return
 	ebegin "Gracefully restarting ${SVCNAME}"
 	${APACHE2} ${APACHE2_OPTS} -k graceful
 	eend $?
@@ -114,12 +136,6 @@ graceful() {
 
 gracefulstop() {
 	checkconfig || return 1
-
-	# zap!
-	if service_started "${SVCNAME}"; then
-		mark_service_stopped "${SVCNAME}"
-	fi
-
 	ebegin "Gracefully stopping ${SVCNAME}"
 	${APACHE2} ${APACHE2_OPTS} -k graceful-stop
 	eend $?
@@ -127,7 +143,6 @@ gracefulstop() {
 
 modules() {
 	checkconfig || return 1
-
 	${APACHE2} ${APACHE2_OPTS} -M 2>&1
 }
 
@@ -135,13 +150,16 @@ fullstatus() {
 	LYNX="${LYNX:-lynx -dump}"
 	STATUSURL="${STATUSURL:-http://localhost/server-status}"
 
-	if ! service_started "${SVCNAME}"; then
-		eerror "${SVCNAME} not started"
-	elif ! type -p ${LYNX} 2>&1 >/dev/null; then
+	if ! type -p $(set -- ${LYNX}; echo $1) 2>&1 >/dev/null; then
 		eerror "lynx not found! you need to emerge www-client/lynx"
 	else
 		${LYNX} ${STATUSURL}
 	fi
+}
+
+virtualhosts() {
+	checkconfig || return 1
+	${APACHE2} ${APACHE2_OPTS} -S
 }
 
 configdump() {
@@ -150,9 +168,7 @@ configdump() {
 
 	checkconfd || return 1
 
-	if ! service_started "${SVCNAME}"; then
-		eerror "${SVCNAME} not started"
-	elif ! type -p ${LYNX} 2>&1 >/dev/null; then
+	if ! type -p $(set -- ${LYNX}; echo $1) 2>&1 >/dev/null; then
 		eerror "lynx not found! you need to emerge www-client/lynx"
 	else
 		echo "${APACHE2} started with '${APACHE2_OPTS}'"

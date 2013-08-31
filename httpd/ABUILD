@@ -1,7 +1,7 @@
 pkgname=httpd
 pkgver=2.2.25
 ipconnver=0.24
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('The Apache HTTP Server')

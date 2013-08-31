@@ -6,6 +6,6 @@
   delaycompress
   sharedscripts
   postrotate
-    /etc/rc.d/rc.httpd restart
+    rc-service httpd restart
   endscript
 }
