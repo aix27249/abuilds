@@ -1,6 +1,6 @@
 pkgname=mozilla-firefox
 
-pkgver=23.0
+pkgver=23.0.1
 _pkgver=${pkgver}
 
 pkgbuild=1
