@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.10.7
+pkgver=3.10.9
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -11,7 +11,7 @@ else
 	srcver=`echo $kernel_ver | sed 's/\.0$//g'`
 fi
 kernel_base=${pkgver%.*}
-
+config_suffix=${CONFIG_SUFFIX:-}
 
 
 pkgbuild=1
@@ -102,9 +102,9 @@ build() {
 
 	# Now copy kernel config
 	if [ "$ARCH" = "x86_64" ] ; then
-		cat $filedir/$kernel_base.defconfig-x86_64 > .config
+		cat $filedir/$kernel_base.defconfig-x86_64$config_suffix > .config
 	else
-		cat $filedir/$kernel_base.defconfig-x86 > .config
+		cat $filedir/$kernel_base.defconfig-x86$config_suffix > .config
 	fi
 
 	# Running make oldconfig seems to be a good idea when upgrading kernel version. Note that here can be interactive questions.
