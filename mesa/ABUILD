@@ -1,7 +1,7 @@
 # ABUILD for mesa package
 pkgname=mesa
-pkgver=9.2
-_git=true
+pkgver=9.2.0
+_git=false
 pkgbuild=1
 arch=('auto')
 
@@ -16,7 +16,7 @@ pkglist=libgl
 if [ "${_git}" = "true" ] ; then
 	source=("git:git://anongit.freedesktop.org/mesa/mesa")
 else
-	source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2")
+	source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver%.*}/MesaLib-${pkgver}.tar.bz2")
 fi
 
 adddep="mesa-demos"
