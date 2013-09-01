@@ -1,6 +1,6 @@
 
 pkgname=wine
-pkgver=1.7.0
+pkgver=1.7.1
 pkgbuild=1
 arch=('i686')
 shortdesc="Wine - Wine Is Not Emulator"
