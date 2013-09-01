@@ -1,5 +1,5 @@
 pkgname=glib2
-pkgver=2.36.3
+pkgver=2.36.4
 pkgtree=`echo $pkgver | cut -d . -f 1-2`
 pkgbuild=1
 arch=('auto')
@@ -7,7 +7,7 @@ arch=('auto')
 shortdesc="Library of C routines"
 source=("http://ftp.gnome.org/pub/gnome/sources/glib/${pkgtree}/glib-${pkgver}.tar.xz")
 tags="libs dev-libs"
-build_deps="libffi pcre python pkg-config automake autoconf"
+build_deps="libffi pcre python pkg-config automake autoconf perl"
 
 before_build() {
   go_src_dir
