@@ -1,6 +1,6 @@
 pkgname=perl-glib
 downname=Glib
-pkgver=1.280
+pkgver=1.301
 pkgbuild=1
 arch=('auto')
 
