@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=gprename
 pkgver=2.7
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A GTK2 batch renamer for files and directories"
@@ -26,6 +26,6 @@ after_build()
 {
   cd ${srcdir}/${pkgname}/trunk
   # Fix icon link in $pkgname.desktop file
-  sed -i 's#local/##' ${pkgdir}/usr/share/applications/${pkgname}.desktop
+  sed 's#/usr/local#/usr#' -i ${pkgdir}/usr/bin/$pkgname
   sed 's#/usr/local#/usr#' -i ${pkgdir}/usr/share/applications/$pkgname*.*
 }
