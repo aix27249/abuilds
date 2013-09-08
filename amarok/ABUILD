@@ -1,6 +1,6 @@
 pkgname=amarok
-pkgver=2.7.1
-pkgbuild=1
+pkgver=2.8.0
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Amarok is a powerful music player")
@@ -11,6 +11,7 @@ adddep="phonon-gstreamer"
 
 if [ "$pkgname" == "amarok" ]; then
  source=("http://download.kde.org/stable/amarok/${pkgver}/src/amarok-${pkgver}.tar.bz2")
+ #source=("git:git://gitorious.org/amarok/amarok.git")
 elif [ "$pkgname" == "amarok-unstable" ]; then
  source=("http://download.kde.org/unstable/amarok/${pkgver}/src/amarok-${pkgver}.tar.bz2")
  provides=amarok
@@ -18,7 +19,7 @@ fi
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=RELEASE \
+-DCMAKE_BUILD_TYPE=Release \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 -DKDE4_BUILD_TESTS=OFF \
