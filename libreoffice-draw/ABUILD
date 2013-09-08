@@ -28,10 +28,10 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=libreoffice
 
-pkgver=4.0.5.1
+pkgver=4.0.5.2
 lover=${pkgver%.*}
 
-pkgbuild=3
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="LibreOffice is an Open Source, community-developed, office productivity suit"
