@@ -1,6 +1,6 @@
 pkgname=dropbox
-pkgver=2.2.8
-pkgbuild=1
+pkgver=1.4.0
+pkgbuild=2
 arch=('auto')
 
 shortdesc="dropbox-client (store, sync and share files online)"
