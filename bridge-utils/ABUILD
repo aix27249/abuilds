@@ -1,0 +1,23 @@
+pkgname=bridge-utils
+pkgver=1.5
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("bridge-utils (network Ethernet bridging utilities)")
+longdesc=("This package contains utilities for configuring Linux Ethernet bridges. The Linux Ethernet bridge can be used for connecting multiple Ethernet devices together. The connecting is fully transparent. Hosts connected to one Ethernet device see hosts connected through a bridge to the other Ethernet devices directly. bridge-utils was written by Stephen Hemminger and Lennert Buytenhek.")
+tags=("net-misc network")
+
+source=("http://downloads.sourceforge.net/bridge/bridge-utils-$pkgver.tar.gz")
+
+build_deps="glibc-solibs"
+
+before_build() {
+  go_src_dir
+  aclocal
+  autoconf
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
