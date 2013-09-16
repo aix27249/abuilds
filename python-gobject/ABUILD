@@ -1,15 +1,14 @@
 pkgname=python-gobject
-pkgver=2.28.6
-pkgbuild=2
+pkgver=3.8.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc=("pygobject (GObject bindings for Python)")
 longdesc=("This archive contains bindings for the GObject, to be used in Python. It is a fairly complete set of bindings, it's already rather useful, and is usable to write moderately complex programs. pygobject's home page: http://www.pygtk.org/")
 tags=('dev-python libs')
-source=("http://ftp.gnome.org/pub/GNOME/sources/pygobject/${pkgver%.*}/pygobject-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/gnome/sources/pygobject/${pkgver%.*}/pygobject-${pkgver}.tar.xz")
 build_deps="python python-cairo glib2"
 conflicts="pygobject"
-
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
