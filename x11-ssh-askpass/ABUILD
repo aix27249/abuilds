@@ -1,0 +1,14 @@
+pkgname=x11-ssh-askpass
+pkgver=1.2.4.1
+pkgbuild=2
+arch=("auto")
+
+shortdesc=("Lightweight passphrase dialog for SSH")
+tags=("net-misc xapps")
+source=("http://pkgs.fedoraproject.org/repo/pkgs/openssh/${pkgname}-${pkgver}.tar.gz/8f2e41f3f7eaa8543a2440454637f3c3/${pkgname}-${pkgver}.tar.gz")
+build_deps="libXt imake xorg-cf-files"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --with-app-defaults-dir=/usr/share/X11/app-defaults"
+MAKE_WORD="xmkmf; make includes; make"
+INSTALL_KEYS="DESTDIR=$pkgdir install.man"
