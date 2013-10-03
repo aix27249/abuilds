@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-file-which
+pkgver=1.09
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Portable implementation of which"
+
+source=("http://www.cpan.org/authors/id/A/AD/ADAMK/File-Which-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep=""
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+ # make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}
