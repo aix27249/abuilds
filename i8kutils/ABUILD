@@ -1,0 +1,71 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=i8kutils
+pkgver=1.34
+pkgbuild=1
+arch=('auto')
+
+shortdesc="utilities for Dell Inspiron and Latitude laptops"
+#longdesc=(""
+#)
+
+source=("http://ftp.de.debian.org/debian/pool/main/i/i8kutils/i8kutils_${pkgver}.tar.gz")
+
+patch_opts=("")
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="app-laptop utils"
+
+#dependencies only needed to build package
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep="tk"
+removedep=""
+
+#for multi pkg abuild
+pkglist=
+
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
+
+build()
+{
+go_src_dir
+
+make LDFLAGS=\"$SLKLDFLAGS\"
+
+install -d "$pkgdir"/usr/bin
+install -d "$pkgdir"/usr/share/man/man1
+
+make DESTDIR="$pkgdir" install install-man
+
+install -D -m644 ./i8kmon.conf "$pkgdir/etc/i8kmon.conf.new"
+install -D -m755 ${filedir}/i8k.init-r1 "$pkgdir/etc/init.d/i8kmon"
+}
+
+
+after_build ()
+{
+cd ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+if [[ -f ./README.i8kutils ]]; then
+ mv -v README.i8kutils README
+fi
+}
