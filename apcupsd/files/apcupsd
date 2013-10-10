@@ -5,33 +5,33 @@
 
 INSTANCE="${SVCNAME#*.}"
 if [ -z "${INSTANCE}" ] || [ "${SVCNAME}" = "apcupsd" ]; then
-	INSTANCE="apcupsd"
+  INSTANCE="apcupsd"
 fi
 
 depend() {
-	use net
+  use net
 }
 
 start() {
-	rm -f /etc/apcupsd/powerfail
+  rm -f /etc/apcupsd/powerfail
 
-	export SERVICE="${SVCNAME}"
+  export SERVICE="${SVCNAME}"
 
-	ebegin "Starting APC UPS daemon"
-	start-stop-daemon \
-		--start --pidfile "/var/run/${SVCNAME}.pid" \
-		--exec /sbin/apcupsd -- \
-		-f "/etc/apcupsd/${INSTANCE}.conf" \
-		-P "/var/run/${SVCNAME}.pid"
-	eend $?
+  ebegin "Starting APC UPS daemon"
+  start-stop-daemon \
+        --start --pidfile "/var/run/${SVCNAME}.pid" \
+        --exec /usr/bin/apcupsd -- \
+        -f "/etc/apcupsd/${INSTANCE}.conf" \
+        -P "/var/run/${SVCNAME}.pid"
+  eend $?
 }
 
 stop() {
-	ebegin "Stopping APC UPS daemon"
-	start-stop-daemon \
-		--stop --pidfile "/var/run/${SVCNAME}.pid" \
-            	--retry TERM/5/TERM/5 \
-		--exec /sbin/apcupsd
-	eend $?
+  ebegin "Stopping APC UPS daemon"
+  start-stop-daemon \
+        --stop --pidfile "/var/run/${SVCNAME}.pid" \
+        --retry TERM/5/TERM/5 \
+        --exec /usr/bin/apcupsd
+  eend $?
 }
 

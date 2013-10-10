@@ -6,13 +6,13 @@
 description='Signal the UPS to kill power in a power failure condition'
 
 depend() {
-	need mount-ro
+  need mount-ro
 }
 
 start() {
-	if [ "$(runlevel | cut -d' ' -f2)" = "0" -a -f /etc/apcupsd/powerfail ] ; then
-		ebegin 'Signaling UPS to kill power'
-		/sbin/apcupsd --killpower
-		eend $?
-	fi
+  if [ "$(runlevel | cut -d' ' -f2)" = "0" -a -f /etc/apcupsd/powerfail ] ; then
+     ebegin 'Signaling UPS to kill power'
+     /usr/bin/apcupsd --killpower
+     eend $?
+  fi
 }
