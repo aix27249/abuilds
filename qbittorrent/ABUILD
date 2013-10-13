@@ -2,8 +2,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qbittorrent
-pkgver=3.0.11
-pkgbuild=2
+pkgver=3.1.0
+pkgbuild=1
 arch=('auto')
 shortdesc="qBittorrent - A BitTorrent client in Qt4"
 
@@ -20,7 +20,7 @@ patch_opts=("")
 tags="xapps net-p2p"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="libtorrent-rasterbar"
 
 provides=""
 conflicts=""
@@ -53,7 +53,7 @@ custom_opts=""
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-BUILD_KEYS="--prefix=/usr --disable-geoip-database"
+BUILD_KEYS="--prefix=/usr --disable-geoip-database || cat ./conf.log"
 INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
 
 #ran after function build()
