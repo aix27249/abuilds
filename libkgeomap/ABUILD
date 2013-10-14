@@ -1,7 +1,7 @@
 pkgname=digikam
 pkgver=3.2.0
 _pkgver=${pkgver//_/-}
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Digital photo management application for KDE"
