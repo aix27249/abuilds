@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=webkitgtk
-pkgver=1.2.7
+pkgver=1.3.3
 pkgbuild=1
 arch=('auto')
 
@@ -11,17 +11,25 @@ source="http://www.webkitgtk.org/webkit-$pkgver.tar.gz"
 
 tags="develop dev-libs"
 
-BUILD_SYSTEM="autotools"
+build_deps="bison flex gperf perl-switch"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+build()
+{
 
-BUILD_KEYS="--prefix=/usr \
+go_src_dir
+
+pwd
+rm -f ./JavaScriptCore/wtf/gobject/GOwnPtr.h || exit 1
+pwd
+cp $filedir/GOwnPtr.h  ./JavaScriptCore/wtf/gobject   || exit 1
+./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
+--mandir=/usr/man 
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+make -j4
+
+make DESTDIR=$pkgdir install
+}
