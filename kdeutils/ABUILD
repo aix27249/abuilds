@@ -1,12 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kdeutils
-pkgver=4.8.0
+pkgver=4.10.5
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="kdeutils transitional package"
 
-adddep="filelight kcharselect superkaramba kwallet ark kcalc sweeper kdf kgpg ktimer kfloppy printer-applet kremotecontrol"
+adddep="filelight kcharselect superkaramba kwallet ark kcalc sweeper kdf kgpg ktimer kfloppy print-manager kremotecontrol"
 
 tags="virtual kde-base"
 
