@@ -9,7 +9,7 @@ longdesc=('The XCB library provides an interface to the X Window System protocol
 
 tags=('x11-xcbs xserver')
 source=("http://xcb.freedesktop.org/dist/libxcb-${pkgver}.tar.bz2")
-build_deps='glibc-solibs libXau libXdmcp'
+build_deps='glibc-solibs libXau libXdmcp xcb-proto'
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --docdir=/usr/doc/${pkgname}-${pkgver} --enable-xinput"
