@@ -1,5 +1,5 @@
 pkgname=libXrandr
-pkgver=1.4.1
+pkgver=1.4.2
 pkgbuild=1
 arch=('auto')
 
