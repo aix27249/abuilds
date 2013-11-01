@@ -127,7 +127,7 @@ after_build() {
 	    # Header stubs are taken from Fedora
 	    for _header in config llvm-config; do
 		mv "$pkgdir/usr/include/llvm/Config/$_header"{,-64}.h
-		cp "$srcdir/llvm-Config-$_header.h" \
+		cp "$filedir/llvm-Config-$_header.h" \
 		"$pkgdir/usr/include/llvm/Config/$_header.h"
 	    done
 	fi
@@ -221,7 +221,7 @@ clang_analyzer_prep() {
 
 	# Relocate man page
 	install -d "$pkgdir/usr/man/man1"
-	mv "$pkgdir/usr/lib/clang-analyzer/scan-build/scan-build.1" \
+	mv "$pkgdir/usr/lib${LIBDIRSUFFIX}/clang-analyzer/scan-build/scan-build.1" \
 	    "$pkgdir/usr/man/man1/"
 
 	# Compile Python scripts
