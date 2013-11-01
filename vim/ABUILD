@@ -3,7 +3,7 @@
 pkgname=vim
 _basever=7.4
 _srcver=74
-pkgver=7.4.5
+pkgver=7.4.22
 pkgbuild=1
 arch=('auto')
 
