@@ -27,6 +27,10 @@ build() {
   if [ "$ARCH" == "x86_64" ]; then
     BIT="--enable-64bit"
   fi
+
+  # Fix hardcoded lib location
+  sed -i "/TCL_LIBRARY='\$(prefix)/ s/lib/lib$LIBDIRSUFFIX/" ./configure
+
   ./configure --prefix=/usr --mandir=/usr/man --libdir=/usr/lib$LIBDIRSUFFIX --enable-threads $BIT
   make -j${numjobs}
   make test
