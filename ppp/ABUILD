@@ -13,7 +13,7 @@ etc/ppp/ip-up
 etc/ppp/ip-down"
 
 tags=("net-dialup network")
-build_deps="glibc libcap"
+build_deps="glibc libpcap"
 
 source=(ftp://ftp.samba.org/pub/ppp/ppp-${pkgver}.tar.gz)
 
