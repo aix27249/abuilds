@@ -9,7 +9,7 @@ longdesc=("This library implements the user-space interfaces to the POSIX 1003.1
 source=("http://people.redhat.com/sgrubb/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
 tags="sys-libs libs"
-build_deps="gcc"
+build_deps="gcc libnl"
 
 BUILD_SYSTEM="autotools"
 
