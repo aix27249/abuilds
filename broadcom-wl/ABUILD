@@ -1,13 +1,13 @@
 pkgname=broadcom-wl
-pkgver=5.100.82.112
+pkgver=6.30.223.141
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=11
+pkgbuild=1
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
-arch_src=x86_32
+  arch_src=v35
 else
-arch_src=x86_64
+  arch_src=v35_64
 fi
 KERNEL=${KERNEL:-`uname -r`}
 KERNPKGVER=$(echo $KERNEL | tr - _)
@@ -18,14 +18,15 @@ pkgver=${FINAL_VER}
 
 shortdesc="Firmware for Broadcom BCM43xx"
 longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/support/802.11/linux_sta.php")
+source=("http://www.broadcom.com/docs/linux_sta/hybrid-${arch_src}-nodebug-pcoem-${pkgver_src}.tar.gz")
 
-source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${arch_src}-v${pkgver_src}.tar.gz")
-
+build_deps="kernel-source"
 BUILD_PARAMS="API=WEXT"
 
 tags="network net-wireless"
 adddep="kernel==${KERNPKGVER}"
-#dependencies only needed to build package
+
+
 build() {
 	cd ${srcdir}
 	burn_patches

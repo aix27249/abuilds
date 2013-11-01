@@ -1,8 +1,0 @@
---- a/Makefile_orig	2010-12-15 12:01:09.000000000 +1000
-+++ a/Makefile	2011-05-02 14:29:09.047674230 +1100
-@@ -34,4 +34,4 @@
- 	KBUILD_NOPEDANTIC=1 make -C /lib/modules/`uname -r`/build M=`pwd` clean
- 
- install:
--	install -D -m 755 wl.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless/wl.ko
-+	install -D -m 755 wl.ko ${DESTDIR}/lib/modules/${KERNEL}/kernel/drivers/net/wireless/wl.ko
