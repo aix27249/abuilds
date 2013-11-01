@@ -21,7 +21,7 @@ build() {
 
 after_build() {
   go_src_dir
-  make DESTDIR="$pkgdir" libdir="/usr/lib$LIBDIRSUFFIX" mandir="/usr/man" install
+  make DESTDIR="$pkgdir" libdir="/usr/lib$LIBDIRSUFFIX" libexecdir="/usr/lib$LIBDIRSUFFIX" mandir="/usr/man" install
   chown root:utmp "$pkgdir/usr/lib$LIBDIRSUFFIX/utempter/utempter"
   chmod 2755 "$pkgdir/usr/lib$LIBDIRSUFFIX/utempter/utempter"
 }
