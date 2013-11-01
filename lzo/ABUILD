@@ -37,8 +37,8 @@ after_build(){
     gcc $LDFLAGS -shared -o libminilzo.so.0 -Wl,-soname,libminilzo.so.0 minilzo/minilzo.o
 
     # install minilzo
-    install -m 755 libminilzo.so.0 ${pkgdir}/usr/lib
+    install -m 755 libminilzo.so.0 ${pkgdir}/usr/lib${LIBDIRSUFFIX}
     install -p -m 644 minilzo/minilzo.h ${pkgdir}/usr/include/lzo
-    cd ${pkgdir}/usr/lib
+    cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
     ln -s libminilzo.so.0 libminilzo.so
 }
