@@ -3,7 +3,7 @@ pkgname=gcc
 pkgver=4.7.3
 pkgbuild=1
 arch=("auto")
-_libstdcppmanver=20130310
+_libstdcppmanver=20130301
 
 shortdesc=("Base GCC package with C support")
 longdesc=("GCC is the GNU Compiler Collection. This package contains those parts of the compiler collection needed to compile C code. Other packages add C++, Fortran, Objective-C, Go and Java support to the compiler core.")
