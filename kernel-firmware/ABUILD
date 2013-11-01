@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.10.9
+pkgver=3.10.12
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -32,7 +32,7 @@ custom_opts="skip_gendeps no_strip skip_validate"
 skip_gendeps=1
 
 # Explicitly specify gcc as build_deps, since the order matters
-build_deps="gcc bc"
+build_deps="gcc bc diffutils"
 
 pkglist=("headers firmware sources")
 
