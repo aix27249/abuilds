@@ -1,6 +1,7 @@
 # Note: we build procps-ng instead of procps, but the package name remains the same.
 pkgname=procps
 pkgver=3.3.8
+git_commit=ce0539ecac903136a4d72bf1aeb9de9f4673c1ba # Fuck you gitorious
 pkgbuild=1
 arch=("auto")
 
@@ -10,10 +11,9 @@ shortdesc=("Utilities for displaying process information)")
 longdesc=("The procps package provides the classic set of utilities used to display information about the processes currently running on the machine.")
 
 tags=("base sys-base")
+source=("http://gitorious.org/procps/procps/archive/${git_commit}.tar.gz")
 
-source=("http://gitorious.org/procps/procps/archive-tarball/v${pkgver}")
-
-build_deps="ncurses automake git"
+build_deps="ncurses automake git pkg-config"
 
 before_build() {
 	go_src_dir
