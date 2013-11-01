@@ -13,7 +13,9 @@ build_deps="fontconfig glibc-solibs libX11 libXau libxcb libXdmcp libXext libXft
 
 build() {
   cd ${srcdir}/tk${pkgver}/unix
-  [[ $CARCH == "x86_64" ]] && BIT="--enable-64bit"
+ [[ $CARCH == "x86_64" ]] && BIT="--enable-64bit"
+  # Fix hardcoded lib location
+  sed -i "/TK_LIBRARY='\$(prefix)/ s/lib/lib$LIBDIRSUFFIX/" ./configure
   ./configure --prefix=/usr --mandir=/usr/man --libdir=/usr/lib$LIBDIRSUFFIX --enable-threads $BIT
   make -j${numjobs}
 }
