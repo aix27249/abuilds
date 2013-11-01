@@ -13,7 +13,7 @@ source=("ftp://ftp.archlinux.org/other/${pkgname}/${pkgname}-${pkgver}.tar.xz")
 
 build() {
 	go_src_dir
-	mkdir -p $pkgdir/usr/lib
-	make -j${NUMJOBS} prefix=/usr MANDIR="${pkgdir}/usr/man" LIBDIR="${pkgdir}/usr/lib${LIBDIRSUFFIX}" DESTDIR="${pkgdir}" install
+	mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}
+	make -j${numjobs} prefix=/usr MANDIR="${pkgdir}/usr/man" LIBDIR="${pkgdir}/usr/lib${LIBDIRSUFFIX}" DESTDIR="${pkgdir}" install
 }
 
