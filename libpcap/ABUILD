@@ -5,43 +5,12 @@ pkgbuild=1
 arch=('auto')
 
 shortdesc="Libpcap provides a portable framework for low-level network monitoring."
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("Libpcap provides a portable framework for low-level network monitoring. 
-Libpcap can provide network statistics collection, security monitoring and network debugging."
-)
+Libpcap can provide network statistics collection, security monitoring and network debugging.")
 
 source=("http://www.tcpdump.org/release/$pkgname-$pkgver.tar.gz")
 tags="network net-libs"
 build_deps="flex glibc libnl libusb1"
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
 
@@ -57,10 +26,3 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
