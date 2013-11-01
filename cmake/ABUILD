@@ -1,5 +1,5 @@
 pkgname=cmake
-pkgver=2.8.11
+pkgver=2.8.11.2
 pkgbuild=1
 shortdesc="A cross-platform open-source make system"
 longdesc=("CMake is used to control the software process using simple platform and compiler independed configuration files. CMake generates native makefiles and workspaces that can be used in the compiler environment of your choice. CMake's home on the web is: http://www.cmake.org")
