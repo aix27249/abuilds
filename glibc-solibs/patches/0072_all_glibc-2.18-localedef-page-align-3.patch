@@ -1,0 +1,26 @@
+From 1d17fa5f8e3d5fb84d9b944d5fe3712cde83db48 Mon Sep 17 00:00:00 2001
+From: Richard Henderson <rth@twiddle.net>
+Date: Tue, 25 Jun 2013 09:27:01 -0700
+Subject: [PATCH] Fix missing libc-internal.h include.
+
+	* locale/programs/locarchive.c: Include <libc-internal.h>
+---
+ ChangeLog                    | 4 ++++
+ locale/programs/locarchive.c | 1 +
+ 2 files changed, 5 insertions(+)
+
+diff --git a/locale/programs/locarchive.c b/locale/programs/locarchive.c
+index 3255c6c..d8df39a 100644
+--- a/locale/programs/locarchive.c
++++ b/locale/programs/locarchive.c
+@@ -40,6 +40,7 @@
+ #include <sys/shm.h>
+ #include <sys/stat.h>
+ 
++#include <libc-internal.h>
+ #include <libc-mmap.h>
+ #include "../../crypt/md5.h"
+ #include "../localeinfo.h"
+-- 
+1.8.2.1
+

@@ -1,0 +1,14 @@
+https://bugs.gentoo.org/450676
+http://sourceware.org/bugzilla/show_bug.cgi?id=15000
+
+--- a/ports/sysdeps/hppa/fpu/fpu_control.h
++++ b/ports/sysdeps/hppa/fpu/fpu_control.h
+@@ -57,7 +57,7 @@
+   union { unsigned long long __fpreg; unsigned int __halfreg[2]; } __fullfp;	\
+   __fullfp.__halfreg[0] = cw;							\
+   __asm__ ("fldd 0(%1),%%fr0\n\t"						\
+-	   : : "m" (__fullfp.__fpreg), "r" (__fullfp.__fpreg) : "%r0" );	\
++	   : : "m" (__fullfp.__fpreg), "r" (&__fullfp.__fpreg) : "%r0" );	\
+ })
+ 
+ /* Default control word set at startup.  */

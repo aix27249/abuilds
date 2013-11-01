@@ -1,0 +1,53 @@
+From d605071ebf1fbbba5998a349540d4ad4e667f65e Mon Sep 17 00:00:00 2001
+From: Mike Frysinger <vapier@gentoo.org>
+Date: Tue, 28 May 2013 18:25:54 -0400
+Subject: [PATCH 1/2] libc-internal.h: add ALIGN helper macros
+
+Rather than open coding the masks, add helper macros to do the magic.
+This makes code easier to read.
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+---
+ ChangeLog               |  7 +++++++
+ include/libc-internal.h | 20 ++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
+
+2013-06-24  Mike Frysinger  <vapier@gentoo.org>
+
+	* include/libc-internal.h (ALIGN_DOWN): New helper macro.
+	(ALIGN_UP): Likewise.
+	(PTR_ALIGN_DOWN): Likewise.
+	(PTR_ALIGN_UP): Likewise.
+
+diff --git a/include/libc-internal.h b/include/libc-internal.h
+index 0c0fa02..78f82da 100644
+--- a/include/libc-internal.h
++++ b/include/libc-internal.h
+@@ -50,4 +50,24 @@ extern void __init_misc (int, char **, char **);
+ /* Cast an integer or a pointer VAL to integer with proper type.  */
+ # define cast_to_integer(val) ((__integer_if_pointer_type (val)) (val))
+ 
++/* Align a value by rounding down to closest size.
++   e.g. Using size of 4096, we get this behavior:
++	{4095, 4096, 4097} = {0, 4096, 4096}.  */
++#define ALIGN_DOWN(base, size)	((base) & -((__typeof__ (base)) (size)))
++
++/* Align a value by rounding up to closest size.
++   e.g. Using size of 4096, we get this behavior:
++	{4095, 4096, 4097} = {4096, 4096, 8192}.
++
++  Note: The size argument has side effects (expanded multiple times).  */
++#define ALIGN_UP(base, size)	ALIGN_DOWN ((base) + (size) - 1, (size))
++
++/* Same as ALIGN_DOWN(), but automatically casts when base is a pointer.  */
++#define PTR_ALIGN_DOWN(base, size) \
++  ((__typeof__ (base)) ALIGN_DOWN ((uintptr_t) (base), (size)))
++
++/* Same as ALIGN_UP(), but automatically casts when base is a pointer.  */
++#define PTR_ALIGN_UP(base, size) \
++  ((__typeof__ (base)) ALIGN_UP ((uintptr_t) (base), (size)))
++
+ #endif /* _LIBC_INTERNAL  */
+-- 
+1.8.2.1
+

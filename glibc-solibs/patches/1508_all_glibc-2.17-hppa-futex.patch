@@ -1,0 +1,45 @@
+https://bugs.gentoo.org/452184
+
+--- a/nptl/pthread_mutex_trylock.c
++++ b/nptl/pthread_mutex_trylock.c
+@@ -239,7 +239,8 @@ __pthread_mutex_trylock (mutex)
+ 							  private), 0, 0);
+ 
+ 	    if (INTERNAL_SYSCALL_ERROR_P (e, __err)
+-		&& INTERNAL_SYSCALL_ERRNO (e, __err) == EWOULDBLOCK)
++		&& ((INTERNAL_SYSCALL_ERRNO (e, __err) == EWOULDBLOCK)
++		    || (INTERNAL_SYSCALL_ERRNO (e, __err) == EAGAIN)))
+ 	      {
+ 		THREAD_SETMEM (THREAD_SELF, robust_head.list_op_pending, NULL);
+ 
+--- a/nptl/sysdeps/unix/sysv/linux/sem_timedwait.c
++++ b/nptl/sysdeps/unix/sysv/linux/sem_timedwait.c
+@@ -94,7 +94,7 @@ sem_timedwait (sem_t *sem, const struct timespec *abstime)
+       rt.tv_sec = sec;
+       rt.tv_nsec = nsec;
+       err = do_futex_timed_wait(isem, &rt);
+-      if (err != 0 && err != -EWOULDBLOCK)
++      if (err != 0 && err != -EWOULDBLOCK && err != -EAGAIN)
+ 	{
+ 	  __set_errno (-err);
+ 	  err = -1;
+--- a/nptl/sysdeps/unix/sysv/linux/sem_wait.c
++++ b/nptl/sysdeps/unix/sysv/linux/sem_wait.c
+@@ -67,7 +67,7 @@ __new_sem_wait (sem_t *sem)
+   while (1)
+     {
+       err = do_futex_wait(isem);
+-      if (err != 0 && err != -EWOULDBLOCK)
++      if (err != 0 && err != -EWOULDBLOCK && err != -EAGAIN)
+ 	{
+ 	  __set_errno (-err);
+ 	  err = -1;
+@@ -112,7 +112,7 @@ __old_sem_wait (sem_t *sem)
+       /* Disable asynchronous cancellation.  */
+       __pthread_disable_asynccancel (oldtype);
+     }
+-  while (err == 0 || err == -EWOULDBLOCK);
++  while (err == 0 || err == -EWOULDBLOCK || err == -EAGAIN);
+ 
+   __set_errno (-err);
+   return -1;

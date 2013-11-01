@@ -1,0 +1,36 @@
+https://bugs.gentoo.org/431938
+http://sourceware.org/bugzilla/show_bug.cgi?id=14496
+
+From 0b57daebab36f59af1d2a02616ee636a7b13ba12 Mon Sep 17 00:00:00 2001
+From: Siddhesh Poyarekar <siddhesh@redhat.com>
+Date: Fri, 18 Jan 2013 14:16:25 +0530
+Subject: [PATCH] Fix application of the exception mask
+
+Fixes BZ #14496.
+---
+ ChangeLog                       | 4 ++++
+ sysdeps/i386/fpu/fenv_private.h | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+2013-01-18  Siddhesh Poyarekar  <siddhesh@redhat.com>
+
+	[BZ #14496]
+	* sysdeps/i386/fpu/fenv_private.h (libc_feupdateenv_test_sse):
+	Fix application of SIMD FP exception mask.
+
+diff --git a/sysdeps/i386/fpu/fenv_private.h b/sysdeps/i386/fpu/fenv_private.h
+index 03f4c97..1f8336c 100644
+--- a/sysdeps/i386/fpu/fenv_private.h
++++ b/sysdeps/i386/fpu/fenv_private.h
+@@ -176,7 +176,7 @@ libc_feupdateenv_test_sse (fenv_t *e, int ex)
+ 
+   /* Raise SIGFPE for any new exceptions since the hold.  Expect that
+      the normal environment has all exceptions masked.  */
+-  if (__builtin_expect ((old_mxcsr >> 7) & cur_ex, 0))
++  if (__glibc_unlikely (~(old_mxcsr >> 7) & cur_ex))
+     __feraiseexcept (cur_ex);
+ 
+   /* Test for exceptions raised since the hold.  */
+-- 
+1.8.0.2
+
