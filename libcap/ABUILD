@@ -13,7 +13,7 @@ tags=("libs sys-libs")
 # kernel.org still misses these files, so use archlinux mirror
 source=("ftp://ftp.archlinux.org/other/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-build_deps="attr"
+build_deps="attr libnl"
 
 build() {
 	go_src_dir
