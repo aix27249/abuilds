@@ -15,6 +15,6 @@ build_deps='glibc-solibs'
 
 adddep="glibc-solibs"
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
