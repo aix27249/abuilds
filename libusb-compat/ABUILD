@@ -10,7 +10,7 @@ tags=("libs sys-libs")
 
 source=("http://sourceforge.net/projects/libusb/files/libusb-compat-0.1/libusb-compat-${pkgver}/libusb-compat-${pkgver}.tar.bz2")
 
-build_deps="libusb1"
+build_deps="libusb1 pkg-config"
 
 
 BUILD_SYSTEM="autotools"
