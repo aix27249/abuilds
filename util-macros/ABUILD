@@ -1,6 +1,6 @@
 pkgname=util-macros
-pkgver=1.17
-pkgbuild=2
+pkgver=1.17.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('X.Org Autotools macros')
