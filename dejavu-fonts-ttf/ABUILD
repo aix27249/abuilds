@@ -1,6 +1,6 @@
 pkgname=dejavu-fonts-ttf
-pkgver=2.33
-pkgbuild=3
+pkgver=2.34
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="Font family based on the Bitstream Vera Fonts with a wider range of characters"
