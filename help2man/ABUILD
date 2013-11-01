@@ -10,7 +10,7 @@ source=("ftp://ftp.gnu.org/gnu/help2man/help2man-${pkgver}.tar.gz")
 tags="develop dev-util"
 
 # FIXME: locale-gettext eventually should be renamed to perl-locale-gettext to conform naming standards
-adddep="bash perl-locale-gettext"
+adddep="bash locale-gettext"
 build_deps="perl-locale-gettext"
 
 # Build system
