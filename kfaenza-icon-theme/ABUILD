@@ -2,21 +2,27 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=kfaenza-icon-theme
-pkgver=0.8.9
-pkgbuild=4
-arch=('noarch')
 
-shortdesc="Faenza icon theme for KDE4"
-#longdesc=(""
-#)
+
+# KFaezna 
+pkgver=0.8.9
 
 # Icon patch for the KFaezna icon theme
 pkgver_p=0.3
 
+
+pkgbuild=5
+arch=('noarch')
+
+shortdesc="Faenza icon theme for KDE4"
+#longdesc=("")
+
 source=(
-"http://omploader.org/vYjR0NQ"
-"http://kde-look.org/CONTENT/content-files/153813-kfaenza-icon-patch-${pkgver_p}.tar.gz")
-#"http://omploader.org/vYXgxbQ")
+#"http://omploader.org/vYjR0NQ"
+#"http://omploader.org/vYXgxbQ"
+"http://pkgs.fedoraproject.org/repo/pkgs/kfaenza-icon-theme/kfaenza-icon-theme-${pkgver}.tar.gz/95e9f287da7a0fd76fb406d313eee77e/kfaenza-icon-theme-${pkgver}.tar.gz"
+"http://kde-look.org/CONTENT/content-files/153813-kfaenza-icon-patch-${pkgver_p}.tar.gz"
+)
 
 patch_opts=("")
 
@@ -26,7 +32,7 @@ patch_opts=("")
 tags="themes x11-themes"
 
 #dependencies only needed to build package
-build_deps="faenza-icon-theme"
+build_deps="faenza-icon-theme qt-creator>=2.7.0"
 
 provides=""
 conflicts=""
@@ -62,133 +68,369 @@ build()
 go_src_dir
 burn_patches
 
+
 pkgdir_i="${pkgdir}/usr/share/icons"
 mkdir -p "${pkgdir_i}"
 
+
+kf_0 (){
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
 # KFaenza
-cp -r "${srcdir}/KFaenza" "${pkgdir_i}" || exit 1
-rm -v "${pkgdir_i}"/KFaenza/INSTALL
-find "${pkgdir_i}" -type f -name '.directory' -delete
+#--------------------------------------------------------------------------
+cp -r ${srcdir}/KFaenza ${pkgdir_i} || exit 1
 
-# patch
-cp -ri $srcdir/{actions,apps,places} "${pkgdir_i}"/KFaenza -n || exit 1
+rm -v ${pkgdir_i}/KFaenza/INSTALL
+find ${pkgdir_i} -type f -name '.directory' -delete
 
-# gajim
+# Docs
+if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
+ mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+fi
+faenza_ver="`mpkg-show faenza-icon-theme | grep faenza-icon-theme | awk {'print $2'}`"
+cd /usr/doc/faenza-icon-theme-${faenza_ver/-*/}
+cp -v $docs ${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
+
+# ABOUT
+cat "${pkgdir_i}"/KFaenza/index.theme | grep "Comment=" | sed "s/Comment=//" \
+	> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
+# desc
+cat << EOF >> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT
+
+--------------------------------------------------------------------------
+
+KFaenza (KDE Icon Theme) by snakebite
+< http://kde-look.org/content/show.php?content=143890 >
+
+Description:
+Faenza-Cupertino icon theme for KDE!
+Credits:tiheum Faenza icons for gnome (creator of this theme)
+john007 Faenza-Cupertino icons creator (gnome)
+half-left Game Icon Pack creator santgio72 a lot work on porting Faenza-icons to kde,
+mrmars Faenza-Cupertino port,
+jetpack for his work on porting faenza to kde
+funnyguy creator of Faenza Fresh icon pack
+giannis12a sabayon icon!
+DuncanIdaho kadu icon!
+
+License: GPL
+EOF
+}
+
+kf_0_p (){
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+# KFaenza patch
+#--------------------------------------------------------------------------
+mkdir -p "${pkgdir_i}"/KFaenza-patch
+cp -ri $srcdir/{actions,apps,places} "${pkgdir_i}"/KFaenza-patch -n || exit 1
+cd "${pkgdir_i}"/KFaenza-patch
+lndir ../KFaenza/ ./
+rm ./index.theme
+cat ${pkgdir_i}/KFaenza/index.theme > ./index.theme
+sed -i \
+ -e "s|Name=KFaenza|Name=KFaenza-patch|" \
+ -e "s| KDE port| KDE port w/ Icon patch v${pkgver_p}|" \
+ ./index.theme || exit 1
+
+# ABOUT:desc
+cat << EOF >> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT
+
+--------------------------------------------------------------------------
+
+KFaenza icon patch by AndrejSoroj
+< http://kde-look.org/content/show.php/KFaenza+icon+patch?content=153813 >
+
+Description:
+Icon patch for the KFaezna icon theme
+
+License: GPL
+EOF
+}
+
+kf_0_p_f (){
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+# Nk's fixes
+#--------------------------------------------------------------------------
+mkdir -p "${pkgdir_i}"/KFaenza-patch-fix
+cd ${pkgdir_i}/KFaenza-patch-fix
+
+if [[ -d "${pkgdir_i}/KFaenza-patch" ]]; then
+ lndir ../KFaenza-patch/ ./
+ #exit 1
+else
+ lndir ../KFaenza/ ./
+ #exit 1
+fi
+rm -v ./index.theme
+
+
+# for new patch #1of2
+#find ${pkgdir_i}/KFaenza-fix -type l -delete
+
+
+cat ${pkgdir_i}/KFaenza/index.theme > ./index.theme
+sed -i \
+ -e "s|Name=KFaenza|Name=KFaenza-patch-fix|" \
+ -e "s| KDE port| KDE port w/ Icon patch v${pkgver_p} + Nk's fixes|" \
+ ./index.theme || exit 1
+
+I="`ls ${pkgdir_i}/KFaenza/apps/`"
+pkgdir_i_f="${pkgdir_i}/KFaenza-patch-fix"
+
+
+###gajim
 i_gajim (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
+#
+# part 1
 for i in $I; do
-if [ -z "`echo $i | grep scalable`" ]; then	
- if [ ! -e ""${pkgdir_i}"/KFaenza/apps/$i/gajim.png" ]; then
-  if [ -e "/usr/share/icons/Faenza/apps/$i/gajim.png" ]; then
-   cd "${pkgdir_i}"/KFaenza/apps/$i
-   ln -s /usr/share/icons/Faenza/apps/$i/gajim.png gajim.png
-  fi
+ if [[ -z "`echo $i | grep scalable`" \
+ && ! -e "${pkgdir_i_f}/apps/$i/gajim.png" \
+ && -e "/usr/share/icons/Faenza/apps/$i/gajim.png" \
+ ]]; then
+  cd ${pkgdir_i_f}/apps/$i
+  ln -s ../../../Faenza/apps/$i/gajim.png gajim.png
+ elif [[ ! -z "`echo $i | grep scalable`" \
+ && ! -e "${pkgdir_i_f}/apps/scalable/gajim.svg" \
+ && -e "/usr/share/icons/Faenza/apps/scalable/gajim.svg" \
+ ]]; then
+  cd ${pkgdir_i_f}/apps/scalable
+  ln -s ../../../Faenza/apps/scalable/gajim.svg gajim.svg
  fi
-else 
- if [ ! -e ""${pkgdir_i}"/KFaenza/apps/$i/gajim.svg" ]; then
-  if [ -e "/usr/share/icons/Faenza/apps/scalable/gajim.svg" ]; then
-   cd "${pkgdir_i}"/KFaenza/apps/scalable
-   ln -s /usr/share/icons/Faenza/apps/scalable/gajim.svg gajim.svg
-  fi
+done
+#
+# part 2
+#iF="`ls /usr/share/icons/Faenza/apps/`"
+#for f in $iF; do 
+# if [[ ! -d ${pkgdir_i_f}/apps/$f \
+# && -e "/usr/share/icons/Faenza/apps/$f/gajim.png" \
+# && ! -e "${pkgdir_i_f}/apps/$f/gajim.png" \
+# ]]; then
+#  mkdir -p ${pkgdir_i_f}/apps/$f
+#  cd ${pkgdir_i_f}/apps/$f
+#  ln -s /usr/share/icons/Faenza/apps/$f/gajim.png gajim.png
+# fi
+#done
+#
+# part of index.theme
+cd $pkgdir_i_f
+if [[ -z "`cat ./index.theme | grep Dir | grep scalable`" ]]; then
+sed -i \
+ -e "s|places/256,status/256|places/256,status/256,apps/scalable|" \
+ ./index.theme || exit 1
+echo "" >> ./index.theme || exit 1
+cat << EOF >> ./index.theme
+[apps/scalable]
+Size=96
+Context=Apps
+Type=Scalable
+MinSize=8
+MaxSize=512
+EOF
+fi
+cd -
+}
+i_gajim
+
+
+# qpdfv
+i_qpdfv (){
+for i in $I; do
+ if [[ -z "`echo $i | grep scalable`" \
+ && -e "/usr/share/icons/oxygen/${i}x${i}/actions/document-preview.png" \
+ ]]; then
+  cd ${pkgdir_i_f}/apps/$i
+  ln -s /usr/share/icons/oxygen/${i}x${i}/actions/document-preview.png qpdfview.png
+ elif [[ ! -e "${pkgdir_i_f}/apps/scalable/qpdfview.svg" \
+ && -e "/usr/share/icons/oxygen/scalable/actions/document-preview.svg" \
+ ]]; then
+  cd ${pkgdir_i_f}/apps/scalable
+  ln -s /usr/share/icons/oxygen/scalable/actions/document-preview.svg qpdfview.svg
  fi
+done
+}
+#i_qpdfv
+
+
+dir_m="${pkgdir_i_f}/mimetypes"
+dir_a="${pkgdir_i_f}/apps"
+dir_ms="./mimetypes"
+dir_as="./apps"
+
+
+# apps
+rm_ia (){
+for i in $I; do
+cd ${dir_a}/$i
+
+#if [ -e "${il}.png" ]; then
+# mv -v ${il}.png ${il}.png_
+#elif [ -e "${il}.svg" ]; then
+# mv -v ${il}.svg ${il}.svg_
+#fi
+
+if [ -e "${pkgdir_i}/KFaenza/apps/$i/${il_new}.png" ]; then
+ ln -sfv ./${il_new}.png ${il}.png
+elif [ -e "${pkgdir_i}/KFaenza/apps/$i/${il_new}.svg" ]; then
+ ln -sfv ./${il_new}.svg ${il}.svg
+else
+ echo $il_new : $i - not found
 fi
+
 done
 }
 
-# ffox
-i_ffox (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
+# emblems
+rm_ie (){
+dir_e="${pkgdir_i_f}/emblems"
+dir_es="./emblems"
+
 for i in $I; do
-if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/firefox-original.png" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./firefox-original.png firefox.png
-elif [ -e ""${pkgdir_i}"/KFaenza/apps/$i/firefox-original.svg" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./firefox-original.svg firefox.svg
+cd ${pkgdir_i_f}/apps/$i
+
+if [ -e "${il}.png" ]; then
+ mv -v ${il}.png ${il}.png_
+elif [ -e "${il}.svg" ]; then
+ mv -v ${il}.svg ${il}.svg_
 fi
+
+if [ -e "${dir_e}/$i/${il_new}.png" ]; then
+ ln -sfv ./${il_new}.png ${il}.png
+elif [ -e "${dir_e}/$i/${il_new}.svg" ]; then
+ ln -sfv ./${il_new}.svg ${il}.svg
+else
+ echo ${i}: $il_new not found
+ #exit 1
+fi
+
 done
 }
 
-# gvim
-i_gvim (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
+# Warning! don't work
+# categories
+rm_ic (){
+dir_c="${pkgdir_i_f}/categories"
+dir_cs="./categories"
 for i in $I; do
-if [ -z "`echo $i | grep scalable`" ]; then	
- if [ ! -e ""${pkgdir_i}"/KFaenza/apps/$i/gvim.png" ]; then
-  if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/vim.png" ]; then
-   cd "${pkgdir_i}"/KFaenza/apps/$i
-   ln -s ./vim.png gvim.png
-  fi
+cd ${pkgdir_i_f}/apps/$i
+if [ -e "${il}.png" ]; then
+ mv -v ${il}.png ${il}.png_
+elif [ -e "${il}.svg" ]; then
+ mv -v ${il}.svg ${il}.svg_
+fi
+if [ -e "${dir_c}/$i/${il_new}.png" ]; then
+ ln -sfv ./${il_new}.png ${il}.png
+elif [ -e "${dir_c}/$i/${il_new}.svg" ]; then
+ ln -sfv ./${il_new}.svg ${il}.svg
+else
+ echo ${i}: $il_new not found
+fi
+done
+}
+# mimetypes
+rm_im (){
+for i in $I; do
+if [ -e "${dir_m}/$i/${il_new}.png" ]; then
+ cd ${dir_a}/$i
+ if [ -e "${il}.png" ]; then
+  mv -v ${il}.png ${il}.png_
  fi
-else 
- if [ ! -e ""${pkgdir_i}"/KFaenza/apps/$i/gvim.svg" ]; then
-  if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/vim.svg" ]; then
-   cd "${pkgdir_i}"/KFaenza/apps/scalable
-   ln -s ./vim.svg gvim.svg
-  fi
+ ln -sfv ${dir_ms}/$i/${il_new}.png ${il}.png
+elif [ -e "${dir_m}/$i/${il_new}.svg" ]; then
+ cd ${dir_a}/$i
+ if [ -e "${il}.svg" ]; then
+  mv -v ${il}.svg ${il}.svg_
  fi
+ ln -sfv ${dir_ms}/$i/${il_new}.svg ${il}.svg
 fi
 done
 }
 
-# dolphin
-i_dolphin (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
+
+# del icons
+rm_i (){
 for i in $I; do
-if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/dolphin.png" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- mv dolphin.png dolphin2.png || exit 1
- ln -s ./system-file-manager.png dolphin.png || exit 1
-elif [ -e ""${pkgdir_i}"/KFaenza/apps/$i/dolphin.svg" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- mv dolphin.svg dolphin2.svg || exit 1
- ln -s ./system-file-manager.svg dolphin.svg || exit 1
+cd ${pkgdir_i_f}/apps/$i
+if [ -e "${il}.png" ]; then
+ mv -v ${il}.png ${il}.png_
+elif [ -e "${il}.svg" ]; then
+ mv -v ${il}.svg ${il}.svg_
 fi
 done
 }
 
-# smplayer
-i_smplayer (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
-for i in $I; do
-if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/totem.png" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./totem.png smplayer.png
-elif [ -e ""${pkgdir_i}"/KFaenza/apps/$i/totem.svg" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./totem.svg smplayer.svg
-fi
-done
-}
 
-i_smplayer0 (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
-for i in $I; do
-if [ -L ""${pkgdir_i}"/KFaenza/apps/$i/smplayer.png" ]; then
- rm -v "${pkgdir_i}"/KFaenza/apps/$i/smplayer.png
-elif [ -e ""${pkgdir_i}"/KFaenza/apps/$i/totem.svg" ]; then
- rm -v "${pkgdir_i}"/KFaenza/apps/$i/smplayer.svg
-fi
-done
-}
+il="galculator"; 	rm_i
+il="kscd"; 		rm_i
+#il="smplayer"; 	rm_i
+il="gpicview"; 		rm_i
+il="kolourpaint"; 	rm_i
 
-# clementine
-i_clementine (){
-I="`ls "${pkgdir_i}"/KFaenza/apps/`"
+#il="dragonplayer"; 	il_new="media-video"; 		rm_im
+#il="dragonplayer"; 	il_new="mplayer"; 		rm_ia
+il="dragonplayer"; 	il_new="totem"; 		rm_ia
+
+#il="smplayer"; 	il_new="totem";			rm_ia
+
+# DMs != Transmission OR Deluge
+il="qbittorrent"; 	il_new="deluge-torrent"; 	rm_i
+il="kget";	 	il_new="emblem-downloads";	rm_i
+
+#il="ktorrent";	 	il_new="applications-internet";	rm_ic
+il="ktorrent";	 	rm_i
+
+# Dolphin
+#il="dolphin"; 		il_new="system-file-manager"; 	rm_ia
+il="dolphin"; 		il_new="wireshark"; 		rm_ia
+
+il="clementine"; 	il_new="clementine4"; 		rm_ia
+#il="firefox";		il_new="firefox-original";	rm_ia 
+il="gvim";		il_new="vim";			rm_ia
+il="qupzilla";	 	il_new="web-browser";	 	rm_ia
+
+# AgiliaLinux tools
+il="mpkg-manager2"; 	il_new="package-manager-icon";	rm_ia
+il="mpkg-apackager"; 	il_new="package-manager-icon"; 	rm_ia
+il="guisetup"; 		il_new="pk-package-sources"; 	rm_ia
+
+# Qt4 tools
+#il="qtassistant"; 	il_new="qt4assistant"; 		rm_ia
+il="QtProject-qtcreator";	il_new="qtcreator"; 	rm_ia
+il="qt4qtconfig"; 		il_new="qtlogo"; 	rm_ia
+
+# fix: rename qtassisant -> qtassistant
 for i in $I; do
-if [ -e ""${pkgdir_i}"/KFaenza/apps/$i/clementine2.png" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./clementine2.png clementine.png
-elif [ -e ""${pkgdir_i}"/KFaenza/apps/$i/clementine2.svg" ]; then
- cd "${pkgdir_i}"/KFaenza/apps/$i
- ln -sf ./clementine2.svg clementine.svg
+if [ -e "${pkgdir_i_f}/apps/$i/qtassisant.png" ]; then
+ cd ${pkgdir_i_f}/apps/$i/
+ mv -v qtassisant.png qtassistant.png
+elif [ -e "${pkgdir_i_f}/apps/$i/qtassisant.svg" ]; then
+ cd ${pkgdir_i_f}/apps/$i/
+ mv -v qtassisant.svg qtassistant.svg
 fi
 done
-}
+
+# fix qt -> qt4
+IQT4="qt4assistant qt4designer qt4linguist qt4qtconfig"
+for iqt4 in $IQT4; do
+ for i in $I; do
+ if [ -e "${pkgdir_i}/KFaenza/apps/$i/${iqt4/qt4/qt}.png" ]; then
+  cd ${dir_a}/$i
+  ln -sfv ./${iqt4/qt4/qt}.png ${iqt4}.png
+ elif [ -e "${pkgdir_i}/KFaenza/apps/$i/${iqt4/qt4/qt}.svg" ]; then
+  cd ${dir_a}/$i
+  ln -sfv ./${iqt4/qt4/qt}.svg ${iqt4}.svg 
+ #else
+ # cd ${dir_a}/$i
+ # ln -sfv ./qtlogo.png ${iqt4}.png || ln -sfv ./qtlogo.svg ${iqt4}.svg
+ fi
+ done
+done
+
 
 # fix .xpm-16 and other mimetypes
 i_m16 (){
-cd ${pkgdir_i}/KFaenza/mimetypes/16/
+cd ${pkgdir_i_f}/mimetypes/16/
 ln -sf ./image-x-generic.png image.png
 ln -sf ./image-x-generic.png image-x-tga.png
 ln -sf ./image-x-generic.png gnome-mime-application-x-killustrator.png
@@ -196,6 +438,45 @@ ln -sf ./image-x-generic.png gnome-mime-image-x-cmu-raster.png
 ln -sf ./image-x-generic.png gnome-mime-image-x-xpixmap.png
 ln -sf ./image-x-generic.png gnome-mime-image.png
 }
+i_m16
+
+
+# fix zero length file 64/stock_new-address-book.png
+if [[ ! -s "${pkgdir_i}/KFaenza/actions/64/stock_new-address-book.png" \
+&& -e "${pkgdir_i_f}/actions/64/stock_new-address-book.png" \
+]]; then
+ cd ${pkgdir_i_f}/actions/64/
+ rm -v stock_new-address-book.png
+fi
+
+# qtcreator_logo_32.png
+for i in $I; do
+ if [[ -L "${pkgdir_i}/KFaenza/apps/$i/qtcreator_logo_32.png" \
+ && -L "${pkgdir_i_f}/apps/$i/qtcreator_logo_32.png"
+ ]]; then
+  cd ${pkgdir_i_f}/apps/$i
+  rm -v ./qtcreator_logo_32.png
+ elif [[ -L "${pkgdir_i}/KFaenza/apps/$i/qtcreator_logo_32.svg"  \
+ && -e "${pkgdir_i_f}/apps/$i/qtcreator_logo_32.png"
+ ]]; then
+  cd ${pkgdir_i_f}/apps/$i
+  rm -v ./qtcreator_logo_32.svg
+ fi
+done
+
+# icons
+find "${pkgdir_i}" -type f -name '.directory' -delete
+find "${pkgdir_i}" -type f -exec chmod 644 {} \;
+find "${pkgdir_i}" -type d -exec chmod 755 {} \;
+
+find "${pkgdir_i}" -type f -name '*_' -delete
+find "${pkgdir_i}" -type l -name '*_' -delete
+
+
+# for new patch #2of2
+#find ${pkgdir_i}/KFaenza-fix -type d -empty -delete && rm -rf ${pkgdir_i}/KFaenza
+}
+
 
 # brown-folders
 kf_br (){
@@ -212,67 +493,14 @@ sed -i \
  ${dir_br}/index.theme || exit 1
 }
 
-i_gajim
-#i_ffox
-i_gvim
-i_dolphin
-#i_smplayer0
-#i_clementine
-i_m16
+
+# start
+kf_0
+kf_0_p
+kf_0_p_f
 #kf_br
-
-
-# icons
-find "${pkgdir_i}" -type f -name '.directory' -delete
-find "${pkgdir_i}" -type f -exec chmod 644 {} \;
-find "${pkgdir_i}" -type d -exec chmod 755 {} \;
-
-# Docs
-if [ ! -d ${pkgdir}/usr/doc/${pkgname}-${pkgver} ]; then
- mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-fi
-f_ver="`mpkg-show faenza-icon-theme | grep faenza-icon-theme | awk {'print $2'}`"
-cd /usr/doc/faenza-icon-theme-${f_ver/-*/}
-cp -v $docs ${pkgdir}/usr/doc/${pkgname}-${pkgver} || exit 1
-
-# ABOUT
-cat "${pkgdir_i}"/KFaenza/index.theme | grep "Comment=" | sed "s/Comment=//" \
-	> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT || exit 1
-
-cat << EOF \
-	>> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT
-
-#--------------------------------------------------------------------------
-
-KFaenza (KDE Icon Theme) by snakebite
-http://kde-look.org/content/show.php?content=143890
-
-Description:
-Faenza-Cupertino icon theme for KDE!
-Credits:tiheum Faenza icons for gnome (creator of this theme)
-john007 Faenza-Cupertino icons creator (gnome)
-half-left Game Icon Pack creator santgio72 a lot work on porting Faenza-icons to kde,
-mrmars Faenza-Cupertino port,
-jetpack for his work on porting faenza to kde
-funnyguy creator of Faenza Fresh icon pack
-giannis12a sabayon icon!
-DuncanIdaho kadu icon!
-
-License: GPL
-
-#--------------------------------------------------------------------------
-
-KFaenza icon patch by AndrejSoroj
-http://kde-look.org/content/show.php/KFaenza+icon+patch?content=153813
-
-Description:
-Icon patch for the KFaezna icon theme
-
-License: GPL
-
-#--------------------------------------------------------------------------
-EOF
 }
+
 
 
 #ran after function build() 
