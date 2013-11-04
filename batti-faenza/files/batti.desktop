@@ -7,3 +7,4 @@ Icon=batti
 Exec=batti
 Terminal=false
 Type=Application
+Categories=Application;GTK;Utility;
