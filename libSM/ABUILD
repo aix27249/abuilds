@@ -1,6 +1,6 @@
 pkgname=libSM
-pkgver=1.2.1
-pkgbuild=2
+pkgver=1.2.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('X11 Session Management library')
