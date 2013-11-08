@@ -15,7 +15,7 @@ config_files="etc/openldap/ldap.conf
 etc/openldap/slapd.conf
 etc/conf.d/slapd"
 
-build_deps="libtool cyrus-sasl e2fsprogs util-linux-ng"
+build_deps="libtool cyrus-sasl e2fsprogs util-linux-ng tcp_wrappers"
 
 before_build() {
 	go_src_dir
