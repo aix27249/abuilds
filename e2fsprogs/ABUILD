@@ -29,7 +29,7 @@ BUILD_KEYS="--prefix= \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-build_deps="bc util-linux-ng"
+build_deps="bc util-linux-ng pkg-config"
 
 after_build() {
 	go_src_dir
