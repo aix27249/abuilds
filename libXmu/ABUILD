@@ -1,6 +1,6 @@
 pkgname=libXmu
-pkgver=1.1.1
-pkgbuild=2
+pkgver=1.1.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('X11 miscellaneous micro-utility library')
