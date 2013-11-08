@@ -1,1 +1,1 @@
-chroot . rm etc/pango/pango.modules
+chroot . rm -f etc/pango/pango.modules
