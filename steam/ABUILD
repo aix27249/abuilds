@@ -1,8 +1,8 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 #----------------------------- General vars --------------------------------------
 pkgname=steam
-pkgver=1.0.0.39
-pkgbuild=3
+pkgver=1.0.0.43
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Digital distribution client - bootstrap package"
