@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=doublecmd
-pkgver=0.5.6
+pkgver=0.5.7
 pkgbuild=1
 arch=('auto')
 helpver=0.5.5
