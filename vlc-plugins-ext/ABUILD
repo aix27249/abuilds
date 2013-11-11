@@ -16,7 +16,7 @@ tags="xapps media-video"
 custom_opts="no_ccache"
 #dependencies only needed to build package
 build_deps="libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad \
-orc schroedinger libdca twolame libmpcdec libass libebml libmatroska  libmodplug \
+orc schroedinger libdca twolame libmpcdec libass libebml libmatroska  libmodplug lua  \
 libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt \
 libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp \
 expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus "
