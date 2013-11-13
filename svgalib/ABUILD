@@ -26,6 +26,7 @@ after_build() {
   go_src_dir
   install -dm755 "${pkgdir}"/usr/lib${LIBDIRSUFFIX}
   make prefix="${pkgdir}"/usr datadir="${pkgdir}"/etc/vga \
-    libdir="${pkgdir}"/usr/lib${LIBDIRSUFFIX} NO_HELPER=y \
+    libdir="${pkgdir}"/usr/lib${LIBDIRSUFFIX} \
+    sharedlibdir="${pkgdir}"/usr/lib${LIBDIRSUFFIX} NO_HELPER=y \
     install
 }
