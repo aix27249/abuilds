@@ -38,19 +38,18 @@ after_build() {
 	install -Dm755 common.sh $pkgdir/usr/share/os-prober/common.sh
 
 	for dir in os-probes{,/mounted,/init} linux-boot-probes{,/mounted}; do
-	    install -dm755 "$pkgdir/usr/lib/$dir"
-	    install -m755 -t "$pkgdir/usr/lib/$dir" "$dir"/common/*
+	    install -dm755 "$pkgdir/usr/lib$LIBDIRSUFFIX/$dir"
+	    install -m755 -t "$pkgdir/usr/lib$LIBDIRSUFFIX/$dir" "$dir"/common/*
 	    if [[ -d "$dir"/x86 ]]; then
-		cp -r "$dir"/x86/* "$pkgdir/usr/lib/$dir"
+		cp -r "$dir"/x86/* "$pkgdir/usr/lib$LIBDIRSUFFIX/$dir"
 	    fi
 	done
 
-	install -Dm755 os-probes/mounted/powerpc/20macosx "$pkgdir"/usr/lib/os-probes/mounted/20macosx
-	install -Dm644 debian/copyright $pkgdir/usr/share/doc/os-prober/copyright
+	install -Dm755 os-probes/mounted/powerpc/20macosx "$pkgdir"/usr/lib$LIBDIRSUFFIX/os-probes/mounted/20macosx
+	install -Dm644 debian/copyright $pkgdir/usr/doc/os-prober-$pkgver/copyright
 
 	# create a empty labels file, will be used by os-prober at execution
 	install -dm755 "$pkgdir"/var/lib/os-prober
 	touch $pkgdir/var/lib/os-prober/labels
 	chmod 644 $pkgdir/var/lib/os-prober/labels
-
 }
