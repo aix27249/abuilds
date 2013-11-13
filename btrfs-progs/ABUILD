@@ -18,6 +18,6 @@ build()
 	go_src_dir
 	burn_patches
 	make CFLAGS="$CFLAGS" -j${numjobs}
-	make prefix=$pkgdir/usr bindir=$pkgdir/sbin install
+	make prefix=$pkgdir/usr bindir=$pkgdir/sbin libdir=$pkgdir/usr/lib$LIBDIRSUFFIX install
 }
 
