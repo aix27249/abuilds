@@ -1,0 +1,40 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=myrulib
+pkgver=0.29.17
+pkgbuild=3
+arch=('auto')
+
+shortdesc="free software for organizing your home library of electronic books"
+
+source=("http://lintest.ru/pub/${pkgname}-${pkgver}.tar.gz")
+
+build_deps='expat wxwidgets qt4 gcc'
+
+ 
+#short and long tags / длинный и короткий тег
+tags="app-text xapps"
+
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--with-faxpp \
+--with-bzip2  \
+--with-sqlite  \
+--with-icu      \
+--with-reader    \
+--with-syslog     \
+--with-locale      \
+--with-links "
+
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
