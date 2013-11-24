@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=htop
-pkgver=1.0
+pkgver=1.0.2
 pkgbuild=1
 arch="auto"
 
@@ -10,7 +10,7 @@ arch="auto"
 shortdesc=("interactive text-mode process viewer")
 
 # Source URL
-source=("http://ovh.dl.sourceforge.net/project/htop/htop/${pkgver}/htop-${pkgver}.tar.gz")
+source=("http://sourceforge.net/projects/htop/files/htop/${pkgver}/htop-${pkgver}.tar.gz")
 
 # Tags
 tags="sys-process console"
