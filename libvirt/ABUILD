@@ -1,45 +1,18 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libvirt
-pkgver=0.9.9
+pkgver=1.1.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The virtualization API"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("libvirt supports: *The Xen hypervisor on Linux and Solaris hosts. *The QEMU emulator *The KVM Linux hypervisor *The LXC Linux container system *The OpenVZ Linux container system *The User Mode Linux paravirtualized kernel *The VirtualBox hypervisor *The VMware ESX and GSX hypervisors *Storage on IDE/SCSI/USB disks, FibreChannel, LVM, iSCSI, NFS and filesystems. libvirt provides: *Remote management using TLS encryption and x509 certificates *Remote management authenticating with Kerberos and SASL *Local access control using PolicyKit *Zero-conf discovery using Avahi multicast-DNS *Management of virtual machines, virtual networks and storage *Portable client API for Linux, Solaris and Windows")
-
-source=("ftp://${pkgname}.org/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://libvirt.org/sources/${pkgname}-${pkgver}.tar.gz")
 tags="app-emulation libs"
+build_deps=("e2fsprogs gnutls iptables libxml2 parted python yajl qemu yajl
+	    libpciaccess udev dbus libpcap curl cyrus-sasl libgcrypt
+	    libgpg-error openssl gcc-libs iproute2 libnl numactl")
+adddep="bridge-utils" #dnsmasq
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep="avahi-mdns>=0.6.25"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
 docs="${filedir}/org.libvirt.unix.manage.pkla"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
 
 config_files="etc/polkit-1/localauthority/50-local.d/org.libvirt.unix.manage.pkla
 etc/libvirt/qemu.conf
@@ -48,81 +21,68 @@ etc/libvirt/libvirtd.conf
 etc/sasl2/libvirt.conf
 etc/conf.d/libvirtd"
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" 
 CXXFLAGS=\"$SLKCFLAGS\" ./configure "
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---enable-shared \
---disable-static \
---mandir=/usr/man \
---enable-largefile \
---enable-fast-install \
---disable-debug \
---disable-test-coverage \
---disable-test-oom \
---disable-test-locking \
---enable-nls \
---disable-rpath \
---with-qemu=yes \
---with-uml=yes \
---with-openvz=yes \
---with-phyp=yes \
---with-lxc=yes \
---with-esx=yes \
---with-test=yes \
---with-remote=yes \
---with-libvirtd=yes \
---with-init-script=none \
---with-rhel5-api=no \
---with-sasl=yes \
---with-yajl=yes \
---with-polkit=yes \
---with-avahi=yes \
---with-numactl=yes \
---with-capng=yes \
---with-network=yes \
---with-storage-fs=yes \
---with-storage-lvm=yes \
---with-storage-scsi=yes \
---with-storage-mpath=yes \
---with-storage-disk=yes \
---with-python=yes \
---with-driver-modules=no \
---with-hal=no \
---with-udev=yes \
---with-macvtap=yes"
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --docdir=/usr/doc/${pkgname}-${pkgver} \
+  --enable-shared \
+  --disable-static \
+  --mandir=/usr/man \
+  --enable-largefile \
+  --enable-fast-install \
+  --disable-debug \
+  --disable-test-coverage \
+  --disable-test-oom \
+  --disable-test-locking \
+  --enable-nls \
+  --disable-rpath \
+  --with-qemu=yes \
+  --with-uml=yes \
+  --with-openvz=yes \
+  --with-phyp=yes \
+  --with-lxc=yes \
+  --with-esx=yes \
+  --with-test=yes \
+  --with-remote=yes \
+  --with-libvirtd=yes \
+  --with-init-script=none \
+  --with-rhel5-api=no \
+  --with-sasl=yes \
+  --with-yajl=yes \
+  --with-polkit=no \
+  --with-avahi=no \
+  --with-numactl=yes \
+  --with-capng=yes \
+  --with-network=yes \
+  --with-storage-fs=yes \
+  --with-storage-lvm=yes \
+  --with-storage-scsi=yes \
+  --with-storage-mpath=yes \
+  --with-storage-disk=yes \
+  --with-python=yes \
+  --with-driver-modules=no \
+  --with-hal=no \
+  --with-udev=yes \
+  --with-macvtap=yes"
 
 MAKE_WORD="find -name Makefile -exec sed -i 's#-L /usr#-L/usr#' {} \; && make"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-mkdir -p ${pkgdir}/etc/init.d
-cat ${filedir}/libvirtd.init > ${pkgdir}/etc/init.d/libvirtd
-chmod 755 ${pkgdir}/etc/init.d/libvirtd
+  mkdir -p ${pkgdir}/etc/init.d
+  cat ${filedir}/libvirtd.init > ${pkgdir}/etc/init.d/libvirtd
+  chmod 755 ${pkgdir}/etc/init.d/libvirtd
 
-mkdir -p ${pkgdir}/etc/conf.d
-cat ${filedir}/libvirtd.confd > ${pkgdir}/etc/conf.d/libvirtd
-chmod 644 ${pkgdir}/etc/conf.d/libvirtd
+  mkdir -p ${pkgdir}/etc/conf.d
+  cat ${filedir}/libvirtd.confd > ${pkgdir}/etc/conf.d/libvirtd
+  chmod 644 ${pkgdir}/etc/conf.d/libvirtd
 
-mkdir -p ${pkgdir}/etc/polkit-1/localauthority/50-local.d
-cat ${filedir}/org.libvirt.unix.manage.pkla > ${pkgdir}/etc/polkit-1/localauthority/50-local.d/org.libvirt.unix.manage.pkla
-chmod 700 ${pkgdir}/etc/polkit-1/localauthority
+  mkdir -p ${pkgdir}/etc/polkit-1/localauthority/50-local.d
+  cat ${filedir}/org.libvirt.unix.manage.pkla > ${pkgdir}/etc/polkit-1/localauthority/50-local.d/org.libvirt.unix.manage.pkla
+  chmod 700 ${pkgdir}/etc/polkit-1/localauthority
 }

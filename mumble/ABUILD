@@ -1,89 +1,42 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mumble
-pkgver=1.2.3
+pkgver=1.2.4
 pkgbuild=1
 arch=('auto')
-
 shortdesc="Low latency VoIP client"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Mumble is a low-latency, high quality voice chat program for gaming. It features noise suppression, automatic gain control and low latency audio with support for multiple audio standards. Mumble includes an in-game overlay compatible with most open-source and commercial 3D applications. Mumble is just a client and uses a non-standard protocol."
-)
-
 source=("http://downloads.sourceforge.net/mumble/$pkgname-$pkgver.tar.gz")
+tags="network media-sound"
+build_deps="qt4 protobuf boost inputproto libXi libsndfile libX11 speex celt"
 
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="network net-im"
-
-#dependencies only needed to build package
-build_deps="avahi-mdns protobuf"
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+build() {
+    go_src_dir
+    # Building mumble
+    qmake main.pro \
+      CONFIG+="bundled-celt no-bundled-speex no-speechd no-g15 no-xevie no-server \
+      no-embed-qt-translations no-update-packaged no-pulseaudio no-bonjour" \
+      DEFINES+="PLUGIN_PATH=/usr/lib${LIBDIRSUFFIX}/mumble"
+    #no-bundled-celt
+    make -j${numjobs} release
 }
 
-build()
-{
-go_src_dir
-echo $ARCH
-  # Building mumble
-  /usr/bin/qmake main.pro \
-    CONFIG+="bundled-celt no-bundled-speex no-speechd no-g15 no-xevie no-server \
-     no-embed-qt-translations no-update-packaged" \
-    DEFINES+="PLUGIN_PATH=/usr/lib${LIBDIRSUFFIX}/mumble"
-  make -j$numjobs release
-}
+after_build() {
+    go_src_dir
 
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-  cd $srcdir/$pkgname-$pkgver
-
-  # create directories and copy files
-  mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/mumble
-  install -m755 -D ./release/mumble $pkgdir/usr/bin/mumble
-  install -m755 -D ./release/mumble11x $pkgdir/usr/bin/mumble11x
-  install -m755 -D ./scripts/mumble-overlay $pkgdir/usr/bin/mumble-overlay
-  install -m755 -D ./release/libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/
-  ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so
-  ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so.1
-  ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so.1.2
-  install -m755 -D ./release/plugins/liblink.so $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/
-  install -m755 -D .release/libcelt* $pkgdir/usr/lib$LIBDIRSUFFIX/mumble/
-  install -m755 -d $pkgdir/usr/share/applications
-  install -m644 -D ./scripts/mumble.desktop $pkgdir/usr/share/applications/mumble.desktop
-  install -m644 -D $filedir/mumble11x.desktop $pkgdir/usr/share/applications/mumble11x.desktop
-  install -m755 -d $pkgdir/usr/share/man/man1
-  install -m644 -D ./man/mum* $pkgdir/usr/share/man/man1/
-  install -m644 -D ./icons/mumble.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/mumble.svg
-
+    # create directories and copy files
+    mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX/mumble
+    install -m755 -D ./release/mumble $pkgdir/usr/bin/mumble
+    #install -m755 -D ./release/mumble11x $pkgdir/usr/bin/mumble11x
+    install -m755 -D ./scripts/mumble-overlay $pkgdir/usr/bin/mumble-overlay
+    install -m755 -D ./release/libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/
+    ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so
+    ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so.1
+    ln -s libmumble.so.$pkgver $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/libmumble.so.1.2
+    install -m755 -D ./release/plugins/liblink.so $pkgdir/usr/lib${LIBDIRSUFFIX}/mumble/
+    install -m755 -D ./release/libcelt* $pkgdir/usr/lib$LIBDIRSUFFIX/mumble/
+    install -m755 -d $pkgdir/usr/share/applications
+    install -m644 -D ./scripts/mumble.desktop $pkgdir/usr/share/applications/mumble.desktop
+    install -m644 -D $filedir/mumble11x.desktop $pkgdir/usr/share/applications/mumble11x.desktop
+    install -m755 -d $pkgdir/usr/man/man1
+    install -m644 -D ./man/mum* $pkgdir/usr/man/man1/
+    install -m644 -D ./icons/mumble.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/mumble.svg
 }

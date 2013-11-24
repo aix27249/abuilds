@@ -1,17 +1,15 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: NK, nk-man at yandex.ru 
 pkgname=ctpl
 pkgver=0.3.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="C Template (Parser) Library"
 longdesc=("CTPL is a template engine library written in C and distributed under the terms of the GNU GPLv3+. CTPL's homepage: http://ctpl.tuxfamily.org"
 )
-
 source=("http://download.tuxfamily.org/ctpl/releases/${pkgname}-${pkgver}.tar.gz")
 tags="dev-libs libs"
+build_deps="glib2"
 
 BUILD_SYSTEM="autotools"
 

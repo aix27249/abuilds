@@ -1,17 +1,19 @@
 pkgname=xorg-server
-pkgver=1.12.4
+pkgver=1.14.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('xorg-server (The Xorg server, the core of the X Window System)')
 longdesc=('Xorg is a full featured X server that was originally designed for UNIX and UNIX-like operating systems running on Intel x86 hardware. It now runs on a wider range of hardware and OS platforms. This work was derived by the X.Org Foundation from the XFree86 Projects XFree86 4.4rc2 release. The XFree86 release was originally derived from X386 1.2 by Thomas Roell which was contributed to X11R5 by Snitily Graphics Consulting Service. The home page for the X project is: http://www.x.org')
 
-
 source=("http://xorg.freedesktop.org/archive/individual/xserver/xorg-server-${pkgver}.tar.bz2")
 
 tags="xserver x11-base"
-
 adddep="libglx"
+build_deps=("pixman libX11 mesa xf86driproto xcmiscproto xtrans bigreqsproto randrproto inputproto fontsproto videoproto \
+    compositeproto recordproto scrnsaverproto resourceproto xineramaproto libxkbfile libXfont renderproto libpciaccess \
+    libXv xf86dgaproto libXmu libXrender libXi dmxproto libXaw libdmx libXtst libXres xkbcomp util-macros font-util \
+    glproto dri2proto libgcrypt")
 
 #for multi pkg abuild
 pkglist="xephyr xnest xvfb libglx"
@@ -108,6 +110,14 @@ build() {
 		ln -sf xorg/modules .
 	)
 
+	for dir in man1 man4 man5; do
+	  ( cd ${pkgdir}/usr/man/$dir;
+	    for file in *; do
+	      gzip -9 ${file}
+	    done
+	  )
+	done
+
 	# Install sane config files in /etc.
 	install -m755 -d "${pkgdir}/etc/X11/xorg.conf.d"
 	install -m644 "${filedir}/10-quirks.conf" "${pkgdir}/etc/X11/xorg.conf.d/" || exit 1
@@ -147,5 +157,3 @@ libglx_prep() {
 	mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions/libglx.* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions/
 	set +e
 }
-
-

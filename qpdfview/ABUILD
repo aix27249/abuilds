@@ -2,11 +2,11 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qpdfview
-pkgver=0.4
+pkgver=0.4.6
 pkgbuild=1
 arch=('auto')
 
-shortdesc="a tabbed PDF viewer using the poppler library"
+shortdesc="a tabbed document viewer using Qt"
 #longdesc=(""
 #)
 
@@ -35,7 +35,7 @@ pkglist=
 #numjobs=1
 
 #additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
+docs="CHANGES CONTRIBUTORS"
 gendeps_blacklist=
 
 #custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
@@ -46,14 +46,21 @@ custom_opts=""
 
 #ran before function build()
 #запускается перед сборкой.
-#before_build()
-#{
-#
-#}
+before_build()
+{
+go_src_dir
+# translations
+if [[ ! -f ./translations/${pkgname}_ru.qm \
+&& -f ./translations/${pkgname}_ru.ts ]]; then
+ lrelease qpdfview.pro || exit 1
+fi
+}
+
 
 BUILD_SYSTEM="qmake"
 BUILD_KEYS="*.pro PREFIX=/usr \
 	PLUGIN_INSTALL_PATH=/usr/lib${LIBDIRSUFFIX}/${pkgname}"
+
 
 #ran after function build() 
 #после сборки

@@ -1,10 +1,11 @@
 pkgname=libvdpau
-pkgver=0.5
+pkgver=0.7
 pkgbuild=1
 arch=('auto')
 shortdesc="VDPAU library"
 
 source=("http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz")
+build_deps="gcc xproto libxcb"
 
 tags="libs x11-libs"
 BUILD_SYSTEM="autotools"

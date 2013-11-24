@@ -2,7 +2,7 @@
 
 pkgname=alsa-oss
 pkgver=1.0.25
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("alsa-oss (library/wrapper to use OSS programs with ALSA)")

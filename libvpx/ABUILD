@@ -1,75 +1,26 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libvpx
-pkgver=1.0.0
-pkgbuild=2
+pkgver=1.1.0
+pkgbuild=1
 arch=('auto')
 
-shortdesc="libvpx (VP8 video codec)"
-#-ruler---|--------------------------------------------------------------------------|
+shortdesc="The VP8 Codec SDK"
 longdesc=("VP8 is an open video codec, originally developed by On2 and released as open source by Google Inc. It is the successor of the VP3 codec, on which the Theora codec was based."
-	  ""
-	  "Homepage: http://www.webmproject.org/
-"
-)
+"Homepage: http://www.webmproject.org/")
 
 source=("http://webm.googlecode.com/files/${pkgname}-v${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
-
-#dependencies only needed to build package
 build_deps="yasm"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --enable-vp8 \
 --enable-shared \
 --enable-postproc \
 --enable-pic \
---disable-install-docs"
+--disable-install-docs \
+--disable-install-srcs"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-ln -s libvpx.so.1.0.0 libvpx.so.0
-}

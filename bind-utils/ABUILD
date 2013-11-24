@@ -3,7 +3,7 @@
 pkgname=bind
 pkgver=9.9.1_P2
 srcver=`echo $pkgver | sed -e s/_/-/g`
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('DNS server')

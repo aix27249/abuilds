@@ -1,15 +1,12 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+#ABUILD created by: khvalera, khvalera at narod.ru 
 pkgname=gmp
-pkgver=5.1.1
+pkgver=5.1.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="gmp (GNU multiple precision arithmetic library)"
-
 source=("ftp://ftp.gnu.org/gnu/gmp/gmp-${pkgver}.tar.bz2")
-
 tags="libs dev-libs"
-
 build_deps="make gcc"
 
 if [ "$ARCH" = "i686" ]; then

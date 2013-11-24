@@ -1,6 +1,6 @@
 pkgname=xf86dga
 pkgver=1.0.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xf86dga')
@@ -9,6 +9,8 @@ longdesc=('xf86dga is part of X11. For more information about the X.Org Foundati
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xf86dga-${pkgver}.tar.bz2")
+build_deps="libX11 libXxf86dga xf86dgaproto"
+
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "

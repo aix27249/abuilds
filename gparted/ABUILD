@@ -1,11 +1,11 @@
 # GParted ABUILD.
 pkgname=gparted
-pkgver=0.16.1
+pkgver=0.16.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Partition table editor, frontend to GNU Parted"
-longdesc="Partition table editor similar to PartitionMagic, frontend to GNU Parted."
+longdesc="Partition table editor similar to PartitionMagic, frontend to GNU Parted"
 
 tags=("sys-fs xapps")
 

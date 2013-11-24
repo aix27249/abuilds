@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=lazarus
-pkgver=1.0.8
+pkgver=1.0.10
 pkgbuild=1
 release=0
 arch=('auto')

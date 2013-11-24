@@ -1,8 +1,8 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 
 pkgname=postfix
-pkgver=2.9.6
-pkgbuild=1
+pkgver=2.10.1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="alternative to the widely-used Sendmail program"
@@ -11,6 +11,7 @@ longdesc=("Postfix attempts to be fast, easy to administer, and secure, while at
 )
 
 source=("http://de.postfix.org/ftpmirror/official/${pkgname}-${pkgver}.tar.gz")
+build_deps=("pcre cyrus-sasl libmysqlclient sqlite")
 tags="server mail-mta"
 conflicts="sendmail"
 docs="AAAREADME COMPATIBILITY COPYRIGHT HISTORY IPv6-ChangeLog PORTING RELEASE_NOTES TLS_ACKNOWLEDGEMENTS TLS_CHANGES TLS_LICENSE US_PATENT_6321267 implementation-notes examples"
@@ -75,9 +76,9 @@ build()
         mailq_path=/usr/bin/mailq \
         mail_owner=$mail_owner \
         setgid_group=$setgid_group \
-        html_directory=/usr/doc/${pkgname}/html \
+        html_directory=/usr/doc/${pkgname}-${pkgver}/html \
         manpage_directory=/usr/man \
-        readme_directory=/usr/doc/${pkgname}/README_FILES \
+        readme_directory=/usr/doc/${pkgname}-${pkgver}/README_FILES \
         -j ${numjobs}
     set +e
 

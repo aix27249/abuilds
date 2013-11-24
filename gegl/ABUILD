@@ -1,18 +1,13 @@
-#ABUILD created by/создан: medved, medved55rus at gmail.com 
-#----------------------------- General vars --------------------------------------
+#ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=gegl
 pkgver=0.2.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
-
 shortdesc="Graph based image processing framework."
-
 source=("ftp://ftp.gtk.org/pub/${pkgname}/`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="libs media-gfx"
+build_deps="intltool lua openexr ffmpeg librsvg jasper"
 
-#----------------------------- Make PKG --------------------------------------
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
@@ -23,7 +18,9 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---program-prefix= \
---program-suffix="
+--with-openexr \
+--with-librsvg \
+--with-libavformat \
+--with-jasper"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,8 @@
+--- Makefile.am
++++ Makefile.am	2007/09/04 15:25:31
+@@ -19,3 +19,5 @@
+ # M4 macro file for inclusion with autoconf
+ m4datadir = $(datadir)/aclocal
+ m4data_DATA = libagg.m4
++
++AUTOMAKE_OPTIONS = foreign

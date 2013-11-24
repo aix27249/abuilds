@@ -1,14 +1,15 @@
 pkgname=libXtst
-pkgver=1.2.1
+pkgver=1.2.2
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXtst')
+shortdesc=('X11 Testing -- Resource extension library')
 longdesc=('libXtst is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXtst-${pkgver}.tar.bz2")
+build_deps="libXext libXi recordproto inputproto libXfixes util-macros"
 
 
 BUILD_SYSTEM='autotools'

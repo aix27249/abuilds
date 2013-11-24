@@ -1,65 +1,21 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-libintl
 downname=libintl-perl
-pkgver=1.20
-pkgbuild=2
+pkgver=1.23
+pkgbuild=1
 arch=('auto')
 
-shortdesc="Perl Interface to Uniforum Message Translation"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("The module Locale::TextDomain(3pm) provides a high-level interface to Perl message translation."
-)
-
+shortdesc="Perl Interface to Uniforum Message Translation (localization support)"
+longdesc=("The module Locale::TextDomain(3pm) provides a high-level interface to Perl message translation.")
 source=("http://cpan.rinet.ru/authors/id/G/GU/GUIDO/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps="intltool"
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="intltool gettext perl"
+adddep="gettext perl"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL \ 
     PREFIX=/usr
     make"
 
-#ran after function build()
-#после сборки
 after_build()
 {
     # Remove perllocal.pod and other special files that don't need to be installed,

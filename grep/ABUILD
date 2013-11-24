@@ -2,7 +2,7 @@
 
 pkgname=grep
 pkgver=2.14
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("grep (print lines matching a pattern)")
@@ -12,6 +12,7 @@ tags=("base sys-apps")
 
 source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz")
 
+build_deps="pcre texinfo"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr --bindir=/bin infodir=/usr/info --mandir=/usr/man --without-included-regex"

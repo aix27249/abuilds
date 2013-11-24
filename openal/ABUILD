@@ -1,71 +1,16 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=openal
-pkgver=1.13
+pkgver=1.15.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc=" cross-platform 3D audio API"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("cross-platform 3D audio API appropriate for use with gaming applications and"
-"many other types of audio applications. The library models a collection of audio"
-"sources moving in a 3D space that are heard by a single listener somewhere in that"
-"space. The basic OpenAL objects are a Listener, a Source, and a Buffer. There can"
-"be a large number of Buffers, which contain audio data. Each buffer can be attached"
-"to one or more Sources, which represent points in 3D space which are emitting audio."
-"There is always one Listener object (per audio context), which represents the"
-"position where the sources are heard -- rendering is done from the perspective"
-"of the Listener."
-)
+source=("http://kcat.strangesoft.net/openal-releases/openal-soft-$pkgver.tar.bz2")
+tags="libs media-libs"
+build_deps="gcc alsa-lib sdl pkg-config cmake"
 
-source=("http://connect.creativelabs.com/openal/Downloads/${pkgname}-soft-${pkgver}.tbz2")
-
-patch_opts=("")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
-
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#author=Unnamed_Hero
-#email=sorry@email.hide
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-
-mkdir -p build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} -DLIB_SUFFIX=${LIBDIRSUFFIX} ../
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=Release \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

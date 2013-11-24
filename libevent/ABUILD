@@ -1,50 +1,16 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libevent
-pkgver=2.0.10
-pkgbuild=4
+pkgver=2.0.21
+pkgbuild=1
 arch=('auto')
 
 shortdesc="An event notification library"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("LibEvent provides engine for calling callback-functions when some changed"
-)
+longdesc=("LibEvent provides engine for calling callback-functions when some changed")
 
-source=("http://www.monkey.org/~provos/libevent-$pkgver-stable.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="dev-libs libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+source=("https://github.com/downloads/libevent/libevent/${pkgname}-$pkgver-stable.tar.gz")
+tags="dev-libs libs"
+build_deps="openssl python"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -53,9 +19,3 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}

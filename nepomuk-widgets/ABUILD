@@ -1,5 +1,5 @@
 pkgname=nepomuk-widgets
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 

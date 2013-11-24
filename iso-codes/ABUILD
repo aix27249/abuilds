@@ -2,55 +2,15 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=iso-codes
-pkgver=3.14
+pkgver=3.43
 pkgbuild=15
 arch=('noarch')
 
 shortdesc="iso-codes (ISO-standard lists)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This package provides lists of various ISO standards (e.g. country, language, language scripts, and currency names) in one place, rather than repeated in many programs throughout the system. Homepage: http://pkg-isocodes.alioth.debian.org/"
-)
-
-source=("ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+longdesc=("This package provides lists of various ISO standards (e.g. country, language, language scripts, and currency names) in one place, rather than repeated in many programs throughout the system. Homepage: http://pkg-isocodes.alioth.debian.org/")
+source=(http://pkg-isocodes.alioth.debian.org/downloads/$pkgname-$pkgver.tar.xz)
 tags="libs app-text"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="gcc"
 
 BUILD_SYSTEM="autotools"
 
@@ -66,10 +26,3 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

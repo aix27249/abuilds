@@ -1,6 +1,6 @@
 pkgname=xineramaproto
 pkgver=1.2.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xineramaproto')
@@ -9,6 +9,7 @@ longdesc=('xineramaproto is part of X11. For more information about the X.Org Fo
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xineramaproto-${pkgver}.tar.bz2")
+build_deps="util-macros"
 
 
 BUILD_SYSTEM='autotools'

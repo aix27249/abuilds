@@ -1,0 +1,17 @@
+pkgname=enca
+pkgver=1.14
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Charset encoding analyzer and converter")
+longdesc=("Enca is an Extremely Naive Charset Analyser. It detects character set and encoding of text files and can also convert them to other encodings.")
+
+tags=("console app-text")
+
+source=("http://dl.cihar.com/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+build_deps="glibc-solibs"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --enable-external"
+INSTALL_KEYS="DESTDIR=$pkgdir"

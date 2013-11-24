@@ -1,13 +1,13 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru
+#ABUILD created by/создан: Nk, nk-man at yandex.ru
 
 # Thanks to
-# - aix27249, Unnamed_Hero and Ben, AgiliaLinux
+# - aix27249, Unnamed_Hero and Ben - AgiliaLinux
 #   http://www.agilialinux.ru/
-# - AndyRTR, Arch Linux
+# - AndyRTR - Arch Linux
 #   https://projects.archlinux.org/svntogit/packages.git/tree/libreoffice/trunk/PKGBUILD
-# - Alien, Slackware Linux 
+# - Alien - Slackware Linux 
 #   http://alien.slackbook.org/blog/new-libreoffice-and-kde-recompiled-for-slackware-14-0/
-# - sberg, LO-Team
+# - sberg - LO-Team
 #   irc #libreoffice-dev
 
 #*************************************
@@ -28,7 +28,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=libreoffice
 
-pkgver=4.0.4.2
+pkgver=4.0.5.2
 lover=${pkgver%.*}
 
 pkgbuild=1
@@ -42,39 +42,50 @@ source=("http://download.documentfoundation.org/libreoffice/src/${lover}/libreof
 "http://download.documentfoundation.org/libreoffice/src/${lover}/libreoffice-help-${pkgver}.tar.xz"
 "http://download.documentfoundation.org/libreoffice/src/${lover}/libreoffice-translations-${pkgver}.tar.xz"
 
+"http://dev-www.libreoffice.org/src/libcdr-0.0.14.tar.bz2 n"
+"http://dev-www.libreoffice.org/src/libmspub-0.0.6.tar.bz2 n"
+"http://dev-www.libreoffice.org/src/libvisio-0.0.30.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/b3b2524f72409d919a4137826a870a8f-Python-3.3.0.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz n"
 "http://dev-www.libreoffice.org/src/54e578c91b1b68e69c72be22adcb2195-liblangtag-0.4.0.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/48d647fbd8ef8889e5a7f422c1bfda94-clucene-core-2.3.3.4.tar.gz n"
-"http://dev-www.libreoffice.org/src/a2f6010987e1c601274ab5d63b72c944-hyphen-2.8.4.tar.gz n"
-"http://dev-www.libreoffice.org/src/libcdr-0.0.14.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/b2371dc7cf4811c9d32146eec913d296-libcmis-0.3.0.tar.gz n"
 "http://dev-www.libreoffice.org/src/dc3d21a3921931096d6e80f6701f6763-libexttextcat-3.4.0.tar.bz2 n"
-"http://dev-www.libreoffice.org/src/libmspub-0.0.6.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/8755aac23317494a9028569374dc87b2-liborcus_0.3.0.tar.bz2 n"
-"http://dev-www.libreoffice.org/src/libvisio-0.0.27.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/1f24ab1d39f4a51faf22244c94a6203f-xmlsec1-1.2.14.tar.gz n"
 "http://dev-www.libreoffice.org/src/9f9e15966b5624834157fe3d748312bc-mdds_0.6.1.tar.bz2 n"
 "http://dev-www.libreoffice.org/src/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip n"
 "http://dev-www.libreoffice.org/src/35c94d2df8893241173de1d16b6034c0-swingExSrc.zip n"
+"http://dev-www.libreoffice.org/src/a2f6010987e1c601274ab5d63b72c944-hyphen-2.8.4.tar.gz n"
 
 "http://dev-www.libreoffice.org/extern/185d60944ea767075d27247c3162b3bc-unowinreg.dll n"
+
+"http://dev-www.libreoffice.org/src/972afb8fdf02d9e7517e258b7fa7f0eb-libwpd-0.9.8.tar.bz2 n"
+"http://dev-www.libreoffice.org/src/ca66e26082cab8bb817185a116db809b-redland-1.0.8.tar.gz n"
+"http://dev-www.libreoffice.org/src/284e768eeda0e2898b0d5bf7e26a016e-raptor-1.4.18.tar.gz n"
+"http://dev-www.libreoffice.org/src/fca8706f2c4619e2fa3f8f42f8fc1e9d-rasqal-0.9.16.tar.gz n"
 )
 
 #"http://download.documentfoundation.org/libreoffice/src/${lover}/libreoffice-dictionaries-${pkgver}.tar.xz n"
+#"http://dev-www.libreoffice.org/src/d197bd6211669a2fa4ca648faf04bcb1-libwps-0.2.7.tar.bz2 n"
+#"http://dev-www.libreoffice.org/src/4ceb9316488b0ea01acf011023cf7fff-raptor2-2.0.9.tar.gz n"
 
 patch_opts=("")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
+
 #short and long tags / длинный и короткий тег
 tags="virtual app-office"
 
+
 #dependencies only needed to build package
-build_deps="npapi-sdk openldap npapi-sdk doxygen sane infozip boost apache-ant unixodbc xulrunner perl-Archive-Zip jdk hsqldb-java beanshell vigra hyphen mythes cxxlibs>=6.0.13 glibc-solibs>=2.12.2 openssl-solibs>=0.9.8p atk>=1.32.0 db44>=4.4.20 expat>=2.0.1 libjpeg>=6b libpng>=1.2.44 neon>=0.28.4 zlib>=1.2.3 fontconfig>=2.8.0 ORBit2>=2.14.17 pango>=1.28.3 libxslt>=1.1.26 curl>=7.20.0 gcc>=4.5.2 GConf>=2.32.0 libxml2>=2.7.8 python>=2.6.6 libXaw>=1.0.9 libXrandr>=1.3.1 libXinerama>=1.1.1 libXt>=1.0.9 libXrender>=0.9.6 libXext>=1.2.0 libX11>=1.4.1 libSM>=1.2.0 libICE>=1.0.7 gdk-pixbuf>=2.23.1 gtk+2>=2.24.3 icu4c>=4.6.1 cairo>=1.10.2 nspr>=4.8.7 nss>=3.12.9 redland>=1.0.12 qt4>=4.7.3 dbus-glib>=0.92 dbus>=1.4.8 gstreamer>=0.10.34 gst-plugins-base>=0.10.34 glib2>=2.28.7 hunspell>=1.3.2 mesa>=7.10.3 libgl>=7.10.3 freetype>=2.4.5 kdelibs>=4.6.5 libwpd>=0.9.2 libwps>=0.2.2 libwpg>=0.2.0 hyphen>=2.7.1 mythes>=1.2.1 lpsolve>=5.5.2.0 libtextcat>=2.2 jre lucene2 junit graphite2"
+build_deps="npapi-sdk openldap npapi-sdk doxygen sane infozip boost apache-ant unixodbc perl-Archive-Zip jdk hsqldb-java beanshell vigra hyphen mythes cxxlibs>=6.0.13 glibc-solibs>=2.12.2 openssl-solibs>=0.9.8p atk>=1.32.0 db44>=4.4.20 expat>=2.0.1 libjpeg>=6b libpng>=1.2.44 neon>=0.28.4 zlib>=1.2.3 fontconfig>=2.8.0 ORBit2>=2.14.17 pango>=1.28.3 libxslt>=1.1.26 curl>=7.20.0 gcc>=4.5.2 GConf>=2.32.0 libxml2>=2.7.8 python>=2.6.6 libXaw>=1.0.9 libXrandr>=1.3.1 libXinerama>=1.1.1 libXt>=1.0.9 libXrender>=0.9.6 libXext>=1.2.0 libX11>=1.4.1 libSM>=1.2.0 libICE>=1.0.7 gdk-pixbuf>=2.23.1 gtk+2>=2.24.3 icu4c>=4.6.1 cairo>=1.10.2 nspr>=4.8.7 nss>=3.12.9  qt4>=4.7.3 dbus-glib>=0.92 dbus>=1.4.8 gstreamer>=0.10.34 gst-plugins-base>=0.10.34 glib2>=2.28.7 hunspell>=1.3.2 mesa>=7.10.3 libgl>=7.10.3 freetype>=2.4.5 kdelibs>=4.6.5 libwps>=0.2.2 libwpg>=0.2.0 mythes>=1.2.1 lpsolve>=5.5.2.0 libtextcat>=2.2 jre lucene2 junit graphite2"
+# libwpd>=0.9.2  redland>=1.0.12 hyphen>=2.7.1
 
 # KDE4.list
 # mpkg-install apache-ant perl-Archive-Zip beanshell vigra libtextcat lucene2 junit jdk doxygen npapi-sdk
+
 
 #adddep="jre hsqldb-java graphite2"
 adddep="jre hsqldb-java graphite2 libreoffice-common>=${pkgver} libreoffice-writer>=${pkgver} libreoffice-calc>=${pkgver} libreoffice-base>=${pkgver} libreoffice-math>=${pkgver} libreoffice-impress>=${pkgver} libreoffice-math>=${pkgver} libreoffice-draw>=${pkgver}"
@@ -85,7 +96,7 @@ provides=""
 conflicts=""
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
+#numjobs=2
 
 #additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs=
@@ -129,8 +140,10 @@ export LDFLAGS="$SLKLDFLAGS"
 }
 
 build(){
+#go_src_dir
+#burn_patches
+
 cd ${srcdir}/libreoffice-$pkgver || exit 1
-burn_patches
 
 ./autogen.sh \
 \
@@ -154,9 +167,10 @@ burn_patches
 \
 --enable-kde4 \
 --disable-kde \
---disable-kdeab \
 --disable-tde \
 --disable-tdeab \
+--disable-kde \
+--disable-kdeab \
 \
 --enable-gio \
 --disable-gnome-vfs \
@@ -218,7 +232,6 @@ burn_patches
 --with-system-mozilla \
 --with-system-libwps \
 --with-system-libwpg \
---with-system-libwpd \
 --with-system-libxml \
 --with-system-lcms2 \
 --with-system-lpsolve \
@@ -227,13 +240,11 @@ burn_patches
 --with-system-openldap \
 --with-system-poppler \
 --with-system-nss \
---with-system-redland \
 --with-system-jars \
 --with-system-icu \
 --with-system-beanshell \
 --with-system-cppunit \
 --with-system-graphite \
---with-system-redland \
 --with-system-cairo \
 --with-system-mythes \
 --with-system-boost \
@@ -259,6 +270,8 @@ burn_patches
 --with-system-servlet-api \
 --with-system-jfreereport \
 --with-system-apache-commons \
+--without-system-libwpd \
+--without-system-redland \
 --without-system-liblangtag \
 --without-system-clucene \
 --without-system-rhino \

@@ -1,58 +1,14 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=perl-gtk2
 downname=Gtk2
-pkgver=1.223
-pkgbuild=2
+pkgver=1.247
+pkgbuild=1
 arch=('auto')
 
-shortdesc="Gtk2 (perl module)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Perl bindings to the 2.x series of the Gtk+ graphical user interface library."
-"Homepage: http://gtk2-perl.sourceforge.net/"
-)
-
+shortdesc="Perl bindings for GTK+ 2.x"
 source=("http://downloads.sourceforge.net/gtk2-perl/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-lang"
-
-#dependencies only needed to build package
-build_deps="perl-glib perl-pango"
-
-provides=""
-conflicts=""
-
-adddep="perl-glib perl-pango"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="perl-glib perl-pango perl-extutils-pkgconfig perl-extutils-depends gtk+2"
+adddep="perl-glib perl-pango gtk+2"
 
 BUILD_SYSTEM="perl"
 BUILD_KEYS="Makefile.PL \
@@ -60,11 +16,8 @@ BUILD_KEYS="Makefile.PL \
     PREFIX=/usr \
     INSTALLDIRS=vendor \
     INSTALLVENDORMAN3DIR=/usr/man/man3
-    make
-    make test"
+    make"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     # Remove perllocal.pod and other special files that don't need to be installed,

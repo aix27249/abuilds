@@ -1,0 +1,22 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=dmidecode
+pkgver=2.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Desktop Management Interface table related utilities"
+source=("http://download.savannah.nongnu.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+tags="sys-apps console"
+
+#dependencies only needed to build package
+build_deps="gcc"
+
+build()
+{
+    go_src_dir
+    burn_patches
+
+    sed -i "s:sbin:bin:g" Makefile
+    make prefix=/usr
+    make prefix=/usr DESTDIR="${pkgdir}" install
+}

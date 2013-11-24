@@ -1,14 +1,15 @@
 pkgname=libxkbfile
 pkgver=1.0.8
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('libxkbfile')
+shortdesc=('X11 keyboard file manipulation library')
 longdesc=('libxkbfile is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libxkbfile-${pkgver}.tar.bz2")
+build_deps="util-macros libX11"
 
 
 BUILD_SYSTEM='autotools'

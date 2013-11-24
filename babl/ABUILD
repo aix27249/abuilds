@@ -1,22 +1,16 @@
-#ABUILD created by/создан: medved, medved55rus at gmail.com 
-#----------------------------- General vars --------------------------------------
+#ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=babl
 pkgver=0.1.10
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
-
 shortdesc="Dynamic, any to any, pixel format translation library."
-
-source=("ftp://ftp.gtk.org/pub/${pkgname}/`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
+source=("ftp://ftp.gimp.org/pub/babl/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 tags="libs media-gfx"
+build_deps="glibc autoconf"
 
-#----------------------------- Make PKG --------------------------------------
+
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -25,5 +19,4 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-
 INSTALL_KEYS="DESTDIR=$pkgdir"

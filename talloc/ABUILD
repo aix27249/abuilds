@@ -2,23 +2,18 @@
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 
 pkgname=talloc
-pkgver=2.0.1
+pkgver=2.0.8
 pkgbuild=1
 shortdesc="talloc is a hierarchical pool based memory allocator with destructors"
 longdesc="talloc is a hierarchical pool based memory allocator with destructors"
 arch=("auto")
 source=(http://samba.org/ftp/${pkgname}/${pkgname}-${pkgver}.tar.gz)
 tags=("libs dev-libs")
+build_deps="gcc python docbook-xsl"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
    --sysconfdir=/etc/samba \
    --libdir=/usr/lib$LIBDIRSUFFIX \
    --localstatedir=/var \
-   --enable-talloc-compat1 \
-   --enable-largefile"
-
-after_build() {
-	# fix permission
-	chmod 644 $pkgdir/usr/lib${LIBDIRSUFFIX}/libtalloc.a
-}
+   --enable-talloc-compat1"

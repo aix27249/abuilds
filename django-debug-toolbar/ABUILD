@@ -1,16 +1,15 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
 pkgname=django-debug-toolbar
 pkgver=0.9.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Embedded debugging toolbar for Django projects"
-longdesc=("The Django Debug Toolbar is a plug-in Django application that displays a set of panels which conveys information about the current request at the top of the rendered page."
-)
+longdesc=("The Django Debug Toolbar is a plug-in Django application that displays a set of panels which conveys information about the current request at the top of the rendered page.")
 
 source=("https://github.com/django-debug-toolbar/${pkgname}/tarball/${pkgver}")
 tags="develop dev-python"
+build_deps="python pysetuptools"
 adddep="django"
 
 BUILD_SYSTEM="python"

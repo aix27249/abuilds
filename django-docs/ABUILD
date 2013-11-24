@@ -1,23 +1,20 @@
 #----------------------------- General vars --------------------------------------
 pkgname=django
-pkgver=1.4.1
+pkgver=1.5.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design"
 source=("https://www.djangoproject.com/download/${pkgver}/tarball/")
 
-
 tags="develop dev-python"
-build_deps="python-sphinx"
+build_deps="python python-sphinx"
 adddep="python"
 
 pkglist="django_docs"
 
-#docs=("docs")				#additional files should be copied into /usr/docs/${pkgname} dir from sources
+#docs=("docs")
 custom_opts="skip_gendeps"
-
-#----------------------------- Make PKG --------------------------------------
 
 BUILD_SYSTEM="python"
 BUILD_KEYS=

@@ -1,10 +1,9 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kdf
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KDE's (deprecated?) drive management."
+shortdesc="KDiskFree displays the available file devices along with information on their capacity, free space, type and mount point"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 

@@ -1,5 +1,5 @@
 pkgname=xvinfo
-pkgver=1.1.1
+pkgver=1.1.2
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +9,7 @@ longdesc=('xvinfo is part of X11. For more information about the X.Org Foundatio
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xvinfo-${pkgver}.tar.bz2")
+build_deps="util-macros libX11 libXv"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "

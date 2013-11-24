@@ -1,7 +1,7 @@
 # Package metadata
 pkgname=yasm
 pkgver=1.2.0
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 
 # Package description
@@ -13,8 +13,7 @@ source=("http://www.tortall.net/projects/yasm/releases/yasm-${pkgver}.tar.gz")
 # Tags
 tags="develop dev-util"
 
-# Manually-added dependencies
-adddep=""
+build_deps="gcc"
 
 # Build system
 BUILD_SYSTEM="autotools"

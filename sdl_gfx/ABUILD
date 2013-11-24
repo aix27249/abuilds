@@ -1,7 +1,5 @@
-#ABUILD created by/создан: PavelVyazovoi, vyazovoi at googlemail.com 
-
 pkgname=sdl_gfx
-pkgver=2.0.22
+pkgver=2.0.24
 pkgbuild=1
 arch=('auto')
 
@@ -11,11 +9,11 @@ longdesc=("SDL Graphic Primitives")
 source=("http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-${pkgver}.tar.gz")
 
 tags="libs dev-libs"
+build_deps="sdl"
+
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \

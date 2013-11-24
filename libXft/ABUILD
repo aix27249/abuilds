@@ -1,14 +1,15 @@
 pkgname=libXft
 pkgver=2.3.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('libXft')
+shortdesc=('FreeType-based font drawing library for X')
 longdesc=('libXft is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXft-${pkgver}.tar.bz2")
+build_deps="fontconfig libXrender pkg-config"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"

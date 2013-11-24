@@ -1,0 +1,27 @@
+pkgname=kdeneur
+pkgver=0.17.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="X Neural Switcher - auto keyboard layout switcher"
+
+source=("https://launchpadlibrarian.net/154884174/${pkgname}_${pkgver}.orig.tar.gz")
+
+tags="x11-apps xapps"
+
+
+
+build()
+
+{
+go_src_dir
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX}
+
+make || echo " fdnfh ;;jn"
+make DESTDIR=$pkgdir install || echo " fdnfh ;;jn"
+
+}

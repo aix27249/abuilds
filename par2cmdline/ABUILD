@@ -1,0 +1,24 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=par2cmdline
+pkgver=0.5.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A PAR 2.0 compatible file verification and repair tool"
+
+source=("https://github.com/downloads/BlackIkeEagle/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+
+tags="app-admin utils"
+
+build_deps="make gcc"
+
+build() {
+  go_src_dir
+  aclocal
+  automake --add-missing
+  autoconf
+  ./configure --prefix=/usr
+  make
+  make check
+  make DESTDIR="${pkgdir}" install
+}

@@ -1,15 +1,15 @@
 #!/sbin/runscript
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License, v2 or later
-# $Header: /var/cvsroot/gentoo-x86/net-mail/dovecot/files/dovecot.init-r2,v 1.2 2009/09/10 17:24:33 patrick Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-mail/dovecot/files/dovecot.init-r4,v 1.1 2012/12/01 10:40:49 eras Exp $
 
-opts="reload"
+extra_started_commands="reload"
 
 depend() {
-	need localmount net
+	need localmount
 	before postfix
 	after bootmisc ldap mysql ntp-client ntpd postgresql saslauthd slapd 
-	use logger
+	use logger net
 }
 
 checkconfig() {
@@ -23,14 +23,14 @@ checkconfig() {
 		eerror "You will need an ${DOVECOT_CONF} first"
 		return 1
 	fi
-	DOVECOT_BASEDIR=$(/usr/sbin/dovecot -c ${DOVECOT_CONF} -a | grep '^base_dir ' | sed 's/^base_dir = //')
+	if [ -x /usr/sbin/dovecot ]; then
+		DOVECOT_BASEDIR=$(/usr/sbin/dovecot -c ${DOVECOT_CONF} -a | grep '^base_dir = ' | sed 's/^base_dir = //')
+	else
+		eerror "dovecot not executable"
+		return 1
+	fi
 	DOVECOT_BASEDIR=${DOVECOT_BASEDIR:-/var/run/dovecot}
 	DOVECOT_PIDFILE=${DOVECOT_BASEDIR}/master.pid
-	if [ ! -d "${DOVECOT_BASEDIR}" ]; then
-		ebegin "Creating missing base_dir ${DOVECOT_BASEDIR}"
-		install -d -o root -g root -m 0755 "${DOVECOT_BASEDIR}"
-		eend $?
-	fi
 }
 
 start() {
@@ -52,7 +52,7 @@ stop() {
 reload() {
 	checkconfig || return 1
 	ebegin "Reloading ${SVCNAME} configs and restarting auth/login processes"
-	start-stop-daemon --stop --oknodo --exec /usr/sbin/dovecot \
-		--pidfile "${DOVECOT_PIDFILE}" --signal HUP
+	start-stop-daemon --signal HUP --exec /usr/sbin/dovecot \
+		--pidfile "${DOVECOT_PIDFILE}"
 	eend $?
 }

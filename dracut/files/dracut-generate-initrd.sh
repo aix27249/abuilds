@@ -4,10 +4,12 @@ do_action=0
 
 
 # Checking for changed modules
-INSTALLED_KERNEL_VER=`cat var/mpkg/last_installed_files | grep '^lib/modules/.' | head -n 1 | sed 's:^lib/modules/::g' | sed 's:/.*::g'`
+if [ ! -f var/mpkg/last_installed_files ] ; then
+	INSTALLED_KERNEL_VER=`cat var/mpkg/last_installed_files | grep '^lib/modules/.' | head -n 1 | sed 's:^lib/modules/::g' | sed 's:/.*::g'`
+fi
 if [ "$INSTALLED_KERNEL_VER" != "" ] ; then
-	ALL_KERNELS=$INSTALLED_KERNEL_VER
-	do_action=1
+		ALL_KERNELS=$INSTALLED_KERNEL_VER
+		do_action=1
 else
 	# Detecting all currently installed kernels
 	ALL_KERNELS=`( cd lib/modules ; ls -1 )`

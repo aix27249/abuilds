@@ -1,6 +1,6 @@
 pkgname=libXxf86misc
 pkgver=1.0.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('libXxf86misc')
@@ -9,9 +9,10 @@ longdesc=('libXxf86misc is part of X11. For more information about the X.Org Fou
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXxf86misc-${pkgver}.tar.bz2")
+build_deps="libX11 libXext xproto xextproto xf86miscproto"
+
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
 

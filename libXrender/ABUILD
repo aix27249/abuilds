@@ -1,17 +1,18 @@
 pkgname=libXrender
 pkgver=0.9.7
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc=('libXrender')
+shortdesc=('X Rendering Extension client library')
 longdesc=('libXrender is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXrender-${pkgver}.tar.bz2")
+build_deps="libX11 renderproto pkg-config"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 

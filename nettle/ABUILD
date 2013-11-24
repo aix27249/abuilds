@@ -1,17 +1,17 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=nettle
-pkgver=2.6
+pkgver=2.7.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A low-level cryptographic library"
 
-source=("ftp://ftp.lysator.liu.se/pub/security/lsh/${pkgname}-${pkgver}.tar.gz")
+source=("http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz")
 
 tags="sys-libs libs"
-
 build_deps="gmp"
+
 
 BUILD_SYSTEM="autotools"
 
@@ -19,7 +19,6 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\
 
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
-#--disable-static \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
@@ -27,3 +26,7 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build() {
+  # remove static
+  rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/{libhogweed,libnettle}.a
+}

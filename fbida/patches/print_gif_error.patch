@@ -1,0 +1,20 @@
+--- rd/read-gif.c	2012-02-22 17:13:36.000000000 +0000
++++ rd/read-gif.c.new	2013-07-04 12:02:01.019142549 +0000
+@@ -13,6 +13,17 @@
+     int w,h;
+ };
+ 
++static void
++PrintGifError(void)
++{
++  char *Err = GifErrorString();
++
++  if (Err != NULL)
++    fprintf(stderr, "\nGIF-LIB error: %s.\n", Err);
++  else
++    fprintf(stderr, "\nGIF-LIB undefined error %d.\n", GifError());
++}
++
+ static GifRecordType
+ gif_fileread(struct gif_state *h)
+ {

@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-class-load
+pkgver=0.20
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A working (require 'Class::Name') and more"
+
+source=("http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/Class-Load-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-module-runtime perl-data-optlist perl-package-stash perl-try-tiny perl-test-fatal 
+perl-module-implementation"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

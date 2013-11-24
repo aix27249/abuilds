@@ -49,15 +49,6 @@ diff -Naur src/Makefile src-p/Makefile
  
  # If you want zic's -s option used when installing, uncomment the next line
  # ZFLAGS=	-s
-@@ -220,7 +220,7 @@
- ZIC=		$(zic) $(ZFLAGS)
- 
- # The name of a Posix-compliant `awk' on your system.
--AWK=		nawk
-+AWK=		awk
- 
- # The path where SGML DTDs are kept.
- SGML_SEARCH_PATH= $(TOPDIR)/share/doc/sgml-lib/REC-html401-19991224/
 @@ -241,8 +241,10 @@
  
  ###############################################################################
@@ -129,12 +120,4 @@ diff -Naur src/Makefile src-p/Makefile
  
  check_tables:	checktab.awk $(PRIMARY_YDATA)
  		$(AWK) -f checktab.awk $(PRIMARY_YDATA)
-diff -Naur src/tzselect.ksh src-p/tzselect.ksh
---- src/tzselect.ksh	2007-08-20 16:47:42.000000000 +0200
-+++ src-p/tzselect.ksh	2007-10-02 04:07:44.000000000 +0200
-@@ -1,4 +1,4 @@
--#! /bin/ksh
-+#! /bin/bash
- 
- # '@(#)tzselect.ksh	8.1'
- 
+

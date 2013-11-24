@@ -3,19 +3,14 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=covergloobus
 pkgver=1.7
-pkgbuild=2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="CoverGloobus allows you to see at a glance your currently playing song"
 #longdesc=(""
 #)
 
-
-#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-
-#source=("bzr:lp:covergloobus")
 source=("bzr:lp:${pkgname}")
-
 
 patch_opts=("")
 

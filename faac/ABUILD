@@ -1,9 +1,6 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=faac
 pkgver=1.28
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="faac (Freeware Advanced Audio Coder)"
@@ -14,50 +11,17 @@ longdesc=("FAAC is an Advanced Audio Coder (MPEG2-AAC, MPEG4-AAC). The goal of F
 )
 
 source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("mp4v2-1.9.patch 1")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="libmp4v2 glibc"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
+before_build() {
+    find . -type f -print0 | xargs -0 sed -i 's/\r//g'
+}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="./bootstrap && LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
@@ -67,13 +31,3 @@ BUILD_KEYS="--prefix=/usr \
 --with-mp4v2"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-mv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
-rm -rf ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs
-rm -f ${pkgdir}/usr/doc/${pkgname}-${pkgver}/faac.1
-}

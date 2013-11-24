@@ -1,14 +1,15 @@
 pkgname=libXinerama
-pkgver=1.1.2
+pkgver=1.1.3
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('libXinerama')
+shortdesc=('X11 Xinerama extension library')
 longdesc=('libXinerama is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXinerama-${pkgver}.tar.bz2")
+build_deps="libXext xineramaproto util-macros"
 
 
 BUILD_SYSTEM='autotools'

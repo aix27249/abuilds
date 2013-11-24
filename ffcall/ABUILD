@@ -1,21 +1,20 @@
 pkgname=ffcall
 pkgver=1.10
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 shortdesc="C library for implementing foreign function calls in embedded interpreters"
 source=("http://www.haible.de/bruno/gnu/${pkgname}-${pkgver}.tar.gz")
 tags="develop dev-libs"
 numjobs=1
+build_deps="gcc"
 
-before_build()
-{
-	[ "$ARCH" = "x86_64" ] && CONFIGFLAG="-with-pic"
-}
+if [ "$ARCH" = "x86_64" ]; then
+  CONFIGFLAG="--with-pic"
+fi
+
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \

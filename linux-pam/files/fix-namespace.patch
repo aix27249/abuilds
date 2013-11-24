@@ -1,0 +1,11 @@
+--- a/modules/pam_namespace/Makefile.in.orig	2012-08-17 08:51:44.000000000 +0000
++++ a/modules/pam_namespace/Makefile.in	2012-11-19 15:30:20.669287100 +0000
+@@ -869,7 +869,7 @@
+ 
+ 
+ @HAVE_UNSHARE_TRUE@install-data-local:
+-@HAVE_UNSHARE_TRUE@	mkdir -p $(namespaceddir)
++@HAVE_UNSHARE_TRUE@	mkdir -p $(DESTDIR)$(namespaceddir)
+ @ENABLE_REGENERATE_MAN_TRUE@README: pam_namespace.8.xml namespace.conf.5.xml
+ @ENABLE_REGENERATE_MAN_TRUE@-include $(top_srcdir)/Make.xml.rules
+ 

@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-data-optlist
+pkgver=0.107
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Parse and validate simple name/value option pairs"
+
+source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Data-OptList-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-extutils-makemaker perl-params-util perl-scalar-list-utils perl-sub-install"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

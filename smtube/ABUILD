@@ -1,0 +1,26 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=smtube
+pkgver=1.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc=" smtube - a small youtube browse"
+
+source=("http://jaist.dl.sourceforge.net/project/smplayer/SMTube/${pkgname}-${pkgver}.tar.bz2")
+#short and long tags / длинный и короткий тег
+tags="media-video
+xapps"
+
+#dependencies only needed to build package
+build_deps=""
+
+
+build()
+{
+
+go_src_dir
+make DESTDIR=$pkgdir PREFIX=/usr  install
+
+}

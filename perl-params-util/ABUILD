@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-params-util
+pkgver=1.07
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Simple, compact and correct param-checking functions"
+
+source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/Params-Util-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}

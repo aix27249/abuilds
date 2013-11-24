@@ -2,19 +2,17 @@
 
 pkgname=nfsidmap
 pkgver=0.25
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Library to help mapping IDs, mainly for NFSv4"
-
 source=("http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/libnfsidmap-${pkgver}.tar.gz")
-
 tags="net-fs network"
+build_deps="glibc"
+
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \

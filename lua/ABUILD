@@ -1,58 +1,40 @@
 pkgname=lua
-pkgver=5.1.4
-pkgbuild=4
+pkgver=5.2.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A powerful, fast, light-weight, embeddable scripting language."
 longdesc=("Lua combines simple procedural syntax with powerful data description constructs based on associative arrays and extensible semantics. Lua is dynamically typed, runs by interpreting bytecode for a register-based virtual machine, and has automatic memory management with incremental garbage collection, making it ideal for configuration, scripting, and rapid prototyping."
 )
-
 source=("http://www.lua.org/ftp/${pkgname}-${pkgver}.tar.gz")
-
 tags="develop dev-lang"
+build_deps="readline gcc"
+docs="doc/*.{gif,png,css,html}"
 
 before_build() {
 	go_src_dir
-	sed -i "s|/usr/local|/usr|" src/luaconf.h
+	burn_patches
+	#sed -i "s|/usr/local|/usr|" src/luaconf.h
 	sed -i "s|lib/lua|lib$LIBDIRSUFFIX/lua|" src/luaconf.h
-	sed -i "s|/usr/local|/usr|" etc/lua.pc
-	sed -i "s|prefix}/lib|prefix}/lib${LIBDIRSUFFIX}|g" etc/lua.pc
 }
 
 build() {
 	go_src_dir
-	burn_patches
-	make -j${numjobs} linux \
-		CFLAGS="$SLKCFLAGS \$(MYCFLAGS)" \
-		INSTALL_TOP=/usr \
-		INSTALL_LIB=/usr/lib${LIBDIRSUFFIX} \
-		INSTALL_LMOD=/usr/share/lua/5.1 \
-		INSTALL_CMOD=/usr/lib${LIBDIRSUFFIX}/lua/5.1
+	export CFLAGS="$CFLAGS $SLKCFLAGS -fPIC"
+	make -j${numjobs} MYCFLAGS="$CFLAGS" MYLDFLAGS="$LDFLAGS" linux
+	sed "s/%VER%/${pkgver%.*}/g;s/%REL%/$pkgver/g;s/%LIBDIR%/${LIBDIRSUFFIX}/g" ${filedir}/lua.pc > lua.pc
 
-	make linux install \
-		CFLAGS="$SLKCFLAGS \$(MYCFLAGS)" \
+	make  \
+		TO_LIB="liblua.a liblua.so liblua.so.5.2 liblua.so.5.2.1" \
+		INSTALL_DATA="cp -d" \
 		INSTALL_TOP=${pkgdir}/usr \
+		INSTALL_MAN="$pkgdir/usr/share/man/man1" \
 		INSTALL_LIB=${pkgdir}/usr/lib${LIBDIRSUFFIX} \
-		INSTALL_LMOD=${pkgdir}/usr/share/lua/5.1 \
-		INSTALL_CMOD=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lua/5.1
-	
-	mkdir -p shared
-	cd shared
-	ar -x ${pkgdir}/usr/lib${LIBDIRSUFFIX}/liblua.a
-	gcc -ldl -lreadline -lhistory -lncurses -lm -shared *.o -o liblua.so.5.1.4
-	cp -a liblua.so.5.1.4 ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-	  ln -s liblua.so.5.1.4 liblua.so.5.1
-	  ln -s liblua.so.5.1.4 liblua.so.5
-	  ln -s liblua.so.5.1.4 liblua.so
-	)
+		install
 }
 
 after_build() {
 	go_src_dir
 	mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
-	cat etc/lua.pc > ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/lua.pc
-	mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}/{html,extras}
-	cp -a doc/*.html doc/logo.gif doc/lua.css ${pkgdir}/usr/doc/${pkgname}-${pkgver}/html
-	cp -a etc test ${pkgdir}/usr/doc/${pkgname}-${pkgver}/extras
+	install -Dm644 lua.pc "$pkgdir/usr/lib/pkgconfig/lua.pc"
 }

@@ -1,12 +1,13 @@
 pkgname=font-bitstream-speedo
 pkgver=1.0.2
-pkgbuild=1
+pkgbuild=2
 arch=("noarch")
 
 shortdesc=("font-bitstream-speedo")
 longdesc=("font-bitstream-speedo is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org")
 
 tags=("x11-fonts xserver")
+build_deps="encodings font-alias xorg-font-utils fontconfig"
 
 source=("http://xorg.freedesktop.org/archive/individual/font/font-bitstream-speedo-${pkgver}.tar.bz2")
 

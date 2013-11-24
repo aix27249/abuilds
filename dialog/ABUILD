@@ -1,61 +1,15 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=dialog
-pkgver=1.1_20120706
+pkgver=1.2_20130523
 pkgbuild=1
 arch=('auto')
 
 shortdesc="dialog (display dialog boxes from shell scripts) "
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("ialog is a program to present a variety of questions or display messages using dialog boxes from a shell script."
-)
-
 source=("ftp://invisible-island.net/${pkgname}/${pkgname}-${pkgver//_/-}.tgz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="base sys-base"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="ncurses"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -68,10 +22,3 @@ BUILD_KEYS="--prefix=/usr \
 --enable-nls"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

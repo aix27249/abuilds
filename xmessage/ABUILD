@@ -1,6 +1,6 @@
 pkgname=xmessage
-pkgver=1.0.3
-pkgbuild=11
+pkgver=1.0.4
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('xmessage')
@@ -9,6 +9,7 @@ longdesc=('xmessage is part of X11. For more information about the X.Org Foundat
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xmessage-${pkgver}.tar.bz2")
+build_deps="util-macros libXaw"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "

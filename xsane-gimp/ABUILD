@@ -2,7 +2,7 @@
 
 pkgname=xsane
 pkgver=0.998
-pkgbuild=3
+pkgbuild=4
 arch=("auto")
 
 shortdesc=("xsane (Graphical frontend to SANE, Scanner Access Now Easy)")
@@ -12,16 +12,22 @@ tags=("media-gfx xapps")
 pkglist="gimp"
 
 source=("http://www.xsane.org/download/$pkgname-$pkgver.tar.gz")
+build_deps="gtk+2 lcms sane zlib libjpeg gimp"
 
 build() {
 	go_src_dir
 	burn_patches
+
+	# Fix compability with libpng15
+	sed -i -e 's:png_ptr->jmpbuf:png_jmpbuf(png_ptr):' src/xsane-save.c || die
+
 	CONFIG_OPTS="--prefix=/usr --mandir=/usr/man --libdir=/usr/lib${LIBDIRSUFFIX}"
 	./configure $CONFIG_OPTS --enable-gimp
 	make -j${numjobs}
 	mv src/xsane src/xsane-gimp
 	make clean
 	./configure $CONFIG_OPTS --disable-gimp
+	make -j${numjobs}
 	make install DESTDIR=${pkgdir}
 }
 

@@ -1,14 +1,13 @@
 pkgname=geany-plugins
 pkgver=1.23
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Plugins for Geany"
 #longdesc=("A collection of different plugins for Geany, a lightweight IDE")
-
 source=("http://plugins.geany.org/geany-plugins/${pkgname}-${pkgver}.tar.bz2")
 tags="dev-util utils"
-build_deps="ctpl geany"
+build_deps="ctpl gdb geany vte lua"
 adddep="geany>=$pkgver"
 
 BUILD_SYSTEM="autotools"
@@ -20,7 +19,9 @@ BUILD_KEYS="--prefix=/usr \
     --disable-static \
     --mandir=/usr/man \
     --enable-geanygendoc \
+    --disable-geanylua \
     --docdir=/usr/doc/${pkgname}-${pkgver} \
     --libexecdir=/usr/lib${LIBDIRSUFFIX}"
+# lua pluggin fails to build with lua5.2
 
 INSTALL_KEYS="DESTDIR=$pkgdir"

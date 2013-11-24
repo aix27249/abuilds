@@ -2,7 +2,7 @@
 
 pkgname=bin
 pkgver=11.1
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("bin (some command-line utilities)")
@@ -10,6 +10,7 @@ longdesc=("The bin package is a collection of miscellaneous command-line utiliti
 
 tags=("base app-misc")
 adddep="fbset"
+build_deps="gcc"
 
 DUTILS=2.7
 
@@ -69,5 +70,4 @@ build() {
 	zcat $filedir/scripts/xx.gz > ${pkgdir}/usr/bin/xx
 	chmod 755 ${pkgdir}/usr/bin/diskcopy
 	chmod 755 ${pkgdir}/usr/bin/xx
-
 }

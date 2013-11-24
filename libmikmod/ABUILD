@@ -1,58 +1,20 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: NK, nk-man at yandex.ru 
 pkgname=libmikmod
-pkgver=3.1.12
+pkgver=3.2.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="a portable sound library"
+shortdesc="A portable sound library"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Mikmod is a module player and library supporting many formats, including mod, s3m, it, and xm. Originally a player for MS-DOS, MikMod has been ported to other platforms, such as Unix, Macintosh, BeOS, and Java(!!). Homepage: http://sourceforge.net/projects/mikmod/"
-)
+longdesc=("Mikmod is a module player and library supporting many formats, including mod, s3m, it, and xm. Originally a player for MS-DOS, MikMod has been ported to other platforms, such as Unix, Macintosh, BeOS, and Java(!!). Homepage: http://sourceforge.net/projects/mikmod/")
 
-source=("http://downloads.sourceforge.net/project/mikmod/libmikmod%20%28source%29/${pkgver}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://mikmod.shlomifish.org/files/${pkgname}-${pkgver}.tar.gz")
 tags="media-libs libs"
+build_deps="glibc alsa-lib"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -72,10 +34,3 @@ BUILD_KEYS="--prefix=/usr \
 --enable-threads"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

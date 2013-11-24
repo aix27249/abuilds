@@ -1,5 +1,5 @@
 pkgname=btrfs-progs
-pkgver=0.19.20120110
+pkgver=0.20rc1.2
 pkgbuild=1
 arch=('auto')
 
@@ -7,15 +7,17 @@ shortdesc="Btrfs filesystem utilities"
 longdesc=("Btrfs is a new copy on write filesystem for Linux aimed at implementing advanced features while focusing on fault tolerance, repair and easy administration. Initially developed by Oracle, Btrfs is licensed under the GPL and open for contribution from anyone."
 )
 
-source=("ftp://ftp.archlinux.org/other/$pkgname/$pkgname-$pkgver.tar.xz")
+source=("git:git://git.kernel.org/pub/scm/linux/kernel/git/mason/${pkgname}.git")
 
 tags="base sys-fs"
+
+build_deps="e2fsprogs glibc-solibs git"
 
 build()
 {
 	go_src_dir
 	burn_patches
-	make CFLAGS="$CFLAGS $SLKCFLAGS" all convert -j${numjobs}
-	make prefix=$pkgdir/usr bindir=$pkgdir/sbin install
+	make CFLAGS="$CFLAGS" -j${numjobs}
+	make prefix=$pkgdir/usr bindir=$pkgdir/sbin libdir=$pkgdir/usr/lib$LIBDIRSUFFIX install
 }
 

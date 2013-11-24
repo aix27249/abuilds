@@ -1,62 +1,21 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=judy
 pkgver=1.0.5
 downname=Judy
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Sparse dynamic array library"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Judy is a C library that provides a state-of-the-art core technology that implements a sparse dynamic array. Judy arrays are declared simply with a null pointer. A Judy array consumes memory only when it is populated, yet can grow  to take advantage of all available memory if desired."
-)
-
-source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${downname}-${pkgver}/${downname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="libs dev-libs"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep="glibc-solibs"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
+longdesc=("Judy is a C library that provides a state-of-the-art core technology that implements a sparse dynamic array. Judy arrays are declared simply with a null pointer. A Judy array consumes memory only when it is populated, yet can grow  to take advantage of all available memory if desired.")
 numjobs=1
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${downname}-${pkgver}/${downname}-${pkgver}.tar.gz")
+tags="libs dev-libs"
+build_deps="gcc"
+adddep="glibc-solibs"
 
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
@@ -65,10 +24,3 @@ BUILD_KEYS="--prefix=/usr \
     --mandir=/usr/man"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

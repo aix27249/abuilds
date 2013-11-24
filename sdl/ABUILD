@@ -2,18 +2,15 @@
 
 pkgname=sdl
 pkgver=1.2.15
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="sdl (Simple DirectMedia Layer library)"
 
 source=("http://www.libsdl.org/release/SDL-${pkgver}.tar.gz")
-
-patch_opts=("")
-
 tags="media-libs libs"
 
-build_deps="libtool alsa-lib mesa"
+build_deps="libtool alsa-lib mesa libXext libXrender libX11"
 
 adddep="sdl_net sdl_mixer sdl_image"
 

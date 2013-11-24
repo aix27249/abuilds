@@ -1,6 +1,6 @@
 pkgname=xclock
 pkgver=1.0.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xclock')
@@ -9,6 +9,7 @@ longdesc=('xclock is part of X11. For more information about the X.Org Foundatio
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xclock-${pkgver}.tar.bz2")
+build_deps="libX11 libXmu libXaw libXrender libXft libxkbfile"
 
 
 BUILD_SYSTEM='autotools'

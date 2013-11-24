@@ -2,7 +2,7 @@
 
 pkgname=ntp
 pkgver=4.2.6p5
-pkgbuild=3
+pkgbuild=4
 arch=("auto")
 config_files="etc/ntp.conf
 etc/ntp-client.conf
@@ -13,14 +13,27 @@ longdesc=("The Network Time Protocol (NTP) is used to synchronize the time of a 
 
 tags=("net-misc network")
 source=("http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-${pkgver}.tar.gz")
-build_deps="libcap libnl openssl readline"
+build_deps="libcap libnl openssl readline libedit perl-html-parser tcp_wrappers"
+
 build() {
 	go_src_dir
 	burn_patches
 
 	set -e
+	# avoid libmd5/libelf
+	export ac_cv_search_MD5Init=no ac_cv_header_md5_h=no
+	export ac_cv_lib_elf_nlist=no
 	export LDFLAGS="${LDFLAGS//-Wl,--as-needed}"
-	ac_cv_header_dns_sd_h=0 ./configure LIBS=-lrt --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --mandir=/usr/man --enable-linuxcaps
+	export CXXFLAGS="-D_GNU_SOURCE"
+	ac_cv_header_dns_sd_h=0 ./configure LIBS=-lrt --prefix=/usr \
+	  --libdir=/usr/lib${LIBDIRSUFFIX} \
+	  --mandir=/usr/man \
+	  --enable-linuxcaps \
+	  --enable-ipv6 \
+	  --with-crypto \
+	  --with-libnl=libnl-3 \
+	  --with-lineeditlibs=readline,edit,editline
+
 	make -j${numjobs}
 	  # install
 	make DESTDIR="$pkgdir" install

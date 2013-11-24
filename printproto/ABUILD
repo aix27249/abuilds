@@ -1,20 +1,16 @@
 pkgname=printproto
 pkgver=1.0.5
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
-shortdesc=('printproto')
-longdesc=('printproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('X11 print extension wire protocol')
 
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/printproto-${pkgver}.tar.bz2")
+build_deps="util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build(){
-  sed -i -e "s|PrivateRec|DevUnion|" ${pkgdir}/usr/include/X11/extensions/Printstr.h
-  echo "End after_build"
-}

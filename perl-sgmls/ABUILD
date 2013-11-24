@@ -1,17 +1,14 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=perl-sgmls
 pkgver=1.03ii
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Perl SGMLS postprocessor"
-
-source="http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-$pkgver.tar.gz"
-
+source=("http://search.cpan.org/CPAN/authors/id/D/DM/DMEGG/SGMLSpm-${pkgver}.tar.gz")
 tags="libs dev-perl"
+build_deps="perl"
 
-build()
-{
+build() {
 	go_src_dir
 	burn_patches
 	mkdir -p $pkgdir/usr/bin $pkgdir/usr/lib$LIBDIRSUFFIX/perl5/vendor_perl $pkgdir/usr/doc/perl-sgmls

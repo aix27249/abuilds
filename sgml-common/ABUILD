@@ -1,0 +1,23 @@
+pkgname=sgml-common
+pkgver=0.6.3
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Standard SGML tools")
+tags=("app-text develop")
+source=("http://gd.tuwien.ac.at/hci/kde/devel/docbook/SOURCES/sgml-common-${pkgver}.tgz")
+build_deps="mkpkg"
+
+before_build() {
+	go_src_dir
+	for file in COPYING INSTALL install-sh missing mkinstalldirs; do
+		rm -f $file
+		cp -fav /usr/share/automake-*/$file .
+	done
+	autoreconf --force
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

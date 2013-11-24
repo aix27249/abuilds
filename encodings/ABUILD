@@ -1,12 +1,13 @@
 pkgname=encodings
 pkgver=1.0.4
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc=('X11 encoding files')
 longdesc=('encodings is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-fonts xserver')
+build_deps="mkfontscale util-macros font-util"
 
 source=("http://xorg.freedesktop.org/archive/individual/font/encodings-${pkgver}.tar.bz2")
 BUILD_SYSTEM='autotools'

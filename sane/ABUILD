@@ -1,14 +1,11 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=sane
-pkgver=1.0.22
-pkgbuild=3
+pkgver=1.0.23
+pkgbuild=1
 arch=('auto')
-
 shortdesc="Scanner Access Now Easy"
-
-source="ftp://ftp2.sane-project.org/pub/sane/$pkgname-backends-$pkgver/$pkgname-backends-$pkgver.tar.gz"
-
+source="ftp://ftp2.sane-project.org/pub/sane/$pkgname-backends-$pkgver.tar.gz"
 tags="xapps media-gfx"
+build_deps="libtiff libgphoto2 libjpeg libusb1 cups libieee1284 v4l-utils net-snmp"
 
 BUILD_SYSTEM="autotools"
 
@@ -22,8 +19,9 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---with-docdir=/usr/doc/sane \
+--with-docdir=/usr/doc/$pkgname-${pkgver} \
 --enable-avahi \
+--disable-latex \
 --disable-locking"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"

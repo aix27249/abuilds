@@ -1,9 +1,9 @@
 pkgname=python-markupsafe
-pkgver=0.12
+pkgver=0.15
 pkgbuild=1
 arch='auto'
 shortdesc='Implements a XML/HTML/XHTML Markup safe string for Python'
 source=(http://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-${pkgver}.tar.gz)
 tags="libs dev-python"
-
+build_deps="python pysetuptools"
 BUILD_SYSTEM="python"

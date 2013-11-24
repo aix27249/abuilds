@@ -12,8 +12,8 @@ tags=("www-plugins server")
 
 source=("http://pecl.php.net/get/APC-${pkgver}.tgz")
 
-build_deps="php>=5.4"
-config_files="etc/php/apc.ini"
+build_deps="php"
+
 build() {
 	go_src_dir
 	burn_patches

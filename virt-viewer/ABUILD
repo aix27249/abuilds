@@ -1,60 +1,16 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=virt-viewer
-pkgver=0.4.2
+pkgver=0.5.7
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Displaying the graphical console of a virtual machine"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("The console is accessed using the VNC protocol. The guest can be referred to based on its name, ID, or UUID. If the guest is not already running, then the viewer can be told to wait until is starts before attempting to connect to the console The viewer can connect to remote hosts to lookup the console information and then also connect to the remote console using the same network transport.")
-
 source=("http://virt-manager.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-emulation xapps"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="intltool libvirt gtk-vnc"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -63,10 +19,3 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

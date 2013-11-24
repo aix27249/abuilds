@@ -12,7 +12,7 @@ source=("")
 tags="virtual xfce-base"
 
 adddep="exo garcon gtk-xfce-engine libxfce4ui libxfce4util libxfcegui4
-terminal thunar xfce-utils xfce4-appfinder xfce4-mixer xfce4-panel
+xfce4-terminal thunar xfce-utils xfce4-appfinder xfce4-mixer xfce4-panel
 xfce4-session xfce4-settings xfconf xfdesktop xfprint xfwm4 mousepad
 orage thunar-volman tumbler xfce4-notifyd xfce4-power-manager
 xfwm4-themes xfce4-icon-theme ristretto agilia-xfce-theme xfce4-volumed

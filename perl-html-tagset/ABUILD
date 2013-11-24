@@ -2,7 +2,7 @@
 
 pkgname=perl-html-tagset
 pkgver=3.20
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="Data tables useful in parsing HTML"

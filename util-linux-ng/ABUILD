@@ -1,6 +1,6 @@
 # util-linux-ng ABUILD
 pkgname=util-linux-ng
-pkgver=2.20.1
+pkgver=2.23.2
 pkgbuild=1
 arch=('auto')
 
@@ -9,71 +9,77 @@ longdesc=('The util-linux package is a huge collection of random utilities that 
 
 tags=('base sys-apps')
 
-source=("ftp://ftp.infradead.org/pub/util-linux/v2.20/util-linux-${pkgver}.tar.bz2")
+source=("ftp://ftp.kernel.org/pub/linux/utils/util-linux/v${pkgver%.*}/util-linux-${pkgver}.tar.xz")
+conflicts="eject"
 
-build() {
-	go_src_dir
-	burn_patches
+#config_files="etc/pam.d/su"
+build_deps="udev linux-pam acl shadow coreutils"
 
-	
-	CFLAGS="$SLKCFLAGS" \
-	./configure \
-		--prefix=/usr \
-		--bindir=/bin \
-		--sbindir=/sbin \
-		--libdir=/lib${LIBDIRSUFFIX} \
-		--sysconfdir=/etc \
-		--localstatedir=/var \
-		--mandir=/usr/man \
-		--infodir=/usr/info \
-		--docdir=/usr/doc/util-linux-ng-$pkgver \
-		--enable-arch \
-		--enable-agetty \
-		--enable-kill \
-		--disable-last \
-		--enable-partx \
-		--enable-mesg \
-		--enable-raw \
-		--enable-rename \
-		--enable-reset \
-		--disable-login-utils \
-		--enable-schedutils \
-		--enable-wall \
-		--enable-libmount-mount \
-		--enable-libuuid \
-		--enable-write \
-		--enable-use-tty-group
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --bindir=/bin \
+  --sbindir=/sbin \
+  --libdir=/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --infodir=/usr/info \
+  --enable-arch \
+  --enable-agetty \
+  --enable-chfn-chsh \
+  --enable-kill \
+  --disable-last \
+  --enable-libuuid \
+  --disable-line \
+  --disable-login \
+  --enable-mesg \
+  --enable-newgrp \
+  --enable-partx \
+  --enable-raw \
+  --enable-rename \
+  --enable-socket-activation \
+  --enable-schedutils \
+  --disable-su \
+  --enable-wall \
+  --enable-write \
+  --enable-use-tty-group \
+  --enable-vipw"
 
-	make -j${numjobs} 
-	make  DESTDIR=$pkgdir install
 
-	# Moving things around that have been in the same place
-	# for 15 years is, IMHO, not a wise idea AT ALL.
-	# If this had to be moved, some place out of /usr might
-	# have shown a grain of insight...
-	if [ -r ${pkgdir}/sbin/fdformat ]; then
-		mkdir -p ${pkgdir}/bin
-		mv ${pkgdir}/sbin/fdformat ${pkgdir}/bin/fdformat
-		# Now since stuff will start looking in this new place,
-		# we have no choice but to link these:
-		( cd ${pkgdir}/sbin
-			ln -sf ../bin/fdformat .
-		)
-	fi
+after_build() {
+  # Moving things around that have been in the same place
+  # for 15 years is, IMHO, not a wise idea AT ALL.
+  # If this had to be moved, some place out of /usr might
+  # have shown a grain of insight...
+  if [ -r ${pkgdir}/sbin/fdformat ]; then
+    mkdir -p ${pkgdir}/bin
+    mv ${pkgdir}/sbin/fdformat ${pkgdir}/bin/fdformat
+    # Now since stuff will start looking in this new place,
+    # we have no choice but to link these:
+    ( cd ${pkgdir}/sbin
+      ln -sf ../bin/fdformat .
+    )
+  fi
 
-	# Now let's add some important symlinks :)
-	( cd ${pkgdir}/sbin
-		ln -s ../bin/mount .
-		ln -s ../bin/umount .
-		ln -s hwclock clock
-		cd ${pkgdir}/bin
-		ln -s ../sbin/readprofile .
-		ln -s ../sbin/tunelp .
-		ln -s ../sbin/raw .
-		cd ${pkgdir}/usr/man/man8
-		ln -s hwclock.8 clock.8
-	)
-	# That's all about this hell. Yes, system core packages are complex a bit...
+  # Now let's add some important symlinks :)
+  ( cd ${pkgdir}/sbin
+    ln -s ../bin/mount .
+    ln -s ../bin/umount .
+    ln -s hwclock clock
+    cd ${pkgdir}/bin
+    ln -s ../sbin/readprofile .
+    ln -s ../sbin/tunelp .
+    ln -s ../sbin/raw .
+    cd ${pkgdir}/usr/man/man8
+    ln -s hwclock.8 clock.8
+  )
 
+  # PAM module
+  #install -Dm644 $filedir/su.pam $pkgdir/etc/pam.d/su
+  #install -m644 "$filedir/su.pam" "${pkgdir}/etc/pam.d/su-l"
+  #install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chfn"
+  #install -m644 "$filedir/common.pam" "$pkgdir/etc/pam.d/chsh"
+  #install -m644 "$filedir/login.pam"  "$pkgdir/etc/pam.d/login"
+
+  # That's all about this hell. Yes, system core packages are complex a bit...
 }
-

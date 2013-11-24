@@ -1,16 +1,14 @@
-#ABUILD created by: Unnamed_Hero, sorry at email.hide
-#----------------------------- General vars --------------------------------------
-
 pkgname=python-sphinx
 pkgver=1.1.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Python documentation generator"
 
 source=("http://bitbucket.org/birkenfeld/sphinx/get/${pkgver}.tar.bz2")
 tags="utils dev-python"
-adddep="docutils python jinja pygments"
+build_deps="python pysetuptools python-docutils"
+adddep="python jinja pygments"
 
 BUILD_SYSTEM="python"
 MAKE_WORD="python setup.py install --root=${pkgdir}"

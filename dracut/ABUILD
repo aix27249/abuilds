@@ -1,37 +1,26 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=dracut
-pkgver=013
-pkgbuild=2
+pkgver=034
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Generic, modular, cross-distribution initramfs generation tool"
-
-source=("http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-$pkgver.tar.bz2")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-$pkgver.tar.xz")
 tags="base sys-kernel"
-
-adddep="kernel fakeroot fakechroot"
-
+adddep="kernel fakeroot fakechroot gzip cpio bash util-linux-ng"
+build_deps="asciidoc libxslt docbook-xml docbook-xsl"
 config_files="etc/dracut.conf"
 
-build() {
-	go_src_dir
-	burn_patches
-	set -e
-	make sysconfdir=/etc -j${numjobs}
-	make DESTDIR=$pkgdir sysconfdir=/etc install
+BUILD_SYSTEM="autotools"
+BUILD_KEYS=" --libdir=/usr/lib$LIBDIRSUFFIX \
+ --pkglibdir=/usr/lib$LIBDIRSUFFIX \
+ --sysconfdir=/etc"
 
-	# Add i18n to config
-	cat $filedir/i18n-settings.conf >> $pkgdir/etc/dracut.conf
+after_build() {
+  go_src_dir
+  # Add i18n to config
+  cat $filedir/i18n-settings.conf >> $pkgdir/etc/dracut.conf
 
-	# MPKG hooks
-	install -Dm0755 $filedir/dracut-generate-initrd.sh ${pkgdir}/etc/mpkg/hooks/dracut-generate-initrd.sh
-
-	set +e
+  # MPKG hooks
+  install -Dm0755 $filedir/dracut-generate-initrd.sh ${pkgdir}/etc/mpkg/hooks/dracut-generate-initrd.sh
 }
 

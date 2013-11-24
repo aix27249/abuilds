@@ -1,5 +1,5 @@
 pkgname=libXxf86dga
-pkgver=1.1.3
+pkgver=1.1.4
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +9,7 @@ longdesc=('libXxf86dga is part of X11. For more information about the X.Org Foun
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-${pkgver}.tar.bz2")
+build_deps="libXext xf86dgaproto util-macros"
 
 
 BUILD_SYSTEM='autotools'

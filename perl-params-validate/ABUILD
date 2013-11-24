@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-params-validate
+pkgver=1.08
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Validate sub params against a spec"
+
+source=("http://www.cpan.org/authors/id/D/DR/DROLSKY/Params-Validate-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl"
+
+build() {
+  go_src_dir
+  perl ./Build.PL --installdirs=vendor
+  ./Build
+  ./Build install --destdir=${pkgdir}
+}
+
+after_build(){
+  go_src_dir
+  find ${pkgdir} -name '.packlist' -delete
+  find ${pkgdir} -name '*.pod' -delete
+}

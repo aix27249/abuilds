@@ -1,9 +1,8 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=vlc
-pkgver=2.0.7
+pkgver=2.1.1
 pkgbuild=1
-pkgext=${pkgbuild}
 arch=('auto')
 
 shortdesc="VLC (VideoLAN Client multimedia player)"
@@ -16,12 +15,13 @@ source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgnam
 tags="xapps media-video"
 custom_opts="no_ccache"
 #dependencies only needed to build package
-build_deps="libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad \
+build_deps="lua a52dec libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad \
 orc schroedinger libdca twolame libmpcdec libass libebml libmatroska  libmodplug \
 libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt \
 libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp \
 expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus "
 
+#libdvbpsi
 pkglist="vlc-plugins-ext"
 
 removedep="xulrunner"
@@ -35,6 +35,9 @@ go_src_dir
 
 ./bootstrap 
 
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
 ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
@@ -42,11 +45,15 @@ go_src_dir
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
 --enable-nls \
 --disable-static \
 --enable-shared \
 --enable-libass \
---disable-a52
+--enable-fast-install 
+#\
+#--disable-a52
 
 make -j${numjobs} || exit 1
 make install DESTDIR=${pkgdir} || exit 1
@@ -66,7 +73,7 @@ vlc-plugins-ext() {
 	shortdesc="Ext plugin pask for vlc"
 	adddep="vlc==${p_pkgver}"
 	pkgver=${p_pkgver}
-	pkgbuild=${pkgext}
+	pkgbuild=7
 }
 
 vlc-plugins-ext_prep() 
@@ -111,7 +118,6 @@ main_dest=${dest}/access
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libaccess_jack_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libaccess_dv_plugin.so ${pkgdir}${main_dest} || echo "no"
-mv ${p_pkgdir}${main_dest}/libpulsesrc_plugin.so ${pkgdir}${main_dest} || echo "no"
 #
 main_dest=${dest}/demux
 mkdir -p ${pkgdir}${main_dest}
@@ -160,8 +166,6 @@ main_dest=${dest}/services_discovery
 mkdir -p ${pkgdir}${main_dest}
 mv ${p_pkgdir}${main_dest}/libbonjour_plugin.so ${pkgdir}${main_dest} || echo "no"
 mv ${p_pkgdir}${main_dest}/libupnp_plugin.so ${pkgdir}${main_dest} || echo "no"
-mv ${p_pkgdir}${main_dest}/libpulselist_plugin.so ${pkgdir}${main_dest} || echo "no"
-
 #
 main_dest=${dest}/notify
 mkdir -p ${pkgdir}${main_dest}

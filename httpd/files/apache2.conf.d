@@ -26,16 +26,16 @@ APACHE2_OPTS=""
 # YOU HAVE BEEN WARNED.
 
 # ServerRoot setting
-#SERVERROOT=/usr/lib/apache2
+#SERVERROOT=/usr/lib/httpd
 
 # Configuration file location
 # - If this does NOT start with a '/', then it is treated relative to
 # $SERVERROOT by Apache
-#CONFIGFILE=/etc/apache2/httpd.conf
+#CONFIGFILE=/etc/httpd/httpd.conf
 
 # Location to log startup errors to
 # They are normally dumped to your terminal.
-#STARTUPERRORLOG="/var/log/apache2/startuperror.log"
+#STARTUPERRORLOG="/var/log/httpd/startuperror.log"
 
 # A command that outputs a formatted text version of the HTML at the URL
 # of the command line. Designed for lynx, however other programs may work.

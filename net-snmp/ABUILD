@@ -1,6 +1,6 @@
 pkgname=net-snmp
-pkgver=5.7.1
-pkgbuild=2
+pkgver=5.7.2
+pkgbuild=1
 shortdesc="A suite of applications used to implement SNMP v1, SNMP v2c and SNMP v3 using both IPv4 and IPv6"
 longdesc=("Various tools relating to the Simple Network Management Protocol:
 
@@ -16,6 +16,7 @@ longdesc=("Various tools relating to the Simple Network Management Protocol:
 arch=("auto")
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 tags="network net-misc"
+build_deps="openssl libnl pciutils pysetuptools"
 config_files="etc/conf.d/snmpd
 etc/conf.d/snmptrapd"
 

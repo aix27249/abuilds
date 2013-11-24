@@ -1,8 +1,6 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=sdl_mixer
 pkgver=1.2.12
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="A simple multi-channel audio mixer"
@@ -11,7 +9,7 @@ source=("http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-${pkgver}.ta
 
 tags="media-libs libs"
 
-build_deps="make libtool gcc pkg-config sdl>=1.2.13 fluidsynth libvorbis libmikmod smpeg"
+build_deps="make libtool gcc pkg-config sdl fluidsynth libvorbis libmikmod" #smpeg broken
 
 docs=CHANGES
 

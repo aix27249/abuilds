@@ -1,51 +1,17 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libmodplug
-pkgver=0.8.8.2
+pkgver=0.8.8.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Libmodplug (ModPlug sound engine)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Modplug-XMMS is a library (libmodplug) and input-plugin for XMMS which plays mod-like music formats. It is based on code by Olivier Lapicque in MODPLug - http://www.modplug.com/."
-)
-
+longdesc=("Modplug-XMMS is a library (libmodplug) and input-plugin for XMMS which plays mod-like music formats. It is based on code by Olivier Lapicque in MODPLug - http://www.modplug.com/.")
 source=("http://downloads.sourceforge.net/sourceforge/modplug-xmms/${pkgname}-${pkgver}.tar.gz")
+tags="libs media-libs"
+build_deps="gcc"
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -56,10 +22,3 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

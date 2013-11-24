@@ -9,23 +9,21 @@ config() {
   fi
   # Otherwise, we leave the .new copy for the admin to consider...
 }
-
-config etc/conf.d/sysklogd.new
-config etc/logrotate.d/syslog.new
-config etc/syslog.conf.new
-
+# Don't move it to config_files, since these ones are placeholders
+config var/log/auth.new
 config var/log/cron.new
 config var/log/debug.new
-config var/log/maillog.new
+config var/log/mail.log.new
 config var/log/messages.new
 config var/log/secure.new
 config var/log/spooler.new
 config var/log/syslog.new
 
 # Remove any leftover empty files:
+rm -f var/log/auth.new
 rm -f var/log/cron.new
 rm -f var/log/debug.new
-rm -f var/log/maillog.new
+rm -f var/log/mail.log.new
 rm -f var/log/messages.new
 rm -f var/log/secure.new
 rm -f var/log/spooler.new

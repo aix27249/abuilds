@@ -2,14 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=gxneur
-pkgver=0.16.0+hg1176
+pkgver=0.17.0
 pkgbuild=2
 arch=('auto')
 
 shortdesc="X Neural Switcher - auto keyboard layout switcher"
 
-source=("http://ppa.launchpad.net/andrew-crew-kuznetsov/xneur-unstable/ubuntu/pool/main/g/gxneur/${pkgname}_${pkgver}.orig.tar.gz")
-
+#source=("http://ppa.launchpad.net/andrew-crew-kuznetsov/xneur-unstable/ubuntu/pool/main/g/gxneur/${pkgname}_${pkgver}.orig.tar.gz")
+source=("https://launchpadlibrarian.net/154884078/${pkgname}_${pkgver}.orig.tar.gz")
 
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
@@ -28,8 +28,7 @@ go_src_dir
 ./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---without-debug
+--libdir=/usr/lib${LIBDIRSUFFIX}
 
 make DESTDIR=$pkgdir install
 

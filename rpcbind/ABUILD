@@ -1,0 +1,38 @@
+pkgname=rpcbind
+pkgver=0.2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="portmap replacement which supports RPC over various protocols"
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+tags="network net-fs"
+build_deps="glibc libtirpc pkg-config"
+conflicts="portmap"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--bindir=/sbin \
+--program-prefix= \
+--program-suffix= \
+--enable-warmstarts \
+--with-rpcuser=rpc \
+--with-statedir=/var/run"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+    install -D -m 0644 ${filedir}/rpcbind.confd ${pkgdir}/etc/conf.d/rpcbind
+    install -D -m 0755 ${filedir}/rpcbind.initd ${pkgdir}/etc/init.d/rpcbind
+
+    # install missing man page - https://bugs.archlinux.org/task/21271
+    install -m644 man/rpcinfo.8 $pkgdir/usr/man/man8/
+    # install license
+    install -D -m644 COPYING $pkgdir/usr/share/licenses/rpcbind/COPYING
+}

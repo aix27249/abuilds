@@ -1,0 +1,64 @@
+pkgname=docbook-sgml
+pkgver=4.5
+pkgbuild=1
+shortdesc="Docbook SGML DTDs"
+arch="noarch"
+url="http://www.oasis-open.org/docbook/"
+adddep=('sgml-common')
+build_deps="infozip sgml-common"
+tags=("app-text libs")
+# Pack all of this in one package
+source=("http://www.docbook.org/sgml/4.5/docbook-4.5.zip n"
+"http://www.docbook.org/sgml/3.1/docbk31.zip n"
+)
+
+build() {
+	cd ${srcdir}
+	install -dm0755 ${pkgdir}/etc/sgml
+	( mkdir 4.5 ; cd 4.5 ; unzip ${srcache}/docbook-4.5.zip )
+	( mkdir 3.1 ; cd 3.1 ; unzip ${srcache}/docbk31.zip )
+	( cd 3.1 
+		# Remove the ENT definitions from the catalog file:
+		sed -i -e '/ISO 8879/d' docbook.cat
+		# Replace the DTDDECL catalog entry, which is not supported by Linux SGML tools,
+		# with the SGMLDECL catalog entry
+		sed -i -e 's|DTDDECL "-//OASIS//DTD Docbook V3.1//EN"|SGMLDECL|g' docbook.cat
+	)
+	( cd 4.5
+		# Remove the ENT definitions from the catalog file:
+		sed -i -e '/ISO 8879/d' -e '/gml/d' docbook.cat
+	)
+
+	for i in 4.5 3.1 ; do
+		( cd $i
+		mkdir -p ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-$i/
+		install -Dm0644 docbook.cat ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-$i/catalog
+		install -m0644 *.dtd *.mod *.dcl ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-$i/
+
+		)
+	done
+	# Use only the most current 3.x version of DocBook SGML DTD:
+	cat >> ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-3.1/catalog << "EOF"
+  -- Begin Single Major Version catalog changes --
+
+PUBLIC "-//Davenport//DTD DocBook V3.0//EN" "docbook.dtd"
+
+  -- End Single Major Version catalog changes --
+EOF
+
+	# Use only the most current 4.x version of DocBook SGML DTD :
+	cat << EOF >> ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-4.5/catalog
+  -- Begin Single Major Version catalog changes --
+EOF
+	for i in 4.4 4.3 4.2 4.1 4.0; do
+		cat << EOF >> ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-4.5/catalog
+PUBLIC "-//OASIS//DTD DocBook V${i}//EN" "docbook.dtd"
+EOF
+	done
+	cat << EOF >> ${pkgdir}/usr/share/sgml/docbook/sgml-dtd-4.5/catalog
+
+  -- End Single Major Version catalog changes --
+EOF
+
+}
+

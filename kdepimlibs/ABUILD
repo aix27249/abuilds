@@ -1,5 +1,5 @@
 pkgname=kdepimlibs
-pkgver=4.10.4
+pkgver=4.10.5
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')

@@ -1,24 +1,14 @@
 
 pkgname=glibc-zoneinfo
-pkgver=2.12.2_2011l
+pkgver=2013c
 pkgbuild=1
-_tzcode=2011i
-_tzdata=2011l
-shortdesc="Sources for time zone and daylight saving time data"
-longdesc="Sources for time zone and daylight saving time data"
+shortdesc="Virtual package. Must be replaced by tzdata"
 arch=("noarch")
-tags=("libs sys-libs")
-source=("http://www.iana.org/time-zones/repository/releases/tzdata${_tzdata}.tar.gz n"
-        "http://www.iana.org/time-zones/repository/releases/tzcode${_tzcode}.tar.gz")
+tags=("sys-libs virtual")
+
+build_deps="mkpkg"
+adddep="tzdata"
 
 build() {
-	go_src_dir
-
-	tar -xf ${srcache}/tzcode${_tzcode}.tar.gz
-	tar -xf ${srcache}/tzdata${_tzdata}.tar.gz
-	burn_patches
-	
-	make -j${numjobs}
-	make DESTDIR="${pkgdir}" install
-
+    echo "Building virtual package"
 }

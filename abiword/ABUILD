@@ -1,5 +1,5 @@
 pkgname=abiword
-pkgver=2.9.4
+pkgver=3.0.0
 pkgbuild=2
 arch=('auto')
 
@@ -7,9 +7,9 @@ shortdesc="AbiWord (a lightweight and featureful Word Processor)"
 
 source=("http://www.abisource.com/downloads/${pkgname}/${pkgver}/source/${pkgname}-${pkgver}.tar.gz")
 
-#short and long tags / длинный и короткий тег
 tags="xapps app-office"
 
+build_deps="boost wv"
 
 BUILD_SYSTEM="autotools"
 
@@ -29,6 +29,7 @@ BUILD_KEYS="--prefix=/usr \
 --enable-clipart \
 --enable-templates \
 --disable-collab-backend-sugar \
---with-gio "
+--with-gio \
+--with-gtk2 "
 
 INSTALL_KEYS="DESTDIR=$pkgdir"

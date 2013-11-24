@@ -1,0 +1,259 @@
+https://bugs.gentoo.org/471020
+
+From 17db6e8d6b12f55e312fcab46faf5d332c806fb6 Mon Sep 17 00:00:00 2001
+From: Mike Frysinger <vapier@gentoo.org>
+Date: Thu, 23 May 2013 12:42:28 -0400
+Subject: [PATCH 2/2] [BZ #10283] localedef: align fixed maps to SHMLBA
+
+Many Linux arches require fixed mmaps to be aligned higher than pagesize,
+so use the SHMLBA define as it represents this quantity exactly.
+
+This fixes spurious errors seen on those arches like:
+cannot map archive header: Invalid argument
+
+URL: http://sourceware.org/bugzilla/show_bug.cgi?id=10283
+Reported-by: CHIKAMA Masaki <masaki.chikama@gmail.com>
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+---
+ ChangeLog                    | 22 ++++++++++++++++
+ NEWS                         | 26 +++++++++----------
+ locale/locarchive.h          |  7 +++++
+ locale/programs/locarchive.c | 61 ++++++++++++++++++++++++++++++++------------
+ sysdeps/generic/libc-mmap.h  | 26 +++++++++++++++++++
+ 5 files changed, 113 insertions(+), 29 deletions(-)
+ create mode 100644 sysdeps/generic/libc-mmap.h
+
+2013-06-24  Mike Frysinger  <vapier@gentoo.org>
+
+	[BZ #10283]
+	* NEWS: Note fixing of BZ #10283.
+	* locale/locarchive.h (struct locarhandle): Add mmap_base and mmap_len.
+	* locale/programs/locarchive.c: Include libc-mmap.h.
+	(prepare_address_space): Take two new outputs (the mmap base and len).
+	Align p to MAP_FIXED_ALIGNMENT.  Set mmap base and len to the right
+	values.
+	(create_archive): Declare new mmap base and len values for
+	prepare_address_space, and store the result in ah.
+	(file_data_available_p): Replace pagesz with MAP_FIXED_ALIGNMENT.
+	(enlarge_archive): If ah->mmap_base is not NULL, use that and
+	ah->mmap_len to unmap rather than ah->addr and ah->reserved.
+	Declare new mmap base and len values for
+	prepare_address_space, and store the result in new_ah.
+	(open_archive): Declare new mmap base and len values for
+	prepare_address_space, and store the result in ah.
+	(close_archive): If ah->mmap_base is not NULL, use that and
+	ah->mmap_len to unmap rather than ah->addr and ah->reserved.
+	* sysdeps/generic/libc-mmap.h: New file.
+
+diff --git a/locale/locarchive.h b/locale/locarchive.h
+index db05603..f2d8477 100644
+--- a/locale/locarchive.h
++++ b/locale/locarchive.h
+@@ -84,6 +84,13 @@ struct locarhandle
+   void *addr;
+   size_t mmaped;
+   size_t reserved;
++  /* If this mmap required adjustment (such as re-aligning), then this is the
++     real address that was returned from mmap and thus should be passed to the
++     munmap call.  The addr field above is the first usable address.  */
++  void *mmap_base;
++  /* Same as above for mmap_base vs addr, but this is the real length of the
++     map rather than the usable (which is what reserved represents).  */
++  size_t mmap_len;
+ };
+ 
+ 
+diff --git a/locale/programs/locarchive.c b/locale/programs/locarchive.c
+index 2f54489..3255c6c 100644
+--- a/locale/programs/locarchive.c
++++ b/locale/programs/locarchive.c
+@@ -37,8 +37,10 @@
+ #include <stdint.h>
+ #include <sys/mman.h>
+ #include <sys/param.h>
++#include <sys/shm.h>
+ #include <sys/stat.h>
+ 
++#include <libc-mmap.h>
+ #include "../../crypt/md5.h"
+ #include "../localeinfo.h"
+ #include "../locarchive.h"
+@@ -79,21 +81,29 @@ static const char *locnames[] =
+    mapping affects the address selection.  So do this mapping from the
+    actual file, even though it's only a dummy to reserve address space.  */
+ static void *
+-prepare_address_space (int fd, size_t total, size_t *reserved, int *xflags)
++prepare_address_space (int fd, size_t total, size_t *reserved, int *xflags,
++		       void **mmap_base, size_t *mmap_len)
+ {
+   if (total < RESERVE_MMAP_SIZE)
+     {
+       void *p = mmap64 (NULL, RESERVE_MMAP_SIZE, PROT_NONE, MAP_SHARED, fd, 0);
+       if (p != MAP_FAILED)
+-        {
+-          *reserved = RESERVE_MMAP_SIZE;
+-          *xflags = MAP_FIXED;
+-          return p;
+-        }
++	{
++	  void *aligned_p = PTR_ALIGN_UP (p, MAP_FIXED_ALIGNMENT);
++	  size_t align_adjust = aligned_p - p;
++	  *mmap_base = p;
++	  *mmap_len = RESERVE_MMAP_SIZE;
++	  assert (align_adjust < RESERVE_MMAP_SIZE);
++	  *reserved = RESERVE_MMAP_SIZE - align_adjust;
++	  *xflags = MAP_FIXED;
++	  return aligned_p;
++	}
+     }
+ 
+   *reserved = total;
+   *xflags = 0;
++  *mmap_base = NULL;
++  *mmap_len = 0;
+   return NULL;
+ }
+ 
+@@ -151,9 +161,11 @@ create_archive (const char *archivefname, struct locarhandle *ah)
+       error (EXIT_FAILURE, errval, _("cannot resize archive file"));
+     }
+ 
+-  size_t reserved;
++  size_t reserved, mmap_len;
+   int xflags;
+-  void *p = prepare_address_space (fd, total, &reserved, &xflags);
++  void *mmap_base;
++  void *p = prepare_address_space (fd, total, &reserved, &xflags, &mmap_base,
++				   &mmap_len);
+ 
+   /* Map the header and all the administration data structures.  */
+   p = mmap64 (p, total, PROT_READ | PROT_WRITE, MAP_SHARED | xflags, fd, 0);
+@@ -199,6 +211,8 @@ create_archive (const char *archivefname, struct locarhandle *ah)
+     }
+ 
+   ah->fd = fd;
++  ah->mmap_base = mmap_base;
++  ah->mmap_len = mmap_len;
+   ah->addr = p;
+   ah->mmaped = total;
+   ah->reserved = reserved;
+@@ -271,8 +285,7 @@ file_data_available_p (struct locarhandle *ah, uint32_t offset, uint32_t size)
+   if (st.st_size > ah->reserved)
+     return false;
+ 
+-  const size_t pagesz = getpagesize ();
+-  size_t start = ah->mmaped & ~(pagesz - 1);
++  size_t start = ALIGN_DOWN (ah->mmaped, MAP_FIXED_ALIGNMENT);
+   void *p = mmap64 (ah->addr + start, st.st_size - start,
+ 		    PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
+ 		    ah->fd, start);
+@@ -332,10 +345,15 @@ enlarge_archive (struct locarhandle *ah, const struct locarhead *head)
+ 		       MAP_SHARED | MAP_FIXED, ah->fd, 0);
+   else
+     {
+-      munmap (ah->addr, ah->reserved);
++      if (ah->mmap_base)
++	munmap (ah->mmap_base, ah->mmap_len);
++      else
++	munmap (ah->addr, ah->reserved);
+       ah->addr = mmap64 (NULL, st.st_size, PROT_READ | PROT_WRITE,
+ 			 MAP_SHARED, ah->fd, 0);
+       ah->reserved = st.st_size;
++      ah->mmap_base = NULL;
++      ah->mmap_len = 0;
+       head = ah->addr;
+     }
+   if (ah->addr == MAP_FAILED)
+@@ -401,9 +419,11 @@ enlarge_archive (struct locarhandle *ah, const struct locarhead *head)
+       error (EXIT_FAILURE, errval, _("cannot resize archive file"));
+     }
+ 
+-  size_t reserved;
++  size_t reserved, mmap_len;
+   int xflags;
+-  void *p = prepare_address_space (fd, total, &reserved, &xflags);
++  void *mmap_base;
++  void *p = prepare_address_space (fd, total, &reserved, &xflags, &mmap_base,
++				   &mmap_len);
+ 
+   /* Map the header and all the administration data structures.  */
+   p = mmap64 (p, total, PROT_READ | PROT_WRITE, MAP_SHARED | xflags, fd, 0);
+@@ -423,6 +443,8 @@ enlarge_archive (struct locarhandle *ah, const struct locarhead *head)
+     }
+ 
+   new_ah.mmaped = total;
++  new_ah.mmap_base = mmap_base;
++  new_ah.mmap_len = mmap_len;
+   new_ah.addr = p;
+   new_ah.fd = fd;
+   new_ah.reserved = reserved;
+@@ -606,9 +628,11 @@ open_archive (struct locarhandle *ah, bool readonly)
+   ah->fd = fd;
+   ah->mmaped = st.st_size;
+ 
+-  size_t reserved;
++  size_t reserved, mmap_len;
+   int xflags;
+-  void *p = prepare_address_space (fd, st.st_size, &reserved, &xflags);
++  void *mmap_base;
++  void *p = prepare_address_space (fd, st.st_size, &reserved, &xflags,
++				   &mmap_base, &mmap_len);
+ 
+   /* Map the entire file.  We might need to compare the category data
+      in the file with the newly added data.  */
+@@ -620,6 +644,8 @@ open_archive (struct locarhandle *ah, bool readonly)
+       error (EXIT_FAILURE, errno, _("cannot map archive header"));
+     }
+   ah->reserved = reserved;
++  ah->mmap_base = mmap_base;
++  ah->mmap_len = mmap_len;
+ }
+ 
+ 
+@@ -628,7 +654,10 @@ close_archive (struct locarhandle *ah)
+ {
+   if (ah->fd != -1)
+     {
+-      munmap (ah->addr, ah->reserved);
++      if (ah->mmap_base)
++	munmap (ah->mmap_base, ah->mmap_len);
++      else
++	munmap (ah->addr, ah->reserved);
+       close (ah->fd);
+     }
+ }
+diff --git a/sysdeps/generic/libc-mmap.h b/sysdeps/generic/libc-mmap.h
+new file mode 100644
+index 0000000..0ddd20d
+--- /dev/null
++++ b/sysdeps/generic/libc-mmap.h
+@@ -0,0 +1,26 @@
++/* Internal logic for dealing with mmap quirks.
++   Copyright (C) 2013 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef _LIBC_MMAP_H
++#define _LIBC_MMAP_H 1
++
++/* Using MAP_FIXED with mmap sometimes requires larger alignment.  */
++#include <sys/shm.h>
++#define MAP_FIXED_ALIGNMENT SHMLBA
++
++#endif
+-- 
+1.8.2.1
+

@@ -1,0 +1,32 @@
+pkgname=getty-ps
+pkgver=2.1.0b
+pkgbuild=3
+arch=("auto")
+
+shortdesc=("Console or terminal login")
+longdesc=("/sbin/getty and /sbin/uugetty. These control the process of logging into your system, and may be used instead of 'agetty', which is the default getty included with the util-linux package. getty-ps supports a number of enhancements such as ringback support. getty-ps was originally written by Paul Sutcliffe, Jr, and is currently maintained by Christine Jamison.")
+
+tags=("base sys-base")
+
+source=("http://slackware.rol.ru/slackware/slackware-14.0/source/a/getty-ps/getty_ps-${pkgver}.tar.gz")
+build_deps="glibc-solibs libtermcap"
+
+build() {
+	go_src_dir
+	burn_patches
+
+	sed -i 's/send/gettysend/g' funcs.c
+
+	make clean
+	rm getty uugetty
+	make -j${numjobs} || make
+	install -Dm0755 getty ${pkgdir}/sbin/getty
+	install -Dm0755 uugetty ${pkgdir}/sbin/uugetty
+
+	install -Dm0644 Examples/gettydefs ${pkgdir}/etc/gettydefs
+	mkdir ${pkgdir}/etc/default
+	cp -a Examples/default/* ${pkgdir}/etc/default/
+
+	install -Dm0644 man/getty.1 ${pkgdir}/usr/man/man1/getty.1
+	install -Dm0644 man/gettydefs.5 ${pkgdir}/usr/man/man5/gettydefs.5
+}

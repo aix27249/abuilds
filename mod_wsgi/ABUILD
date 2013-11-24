@@ -1,8 +1,5 @@
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mod_wsgi
-pkgver=3.3
+pkgver=3.4
 pkgbuild=1
 arch=('auto')
 
@@ -10,49 +7,13 @@ shortdesc="mod_wsgi module for apache"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("The aim of mod_wsgi is to implement a simple to use Apache module which can host any Python application which supports the Python WSGI  interface. The module would be suitable for use in hosting high performance production web sites, as well as your average self managed personal sites running on web hosting services. "
 )
-
 source=("http://modwsgi.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="www-misc server"
-
-#dependencies only needed to build package
-build_deps="httpd"
-
-provides=""
-conflicts=""
-
+build_deps="httpd python"
 adddep="httpd"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -63,10 +24,3 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

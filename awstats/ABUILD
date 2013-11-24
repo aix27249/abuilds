@@ -1,55 +1,20 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org
 pkgname=awstats
-pkgver=7.0
+pkgver=7.1.1
 pkgbuild=1
+arch=('noarch')
+shortdesc="Log analyzer"
+source=("http://www.awstats.org/files/${pkgname}-${pkgver}.tar.gz")
+tags="server www-misc"
+build_deps="perl"
+adddep="perl"
+
 docroot=/var/www/htdocs
 awuser=root
 awgroup=apache
-arch=('noarch')
 
-shortdesc="Log analyzer"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("AWStats is a free powerful and featureful tool that generates advanced web streaming, ftp, or mail server statistics graphically. AWStats works as a CGI or from command line and shows you all possible information your log contains, in few graphical web pages. It can analyze log files from all major server tools like Apache log files and a lot of other web, proxy, wap, streaming servers, mail servers, and some ftp servers."
-)
-
-source=("http://prdownloads.sourceforge.net/awstats/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="server www-misc"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs="README.TXT docs/*"
-gendeps_blacklist=
 
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
 before_build()
 {
     go_src_dir
@@ -71,8 +36,6 @@ build()
 }
 
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     go_src_dir

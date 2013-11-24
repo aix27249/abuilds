@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-package-stash
+pkgver=0.35
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Routines for manipulating stashes"
+
+source=("http://search.cpan.org/CPAN/authors/id/D/DO/DOY/Package-Stash-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-extutils-makemaker perl-test-fatal perl-test-requires perl-module-implementation"
+
+adddep="perl perl-module-implementation perl-dist-checkconflicts perl-package-deprecationmanager perl-scalar-list-utils"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

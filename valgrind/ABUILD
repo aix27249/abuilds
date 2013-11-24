@@ -1,56 +1,32 @@
-#----------------------------- General vars --------------------------------------
-#with help of http://repos.archlinux.org/wsvn/packages/valgrind/repos/extra-i686/PKGBUILD
-#------------------------- Основные переменные -----------------------------------
 pkgname=valgrind
-pkgver=3.7.0
+pkgver=3.8.1
 pkgbuild=1
 arch=('any')
-shortdesc=""
-longdesc=(
-)
 shortdesc="An instrumentation framework for building dynamic analysis tools."
 source=("http://valgrind.org/downloads/${pkgname}-${pkgver}.tar.bz2")
-
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
 tags="dev-util develop"
-adddep=""
-removedep=""
+build_deps="glibc perl"
 
-#author=Unnamed_Hero
-#email=sorry@email.hide
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
 build() 
 {
-go_src_dir
-burn_patches
+  go_src_dir
+  burn_patches
 
-if [ "$ARCH" = "x86_64" ]; then 
-conf_opts="--enable-only64bit"
-fi
+  if [ "$ARCH" = "x86_64" ]; then 
+    conf_opts="--enable-only64bit"
+  fi
 
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
-$conf_opts
-                  
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --disable-static \
+    --mandir=/usr/man \
+    --program-prefix= \
+    --program-suffix= \
+    $conf_opts
+
+  make -j${numjobs} || exit 1
+  make install DESTDIR=$pkgdir || exit 1
 }

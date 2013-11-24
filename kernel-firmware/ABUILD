@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.8.10
+pkgver=3.10.12
 
 kernel_ver=`echo $pkgver | sed -e s/_/-/g`
 if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
@@ -10,27 +10,29 @@ if [ "$kernel_ver" = "`echo $kernel_ver | sed 's/\.0$//g'`" ] ; then
 else 
 	srcver=`echo $kernel_ver | sed 's/\.0$//g'`
 fi
-kernel_base=${kernel_ver::3}
+kernel_base=${pkgver%.*}
+config_suffix=${CONFIG_SUFFIX:-}
 
 
-
-pkgbuild=4
+pkgbuild=1
 arch=("auto")
+numjobs=1
 
 shortdesc=("Linux kernel")
 longdesc=("This is a Linux kernel with built-in support for most disk controllers and filesystems.")
 
 tags=("base sys-kernel")
 adddep="linux-firmware"
+conflicts="kernel-modules"
 
-source=("ftp://ftp.kernel.org/pub/linux/kernel/v3.x/linux-${srcver}.tar.bz2")
+source=("http://ftp.kernel.org/pub/linux/kernel/v3.x/linux-${srcver}.tar.xz")
 
 custom_opts="skip_gendeps no_strip skip_validate"
 
 skip_gendeps=1
 
 # Explicitly specify gcc as build_deps, since the order matters
-build_deps="gcc"
+build_deps="gcc bc diffutils"
 
 pkglist=("headers firmware sources")
 
@@ -43,9 +45,6 @@ headers() {
 
 	tags=('develop sys-kernel')
 }
-
-
-
 
 firmware() {
 	pkgname=kernel-firmware
@@ -66,6 +65,7 @@ sources() {
 }
 
 apply_aufs_from_git() {
+	set +e
 
 	# Copy aufs tree
 	cp -rv $filedir/aufs/Documentation .
@@ -76,11 +76,14 @@ apply_aufs_from_git() {
         cat $filedir/aufs/aufs3-kbuild.patch | patch -p1 || echo 1
 	cat $filedir/aufs/aufs3-base.patch | patch -p1 || echo 2
 	cat $filedir/aufs/aufs3-proc_map.patch | patch -p1 || echo 3
+	cat $filedir/aufs/aufs3-loopback.patch | patch -p1 || echo 3
 	# Regarding to aufs readme, it is optional, but it won't compile if you miss it.
 	cat $filedir/aufs/aufs3-standalone.patch | patch -p1 || echo 4
 
-	return 0
+	set -e
 
+	return 0
+	
 }
 
 
@@ -89,19 +92,19 @@ build() {
 	go_src_dir
 
 	# Applying generic patches. If you want to apply something personal, just put it into patches directory
-	#burn_patches
+	burn_patches
+	
 
 	# Check if we are using prepared patches:
-	#if [ ! -f $patchdir/aufs*-standalone.patch ] ; then
+	if [ ! -f $patchdir/aufs*-standalone.patch ] ; then
 		apply_aufs_from_git
-	#fi
-
+	fi
 
 	# Now copy kernel config
 	if [ "$ARCH" = "x86_64" ] ; then
-		cat $filedir/$kernel_base.defconfig-x86_64 > .config
+		cat $filedir/$kernel_base.defconfig-x86_64$config_suffix > .config
 	else
-		cat $filedir/$kernel_base.defconfig-x86 > .config
+		cat $filedir/$kernel_base.defconfig-x86$config_suffix > .config
 	fi
 
 	# Running make oldconfig seems to be a good idea when upgrading kernel version. Note that here can be interactive questions.
@@ -144,33 +147,30 @@ EOF
 }
 
 headers_prep() {
+    go_src_dir
+    set -e
+    make headers_install INSTALL_HDR_PATH=${pkgdir}/usr
 
-go_src_dir
-  make INSTALL_HDR_PATH=${pkgdir}/usr headers_install
+    #for i in acpi asm-generic config crypto drm generated linux math-emu \
+    #	media net pcmcia scsi sound trace uapi video xen; do
+    #	cp -ar include/${i} "${pkgdir}/usr/include"
+    #done
 
+    ( cd $pkgdir/usr/include && mv asm asm-x86 && ln -s asm-x86 asm )
 
- 
+    # copy arch includes for external modules
+    mkdir -p ${pkgdir}/usr/include/arch/x86/
+    cp -a arch/x86/include "${pkgdir}/usr/include/arch/x86/"
 
-  for i in acpi asm-generic config crypto drm generated linux math-emu \
-    media net pcmcia scsi sound trace uapi video xen; do
-    cp -a include/${i} "${pkgdir}/usr/include"
-  done
+    # use headers from libdrm
+    rm -r ${pkgdir}/usr/include/drm
 
-  # copy arch includes for external modules
-  mkdir -p ${pkgdir}/usr/include/arch/x86/
-  cp -a arch/x86/include "${pkgdir}/usr/include/arch/x86/"
+    # clean-up unnecessary files generated during install
+    #find ${pkgdir} \( -name .install -o -name ..install.cmd \) -delete
 
-
-  # use headers from libdrm
-  rm -r ${pkgdir}/usr/include/drm
-  
-  # clean-up unnecessary files generated during install
-  find ${pkgdir} \( -name .install -o -name ..install.cmd \) -delete
-  
-	# Copy aufs-tree manually, since we removed dirty hacks
-	install -m644 include/linux/aufs_type.h ${pkgdir}/usr/include/linux/
-
-
+    # Copy aufs-tree manually, since we removed dirty hacks
+    #install -m644 include/linux/aufs_type.h ${pkgdir}/usr/include/linux/
+    set +e
 }
 
 
@@ -185,10 +185,12 @@ firmware_prep() {
 
 sources_prep() {
 	go_src_dir
+	make clean
 	mkdir -p $pkgdir/usr/src/linux-${kernel_ver}
 	echo "Copying kernel tree, please wait. It may take about 10 minutes"
 	cp -ard ./* $pkgdir/usr/src/linux-${kernel_ver}/
-	( cd $pkgdir/usr/src/linux-${kernel_ver} && make mrproper )
+	# mrproper removes some files fglrx-builder wants, clean does not.
+	#( cd $pkgdir/usr/src/linux-${kernel_ver} && make mrproper )
 	cat .config > $pkgdir/usr/src/linux-${kernel_ver}/.config
 	( cd $pkgdir/usr/src/linux-${kernel_ver} && make prepare && make modules_prepare )
 	( cd $pkgdir/usr/src ; ln -s linux-$kernel_ver linux )

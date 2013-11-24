@@ -1,7 +1,6 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=wine
-pkgver=1.5.24
+pkgver=1.7.1
 pkgbuild=1
 arch=('i686')
 shortdesc="Wine - Wine Is Not Emulator"
@@ -12,31 +11,18 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pk
 #"http://downloads.sourceforge.net/wine/wine_gecko-1.1.0-x86.cab n")
 
 
-tags="xapps app-emulation"     			#short and long tags / длинный и короткий тег
-
-build_deps="flex bison" 			#work only in MOPS
-
+tags="xapps app-emulation"
+build_deps="flex bison fontconfig libXcursor libXrandr libXdamage libXi gettext freetype libSM gcc"
 custom_opts="no_ccache"
 
-build() 
-{
-go_src_dir
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--without-xinput2 \
+	--with-x"
 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---without-xinput2 \
---with-x
-                  
-make -j${numjobs} || exit 1
-make install DESTDIR=${pkgdir} || exit 1
-}
-
+INSTALL_KEYS="DESTDIR=$pkgdir"

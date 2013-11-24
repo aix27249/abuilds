@@ -1,0 +1,19 @@
+pkgname=libmcrypt
+pkgver=2.5.8
+pkgbuild=2
+arch=("auto")
+
+shortdesc=("MCrypt encryption library")
+longdesc=("Libmcrypt is a data encryption library. The library is thread safe and provides encryption and decryption functions. This version of the library supports many encryption algorithms and encryption modes. Some algorithms which are supported: SERPENT, RIJNDAEL, 3DES, GOST, SAFER+, CAST-256, RC2, XTEA, 3WAY, TWOFISH, BLOWFISH, ARCFOUR, WAKE, and more. Homepage: http://mcrypt.sourceforge.net")
+
+tags=("libs net-libs")
+
+source=("http://downloads.sourceforge.net/mcrypt/${pkgname}-${pkgver}.tar.bz2")
+
+build_deps="glibc-solibs"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

@@ -1,0 +1,25 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-datetime-locale
+pkgver=0.45
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Localization support for DateTime.pm"
+
+source=("http://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-Locale-$pkgver.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl perl-list-moreutils perl-params-validate"
+
+adddep="perl perl-list-moreutils perl-params-validate"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  rm -R  ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+}

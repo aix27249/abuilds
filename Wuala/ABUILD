@@ -3,8 +3,8 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=Wuala
 name=wuala
-pkgver=2_build20110818
-pkgbuild=1
+pkgver=2_build20130813
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="A new way of storing, sharing and publishing files on the Internet.  It's free, simple and secure."

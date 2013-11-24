@@ -1,0 +1,32 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=ccid
+pkgver=1.4.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A generic USB Chip/Smart Card Interface Devices driver"
+
+source=("https://alioth.debian.org/frs/download.php/file/3920/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-libs libs"
+
+build_deps="make gcc pkg-config pcsclite"
+
+adddep=""
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-twinserial"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

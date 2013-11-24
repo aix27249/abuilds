@@ -15,8 +15,8 @@ index 7eacf1e..e2f89cb 100755
    fi
    echo $JAVA
    pushd "$(dirname $0)" > /dev/null
--  $JAVA -ea -Xmx384m -Djava.net.preferIPv4Stack=true -jar loader3.jar -installed "$@"
-+  $JAVA -ea -Xmx384m -Djava.net.preferIPv4Stack=true -jar /usr/share/java/wuala/loader3.jar -installed "$@"
+-  $JAVA -ea -Xmx$MAX_HEAP_SIZE -Djava.net.preferIPv4Stack=true -jar loader3.jar -installed "$@"
++  $JAVA -ea -Xmx$MAX_HEAP_SIZE -Djava.net.preferIPv4Stack=true -jar /usr/share/java/wuala/loader3.jar -installed "$@"
    popd > /dev/null
  }
  

@@ -1,9 +1,6 @@
-# $Id: PKGBUILD 49798 2009-08-16 14:04:06Z jgc $
-# Maintainer:
-
 pkgname=agg
 pkgver=2.5
-pkgbuild=1
+pkgbuild=2
 shortdesc="A High Quality Rendering Engine for C++"
 longdesc="A High Quality Rendering Engine for C++"
 arch=('auto')
@@ -11,9 +8,11 @@ url="http://www.antigrain.com/"
 license=('GPL')
 source=(http://www.antigrain.com/${pkgname}-${pkgver}.tar.gz)
 tags=("libs media-libs")
+build_deps="gcc freetype sdl"
 build() {
 	go_src_dir
 	burn_patches || exit 1
+	sed -i '/^AM_C_PROTOTYPES/d' configure.in || die
 	sh ./autogen.sh || exit 1
 	./configure --prefix=/usr --disable-static --libdir=/usr/lib$LIBDIRSUFFIX || exit 1
 	make -j${numjobs} || exit 1

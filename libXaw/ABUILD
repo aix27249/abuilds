@@ -1,6 +1,6 @@
 pkgname=libXaw
 pkgver=1.0.11
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('libXaw')
@@ -9,9 +9,10 @@ longdesc=('libXaw is part of X11. For more information about the X.Org Foundatio
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXaw-${pkgver}.tar.bz2")
+build_deps="libXmu libXpm util-macros"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 

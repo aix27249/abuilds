@@ -1,25 +1,19 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=apitrace
-pkgver=3.0
+pkgver=4.0
 pkgbuild=1
 arch=('auto')
-
 shortdesc="Graphics API Tracing"
-
 source=("git:git://github.com/${pkgname}/${pkgname}.git")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="dev-util develop"
 
 #dependencies only needed to build package
 build_deps="cmake git mesa qt4"
 
-#----------------------------- Make PKG --------------------------------------
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DDOCDIR=/usr/doc/${pkgname}-${pkgver} \
 ../"

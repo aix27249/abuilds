@@ -3,7 +3,7 @@
 # Package metadata
 pkgname=scrot
 pkgver=0.8
-pkgbuild=2
+pkgbuild=3
 arch="auto"
 
 # Package description
@@ -15,8 +15,8 @@ source=("http://linuxbrit.co.uk/downloads/scrot-${pkgver}.tar.gz")
 # Tags
 tags="utils media-gfx"
 
-# Manually-added dependencies
-adddep=""
+build_deps="giblib"
+
 
 # Build system
 BUILD_SYSTEM="autotools"

@@ -1,77 +1,21 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gnome-icon-theme
-pkgver=2.30.2.1
-pkgbuild=2
+pkgver=2.31.0
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="GNOME Desktop icon theme"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This package contains the default icon theme used by the GNOME desktop. The icons are used in the panel menu, and in nautilus and other applications, to represent the different applications, files, directories, and devices. "
-)
+longdesc=("This package contains the default icon theme used by the GNOME desktop. The icons are used in the panel menu, and in nautilus and other applications, to represent the different applications, files, directories, and devices. ")
+source=("http://ftp.df.lth.se/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+tags="x11-themes themes"
+build_deps="intltool"
+adddep="gtk-update-icon-cache icon-naming-utils hicolor-icon-theme"
 
-source=("http://ftp.df.lth.se/pub/gnome/sources/${pkgname}/2.30/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="x11-themes themes"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-cd $startdir/src/$pkgname-$pkgver
-
-burn_patches
-
-#libtoolize --force
-#autoreconf -vif
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix=
+--mandir=/usr/man"
 
-make -j${numjobs} || exit 1
-make install DESTDIR=$startdir/pkg || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
+INSTALL_KEYS="DESTDIR=$pkgdir"

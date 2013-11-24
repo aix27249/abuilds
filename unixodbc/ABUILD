@@ -1,18 +1,12 @@
-#ABUILD created by/создан: aix27249, i27249 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=unixodbc
-pkgver=2.3.0
+pkgver=2.3.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
-)
-
 source=(http://www.unixodbc.org/unixODBC-$pkgver.tar.gz)
 tags="libs dev-db"
+build_deps="readline"
 
 BUILD_SYSTEM="autotools"
 

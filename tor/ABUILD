@@ -1,61 +1,16 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=tor
 pkgver=0.2.3.25
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="Tor: Anonymity Online"
-#-ruler---|--------------------------------------------------------------------------|
-#longdesc=("Tor is free software and an open network that helps you defend against a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security known as traffic analysis. Homepage: https://www.torproject.org"
-#)
-
+shortdesc="Anonymizing overlay network."
 source=("https://www.torproject.org/dist/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="network net-misc"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
+build_deps="ca-certificates openssl libevent"
 adddep="bash"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make pkgdir --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -68,9 +23,6 @@ BUILD_KEYS="--prefix=/usr \
 --disable-debug"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
 after_build()
 {
 echo ""

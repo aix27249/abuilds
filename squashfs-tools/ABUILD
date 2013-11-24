@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=squashfs-tools
-pkgver=4.1
+pkgver=4.2
 pkgbuild=1
 arch="auto"
 
@@ -16,15 +16,8 @@ source=("http://downloads.sourceforge.net/sourceforge/squashfs/squashfs${pkgver}
 # Tags
 tags="sys-fs console"
 
-# Manually-added dependencies
-adddep=""
+build_deps="zlib lzo xz"
 
-# Build system
-
-# Before-build script
-before_build() {
-	echo ""
-}
 
 # Main build script
 build() {
@@ -36,8 +29,3 @@ build() {
 	make -j$NUMJOBS
 	make install INSTALL_DIR=${pkgdir}/sbin
 }
-
-after_build() {
-	echo ""
-}
-

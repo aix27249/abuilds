@@ -1,8 +1,6 @@
-#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 pkgname=joystick
-pkgver=1
+pkgver=1.4.6
 pkgbuild=1
 arch=('auto')
 
@@ -11,54 +9,16 @@ shortdesc="Testing and calibration tools for joysticks"
 longdesc=("Useful tools for using joysticks:"
 "jscal       - joystick calibration program"
 "jstest      - joystick test program"
-"evtest      - event device test program"
 "inputattach - input line discipline attach program"
 "fftest      - force feedback test program"
-"ffmvforce   - sets the gain and the autocenter of a force-feedback device"
 "ffset       - tests the force feedback driver"
+"ffmvforce   - sets the gain and the autocenter of a force-feedback device"
 "ffcfstress  - force feedback: constant force stress test"
 )
 
-source=("svn:https://linuxconsole.svn.sourceforge.net/svnroot/linuxconsole/trunk/utils/")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://sourceforge.net/projects/linuxconsole/files/linuxconsoletools-${pkgver}.tar.bz2")
 tags="utils games-util"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="gcc sdl"
 
 build()
 {
@@ -68,19 +28,17 @@ build()
 }
 
 
-#ran after function build() 
-#после сборки
 after_build()
 {
     go_src_dir
-    mkdir -p $pkgdir/usr/bin/
-    install -m 755 jscal $pkgdir/usr/bin/
-    install -m 755 jstest $pkgdir/usr/bin/
-    install -m 755 inputattach $pkgdir/usr/bin/
-    install -m 755 evtest $pkgdir/usr/bin/
-    install -m 755 fftest $pkgdir/usr/bin/
-    install -m 755 ffset $pkgdir/usr/bin/
-    install -m 755 ffmvforce $pkgdir/usr/bin/
-    install -m 755 ffcfstress $pkgdir/usr/bin/
-
+    (cd utils
+      mkdir -p $pkgdir/usr/bin/
+      install -m 755 jscal $pkgdir/usr/bin/
+      install -m 755 jstest $pkgdir/usr/bin/
+      install -m 755 inputattach $pkgdir/usr/bin/
+      install -m 755 fftest $pkgdir/usr/bin/
+      install -m 755 ffset $pkgdir/usr/bin/
+      install -m 755 ffmvforce $pkgdir/usr/bin/
+      install -m 755 ffcfstress $pkgdir/usr/bin/
+    )
 }

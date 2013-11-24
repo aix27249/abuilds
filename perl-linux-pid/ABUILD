@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-linux-pid
+pkgver=0.04
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Interface to Linux getpp?id functions"
+
+source=("http://search.cpan.org/CPAN/authors/id/R/RG/RGARCIA/Linux-Pid-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="${build_deps}"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+
+after_build(){
+  go_src_dir
+  make test
+  find ${pkgdir} -name '.packlist' -delete
+  find ${pkgdir} -name '*.pod' -delete
+}

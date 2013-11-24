@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=calligra
-pkgver=2.6.4
+pkgver=2.7.4
 pkgbuild=1
 arch=('auto')
 
@@ -14,9 +14,9 @@ shortdesc="Calligra is a graphic art and office suite by KDE"
 #)
 
 source=(
-"http://download.kde.org/stable/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2"
-"http://download.kde.org/stable/${pkgname}-${pkgver}/calligra-l10n/calligra-l10n-ru-${pkgver}.tar.bz2"
-"http://download.kde.org/stable/${pkgname}-${pkgver}/calligra-l10n/calligra-l10n-uk-${pkgver}.tar.bz2"
+"http://download.kde.org/stable/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz"
+"http://download.kde.org/stable/${pkgname}-${pkgver}/calligra-l10n/calligra-l10n-ru-${pkgver}.tar.xz"
+"http://download.kde.org/stable/${pkgname}-${pkgver}/calligra-l10n/calligra-l10n-uk-${pkgver}.tar.xz"
 )
 
 patch_opts=("")

@@ -2,8 +2,8 @@
 
 # Package metadata
 pkgname=rfkill
-pkgver=0.4
-pkgbuild=2
+pkgver=0.5
+pkgbuild=1
 arch="auto"
 
 # Package description
@@ -11,7 +11,8 @@ shortdesc=("rfkill switch tool")
 longdesc=("rfkill is a small tool to query the state of the rfkill switches, buttons and subsystem interfaces.")
 
 # Source URL
-source=("http://wireless.kernel.org/download/rfkill/rfkill-${pkgver}.tar.bz2")
+source=("http://www.kernel.org/pub/software/network/rfkill/rfkill-${pkgver}.tar.xz")
+build_deps="gcc"
 
 # Tags
 tags="net-wireless network"

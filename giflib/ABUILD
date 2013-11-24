@@ -1,0 +1,32 @@
+pkgname=giflib
+pkgver=4.2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A library for reading and writing GIF images."
+source=("http://downloads.sourceforge.net/sourceforge/giflib/giflib-${pkgver}.tar.bz2")
+
+tags="libs media-gfx"
+conflicts="libungif libungif-giflib"
+build_deps="xmlto docbook-xml docbook-xsl"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	# libungif compatibility - instructions taken from Redhat specfile
+	MAJOR=`echo ${pkgver} | sed 's/\([0-9]\+\)\..*/\1/'`
+	gcc -shared -Wl,-soname,libungif.so.${MAJOR} -Llib/.libs -lgif -o libungif.so.${pkgver}
+	install -m755 libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/"
+	ln -sf libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so.4"
+	ln -sf libungif.so.4 "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so"
+}

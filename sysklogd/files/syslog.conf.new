@@ -7,6 +7,16 @@
 # Be advised this will cause a performation loss if you're using
 # programs that do heavy logging.
 
+#
+# First some standard logfiles.  Log by facility.
+#
+auth,authpriv.*                 /var/log/auth.log
+daemon.*                        -/var/log/daemon.log
+lpr.*                           -/var/log/lpr.log
+user.*                          -/var/log/user.log
+local6.debug                    -/var/log/imapd.log
+local2.*                        -/var/log/ppp.log
+
 # Uncomment this to see kernel messages on the console.
 #kern.*							/dev/console
 
@@ -30,7 +40,13 @@ authpriv.*						-/var/log/secure
 cron.*							-/var/log/cron
 
 # Mail related logs:
-mail.*							-/var/log/maillog
+# Logging for the mail system. Split it up so that
+# it is easy to write scripts to parse these files.
+#
+mail.*                          -/var/log/mail.log
+mail.info                       -/var/log/mail.info
+mail.warn                       -/var/log/mail.warn
+mail.err                        /var/log/mail.err
 
 # Emergency level messages go to all users:
 *.emerg							*
@@ -44,3 +60,24 @@ uucp,news.crit						-/var/log/spooler
 #news.=err					-/var/log/news/news.err
 #news.notice					-/var/log/news/news.notice
 
+#
+# I like to have messages displayed on the console, but only on a virtual
+# console I usually leave idle.
+#
+#daemon,mail.*;\
+#       news.=crit;news.=err;news.=notice;\
+#       *.=debug;*.=info;\
+#       *.=notice;*.=warn       /dev/tty8
+
+# The named pipe /dev/xconsole is for the `xconsole' utility.  To use it,
+# you must invoke `xconsole' with the `-file' option:
+# 
+#    $ xconsole -file /dev/xconsole [...]
+#
+# NOTE: adjust the list below, or you'll go crazy if you have a reasonably
+#      busy site..
+#
+#daemon.*,mail.*;\
+#       news.crit;news.err;news.notice;\
+#       *.=debug;*.=info;\
+#       *.=notice;*.=warn       |/dev/xconsole

@@ -1,0 +1,39 @@
+diff --git a/textinstaller/langselect/CMakeLists.txt b/textinstaller/langselect/CMakeLists.txt
+index 2fa787d..3e00520 100644
+--- a/textinstaller/langselect/CMakeLists.txt
++++ b/textinstaller/langselect/CMakeLists.txt
+@@ -21,7 +21,7 @@ ADD_DEFINITIONS(-DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+ 
+ ADD_DEFINITIONS(${CXXFLAGS})
+ ADD_EXECUTABLE(setup langselect )
+-TARGET_LINK_LIBRARIES(setup nwidgets agiliasetup)
++TARGET_LINK_LIBRARIES(setup mpkgsupport nwidgets agiliasetup)
+ 
+ INSTALL(TARGETS setup DESTINATION bin)
+ 
+diff --git a/textinstaller/textsetup/CMakeLists.txt b/textinstaller/textsetup/CMakeLists.txt
+index 0eaa8c6..fd81773 100644
+--- a/textinstaller/textsetup/CMakeLists.txt
++++ b/textinstaller/textsetup/CMakeLists.txt
+@@ -21,7 +21,7 @@ ADD_DEFINITIONS(-DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+ 
+ ADD_DEFINITIONS(${CXXFLAGS})
+ ADD_EXECUTABLE(setup_config textsetup mechanics mediachecker main )
+-TARGET_LINK_LIBRARIES(setup_config mpkg mpkg-parted agiliasetup)
++TARGET_LINK_LIBRARIES(setup_config mpkg mpkg-parted mpkgsupport nwidgets agiliasetup)
+ 
+ INSTALL(TARGETS setup_config DESTINATION bin)
+ 
+diff --git a/textinstaller/textsetup_exec/CMakeLists.txt b/textinstaller/textsetup_exec/CMakeLists.txt
+index c1078a9..5e2157a 100644
+--- a/textinstaller/textsetup_exec/CMakeLists.txt
++++ b/textinstaller/textsetup_exec/CMakeLists.txt
+@@ -21,7 +21,7 @@ ADD_DEFINITIONS(-DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+ 
+ ADD_DEFINITIONS(${CXXFLAGS})
+ ADD_EXECUTABLE(setup_exec main eventhandler)
+-TARGET_LINK_LIBRARIES(setup_exec mpkg agiliasetup)
++TARGET_LINK_LIBRARIES(setup_exec nwidgets mpkgsupport mpkg agiliasetup)
+ 
+ INSTALL(TARGETS setup_exec DESTINATION bin)
+ 

@@ -1,61 +1,24 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
 pkgname=ghc
-pkgver=7.0.3
+pkgver=7.6.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="ghc (The Glasgow Haskell Compiler)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("GHC is a state-of-the-art, open source, compiler and interactive environment for the functional language Haskell."
-	  "This is a complete build, including interactive system, profiling libraries and documentation."
-	  ""
-	  "Homepage: http://haskell.org/ghc/"
-)
 
 source=("http://www.haskell.org/ghc/dist/${pkgver}/${pkgname}-${pkgver}-src.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-lang"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
+build_deps="ghc perl libxslt"
 
 adddep=""
-removedep=""
 
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-go_src_dir
-cp $filedir/build.mk mk/build.mk
-sed -i -e "s:pkgver:$pkgver:g" mk/build.mk
+before_build(){
+  go_src_dir
+  cp ${filedir}/build.mk mk/build.mk
+  sed -i -e "s:pkgver:${pkgver}:g" mk/build.mk
+  echo "End before_build"
 }
 
 BUILD_SYSTEM="autotools"
@@ -72,11 +35,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix= \
 --docdir=/usr/doc/${pkgname}-${pkgver}"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
+INSTALL_KEYS="DESTDIR=${pkgdir}"

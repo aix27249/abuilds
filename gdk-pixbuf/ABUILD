@@ -1,16 +1,13 @@
 pkgname=gdk-pixbuf
-pkgver=2.26.1
-pkgbuild=3
+pkgver=2.28.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="GDK Pixbuf library"
-longdesc=("An image loading library for gtk2/gtk3"
-)
-
+longdesc=("An image loading library for gtk2/gtk3")
 source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-${pkgver}.tar.xz")
-
 tags="libs x11-libs"
-
+build_deps="glib2 libpng libtiff libjpeg libX11"
 
 
 BUILD_SYSTEM="autotools"
@@ -23,8 +20,6 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---program-prefix= \
---program-suffix= \
 --without-libjasper \
 --with-x11 \
 --with-included-loaders=png"

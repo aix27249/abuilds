@@ -1,0 +1,13 @@
+--- setupbase.py	2013-08-19 11:51:31.103399403 +0000
++++ setupbase.py.new	2013-08-19 11:52:59.056736332 +0000
+@@ -207,8 +207,8 @@
+     Most of these are docs.
+     """
+ 
+-    docdirbase  = pjoin('share', 'doc', 'ipython')
+-    manpagebase = pjoin('share', 'man', 'man1')
++    docdirbase  = pjoin('doc', 'ipython-1.0.0')
++    manpagebase = pjoin('man', 'man1')
+ 
+     # Simple file lists can be made by hand
+     manpages = [f for f in glob(pjoin('docs','man','*.1.gz')) if isfile(f)]

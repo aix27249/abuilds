@@ -1,6 +1,6 @@
 pkgname=xcb-util-renderutil
 pkgver=0.3.8
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc=("Utility libraries for XC Binding - Convenience functions for the Render extension")
@@ -8,6 +8,7 @@ shortdesc=("Utility libraries for XC Binding - Convenience functions for the Ren
 tags=('x11-xcbs xserver')
 
 source=("http://xcb.freedesktop.org/dist/${pkgname}-${pkgver}.tar.bz2")
+build_deps="util-macros libxcb"
 
 
 BUILD_SYSTEM='autotools'

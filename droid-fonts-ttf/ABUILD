@@ -1,11 +1,12 @@
 pkgname=droid-fonts-ttf
-pkgver=20110417
+pkgver=20121017
 pkgbuild=1
 arch=('noarch')
 shortdesc="A font created by Ascender Corporation for use by the Open Handset Alliance platform, Android."
 
-source=("ftp://ftp.archlinux.org/other/community/ttf-droid/ttf-droid.tar.xz")
+source=("ftp://ftp.archlinux.org/other/community/ttf-droid/ttf-droid-${pkgver}.tar.xz")
 tags="media-fonts xserver"
+build_deps="fontconfig encodings xorg-font-utils"
 
 build() {
 	go_src_dir

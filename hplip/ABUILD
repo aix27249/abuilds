@@ -1,9 +1,8 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 # Modified by aix27249
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=hplip
-pkgver=3.12.11
+pkgver=3.13.9
 pkgbuild=1
 arch=('auto')
 
@@ -11,77 +10,71 @@ shortdesc="HPLIP is an HP developed solution for printing, scanning, and faxing.
 
 source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz")
 
-#short and long tags / длинный и короткий тег
 tags="net-print drivers"
-build_deps="sane"
-adddep="PyQt pycairo pygobject dbus-python pil sip"
-custom_opts="no_ccache"
 
-build()
-{
+build_deps="sane cups"
 
-go_src_dir
-burn_patches
+adddep="PyQt pycairo pygobject dbus-python pil sip foomatic-db foomatic-db-engine ghostscript wget"
+
+custom_opts="no_ccache no_copydoc"
+
+build(){
+ go_src_dir
+ burn_patches
  # fix rc script path - FS#31921
  sed -i 's|\/etc\/init.d\/cupsys|\/etc\/rc.d\/cupsd|g' setup.py
+ sed -i 's|\/usr\/lib\/systemd\/system|\/usr\/lib'${LIBDIRSUFFIX}'\/systemd\/system|g' Makefile.am
 
  # https://bugs.archlinux.org/task/30085 - hack found in Gentoo
  # Use system foomatic-rip for hpijs driver instead of foomatic-rip-hplip
  # The hpcups driver does not use foomatic-rip
-local i
-for i in ppd/hpijs/*.ppd.gz ; do
-rm -f ${i}.temp
-gunzip -c ${i} | sed 's/foomatic-rip-hplip/foomatic-rip/g' | \
-gzip > ${i}.temp || return 1
-mv ${i}.temp ${i}
-done
+ local i
+ for i in ppd/hpijs/*.ppd.gz ; do
+   rm -f ${i}.temp
+   gunzip -c ${i} | sed 's/foomatic-rip-hplip/foomatic-rip/g' | \
+   gzip > ${i}.temp || return 1
+   mv ${i}.temp ${i}
+ done
 
-export AUTOMAKE='automake --foreign'
-autoreconf --force --install
+ export AUTOMAKE='automake --foreign'
+ autoreconf --force --install
 
+ ./configure --prefix=/usr \
+ --with-cupsbackenddir=/usr/lib${LIBDIRSUFFIX}/cups/backend \
+ --with-cupsfilterdir=/usr/lib${LIBDIRSUFFIX}/cups/filter \
+ --libdir=/usr/lib${LIBDIRSUFFIX} \
+ --mandir=/usr/man \
+ --sysconfdir=/etc \
+ --localstatedir=/var \
+ --enable-pp-build \
+ --enable-hpcups-install \
+ --enable-foomatic-drv-install \
+ --enable-foomatic-ppd-install \
+ --enable-foomatic-rip-hplip-install \
+ --enable-cups-drv-install \
+ --enable-cups-ppd-install \
+ --enable-new-hpcups \
+ --enable-hpijs-install \
+ --enable-qt4 \
+ --enable-doc-build \
+ --enable-dbus-build \
+ --enable-network-build \
+ --enable-scan-build \
+ --enable-fax-build \
+ --enable-udev-acl-rules  || exit 1
 
-./configure --prefix=/usr \
---with-cupsbackenddir=/usr/lib${LIBDIRSUFFIX}/cups/backend \
---with-cupsfilterdir=/usr/lib${LIBDIRSUFFIX}/cups/filter \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---mandir=/usr/man \
---sysconfdir=/etc \
---localstatedir=/var \
---enable-pp-build \
---enable-hpcups-install \
---enable-foomatic-drv-install \
---enable-foomatic-ppd-install \
---enable-foomatic-rip-hplip-install \
---enable-cups-drv-install \
---enable-cups-ppd-install \
---enable-new-hpcups \
---enable-hpijs-install \
---enable-qt4 \
---enable-doc-build \
---enable-dbus-build \
---enable-network-build \
---enable-scan-build \
---enable-fax-build \
---enable-udev-acl-rules  || exit 1
-
-make DESTDIR=$pkgdir install || exit 1
+ make DESTDIR=${pkgdir} install || exit 1
 
  # remove config provided by sane and autostart of hp-daemon
- rm -rf "$pkgdir"/etc/{sane.d,xdg} || exit 1
-# remove HAL .fdi file because HAL is no longer used
- rm -rf "$pkgdir"/usr/share/hal || exit 1
-
+ rm -rf "${pkgdir}"/etc/{sane.d,xdg} || exit 1
+ # remove HAL .fdi file because HAL is no longer used
+ rm -rf "${pkgdir}"/usr/share/hal || exit 1
 }
 
-
-
-after_build()
-{
-
-make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="$pkgdir/" install || exit 1
-rm -rf $pkgdir/etc/{sane.d,xdg} || exit 1
-rm -rf "$pkgdir"/usr/share/hal || exit 1
-
-
+after_build(){
+ make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="${pkgdir}/" install || exit 1
+ rm -rf ${pkgdir}/etc/{sane.d,xdg} || exit 1
+ rm -rf "${pkgdir}"/usr/share/hal || exit 1
+ mkdir -p "${pkgdir}/usr/doc"
+ ln -sf /usr/share/doc/hplip-${pkgver} "${pkgdir}/usr/doc/hplip-${pkgver}"
 }
-

@@ -1,0 +1,18 @@
+
+pkgname=which
+pkgver=2.20
+pkgbuild=2
+arch=("auto")
+
+shortdesc=("Shows the full path to shell commands")
+longdesc=("GNU 'which' takes one or more arguments. For each of its arguments it prints to stdout the full path of the executables that would have been executed when this argument had been entered at the shell prompt. It does this by searching for an executable or script in the directories listed in the environment variable PATH using the same algorithm as bash(1). 'Which' is a built-in function in many shells. The GNU version of which was written by Carlo Wood.")
+
+tags=("base sys-base")
+
+source=("http://www.xs4all.nl/~carlo17/$pkgname/$pkgname-$pkgver.tar.gz")
+build_deps="glibc-solibs"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --bindir=/bin"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

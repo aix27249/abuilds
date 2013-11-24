@@ -1,6 +1,6 @@
 pkgname=sdl_net
 pkgver=1.2.8
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A small sample cross-platform networking library"
@@ -9,7 +9,7 @@ source=("http://www.libsdl.org/projects/SDL_net/release/SDL_net-${pkgver}.tar.gz
 
 tags="media-libs libs"
 
-build_deps="make libtool gcc pkg-config sdl>=1.2.13"
+build_deps="make libtool gcc pkg-config sdl"
 
 docs=CHANGES
 

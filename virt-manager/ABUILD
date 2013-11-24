@@ -1,74 +1,17 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=virt-manager
-pkgver=0.9.1
+pkgver=0.10.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="desktop application for managing virtual machines"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("It presents a summary view of running domains and their live performance & resource utilization statistics. A detailed view presents graphs showing performance & utilization over time. Ultimately it will allow creation of new domains, and configuration & adjustment of a domain's resource allocation & virtual hardware. Finally an embedded VNC client viewer presents a full graphical console to the guest domain.")
-
-source=("http://${pkgname}.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+source=("http://virt-manager.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 tags="app-emulation xapps"
+build_deps=("python-dbus libvirt libxml2 gtk-vnc rarian yajl x11-ssh-askpass
+	librsvg python graphite2 libvirt-glib python-gobject")
+#spice-gtk
 
-#dependencies only needed to build package
-build_deps=""
+adddep="urlgrabber virt-viewer libvirt python-ipaddr gnome-icon-theme"
+conflicts="virtinst"
 
-provides=""
-conflicts=""
-
-adddep="urlgrabber>=3.9.1 virtinst>=0.500.6 pycurl>=7.19.0 virt-viewer>=0.2.0 libvirt>=0.9.0 python-gconf>=2.28.1 qemu>=0.13.0 
-dnsmasq>=2.52 bridge-utils>=1.2"
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---enable-nls"
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
+BUILD_SYSTEM="python"

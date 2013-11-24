@@ -1,15 +1,13 @@
 pkgname=raptor2
-pkgver=2.0.8
+pkgver=2.0.9
 pkgbuild=1
 arch=("auto")
 
-shortdesc=("raptor (RDF Parser & Serializer)")
+shortdesc=("RDF Parser & Serializer")
 longdesc=("Raptor is a free software/Open Source C library that provides a set of parsers and serializers that generate Resource Description Framework (RDF) triples by parsing syntaxes or serialize the triples into a syntax. The supported parsing syntaxes are RDF/XML, N-Triples, TRiG, Turtle, RSS tag soup including all versions of RSS, Atom 1.0 and 0.3, GRDDL and microformats for HTML, XHTML and XML. Homepage: http://librdf.org/")
-
 tags=("libs media-libs")
-
 source=("http://download.librdf.org/source/${pkgname}-${pkgver}.tar.gz")
-
+build_deps="curl libxslt icu4c"
 
 
 BUILD_SYSTEM="autotools"

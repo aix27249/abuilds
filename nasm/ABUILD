@@ -1,0 +1,22 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+pkgname=nasm
+pkgver=2.10.07
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An 80x86 assembler designed for portability and modularity"
+source=("http://www.nasm.us/pub/nasm/releasebuilds/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+tags="develop dev-lang"
+build_deps="glibc"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr"
+MAKE_KEYS="${MAKE_KEYS}"
+INSTALL_KEYS="INSTALLROOT=$pkgdir install_rdf"
+
+after_build(){
+    go_src_dir
+    make -C doc info
+    install -dm755 "${pkgdir}"/usr/share/info
+    install -m644 doc/info/* "${pkgdir}"/usr/share/info/
+}

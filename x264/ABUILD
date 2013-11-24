@@ -1,7 +1,5 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=x264
-pkgver=20120307
+pkgver=20130731
 pkgbuild=1
 arch=('auto')
 
@@ -12,17 +10,18 @@ source=("ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-$pkgve
 
 custom_opts="skip_gendeps"
 tags="libs media-libs"
-build_deps="yasm"
+build_deps="yasm binutils"
 adddep="glibc-solibs"
-
 
 
 BUILD_SYSTEM="autotools"
 
+
 BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--enable-shared \
-	--enable-visualize"
+	--enable-visualize \
+	--bit-depth=10"
 
 after_build() {
 	# Create a symlink: otherwise, all x264-dependant packages become broken after update.

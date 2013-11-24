@@ -1,6 +1,6 @@
 pkgname=xf86miscproto
 pkgver=0.9.3
-pkgbuild=10
+pkgbuild=11
 arch=('auto')
 
 shortdesc=('xf86miscproto')
@@ -10,16 +10,9 @@ tags=('x11-protos xserver')
 
 source=('http://xorg.freedesktop.org/archive/individual/proto/xf86miscproto-0.9.3.tar.bz2')
 
-build_deps='x11-skel'
-
-before_build() {
- echo ""
-}
+build_deps='gcc'
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
 INSTALL_KEYS="DESTDIR=$pkgdir"
-after_build() {
- echo ""
-}
 

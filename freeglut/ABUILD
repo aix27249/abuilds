@@ -1,63 +1,21 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=freeglut
-pkgver=2.8.0
+pkgver=2.8.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="OpenGL Utility Toolkit"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("GLUT is a window system independent toolkit for writing OpenGL programs, implementing a simple windowing API, which makes learning about and exploring OpenGL programming very easy.
-
 GLUT is designed for constructing small to medium sized OpenGL programs, however it is not a full-featured toolkit, so large applications requiring sophisticated user interfaces are better off using native window system toolkits like GTK+ or Motif. "
 )
 
 source=("http://downloads.sourceforge.net/freeglut/${pkgname}-${pkgver}.tar.gz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
+build_deps="glu libXxf86vm"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -68,10 +26,3 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

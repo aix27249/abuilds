@@ -1,15 +1,15 @@
 
 pkgname=nss
-pkgver=3.14.1
+pkgver=3.15.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Mozilla Network Security Services"
 #-ruler---|--------------------------------------------------------------------------|
 longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS")
-source=("ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
+source=("http://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
 tags="libs net-libs"
-build_deps="perl"
+build_deps="perl nspr sqlite zlib"
 conflicts="seamonkey-solibs"
 
 build()
@@ -19,13 +19,14 @@ build()
 
   # Respect LDFLAGS
   sed -e 's/\$(MKSHLIB) -o/\$(MKSHLIB) \$(LDFLAGS) -o/g' \
-      -i mozilla/security/coreconf/rules.mk
-      
+      -i nss/coreconf/rules.mk
+
   # Generate certdata.c from certdata.txt
   #cd mozilla/security/nss/lib/ckfw/builtins
   #make generate
   go_src_dir
-  
+  cd nss
+
   export BUILD_OPT=1
   export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
   export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
@@ -34,20 +35,22 @@ build()
   export NSPR_LIB_DIR=`pkg-config --libs-only-L nspr | sed 's/-L.//'`
   export XCFLAGS="${CFLAGS} -fPIC"
   export CXXFLAGS="${CXXFLAGS} -fPIC"
-  
+
   [ "$ARCH" = "x86_64" ] && export USE_64=1
 
-  make -j 1 -C mozilla/security/coreconf || return 1
-  make -j 1 -C mozilla/security/dbm || return 1
-  make -j 1 -C mozilla/security/nss || return 1
+  make -j 1 -C coreconf || return 1
+  make -j 1 -C lib/dbm || return 1
+  make -j 1 || return 1
+}
 
-  install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig"
-  install -m755 -d "${pkgdir}/usr/bin"
-  install -m755 -d "${pkgdir}/usr/include/nss"
+after_build() {
+  go_src_dir
 
-  NSS_VMAJOR=`grep "#define.*NSS_VMAJOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
-  NSS_VMINOR=`grep "#define.*NSS_VMINOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
-  NSS_VPATCH=`grep "#define.*NSS_VPATCH" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
+  install -d "${pkgdir}"/usr/{bin,lib${LIBDIRSUFFIX}/pkgconfig,include/nss}
+
+  NSS_VMAJOR=`grep "#define.*NSS_VMAJOR" nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VMINOR=`grep "#define.*NSS_VMINOR" nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VPATCH=`grep "#define.*NSS_VPATCH" nss/lib/nss/nss.h | awk '{print $3}'`
 
   sed "${filedir}/nss.pc.in" -e "s,%libdir%,/usr/lib${LIBDIRSUFFIX},g" \
                                 -e "s,%prefix%,/usr,g" \
@@ -69,19 +72,14 @@ build()
                             > "${pkgdir}/usr/bin/nss-config" || return 1
   chmod 755 "${pkgdir}/usr/bin/nss-config" || return 1
 
-  for file in libsoftokn3.so libfreebl3.so libnss3.so libnssutil3.so \
-              libssl3.so libsmime3.so libnssckbi.so libnssdbm3.so
-  do
-    install -m755 mozilla/dist/*.OBJ/lib/${file} "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
-  done
+  cd dist/*.OBJ/bin
+  install -t "$pkgdir/usr/bin" *util shlibsign signtool signver ssltap
 
-  install -m644 mozilla/dist/*.OBJ/lib/libcrmf.a "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
-  install -m644 mozilla/dist/*.OBJ/lib/*.chk "${pkgdir}/usr/lib${LIBDIRSUFFIX}/" || return 1
+  cd ../lib
+  install -t "$pkgdir/usr/lib${LIBDIRSUFFIX}" *.so
+  install -t "$pkgdir/usr/lib${LIBDIRSUFFIX}" -m644 libcrmf.a *.chk
 
-  for file in certutil cmsutil crlutil modutil pk12util shlibsign signtool signver ssltap; do
-    install -m755 mozilla/dist/*.OBJ/bin/${file} "${pkgdir}/usr/bin/" || return 1
-  done
-
-  install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/include/nss/" || return 1
+  cd ../../public/nss
+  install -t "$pkgdir/usr/include/nss" -m644 *.h
 
 }

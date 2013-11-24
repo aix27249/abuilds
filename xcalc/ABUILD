@@ -1,5 +1,5 @@
 pkgname=xcalc
-pkgver=1.0.4.1
+pkgver=1.0.5
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +9,7 @@ longdesc=('xcalc is part of X11. For more information about the X.Org Foundation
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xcalc-${pkgver}.tar.bz2")
+build_deps="util-macros libXaw"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "

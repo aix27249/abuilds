@@ -1,10 +1,10 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kaccessible
-pkgver=4.10.4
+pkgver=4.10.5
 pkgbuild=1
 arch=('auto')
 
-shortdesc="kaccessible implements a QAccessibleBridgePlugin to provide accessibility services like focus tracking and a screen reader. "
+shortdesc="kaccessible implements a QAccessibleBridgePlugin to provide accessibility services like
+focus tracking and a screenreader"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 

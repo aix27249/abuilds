@@ -1,0 +1,17 @@
+pkgname=desktop-file-utils
+pkgver=0.21
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("desktop-file-utils (Utilities for manipulating desktop files)")
+longdesc=("Some utilities from freedesktop.org for handling .desktop files: desktop-file-validate: validates a desktop file and prints warnings/errors about spec violations. desktop-file-install: installs a desktop file to the applications directory, optionally munging it a bit in transit. update-desktop-database: updates the desktop menu database.")
+tags=("dev-util libs")
+
+source=("http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-${pkgver}.tar.xz")
+build_deps="glibc-solibs glib2"
+
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

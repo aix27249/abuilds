@@ -4,7 +4,7 @@
 pkgname=sylpheed
 pkgver=3.3.0
 linkver=${pkgver::3}
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 # Package description
@@ -17,6 +17,7 @@ source=("http://sylpheed.sraoss.jp/sylpheed/v${linkver}/${pkgname}-${pkgver}.tar
 
 # Tags
 tags=("network mail-client")
+build_deps="gpgme desktop-file-utils openssl gnupg>=2.0.14"
 
 
 # Build system

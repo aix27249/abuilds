@@ -1,5 +1,5 @@
 pkgname=cmake
-pkgver=2.8.10.2
+pkgver=2.8.11.2
 pkgbuild=1
 shortdesc="A cross-platform open-source make system"
 longdesc=("CMake is used to control the software process using simple platform and compiler independed configuration files. CMake generates native makefiles and workspaces that can be used in the compiler environment of your choice. CMake's home on the web is: http://www.cmake.org")
@@ -7,17 +7,18 @@ arch=('auto')
 source=("http://www.cmake.org/files/v2.8/${pkgname}-${pkgver}.tar.gz")
 tags=("develop dev-util")
 gendeps_blacklist="usr/bin/cmake-gui"
-
+build_deps="libarchive curl shared-mime-info"
+adddep="shared-mime-info"
 build() {
 	go_src_dir
 	burn_patches
 	set -e
 	./bootstrap --prefix=/usr \
 		--mandir=/man \
-		--docdir=/doc/cmake \
+		--docdir=/doc/${pkgname}-${pkgver} \
 		--system-libs \
-		--qt-gui \
-		--parallel=1
+		--no-qt-gui \
+		--parallel=$numjobs
 	make -j${numjobs} || make
 	make DESTDIR=${pkgdir} install
 

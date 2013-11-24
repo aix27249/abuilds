@@ -1,24 +1,18 @@
 pkgname=fluidsynth
-pkgver=1.1.5
+pkgver=1.1.6
 pkgbuild=1
 arch=('auto')
-shortdesc="Fluidsynth"
+shortdesc="A real-time software synthesizer based on the SoundFont 2 specifications"
 longdesc=("FluidSynth is a real-time software synthesizer based on the SoundFont 2 specifications. FluidSynth can read MIDI events from a MIDI input device and render them to an audio device using SoundFont instruments."
-	  ""
-	  "Homepage: http://sourceforge.net/apps/trac/fluidsynth/"
-)
+"Homepage: http://sourceforge.net/apps/trac/fluidsynth/")
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 tags="libs media-sound"
+build_deps="cmake doxygen glib2"
 
-BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---disable-ladcca"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-Denable-ladcca=OFF \
+../"

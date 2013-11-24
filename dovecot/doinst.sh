@@ -15,4 +15,9 @@ if ! grep -q "^dovecot:" etc/passwd; then
     fi
 fi
 
+# Default login user
+if ! grep -q "^dovenull:" etc/passwd; then
+    chroot . useradd -d /dev/null -s /bin/false -g 202 dovenull &>/dev/null
+fi
+
 

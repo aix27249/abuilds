@@ -2,7 +2,7 @@
 
 pkgname=wxwidgets
 pkgver=2.9.4
-pkgbuild=5
+pkgbuild=6
 arch=("auto")
 
 shortdesc=("wxWidgets: cross-platform GUI library")
@@ -10,12 +10,13 @@ shortdesc=("wxWidgets: cross-platform GUI library")
 tags=("libs x11-libs")
 
 source=("http://downloads.sourceforge.net/project/wxwindows/2.9.4/wxWidgets-${pkgver}.tar.bz2")
+build_deps="gtk+2 libpng libtiff libXpm libjpeg"
 
 build() {
   go_src_dir
 
   ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --with-gtk=2 --with-opengl --enable-unicode \
-    --enable-graphics_ctx --enable-mediactrl --with-regex=builtin \
+    --enable-graphics_ctx --enable-mediactrl --with-regex=builtin --disable-mediactrl \
     --with-libpng=sys --with-libxpm=sys --with-libjpeg=sys --with-libtiff=sys \
     --disable-precomp-headers
   make

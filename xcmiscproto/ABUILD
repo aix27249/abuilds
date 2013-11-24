@@ -1,6 +1,6 @@
 pkgname=xcmiscproto
 pkgver=1.2.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xcmiscproto')
@@ -9,6 +9,7 @@ longdesc=('xcmiscproto is part of X11. For more information about the X.Org Foun
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xcmiscproto-${pkgver}.tar.bz2")
+build_deps="util-macros"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"

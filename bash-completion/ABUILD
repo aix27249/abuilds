@@ -1,0 +1,41 @@
+pkgname=bash-completion
+pkgver=2.1
+pkgbuild=1
+arch=("noarch")
+
+shortdesc=("Programmable completion for the bash shell")
+longdesc=("Adds programmable completion to the bash shell. A new file called /etc/bash_completion will be sourced for interactive bash shells adding all sorts of enhanced command completion features. Once installed, you may get a list of all commands that have associated completions with 'complete -p', and examine the code for the shell functions with 'declare -f'. bash-completion was written by Ian Macdonald <ian@caliban.org>.")
+
+tags=("app-shells console")
+
+source=("http://bash-completion.alioth.debian.org/files/${pkgname}-${pkgver}.tar.bz2")
+
+adddep="bash"
+build_deps="mkpkg"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+  chmod 755 ${pkgdir}/etc/profile.d/bash_completion.sh
+
+  # provided by networkmanager
+  rm "${pkgdir}/usr/share/bash-completion/completions/nmcli"
+
+  # provided by util-linux
+  rm "${pkgdir}/usr/share/bash-completion/completions/cal"
+  rm "${pkgdir}/usr/share/bash-completion/completions/chsh"
+  rm "${pkgdir}/usr/share/bash-completion/completions/dmesg"
+  rm "${pkgdir}/usr/share/bash-completion/completions/eject"
+  rm "${pkgdir}/usr/share/bash-completion/completions/hd"
+  rm "${pkgdir}/usr/share/bash-completion/completions/hexdump"
+  rm "${pkgdir}/usr/share/bash-completion/completions/hwclock"
+  rm "${pkgdir}/usr/share/bash-completion/completions/ionice"
+  rm "${pkgdir}/usr/share/bash-completion/completions/look"
+  rm "${pkgdir}/usr/share/bash-completion/completions/ncal"
+  rm "${pkgdir}/usr/share/bash-completion/completions/newgrp"
+  rm "${pkgdir}/usr/share/bash-completion/completions/renice"
+  rm "${pkgdir}/usr/share/bash-completion/completions/rtcwake"
+  rm "${pkgdir}/usr/share/bash-completion/completions/su"
+}

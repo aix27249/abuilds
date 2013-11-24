@@ -1,0 +1,44 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=lzo
+pkgver=2.06
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Portable lossless data compression library"
+source=("http://www.oberhumer.com/opensource/lzo/download/lzo-${pkgver}.tar.gz")
+tags="dev-libs libs"
+
+build_deps="gcc nasm"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-shared"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+
+after_build(){
+    go_src_dir
+
+    # build minilzo
+    gcc $CFLAGS -fpic -Iinclude/lzo -o minilzo/minilzo.o -c minilzo/minilzo.c
+    gcc $LDFLAGS -shared -o libminilzo.so.0 -Wl,-soname,libminilzo.so.0 minilzo/minilzo.o
+
+    # install minilzo
+    install -m 755 libminilzo.so.0 ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+    install -p -m 644 minilzo/minilzo.h ${pkgdir}/usr/include/lzo
+    cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+    ln -s libminilzo.so.0 libminilzo.so
+}

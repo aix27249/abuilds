@@ -1,10 +1,11 @@
 pkgname=libsigsegv
 pkgver=2.10
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 shortdesc="Page fault detection library"
 source=("ftp://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 tags="libs dev-libs"
+build_deps="glibc"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -14,6 +15,7 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
+--enable-shared \
 --program-prefix= \
 --program-suffix="
 INSTALL_KEYS="DESTDIR=$pkgdir"

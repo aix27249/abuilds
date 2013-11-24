@@ -1,0 +1,36 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=dosbox
+pkgver=0.74
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Emulator with builtin DOS for running DOS Games"
+source=("http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz")
+tags="games-emulation games"
+build_deps="sdl_net zlib sdl_sound libpng alsa-lib gcc mesa"
+
+docs="docs/README.video"
+
+before_build() {
+    go_src_dir
+    sed -i 's/png_check_sig/png_sig_cmp/' configure
+}
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc/dosbox \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--enable-alsa-midi \
+--disable-alsatest \
+--disable-sdltest \
+--disable-debug \
+--enable-core-inline \
+--enable-dynrec \
+--enable-fpu \
+--enable-fpu-x86 \
+--enable-unaligned-memory \
+--enable-opengl"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

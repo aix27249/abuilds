@@ -1,5 +1,5 @@
 pkgname=libXau
-pkgver=1.0.7
+pkgver=1.0.8
 pkgbuild=1
 arch=('auto')
 
@@ -9,7 +9,7 @@ longdesc=('libXau is part of X11. For more information about the X.Org Foundatio
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXau-${pkgver}.tar.bz2")
-
+build_deps="glibc xproto pkg-config"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"

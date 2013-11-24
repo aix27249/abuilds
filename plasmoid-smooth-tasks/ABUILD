@@ -1,24 +1,26 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=plasmoid-smooth-tasks
-pkgver=wip_2010_11_06
+pkgver=2013-10-12
 pkgbuild=1
 arch=('auto')
-_fname=smooth-tasks-src-${pkgver//_/-}
-shortdesc="A taskbar replacement Plasmoid"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Альтернативный плазмоид для списка задач"
-)
 
-source=("http://kde-look.org/CONTENT/content-files/101586-${_fname}.tar.bz2")
+shortdesc="Smooth Tasks 2: This is evolution of Smooth Tasks, a taskbar replacement Plasmoid"
+#longdesc=("http://kde-look.org/content/show.php/Smooth+Tasks+2?content=148813"
+#)
+
+source=("http://beonis.fr/smooth-tasksv${pkgver}.tar.gz")
 
 patch_opts=("")
 
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+#short and long tags / длинный и короткий тег
+tags="kde4 kde-misc"
 
-tags="kde-misc kde4"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
+#dependencies only needed to build package
+build_deps=""
 
 provides=""
 conflicts=""
@@ -26,38 +28,39 @@ conflicts=""
 adddep=""
 removedep=""
 
-#author=Unnamed_Hero
-#email=sorry@email.hide
+#for multi pkg abuild
+pkglist=
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
+#Set number of jobs while compliling, otherwise it'll be autodetected
+#numjobs=1
+
+#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 #ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+#запускается перед сборкой.
+#before_build()
+#{
+#
+#}
 
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
-rm -rf build
-mkdir -p build                                                                                                       
-cd build                                                                                                          
-cmake .. -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix`                                                            
-make -j${numjobs} || exit 1
-make install DESTDIR=${pkgdir} || exit 1
-}
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
 
 #ran after function build() 
 #после сборки
-after_build()
-{
- echo ""
-}
+#after_build()
+#{
+
+#}
