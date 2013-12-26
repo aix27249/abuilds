@@ -1,12 +1,12 @@
 #!/sbin/runscript
 
-prog_path="/opt/teamviewer8/tv_bin/teamviewerd"
+prog_path="/opt/teamviewer{ver}/tv_bin/teamviewerd"
 pidfile="/var/run/teamviewerd.pid"
 
 depend() {
    use logger dns
    need net xdm
-   after xdm   
+   after xdm
 }
 
 start() {
@@ -28,5 +28,4 @@ stop () {
   rm -rf ${pidfile} >/dev/null 2>&1
   eend $?
 }
-
 
