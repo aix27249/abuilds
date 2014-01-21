@@ -18,7 +18,7 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="gnome gnome-base"
+tags="gnome gnome-base compat32"
 
 #dependencies only needed to build package
 build_deps=""

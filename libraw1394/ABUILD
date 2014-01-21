@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("libraw1394 (user space IEEE 1394 driver)")
 longdesc=("libraw1394 provides direct access to the IEEE 1394 bus through the Linux 1394 subsystem's raw1394 user space interface. Homepage: http://www.linux1394.org/")
 
-tags=("sys-libs libs")
+tags=("sys-libs libs compat32")
 source=("ftp://ftp.kernel.org/pub/linux/libs/ieee1394/${pkgname}-${pkgver}.tar.xz")
 build_deps="glibc-solibs pkg-config"
 

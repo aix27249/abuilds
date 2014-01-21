@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc="The Oil Runtime Compiler (and OIL stands for Optimized Inner Loops)"
 source=("http://code.entropywave.com/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="develop dev-util"
+tags="develop dev-util compat32"
 build_deps="glibc"
 
 BUILD_SYSTEM="autotools"

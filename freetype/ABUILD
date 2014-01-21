@@ -5,7 +5,7 @@ shortdesc="TrueType font rendering library"
 longdesc="TrueType font rendering library"
 arch=('auto')
 source=("http://downloads.sourceforge.net/sourceforge/freetype/freetype-${pkgver}.tar.bz2")
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 
 build_deps="bzip2 zlib"
 adddep="bash"

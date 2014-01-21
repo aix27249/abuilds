@@ -9,7 +9,7 @@ arch=("auto")
 shortdesc=("Enables programs to use display computer terminals in a device-independent manner")
 longdesc=("This is the GNU termcap library -- a library of C functions that enable programs to send control strings to terminals in a way independent of the terminal type. Most of this package is also distributed with GNU Emacs, but it is available in this separate distribution to make it easier to install as -ltermcap.")
 
-tags=("sys-libs libs")
+tags=("sys-libs libs compat32")
 
 source=("http://ftp.gnu.org/gnu/${pkgbase}/${pkgbase}-${pkgver}.tar.gz")
 build_deps="glibc-solibs"

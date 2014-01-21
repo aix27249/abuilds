@@ -6,7 +6,7 @@ arch=("auto")
 shortdesc=("gettext (internationalization framework)")
 longdesc=("The GNU gettext package contains 'gettext' and 'ngettext', programs that are used to internationalize the messages given by shell scripts.")
 
-tags=("base sys-devel")
+tags=("base sys-devel compat32")
 
 source=("ftp://ftp.gnu.org/pub/gnu/gettext/${pkgname}-${pkgver}.tar.gz")
 

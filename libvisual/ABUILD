@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("Abstraction library that comes between applications and audio visualisation plugins")
 longdesc=("Libvisual is an audio visualization library that acts as a middle layer between audio visualization plugins and applications. Any application written with libvisual support included will be able to make use of all the plugins that are written for libvisual. Libvisual also contains a whole set of facilities to ease the development of plugins. Libvisual was written by Dennis Smit.")
 
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 source=("http://downloads.sourceforge.net/sourceforge/libvisual/libvisual-${pkgver}.tar.gz")
 build_deps="glibc-solibs"
 

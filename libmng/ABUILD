@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("libmng (Multiple-image Network Graphics library)")
 longdesc=("This is libmng, the MNG reference library. MNG (pronounced 'ming'), is short for Multiple-image Network Graphics. Designed with the same modular philosophy as PNG and by many of the same people, MNG is intended to provide a home for all of the multi-image (animation) capabilities that have no place in PNG. libmng was written by Gerard Juyn.")
 
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 build_deps="glibc-solibs lcms zlib libjpeg"
 

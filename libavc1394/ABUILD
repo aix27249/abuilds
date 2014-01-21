@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc="libavc1394 is a programming interface for the 1394 Trade Association AV/C (Audio/Video Control) Digital Interface Command Set."
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-tags="libs sys-libs"
+tags="libs sys-libs compat32"
 build_deps="libraw1394"
 
 BUILD_SYSTEM="autotools"

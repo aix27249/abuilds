@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc=("A block-sorting file compressor")
 
-tags="base app-arch"
+tags="base app-arch compat32"
 
 source=("http://www.bzip.org/${pkgver}/bzip2-${pkgver}.tar.gz")
 

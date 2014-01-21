@@ -6,7 +6,7 @@ shortdesc="PulseAudio sound server"
 #source=("http://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.gz")
 source=("git:git://anongit.freedesktop.org/pulseaudio/pulseaudio")
 build_deps="json-c bluez"
-tags="libs media-sound"
+tags="libs media-sound compat32"
 pkglist="libpulse"
 config_files="etc/pulse/daemon.conf
 etc/pulse/default.pa

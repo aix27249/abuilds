@@ -8,7 +8,7 @@ shortdesc="Vorbis codec library"
 
 source=("http://downloads.xiph.org/releases/vorbis/${pkgname}-${pkgver}.tar.gz")
 
-tags="libs media-libs"
+tags="libs media-libs compat32"
 
 build_deps="libogg"
 

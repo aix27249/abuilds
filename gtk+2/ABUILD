@@ -11,7 +11,7 @@ config_files="etc/gtk-2.0/im-multipress.conf"
 
 source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/$tree/gtk+-${pkgver}.tar.xz")
 
-tags="libs x11-libs"
+tags="libs x11-libs compat32"
 pkglist="gtk_update_icon_cache"
 adddep="gtk-update-icon-cache"
 build_deps=("atk pango libXcursor libXinerama libXrandr libXi libXcomposite 

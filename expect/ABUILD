@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("expect (program that talks to other interactive programs)")
 longdesc=("Expect is a program that talks to other interactive programs according to a script. Following the script, Expect knows what can be expected from a program and what the correct response should be. An interpreted language provides branching and high-level control structures to direct the dialogue. Expect was written by Don Libes of the National Institute of Standards and Technology.")
 
-tags=("dev-lang tcl")
+tags=("dev-lang tcl compat32")
 
 source=("http://downloads.sourceforge.net/project/expect/Expect/${pkgver}/expect${pkgver}.tar.gz")
 

@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("openldap (OpenLDAP client and server programs)")
 longdesc=("OpenLDAP is an open source implementation of the Lightweight Directory Access Protocol. LDAP is a alternative to the X.500 Directory Access Protocol (DAP). It uses the TCP/IP stack versus the overly complex OSI stack. LDAP is often used to provide authentication (such as for email). The OpenLDAP homepage is http://www.openldap.org/")
 
-tags=("network net-misc")
+tags=("network net-misc compat32")
 
 source=("http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${pkgver}.tgz")
 config_files="etc/openldap/ldap.conf

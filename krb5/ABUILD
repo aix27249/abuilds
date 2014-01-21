@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("Kerberos (Network authentication protocol)")
 longdesc=("Kerberos was created by MIT as a solution to these network security problems. The Kerberos protocol uses strong cryptography so that a client can prove its identity to a server (and vice versa) across an insecure network connection. After a client and server has used Kerberos to prove their identity, they can also encrypt all of their communications to assure privacy and data integrity. http://web.mit.edu/kerberos WWW.SLACKY.IT PackaGer Gohanz.")
 
-tags=("libs net-libs")
+tags=("libs net-libs compat32")
 
 source=("http://web.mit.edu/kerberos/dist/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}-signed.tar")
 

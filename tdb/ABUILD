@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc="A Trivia Database similar to GDBM but allows simultaneous commits"
 source=("http://samba.org/ftp/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="network sys-libs"
+tags="network sys-libs compat32"
 build_deps="python libxslt docbook-xsl"
 adddep="python"
 

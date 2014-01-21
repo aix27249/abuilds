@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("libcap (get/set POSIX capabilities)")
 longdesc=("This is a library for getting and setting POSIX.1e (formerly POSIX 6) draft 15 capabilities. Libcap was written by Andrew G. Morgan; however, it would not have been possible without the help of Aleph1, Roland Buresund, Andrew Main, and Alexander Kjeldaas.")
 
-tags=("libs sys-libs")
+tags=("libs sys-libs compat32")
 
 # kernel.org still misses these files, so use archlinux mirror
 source=("ftp://ftp.archlinux.org/other/${pkgname}/${pkgname}-${pkgver}.tar.gz")

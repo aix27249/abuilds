@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=('e2fsprogs (ext2/3/4 filesystems utilities)')
 longdesc=('Utilities needed to create and maintain ext2/3/4filesystems. These utilities were written by Remy Card (the developer and maintainer of the ext2 fs) and Theodore Tso.')
 
-tags="base sys-fs"
+tags="base sys-fs compat32"
 
 source=("https://www.kernel.org/pub/linux/kernel/people/tytso/${pkgname}/v${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
