@@ -14,7 +14,7 @@ longdesc=("Application development toolkit for controlling system-wide privilege
 source=("http://hal.freedesktop.org/releases/polkit-${pkgver}.tar.gz")
 
 # Tags
-tags="libs sys-auth"
+tags="libs sys-auth compat32"
 
 # Manually-added dependencies
 adddep="gobject-introspection"

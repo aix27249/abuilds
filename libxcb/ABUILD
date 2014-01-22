@@ -7,7 +7,7 @@ arch=('auto')
 shortdesc=('libxcb (X protocol C-language Binding)')
 longdesc=('The XCB library provides an interface to the X Window System protocol which is fully capable of replacing Xlib. In fact, libX11 makes use of libxcb as much as possible. :-) Porting to XCB has several advantages such as a smaller memory footprint, latency hiding, direct protocol access, and improved thread support.')
 
-tags=('x11-xcbs xserver')
+tags=('x11-xcbs xserver compat32')
 source=("http://xcb.freedesktop.org/dist/libxcb-${pkgver}.tar.bz2")
 build_deps='glibc-solibs libXau libXdmcp xcb-proto'
 

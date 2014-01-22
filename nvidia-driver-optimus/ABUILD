@@ -17,7 +17,7 @@ source=("ftp://download.nvidia.com/XFree86/Linux-${TARGET}/${pkgver}/NVIDIA-Linu
 provides="nvidia-driver"
 adddep="nvidia-kernel libgl libglx"
 
-tags="drivers x11-drivers"
+tags="drivers x11-drivers compat32"
 
 build()
 {

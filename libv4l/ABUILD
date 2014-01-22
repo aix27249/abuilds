@@ -13,7 +13,7 @@ longdesc=("Userspace library for Video 4 Linux (1 and 2)")
 # Source URL
 source=("http://linuxtv.org/downloads/v4l-utils/v4l-utils-${pkgver}.tar.bz2")
 # Tags
-tags="libs media-libs"
+tags="libs media-libs compat32"
 
 # Main build script
 build() {

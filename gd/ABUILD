@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("Library for the dynamic creation of images by programmers")
 longdesc=("gd is a graphics library. It allows your code to quickly draw images complete with lines, arcs, text, multiple colors, cut and paste from other images, and flood fills, and write out the result as a PNG or JPEG file. This is particularly useful in web applications, where PNG and JPEG are two of the formats accepted for inline images by most browsers. The gd library was written by Thomas Boutell.")
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 source=("https://bitbucket.org/libgd/gd-libgd/downloads/libgd-${pkgver}.tar.xz")
 build_deps="libpng libjpeg fontconfig glibc-solibs libX11 libXau libxcb libXdmcp libXpm"
 

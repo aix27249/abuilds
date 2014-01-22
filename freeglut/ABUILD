@@ -10,7 +10,7 @@ GLUT is designed for constructing small to medium sized OpenGL programs, however
 )
 
 source=("http://downloads.sourceforge.net/freeglut/${pkgname}-${pkgver}.tar.gz")
-tags="libs media-libs"
+tags="libs media-libs compat32"
 build_deps="glu libXxf86vm"
 
 

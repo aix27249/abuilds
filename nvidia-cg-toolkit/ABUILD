@@ -14,7 +14,7 @@ else
      source=("http://developer.download.nvidia.com/cg/Cg_${pkgver}/Cg-${pkgver}_${date}_x86.tgz")
 fi
 
-tags="libs media-gfx"
+tags="libs media-gfx compat32"
 build_deps="mkpkg"
 
 

@@ -14,7 +14,7 @@ longdesc=("BlueZ provides support for the core Bluetooth layers and protocols. I
 source=("http://www.kernel.org/pub/linux/bluetooth/bluez-${pkgver}.tar.gz")
 
 # Tags
-tags="network net-wireless"
+tags="network net-wireless compat32"
 
 # Manually-added dependencies
 adddep=""

@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("perl (Practical Extraction and Report Language)")
 longdesc=("Larry Wall's 'Practical Extraction and Report Language'. Perl is a language optimized for scanning arbitrary text files, extracting information from those text files, and printing reports based on that information. It's also a good language for many system management tasks. The language is intended to be practical (easy to use, efficient, complete) rather than beautiful (tiny, elegant, minimal).")
 
-tags=("dev-lang develop")
+tags=("dev-lang develop compat32")
 
 source=("http://www.cpan.org/src/5.0/perl-${pkgver}.tar.bz2")
 

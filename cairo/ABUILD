@@ -8,7 +8,7 @@ arch=('auto')
 shortdesc=('cairo (graphics library used by GTK+)')
 longdesc=('Cairo is a vector graphics library designed to provide high-quality display and print output. Cairo is designed to produce identical output on all output media while taking advantage of display hardware acceleration when available (eg. through the X Render Extension or OpenGL).')
 
-tags=('libs x11-libs')
+tags=('libs x11-libs compat32')
 
 source=("http://cairographics.org/releases/cairo-${pkgver}.tar.xz")
 

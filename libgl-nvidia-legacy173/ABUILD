@@ -11,7 +11,7 @@ mesa_version=8.0.4
 shortdesc=('NVIDIA driver for GeForce FX (5xxx) series')
 longdesc=('This is the proprietary binary video driver for legacy cards (Geforce 5) from nvidia for the X.org X server.This is the proprietary binary video driver for legacy cards (Geforce 5) from nvidia for the X.org X server.')
 
-tags=('drivers proprietary x11-drivers')
+tags=('drivers proprietary x11-drivers compat32')
 
 TARGET="x86"
 if [ "`uname -m`" = "x86_64" ] ; then

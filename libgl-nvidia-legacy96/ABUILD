@@ -13,7 +13,7 @@ mesa_ver=8.0.4
 shortdesc=('NVIDIA driver for GeForce 4 and older series')
 longdesc=('This is the proprietary binary video driver for legacy cards (Geforce 4 and older) from nvidia for the X.org X server.')
 
-tags=('drivers proprietary x11-drivers')
+tags=('drivers proprietary x11-drivers compat32')
 
 TARGET="x86"
 if [ "`uname -m`" = "x86_64" ] ; then

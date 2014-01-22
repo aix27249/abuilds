@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc="A library providing a set of interfaces for accessibility"
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
-tags="libs dev-libs"
+tags="libs dev-libs compat32"
 build_deps="gobject-introspection glib2"
 
 BUILD_SYSTEM="autotools"

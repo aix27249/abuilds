@@ -8,7 +8,7 @@ usbhid_ver=1.2
 shortdesc=("USB Device Utilities")
 longdesc=("lsusb displays detailed information about all USB buses and devices in the system. usbmodules lists the kernel modules for a plugged in USB device. See the manual pages for more details.")
 
-tags=("base sys-apps")
+tags=("base sys-apps compat32")
 
 source=("https://github.com/gregkh/usbutils/tarball/v${pkgver}"
 "http://sourceforge.net/projects/digimend/files/usbhid-dump/usbhid-dump-${usbhid_ver}.tar.gz n")

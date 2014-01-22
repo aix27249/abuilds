@@ -6,7 +6,7 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("GNU C libraries")
-tags=("base sys-base")
+tags=("base sys-base compat32")
 
 source=("http://ftp.gnu.org/gnu/glibc/glibc-${pkgver}.tar.xz")
 

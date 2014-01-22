@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc="GDK Pixbuf library"
 longdesc=("An image loading library for gtk2/gtk3")
 source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-${pkgver}.tar.xz")
-tags="libs x11-libs"
+tags="libs x11-libs compat32"
 build_deps="glib2 libpng libtiff libjpeg libX11"
 
 

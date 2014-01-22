@@ -9,7 +9,7 @@ numjobs=1
 shortdesc=('cyrus-sasl (Simple Authentication and Security Layer)')
 longdesc=('This is the Cyrus SASL library. Cyrus SASL is used by mail programs on the client or server side to provide authentication and authorization services. See RFC 2222 for more information.')
 
-tags=('dev-libs network')
+tags=('dev-libs network compat32')
 
 source=("ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-${pkgver}.tar.gz")
 config_files="etc/conf.d/saslauthd"
