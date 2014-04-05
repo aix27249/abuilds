@@ -2,7 +2,7 @@
 
 pkgname=ffmpeg
 pkgver=2.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 conflicts="libav"
 shortdesc="Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything."
