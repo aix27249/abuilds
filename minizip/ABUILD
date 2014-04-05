@@ -1,0 +1,34 @@
+pkgname=zlib
+pkgver=1.2.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Massively Spiffy Yet Delicately Unobtrusive Compression Library"
+source=("http://downloads.sourceforge.net/libpng/zlib-${pkgver}.tar.xz")
+tags="libs app-arch"
+build_deps="glibc-solibs"
+pkglist="minizip"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sharedlibdir=/lib${LIBDIRSUFFIX}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+minizip() {
+  pkgname=minizip
+  pkgdesc='ZIP file extraction library'
+}
+
+minizip_prep() {
+  go_src_dir
+  cd contrib/$pkgname
+
+  rm -f Makefile
+  autoreconf -i
+  autoconf
+  automake --add-missing
+  automake
+
+  ./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX
+  make -j${numjobs}
+  make install DESTDIR="$pkgdir"
+}
