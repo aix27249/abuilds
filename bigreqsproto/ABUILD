@@ -1,18 +1,28 @@
 pkgname=bigreqsproto
 pkgver=1.1.2
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
-shortdesc=('bigreqsproto')
+shortdesc=('X11 Big Requests extension wire protocol')
+
 longdesc=('bigreqsproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=("x11-protos xserver")
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/bigreqsproto-${pkgver}.tar.bz2")
-build_deps="util-macros xmlto docbook-xml"
 
+build_deps="make gcc grep util-macros xmlto docbook-xml"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --with-fontrootdir=/usr/share/fonts \
+            --build=$ARCH-slackware-linux "
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

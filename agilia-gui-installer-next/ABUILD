@@ -1,0 +1,26 @@
+# Package metadata
+pkgname=agilia-gui-installer-next
+pkgver=1.1
+pkgbuild=1
+arch=("auto")
+
+# Package description
+shortdesc=("AgiliaLinux system installer")
+longdesc=("This is an AgiliaLinux installer. It is used to install this operating system from LiveCD. Also you can try to use it from real system.")
+
+# Source URL
+#source=("git:git://github.com/aix27249/mpkg.git")
+
+# Tags
+tags="xapps sys-apps"
+
+# Build system
+#BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
+
+build() {
+
+cd ${pkgdir}
+mkdir -p ${pkgdir}/usr || exit 1
+cp -R ${startdir}/hand/* $pkgdir/usr 
+
+}

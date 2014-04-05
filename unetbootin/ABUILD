@@ -1,0 +1,39 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=unetbootin
+pkgver=585
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Create bootable Live USB drives"
+
+source=("http://downloads.sourceforge.net/project/${pkgname}/UNetbootin/${pkgver}/${pkgname}-source-${pkgver}.tar.gz")
+
+tags="sys-fs xapps"
+
+build_deps="qt4"
+
+adddep="polkit"
+
+build() {
+  go_src_dir
+  lupdate unetbootin.pro
+  lrelease unetbootin.pro
+  qmake "DEFINES += NOSTATIC" "RESOURCES -= unetbootin.qrc"
+  make
+}
+
+after_build(){
+  go_src_dir
+  install -Dm755 "${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  mkdir -p "${pkgdir}/usr/share/${pkgname}"
+  install -m644 "${pkgname}"_*.qm "${pkgdir}/usr/share/${pkgname}/"
+  install -Dm644 "${pkgname}.desktop" \
+                 "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+  for i in 16 22 24 32 48 256; do
+      install -D "${pkgname}_${i}.png" \
+      "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/${pkgname}.png"
+  done
+  install -Dm644 ${filedir}/'org.agilialinux.pkexec.unetbootin.policy' \
+                 "${pkgdir}/usr/share/polkit-1/actions/org.agilialinux.pkexec.unetbootin.policy"
+}

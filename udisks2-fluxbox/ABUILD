@@ -1,0 +1,34 @@
+pkgname=udisks2-fluxbox
+pkgver=2.1.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Daemon providing interfaces to work with storage devices"
+
+source=("http://hal.freedesktop.org/releases/udisks-${pkgver}.tar.bz2")
+
+tags="sys-fs base"
+
+build_deps="make gcc intltool perl pkg-config zlib libatasmart libffi glib2 udev polkit-fluxbox"
+
+adddep="polkit-fluxbox"
+provides="udisks "
+
+build() {
+go_src_dir
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--disable-man   --enable-introspection=no --disable-debug -disable-static
+
+make || echo "11111"
+make DESTDIR=${pkgdir} install || echo "11111"
+
+install -dm755 ${pkgdir}/etc/polkit-1/localauthority
+ install -dm755 ${pkgdir}/etc/polkit-1/localauthority/50-local.d
+ install -m644 ${filedir}/org.freedesktop.udisks.pkla ${pkgdir}/etc/polkit-1/localauthority/50-local.d/
+ install -m644 ${filedir}/org.freedesktop.udisks2.pkla ${pkgdir}/etc/polkit-1/localauthority/50-local.d/
+
+}

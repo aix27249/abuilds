@@ -8,7 +8,10 @@ arch=('auto')
 
 shortdesc="ObConf is a GTK+ tool to assist with the configuration of the Openbox window manager"
 
-source=("git:git://git.openbox.org/dana/${pkgname}.git")
+
+#source=("git:git://git.openbox.org/dana/${pkgname}.git")
+source=("http://openbox.org/dist/obconf/obconf-${pkgver}.tar.gz")
+
 
 patch_opts=("")
 
@@ -44,7 +47,8 @@ custom_opts=""
 
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./bootstrap && ./configure"
+#BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./bootstrap && ./configure"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --bindir=/usr/bin \
@@ -56,7 +60,7 @@ BUILD_KEYS="--prefix=/usr \
 --includedir=/usr/include \
 --mandir=/usr/man \
 --infodir=/usr/info \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
 --enable-nls"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-

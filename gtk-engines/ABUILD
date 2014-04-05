@@ -1,56 +1,15 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gtk-engines
 pkgver=2.20.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Set of GTK+2 engines"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Set of GTK+2 engines: Clearlooks, Crux, Glide, HC, Industrial, LUA, Mist, Redmond, Thinice"
-)
-
 source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.20/${pkgname}-${pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="themes x11-themes"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="pango zlib expat cairo"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
 
@@ -67,10 +26,3 @@ BUILD_KEYS="--prefix=/usr \
 --enable-animation"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

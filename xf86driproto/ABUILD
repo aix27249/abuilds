@@ -9,11 +9,17 @@ longdesc=('xf86driproto is part of X11. For more information about the X.Org Fou
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xf86driproto-${pkgver}.tar.bz2")
-build_deps="util-macros"
 
+build_deps="make gcc pkg-config sed util-macros"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 

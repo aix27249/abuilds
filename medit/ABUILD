@@ -1,21 +1,13 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=medit
-pkgver=1.1.92
+pkgver=1.1.97
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Text edit 5+!"
-#-ruler---|--------------------------------------------------------------------------|
 
-source=("http://citylan.dl.sourceforge.net/project/mooedit/${pkgname}/1.1.2/${pkgname}-${pkgver}-devel.tar.bz2")
+source=("http://jaist.dl.sourceforge.net/project/mooedit/medit/unstable-1.1.9x/${pkgname}-${pkgver}-devel.tar.bz2")
 
-#http://citylan.dl.sourceforge.net/project/mooedit/medit/1.1.2/medit-1.1.92-devel.tar.bz2
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-editors xapps"
 
 
@@ -28,6 +20,8 @@ go_src_dir
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
+--with-python \
+--enable-shared \
 --enable-nls 
 
 make DESTDIR=$pkgdir install

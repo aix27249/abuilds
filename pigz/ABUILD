@@ -1,8 +1,5 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pigz
-pkgver=2.2.4
+pkgver=2.3.1
 pkgbuild=1
 arch=('auto')
 
@@ -10,16 +7,10 @@ shortdesc="Parallel implementation of the gzip file compressor"
 
 source=("http://www.zlib.net/$pkgname/$pkgname-$pkgver.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-arch libs"
 
 
 adddep="zlib"
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
 
 
 build()

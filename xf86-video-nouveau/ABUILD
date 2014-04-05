@@ -1,6 +1,6 @@
 # Package metadata
 pkgname=xf86-video-nouveau
-pkgver=1.0.1
+pkgver=1.0.10
 pkgbuild=1
 arch="auto"
 
@@ -9,8 +9,9 @@ shortdesc=("Nouveau: Accelerated Open Source X11 driver for nVidia cards")
 
 # Source URL
 #source=("git:git://anongit.freedesktop.org/git/nouveau/xf86-video-nouveau")
-source=("http://nouveau.freedesktop.org/release/xf86-video-nouveau-$pkgver.tar.bz2")
-
+#source=("http://nouveau.freedesktop.org/release/xf86-video-nouveau-$pkgver.tar.bz2")
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-nouveau-$pkgver.tar.bz2")
+build_deps="xorg-server glibc-solibs"
 # Tags
 tags="xserver x11-drivers"
 adddep="nouveau-dri"

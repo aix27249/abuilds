@@ -1,51 +1,17 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=qpdfview
-pkgver=0.4.6
-pkgbuild=1
+pkgver=0.4.8beta1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="a tabbed document viewer using Qt"
-#longdesc=(""
-#)
 
 source=("https://launchpad.net/qpdfview/trunk/${pkgver}/+download/qpdfview-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps app-text"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="poppler libspectre"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
 docs="CHANGES CONTRIBUTORS"
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
 before_build()
 {
 go_src_dir
@@ -62,9 +28,3 @@ BUILD_KEYS="*.pro PREFIX=/usr \
 	PLUGIN_INSTALL_PATH=/usr/lib${LIBDIRSUFFIX}/${pkgname}"
 
 
-#ran after function build() 
-#после сборки
-#after_build()
-#{
-#
-#}

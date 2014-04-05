@@ -1,17 +1,19 @@
 pkgname=MPlayer
-pkgver=1.1.1
+pkgver=r36558
+#`svn info svn://svn.mplayerhq.hu/mplayer/trunk | grep "Revision:" | cut -f2 -d ' '`
+strict_version="yes"
 pkgbuild=1
 arch=('auto')
 
 shortdesc="MPlayer (media player)"
 longdesc=("MPlayer is a movie player. It plays most MPEG/VOB, AVI, Ogg/OGM, VIVO, ASF/WMA/WMV, QT/MOV/MP4, RealMedia, Matroska, NUT, NuppelVideo, FLI, YUV4MPEG, FILM, RoQ, PVA files, supported by many native, XAnim, and Win32 DLL codecs. You can watch VideoCD, SVCD, DVD, 3ivx, DivX 3/4/5, WMV and even H.264 movies.")
 
+
+build_deps="subversion videoproto"
+
 source=("svn:svn://svn.mplayerhq.hu/mplayer/trunk")
 
 tags="xapps media-video"
-build_deps="libXxf86dga libXxf86vm libmad libXinerama sdl lame libtheora xvidcore libmng libXScrnSaver smbclient
-aalib libcaca x264 faac faad2 libXvMC enca libvdpau opencore-amr libdca a52dec schroedinger libvpx ffmpeg
-fribidi infozip mesa yasm git fontconfig mpg123 ladspa libass libbluray libcdio-paranoia subversion"
 
 pkglist=mencoder
 
@@ -35,17 +37,16 @@ build() {
 	--disable-ossaudio \
 	--disable-esd \
 	--disable-arts \
-	--disable-jack \
+	--enable-jack \
 	--enable-vdpau \
 	--enable-shm \
 	--enable-xvmc \
 	--enable-x264 \
 	--language=all \
-	--extra-ldflags="-lx264" \
+	--extra-ldflags="-ljack -lx264" \
 	--enable-runtime-cpudetection
 
-        svnrev=r`svn info svn://svn.mplayerhq.hu/mplayer/trunk | grep "Revision:" | cut -f2 -d ' '`
-	echo "${pkgver}-${svnrev}" > VERSION
+	echo "1.0rc4-${pkgver}" > VERSION
 	if [ $ARCH = "i686" ]; then
 		sed 's|-march=i486|-march=i686|g' -i config.mak
 	fi
@@ -72,3 +73,4 @@ mencoder() {
 	shortdesc="mencoder (MPlayer Media Encoder)"
 	longdesc=("mencoder is a simple movie encoder, designed to encode MPlayer-playable movies (see above) to other MPlayer-playablev formats (see below).  It encodes to  MPEG-4 (DivX/Xvid), one of the libavcodec codecs and PCM/MP3/VBRMP3 audio in 1, 2 or 3 passes. Furthermore it has stream copying abilities, a powerful filter system (crop, expand, flip, postprocess, rotate, scale, noise, RGB/YUV conversion) and more.")
 }
+

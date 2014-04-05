@@ -1,0 +1,38 @@
+pkgname=redis
+pkgver=2.8.7
+pkgbuild=1
+shortdesc="Advanced key-value store"
+arch=('auto')
+adddep='bash'
+config_files="etc/redis.conf
+etc/logrotate.d/redis
+etc/conf.d/redis"
+tags="dev-db server"
+source=("http://download.redis.io/releases/redis-$pkgver.tar.gz"
+)
+before_build() {
+	go_src_dir
+
+	sed -i 's|# bind 127.0.0.1|bind 127.0.0.1|' redis.conf
+	sed -i 's|daemonize no|daemonize yes|' redis.conf
+	sed -i 's|dir \./|dir /var/lib/redis/|' redis.conf
+	sed -i 's|pidfile .*|pidfile /run/redis/redis.pid|' redis.conf
+	sed -i 's|logfile stdout|logfile /var/log/redis.log|' redis.conf
+}
+
+build() {
+	go_src_dir
+	burn_patches
+	make -j${NUMJOBS} || make
+}
+
+after_build() {
+	go_src_dir
+	mkdir -p $pkgdir/usr/bin
+	make INSTALL_BIN="$pkgdir/usr/sbin" PREFIX=/usr install
+
+	install -Dm755 $filedir/redis.initd $pkgdir/etc/init.d/redis
+	install -Dm644 $filedir/redis.confd $pkgdir/etc/conf.d/redis
+	install -Dm644 $filedir/redis.logrotate $pkgdir/etc/logrotate.d/redis
+	install -Dm644 redis.conf $pkgdir/etc/redis.conf
+}

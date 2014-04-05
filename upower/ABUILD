@@ -1,15 +1,19 @@
 pkgname=upower
-pkgver=0.9.13
+pkgver=0.9.23
 pkgbuild=1
 arch=('auto')
 
 shortdesc="abstraction for power management"
-longdesc=("upower provides an interface to enumerate power sources on the system and control system-wide power management. Any application can access the org.freedesktop.UPower service on the system message bus. Some operations (such as suspending the system) are restricted using PolicyKit."
-)
+longdesc=("upower provides an interface to enumerate power sources on the system and control system-wide power management. Any application can access the org.freedesktop.UPower service on the system message bus. Some operations (such as suspending the system) are restricted using PolicyKit.")
 
 source=("http://upower.freedesktop.org/releases/${pkgname}-${pkgver}.tar.xz")
 
 tags="base sys-power"
+
+build_deps="make gcc grep pkg-config sed binutils perl intltool docbook-xsl"
+
+adddep="libusb polkit dbus-glib libimobiledevice"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -21,8 +25,9 @@ BUILD_KEYS="--prefix=/usr \
 --libexecdir=/usr/lib$LIBDIRSUFFIX/upower \
 --disable-static \
 --mandir=/usr/man \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
 --with-backend=linux \
 --enable-introspection"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

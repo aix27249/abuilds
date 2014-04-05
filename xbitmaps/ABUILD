@@ -1,6 +1,6 @@
 pkgname=xbitmaps
 pkgver=1.1.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xbitmaps: X.org Bitmap files')
@@ -8,7 +8,8 @@ longdesc=('xbitmaps is part of X11. For more information about the X.Org Foundat
 
 tags=('x11-datas xserver')
 
-source=("http://xorg.freedesktop.org/archive/individual/data/xbitmaps-${pkgver}.tar.bz2")
+build_deps="gcc mkpkg"
+source=("http://xorg.freedesktop.org/archive/individual/data/xbitmaps-${pkgver}.tar.gz")
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"

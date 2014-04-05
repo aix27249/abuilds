@@ -1,0 +1,22 @@
+pkgname=qscreenshot
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Simple creation and editing of screenshots"
+source=("http://optimate.dl.sourceforge.net/project/${pkgname}/${pkgname}-1.0-src.tar.gz")
+tags="xapps app-text"
+
+build_deps=" mkpkg "
+
+
+build()
+{
+go_src_dir
+rm ./configure
+cp ${filedir}/configure .
+./configure --prefix=/usr \
+
+make
+make INSTALL_ROOT=${pkgdir} install
+}

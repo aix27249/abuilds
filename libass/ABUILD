@@ -1,13 +1,20 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
 pkgname=libass
-pkgver=0.10.1
+pkgver=0.10.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="LibASS (SSA/ASS subtitles rendering library)"
 
-source=("http://libass.googlecode.com/files/${pkgname}-${pkgver}.tar.xz")
-tags="libs media-libs"
-build_deps="enca fontconfig fribidi pkg-config"
+source=("http://${pkgname}.googlecode.com/files/${pkgname}-${pkgver}.tar.xz")
+
+
+tags="libs media-libs"     			#short and long tags / длинный и короткий тег
+
+#----------------------------- Make PKG --------------------------------------
+#-------------------------- Сборка пакета ------------------------------------
+
 
 BUILD_SYSTEM="autotools"
 
@@ -23,3 +30,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
+

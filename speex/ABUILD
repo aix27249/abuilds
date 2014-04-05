@@ -2,7 +2,7 @@
 
 pkgname=speex
 pkgver=1.2rc1
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("Speex (an audio compression format designed for speech)")

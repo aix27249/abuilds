@@ -1,8 +1,8 @@
 # Lots of thanks to ArchLinux maintainers :)
 pkgname=eclipse
-pkgver=3.8.2
+pkgver=4.3.2
 pkgbuild=1
-_date=201301310800
+_date=201402211700
 arch=('auto')
 
 shortdesc="An IDE for Java and other languages"
@@ -10,8 +10,8 @@ longdesc="Eclipse is a flexible and extendible IDE for Java, C++ and more."
 
 tags="develop dev-java"
 
-source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk.tar.gz")
-[ "${LIBDIRSUFFIX}" = "64" ] && source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk-x86_64.tar.gz")
+source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops4/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk.tar.gz")
+[ "${LIBDIRSUFFIX}" = "64" ] && source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops4/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk-x86_64.tar.gz")
 
 conflicts="eclipse-unstable"
 build_deps="infozip gtk+2 xulrunner"

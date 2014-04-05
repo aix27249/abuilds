@@ -1,0 +1,45 @@
+pkgname=libdjbfft
+pkgver=0.76
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Shared library for Fast Fourier Transformation dependancy for a52dec-fft."
+
+source=("http://cr.yp.to/djbfft/djbfft-${pkgver}.tar.gz")
+
+
+
+tags="libs media-libs"
+
+build(){
+
+go_src_dir
+
+burn_patches
+
+  sed -i 's@/usr/local/djbfft@/usr@' conf-home
+  
+  if [ "{$CARCH}"="x86_64" ]; then
+     echo "gcc -O1 -fomit-frame-pointer -fPIC -DPIC" > conf-cc
+     sed -i 's/auto/idea/' conf-opt
+  else
+    echo "gcc -O1 -fomit-frame-pointer -fPIC -DPIC -malign-double" > conf-cc
+    sed -i 's/auto/Pentium/' conf-opt
+  fi
+  
+  unset CFLAGS
+  
+  echo "Babai!"
+  make LIBDJBFFT="$pkgname".so."$pkgver" LIBPERMS="0644" || echo "Babai3!"
+  echo "Babai2!"
+  install -Dm644 "$pkgname".so."$pkgver" "$pkgdir"/usr/lib${LIBDIRSUFFIX}/"$pkgname".so."$pkgver"
+  ln -svf "$pkgname".so."$pkgver" "$pkgdir"/usr/lib${LIBDIRSUFFIX}/"$pkgname".so.0
+  ln -svf "$pkgname".so."$pkgver" "$pkgdir"/usr/lib${LIBDIRSUFFIX}/"$pkgname".so
+
+  install -d "$pkgdir"/usr/include
+  install -m644 {com*,fft*,has*,real*}.h "$pkgdir"/usr/include/
+
+
+}
+
+

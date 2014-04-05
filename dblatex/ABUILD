@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=dblatex
+pkgver=0.3.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DocBook (XML and SGML) to DVI, PDF, PostScript converter using latex."
+
+source=("http://downloads.sourceforge.net/project/dblatex/dblatex/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-util develop"
+
+build_deps="python docbook-xml libxslt docbook-xsl texlive-bin texlive-core texlive-htmlxml texlive-latexextra texlive-pictures"
+
+adddep="bash python"
+
+before_build(){
+  go_src_dir
+  sed "s|share/doc/dblatex|doc/${pkgname}-${pkgver}|g" -i setup.py
+}
+
+build(){
+  go_src_dir
+
+  burn_patches
+
+  python setup.py install --root "${pkgdir}" --catalogs=/etc/xml/docbook-xml
+}

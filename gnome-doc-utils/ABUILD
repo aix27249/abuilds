@@ -1,13 +1,22 @@
 pkgname=gnome-doc-utils
-pkgver=0.20.7
+pkgver=0.20.10
 pkgbuild=1
 arch=('auto')
-shortdesc="a collection of documentation utilities for the GNOME project"
+
+shortdesc="A collection of documentation utilities for the GNOME project"
+
 source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
 tags="utils app-text"
 
+build_deps="make pkg-config coreutils python libxslt gcc intltool kernel-headers docbook-xml rarian"
+
+adddep="bash python"
+
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -15,5 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+--program-suffix= \
+--disable-scrollkeeper"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

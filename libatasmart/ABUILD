@@ -1,10 +1,11 @@
 pkgname=libatasmart
-pkgver=0.18
+pkgver=0.19
 pkgbuild=1
 arch=('auto')
 shortdesc="ATA S.M.A.R.T. Reading and Parsing Library"
-source=("http://0pointer.de/public/${pkgname}-${pkgver}.tar.gz")
+source=("http://0pointer.de/public/${pkgname}-${pkgver}.tar.xz")
 tags="libs dev-libs"
+build_deps="glibc-solibs udev"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"

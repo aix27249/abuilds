@@ -1,0 +1,15 @@
+pkgname=lcov
+pkgver=1.10
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Front-end for GCC's coverage testing tool gcov")
+tags=("dev-util develop")
+source=("http://downloads.sourceforge.net/ltp/$pkgname-$pkgver.tar.gz")
+build_deps="perl"
+adddeps="perl"
+
+build() {
+  go_src_dir
+  make PREFIX="$pkgdir" install
+}

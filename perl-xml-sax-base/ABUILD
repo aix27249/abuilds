@@ -14,13 +14,13 @@ source=("http://www.cpan.org/authors/id/G/GR/GRANTM/XML-SAX-Base-$pkgver.tar.gz"
 build_deps="perl"
 
 build() {
-	go_src_dir
-	burn_patches
-	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
-	make -j${numjobs}
-	make test
-	make install DESTDIR=$pkgdir
+  go_src_dir
+  burn_patches
+  PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+  make -j${numjobs}
+  make test
+  make install DESTDIR=${pkgdir}
 
-	find $pkgdir -name '.packlist' -delete
-	find $pkgdir -name '*.pod' -delete
+  find ${pkgdir} -name '.packlist' -delete
+  find ${pkgdir} -name '*.pod' -delete
 }

@@ -1,0 +1,16 @@
+pkgname=dri3proto
+pkgver=1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('X11 DRI3 protocol')
+longdesc=('X11 DRI3 protocol.')
+tags=('x11-protos xserver')
+source=("http://xorg.freedesktop.org/archive/individual/proto/${pkgname}-${pkgver}.tar.bz2")
+build_deps="util-macros"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

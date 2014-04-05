@@ -3,7 +3,7 @@
 pkgname=goom
 pkgver=2k4.0
 srcver=2k4-0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Goom (A visual effects generator for mp3 players)"

@@ -1,0 +1,38 @@
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libsrpos_plugin
+pkgver=0.3
+pkgbuild=1
+pkgext=${pkgbuild}
+arch=('auto')
+
+shortdesc="This plugin allows you to automatically save and restore the position
+of the last played files in the VLC player"
+
+source=("http://jaist.dl.sourceforge.net/project/vlcsrposplugin/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+
+#----------------------------- AgiliaLinux vars --------------------------------------
+#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="xapps media-video"
+custom_opts="no_ccache"
+build()
+{
+go_src_dir
+
+
+./configure \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--disable-static \
+--enable-shared
+
+make -j${numjobs} || exit 1
+make install DESTDIR=${pkgdir} || exit 1
+}
+
+

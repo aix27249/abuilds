@@ -1,0 +1,24 @@
+pkgname=cmospwd
+pkgver=5.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Decrypts password stored in CMOS used to access BIOS setup."
+
+source=("http://www.cgsecurity.org/${pkgname}-${pkgver}.tar.bz2")
+
+tags="utils app-admin"
+
+build_deps="gcc mkpkg"
+
+
+
+build()
+{
+go_src_dir
+cd src
+  make -B
+  install -Dm0755 cmospwd "${pkgdir}/usr/bin/cmospwd"
+
+}
+

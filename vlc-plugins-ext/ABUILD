@@ -1,8 +1,7 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=vlc
-pkgver=2.1.1
-pkgbuild=1
+pkgver=2.1.4
+buildver=1
+pkgbuild=${buildver}
 arch=('auto')
 
 shortdesc="VLC (VideoLAN Client multimedia player)"
@@ -10,53 +9,57 @@ shortdesc="VLC (VideoLAN Client multimedia player)"
 source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
 tags="xapps media-video"
-custom_opts="no_ccache"
-#dependencies only needed to build package
-build_deps="lua a52dec libvorbis libogg libtheora speex flac x264 libmpeg2 faad2 faac lame libav libmad \
-orc schroedinger libdca twolame libmpcdec libass libebml libmatroska  libmodplug \
-libshout libdvdcss libdvdread libdvdnav libcddb libcdio vcdimager libgpg-error libgcrypt \
-libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib goom libcaca portaudio libupnp \
-expat sqlite qt4 yasm libbluray fluidsynth libmtp zvbi libkate gcc-g++ git opus "
 
-#libdvbpsi
+custom_opts="no_ccache"
+
+build_deps="lua  libvorbis libogg libtheora speex flac   faad2 faac libvdpau ffmpeg libmad \
+orc x264 lame libdvbpsi schroedinger libdca  libass libebml libmatroska  libmodplug gettext \
+ libdvdcss libdvdread libdvdnav libcddb libcdio  libgpg-error libgcrypt  libnotify \
+libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib  libcaca  libupnp \
+expat sqlite qt4 yasm libbluray fluidsynth  gcc-g++ git opus "
+
 pkglist="vlc-plugins-ext"
 
 removedep="xulrunner"
+
+adddep="xset ffmpeg"
+#libmtp zvbi libkate portaudio goom vcdimager twolame libmpcdec libshout libmpeg2
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
 build()
 {
+
 go_src_dir
 
-./bootstrap 
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
 ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
---localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-nls \
---disable-static \
---enable-shared \
---enable-libass \
---enable-fast-install 
-#\
-#--disable-a52
+--disable-rpath \
+              --enable-nls \
+              --disable-a52 \
+              --enable-upnp
 
-make -j${numjobs} || exit 1
+
+
+
+# опции для правильных пацанов --enable-ncurses \
+#--disable-x264 \
+#--disable-a52 \
+#--disable-vorbis \
+#--disable-speex \
+#--disable-opus \
+#--disable-theora \
+#--disable-schroedinger \
+#--disable-twolame \
+#--disable-xvideo \
+
+make -j4 || exit 1
 make install DESTDIR=${pkgdir} || exit 1
+
 }
 
 
@@ -73,7 +76,8 @@ vlc-plugins-ext() {
 	shortdesc="Ext plugin pask for vlc"
 	adddep="vlc==${p_pkgver}"
 	pkgver=${p_pkgver}
-	pkgbuild=7
+	pkgbuild=${buildver}
+
 }
 
 vlc-plugins-ext_prep() 

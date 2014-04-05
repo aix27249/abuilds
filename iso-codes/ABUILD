@@ -1,16 +1,18 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=iso-codes
-pkgver=3.43
-pkgbuild=15
+pkgver=3.51
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="iso-codes (ISO-standard lists)"
 longdesc=("This package provides lists of various ISO standards (e.g. country, language, language scripts, and currency names) in one place, rather than repeated in many programs throughout the system. Homepage: http://pkg-isocodes.alioth.debian.org/")
-source=(http://pkg-isocodes.alioth.debian.org/downloads/$pkgname-$pkgver.tar.xz)
+
+source=(http://pkg-isocodes.alioth.debian.org/downloads/${pkgname}-${pkgver}.tar.xz)
+
 tags="libs app-text"
-build_deps="gcc"
+
+build_deps="make coreutils"
 
 BUILD_SYSTEM="autotools"
 
@@ -20,9 +22,8 @@ BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"

@@ -1,23 +1,16 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=gkrellm
 pkgver=2.3.5
-pkgbuild=4
+pkgbuild=6
 arch=('auto')
 
 shortdesc="GKrellM charts SMP CPU, load, Disk, and all active net interfaces automatically."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=(" ")
 
 source=("http://members.dslextreme.com/users/billw/$pkgname/$pkgname-$pkgver.tar.bz2")
 
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps x11-utils"
 
+build_deps="xorg-server libSM gettext"  
 
 removedep="lm_sensors"
 
@@ -42,7 +35,7 @@ burn_patches
 make \
 INSTALLDIR=/usr/bin PKGCONFIGDIR=/usr/lib${LIBDIRSUFFIX}/pkgconfig \
 LOCALEDIR=/usr/share/locale MANDIR=/usr/man/man1 \
-INCLUDEDIR=/usr/include || exit 1
+INCLUDEDIR=/usr/include SYS_LIBS+=-lgmodule-2.0 || exit 1
 
 make install \
 INSTALLDIR=$pkgdir/usr/bin DESTDIR=${pkgdir}/usr \

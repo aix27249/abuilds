@@ -1,16 +1,19 @@
 pkgname=schroedinger
 pkgver=1.0.11
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Schroedinger (Dirac video codec portable libraries)"
-source=("http://diracvideo.org/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="libs media-libs"
-build_deps="orc gcc"
 
+source=("http://diracvideo.org/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+
+tags="libs media-libs"     			#short and long tags / длинный и короткий тег
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -22,9 +25,3 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

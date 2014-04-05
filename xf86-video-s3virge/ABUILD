@@ -1,6 +1,6 @@
 pkgname=xf86-video-s3virge
 pkgver=1.10.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xf86-video-s3virge: X11 driver for S3 Virge video cards')
@@ -10,6 +10,7 @@ longdesc=('xf86-video-s3virge: X11 driver for S3 Virge video cards')
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-s3virge-$pkgver.tar.bz2")
+build_deps="xorg-server glibc-solibs"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"

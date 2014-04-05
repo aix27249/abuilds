@@ -1,5 +1,5 @@
 pkgname=xev
-pkgver=1.2.0
+pkgver=1.2.1
 pkgbuild=1
 arch=('auto')
 
@@ -7,6 +7,7 @@ shortdesc=('xev')
 longdesc=('xev is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-apps xserver')
+build_deps="libX11 libXrandr"
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xev-${pkgver}.tar.bz2")
 

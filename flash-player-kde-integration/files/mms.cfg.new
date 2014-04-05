@@ -2,3 +2,5 @@
 
 # Hardware video decoding
 #EnableLinuxHWVideoDecode=0
+
+OverrideGPUValidation = true

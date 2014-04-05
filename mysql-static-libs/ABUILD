@@ -1,5 +1,5 @@
 pkgname=mysql
-pkgver=5.5.33
+pkgver=5.5.36
 pkgbuild=1
 arch=("auto")
 
@@ -120,7 +120,6 @@ libmysqlclient() {
   pkgname=libmysqlclient
   shortdesc=("MySQL client libraries")
   tags="develop dev-db"
-  adddep="mysql"
 }
 
 

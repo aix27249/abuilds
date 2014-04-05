@@ -1,14 +1,17 @@
 # ABUILD for mc
 pkgname=mc
-pkgver=4.8.10
+pkgver=4.8.11
 srcver=${pkgver//_/-}
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('Midnight Commander is a text based file manager')
+
 tags=('console app-misc')
-source=("https://github.com/MidnightCommander/mc/archive/${pkgver}.tar.gz")
-build_deps="glibc-solibs glib2 libssh2 git pcre gpm unrar infozip p7zip"
+
+source=("http://www.midnight-commander.org/downloads/mc-${srcver}.tar.bz2")
+
+build_deps='glibc-solibs glib2 libssh2'
 
 config_files="etc/mc/edit.indent.rc
 etc/mc/filehighlight.ini
@@ -18,9 +21,11 @@ etc/mc/mc.menu
 etc/mc/mc.menu.sr
 etc/mc/sfs.ini"
 
-
-BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --localstatedir=/var \
+build()
+{
+go_src_dir
+./autogen.sh || echo " Автогена нету , попробуйте конфигуре "
+./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --localstatedir=/var \
 	--enable-shared=yes \
 	--enable-fast-install=yes \
 	--enable-largefile=yes \
@@ -28,14 +33,6 @@ BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --loc
 	--enable-extcharset=yes \
 	--with-search-engine=glib \
 	--enable-vfs=yes \
-	--enable-vfs-cpio=yes\
-	--enable-vfs-tar=yes \
-	--enable-vfs-ftp=yes \
-	--enable-vfs-smb=yes \
-	--enable-vfs-undelfs=yes \
-	--enable-vfs-fish=yes \
-	--enable-vfs-extfs=yes \
-	--enable-vfs-sfs=yes \
 	--enable-netcode=yes \
 	--enable-background=yes \
 	--with-subshell=yes \
@@ -47,11 +44,7 @@ BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --sysconfdir=/etc --loc
 	--enable-rpath=yes \
 	--enable-vfs-mcfs=yes \
 	--enable-static=no \
-	--without-x \
-	--with-slang-libs=/usr/lib$LIBDIRSUFFIX"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+	--with-slang-libs=/usr/lib$LIBDIRSUFFIX
 
-before_build() {
-    go_src_dir
-    ./autogen.sh
+make DESTDIR=$pkgdir install
 }

@@ -1,0 +1,31 @@
+pkgname=eject-unlock
+pkgver=2.1.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A program for ejecting removable media under software control. Patched for unlock tray. Fedora's patches added."
+
+source=("ftp://ftp.archlinux.org/other/eject/eject-${pkgver}.tar.bz2")
+
+tags="base sys-apps"
+
+build_deps="glibc-solibs"
+
+provides="eject"
+conflicts=""
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

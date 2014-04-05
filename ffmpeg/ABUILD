@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org
 
 pkgname=ffmpeg
-pkgver=1.2.2
+pkgver=2.2
 pkgbuild=1
 arch=('auto')
 conflicts="libav"
@@ -15,69 +15,70 @@ build_deps=("yasm alsa-lib bzip2 fontconfig gsm lame libass libbluray libmodplug
 
 build()
 {
-	go_src_dir
-	burn_patches
+  go_src_dir
+  burn_patches
 
-	LDFLAGS="$SLKLDFLAGS" \
-		CFLAGS="$SLKCFLAGS" \
-		CXXFLAGS="$SLKCFLAGS" \
-		./configure \
-		--prefix=/usr \
-		--libdir=/usr/lib${LIBDIRSUFFIX} \
-		--shlibdir=/usr/lib${LIBDIRSUFFIX} \
-		--mandir=/usr/man \
-		--disable-static \
-		--enable-shared \
-		--enable-doc \
-		--enable-avdevice \
-		--enable-avresample \
-		--enable-avcodec \
-		--enable-avfilter \
-		--enable-avformat \
-		--enable-bzlib \
-		--enable-dxva2 \
-		--enable-ffmpeg \
-		--enable-fontconfig \
-		--enable-gpl \
-		--enable-libass \
-		--enable-libbluray \
-		--enable-libfreetype \
-		--enable-libgsm \
-		--enable-libmodplug \
-		--enable-libmp3lame \
-		--enable-libopencore-amrnb \
-		--enable-libopencore-amrwb \
-		--enable-libopenjpeg \
-		--enable-librtmp \
-		--enable-libschroedinger \
-		--enable-libspeex \
-		--enable-libtheora \
-		--enable-libv4l2 \
-		--enable-libvorbis \
-		--enable-libvpx \
-		--enable-libx264 \
-		--enable-libxvid \
-		--enable-postproc \
-		--enable-pthreads \
-		--enable-runtime-cpudetect \
-		--enable-swscale \
-		--enable-vdpau \
-		--enable-vaapi \
-		--enable-version3 \
-		--enable-x11grab \
-		--enable-zlib \
-		--disable-debug \
-		--disable-indev=oss \
-		--disable-indev=jack \
-		--disable-outdev=oss
+  LDFLAGS="$SLKLDFLAGS" \
+	CFLAGS="$SLKCFLAGS" \
+	CXXFLAGS="$SLKCFLAGS" \
+	./configure \
+	--prefix=/usr \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--shlibdir=/usr/lib${LIBDIRSUFFIX} \
+	--mandir=/usr/man \
+	--disable-static \
+	--enable-shared \
+	--enable-doc \
+	--enable-avdevice \
+	--enable-avresample \
+	--enable-avcodec \
+	--enable-avfilter \
+	--enable-avformat \
+	--enable-bzlib \
+	--enable-dxva2 \
+	--enable-ffmpeg \
+	--enable-fontconfig \
+	--enable-gpl \
+	--enable-libass \
+	--enable-libbluray \
+	--enable-libfreetype \
+	--enable-libgsm \
+	--enable-libmodplug \
+	--enable-libmp3lame \
+	--enable-libopencore-amrnb \
+	--enable-libopencore-amrwb \
+	--enable-libopenjpeg \
+	--enable-librtmp \
+	--enable-libschroedinger \
+	--enable-libspeex \
+	--enable-libtheora \
+	--enable-libv4l2 \
+	--enable-libvorbis \
+	--enable-libvpx \
+	--enable-libx264 \
+	--enable-libxvid \
+	--enable-postproc \
+	--enable-pthreads \
+	--enable-runtime-cpudetect \
+	--enable-swscale \
+	--enable-vdpau \
+	--enable-vaapi \
+	--enable-version3 \
+	--enable-x11grab \
+	--enable-zlib \
+	--disable-debug \
+	--disable-indev=oss \
+	--disable-indev=jack \
+	--disable-outdev=oss
 
-	make -j${numjobs}
-	make tools/qt-faststart -j${numjobs}
-	make doc/ff{mpeg,play,server}.1
-	make DESTDIR="$pkgdir" install install-man
+  make -j${numjobs}
+  make tools/qt-faststart -j${numjobs}
+  make doc/ff{mpeg,play,server}.1
 }
 
 after_build()
 {
-	install -D -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
+  go_src_dir
+  make DESTDIR="$pkgdir" install install-man
+  install -D -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
 }

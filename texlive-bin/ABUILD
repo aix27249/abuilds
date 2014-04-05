@@ -1,33 +1,41 @@
 pkgname=texlive-bin
 pkgver=2013.30973
-_biber_ver=1.6 # for biblatex 2.5 only.
-pkgbuild=1
+_biber_ver=1.7 # for biblatex 2.7 only.
+pkgbuild=2
 arch=('auto')
 
-shortdesc="binaries of TexLive"
+shortdesc="TeX Live binaries"
+
 longdesc=("TeX Live is an easy way to get up and running with the TeX document production system. It provides a comprehensive TeX system with binaries for most flavors of Unix, including GNU/Linux, and also Windows. It includes all the major TeX-related programs, macro packages, and fonts that are free software, including support for many languages around the world.")
 
-source=("http://mirrors.kernel.org/archlinux/other/texlive/texlive-bin-source-${pkgver}.tar.xz"
-"http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/Linux/biber-linux_x86_64.tar.gz n"
-"http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/Linux/biber-linux_x86_32.tar.gz n")
-tags="app-text tex"
-build_deps="cairo pixman perl clisp libsigsegv ffcall t1lib gd poppler libpng libjpeg freetype harfbuzz icu4c"
+if [ "${ARCH}" = "x86_64" ]; then
+   BIBER_ARCH="${ARCH}"
+else
+   BIBER_ARCH="x86_32"
+fi
 
-build()
-{
-  cd "$srcdir"
+source=("http://mirrors.kernel.org/archlinux/other/texlive/texlive-bin-source-${pkgver}.tar.xz"
+"http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/Linux/biber-linux_${BIBER_ARCH}.tar.gz n")
+
+tags="app-text tex"
+
+build_deps="make gcc gcc-g++ sed cairo>=1.12.14 pixman perl binutils grep clisp libsigsegv ffcall t1lib gd poppler libpng libjpeg freetype harfbuzz icu4c cairo"
+
+build(){
+  cd "${srcdir}"
 
   if [ "${ARCH}" = "x86_64" ]; then
-    export CFLAGS="${CFLAGS} -fPIC"
-    export CXXFLAGS="${CXXFLAGS} -fPIC"
-    tar xf ${srcache}/biber-linux_x86_64.tar.gz
-  else
-    tar xf ${srcache}/biber-linux_x86_32.tar.gz
+     export CFLAGS="${CFLAGS} -fPIC"
+     export CXXFLAGS="${CXXFLAGS} -fPIC"
   fi
-
+  echo "Start unpacking the archive biber-linux_${BIBER_ARCH}.tar.gz"
+  tar xf ${srcache}/biber-linux_${BIBER_ARCH}.tar.gz
+  echo "End unpacking"
   cd source
   burn_patches
 
+  # this patch removes spurious error message with locale "xx_YY.utf8"
+  #patch -Np0 -i fix-fontforge-encoding.patch
   # t4ht expects to be un /usr/share/texmf/bin/t4ht (FS#27251)
   sed -i s/SELFAUTOPARENT/TEXMFROOT/ texk/tex4htk/t4ht.c
 
@@ -74,27 +82,26 @@ build()
     --enable-luatex \
     --with-clisp-runtime=default \
     --without-x \
-    --enable-xindy --disable-xindy-rules --disable-xindy-docs
-
+    --enable-xindy \
+    --disable-xindy-rules \
+    --disable-xindy-docs
     LC_ALL=en_US.UTF-8 make -j${numjobs}
 }
 
-
-after_build()
-{
+after_build(){
   # there is an crazy magic. Don't tell me about optimization, bro!
   cd $srcdir/source
   # fixes for xindy
   if [ "$ARCH" = "x86_64" ] ; then
     find utils/xindy -name Makefile -exec sed -i \
-      -e "s|^prefix =.\+$|prefix = $pkgdir/usr|" \
+      -e "s|^prefix =.\+$|prefix = ${pkgdir}/usr|" \
       -e "s|^libdir =.\+$|libdir = \${prefix}/lib64|" \
       -e "s|^mandir =.\+$|mandir = \${prefix}/man|" \
       -e "s|^datadir =.\+$|datadir = \${datarootdir}/texmf|" \
       -e "s|^docdir =.\+$|docdir = \${datadir}/doc/xindy|" '{}' \;
   else
     find utils/xindy -name Makefile -exec sed -i \
-      -e "s|^prefix =.\+$|prefix = $pkgdir/usr|" \
+      -e "s|^prefix =.\+$|prefix = ${pkgdir}/usr|" \
       -e "s|^libdir =.\+$|libdir = \${prefix}/lib|" \
       -e "s|^mandir =.\+$|mandir = \${prefix}/man|" \
       -e "s|^datadir =.\+$|datadir = \${datarootdir}/texmf|" \
@@ -273,7 +280,6 @@ vpe"
         ${_pstricks_scripts}   \
         ${_science_scripts}    \
         tlmgr; do
-    ! readlink -e "$pkgdir"/usr/bin/$s && rm "$pkgdir"/usr/bin/$s
+    ! readlink -e "${pkgdir}"/usr/bin/${s} && rm "${pkgdir}"/usr/bin/${s}
   done
-
 }

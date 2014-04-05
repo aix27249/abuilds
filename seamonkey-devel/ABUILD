@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=seamonkey
-pkgver=2.20
+pkgver=2.25
 pkgbuild=1
 arch=("auto")
 build_deps=('pkg-config python yasm mesa autoconf nss nspr sqlite gtk+2 libnotify infozip infozip libvpx')
@@ -15,10 +15,7 @@ source=("http://ftp.mozilla.org/pub/mozilla.org/seamonkey/releases/${pkgver}/sou
 tags=("xapps www-client")
 
 docs="LEGAL"
-
 pkglist="devel"
-
-
 
 
 before_build() {
@@ -31,6 +28,7 @@ before_build() {
 
 build() {
   go_src_dir
+  burn_patches
   export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/seamonkey-$pkgver"
   make -j${numjobs} -f client.mk build
 }
@@ -48,7 +46,6 @@ after_build() {
   mkdir -p ${pkgdir}/usr/share/pixmaps
   cp -a ${filedir}/*.png ${pkgdir}/usr/share/pixmaps
 
-
   # Install russian langpack
   ( cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/distribution/extensions/
     wget -c http://ftp.mozilla.org/pub/mozilla.org/${pkgname}/releases/${pkgver}/langpack/${pkgname}-${pkgver}.ru.langpack.xpi
@@ -56,11 +53,11 @@ after_build() {
 
   # Install russian dictonaries & locale
   ( cd ${pkgdir}/usr/lib/seamonkey-${pkgver}/
+    mkdir -p ./dictionaries/
     cp ${filedir}/ru.{aff,dic} ./dictionaries/
     echo 'ru' > update.locale
   )
 }
-
 
 
 devel() {
@@ -94,12 +91,10 @@ devel_prep() {
       > ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/$(basename $file)
   done
 
-
   # Add symlinks for the pkgconfig files:
   ( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig
     ln -s seamonkey-js.pc js.pc
     ln -s seamonkey-plugin.pc plugin.pc
     ln -s seamonkey-xpcom.pc xpcom.pc
   )
-
 }

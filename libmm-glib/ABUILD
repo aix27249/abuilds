@@ -1,0 +1,55 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=modemmanager
+pkgver=1.2.0
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Mobile broadband modem management service"
+
+source=("http://www.freedesktop.org/software/ModemManager/ModemManager-${pkgver}.tar.xz")
+
+tags="network net-misc"
+
+build_deps="make intltool pkg-config gtk-doc gobject-introspection perl perl-xml-parser libmbim libqmi vala"
+
+adddep="ppp polkit libmm-glib"
+
+pkglist="libmm-glib"
+
+libmm-glib() {
+  shortdesc="ModemManager library"
+  pkgname=libmm-glib
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sbindir=/usr/bin \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--with-polkit=permissive \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build() {
+  go_src_dir
+  make DESTDIR="${pkgdir}" -C libmm-glib uninstall
+  make DESTDIR="${pkgdir}" -C vapi uninstall
+  mv "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig/mm-glib.pc "${srcdir}"/mm-glib.pc
+  echo "End after_build"
+}
+
+libmm-glib_prep() {
+  go_src_dir
+  make DESTDIR="${pkgdir}" -C libmm-glib install
+  make DESTDIR="${pkgdir}" -C vapi install
+  install -Dm644 "${srcdir}"/mm-glib.pc "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig/mm-glib.pc
+  echo "End libmm-glib"
+}

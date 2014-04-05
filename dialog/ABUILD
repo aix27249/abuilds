@@ -1,6 +1,6 @@
 pkgname=dialog
 pkgver=1.2_20130523
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="dialog (display dialog boxes from shell scripts) "
@@ -8,9 +8,13 @@ source=("ftp://invisible-island.net/${pkgname}/${pkgname}-${pkgver//_/-}.tgz")
 tags="base sys-base"
 build_deps="ncurses"
 
-BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-BUILD_KEYS="--prefix=/usr \
+
+
+build()
+{
+go_src_dir
+./configure \
+--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
@@ -19,6 +23,7 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix= \
 --with-ncursesw \
---enable-nls"
+--enable-nls
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+make DESTDIR=$pkgdir install-full
+}

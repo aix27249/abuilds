@@ -1,54 +1,15 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=iftop
-pkgver=0.17
-pkgbuild=2
+pkgver=1.0pre4
+pkgbuild=1
 arch=('auto')
 
 shortdesc="display bandwidth usage on an interface"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("iftop does for network usage what top(1) does for CPU usage. It listens to network traffic on a named interface and displays a table of current bandwidth usage by pairs of hosts. Handy for answering the question "why is our ADSL link so slow?"."
-)
-
 source=("http://www.ex-parrot.com/~pdw/iftop/download/${pkgname}-${pkgver}.tar.gz")
-#wgetopts=("
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="net-misc console"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="libpcap ncurses"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-
-             before_build()
-            {
-            echo ""
-            }
         
              BUILD_SYSTEM="autotools"
 
@@ -67,9 +28,3 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\
                 
                 INSTALL_KEYS="DESTDIR=$pkgdir"
                  
-                 #ran after function build() 
-                 #после сборки
-                 after_build()
-                 {
-                 echo ""
-                 }

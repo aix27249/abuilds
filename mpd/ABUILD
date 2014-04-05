@@ -1,77 +1,76 @@
 pkgname=mpd
-pkgver=0.17.1
+pkgver=0.18.9
 pkgbuild=1
 arch=('auto')
 shortdesc="MPD (Music Player Daemon)"
 longdesc=("Music Player Daemon (MPD)  allows  remote  access  for playing music (MP3, Ogg Vorbis,  FLAC,  AAC,  Mod,  and  wave  files) and managing playlists. MPD is designed  for integrating a computer into a stereo system that provides control for music playback over a local network It also makes a great desktop  music player, especially if you are a console junkie, like frontend options, or restart X often."
-	  ""
 	  "Homepage: http://musicpd.org/")
 
-source=("http://downloads.sourceforge.net/sourceforge/musicpd/${pkgname}-${pkgver}.tar.bz2")
+source=("http://www.musicpd.org/download/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 tags="console media-sound"
-
-build_deps="libao libcue libmms libshout doxygen libmodplug"
-
+build_deps="libao libcue libmms doxygen libmodplug ffmpeg audiofile libmad curl faad2 sqlite libid3tag fluidsynth wavpack libmpdclient"
 config_files=("etc/mpd.conf class=sample")
 
 BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---docdir=/usr/doc/${pkgname}-${pkgver} \
---program-prefix= \
---program-suffix= \
---enable-tcp \
---disable-ipv6 \
---enable-un \
---enable-cue \
---enable-sqlite \
---enable-curl \
---enable-lastfm \
---enable-mms \
---enable-bzip2 \
---disable-zip \
---enable-iso9660 \
---enable-id3 \
---enable-audiofile \
---enable-ffmpeg \
---enable-flac \
---enable-mad \
---enable-mikmod \
---enable-modplug \
---enable-mpc \
---enable-oggflac \
---enable-vorbis \
---enable-fluidsynth \
---disable-wildmidi \
---enable-wavpack \
---enable-lsr \
---enable-vorbis-encoder \
---enable-lame-encoder \
---enable-alsa \
---enable-ao \
---enable-fifo \
---enable-pipe-output \
---disable-jack \
---enable-mvp \
---enable-oss \
---disable-pulse \
---enable-httpd-output \
---enable-shout \
---enable-aac \
---enable-libOggFLACtest \
---enable-documentation"
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${pkgname}-${pkgver} \
+  --program-prefix= \
+  --program-suffix= \
+  --enable-tcp \
+  --enable-ipv6 \
+  --enable-un \
+  --enable-cue \
+  --enable-sqlite \
+  --enable-curl \
+  --enable-lastfm \
+  --enable-mms \
+  --enable-bzip2 \
+  --disable-zip \
+  --enable-iso9660 \
+  --enable-id3 \
+  --enable-audiofile \
+  --enable-ffmpeg \
+  --enable-flac \
+  --enable-mad \
+  --enable-mikmod \
+  --enable-modplug \
+  --enable-oggflac \
+  --enable-vorbis \
+  --enable-fluidsynth \
+  --disable-wildmidi \
+  --enable-wavpack \
+  --enable-lsr \
+  --enable-vorbis-encoder \
+  --enable-lame-encoder \
+  --enable-alsa \
+  --enable-ao \
+  --enable-fifo \
+  --enable-pipe-output \
+  --disable-jack \
+  --enable-mvp \
+  --enable-oss \
+  --disable-pulse \
+  --enable-httpd-output \
+  --disable-shout \
+  --enable-aac \
+  --enable-libOggFLACtest \
+  --enable-libmpdclient \
+  --enable-documentation"
+
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
-    mkdir -p ${pkgdir}/etc
+    mkdir -p ${pkgdir}/etc/logrotate.d
     cp ${filedir}/mpd.conf ${pkgdir}/etc/
+    cp ${filedir}/mpd.logrotate ${pkgdir}/etc/logrotate.d/
 
     mkdir -p $pkgdir/etc/init.d
     install -m755 ${filedir}/mpd.init ${pkgdir}/etc/init.d/mpd
-    echo "End after_build"
+    install -d $pkgdir/var/{log/mpd,run/mpd,lib/mpd/playlists}
+    chown 45:45 -R $pkgdir/var/{lib,log,run}/mpd
 }

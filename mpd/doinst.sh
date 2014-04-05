@@ -14,9 +14,7 @@ config /etc/mpd.conf.new
 
 if ! grep "^mpd:" etc/group >/dev/null 2>&1; then
 	echo "mpd: Create a config under /etc/mpd.conf before using MPD (Example: /etc/mpd.conf)"
-	install -d $pkgdir/var/{log/mpd,run/mpd,lib/mpd/playlists}
 	groupadd -g 45 mpd &>/dev/null
 	useradd -u 45 -g mpd -d /var/lib/mpd -s /bin/true mpd &>/dev/null
 	gpasswd -a mpd audio &>/dev/null
-	chown mpd:mpd -R /var/{lib,log,run}/mpd
 fi

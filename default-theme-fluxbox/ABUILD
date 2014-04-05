@@ -1,37 +1,39 @@
 pkgname=default-theme-fluxbox
-pkgver=0.4.9
-pkgbuild=3
+pkgver=0.5.3
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="default design for fluxbox setup variant"
-longdesc=(" ")
 
 tags="x11-themes themes"
+
+adddep="udev-mount rxvt-unicode"
+
+build_deps="mkpkg"
 
 build() 
 {
 cd $pkgdir
 
 
-mkdir -p $pkgdir/etc/skel/{.icons,.gvfs,.themes,.fonts,.tuxcmd,.fluxbox,.gkrellm2,.config,Desktop,Media,Documents,Download} || exit 1
-mkdir -p $pkgdir/usr/share/wallpapers || exit 1
+mkdir -p $pkgdir/etc/skel/{.icons,.gvfs,.qupzilla,.themes,.fluxbox,.gkrellm2,.config,Desktop,Media,Documents,Download} || exit 1
+mkdir -p $pkgdir/usr/share/{wallpapers,gkrellm2} || exit 1
 mkdir -p $pkgdir/usr/bin || exit 1
 
-cp $startdir/hand/usr/share/wallpapers/wall.jpg $pkgdir/usr/share/wallpapers || exit 1
-cp $startdir/hand/usr/bin/startfluxbox-rus  $pkgdir/usr/bin || exit 1
+cp $startdir/hand/usr/bin/{startfluxbox-rus,xdg-su} $pkgdir/usr/bin || exit 1
+cp -R $startdir/hand/usr/share/*  $pkgdir/usr/share || exit 1
 
- find $startdir -type f -iname ".*" -exec cp {} $pkgdir/etc/skel \; || exit 1
-cp -R $startdir/hand/etc/skel/.tuxcmd/* $pkgdir/etc/skel/.tuxcmd || exit 1
+find $startdir -type f -iname ".*" -exec cp {} $pkgdir/etc/skel \; || exit 1
 cp  -R $startdir/hand/etc/skel/.fluxbox/* $pkgdir/etc/skel/.fluxbox || exit 1
 cp  -R $startdir/hand/etc/skel/.gkrellm2/* $pkgdir/etc/skel/.gkrellm2 || exit 1
 cp  -R $startdir/hand/etc/skel/.config/* $pkgdir/etc/skel/.config || exit 1
 cp -R $startdir/hand/etc/skel/.themes/*  $pkgdir/etc/skel/.themes || exit 1
 cp -R $startdir/hand/etc/skel/.icons/*  $pkgdir/etc/skel/.icons || exit 1
-
+cp -R $startdir/hand/etc/skel/.qupzilla/*  $pkgdir/etc/skel/.qupzilla || exit 1
 
 find $pkgdir -type d -exec chmod 755 {} \; || exit 1
 find $pkgdir -type f -exec chmod 644 {} \; || exit 1
 find $pkgdir/etc/skel \( -iname "*.sh" -o -iname "*.start" -o -iname "wpa" \) -exec chmod 755 {} \; || exit 1
-chmod 755 $pkgdir/usr/bin/startfluxbox-rus || exit 1
+chmod 755 $pkgdir/usr/bin/{startfluxbox-rus,xdg-su} || exit 1
 
 }

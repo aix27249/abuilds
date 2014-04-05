@@ -1,6 +1,6 @@
 # ABUILD for agilialinux-version
 pkgname=agilialinux-version
-pkgver=9.0_rc
+pkgver=9.0.1
 pkgbuild=1
 arch=('noarch')
 

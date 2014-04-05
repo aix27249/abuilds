@@ -1,5 +1,5 @@
 pkgname=xhost
-pkgver=1.0.5
+pkgver=1.0.6
 pkgbuild=1
 arch=('auto')
 
@@ -7,7 +7,7 @@ shortdesc=('xhost')
 longdesc=('xhost is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-apps xserver')
-
+buil_deps="libX11 libXmu"
 source=("http://xorg.freedesktop.org/archive/individual/app/xhost-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'

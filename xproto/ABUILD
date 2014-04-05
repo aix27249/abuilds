@@ -1,5 +1,5 @@
 pkgname=xproto
-pkgver=7.0.24
+pkgver=7.0.25
 pkgbuild=1
 arch=('auto')
 
@@ -8,10 +8,18 @@ shortdesc=('X11 core wire protocol and auxiliary headers')
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/xproto-${pkgver}.tar.bz2")
-build_deps="mkpkg util-macros"
+
+build_deps="make gcc kernel-headers util-macros pkg-config grep sed"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --datarootdir=/usr \
+            --infodir=/usr/info \
+            --mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 

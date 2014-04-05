@@ -1,14 +1,15 @@
 pkgname=scalpel
 pkgver=2.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Scalpel is a fast file carver that reads a database of header "
 
 source=("http://www.digitalforensicssolutions.com/Scalpel/scalpel-2.0.tar.gz")
 
-tags="app-admin
-utils"
+tags="app-admin utils"
+
+build_deps"tre"
 
 build()
 {

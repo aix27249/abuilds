@@ -1,0 +1,32 @@
+CC=gcc
+
+#CFLAGS=-Wall -fPIC -O3 -I/usr/local/include
+CFLAGS=-Wall -fPIC -O2
+LDFLAGS=-W,-s
+
+all:
+	@echo 
+	@echo "Type 'make gkrellm1' and then 'make install1'"
+	@echo "  or 'make gkrellm2' and then 'make install2'"
+	@echo 
+
+gkrellm1: $(OBJS)
+	$(CC) $(CFLAGS) `gtk-config --cflags` `imlib-config --cflags-gdk` -I. -c gkrellm-hddtemp.c
+	$(CC) -shared -W -o gkrellm-hddtemp.so gkrellm-hddtemp.o
+	rm gkrellm-hddtemp.o
+
+gkrellm2: $(OBJS)
+	$(CC) $(CFLAGS) -DGKRELLM2 `pkg-config --cflags gtk+-2.0` -I. -c gkrellm-hddtemp.c
+	$(CC) -shared -W -o gkrellm-hddtemp.so gkrellm-hddtemp.o
+	rm gkrellm-hddtemp.o
+
+clean:
+	rm -f *.so *~
+
+install1:
+	install -d $(HOME)/.gkrellm/plugins/
+	install gkrellm-hddtemp.so $(HOME)/.gkrellm/plugins/
+
+install2:
+	install -d $(HOME)/.gkrellm2/plugins/
+	install gkrellm-hddtemp.so $(HOME)/.gkrellm2/plugins/

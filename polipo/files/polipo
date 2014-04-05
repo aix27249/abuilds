@@ -19,7 +19,7 @@ start()
 }
 
 stop() {
-    ebegin "Stopping squid"
+    ebegin "Stopping polipo"
     polipo -x
         start-stop-daemon --stop -q --pidfile /var/run/polipo/polipo.pid \
          --exec killall polipo

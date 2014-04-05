@@ -1,5 +1,5 @@
 pkgname=libpng
-pkgver=1.6.3
+pkgver=1.6.9
 _apngver=${pkgver}
 pkgbuild=1
 arch=('auto')

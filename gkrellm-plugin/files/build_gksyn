@@ -1,0 +1,9 @@
+#!/bin/bash -
+
+rm -f gksyn.so setlb.so
+gcc -s -x c setlb.c -fPIC -shared -o setlb.so 
+gcc -Wall -fPIC -g  `pkg-config --cflags gtk+-2.0`  -c gksyn.c
+gcc -shared -W -o gksyn.so gksyn.o
+rm -f gksyn.o
+echo "Now copy setlb.so and  gksyn.so into $HOME/.gkrellm2/plugins/"
+echo "cp setlb.so gksyn.so $HOME/.gkrellm2/plugins/"

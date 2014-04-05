@@ -14,10 +14,13 @@ source=("http://downloads.sourceforge.net/libvncserver/${pkgname}-${pkgver}.tar.
 
 tags="x11-misc server"
 
-build_deps="make gcc recordproto ccache"
+build_deps="make gcc recordproto ccache avahi libjpeg-turbo openssl zlib libX11"
+
 adddep="openssl libjpeg zlib libX11 libXtst libXinerama libXdamage libXrandr avahi"
 
 docs="RELEASE-NOTES"
+
+config_files="etc/conf.d/x11vnc"
 
 pkglist="misc"
 
@@ -31,27 +34,33 @@ misc(){
 #===================================
 misc_prep(){
   go_src_dir
-  install -d -m 755 ${pkgdir}/usr/share/x11vnc
-  cp -R x11vnc/misc ${pkgdir}/usr/share/x11vnc
+  install -d -m 755 "${pkgdir}"/usr/share/x11vnc
+  cp -R x11vnc/misc "${pkgdir}"/usr/share/x11vnc
   echo "End misc"
 }
 
-#===================================
-build(){
-  go_src_dir
-  ./configure --prefix=/usr --mandir=/usr/man
-  make
-  make DESTDIR=${pkgdir} install
-  echo "End build"
-}
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
 
 #===================================
 after_build(){
-  install -D -m 755 x11vnc/tkx11vnc ${pkgdir}/usr/bin/
-  install -d -m 755 ${pkgdir}/etc/${pkgname}
-  install -d -m 755  ${pkgdir}/etc/init.d
-  install -Dm777 ${filedir}/x11vnc ${pkgdir}/etc/init.d/
-  rm -r ${pkgdir}/usr/include/
-  rm ${pkgdir}/usr/doc/${pkgname}-${pkgver}/README.LibVNCServer
+  go_src_dir
+  install -Dm 755 x11vnc/tkx11vnc ${pkgdir}/usr/bin/
+  install -dm 755 ${pkgdir}/etc/${pkgname}
+  install -Dm777 "${filedir}"/${pkgname} "${pkgdir}"/etc/init.d/${pkgname}
+  install -Dm644 "${filedir}"/${pkgname}.conf "${pkgdir}"/etc/conf.d/${pkgname}
+  # provided by libvncserver
+  rm -fr "${pkgdir}"/usr/include/rfb
+  rm "${pkgdir}"/usr/doc/${pkgname}-${pkgver}/README.LibVNCServer
   echo "End after_build"
 }

@@ -2,7 +2,7 @@
 
 pkgname=libmad
 pkgver=0.15.1b
-pkgbuild=4
+pkgbuild=7
 arch=("auto")
 
 shortdesc=("A high-quality MPEG audio decoder")

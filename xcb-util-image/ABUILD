@@ -8,11 +8,15 @@ shortdesc=("Utility libraries for XC Binding - Port of Xlib's XImage and XShmIma
 tags=('x11-xcbs xserver')
 
 source=("http://xcb.freedesktop.org/dist/${pkgname}-${pkgver}.tar.bz2")
-build_deps="util-macros libxcb xcb-util"
 
+build_deps="make gcc grep sed pkg-config util-macros libxcb xcb-util"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-static"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 

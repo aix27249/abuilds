@@ -1,6 +1,6 @@
 # xcb-proto
 pkgname=xcb-proto
-pkgver=1.8
+pkgver=1.10
 pkgbuild=1
 arch=('auto')
 
@@ -14,5 +14,7 @@ source=("http://xcb.freedesktop.org/dist/xcb-proto-${pkgver}.tar.bz2")
 build_deps='python libxml2'
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

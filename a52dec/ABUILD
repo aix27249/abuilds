@@ -1,8 +1,6 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=a52dec
 pkgver=0.7.4
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="A free library for decoding ATSC A/52 streams"
@@ -27,10 +25,12 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---enable-shared"
+--enable-shared \
+--enable-djbfft "
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
  install -m644 liba52/a52_internal.h "${pkgdir}/usr/include/a52dec/"
+ echo "End after_build"
 }

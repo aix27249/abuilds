@@ -1,0 +1,33 @@
+pkgname=rdesktop
+pkgver=1.8.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source client for Windows Remote Desktop Services "
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+patch_opts=("")
+
+tags="xapps net-misc"
+
+build_deps=" libsamplerate xorg-server openssl"
+#libao
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--disable-credssp \
+--disable-smartcard \
+--with-sound=alsa \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

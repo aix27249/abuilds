@@ -1,8 +1,6 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=xdm-theme-fluxbox
-pkgver=0.4.1
-pkgbuild=8
+pkgver=0.4.2
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="xdm theme for Fluxbox"
@@ -11,7 +9,8 @@ tags="x11-themes themes"
 
 config_files="etc/X11/xdm/xdm-config"
 
-adddep="xdm feh xrdb xsetroot xclock xmessage xwininfo sessreg"
+build_deps="mkpkg"
+adddep="xdm xkill xmodmap feh xrdb xsetroot xclock xmessage xwininfo sessreg"
 
 build() {
 	set -e

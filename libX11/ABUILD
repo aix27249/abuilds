@@ -9,6 +9,7 @@ longdesc=('libX11 is part of X11. For more information about the X.Org Foundatio
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libX11-${pkgver}.tar.bz2")
+
 build_deps="libxcb xproto kbproto util-macros xextproto xtrans inputproto"
 
 BUILD_SYSTEM='autotools'
@@ -22,5 +23,5 @@ BUILD_KEYS="--prefix=/usr \
   --docdir=/usr/doc \
   --disable-static \
   --with-xcb=yes"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

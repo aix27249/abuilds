@@ -1,5 +1,5 @@
 pkgname=wesnoth
-pkgver=1.10
+pkgver=1.11.10
 pkgbuild=1
 arch=('auto')
 
@@ -9,15 +9,23 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pk
 
 tags="games games-strategy"
 
+build_deps="cmake gcc sdl_ttf scons"
 adddep="wesnoth-data==$pkgver"
 pkglist="data"
 
-BUILD_SYSTEM="cmake"
-BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
--DCMAKE_BUILD_TYPE=RELEASE \
--DLIB_DIR=lib${LIBDIRSUFFIX} \
--DLIB_SUFFIX=${LIBDIRSUFFIX} \
-../"
+
+
+build()
+{
+go_src_dir
+cmake -DCMAKE_INSTALL_PREFIX=/usr .
+make
+make DESTDIR=${pkgdir} install
+#scons prefix=/usr LIBDIR=/usr/lib{LIBDIRSUFIX}
+#scons prefix=/usr LIBDIR=/usr/lib{LIBDIRSUFIX}   destdir=${pkgdir} install
+#
+}
+
 
 data() {
 	pkgname="wesnoth-data"
@@ -28,5 +36,5 @@ data() {
 
 data_prep() {
 	mkdir -p ${pkgdir}/usr/
-	mv ${p_pkgdir}/usr/{man,share} ${pkgdir}/usr/
+	mv ${p_pkgdir}/usr/{doc,share} ${pkgdir}/usr/
 }

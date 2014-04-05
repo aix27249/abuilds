@@ -20,14 +20,22 @@ BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
-	--sysconfdir=/etc \
-	--localstatedir=/var \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--disable-static \
-	--mandir=/usr/man \
-	--program-prefix= \
-	--program-suffix= \
-	--disable-tls-check"
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-static \
+--disable-tls-check"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+# w/o for build claws-mail
+#after_build(){
+#  rm -f "$pkgdir"/usr/lib/libsoup-gnome-2.4.*
+#  rm -f "$pkgdir/usr/lib/pkgconfig/libsoup-gnome-2.4.pc"
+#  rm -rf "$pkgdir/usr/include/libsoup-gnome-2.4"
+#  rm -f "$pkgdir/usr/lib/girepository-1.0/SoupGNOME-2.4.typelib"{
+#echo "End after_build"
+#}

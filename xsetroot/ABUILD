@@ -1,5 +1,5 @@
 pkgname=xsetroot
-pkgver=1.1.0
+pkgver=1.1.1
 pkgbuild=1
 arch=('auto')
 
@@ -8,7 +8,9 @@ longdesc=('xsetroot is part of X11. For more information about the X.Org Foundat
 
 tags=('x11-apps xserver')
 
-source=("http://xorg.freedesktop.org/archive/individual/app/xsetroot-${pkgver}.tar.bz2")
+
+build_deps="gcc libX11 libXcursor xbitmaps"
+source=("http://xorg.freedesktop.org/archive/individual/app/xsetroot-${pkgver}.tar.gz")
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
