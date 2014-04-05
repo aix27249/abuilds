@@ -4,7 +4,7 @@ pkgbuild=1
 arch=('auto')
 shortdesc="collection of utilities to handle ELF objects"
 source=("https://fedorahosted.org/releases/e/l/elfutils/${pkgver}/elfutils-${pkgver}.tar.bz2")
-tags="develop dev-libs"
+tags="develop dev-libs compat32"
 
 build_deps="zlib bzip2 xz"
 

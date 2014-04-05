@@ -6,7 +6,12 @@ arch="auto"
 shortdesc=("Authorization Framework")
 source=("http://hal.freedesktop.org/releases/polkit-${pkgver}.tar.gz")
 
+<<<<<<< HEAD
 tags="libs sys-auth"
+=======
+# Tags
+tags="libs sys-auth compat32"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
 build_deps="make gcc grep binutils intltool"
 

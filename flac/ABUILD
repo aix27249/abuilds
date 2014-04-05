@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("Free Lossless Audio Codec")
 longdesc=("FLAC stands for Free Lossless Audio Codec. Grossly oversimplified, FLAC is similar to MP3, but lossless. 'Free' means that the specification of the stream format is in the public domain, and that neither the FLAC format nor any of the implemented encoding/decoding methods are covered by any patent. It also means that the sources for libFLAC and libFLAC++ are available under the LGPL and the sources for flac, metaflac, and the plugins are available under the GPL. FLAC was developed by Josh Coalson.")
 
-tags=("console media-libs")
+tags=("console media-libs compat32")
 
 source=("http://downloads.xiph.org/releases/flac/${pkgname}-${pkgver}.tar.xz")
 build_deps="nasm doxygen"

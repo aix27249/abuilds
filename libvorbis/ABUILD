@@ -7,8 +7,12 @@ shortdesc="libvorbis (Ogg Vorbis library)"
  
 source=("http://downloads.xiph.org/releases/vorbis/${pkgname}-${pkgver}.tar.xz")
 
+<<<<<<< HEAD
 #short and long tags / длинный и короткий тег
 tags="libs media-libs"
+=======
+tags="libs media-libs compat32"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
 
 BUILD_SYSTEM="autotools"

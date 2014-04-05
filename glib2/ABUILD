@@ -6,7 +6,7 @@ arch=('auto')
 
 shortdesc="Library of C routines"
 source=("http://ftp.gnome.org/pub/gnome/sources/glib/${pkgtree}/glib-${pkgver}.tar.xz")
-tags="libs dev-libs"
+tags="libs dev-libs compat32"
 build_deps="libffi pcre python pkg-config automake autoconf perl"
 
 before_build() {

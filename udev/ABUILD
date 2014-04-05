@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc=('udev (dynamic device directory system)')
 longdesc=('udev provides a dynamic device directory containing only the files for the devices which are actually present. It creates or removes device node files usually located in the /dev directory. udev requires a 2.6 or newer kernel. Kay Sievers is the udev maintainer.')
 
-tags=('base sys-fs')
+tags=('base sys-fs compat32')
 
 source="http://www.freedesktop.org/software/systemd/systemd-$pkgver.tar.xz"
 adddep="kernel>=2.6.32 openrc>=0.9.9 pciutils usbutils"

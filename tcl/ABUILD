@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("tcl (Tool Command Language)")
 longdesc=("Tcl, developed by Dr. John Ousterhout, is a simple to use text-based script language with many built-in features which make it especially nice for writing interactive scripts.")
-tags=("dev-lang tcl")
+tags=("dev-lang tcl compat32")
 source=("http://downloads.sourceforge.net/sourceforge/tcl/tcl${pkgver}-src.tar.gz")
 build_deps="glibc-solibs"
 

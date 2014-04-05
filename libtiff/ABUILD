@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("libtiff (a library for reading and writing TIFF files)")
 longdesc=("This package provides support for the Tag Image File Format (TIFF), a widely used format for storing image data. Included is the libtiff library (for reading and writing TIFF files), and a collection of tools for working with TIFF images.")
 
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 
 source=("ftp://ftp.remotesensing.org/pub/libtiff/tiff-${pkgver}.tar.gz")
 build_deps="gcc-libs libjpeg zlib xz freeglut mesa"

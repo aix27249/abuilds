@@ -6,7 +6,7 @@ arch=("auto")
 shortdesc=("gamin (A minimalist FAM replacement)")
 longdesc=("Gamin is a file and directory monitoring system defined to be a subset of the FAM (File Alteration Monitor) system. The homepage for Gamin is: http://www.gnome.org/~veillard/gamin/")
 
-tags=("libs app-admin")
+tags=("libs app-admin compat32")
 
 source=("http://www.gnome.org/~veillard/${pkgname}/sources/${pkgname}-${pkgver}.tar.gz")
 

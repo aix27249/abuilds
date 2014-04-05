@@ -4,7 +4,7 @@ pkgbuild=1
 arch=('auto')
 shortdesc="Low latency audio server"
 source=("http://jackaudio.org/downloads/jack-audio-connection-kit-$pkgver.tar.gz")
-tags="libs media-sound"
+tags="libs media-sound compat32"
 build_deps="libffado doxygen"
 conflicts="jack"
 

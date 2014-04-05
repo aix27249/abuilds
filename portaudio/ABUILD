@@ -15,7 +15,7 @@ patch_opts=("")
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="libs media-gfx"
+tags="libs media-gfx compat32"
 
 #dependencies only needed to build package
 build_deps=""

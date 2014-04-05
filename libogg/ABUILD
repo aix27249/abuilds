@@ -6,10 +6,15 @@ arch=('auto')
 shortdesc="Ogg bitstream and framing library"
 
 source=("http://downloads.xiph.org/releases/ogg/${pkgname}-${pkgver}.tar.xz")
+<<<<<<< HEAD
 
 tags="libs media-libs"
 
 build_deps=""
+=======
+tags="libs media-libs compat32"
+build_deps="glibc"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
 BUILD_SYSTEM="autotools"
 

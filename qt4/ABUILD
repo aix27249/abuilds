@@ -6,7 +6,7 @@ arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
 longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
-tags=('libs x11-libs')
+tags=('libs x11-libs compat32')
 source=("http://download.qt-project.org/official_releases/qt/4.8/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
 pkglist="qtdoc"
 

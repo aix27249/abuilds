@@ -14,7 +14,7 @@ source=("https://www.kernel.org/pub/linux/bluetooth/${pkgname}-${pkgver}.tar.bz2
 #----------------------------- AgiliaLinux vars --------------------------------------
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
-tags="libs dev-libs"
+tags="libs dev-libs compat32"
 
 build_deps=""
 

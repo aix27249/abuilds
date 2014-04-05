@@ -6,7 +6,7 @@ arch=("auto")
 shortdesc=("fontconfig (Font library and tools)")
 longdesc=("Fontconfig is a library and tools designed to provide system-wide font configuration, customization, and application access. Fontconfig is written and maintained by Keith Packard.")
 
-tags=("xserver x11-utils")
+tags=("xserver x11-utils compat32")
 
 source=("http://www.fontconfig.org/release/$pkgname-$pkgver.tar.gz")
 build_deps="bzip2 expat freetype pkg-config"

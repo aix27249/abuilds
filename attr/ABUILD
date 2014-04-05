@@ -6,7 +6,7 @@ arch=("auto")
 shortdesc=("Tools for using extended attributes on filesystems")
 longdesc=("This package contains a set of tools for manipulating extended attributes (name:value pairs associated permanently with files and directories) on filesystem objects, and the library and header files needed to develop programs which make use of extended attributes. Extended attributes are used to provide additional functionality to a filesystem. For example, Access Control Lists (ACLs) are implemented using extended attributes.")
 
-tags=("base sys-apps")
+tags=("base sys-apps compat32")
 build_deps="glibc-solibs autoconf"
 
 source=("http://download.savannah.gnu.org/releases/$pkgname/$pkgname-$pkgver.src.tar.gz")

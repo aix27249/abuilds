@@ -2,9 +2,13 @@ pkgname=dbus-glib
 pkgver=0.100.2
 pkgbuild=1
 arch=('auto')
+<<<<<<< HEAD
 
 tags="libs dev-libs"
 
+=======
+tags="libs dev-libs compat32"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 shortdesc="Glib bindings for DBus"
 
 longdesc=("This package includes the glib bindings for the dbus IPC library.")

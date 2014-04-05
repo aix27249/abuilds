@@ -8,7 +8,7 @@ _libstdcppmanver=20130301
 shortdesc=("Base GCC package with C support")
 longdesc=("GCC is the GNU Compiler Collection. This package contains those parts of the compiler collection needed to compile C code. Other packages add C++, Fortran, Objective-C, Go and Java support to the compiler core.")
 
-tags=("develop sys-devel")
+tags=("develop sys-devel compat32")
 
 ecjver=4.5
 fastjarver=0.98

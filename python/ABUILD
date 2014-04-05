@@ -7,7 +7,7 @@ _pybasever=2.7
 shortdesc=("python (object-oriented interpreted programming language)")
 longdesc=("Python is an interpreted, interactive, object-oriented programming language that combines remarkable power with very clear syntax. Python's basic power can be extended with your own modules written in C or C++. Python is also adaptable as an extension language for existing applications.")
 
-tags=("dev-lang develop")
+tags=("dev-lang develop compat32")
 
 source=("http://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.bz2")
 build_deps="openssl readline sqlite bzip2 gdbm expat libffi"

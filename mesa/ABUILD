@@ -8,8 +8,13 @@ arch=('auto')
 shortdesc=('mesa (a 3-D graphics library)')
 longdesc=('Mesa is a 3-D graphics library with an API very similar to that of another well-known 3-D graphics library. :-) The Mesa libraries are used by X to provide both software and hardware accelerated graphics. Mesa was written by Brian Paul.')
 
+<<<<<<< HEAD
 tags=('x11-libs xserver')
 build_deps="libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto dri3proto presentproto glproto llvm libxcb>=1.10 libxshmfence"
+=======
+tags=('x11-libs xserver compat32')
+build_deps="libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto glproto llvm"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 adddep="libgl"
 pkglist=libgl
 

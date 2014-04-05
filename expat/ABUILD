@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("expat (C library for parsing XML)")
 longdesc=("This is Expat, a C library for parsing XML, written by James Clark. Expat is a stream-oriented XML parser used by Python, GNOME, Xft2, and other things.")
 
-tags=("libs dev-libs")
+tags=("libs dev-libs compat32")
 
 source=("http://downloads.sourceforge.net/sourceforge/expat/${pkgname}-${pkgver}.tar.gz")
 

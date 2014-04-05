@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc=('X11 Session Management library')
 longdesc=('libSM is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
-tags=('x11-libs xserver')
+tags=('x11-libs xserver compat32')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libSM-${pkgver}.tar.bz2")
 build_deps="libICE util-linux-ng util-macros xtrans"

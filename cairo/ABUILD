@@ -7,7 +7,7 @@ arch=('auto')
 
 shortdesc=('cairo (graphics library used by GTK+)')
 
-tags=('libs x11-libs')
+tags=('libs x11-libs compat32')
 
 source=("http://cairographics.org/releases/cairo-${pkgver}.tar.xz")
 

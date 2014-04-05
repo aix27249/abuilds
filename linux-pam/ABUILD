@@ -10,7 +10,7 @@ unix2_ver=2.9.1
 shortdesc=("Pluggable Authentication Modules for Linux")
 longdesc=("Pluggable Authentication Modules for Linux")
 
-tags=("base sys-libs")
+tags=("base sys-libs compat32")
 
 build_deps="db libtirpc flex docbook-xml docbook-xsl cracklib libaudit"
 

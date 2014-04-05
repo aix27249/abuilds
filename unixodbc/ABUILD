@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc="ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
 source=(http://www.unixodbc.org/unixODBC-$pkgver.tar.gz)
-tags="libs dev-db"
+tags="libs dev-db compat32"
 build_deps="readline"
 
 BUILD_SYSTEM="autotools"

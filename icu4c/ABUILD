@@ -6,7 +6,7 @@ arch=('auto')
 shortdesc="International Components for Unicode"
 
 source=("http://download.icu-project.org/files/${pkgname}/${pkgver}/${pkgname}-${pkgver//./_}-src.tgz")
-tags="dev-libs libs"
+tags="dev-libs libs compat32"
 
 src_subdir=source/
 

@@ -12,7 +12,7 @@ source=("http://downloads.sourceforge.net/project/virtualgl/VirtualGL/$pkgver/Vi
 export CC="gcc"
 export CXX="g++"
 
-tags="libs x11-libs"
+tags="libs x11-libs compat32"
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/opt/VirtualGL \
 -DCMAKE_BUILD_TYPE=RELEASE \

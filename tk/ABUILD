@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("A windowing toolkit for use with tcl")
 longdesc=("Tk is an extension to Tcl that allows you to quickly and easily build X11 applications that have the look and feel of Motif apps.")
-tags=("dev-lang tcl")
+tags=("dev-lang tcl compat32")
 source=("http://downloads.sourceforge.net/sourceforge/tcl/tk${pkgver}-src.tar.gz")
 build_deps="fontconfig glibc-solibs libX11 libXau libxcb libXdmcp libXext libXft libXrender libXScrnSaver tcl"
 
