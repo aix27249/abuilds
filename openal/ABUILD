@@ -1,11 +1,11 @@
 pkgname=openal
 pkgver=1.15.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=" cross-platform 3D audio API"
 source=("http://kcat.strangesoft.net/openal-releases/openal-soft-$pkgver.tar.bz2")
-tags="libs media-libs compat32"
+tags="libs media-libs"
 build_deps="gcc alsa-lib sdl pkg-config cmake"
 
 BUILD_SYSTEM="cmake"
