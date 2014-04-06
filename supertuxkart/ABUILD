@@ -10,8 +10,8 @@ shortdesc="SuperTuxKart is a Free 3d kart racing game"
 #longdesc=(""
 #)
 
-#source=("http://downloads.sourceforge.net/project/supertuxkart/SuperTuxKart/${pkgver}/${pkgname}-${pkgver}-src.tar.bz2")
-source=("svn:https://supertuxkart.svn.sourceforge.net/svnroot/supertuxkart/main/trunk")
+source=("http://downloads.sourceforge.net/project/supertuxkart/SuperTuxKart/${pkgver}/${pkgname}-${pkgver}-src.tar.bz2")
+#source=("svn:https://supertuxkart.svn.sourceforge.net/svnroot/supertuxkart/main/trunk")
 
 patch_opts=("")
 
@@ -19,6 +19,7 @@ patch_opts=("")
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
 #tags="virtual games-sports"
+tags="games games-sports"
 
 #dependencies only needed to build package
 build_deps=""
@@ -26,16 +27,8 @@ build_deps=""
 provides=""
 conflicts="${pkgname}-data"
 
-adddep= #"${pkgname}-bin ${pkgname}-data"
+adddep="${pkgname}-bin" # ${pkgname}-data"
 removedep=""
-
-#for multi pkg abuild
-pkglist="bin" # data"
-if [ -z "$pkglist" ]; then
- tags="games games-sports"
-else
- tags="virtual games-sports"
-fi
 
 #Set number of jobs while compliling, otherwise it'll be autodetected
 #numjobs=1
@@ -73,6 +66,10 @@ BUILD_KEYS="-DIRRLICHT_DIR='$srcdir/irrlicht' \
 -DLIB_DIR=lib${LIBDIRSUFFIX} \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 ../"
+
+
+#for multi pkg abuild
+pkglist="bin" # data"
 
 
 bin(){

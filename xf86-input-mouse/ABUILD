@@ -1,6 +1,6 @@
 pkgname=xf86-input-mouse
 pkgver=1.9.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('xf86-input-mouse')
@@ -9,9 +9,18 @@ longdesc=('xf86-input-mouse is part of X11. For more information about the X.Org
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-input-mouse-${pkgver}.tar.bz2")
-build_deps="xorg-server resourceproto scrnsaverproto"
+
+build_deps="make gcc grep kernel-headers pkg-config binutils xorg-server resourceproto scrnsaverproto randrproto inputproto xineramaproto"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

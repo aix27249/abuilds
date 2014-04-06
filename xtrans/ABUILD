@@ -1,6 +1,6 @@
 pkgname=xtrans
-pkgver=1.2.7
-pkgbuild=2
+pkgver=1.3.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('xtrans')
@@ -9,9 +9,11 @@ longdesc=('xtrans is part of X11. For more information about the X.Org Foundatio
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/xtrans-${pkgver}.tar.bz2")
-build_deps="gcc"
+
+build_deps="make gcc coreutils grep pkg-config"
 
 BUILD_SYSTEM='autotools'
+
 BUILD_KEYS="--prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --sysconfdir=/etc \
@@ -20,6 +22,7 @@ BUILD_KEYS="--prefix=/usr \
   --infodir=/usr/info \
   --mandir=/usr/man \
   --docdir=/usr/doc/${pkgname}-${pkgver}"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 

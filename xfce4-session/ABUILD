@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-session
-pkgver=4.10.1
-pkgbuild=1
+pkgver=4.10.0
+pkgbuild=3
 arch=('auto')
 
 shortdesc="A session manager for Xfce"
@@ -11,8 +11,9 @@ source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool perl libxfce4ui>=4.9.0 perl perl-xml-parser"
-adddep="xlockmore"
+build_deps="make gcc intltool perl libxfce4ui>=4.9.0 perl perl-xml-parser kernel-headers"
+
+adddep="xlockmore xrdb iso-codes upower xinit libwnck iceauth"
 
 BUILD_SYSTEM="autotools"
 

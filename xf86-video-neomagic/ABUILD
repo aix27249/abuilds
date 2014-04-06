@@ -1,5 +1,5 @@
 pkgname=xf86-video-neomagic
-pkgver=1.2.7
+pkgver=1.2.8
 pkgbuild=1
 arch=('auto')
 
@@ -7,8 +7,9 @@ shortdesc=('xf86-video-neomagic: X11 driver for Neomagic cards')
 longdesc=('xf86-video-neomagic: X11 driver for Neomagic video cards.')
 
 tags=('x11-drivers xserver')
+build_deps="xorg-server glibc-solibs"
 
-source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-neomagic-${pkgver}.tar.bz2")
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-neomagic-${pkgver}.tar.gz")
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"

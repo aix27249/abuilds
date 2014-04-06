@@ -1,53 +1,50 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=assaultcube
-pkgver=1.1.0.4
-pkgbuild=1
+pkgver=1.2.0.2
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A realistic team oriented multiplayer FPS based on the Cube engine"
 
 source=("http://downloads.sourceforge.net/actiongame/AssaultCube_v${pkgver}.tar.bz2")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="games games-fps"
 
 adddep="sdl openal zlib"
 
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
 
 #custom_opts: skip_validate skip_gendeps no_postperm no_strip
 custom_opts="no_strip"
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
 
 build()
 {
 go_src_dir
+
+cd source/src
+
+cp -f ${filedir}/Makefile .
+make install 
+
+go_src_dir
+
  mkdir -p ${pkgdir}/usr/share/assaultcube/packages
  mkdir -p ${pkgdir}/usr/bin
  mkdir -p ${pkgdir}/usr/doc
 
  if [ "${LIBDIRSUFFIX}" = "64" ]; then
-    cp bin_unix/linux_64_client ${pkgdir}/usr/bin/ac_client
-    cp bin_unix/linux_64_server ${pkgdir}/usr/bin/ac_server
+    cp bin_unix/native_client ${pkgdir}/usr/bin/ac_client
+    cp bin_unix/native_server ${pkgdir}/usr/bin/ac_server
  else
-    cp bin_unix/linux_client ${pkgdir}/usr/bin/ac_client
-    cp bin_unix/linux_server ${pkgdir}/usr/bin/ac_server
+    cp bin_unix/native_client ${pkgdir}/usr/bin/ac_client
+    cp bin_unix/native_server ${pkgdir}/usr/bin/ac_server
  fi
 
  cp -rf config packages mods ${pkgdir}/usr/share/assaultcube
  cp -rf docs ${pkgdir}/usr/doc/${pkgname}-${pkgver}
 
- install -Dm644 ${pkgdir}/usr/doc/${pkgname}-${pkgver}/pics/assaultcube.png ${pkgdir}/usr/share/pixmaps/assaultcube.png
+ #install -Dm644 ${pkgdir}/usr/doc/${pkgname}-${pkgver}/pics/assaultcube.png ${pkgdir}/usr/share/pixmaps/assaultcube.png
  install -Dm644 ${filedir}/assaultcube.desktop ${pkgdir}/usr/share/applications/assaultcube.desktop
  install -Dm755 ${filedir}/assaultcube ${pkgdir}/usr/bin/assaultcube
  install -Dm755 ${filedir}/assaultcube-server ${pkgdir}/usr/bin/assaultcube-server
 
-echo "build завершен"
 }

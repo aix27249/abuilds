@@ -1,7 +1,6 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=mplayer2
 pkgver=2.0
-pkgbuild=3
+pkgbuild=4
 realver=`echo $pkgver | sed s/_/-/g`
 arch=('auto')
 

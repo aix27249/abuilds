@@ -1,11 +1,12 @@
 pkgname=openbox
-pkgver=3.5.1
-pkgbuild=3
+pkgver=3.5.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A window manager for the X11 windowing system"
 
 source=("git:git://git.openbox.org/dana/${pkgname}.git")
+#source=("http://openbox.org/dist/openbox/openbox-$pkgver.tar.gz")
 
 tags="xapps x11-wm"
 
@@ -18,6 +19,7 @@ BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--disable-static \
 	--mandir=/usr/man \
+	--docdir=/usr/doc/${pkgname}-${pkgver} \
 	--disable-debug \
 	--enable-nls \
 	--disable-rpath \
@@ -35,6 +37,8 @@ build() {
 	go_src_dir
 
 	LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./bootstrap && ./configure $BUILD_KEYS
+	#LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure $BUILD_KEYS
+
 	make -j${numjobs} || make
 	make install DESTDIR=${pkgdir}
 }

@@ -1,0 +1,42 @@
+pkgname=hspell
+pkgver=1.2
+pkgbuild=3
+arch=('auto')
+
+shortdesc="Hebrew spell-checker"
+#longdesc=(""
+#)
+
+source=("http://hspell.ivrix.org.il/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs app-dicts"
+
+build_deps="perl zlib"
+
+
+build()
+{
+go_src_dir
+ ./configure --prefix=/usr \
+ --mandir=/usr/share/man \
+ --libdir=/usr/lib${LIBDIRSUFFIX} \
+ --enable-linginfo --enable-fatverb --enable-shared
+         make
+         make hunspell 
+         make DESTDIR="${pkgdir}" install
+
+ rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libhspell.a
+install -dm755 ${pkgdir}/usr/share/hunspell
+  install -m644 he.dic ${pkgdir}/usr/share/hunspell/he_IL.dic
+  install -m644 he.aff ${pkgdir}/usr/share/hunspell/he_IL.aff
+
+  # the symlinks
+  install -dm755 ${pkgdir}/usr/share/myspell/dicts
+  pushd $pkgdir/usr/share/myspell/dicts
+    for file in $pkgdir/usr/share/hunspell/*; do
+      ln -sv /usr/share/hunspell/$(basename $file) .
+    done
+  popd         
+}
+
+

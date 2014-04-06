@@ -1,7 +1,7 @@
 pkgname=broadcom-wl
 pkgver=6.30.223.141
 pkgver_src=`echo ${pkgver} | sed -e 's/[[:punct:]]/_/g'`
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 if [ `uname -m` = "i686" ]; then
@@ -15,32 +15,31 @@ FINAL_VER=${pkgver}_${KERNPKGVER}
 # Fix pkgver so it will contain kernel version
 pkgver=${FINAL_VER}
 
-
 shortdesc="Firmware for Broadcom BCM43xx"
 longdesc=("Firmware for Broadcom BCM43xx. Homepage: http://www.broadcom.com/support/802.11/linux_sta.php")
+
 source=("http://www.broadcom.com/docs/linux_sta/hybrid-${arch_src}-nodebug-pcoem-${pkgver_src}.tar.gz")
 
-build_deps="kernel-source"
+build_deps="make kernel-source"
+
 BUILD_PARAMS="API=WEXT"
 
 tags="network net-wireless"
 adddep="kernel==${KERNPKGVER}"
 
-
 build() {
-	cd ${srcdir}
-	burn_patches
-	set -e
-	sed -i 's/`uname -r`/${KERNEL}/g' Makefile
-	make KERNEL=${KERNEL} ${BUILD_PARAMS} -j${numjobs} 
-	make install KERNEL=${KERNEL}  ${BUILD_PARAMS} DESTDIR=${pkgdir}
+  cd ${srcdir}
+  burn_patches
+  sed -i 's/`uname -r`/${KERNEL}/g' Makefile
+  make ${BUILD_PARAMS} -C /usr/src/linux M=`pwd`
+  install -D -m 644 wl.ko "${pkgdir}/lib/modules/${KERNEL}/kernel/drivers/net/wireless/wl.ko"
+  install -D -m 644 lib/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
-	# Modprobe stuff: blacklist conflicting modules
-	mkdir -p ${pkgdir}/etc/modprobe.d
-	install -m0644 ${filedir}/broadcom-wl.modprobe ${pkgdir}/etc/modprobe.d/broadcom-wl.conf
+  # Modprobe stuff: blacklist conflicting modules
+  mkdir -p ${pkgdir}/etc/modprobe.d
+  install -m0644 ${filedir}/broadcom-wl.modprobe ${pkgdir}/etc/modprobe.d/broadcom-wl.conf
 
-	# doinst.sh
-	sed "s%@KERNEL@%${KERNEL}%" ${filedir}/doinst.sh > ${pkgdir}/install/doinst.sh
-	set +e
+  ## doinst.sh
+  sed "s%@KERNEL@%${KERNEL}%" ${filedir}/doinst.sh > ${pkgdir}/install/doinst.sh
 }
 

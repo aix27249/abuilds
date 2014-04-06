@@ -2,13 +2,23 @@ pkgname=dbus-glib
 pkgver=0.100.2
 pkgbuild=1
 arch=('auto')
+<<<<<<< HEAD
+
 tags="libs dev-libs"
+
+=======
+tags="libs dev-libs compat32"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 shortdesc="Glib bindings for DBus"
+
 longdesc=("This package includes the glib bindings for the dbus IPC library.")
-build_deps="pkg-config dbus glib2"
+
+build_deps="make gcc binutils grep pkg-config dbus glib2"
 
 source=("http://dbus.freedesktop.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
 BUILD_SYSTEM="autotools"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \

@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("Lightweight C library that eases the writing of UNIX daemons")
 longdesc=("libdaemon is a lightweight C library that eases the writing of Unix daemons. Homepage: http://0pointer.de/lennart/projects/libdaemon/")
-tags=("dev-libs libs")
+tags=("dev-libs libs compat32")
 source=("http://0pointer.de/lennart/projects/libdaemon/${pkgname}-${pkgver}.tar.gz")
 build_deps="glibc-solibs"
 

@@ -57,7 +57,7 @@ qt_prep() {
 	set +e
 }
 
-tags="network net-dns"
+tags="network net-dns compat32"
 build() {
 	go_src_dir
 	burn_patches

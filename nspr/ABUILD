@@ -1,35 +1,38 @@
 #----------------------------- General vars --------------------------------------
 pkgname=nspr
-pkgver=4.9.6
+pkgver=4.10.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Netscape Portable Runtime"
 longdesc=("This library provides platform independent non-GUI operating system facilities")
-source=("ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${pkgver}/src/${pkgname}-${pkgver}.tar.gz")
+source=("http://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${pkgver}/src/${pkgname}-${pkgver}.tar.gz")
 tags="net-libs libs"
 build_deps="glibc-solibs"
 conflicts="seamonkey-solibs"
 
+[ "$ARCH" = "x86_64" ] && confflags="--enable-64bit"
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --includedir=/usr/include/nspr \
+  --enable-optimize \
+  --disable-debug \
+  ${confflags}"
+INSTALL_KEYS="DESTDIR="${pkgdir}""
 
-build()
+before_build()
 {
   go_src_dir
-  burn_patches
-  [ "$ARCH" = "x86_64" ] && confflags="--enable-64bit"
-  unset CFLAGS
-  unset CXXFLAGS
-  ./mozilla/nsprpub/configure \
-      --prefix=/usr \
-      --libdir=/usr/lib${LIBDIRSUFFIX} \
-      --includedir=/usr/include/nspr \
-      --enable-optimize \
-      --disable-debug ${confflags} || return 1
-  make || return 1
-  make DESTDIR="${pkgdir}" install || return 1
-  NSPR_LIBS=`./config/nspr-config --libs`
-  NSPR_CFLAGS=`./config/nspr-config --cflags`
-  NSPR_VERSION=`./config/nspr-config --version`
+  cd nspr
+}
+
+after_build() 
+{
+  go_src_dir
+  NSPR_LIBS=`nspr/config/nspr-config --libs`
+  NSPR_CFLAGS=`nspr/config/nspr-config --cflags`
+  NSPR_VERSION=`nspr/config/nspr-config --version`
   install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" || return 1
   sed "${filedir}/nspr.pc.in" -e "s,%libdir%,/usr/lib${LIBDIRSUFFIX}," \
         -e "s,%prefix%,/usr," \
@@ -47,6 +50,4 @@ build()
         "${pkgdir}/usr/bin/prerr.properties" \
         "${pkgdir}/usr/share/aclocal/nspr.m4" \
         "${pkgdir}/usr/include/nspr/md"
-
-
 }

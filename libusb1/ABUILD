@@ -11,7 +11,7 @@ shortdesc=("Library that provides generic access to USB device")
 source=("http://downloads.sourceforge.net/libusbx/libusbx-${pkgver}.tar.bz2")
 
 # Tags
-tags="libs dev-libs"
+tags="libs dev-libs compat32"
 build_deps="glibc-solibs"
 
 # Build system

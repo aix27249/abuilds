@@ -35,11 +35,14 @@ build() {
 	cd $srcdir
 	sh $srcache/NVIDIA-Linux-${TARGET}-${pkgver_orig}-pkg${pkgvariant}.run --extract-only
 	cd NVIDIA-Linux-${TARGET}-${pkgver_orig}-pkg${pkgvariant}/usr/src/nv/
-		echo "1 of 3 - Applying linux-3.7-gentoo.patch..."
-		patch -p3 -i $filedir/linux-3.7-gentoo.patch
-		echo "2 of 3 - Applying linux-3.8-gentoo.patch..."
-		patch -p3 -i $filedir/linux-3.8-gentoo.patch conftest.sh
-		echo "3 of 3 - Building module for $_kernver..."
+patch -p1 -i ${filedir}/173.14.36-37.patch
+      patch -p4 -i ${filedir}/linux-3.10.patch
+      patch -p1 -i ${filedir}/linux-3.11.patch
+#		echo "1 of 3 - Applying linux-3.7-gentoo.patch..."
+#		patch -p3 -i $filedir/linux-3.7-gentoo.patch
+#		echo "2 of 3 - Applying linux-3.8-gentoo.patch..."
+#		patch -p3 -i $filedir/linux-3.8-gentoo.patch conftest.sh
+#		echo "3 of 3 - Building module for $_kernver..."
 #		make SYSSRC=/lib/modules/${_kernver}/build module
 #	patch -p1 < ${filedir}/acpixf.patch
 #	patch -p1 < ${filedir}/patchlevel.patch

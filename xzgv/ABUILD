@@ -11,7 +11,7 @@ longdesc=("xzgv is a picture viewer for X, with a thumbnail-based file selector.
 
 
 source=("http://sourceforge.net/projects/${pkgname}/files/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz/download")
-tags="xapps media-gfx"
+tags="xapps media-gfx compat32"
 build_deps="glibc-solibs libX11 atk cairo fontconfig freetype gtk+2 gdk-pixbuf glib2 pango"
 docs="INSTALL"
 

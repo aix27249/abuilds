@@ -1,22 +1,22 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=gtk-doc
-pkgver=1.18
+pkgver=1.20
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
-shortdesc="documentation instruments for GTK+"
-longdesc=("This tools extract documentation from GNOME sources and convert to human-readable format")
+shortdesc="Documentation tool for public library API"
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
 tags="dev-util develop"
 
-build_deps="linuxdoc-tools rarian"
+build_deps="make gcc kernel-headers python pkg-config perl openjade libxslt dblatex itstool"
 
-adddep="gtk+2"
-
-docs=
+adddep="perl"
 
 BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -26,4 +26,6 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

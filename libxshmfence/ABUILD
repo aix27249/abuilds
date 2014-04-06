@@ -1,0 +1,14 @@
+pkgname=libxshmfence
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc=('A library that exposes a event API on top of Linux futexes')
+tags=('x11-libs xserver')
+
+source=("http://xorg.freedesktop.org/archive/individual/lib/${pkgname}-${pkgver}.tar.bz2")
+build_deps="util-macros xproto"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --datarootdir=/usr --infodir=/usr/info --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=$pkgdir"

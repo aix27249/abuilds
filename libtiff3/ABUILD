@@ -7,7 +7,7 @@ arch=("auto")
 
 shortdesc=("libtiff3: compatibility package for programs built with libtiff 3.x")
 
-tags=("libs media-libs")
+tags=("libs media-libs compat32")
 
 source=("ftp://ftp.remotesensing.org/pub/libtiff/tiff-${pkgver}.tar.gz")
 

@@ -1,7 +1,7 @@
 pkgname=xf86-video-ati
 
-pkgver=6.14.99
-pkgbuild=1
+pkgver=7.2.0
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('xf86-video-ati')
@@ -9,12 +9,12 @@ longdesc=('xf86-video-ati is an opensource X11 driver for ATI cards.')
 
 tags=('x11-drivers xserver')
 
-#source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-ati-${pkgver}.tar.bz2")
-source=("git:git://anongit.freedesktop.org/xorg/driver/xf86-video-ati")
+build_deps="  fontsproto xproto kernel-headers gcc randrproto diffutils pkg-config"
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-ati-${pkgver}.tar.gz")
+#source=("git:git://anongit.freedesktop.org/xorg/driver/xf86-video-ati")           
 
 before_build() {
 	go_src_dir
-	./autogen.sh
 }
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"

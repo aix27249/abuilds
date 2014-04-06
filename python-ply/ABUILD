@@ -1,0 +1,14 @@
+pkgname=python-ply
+pkgver=3.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PLY (Python Lex-Yacc)"
+source=("http://www.dabeaz.com/ply/ply-${pkgver}.tar.gz")
+tags="libs dev-python"
+build_deps="python pysetuptools"
+provides="ply"
+adddep="python"
+
+BUILD_SYSTEM="python"
+BUILD_KEYS=

@@ -1,0 +1,28 @@
+pkgname=check
+pkgver=0.9.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Check is a unit testing framework for C"
+
+source=("http://downloads.sourceforge.net/project/check/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+
+tags="develop sys-devel"
+
+
+build()
+{
+
+go_src_dir
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man 
+
+make DESTDIR=$pkgdir install
+
+}

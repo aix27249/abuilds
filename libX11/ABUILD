@@ -6,9 +6,10 @@ arch=('auto')
 shortdesc=('X11 client-side library')
 longdesc=('libX11 is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
-tags=('x11-libs xserver')
+tags=('x11-libs xserver compat32')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libX11-${pkgver}.tar.bz2")
+
 build_deps="libxcb xproto kbproto util-macros xextproto xtrans inputproto"
 
 BUILD_SYSTEM='autotools'
@@ -22,5 +23,5 @@ BUILD_KEYS="--prefix=/usr \
   --docdir=/usr/doc \
   --disable-static \
   --with-xcb=yes"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

@@ -1,24 +1,28 @@
 pkgname=libmatroska
-pkgver=1.1.0
-pkgbuild=2
+pkgver=1.4.1
+pkgbuild=4
 arch=('auto')
 
 shortdesc="libmatroska (an extensible open standard Audio/Video container)"
+
 source=("http://dl.matroska.org/downloads/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-tags="libs media-libs"
 
-build() {
-	go_src_dir
-	burn_patches
 
-	set -e
-	cd make/linux
+tags="libs media-libs" 
 
-	LDFLAGS="$SLKLDFLAGS" \
-	CFLAGS="$SLKCFLAGS" \
-	CXXFLAGS="$SLKCFLAGS" \
-	make sharedlib -j${numjobs}
-	make prefix=$pkgdir/usr libdir=$pkgdir/usr/lib${LIBDIRSUFFIX} install
-	set +e
+build_deps="libebml"
+
+build(){
+
+go_src_dir
+
+burn_patches
+
+cd make/linux
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+make sharedlib -j${numjobs} || exit 1
+make prefix=$pkgdir/usr libdir=$pkgdir/usr/lib${LIBDIRSUFFIX} install || exit 1
 }
-

@@ -1,0 +1,51 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=texlive-pictures
+pkgver=2013.31517
+pkgbuild=2
+arch=('noarch')
+
+shortdesc="TeX Live - Packages for drawings graphics"
+
+source=("ftp://ftp.archlinux.org/other/texlive/${pkgname}-${pkgver}-src.zip")
+
+tags="app-text tex"
+
+build_deps="texlive-core"
+
+adddep="texlive-core"
+
+custom_opts="no_strip"
+
+build() {
+  go_src_dir
+  for p in *.tar.xz; do
+      echo "   --> extracting package ${p}"
+      tar -xf ${p}
+  done
+  rm -rf tlpkg || true
+
+  install -m755 -d ${pkgdir}/var/lib/texmf/arch/installedpkgs
+  sed -i '/^#/d' CONTENTS
+  install -m644 CONTENTS ${pkgdir}/var/lib/texmf/arch/installedpkgs/${pkgname}_${_revnr}.pkgs
+  install -m644 "${filedir}"/${pkgname}.maps "${pkgdir}"/var/lib/texmf/arch/installedpkgs/
+  install -m755 -d ${pkgdir}/usr/share
+  wanteddirs=$(for d in *; do test -d ${d} && [[ ${d} != texmf* ]] && echo ${d}; done) || true
+  for dir in ${wanteddirs}; do
+      find ${dir} -type d -exec install -d -m755 ${pkgdir}/usr/share/texmf-dist/'{}' \;
+      find ${dir} -type f -exec install -m644 '{}' ${pkgdir}/usr/share/texmf-dist/'{}' \;
+  done
+  if [[ -d texmf-dist ]]; then
+     find texmf-dist -type d -exec install -d -m755 ${pkgdir}/usr/share/'{}' \;
+     find texmf-dist -type f -exec install -m644 '{}' ${pkgdir}/usr/share/'{}' \;
+  fi
+  if [[ -d ${pkgdir}/usr/share/texmf-dist/scripts ]]; then
+     find ${pkgdir}/usr/share/texmf-dist/scripts -type f -exec chmod a+x '{}' \;
+  fi
+  echo "Add symlinks that were in texlive-bin"
+  install -m755 -d ${pkgdir}/usr/bin
+  ln -s /usr/share/texmf-dist/scripts/cachepic/cachepic.tlu "${pkgdir}"/usr/bin/cachepic
+  ln -s /usr/share/texmf-dist/scripts/epspdf/epspdftk.tcl "${pkgdir}"/usr/bin/epspdftk
+  ln -s /usr/share/texmf-dist/scripts/epspdf/epspdf.tlu "${pkgdir}"/usr/bin/epspdf
+  ln -s /usr/share/texmf-dist/scripts/fig4latex/fig4latex "${pkgdir}"/usr/bin/fig4latex
+  ln -s /usr/share/texmf-dist/scripts/mathspic/mathspic.pl "${pkgdir}"/usr/bin/mathspic
+}

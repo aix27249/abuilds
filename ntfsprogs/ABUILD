@@ -1,6 +1,6 @@
 pkgname=ntfs-3g
 pkgver=2013.1.13
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Free and open source NTFS driver for Linux."
@@ -15,13 +15,18 @@ build_deps="util-linux-ng fuse"
 build()
 {
 	go_src_dir
-	burn_patches
-
-	ac_cv_path_LDCONFIG=/bin/true ./configure --prefix=/usr --with-fuse=external --disable-static --mandir=/usr/man --docdir=/usr/doc --libdir=/usr/lib${LIBDIRSUFFIX}
-	make -j${numjobs}
-
+	./autogen.sh
+	ac_cv_path_LDCONFIG="/bin/true" ./configure \
+--prefix=/usr \
+--with-fuse=external \
+--disable-static \
+--mandir=/usr/man \
+--docdir=/usr/doc \
+--libdir=/usr/lib${LIBDIRSUFFIX}
+	
+	make -j${numjobs} 
 	for dir in src libntfs-3g include; do
-		make -C $dir DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" rootbindir=/bin rootsbindir=/sbin rootlibdir=/usr/lib${LIBDIRSUFFIX} install
 	done
 	
 	ln -s /bin/ntfs-3g $pkgdir/sbin/mount.ntfs

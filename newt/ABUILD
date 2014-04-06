@@ -1,9 +1,6 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=newt
-pkgver=0.52.14
-pkgbuild=1
+pkgver=0.52.16
+pkgbuild=3
 arch=('auto')
 
 shortdesc="A programming library for color text mode, widget based user interfaces "
@@ -11,13 +8,9 @@ shortdesc="A programming library for color text mode, widget based user interfac
 source=("https://fedorahosted.org/releases/n/e/newt/newt-${pkgver}.tar.gz")
 
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
 tags="utils app-admin"
 
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+build_deps="slang popt tcl"
 
 before_build()
 {

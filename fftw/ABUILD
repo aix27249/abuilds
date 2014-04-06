@@ -6,7 +6,7 @@ arch=("auto")
 
 shortdesc=("fftw (Fastest Fourier Transform in the West)")
 longdesc=("FFTW is a free collection of fast C routines for computing the Discrete Fourier Transform in one or more dimensions. It includes complex, real, symmetric, and parallel transforms, and can handle arbitrary array sizes efficiently. FFTW is typically faster than other publically-available FFT implementations, and is even competitive with vendor-tuned libraries. Homepage: http://www.fftw.org/")
-tags=("dev-libs libs")
+tags=("dev-libs libs compat32")
 
 source=("http://www.fftw.org/${pkgname}-${pkgver}.tar.gz")
 build_deps="glibc-solibs"

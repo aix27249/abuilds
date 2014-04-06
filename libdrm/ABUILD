@@ -1,12 +1,12 @@
 pkgname=libdrm
-pkgver=2.4.46
+pkgver=2.4.52
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('Userspace interface to kernel DRM (Direct Rendering) services')
 longdesc=('This library implements an interface to the kernel DRM services. It is used to support hardware accelerated 3-D rendering.')
 
-tags=('libs x11-libs')
+tags=('libs x11-libs compat32')
 
 source=("http://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 build_deps="glibc libpciaccess udev"

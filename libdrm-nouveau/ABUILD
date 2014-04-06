@@ -1,5 +1,5 @@
 pkgname=libdrm-nouveau
-pkgver=2.4.33
+pkgver=2.4.52
 pkgbuild=1
 arch=('auto')
 
@@ -7,7 +7,7 @@ shortdesc=('libdrm for nouveau')
 longdesc=('This library implements an interface to the kernel DRM services. It is used to support hardware accelerated 3-D rendering. This build is especially for nouveau, hope it is temporary.')
 
 tags=('libs x11-libs')
-
+build_deps="libdrm xorg-server glibc-solibs"
 source=("http://dri.freedesktop.org/libdrm/libdrm-${pkgver}.tar.bz2")
 
 pkglist="dev"
@@ -25,14 +25,13 @@ build() {
 	./configure --prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX \
 		--enable-udev \
 		--disable-intel \
-		--disable-radeon \
-		--enable-nouveau-experimental-api
+		--disable-radeon 
 	make -j${numjobs}
 }
 
 dev_prep() {
 	make install DESTDIR=${pkgdir}
-	rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libdrm_nouveau.so.1*
+rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libdrm_nouveau.so.2*
 }
 
 

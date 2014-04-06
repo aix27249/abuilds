@@ -1,11 +1,12 @@
 pkgname=xmodmap
-pkgver=1.0.7
+pkgver=1.0.8
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('xmodmap')
 longdesc=('xmodmap is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
+build_deps="libX11"
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xmodmap-${pkgver}.tar.bz2")

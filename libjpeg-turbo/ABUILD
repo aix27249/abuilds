@@ -7,7 +7,7 @@ arch=('auto')
 
 shortdesc="libjpeg-turbo is a derivative of libjpeg that uses MMX, SSE, SSE2, and NEON SIMD instructions to accelerate baseline JPEG compression/decompression by about 2-4x on x86, x86-64, and ARM platforms. It is based on libjpeg/SIMD but has numerous enhancements."
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${srcver}.tar.gz")
-tags="media-libs libs"
+tags="media-libs libs compat32"
 build_deps="nasm m4 autoconf automake"
 
 provides="libjpeg"

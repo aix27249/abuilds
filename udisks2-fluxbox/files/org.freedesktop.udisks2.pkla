@@ -1,0 +1,18 @@
+[Local Users]
+Identity=unix-group:plugdev
+Action=org.freedesktop.udisks2.*
+ResultAny=yes
+ResultInactive=no
+ResultActive=yes
+
+
+[Mount Permissions for users]
+Identity=unix-group:users
+Action=org.freedesktop.udisks2.filesystem-mount
+ResultAny=auth_self
+
+
+[Eject Permissions for users]
+Identity=unix-group:users
+Action=org.freedesktop.udisks2.drive-eject
+ResultAny=auth_self

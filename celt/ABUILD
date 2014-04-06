@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc="CELT (Ultra-low delay audio codec)"
 source=("http://downloads.xiph.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="libs media-libs"
+tags="libs media-libs compat32"
 build_deps="libogg"
 
 

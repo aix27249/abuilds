@@ -1,5 +1,5 @@
 pkgname=lm_sensors
-pkgver=3.3.3
+pkgver=3.3.5
 pkgbuild=4
 arch=('auto')
 
@@ -8,6 +8,7 @@ shortdesc="Lm_sensors - Linux hardware monitoring"
 source=("http://dl.lm-sensors.org/lm-sensors/releases/$pkgname-$pkgver.tar.bz2")
 tags="console sys-apps"
 
+build_deps="perl"
 build()
 {
 
@@ -21,5 +22,10 @@ make PREFIX=/usr LIBDIR=/usr/lib${LIBDIRSUFFIX} DESTDIR=$pkgdir install
 mkdir -p ${pkgdir}/etc/init.d
 cp ${filedir}/lm_sensors ${pkgdir}/etc/init.d
 chmod 755 ${pkgdir}/etc/init.d/lm_sensors
+ install -D -m755 "${filedir}/healthd" "${pkgdir}/usr/bin/healthd"
+ 
+   install -D -m644 "${filedir}/healthd.conf" "${pkgdir}/etc/healthd.conf"
+     install -D -m644 "${filedir}/sensord.conf" "${pkgdir}/etc/conf.d/sensord"
+      
 }
 

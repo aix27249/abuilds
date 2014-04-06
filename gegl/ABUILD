@@ -1,22 +1,20 @@
 #ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=gegl
 pkgver=0.2.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 shortdesc="Graph based image processing framework."
-source=("ftp://ftp.gtk.org/pub/${pkgname}/`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gimp.org/pub/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 tags="libs media-gfx"
 build_deps="intltool lua openexr ffmpeg librsvg jasper"
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
+--disable-docs \
 --mandir=/usr/man \
 --with-openexr \
 --with-librsvg \

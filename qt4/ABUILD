@@ -1,12 +1,12 @@
 # Qt4 ABUILD
 pkgname=qt4
 pkgver=4.8.5
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
 longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
-tags=('libs x11-libs')
+tags=('libs x11-libs compat32')
 source=("http://download.qt-project.org/official_releases/qt/4.8/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
 pkglist="qtdoc"
 
@@ -15,18 +15,18 @@ removedep="mysql postgresql"
 build_deps=("alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
     libSM freetype libgl libXrandr libXv libXi alsa-lib xdg-utils hicolor-icon-theme \
     desktop-file-utils mysql cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
-    libxml2 icu4c glib2 openssl-solibs")
+    libxml2 icu4c glib2 openssl-solibs diffutils postgresql")
 
 before_build() {
-	CXXFLAGS=$SLKCFLAGS
-	LDFLAGS="$SLKLDFLAGS -ldl"
-	echo "CXXFLAGS=$CXXFLAGS"
-	echo "LDFLAGS=$LDFLAGS"
-	go_src_dir
-	sed -i "s|-O2|$CXXFLAGS|" mkspecs/common/g++.conf
-	#sed -i "/^QMAKE_RPATH/s| -Wl,-rpath,||g" mkspecs/common/g++.conf
-	sed -i "/^QMAKE_LFLAGS\s/s|+=|+= $LDFLAGS|g" mkspecs/common/g++.conf
-	echo "Using $CXX compiler"
+  CXXFLAGS=$SLKCFLAGS
+  LDFLAGS="$SLKLDFLAGS -ldl"
+  echo "CXXFLAGS=$CXXFLAGS"
+  echo "LDFLAGS=$LDFLAGS"
+  go_src_dir
+  sed -i "s|-O2|$CXXFLAGS|" mkspecs/common/g++.conf
+  #sed -i "/^QMAKE_RPATH/s| -Wl,-rpath,||g" mkspecs/common/g++.conf
+  sed -i "/^QMAKE_LFLAGS\s/s|+=|+= $LDFLAGS|g" mkspecs/common/g++.conf
+  echo "Using $CXX compiler"
 }
 
 BUILD_SYSTEM='autotools'
@@ -70,7 +70,7 @@ BUILD_KEYS="-confirm-license -opensource \
 	-glib \
 	-v"
 
-INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+INSTALL_KEYS="INSTALL_ROOT=${pkgdir}"
 
 after_build() {
   # Add profile scripts
@@ -136,12 +136,13 @@ after_build() {
 
 qtdoc() {
   pkgname=qt4-doc
-	shortdesc=("Qt Documentation")
-	longdesc=("This package contains complete Qt programming reference. If you wish to browse documentation using assisant, you need this package.")
+  arch=('noarch')
+  shortdesc=("Qt Documentation")
+  longdesc=("This package contains complete Qt programming reference. If you wish to browse documentation using assisant, you need this package.")
 }
 
 qtdoc_prep() {
-	# Move documentation to separate package:
-	mkdir -p ${pkgdir}/usr/doc
-	mv ${p_pkgdir}/usr/doc/qt-${pkgver} ${pkgdir}/usr/doc/qt-${pkgver}
+  # Move documentation to separate package:
+  mkdir -p ${pkgdir}/usr/doc
+  mv ${p_pkgdir}/usr/doc/qt-${pkgver} ${pkgdir}/usr/doc/qt-${pkgver}
 }

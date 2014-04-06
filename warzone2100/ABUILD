@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=warzone2100
-pkgver=3.1.0
+pkgver=3.1.1
 pkgbuild=1
 arch=('noarch')
 
@@ -11,7 +11,6 @@ shortdesc="Warzone 2100: A Real-Time Strategy game"
 #longdesc=("Warzone 2100 is a real-time strategy game, originally developed by Pumpkin Studios and published by Eidos Interactive, now developed by the Warzone 2100 Project. Compared to other real-time strategy games, it has a greater focus on artillery, radar, and counter-battery technologies, more frequent in-game cinematic updates as game play progresses, a massive research tree, as well as a vehicle design system. Homepage: http://wz2100.net")
 
 source=("http://downloads.sourceforge.net/project/warzone2100/releases/${pkgver}/${pkgname}-${pkgver}.tar.xz")
-#source=("http://downloads.sourceforge.net/project/warzone2100/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 
 patch_opts=("")
 
@@ -86,6 +85,7 @@ fi
 if [ ! -d ${pkgdir}/usr/share ]; then
 	mkdir -p ${pkgdir}/usr/share
 fi
+
 cd ${pkgdir}/usr/share
 # desktop
 [ -d ${pkgdir}/opt/applications ] && mv -v ${pkgdir}/opt/applications ./

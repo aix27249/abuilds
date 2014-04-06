@@ -1,12 +1,14 @@
 pkgname=tzdata
-pkgver=2013d
+pkgver=2013h
 pkgbuild=1
 shortdesc="Sources for time zone and daylight saving time data"
 arch=("noarch")
 tags=("libs sys-libs")
 source=("http://www.iana.org/time-zones/repository/releases/${pkgname}${pkgver}.tar.gz")
 
-build_deps="mkpkg glibc-solibs"
+build_deps="glibc-solibs"
+
+custom_opts="no_strip"
 
 timezones=('africa' 'antarctica' 'asia' 'australasia'
            'europe' 'northamerica' 'southamerica'

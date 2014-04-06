@@ -1,52 +1,15 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=disktype
 pkgver=0.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
-shortdesc="Утилита распознавания файловых систем и разделов"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Утилита распознавания файловых системи зразделов на различных устройствах"
-)
+shortdesc="Detects the content format of a disk or disk image by checking for signatures of file systems, partition tables, and boot codes."
 
 source=("http://cdnetworks-kr-2.dl.sourceforge.net/project/disktype/disktype/9/${pkgname}-9.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils app-admin" 
-#dependencies only needed to build package
-build_deps=""
+build_deps=" glibc-solibs mkpkg"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 build()
 {
@@ -60,13 +23,6 @@ cp -Rf  $srcdir/$pkgname-9/disktype  $pkgdir/usr/bin || exit 1
 
 
 
-burn_patches
 }
 
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

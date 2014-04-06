@@ -1,16 +1,19 @@
-#ABUILD created by: khvalera, khvalera at narod.ru 
 pkgname=libvorbis
 pkgver=1.3.3
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
-shortdesc="Vorbis codec library"
+shortdesc="libvorbis (Ogg Vorbis library)"
+ 
+source=("http://downloads.xiph.org/releases/vorbis/${pkgname}-${pkgver}.tar.xz")
 
-source=("http://downloads.xiph.org/releases/vorbis/${pkgname}-${pkgver}.tar.gz")
-
+<<<<<<< HEAD
+#short and long tags / длинный и короткий тег
 tags="libs media-libs"
+=======
+tags="libs media-libs compat32"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
-build_deps="libogg"
 
 BUILD_SYSTEM="autotools"
 
@@ -22,15 +25,15 @@ BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
 --mandir=/usr/man \
---docdir=${pkgdir}/usr/doc \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build(){
-  go_src_dir
-  mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
-  cp -a $pkgdir/usr/share/doc/$pkgname-$pkgver/* $pkgdir/usr/doc/$pkgname-$pkgver/
-  rm -rf $pkgdir/usr/share/doc
+after_build()
+{
+echo ""
+mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+cp -a $pkgdir/usr/share/doc/$pkgname-$pkgver/* $pkgdir/usr/doc/$pkgname-$pkgver/
+rm -rf $pkgdir/usr/share/doc
 }

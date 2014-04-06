@@ -1,15 +1,24 @@
 pkgname=orc
-pkgver=0.4.17
+pkgver=0.4.18
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The Oil Runtime Compiler (and OIL stands for Optimized Inner Loops)"
+
 source=("http://code.entropywave.com/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="develop dev-util"
+<<<<<<< HEAD
+
+
+tags="develop dev-util"     			#short and long tags / длинный и короткий тег
+=======
+tags="develop dev-util compat32"
 build_deps="glibc"
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -21,3 +30,4 @@ BUILD_KEYS="--prefix=/usr \
 --docdir=/usr/doc/${pkgname}-${pkgver}"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
+

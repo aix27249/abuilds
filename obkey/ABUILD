@@ -2,15 +2,17 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=obkey
-pkgver=0.10
+pkgver=1.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Openbox Key Editor, written in Python + PyGTK"
 #-ruler---|--------------------------------------------------------------------------|
-longdesc=("Current version is a development version. It means it wasn't tested a lot. And there is a code for making backup of rc.xml (just in case).")
+#longdesc=("Current version is a development version. It means it wasn't tested a lot. And there is a code for making backup of rc.xml (just in case).")
+
 
 source=("git:git://github.com/nsf/obkey.git")
+#source=("http://obkey.googlecode.com/files/obkey-$pkgver.tar.gz")
 
 patch_opts=("")
 

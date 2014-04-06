@@ -1,6 +1,6 @@
 
 pkgname=glibc-zoneinfo
-pkgver=2013c
+pkgver=2013h
 pkgbuild=1
 shortdesc="Virtual package. Must be replaced by tzdata"
 arch=("noarch")

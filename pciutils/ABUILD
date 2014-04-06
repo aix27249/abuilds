@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("pciutils (PCI utilities)")
 longdesc=("lspci displays detailed information about all PCI buses and devices in the system, replacing the original /proc/pci interface. setpci allows reading from and writing to PCI device configuration registers. For example, you can adjust the latency timers with it. See the manual pages for more details.")
 
-tags=("base sys-apps")
+tags=("base sys-apps compat32")
 
 source=("ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/pciutils-${pkgver}.tar.gz")
 build_deps="kmod curl glibc"

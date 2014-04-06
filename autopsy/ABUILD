@@ -1,0 +1,50 @@
+pkgname=autopsy
+pkgver=2.24
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The Autopsy Forensic Browser is a GUI for The Sleuth Kit."
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="xapps app-admin"
+
+build_deps="perl sleuthkit"
+
+
+build()
+{
+
+go_src_dir
+  echo "#!/usr/bin/perl -wT" > ${pkgname}
+  echo "use lib '/usr/lib/${pkgname}/';" >> ${pkgname}
+  echo "use lib '/usr/lib/${pkgname}/lib/';" >> ${pkgname}
+  cat base/${pkgname}.base >> ${pkgname} || return 1
+  sed -i 's:conf.pl:/etc/autopsy.pl:' ${pkgname} lib/Main.pm || return 1
+
+  mkdir -p ${pkgdir}/usr/lib/${pkgname}
+  cp ${pkgname} ${pkgdir}/usr/lib/${pkgname}/
+  chmod +x ${pkgdir}/usr/lib/${pkgname}/${pkgname}
+
+  mkdir -p ${pkgdir}/etc
+  cp ${filedir}/${pkgname}.pl ${pkgdir}/etc
+  chmod 644 ${pkgdir}/etc/${pkgname}.pl
+  
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/help
+  cp -r help ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/
+
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/lib
+  cp -r lib ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/
+
+  mkdir -p ${pkgdir}/usr/man/man1
+  cp -r man ${pkgdir}/usr/
+
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/pict
+  cp -r pict ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/
+
+  mkdir -p ${pkgdir}/usr/bin
+  cd ${pkgdir}/usr/bin
+  ln -s /usr/lib${LIBDIRSUFFIX}/${pkgname}/${pkgname} ${pkgname}
+
+}
+

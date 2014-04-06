@@ -1,49 +1,14 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libupnp
-pkgver=1.6.13
-pkgbuild=1
+pkgver=1.6.19
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Libupnp (Linux SDK for UPnP Devices)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("UPnP is an architecture  that enables  discovery, event notification and control of devices on a network, independent of operating system programming language, or physical network connection. UPnP is based on common Internet standards and specifications such as TCP/IP, HTTP and XML."
-	  ""
-	  "Homepage: http://sourceforge.net/projects/pupnp/"
-)
 
 source=("http://downloads.sourceforge.net/sourceforge/pupnp/${pkgname}-${pkgver}.tar.bz2")
 
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs net-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+tags="libs net-libs"  
 
 BUILD_SYSTEM="autotools"
 
@@ -61,9 +26,3 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}

@@ -1,20 +1,88 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=0ad-data
-pkgver=alpha10
-_pkgver=r11863-alpha
-pkgbuild=1
-arch=('noarch')
+pkgname=0ad
+pkgver=alpha15
+_pkgver=0.0.15-alpha
+pkgbuild=3
+arch=('auto')
 
 shortdesc="A cross-platform, open source 3D strategy game"
 
-source=("http://releases.wildfiregames.com/0ad-$_pkgver-unix-data.tar.xz")
+source=("http://releases.wildfiregames.com/$pkgname-$_pkgver-unix-build.tar.xz"
+"http://releases.wildfiregames.com/0ad-$_pkgver-unix-data.tar.xz")
 
 tags="games games-strategy"
+
+build_deps="cmake gloox"
+adddep="0ad-data"
+pkglist="data"
+
+
+
 
 build()
 {
   go_src_dir
+  
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i486 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+
+export CFLAGS="$SLKCFLAGS"
+export CXXFLAGS="$SLKCFLAGS"
+export CPPFLAGS="$SLKCFLAGS"
+export LDFLAGS="-L/usr/lib${LIBDIRSUFFIX}"
+
+  sed -i 's/-mt//g' build/premake/extern_libs4.lua
+
   burn_patches
-  install -d ${pkgdir}/opt/0ad
+  cd build/workspaces/
+ ./update-workspaces.sh
+  cd gcc/
+  make CONFIG=Release
+
+  go_src_dir
+  install -d ${pkgdir}/opt/${pkgname}  
+  cp -r binaries/* ${pkgdir}/opt/${pkgname}
+  rm -r ${pkgdir}/opt/${pkgname}/data/
+  rm -r ${pkgdir}/opt/${pkgname}/system/{test,*.a}
+
+  install -D -m755 ${filedir}/${pkgname}.sh ${pkgdir}/usr/bin/${pkgname}
+  install -D -m755 ${filedir}/${pkgname}-editor.sh ${pkgdir}/usr/bin/${pkgname}-editor
+
+  install -D -m 0644 "${filedir}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+  install -D -m 0644 "${filedir}/${pkgname}-editor.desktop" "${pkgdir}/usr/share/applications/${pkgname}-editor.desktop"
+  install -D -m 0644 "${filedir}/${pkgname}.png" "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
+}
+
+data() {
+	pkgname="${p_pkgname}-data"
+	shortdesc="Data files for 0ad"
+	arch='noarch'
+	custom_opts="skip_gendeps no_strip"
+}
+
+data_prep() {
+
+install -d ${pkgdir}/opt/0ad
   cp -r binaries/* ${pkgdir}/opt/0ad
 }
+
+

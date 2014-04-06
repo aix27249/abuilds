@@ -1,5 +1,5 @@
 pkgname=xf86-input-keyboard
-pkgver=1.7.0
+pkgver=1.8.0
 pkgbuild=1
 arch=('auto')
 
@@ -9,10 +9,19 @@ longdesc=('xf86-input-keyboard is part of X11. For more information about the X.
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-input-keyboard-${pkgver}.tar.bz2")
-build_deps="xorg-server resourceproto scrnsaverproto"
+
+build_deps="make gcc grep kernel-headers pkg-config binutils xorg-server resourceproto scrnsaverproto"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 

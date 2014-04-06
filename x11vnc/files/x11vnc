@@ -1,22 +1,8 @@
 #!/sbin/runscript
-# -auth:
-# gdm:  -auth /var/gdm/:0.Xauth
-#       -auth /var/lib/gdm/:0.Xauth
-# kdm:  -auth /var/lib/kdm/A:0-crWk72
-#       -auth /var/run/xauth/A:0-crWk72
-# xdm:  -auth /var/lib/xdm/authdir/authfiles/A:0-XQvaJk
-#       dtlogin: -auth /var/dt/A:0-UgaaXa
-# Sometimes the command "ps wwwwaux | grep auth" can reveal the file location.
+
+name="x11vnc server daemon"
 
 PIDFILE=/var/run/x11vnc.pid
-
-if [ "`ps -e | grep kdm`" ]; then
-  AUTH='/var/lib/kdm/A:0-crWk72'
-elif [ "`ps -e | grep gdm`" ]; then
-  AUTH='/var/gdm/:0.Xauth'
-elif [ "`ps -e | grep xdm`" ]; then
-  AUTH='/var/lib/xdm/authdir/authfiles/A:0-XQvaJk'
-fi
 
 depend() {
    use logger dns
@@ -25,6 +11,10 @@ depend() {
 }
 
 start() {
+  if [ ! -f /etc/x11vnc/passwd ] ; then
+     eerror "Start: sudo x11vnc --storepasswd /etc/x11vnc/passwd"
+     return 1
+  fi
   ebegin "Starting x11vnc"
   start-stop-daemon --start \
                     --quiet \
@@ -33,11 +23,10 @@ start() {
                     --background \
                     --exec x11vnc -- \
                     -display :0 \
-                    -auth ${AUTH} \
-                    -xkb \
+                    -auth ${X11VNC_AUTH} \
                     -rfbauth /etc/x11vnc/passwd \
-                    -noncache \
-                    -rfbport 5688 \
+                    -rfbport ${X11VNC_PORT} \
+                    ${X11VNC_OPTIONS} \
                     -o /var/log/x11vnc.log -loop
   if [ ! -f ${PIDFILE} ]; then
      eerror "Failed to start x11vnc"
@@ -50,14 +39,9 @@ start() {
 stop () {
   ebegin "Stopping x11vnc"
   if [ -r ${PIDFILE} ] ; then
-       echo "Found pidfile $PIDFILE $(cat $PIDFILE)"
-       start-stop-daemon --stop --quiet --pidfile=$PIDFILE --retry 20
+       echo "Found pidfile ${PIDFILE} $(cat ${PIDFILE})"
+       start-stop-daemon --stop --quiet x11vnc --retry 20
   fi
-  if [ 'ps -A | grep x11vnc' ] ; then
-      echo "Killing all"
-      killall -HUP x11vnc
-  fi
-
   eend $?
 }
 

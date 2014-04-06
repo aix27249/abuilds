@@ -1,0 +1,26 @@
+pkgname=enchant
+pkgver=1.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A wrapper library for generic spell checking"
+
+source=("http://www.abisource.com/downloads/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs dev-libs"
+
+build_deps="aspell  hunspell hspell"
+
+
+build()
+{
+go_src_dir
+./configure --prefix=/usr \
+--disable-static \
+--disable-ispell \
+ --libdir=/usr/lib${LIBDIRSUFFIX} \
+--with-myspell-dir=/usr/share/myspell
+ make
+make DESTDIR="${pkgdir}" install
+}
+

@@ -1,0 +1,58 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=networkmanager
+pkgver=0.9.8.8
+pkgbuild=2
+arch=("auto")
+
+shortdesc=('Network Management daemon')
+
+source=("http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${pkgver:0:3}/NetworkManager-${pkgver}.tar.xz")
+
+tags=("network net-misc")
+
+build_deps="make coreutils gcc gcc-g++ intltool pkg-config kernel-headers grep perl-xml-parser nss dhclient dhcpcd iptables gobject-introspection modemmanager docbook-xsl diffutils vim gtk-doc vala upower"
+
+adddep="ppp>=2.4.5 iptables dhcpcd wireless-tools wpa_supplicant rp-pppoe"
+
+config_files="etc/NetworkManager/NetworkManager.conf"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sbindir=/usr/sbin \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/networkmanager \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--disable-static \
+--with-iptables=/usr/sbin/iptables \
+--with-dhclient=/usr/sbin/dhclient \
+--with-dhcpcd=/usr/sbin/dhcpcd \
+--disable-wimax \
+--enable-polkit \
+--with-modem-manager-1 \
+--enable-modify-system \
+--with-crypto=nss \
+--enable-ppp \
+--enable-bluez4 \
+--enable-vala=auto \
+--with-suspend-resume=upower \
+--enable-introspection=auto \
+--with-udev-dir=/lib/udev \
+--enable-doc \
+--with-tests"
+
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build() {
+  install -m644 "${filedir}"/nm-system-settings.conf "${pkgdir}"/etc/NetworkManager/NetworkManager.conf
+  install -m755 -d "${pkgdir}"/etc/NetworkManager/dnsmasq.d
+
+  # I don't like camelcase in init.d:
+  install -Dm755 "${filedir}"/networkmanager "${pkgdir}"/etc/init.d/networkmanager
+}
+

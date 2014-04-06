@@ -1,0 +1,36 @@
+pkgname=tcpdump
+pkgver=4.5.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A tool for network monitoring and data acquisition"
+
+source=("http://www.tcpdump.org/release/${pkgname}-${pkgver}.tar.gz")
+
+
+tags="network net-analyzer"
+
+build_deps="libpcap openssl"
+
+
+adddep=""
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+  install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

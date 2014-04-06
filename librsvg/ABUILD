@@ -1,6 +1,6 @@
 pkgname=librsvg
 pkgver=2.36.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="librsvg (SVG library)"

@@ -2,7 +2,7 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=libmpeg2
 pkgver=0.5.1
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Libmpeg2 (Free MPEG-2 video stream decoder)"

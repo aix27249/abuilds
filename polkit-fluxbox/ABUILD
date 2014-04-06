@@ -1,0 +1,32 @@
+pkgname=polkit-fluxbox
+pkgver=0.101
+pkgbuild=1
+arch="auto"
+
+shortdesc=("Authorization Framework")
+source=("http://hal.freedesktop.org/releases/polkit-${pkgver}.tar.gz")
+
+tags="libs sys-auth"
+build_deps=" linux-pam pcre zlib expat  libffi"
+
+build(){
+go_src_dir
+./configure --prefix=/usr \
+--sbindir=/usr/sbin \
+--mandir=/usr/man \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--disable-gtk-doc-html \
+--disable-static \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/polkit-1
+make || echo "11111111"
+make DESTDIR=${pkgdir} install || echo "11111111"
+}
+
+
+after_build() {
+	echo ""
+	install -m644 "${filedir}/polkit.pam" "${pkgdir}/etc/pam.d/polkit-1" || return 1
+}
+

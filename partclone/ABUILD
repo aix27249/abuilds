@@ -1,26 +1,17 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=partclone
-pkgver=0.2.56
-pkgbuild=1
+pkgver=0.2.70
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Back up and restore used-blocks of a partition"
 
 source=("http://free.nchc.org.tw/drbl-core/src/unstable/partclone-${pkgver}.tar.gz")
-#https://downloads.sourceforge.net/project/${pkgname}/stable/$pkgver/${pkgname}_${pkgver}.tar.gz")
 
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils app-admin"
 
 adddep="e2fsprogs reiserfsprogs dosfstools ncurses ntfsprogs"
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+build_deps="e2fsprogs reiserfsprogs dosfstools ntfsprogs"
 
 build() 
 {
@@ -28,6 +19,15 @@ build()
 go_src_dir
 
 ./configure --prefix=/usr \
+--bindir=/usr/bin \
+--sbindir=/usr/sbin \
+--datarootdir=/usr/share \
+--libexecdir=/usr/libexec \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--infodir=/usr/info \
+--sysconfdir=/etc \
+--localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --enable-extfs \
 --enable-fat \
@@ -39,4 +39,10 @@ go_src_dir
 
 make DESTDIR=$pkgdir install
 
+}
+
+after_build(){
+
+mv -f  ${pkgdir}/share/${pkgname} ${pkgdir}/usr/share/
+rm -rf ${pkgdir}/share
 }

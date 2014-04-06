@@ -1,0 +1,29 @@
+pkgname=lrzsz
+pkgver=0.12.20
+pkgbuild=1
+arch=('auto')
+
+shortdesc="xmodem, ymodem and zmodem file transfer protocols"
+
+source=("http://www.ohse.de/uwe/releases/$pkgname-$pkgver.tar.gz")
+
+tags="network net-dialup"
+
+build_deps="mkpkg"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

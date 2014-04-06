@@ -1,18 +1,18 @@
 #ABUILD created by/создан: medved, medved55rus at gmail.com 
-#----------------------------- General vars --------------------------------------
+
 pkgname=xf86-video-modesetting
-pkgver=0.5.0
-pkgbuild=1
+pkgver=0.8.1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="X.org generic modesetting video driver"
 
 source=("http://xorg.freedesktop.org/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="xserver x11-drivers"
 
-#----------------------------- Make PKG --------------------------------------
+build_deps="make gcc grep kernel-headers sed xorg-server binutils pkg-config randrproto inputproto xineramaproto"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -26,4 +26,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"

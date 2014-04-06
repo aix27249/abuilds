@@ -1,0 +1,40 @@
+pkgname=claws-mail-html
+pkgver=0.34
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Gtk-html2-viewer for claws-mail"
+
+source=("$filedir/gtkhtml2_viewer-${pkgver}.tar.gz")
+
+
+tags="utils mail-client"
+
+#dependencies only needed to build package
+build_deps=" openssl-solibs xz graphite2 harfbuzz pango libpng rtmpdump libssh2 libxml2 claws-mail"
+
+
+build()
+{
+ tar -xvf $filedir/gtkhtml2_viewer-${pkgver}.tar.gz
+ cd   ${srcdir}
+#cp  ${srcdir} $filedir/gtkhtml2_viewer-${pkgver}.tar.gz
+#tar -xvf $filedir/gtkhtml2_viewer-${pkgver}.tar.gz
+go_src_dir
+./configure \
+--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--disable-maintainer-mode \
+--mandir=/usr/man \
+--enable-nls
+
+make -j4 
+
+make DESTDIR=$pkgdir install 
+
+
+}
+

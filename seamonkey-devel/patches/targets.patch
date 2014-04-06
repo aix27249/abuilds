@@ -1,0 +1,11 @@
+--- a/suite/browser/Makefile.in	2014-03-19 07:33:05.000000000 +0600
++++ b/suite/browser/Makefile.in	2014-04-03 20:39:28.736396940 +0600
+@@ -16,7 +16,7 @@
+ 
+ ifdef LIBXUL_SDK
+ PREF_JS_EXPORTS += \
+-	$(srcdir)/channel-prefs.js
++	$(srcdir)/channel-prefs.js \
+ 	$(NULL)
+ endif
+ 

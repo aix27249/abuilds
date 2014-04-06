@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("Mesa utilities and demo programs: glxgears, glxinfo, and so on.")
 longdesc=("Mesa utilities and demo programs: glxgears, glxinfo, and so on.")
 
-tags=("x11-misc xserver")
+tags=("x11-misc xserver compat32")
 
 source=("ftp://ftp.freedesktop.org/pub/mesa/demos/${pkgver}/mesa-demos-${pkgver}.tar.bz2")
 build_deps="libgl glew"

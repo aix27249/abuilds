@@ -1,29 +1,16 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=terminal
-pkgver=0.4.8
-pkgbuild=3
-arch=('auto')
-tree=`echo $pkgver | cut -d . -f 1-2`
+pkgver=0.6.1
+pkgbuild=1
+arch=('noarch')
 
-shortdesc="Xfce4 Terminal Emulator"
+shortdesc="Xfce4 Terminal Emulator (Virtual package.)"
 
-source=("http://archive.xfce.org/src/apps/${pkgname}/${tree}/Terminal-${pkgver}.tar.bz2")
-tags="xfce x11-terms"
+tags="xfce-base virtual"
 
-build_deps="make gcc intltool pkg-config exo>=0.5.0"
+adddep="xfce4-terminal"
 
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+build(){
+ echo "End build"
+}

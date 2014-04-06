@@ -1,0 +1,30 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=pidgin-mrim
+pkgver=0.1.30
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Plugin for libpurple for support Mail.ru Agent protocol"
+source=("git:https://code.google.com/p/mrim-prpl")
+
+tags="network net-im"
+
+
+build()
+{
+
+go_src_dir
+
+aclocal -I /usr/share/aclocal && autoheader && autoconf 
+
+./configure || return 1
+
+make || return 1
+
+echo "111111111111"
+make FULL_LIBDIR=/usr/lib${LIBDIRSUFFIX} DESTDIR="$pkgdir" install || echo " 222222222222"
+
+}
+

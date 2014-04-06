@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=perl-switch
 pkgver=2.16
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Switch module for Perl"

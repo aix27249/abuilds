@@ -1,11 +1,11 @@
 pkgname=xulrunner
-pkgver=23.0.1
+pkgver=28.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Xulrunner - common Mozilla runtime"
 
-source=("ftp://ftp.mozilla.org/pub/xulrunner/releases/${pkgver}/source/xulrunner-${pkgver}.source.tar.bz2")
+source=("http://ftp.mozilla.org/pub/xulrunner/releases/${pkgver}/source/xulrunner-${pkgver}.source.tar.bz2")
 
 tags="libs net-libs"
 build_deps="autoconf yasm gtk+2 nss nspr libXt libXrender alsa-lib sqlite libvpx python libjpeg bzip2 hunspell libevent startup-notification"
@@ -16,8 +16,7 @@ pkglist="xd"
 build() {
 	go_src_dir
 
-	sed "${filedir}/mozconfig" -e "s,%libdir%,${LIBDIRSUFFIX},g" > ".mozconfig" || exit 1
-
+	sed "${filedir}/mozconfig" -e "s,%%LIBDIR%%,${LIBDIRSUFFIX},g" > ".mozconfig" || exit 1
 	burn_patches
 
 	unset CLFLAGS
@@ -67,7 +66,7 @@ xd_prep() {
 
 	# Create symlinks, required to build firefox
 	( cd ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner
-		for i in ${pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner-devel/sdk/bin/* ; do 
+		for i in ${pkgdir}/usr/lib${LIBDIRSUFFIX}/xulrunner-devel/sdk/bin/* ; do
 			ln -sfv /usr/lib${LIBDIRSUFFIX}/xulrunner-devel/sdk/bin/`basename $i` `basename $i` 
 		done
 	)

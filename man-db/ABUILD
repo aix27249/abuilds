@@ -1,29 +1,37 @@
 pkgname=man-db
-pkgver=2.6.3
+pkgver=2.6.5
 pkgbuild=1
 arch=('auto')
 
 shortdesc="man (format and display the on-line manual pages)"
+
 source=("http://savannah.nongnu.org/download/man-db/$pkgname-$pkgver.tar.xz")
-patch_opts=("")
+
 tags="console sys-base"
-build_deps="gdbm zlib groff less gzip libpipeline"
+
+build_deps="bash gdbm zlib groff less gzip libpipeline"
+
 provides="man"
+
 adddep="groff zlib gdbm"
 
-build()
-{
-  cd ${srcdir}/${pkgname}-${pkgver}
-
-  ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib${LIBDIRSUFFIX} --docdir=/usr/doc/${pkgname}-${pkgver} \
-        --with-db=gdbm --disable-setuid --enable-mandirs=GNU \
-        --with-sections="1 n l 8 3 0 2 5 4 9 6 7"
-  make || exit 1
-  make DESTDIR=${pkgdir} install || exit 1
+build(){
+  go_src_dir
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --libexecdir=/usr/lib${LIBDIRSUFFIX} \
+              --docdir=/usr/doc/${pkgname}-${pkgver} \
+              --with-db=gdbm \
+              --disable-setuid \
+              --enable-mandirs=GNU \
+              --with-sections="1 n l 8 3 0 2 5 4 9 6 7"
+  make
+  make check
+  make DESTDIR=${pkgdir} install
 }
 
-after_build()
-{
+after_build(){
   # part of groff pkg
   rm -f ${pkgdir}/usr/bin/zsoelim
 
@@ -34,5 +42,5 @@ after_build()
   #install whatis cron script
   install -D -m744 ${filedir}/man-db.cron.daily ${pkgdir}/etc/cron.daily/man-db
   #installign cache directory
-  mkdir -p $pkgdir/var/cache/man
+  mkdir -p ${pkgdir}/var/cache/man
 }

@@ -1,0 +1,22 @@
+pkgname=whdd
+pkgver=2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Diagnostic and recovery tool for block devices (near to replace MHDD for Linux)"
+
+
+source=("http://github.com/krieger-od/${pkgname}/tarball/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="app-admin utils"
+
+build_deps="cmake"
+
+build()
+{
+go_src_dir
+      cmake .
+        make
+              install -D -m 755 "${pkgname}" "${pkgdir}"/usr/bin/"${pkgname}"
+
+}

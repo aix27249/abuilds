@@ -1,7 +1,7 @@
 pkgname=kde-workspace
-pkgver=4.10.5
+pkgver=4.11.5
 #strict_version='yes'
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('KDE Base Workspace')

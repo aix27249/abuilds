@@ -1,0 +1,32 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=accountsservice
+pkgver=0.6.34
+pkgbuild=2
+arch=('auto')
+
+shortdesc="D-Bus interface for user account query and manipulation"
+
+source=("http://www.freedesktop.org/software/accountsservice/${pkgname}-${pkgver}.tar.xz")
+
+tags="base sys-auth"
+
+build_deps="make autoconf gcc kernel-headers glib2>=2.36.4 intltool pkg-config vala perl gobject-introspection"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/accountsservice \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+

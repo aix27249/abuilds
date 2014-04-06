@@ -11,18 +11,25 @@ pkgver=0.8.9
 pkgver_p=0.3
 
 
-pkgbuild=5
+pkgbuild=6
 arch=('noarch')
 
 shortdesc="Faenza icon theme for KDE4"
 #longdesc=("")
 
+
+
 source=(
 #"http://omploader.org/vYjR0NQ"
 #"http://omploader.org/vYXgxbQ"
 "http://pkgs.fedoraproject.org/repo/pkgs/kfaenza-icon-theme/kfaenza-icon-theme-${pkgver}.tar.gz/95e9f287da7a0fd76fb406d313eee77e/kfaenza-icon-theme-${pkgver}.tar.gz"
+
 "http://kde-look.org/CONTENT/content-files/153813-kfaenza-icon-patch-${pkgver_p}.tar.gz"
+
+"http://packages.linuxmint.com/pool/main/m/mint-x-icons/mint-x-icons_1.1.6.tar.gz"
 )
+
+
 
 patch_opts=("")
 
@@ -177,6 +184,7 @@ sed -i \
  ./index.theme || exit 1
 
 I="`ls ${pkgdir_i}/KFaenza/apps/`"
+M="`ls ${pkgdir_i}/KFaenza/mimetypes/`"
 pkgdir_i_f="${pkgdir_i}/KFaenza-patch-fix"
 
 
@@ -328,21 +336,30 @@ else
 fi
 done
 }
+
+
 # mimetypes
 rm_im (){
-for i in $I; do
-if [ -e "${dir_m}/$i/${il_new}.png" ]; then
- cd ${dir_a}/$i
- if [ -e "${il}.png" ]; then
-  mv -v ${il}.png ${il}.png_
- fi
- ln -sfv ${dir_ms}/$i/${il_new}.png ${il}.png
-elif [ -e "${dir_m}/$i/${il_new}.svg" ]; then
- cd ${dir_a}/$i
- if [ -e "${il}.svg" ]; then
-  mv -v ${il}.svg ${il}.svg_
- fi
- ln -sfv ${dir_ms}/$i/${il_new}.svg ${il}.svg
+for i in $M; do
+cd ${dir_m}/$i
+if [ -e "${pkgdir_i}/KFaenza/mimetypes/$i/${il_new}.png" ]; then
+ ln -sfv ./${il_new}.png ${il}.png
+elif [ -e "${pkgdir_i}/KFaenza/mimetypes/$i/${il_new}.svg" ]; then
+ ln -sfv ./${il_new}.svg ${il}.svg
+else
+ echo $il_new : $i - not found
+fi
+done
+}
+cp_iam(){
+for i in $M; do
+cd $dir_a/$i
+if [ -e "$dir_a/$i/${il_new}.svg" ]; then
+ cp -av ${il_new}.svg ${dir_m}/$i/${il}.svg
+elif [ -e "$dir_a/$i/${il_new}.png" ]; then
+ cp -av ${il_new}.png ${dir_m}/$i/${il}.png
+else
+ echo $il_new : $i - not found
 fi
 done
 }
@@ -367,9 +384,15 @@ il="kscd"; 		rm_i
 il="gpicview"; 		rm_i
 il="kolourpaint"; 	rm_i
 
-#il="dragonplayer"; 	il_new="media-video"; 		rm_im
+#il="dragonplayer"; 	il_new="media-video"; 			rm_im
+
+#il="video-x-flv"; 	il_new="application-x-flash-video"; 	rm_im
+il="video-x-flv"; 	il_new="flashplayer"; 			cp_iam
+
+
 #il="dragonplayer"; 	il_new="mplayer"; 		rm_ia
 il="dragonplayer"; 	il_new="totem"; 		rm_ia
+il="ristretto"; 	il_new="kaffeine"; 		rm_ia
 
 #il="smplayer"; 	il_new="totem";			rm_ia
 
@@ -399,6 +422,7 @@ il="guisetup"; 		il_new="pk-package-sources"; 	rm_ia
 il="QtProject-qtcreator";	il_new="qtcreator"; 	rm_ia
 il="qt4qtconfig"; 		il_new="qtlogo"; 	rm_ia
 
+
 # fix: rename qtassisant -> qtassistant
 for i in $I; do
 if [ -e "${pkgdir_i_f}/apps/$i/qtassisant.png" ]; then
@@ -409,6 +433,7 @@ elif [ -e "${pkgdir_i_f}/apps/$i/qtassisant.svg" ]; then
  mv -v qtassisant.svg qtassistant.svg
 fi
 done
+
 
 # fix qt -> qt4
 IQT4="qt4assistant qt4designer qt4linguist qt4qtconfig"
@@ -449,6 +474,7 @@ if [[ ! -s "${pkgdir_i}/KFaenza/actions/64/stock_new-address-book.png" \
  rm -v stock_new-address-book.png
 fi
 
+
 # qtcreator_logo_32.png
 for i in $I; do
  if [[ -L "${pkgdir_i}/KFaenza/apps/$i/qtcreator_logo_32.png" \
@@ -463,6 +489,48 @@ for i in $I; do
   rm -v ./qtcreator_logo_32.svg
  fi
 done
+
+
+# mGeany - 1 icon for all geany sizes
+#rm -v ${pkgdir_i_f}/apps/{16,22}/geany.png
+
+# Geany-faenza-icon from LinuxMint
+# ABOUT:desc
+cd $srcdir/mint-x-icons
+cat << EOF >> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT
+
+--------------------------------------------------------------------------
+
+New Geany icon < Mint-X Icon themes / mint-x-icons (1.1.1) nadia >
+Dropbox < Added apps from Mint-Xtra (with a few exceptions) >
+EOF
+cat ./debian/copyright >> ${pkgdir}/usr/doc/${pkgname}-${pkgver}/ABOUT
+
+
+find ${pkgdir_i}/KFaenza-patch-fix -name geany.* -exec rm -v {} ";"
+
+G="`ls $srcdir/mint-x-icons/usr/share/icons/Mint-X/apps`"
+for g in $G; do
+ install -Dm644 -v ./usr/share/icons/Mint-X/apps/$g/geany.png ${pkgdir_i}/KFaenza-patch-fix/apps/$g/geany.png \
+ || install -Dm644 -v ./usr/share/icons/Mint-X/apps/$g/geany.svg ${pkgdir_i}/KFaenza-patch-fix/apps/$g/geany.svg
+done
+
+
+
+# Dropbox - w/o diff.icons
+# only blue
+#rm -v ${pkgdir_i_f}/apps/{16,22,64,128,256}/dropbox.png
+#rm -v ${pkgdir_i_f}/apps/scalable/dropbox.svg
+# only yellow
+#rm -v ${pkgdir_i_f}/apps/{32,48}/dropbox.png
+
+find ${pkgdir_i}/KFaenza-patch-fix -name dropbox.* -exec rm -v {} ";"
+for g in $G; do
+ install -Dm644 -v ./usr/share/icons/Mint-X/apps/$g/dropbox.png ${pkgdir_i}/KFaenza-patch-fix/apps/$g/dropbox.png \
+ || install -Dm644 -v ./usr/share/icons/Mint-X/apps/$g/dropbox.svg ${pkgdir_i}/KFaenza-patch-fix/apps/$g/dropbox.svg
+done
+
+
 
 # icons
 find "${pkgdir_i}" -type f -name '.directory' -delete

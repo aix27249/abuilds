@@ -1,8 +1,10 @@
+#----------------------------- General vars --------------------------------------
 ##all thanks go to stuff listed in.
 #http://aur.archlinux.org/packages/virtualbox_bin/virtualbox_bin/PKGBUILD
-
+#
+#------------------------- Основные переменные -----------------------------------
 pkgname=virtualbox
-pkgver=4.2.16
+pkgver=4.3.6
 pkgbuild=1
 arch=('auto')
 
@@ -10,7 +12,7 @@ arch=('auto')
 shortdesc=("VirtualBox: Powerful x86 virtualization")
 longdesc=("VirtualBox: Personal Use Binaries Edition")
 
-_boxbuild=86992
+_boxbuild=91406
 if [ "$ARCH" = "i686" ];then
 _suffix=Linux_x86
 elif [ "$ARCH" = "x86_64" ];then
@@ -21,10 +23,10 @@ source=("http://download.virtualbox.org/virtualbox/${pkgver}/VirtualBox-${pkgver
 
 
 tags="app-emulation xapps proprietary"
-build_deps="virtualbox-kernel>=${pkgver}"
-adddep="virtualbox-kernel>=${pkgver}"
-pkglist="extpack"
 
+adddep="virtualbox-kernel>=${pkgver}"
+
+pkglist="extpack"
 
 build() {
 	set -e

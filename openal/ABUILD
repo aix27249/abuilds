@@ -1,6 +1,6 @@
 pkgname=openal
 pkgver=1.15.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=" cross-platform 3D audio API"

@@ -1,16 +1,14 @@
-#ABUILD created by: Ben, ivan29m at rambler.ru 
 pkgname=libpcap
-pkgver=1.4.0
+pkgver=1.5.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Libpcap provides a portable framework for low-level network monitoring."
-longdesc=("Libpcap provides a portable framework for low-level network monitoring. 
-Libpcap can provide network statistics collection, security monitoring and network debugging.")
 
 source=("http://www.tcpdump.org/release/$pkgname-$pkgver.tar.gz")
 tags="network net-libs"
-build_deps="flex glibc libnl libusb1"
+build_deps="flex libnl libusb1"
+
 
 BUILD_SYSTEM="autotools"
 
@@ -26,3 +24,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
+

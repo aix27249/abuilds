@@ -1,0 +1,18 @@
+pkgname=perl-span
+pkgver=1.62
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mapping Perl releases on CPAN to the location of the tarballs"
+longdesc=("$shortdesc")
+
+source=("http://search.cpan.org/CPAN/authors/id/B/BI/BINGOS/CPAN-Perl-Releases-$pkgver.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl mkpkg"
+adddep="perl"
+
+BUILD_SYSTEM="perl"
+BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
+

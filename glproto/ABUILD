@@ -1,17 +1,24 @@
 pkgname=glproto
-pkgver=1.4.16
+pkgver=1.4.17
 pkgbuild=2
 arch=('auto')
 
 shortdesc=('glproto')
+
 longdesc=('glproto is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-protos xserver')
-build_deps="gcc"
+
+build_deps="make gcc kernel-headers grep pkg-config"
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/glproto-${pkgver}.tar.bz2")
 
-
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

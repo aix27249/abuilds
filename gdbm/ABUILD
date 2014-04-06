@@ -5,7 +5,7 @@ arch=('auto')
 
 shortdesc="GNU database library"
 source=("ftp://prep.ai.mit.edu/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="sys-libs libs"
+tags="sys-libs libs compat32"
 BUILD_SYSTEM="autotools"
 build_deps="glibc-solibs"
 adddep="bash"

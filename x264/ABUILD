@@ -1,12 +1,12 @@
 pkgname=x264
-pkgver=20130731
+pkgver=20140404
 pkgbuild=1
 arch=('auto')
 
 shortdesc="x264 (free h264/avc encoder)"
 longdesc=("x264 is a free library for encoding H264/AVC video streams. Homepage: http://www.videolan.org/developers/x264.html")
 
-source=("ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-$pkgver-2245-stable.tar.bz2")
+source=("http://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-$pkgver-2245-stable.tar.bz2")
 
 custom_opts="skip_gendeps"
 tags="libs media-libs"
@@ -20,7 +20,6 @@ BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--enable-shared \
-	--enable-visualize \
 	--bit-depth=10"
 
 after_build() {

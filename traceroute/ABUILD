@@ -1,0 +1,22 @@
+pkgname=traceroute
+pkgver=2.0.19
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Tracks the route taken by packets over an IP network"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="network net-misc"
+
+build_deps="glibc-solibs"
+
+
+build(){
+
+go_src_dir
+
+  make CFLAGS="$CFLAGS"
+  make prefix=/usr DESTDIR="${pkgdir}" install
+
+}

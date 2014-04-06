@@ -1,17 +1,16 @@
 pkgname=mkpkg-git
-pkgver=1.3.0.2
-pkgbuild=1
+pkgver=1.3.3
+pkgbuild=4
 arch=('noarch')
 shortdesc="mkpkg: AgiliaLinux package building tool"
 
-source="git:git://github.com/aix27249/mkpkg.git"
+source="git:git://github.com/khvalera/mkpkg.git"
 
 tags="dev-util develop"
+
 build_deps="cmake sed"
 
-provides="mkpkg"
-
-adddep="mpkg-console>=0.14.1_svn48 mkpkg-vercmp>=1.0 fakeroot python bash"
+adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash sed grep wget iputils"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
@@ -19,10 +18,8 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr"
 config_files="etc/mkpkg.conf"
 
 after_build() {
-	go_src_dir
-	set -e
-	install -Dm644 mkpkg.conf "${pkgdir}/etc/mkpkg.conf"
-	sed s,%MKPKG_VER%,${pkgver}, -i ${pkgdir}/usr/bin/mkpkg
-	sed 's,MKPKG_INSTALL_PREFIX=.*,MKPKG_INSTALL_PREFIX=/usr,g' -i ${pkgdir}/usr/bin/mkpkg
-	set +e
+  go_src_dir
+  install -Dm644 mkpkg.conf "${pkgdir}/etc/mkpkg.conf"
+  sed s,%MKPKG_VER%,${pkgver}, -i ${pkgdir}/usr/bin/mkpkg
+  sed 's,MKPKG_INSTALL_PREFIX=.*,MKPKG_INSTALL_PREFIX=/usr,g' -i ${pkgdir}/usr/bin/mkpkg
 }

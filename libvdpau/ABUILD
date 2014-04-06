@@ -1,11 +1,10 @@
 pkgname=libvdpau
 pkgver=0.7
-pkgbuild=1
+pkgbuild=4
 arch=('auto')
 shortdesc="VDPAU library"
 
 source=("http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz")
-build_deps="gcc xproto libxcb"
 
 tags="libs x11-libs"
 BUILD_SYSTEM="autotools"
@@ -14,6 +13,7 @@ BUILD_KEYS="--prefix=/usr \
 	--localstatedir=/var \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
 	--disable-static \
+	--enable-shared \
 	--mandir=/usr/man"
 
 after_build() {

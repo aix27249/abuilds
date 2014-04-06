@@ -1,0 +1,30 @@
+pkgname=homebank
+pkgver=4.5.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="HomeBank is free software. Use it to manage your personal accounts"
+
+source=("http://homebank.free.fr/public/${pkgname}-${pkgver}.tar.gz")
+
+tags="xapps app-office"
+
+#dependencies only needed to build package
+build_deps="atk gtk+2 pango" 
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

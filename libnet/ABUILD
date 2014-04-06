@@ -1,8 +1,5 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.su 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libnet
-pkgver=1.1.6
+pkgver=1.2-rc3
 pkgbuild=1
 arch=('auto')
 
@@ -14,7 +11,7 @@ source=("http://downloads.sourceforge.net/libnet-dev/${pkgname}-${pkgver}.tar.gz
 #--------------------- Специфичные для AgiliaLinux ------------------------------
 #short and long tags / длинный и короткий тег
 tags="network net-libs"
-
+build_deps="mkpkg"
 
 
 

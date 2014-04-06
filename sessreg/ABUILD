@@ -1,5 +1,5 @@
 pkgname=sessreg
-pkgver=1.0.7
+pkgver=1.0.8
 pkgbuild=1
 arch=("auto")
 
@@ -8,7 +8,8 @@ longdesc=("sessreg is part of X11. For more information about the X.Org Foundati
 
 tags=("x11-apps xserver")
 
-source=("http://xorg.freedesktop.org/archive/individual/app/sessreg-${pkgver}.tar.bz2")
+build_deps="gcc "
+source=("http://xorg.freedesktop.org/archive/individual/app/sessreg-${pkgver}.tar.gz")
 
 
 

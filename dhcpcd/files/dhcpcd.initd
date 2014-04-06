@@ -2,7 +2,7 @@
 # Copyright (c) 2009 Roy Marples <roy@marples.name>
 # All rights reserved. Released under the 2-clause BSD license.
 
-command=/sbin/dhcpcd
+command=/usr/sbin/dhcpcd
 pidfile=/var/run/dhcpcd.pid
 command_args="-q ${ARGS} ${INTERFACES}"
 name="DHCP Client Daemon"

@@ -1,6 +1,6 @@
 # xkeyboard-config
 pkgname=xkeyboard-config
-pkgver=2.9
+pkgver=2.11
 pkgbuild=1
 arch=('noarch')
 
@@ -10,8 +10,7 @@ longdesc=('xkeyboard-config is part of X11. For more information about the X.Org
 tags=('x11-datas xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-${pkgver}.tar.bz2")
-build_deps="xkbcomp intltool"
-
+build_deps="make xkbcomp intltool pkg-config sed perl perl-xml-parser"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
@@ -25,5 +24,5 @@ BUILD_KEYS="--prefix=/usr \
 	--with-xkb-base=/usr/share/X11/xkb \
 	--with-xkb-rules-symlink=xorg"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

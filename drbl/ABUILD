@@ -1,26 +1,16 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=drbl
-pkgver=2.1.51
+pkgver=2.7.32
 pkgbuild=1
 arch=('auto')
 
 shortdesc="DRBL (Diskless Remote Boot in Linux) is a free software, open source solution to managing the deployment of the GNU/Linux operating system across many clients"
 
 source=("http://free.nchc.org.tw/drbl-core/src/unstable/drbl-${pkgver}.tar.bz2")
-#http://downloads.sourceforge.net/project/drbl/drbl_stable/$pkgver/$pkgname-$pkgver.tar.bz2")
 
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-admin utils"
 
 adddep="bash bc"
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
 
 
 build()
@@ -29,10 +19,6 @@ build()
 go_src_dir
 
 make DESTDIR=$pkgdir install  
-#  cd $pkgdir/opt/drbl/lang
- # make all  
- # cd $pkgdir/opt/drbl/sbin
- # make all
 
 }
 

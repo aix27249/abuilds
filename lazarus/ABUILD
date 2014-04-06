@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=lazarus
-pkgver=1.0.10
+pkgver=1.0.12
 pkgbuild=1
 release=0
 arch=('auto')
@@ -25,6 +25,19 @@ custom_opts="no_postperm"
 before_build(){
   go_src_dir
   tar -xvf ${pkgname}-${pkgver}-${release}.tar.gz
+
+  sed -e 's|BaseUnix,|BaseUnix, Users,|' -i lazarus/ide/lazarusmanager.pas
+  sed -e 's|EnvOverrides: TStringList;|EnvOverrides: TStringList;\
+  StrListUsers: TStringList; i: longint; UserName: String;|' -i lazarus/ide/lazarusmanager.pas
+
+  sed -e "s|  WaitForLazarus;|  WaitForLazarus;\
+  UserName:=GetUserName(FpGeteuid);\
+  if UserName <> 'root' then begin\
+  StrListUsers:= TStringList.Create();\
+  GetGroupMembers('lazarus', StrListUsers);\
+  if Not StrListUsers.Find(UserName, i) then\
+  ShowMessage('Add the user ' + UserName + ' to the group of lazarus:\
+  sudo usermod -a -G lazarus ' + UserName); end;|" -i lazarus/ide/lazarusmanager.pas
   echo "End before_build"
 }
 

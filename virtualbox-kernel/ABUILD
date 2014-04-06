@@ -3,12 +3,12 @@
 pkgname=virtualbox-kernel
 KERNEL=${KERNEL:-`uname -r`}
 KERNPKGVERSION=`echo $KERNEL | sed -e "s/-/_/g"`
-pkgver=4.2.16
+pkgver=4.3.6
 srcver=$pkgver
-pkgbuild=1
+pkgbuild=8
 arch=("auto")
 
-_boxbuild=86992
+_boxbuild=91406
 if [ "$ARCH" = "i686" ];then
 _suffix=Linux_x86
 elif [ "$ARCH" = "x86_64" ];then
@@ -26,6 +26,7 @@ longdesc=("Kernel modules for VirtualBox")
 tags=("app-emulation drivers")
 
 adddep="kernel==$KERNPKGVERSION"
+
 
 
 build_deps="kernel-source"
@@ -53,5 +54,6 @@ build() {
 	sed "s%KERNEL_VERSION%$KERNEL%" $filedir/doinst.sh > $pkgdir/install/doinst.sh
 
 	set +e
+
 }
 

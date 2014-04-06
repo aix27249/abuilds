@@ -1,13 +1,13 @@
 pkgname=xf86-video-voodoo
 pkgver=1.2.5
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('xf86-video-voodoo: X11 driver for 3Dfx Voodoo video cards')
 longdesc=('xf86-video-voodoo: X11 driver for 3Dfx Voodoo video cards')
 
 tags=('x11-drivers xserver')
-
+build_deps="xorg-server glibc-solibs  xf86dgaproto"
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-voodoo-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'

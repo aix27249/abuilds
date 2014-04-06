@@ -1,17 +1,29 @@
-# libxcb ABUILD
 pkgname=libxcb
-pkgver=1.9.1
-pkgbuild=1
+pkgver=1.10
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('libxcb (X protocol C-language Binding)')
+
 longdesc=('The XCB library provides an interface to the X Window System protocol which is fully capable of replacing Xlib. In fact, libX11 makes use of libxcb as much as possible. :-) Porting to XCB has several advantages such as a smaller memory footprint, latency hiding, direct protocol access, and improved thread support.')
 
+<<<<<<< HEAD
 tags=('x11-xcbs xserver')
+
+=======
+tags=('x11-xcbs xserver compat32')
+>>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 source=("http://xcb.freedesktop.org/dist/libxcb-${pkgver}.tar.bz2")
-build_deps='glibc-solibs libXau libXdmcp xcb-proto'
+
+build_deps="make gcc kernel-headers glibc-solibs libXau libXdmcp xcb-proto>=1.10 libxslt libpthread-stubs python binutils xproto"
+
+adddep="libpthread-stubs libXau libXdmcp"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --docdir=/usr/doc/${pkgname}-${pkgver} --enable-xinput"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --docdir=/usr/doc/${pkgname}-${pkgver} \
+            --enable-xinput"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 

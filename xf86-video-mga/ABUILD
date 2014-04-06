@@ -1,5 +1,5 @@
 pkgname=xf86-video-mga
-pkgver=1.6.1
+pkgver=1.6.3
 pkgbuild=1
 arch=('auto')
 
@@ -9,7 +9,7 @@ longdesc=('X11 drive for Matrox video cards.')
 tags=('x11-drivers xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-mga-${pkgver}.tar.bz2")
-
+build_deps="xorg-server glibc-solibs"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"

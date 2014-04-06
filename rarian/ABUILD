@@ -1,14 +1,20 @@
 pkgname=rarian
 pkgver=0.8.1
-pkgbuild=5
+pkgbuild=6
 arch=('auto')
+
 shortdesc="Documentation meta-data library, designed as a replacement for Scrollkeeper."
+
 source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="app-text develop"
-build_deps="gcc libxslt"
+
+build_deps="gcc gcc-g++ libxslt bash sed coreutils binutils libtool"
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -17,4 +23,5 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"

@@ -15,7 +15,7 @@ DisplayManager._0.reset:	/etc/X11/xdm/TakeConsole
 
 DisplayManager.willing:		su nobody -c /etc/X11/xdm/Xwilling
 DisplayManager*authorize:	true
-DisplayManager*chooser:		/usr/lib64/X11/xdm/chooser
+DisplayManager*chooser:		/usr/lib${LIBDIRSUFFIX}/X11/xdm/chooser
 DisplayManager*authComplain:	true
 DisplayManager.requestPort:	0
 

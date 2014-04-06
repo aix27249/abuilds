@@ -1,35 +1,16 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libshout
-pkgver=2.2.2
-pkgbuild=2
+pkgver=2.3.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Libshout (Icecast media server streaming library)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Libshout allows applications to easily communicate and broadcast to an Icecast streaming media server. It handles the socket connections metadata communication, and data streaming for the calling application, and lets developers focus on feature sets instead of implementation details."
-	  ""
-	  "Homepage: http://www.icecast.org/download.php"
-)
-
 source=("http://downloads.us.xiph.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
+tags="libs media-libs"
+build_deps=" libtheora libvorbis"
 
 adddep="speex>=1.2rc1"
-removedep=""
 
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
 
 docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
 gendeps_blacklist=
@@ -37,12 +18,6 @@ gendeps_blacklist=
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
 
@@ -59,13 +34,3 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-rm -rf ${pkgdir}/usr/bin
-mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-cp -a ${pkgdir}/usr/share/doc/${pkgname}/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}
-rm -rf ${pkgdir}/usr/share/doc
-}

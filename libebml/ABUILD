@@ -1,25 +1,26 @@
 pkgname=libebml
-pkgver=1.2.0
+pkgver=1.3.0
 pkgbuild=2
 arch=('auto')
 
 shortdesc="Libebml (C++ libary to parse EBML files)"
 
-
 source=("http://dl.matroska.org/downloads/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-tags="libs media-libs"
-build() {
-	go_src_dir
-	burn_patches
-	set -e
 
-	cd make/linux
 
-	LDFLAGS="$SLKLDFLAGS" \
-		CFLAGS="$SLKCFLAGS" \
-		CXXFLAGS="$SLKCFLAGS" \
-		make -j${numjobs}
-	make prefix=$pkgdir/usr libdir=$pkgdir/usr/lib${LIBDIRSUFFIX} install
-	set +e
+tags="libs media-libs" 
+
+build()
+{
+go_src_dir
+burn_patches
+
+cd make/linux
+
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+make -j${numjobs} || exit 1
+make prefix=$pkgdir/usr libdir=$pkgdir/usr/lib${LIBDIRSUFFIX} install || exit 1
 }
 

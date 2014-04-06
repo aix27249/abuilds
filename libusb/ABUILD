@@ -5,7 +5,7 @@ arch=("noarch")
 
 shortdesc=("libusb->libusb-compat transition package")
 
-tags=("virtual sys-libs")
+tags=("virtual sys-libs compat32")
 build_deps="libusb-compat"
 adddep="libusb-compat"
 

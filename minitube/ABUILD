@@ -1,13 +1,17 @@
 pkgname=minitube
-pkgver=1.5
-pkgbuild=1
+pkgver=2.1.4
+pkgbuild=2
 arch=('auto')
  
 shortdesc="Minitube is a YouTube desktop application."
  
-source=("http://flavio.tordini.org/files/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+source=("http://flavio.tordini.org/files/${pkgname}/${pkgname}.tar.gz")
  
+build_deps="phonon"
 tags="media-video xapps"
+ 
+adddep="gst-ffmpeg"
+ 
  
 BUILD_SYSTEM="qmake"
 BUILD_KEYS="*.pro PREFIX=/usr"

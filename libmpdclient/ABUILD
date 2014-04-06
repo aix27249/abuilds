@@ -1,68 +1,26 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libmpdclient
-pkgver=2.6
+pkgver=2.9
 pkgbuild=1
 arch=('auto')
 
 shortdesc="LibMPDclient (MPD client library)"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("A library for interfacing MPD in the C, C++ & Objective C languages."
-	  ""
 	  "http://sourceforge.net/projects/musicpd/files/libmpdclient/"
 )
 
-source=("http://downloads.sourceforge.net/sourceforge/musicpd/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://www.musicpd.org/download/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+tags="libs media-libs"
+build_deps="glibc"
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---docdir=/usr/doc/${pkgname}-${pkgver} \
---program-prefix= \
---program-suffix="
-
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${pkgname}-${pkgver} \
+  --program-prefix= \
+  --program-suffix="
 INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
