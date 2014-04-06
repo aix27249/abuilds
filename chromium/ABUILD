@@ -1,85 +1,135 @@
 pkgname=chromium
-pkgver=24.0.1312.52
+pkgver=33.0.1750.152
+_toolchains_rev=12526
+_glibc_version=12421
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Chromium browser"
 
-source=("https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${pkgver}.tar.bz2")
-
+source=("https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${pkgver}.tar.xz"
+	"https://commondatastorage.googleapis.com/nativeclient-archive2/toolchain/$_toolchains_rev/naclsdk_linux_x86.tgz n"
+	"https://commondatastorage.googleapis.com/nativeclient-archive2/toolchain/$_toolchains_rev/naclsdk_pnacl_linux_x86.tgz n"
+	"https://commondatastorage.googleapis.com/nativeclient-archive2/toolchain/$_toolchains_rev/naclsdk_pnacl_translator.tgz n"
+	"https://commondatastorage.googleapis.com/nativeclient-archive2/toolchain/$_toolchains_rev/naclsdk_pnacl_translator.tgz.sha1hash n"
+	"https://commondatastorage.googleapis.com/nativeclient-archive2/x86_toolchain/r$_glibc_version/toolchain_linux_x86.tar.bz2 n")
 
 tags="network www-client"
-build_deps="yasm flex nacl-toolchain-newlib libevent"
+build_deps="yasm flex libevent gtk+2 nss alsa-lib xdg-utils bzip2 libXScrnSaver \
+	    python-ply icu4c libgcrypt dbus flac pciutils harfbuzz desktop-file-utils \
+	    jinja hicolor-icon-theme python perl gperf mesa elfutils"
+
+before_build() {
+  go_src_dir
+  burn_patches
+
+  echo > "flapper_version.h" || exit 1
+
+  # Prepare NaCL toolchain
+  mkdir -p native_client/toolchain/{.tars,pnacl_translator}
+  ln -s "$srcache/naclsdk_linux_x86.tgz" \
+	native_client/toolchain/.tars/naclsdk_linux_x86.tgz
+  ln -s "$srcache/naclsdk_pnacl_linux_x86.tgz" \
+	native_client/toolchain/.tars/naclsdk_pnacl_linux_x86.tgz
+  ln -s "$srcache/naclsdk_pnacl_translator.tgz" \
+	native_client/toolchain/.tars/naclsdk_pnacl_translator.tgz
+  ln -s "$srcache/naclsdk_pnacl_translator.tgz.sha1hash" \
+	native_client/toolchain/pnacl_translator/SOURCE_SHA1
+  ln -s "$srcache/toolchain_linux_x86.tar.bz2" \
+	native_client/toolchain/.tars/toolchain_linux_x86.tar.bz2
+}
 
 build() {
-	cd ${srcdir}/chromium-${pkgver}
-	burn_patches
+  go_src_dir
 
-	set -e
-	# For NaCl support in Chromium
-	ln -s /opt/nacl-toolchain-newlib native_client/toolchain/linux_x86_newlib
-	# Enable proud path
-	CHROMIUM_HOME="usr/lib${LIBDIRSUFFIX}/chromium"
-	# Configure…
-	export -n CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
-	build/gyp_chromium -f make build/all.gyp --depth=. \
-		-Dwerror= \
-		-Dlinux_link_gnome_keyring=0 \
-		-Dlinux_sandbox_path=/usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox \
-		-Dlinux_strip_binary=1 \
-		-Dlinux_use_gold_binary=0 \
-		-Dlinux_use_gold_flags=0 \
-		-Dno_strict_aliasing=1 \
-		-Dffmpeg_branding=Chrome \
-		-Dproprietary_codecs=1 \
-		-Duse_gconf=0 \
-		-Duse_gnome_keyring=0 \
-		-Duse_kerberos=0 \
-		-Duse_system_bzip2=1 \
-		-Duse_system_ffmpeg=0 \
-		-Duse_system_libevent=1 \
-		-Duse_system_libpng=0 \
-		-Duse_system_libjpeg=1 \
-		-Duse_system_libxslt=1 \
-		-Duse_system_libxml=1 \
-		-Duse_system_ssl=0 \
-		-Duse_system_zlib=0 \
-		-Duse_system_yasm=1 \
-		-Ddisable_nacl=1 \
-		-Drelease_extra_cflags="$CFLAGS" \
-		$([ "${ARCH}" == "x86_64" ] && echo '-Dtarget_arch=x64' || echo '-Dtarget_arch=ia32')	
+  set -e
+  # Enable proud path
+  CHROMIUM_HOME="usr/lib${LIBDIRSUFFIX}/chromium"
+  export -n CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"
+  local _conf=(
+	-Dwerror=
+	-Dlinux_link_gnome_keyring=0
+	-Dlinux_sandbox_path=/usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox
+	-Dlinux_strip_binary=1
+	-Dlinux_use_gold_binary=0
+	-Dlinux_use_gold_flags=0
+	-Dno_strict_aliasing=1
+	-Dffmpeg_branding=Chrome
+	-Dproprietary_codecs=1
+	-Duse_gconf=0
+	-Duse_gnome_keyring=0
+	-Duse_kerberos=0
+	-Duse_pulseaudio=0
+	-Duse_system_bzip2=1
+	-Duse_system_harfbuzz=1
+	-Duse_system_ffmpeg=0
+	-Duse_system_flac=1
+	-Duse_system_icu=1
+	-Duse_system_libpng=1
+	-Duse_system_libevent=1
+	-Duse_system_libjpeg=1
+	-Duse_system_libvpx=1
+	-Duse_system_libwebp=0
+	-Duse_system_libxslt=1
+	-Duse_system_libxml=1
+	-Duse_system_minizip=1
+	-Duse_system_nspr=1
+	-Duse_system_openssl=1
+	-Duse_system_protobuf=1
+	-Duse_system_re2=0
+	-Duse_system_ssl=0
+	-Duse_system_zlib=1
+	-Duse_system_yasm=1
+	-Duse_system_xdg_utils=1
+	-Ddisable_nacl=0
+	-Dflapper_version_h_file=$(pwd)/flapper_version.h
+	-Dpython_ver=${python_ver}
+	-Dffmpeg_branding=Chrome
+	-Drelease_extra_cflags="$CFLAGS"
+	-Dlibspeechd_h_prefix=speech-dispatcher/
+	-Duse_system_bzip2=1
+  )
 
-	# Build this shit!
-	make -j${numjobs} chrome chrome_sandbox BUILDTYPE=Release V=1 || make chrome chrome_sandbox BUILDTYPE=Release V=1 || exit 1
-	set +e
+  build/linux/unbundle/replace_gyp_files.py "${_conf[@]}"
+  build/gyp_chromium -f make --depth=. "${_conf[@]}"
+  make -j${numjobs} chrome chrome_sandbox BUILDTYPE=Release
+  set +e
 }
 
 
 after_build() {
-	go_src_dir
-	cd out/Release/
-	mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	mkdir -p $pkgdir/usr/bin
-	install -m 0755 -D chrome $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	install -m 4555 -o root -g root -D chrome_sandbox $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	install -m 0755 -D libffmpegsumo.so $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	cp *.pak $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	cp -a locales/ $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	cp -a resources/ $pkgdir/usr/lib${LIBDIRSUFFIX}/chromium
-	find $pkgdir -name '*.d' -type f -delete
+  go_src_dir
+  install -D out/Release/chrome "$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/chromium"
+  install -Dm4755 -o root -g root out/Release/chrome_sandbox \
+		"$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/chrome-sandbox"
+  cp out/Release/{*.pak,libffmpegsumo.so,nacl_helper{,_bootstrap}} \
+		out/Release/{libppGoogleNaClPluginChrome.so,nacl_irt_*.nexe} \
+		"$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/"
 
-	mkdir -p $pkgdir/usr/man/man1
-	install -m 0644 -D chrome.1 $pkgdir/usr/man/man1/
-	mkdir -p $pkgdir/usr/share/pixmaps
-	cp product_logo_48.png $pkgdir/usr/share/pixmaps/chromium.png
-	mkdir -p $pkgdir/usr/share/applications
-	install -m 0644 $filedir/chromium.desktop $pkgdir/usr/share/applications
+  # Manually strip binaries so that 'nacl_irt_*.nexe' is left intact
+  strip $STRIP_BINARIES "$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/"{chromium,chrome-sandbox} \
+	"$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/"nacl_helper{,_bootstrap}
+  strip $STRIP_SHARED "$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/libffmpegsumo.so" \
+	"$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/libppGoogleNaClPluginChrome.so"
 
-  	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome $pkgdir/usr/bin/chrome
-  	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome $pkgdir/usr/bin/chromium
-	ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox $pkgdir/usr/bin/chrome_sandbox
+  cp -a out/Release/locales "$pkgdir/usr/lib${LIBDIRSUFFIX}/chromium/"
+  install -Dm644 out/Release/chrome.1 "$pkgdir/usr/share/man/man1/chromium.1"
 
-	cd ../../
+  for size in 22 24 48 64 128 256; do
+    install -Dm644 "chrome/app/theme/chromium/product_logo_$size.png" \
+          "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png"
+  done
 
+  for size in 16 32; do
+    install -Dm644 "chrome/app/theme/default_100_percent/chromium/product_logo_$size.png" \
+            "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png"
+  done
+
+  install -D "$filedir/chromium.sh" "$pkgdir/usr/bin/chromium"
+  install -Dm644 $filedir/chromium.desktop $pkgdir/usr/share/applications/chromium.desktop
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/chromium/LICENSE"
+
+  ln -s chromium $pkgdir/usr/bin/chrome
+  ln -s /usr/lib${LIBDIRSUFFIX}/chromium/chrome_sandbox $pkgdir/usr/bin/chrome_sandbox
 }
 
