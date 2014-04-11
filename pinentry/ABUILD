@@ -1,0 +1,35 @@
+pkgname=pinentry
+pkgver=0.8.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="a collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol"
+
+source=("ftp://ftp.gnupg.org/gcrypt/$pkgname/$pkgname-$pkgver.tar.bz2")
+
+tags="network app-crypt "
+
+build_deps="gtk+2 qt4"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--enable-pinentry-curses \
+--disable-pinentry-gtk \
+--disable-pinentry-qt \
+--enable-pinentry-gtk2 \
+--enable-pinentry-qt4 \
+--enable-fallback-curses \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
