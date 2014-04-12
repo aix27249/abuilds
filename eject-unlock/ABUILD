@@ -1,6 +1,6 @@
 pkgname=eject-unlock
 pkgver=2.1.5
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A program for ejecting removable media under software control. Patched for unlock tray. Fedora's patches added."
@@ -12,7 +12,7 @@ tags="base sys-apps"
 build_deps="glibc-solibs"
 
 provides="eject"
-conflicts=""
+conflicts="util-linux-ng"
 
 
 BUILD_SYSTEM="autotools"
