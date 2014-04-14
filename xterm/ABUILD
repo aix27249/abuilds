@@ -11,7 +11,7 @@ longdesc=("The xterm program is a terminal emulator for the X Window System. It 
 tags=("x11-apps xserver")
 
 source=("ftp://invisible-island.net/xterm/xterm-${pkgver}.tgz")
-build_deps=("fontconfig ncurses utempter luit libICE libSM libX11 \
+build_deps=("make gcc pkg-config fontconfig ncurses utempter luit libICE libSM libX11 \
     libXau libXaw libxcb libXdmcp libXext libXft libXmu libXpm    \
     libXrender libXt util-linux-ng")
 
