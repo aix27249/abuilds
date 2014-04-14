@@ -1,6 +1,6 @@
 pkgname=vlc
 pkgver=2.1.4
-buildver=1
+buildver=2
 pkgbuild=${buildver}
 arch=('auto')
 
@@ -37,14 +37,7 @@ go_src_dir
 ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-rpath \
-              --enable-nls \
-              --disable-a52 \
-              --enable-upnp
-
-
-
+--libdir=/usr/lib${LIBDIRSUFFIX}
 
 # опции для правильных пацанов --enable-ncurses \
 #--disable-x264 \
