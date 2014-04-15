@@ -1,13 +1,13 @@
 #ABUILD created by/создан: Drakmail, drakmail at gmail.com
 pkgname=laptop-mode-tools
-pkgver=1.61
-pkgbuild=2
+pkgver=1.64
+pkgbuild=1
 arch=('auto')
  
 shortdesc="Laptop mode is a kernel mode that allows you to extend the battery life of your laptop"
  
-adddep="bash hdparm acpid bluez ethtool"
- 
+adddep="bash hdparm acpid  ethtool"
+ #bluez
 source=("http://www.samwel.tk/laptop_mode/tools/downloads/${pkgname}_${pkgver}.tar.gz")
  
 tags="utils sys-kernel"
