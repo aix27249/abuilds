@@ -1,0 +1,38 @@
+pkgname=webkitgtk-fluxbox
+pkgver=2.2.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="WebKitGTK+ is the port of the portable web rendering engine WebKit to the GTK+ platform."
+
+source=("http://www.webkitgtk.org/releases/webkitgtk-${pkgver}.tar.xz")
+
+tags="develop dev-libs"
+
+build_deps="ruby bison flex gperf libsoup enchant libxslt  compositeproto"
+
+build()
+{
+
+go_src_dir
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--with-gtk=2.0 \
+--disable-geolocation \
+--disable-gtk-doc \
+--disable-gtk-doc-html \
+--disable-gtk-doc-pdf \
+--enable-webkit2=no \
+--enable-plugin-process=no \
+--enable-geolocation=NO \
+--build=$ARCH-slackware-linux
+
+make -j4 
+
+make DESTDIR=$pkgdir install || echo " Fail make install "
+}
+
