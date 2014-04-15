@@ -1,0 +1,47 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=libsecret
+pkgver=0.16
+pkgbuild=1
+arch=('auto')
+
+shortdesc="library for storing and retrieving passwords and other secrets"
+
+source=("https://git.gnome.org/browse/snapshot/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs media-libs"
+
+#dependencies only needed to build package
+build_deps="gobject-introspection"
+
+
+build()
+{
+go_src_dir
+
+./autogen.sh --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man 
+
+make DESTDIR=$pkgdir install
+
+}
+#BUILD_KEYS="--prefix=/usr \
+#--sysconfdir=/etc \
+#--localstatedir=/var \
+#--libdir=/usr/lib${LIBDIRSUFFIX} \
+#--disable-static \
+#--mandir=/usr/man \
+#--program-prefix= \
+#--program-suffix="
+#
+#INSTALL_KEYS="DESTDIR=$pkgdir"
+
+#after_build()
+#{
+
+#}
