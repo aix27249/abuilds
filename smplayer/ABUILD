@@ -1,5 +1,5 @@
 pkgname=smplayer
-pkgver=0.8.6
+pkgver=14.3.0
 pkgbuild=4
 arch="auto"
 
