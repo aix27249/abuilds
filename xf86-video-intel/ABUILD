@@ -1,5 +1,5 @@
 pkgname=xf86-video-intel
-pkgver=2.21.15
+pkgver=2.99.911
 pkgbuild=1
 arch=('auto')
 
