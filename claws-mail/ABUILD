@@ -1,6 +1,6 @@
 pkgname=claws-mail
 pkgver=3.9.3
-pkgbuild=9
+pkgbuild=10
 arch=('auto')
 
 shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
@@ -12,6 +12,7 @@ tags="mail-client network"
 custom_opts="no_ccache"
 
 build_deps="bison poppler pygtk libetpan gpgme"
+removedep="mesa  libgl  udev libdrm fontconfig freetype xulrunner  util-linux-ng clang  libdrm-nouveau-dev"
 
 
 
