@@ -1,35 +1,41 @@
 pkgname=abiword
 pkgver=3.0.0
-pkgbuild=2
+pkgbuild=4
 arch=('auto')
 
 shortdesc="AbiWord (a lightweight and featureful Word Processor)"
 
 source=("http://www.abisource.com/downloads/${pkgname}/${pkgver}/source/${pkgname}-${pkgver}.tar.gz")
 
+#short and long tags / длинный и короткий тег
 tags="xapps app-office"
 
-build_deps="boost wv"
+build_deps=" wv libxcb libxml2 libxshmfence "
+removedep=" mesa  libgl  udev libdrm fontconfig freetype "
 
-BUILD_SYSTEM="autotools"
+build()
+{
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+go_src_dir
 
-BUILD_KEYS="--prefix=/usr \
+./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---docdir=/usr/doc/${pkgname}-${pkgver} \
---enable-shared \
---enable-plugins \
+--with-gtk2 \
 --enable-clipart \
 --enable-templates \
---disable-collab-backend-sugar \
---with-gio \
---with-gtk2 "
+--enable-plugins \
+--docdir=/usr/doc/${pkgname}-${pkgver} 
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+make
+
+make DESTDIR=$pkgdir install
+
+}
+
+after_build()
+{
+find  ${pkgdir} -name \*.la -exec rm -f {} \;
+}
