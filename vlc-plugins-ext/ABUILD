@@ -1,6 +1,6 @@
 pkgname=vlc
 pkgver=2.1.4
-buildver=2
+buildver=3
 pkgbuild=${buildver}
 arch=('auto')
 
@@ -21,10 +21,10 @@ expat sqlite qt4 yasm libbluray fluidsynth  gcc-g++ git opus "
 
 pkglist="vlc-plugins-ext"
 
-removedep="xulrunner"
+removedep="mesa  libgl  udev libdrm fontconfig freetype xulrunner  util-linux-ng clang  libdrm-nouveau-dev"
 
 adddep="xset ffmpeg"
-#libmtp zvbi libkate portaudio goom vcdimager twolame libmpcdec libshout libmpeg2
+
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
@@ -38,17 +38,6 @@ go_src_dir
 --prefix=/usr \
 --sysconfdir=/etc \
 --libdir=/usr/lib${LIBDIRSUFFIX}
-
-# опции для правильных пацанов --enable-ncurses \
-#--disable-x264 \
-#--disable-a52 \
-#--disable-vorbis \
-#--disable-speex \
-#--disable-opus \
-#--disable-theora \
-#--disable-schroedinger \
-#--disable-twolame \
-#--disable-xvideo \
 
 make -j4 || exit 1
 make install DESTDIR=${pkgdir} || exit 1
