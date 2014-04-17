@@ -1,6 +1,6 @@
 pkgname=xf86-video-intel
 pkgver=2.99.911
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('a driver for almost all Intel video cards')
