@@ -1,7 +1,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=freetype-cleartype
-pkgver=2.4.10
+pkgver=2.5.3
 pkgbuild=2
 arch=('any')
 shortdesc="TrueType font rendering library, with infinality.net cleartype patchset"
