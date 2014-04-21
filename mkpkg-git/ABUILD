@@ -1,5 +1,5 @@
 pkgname=mkpkg-git
-pkgver=1.3.3
+pkgver=1.3.4
 pkgbuild=4
 arch=('noarch')
 shortdesc="mkpkg: AgiliaLinux package building tool"
@@ -8,7 +8,7 @@ source="git:git://github.com/khvalera/mkpkg.git"
 
 tags="dev-util develop"
 
-build_deps="cmake sed"
+build_deps="cmake sed gcc-g++"
 
 adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash sed grep wget iputils"
 
