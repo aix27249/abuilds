@@ -1,0 +1,11 @@
+--- src/SConscript.client.orig	2012-11-27 05:08:44.000000000 +0100
++++ src/SConscript.client	2012-12-29 10:51:59.493004028 +0100
+@@ -134,7 +134,7 @@ env.Install(
+ # install
+ prefix = GetOption("prefix")
+ 
+-env.Install(prefix + "/lib", '${LIBPREFIX}mongoclient${LIBSUFFIX}')
++env.Install('$INSTALL_DIR/$NIX_LIB_DIR', '${LIBPREFIX}mongoclient${LIBSUFFIX}')
+ 
+ for x in clientHeaderDirectories:
+     env.Install(prefix + "/include/mongo/" + x,
