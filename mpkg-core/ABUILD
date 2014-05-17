@@ -16,12 +16,13 @@ tags="base sys-pkgtools"
 
 # Manually-added dependencies
 adddep="mpkg-i18n tar>=1.22 xz>=4.999 gzip sed wget"
-build_deps="nwidgets mpkgsupport cmake"
+build_deps="nwidgets mpkgsupport cmake gcc gcc-g++"
 # Build system
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIBDIRSUFFIX"
 
 build() {
 	go_src_dir
+	git checkout delayedremove
 	burn_patches
 	mkdir build
 	cd build

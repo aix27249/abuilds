@@ -1,14 +1,15 @@
 pkgname=goffice
-pkgver=0.10
+pkgver=0.10.14
 pkgbuild=1
 arch=('auto')
 
 shortdesc="GOffice (document utilities)"
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver}/${pkgname}-${pkgver}.0.tar.xz")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/0.10/${pkgname}-${pkgver}.tar.xz")
 
 tags="libs x11-libs"
-custom_opts="no_ccache"
+build_deps=" libxml2 gtk+3"
+
 
 BUILD_SYSTEM="autotools"
 

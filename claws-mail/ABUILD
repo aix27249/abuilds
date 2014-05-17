@@ -1,6 +1,6 @@
 pkgname=claws-mail
 pkgver=3.9.3
-pkgbuild=2
+pkgbuild=10
 arch=('auto')
 
 shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
@@ -11,9 +11,8 @@ tags="mail-client network"
 
 custom_opts="no_ccache"
 
-build_deps="bison webkitgtk libsoup pygobject"
-
-pkglist="plugins"
+build_deps="bison poppler pygtk libetpan gpgme"
+removedep="mesa  libgl  udev libdrm fontconfig freetype xulrunner  util-linux-ng clang  libdrm-nouveau-dev"
 
 
 
@@ -21,12 +20,14 @@ build()
 {
 cd $srcdir/${pkgname}-${pkgver} || exit 1
 
-./autogen.sh \
+./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
+--disable-maintainer-mode \
+--enable-crash-dialog \
 --mandir=/usr/man \
 --enable-largefile \
 --enable-fancy-plugin \
@@ -36,28 +37,30 @@ cd $srcdir/${pkgname}-${pkgver} || exit 1
 --enable-pdf_viewer-plugin \
 --enable-newmail-plugin \
 --enable-notification-plugin \
+--enable-python-plugin \
+--enable-pgpcore-plugin \
+--enable-pgpmime-plugin \
+--enable-pgpinline-plugin \
+--enable-rssyl-plugin \
+--enable-smime-plugin \
 --enable-nls
 
-make -j4 
-make DESTDIR=$pkgdir install
+make -j4 || echo "Katana kai!"
 
-find  ${p_pkgdir} -name \*.la -exec rm -f {} \;
-mkdir -p ${pkgdir}-plugins/usr/lib${LIBDIRSUFFIX}/${pkgname}/plugins
-mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}/plugins/{vcalendar.so,spamreport.so,spamassassin.so,pgpcore.so,smime.so,pgpmime.so,pgpinline.so,acpi_notifier.so,\
-bogofilter.so,bsfilter.so,clamd.so,rssyl.so,perl.so,python.so} ${pkgdir}-plugins/usr/lib${LIBDIRSUFFIX}/${pkgname}/plugins
+make DESTDIR=$pkgdir install || echo "Katana kai! Katana bye!!!"
 
 
-}
+ # build and install extra tools
+cd tools
+make
+  # all executables and .conf files ; only top directory
+find -maxdepth 1 -type f -and -perm /111 -or -name '*.conf' | while read i ; do
 
-plugins() {
-	pkgname="${p_pkgname}-plugins"
-	shortdesc="Plugins  for claws-mail"
-}
+install -D -m755 ${i} \
+${pkgdir}/usr/lib/claws-mail/tools/${i}
 
-plugins_prep() {
-
-
-mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/${p_pkgname}/plugins/*.deps ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${p_pkgname}/plugins
+done
+                          
 
 }
 

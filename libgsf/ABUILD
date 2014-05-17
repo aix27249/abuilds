@@ -1,5 +1,5 @@
 pkgname=libgsf
-pkgver=1.14.25
+pkgver=1.14.30
 pkgbuild=1
 arch=('auto')
 
@@ -9,6 +9,8 @@ source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgnam
 
 tags="libs gnome-extra"
 custom_opts="no_ccache"
+build_deps=" bzip2 gdk-pixbuf libxml2 "
+
 
 BUILD_SYSTEM="autotools"
 
@@ -30,6 +32,6 @@ INSTALL_KEYS="DESTDIR=$pkgdir"
 after_build()
 {
 install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
-gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/libgsf-gnome.schemas" --domain libgsf "${pkgdir}/etc/gconf/schemas/"*.schemas || return 1
+gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/libgsf-gnome.schemas" --domain libgsf "${pkgdir}/etc/gconf/schemas/"*.schemas || echo " Нету здесь таких!!!"
 rm -rf ${pkgdir}/etc
 }

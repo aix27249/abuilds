@@ -1,0 +1,34 @@
+pkgname=bullet
+pkgver=2.82
+_rev=2704
+pkgbuild=1
+arch=('auto')
+shortdesc="A 3D Collision Detection and Rigid Body Dynamics Library for games and animation"
+source=("http://bullet.googlecode.com/files/${pkgname}-${pkgver}-r${_rev}.tgz")
+tags="dev-libs develop"
+build_deps="cmake doxygen graphviz mesa"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+  -DCMAKE_BUILD_TYPE=RELEASE \
+  -DLIB_DIR=lib${LIBDIRSUFFIX} \
+  -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+  -DBUILD_SHARED_LIBS=1 \
+  -DBUILD_DEMOS=0 \
+  -DBUILD_MULTITHREADING=1 \
+  -DBUILD_EXTRAS=1 \
+  -DINSTALL_LIBS=1 \
+  -DINSTALL_EXTRA_LIBS=1 \
+  -DCMAKE_BUILD_TYPE=Release \
+  ../"
+
+after_build() {
+  go_src_dir
+
+  mkdir -p "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  sed -e "s|%VERSION%|${pkgver}|g" \
+      -e "s|%LIBDIRSUFFIX%|${LIBDIRSUFFIX}|g" \
+      ${filedir}/bullet.pc > ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/bullet.pc
+
+  install -Dm644 BulletLicense.txt ${pkgdir}/usr/share/licenses/${pkgbase}/LICENSE
+}

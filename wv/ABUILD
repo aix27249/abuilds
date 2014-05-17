@@ -1,6 +1,6 @@
 pkgname=wv
 pkgver=1.2.9
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="wv (MS Word document import library)"
@@ -10,6 +10,7 @@ source=("http://abisource.com/downloads/${pkgname}/${pkgver}/${pkgname}-${pkgver
 
 tags="libs app-text"
 custom_opts="no_ccache"
+build_deps=" xz bzip2  libgsf libpng libxml2 "
 
 BUILD_SYSTEM="autotools"
 

@@ -1,6 +1,6 @@
 pkgname=gnumeric
-pkgver=1.12.0
-pkgbuild=1
+pkgver=1.12.14
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Gnumeric (GNOME spreadsheet app)"
@@ -8,30 +8,26 @@ shortdesc="Gnumeric (GNOME spreadsheet app)"
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
 tags="xapps app-office"
-custom_opts="no_ccache"
+build_deps=" goffice libgsf libxml2 perl "
 
-BUILD_SYSTEM="autotools"
+build(){
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+go_src_dir
 
-BUILD_KEYS="--prefix=/usr \
+./configure --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-ssindex"
+--disable-schemas-compile 
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+make -j4 || echo "Bgfnm rjkjnbnm"
 
-#ran after function build() 
-#после сборки
+make -j4 DESTDIR=$pkgdir install || echo " Nfv heccrbt ljk,fqjgs!!!!!"
+
+}
+
 after_build()
 {
-echo ""
-install -d "${pkgdir}/usr/share/gconf/schemas"
-#gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain gnumeric "${pkgdir}"/etc/gconf/schemas/*.schemas
-rm -rf "${pkgdir}/etc"
+find  ${pkgdir} -name \*.la -exec rm -f {} \;
+
 }
