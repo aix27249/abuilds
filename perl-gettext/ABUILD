@@ -2,7 +2,7 @@
 
 pkgname=perl-gettext
 pkgver=1.05
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Permits access from Perl to the gettext() family of functions"
@@ -13,7 +13,7 @@ tags="libs dev-perl"
 
 adddep="gettext"
 
-build_deps="perl ${adddep}"
+build_deps="make gcc gettext perl kernel-headers"
 
 docs="Changes"
 
