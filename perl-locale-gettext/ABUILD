@@ -1,26 +1,16 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=perl-locale-gettext
-downname=gettext
 pkgver=1.05
-pkgbuild=3
-arch=('auto')
+pkgbuild=4
+arch=('noarch')
 
-shortdesc="Locale::gettext perl module. Permits access from Perl to the gettext() family of functions"
+shortdesc="Permits access from Perl to the gettext() family of functions (Virtual package.)"
 
-source=("http://cpan.rinet.ru/authors/id/P/PV/PVANDRY/${downname}-${pkgver}.tar.gz")
+tags="dev-perl virtual"
 
-tags="develop dev-lang"
+adddep="perl-gettext"
 
-build_deps="make gcc gettext perl kernel-headers"
-
-BUILD_SYSTEM="perl"
-BUILD_KEYS="Makefile.PL PREFIX=/usr INSTALLDIRS=vendor"
-INSTALL_WORD="make pure_vendor_install"
-
-after_build(){
-  # Remove perllocal.pod and other special files that don't need to be installed,
-  # as they will overwrite what's already on the system
-  find ${pkgdir} -name perllocal.pod -o -name ".packlist" -o -name "*.bs" | xargs rm -f || true
-
-  # Remove empty directories
-  #find ${pkgdir} -depth -type d -empty -delete || true
+build(){
+ echo "End build"
 }
