@@ -34,5 +34,8 @@ INSTALL_KEYS="DESTDIR=${pkgdir}"
 after_build(){
   rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Xfce4/Xfconf/{.packlist,Xfconf.bs}
   #fix insecure rpath, http://bugs.archlinux.org/task/19980
-  chrpath -d ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Xfce4/Xfconf/Xfconf.so
+  fix_file=${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/vendor_perl/auto/Xfce4/Xfconf/Xfconf.so
+  if [ -f "${fix_file}" ]; then
+     chrpath -d "${fix_file}"
+  fi
 }
