@@ -2,7 +2,7 @@
 
 pkgname=xfconf
 pkgver=4.10.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A simple client-server configuration storage and query system"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-base"
 
-build_deps="make pkg-config intltool gcc gtk-doc perl perl-xml-parser perl-glib perl-extutils-pkgconfig perl-extutils-depends chrpath"
+build_deps="make pkg-config intltool gcc gtk-doc perl perl-xml-parser perl-glib perl-extutils-pkgconfig perl-extutils-depends chrpath kernel-headers diffutils libxfce4util libxslt docbook-xsl"
 
 BUILD_SYSTEM="autotools"
 
