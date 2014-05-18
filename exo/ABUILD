@@ -2,7 +2,7 @@
 
 pkgname=exo
 pkgver=0.10.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Extensions to Xfce by os-cillation"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-base"
 
-build_deps="make intltool gcc perl gtk-doc>=1.18 perl-uri pygtk"
+build_deps="make intltool gcc perl gtk-doc>=1.18 perl-uri pygtk pkg-config libxfce4util"
 
 adddep="hicolor-icon-theme"
 
