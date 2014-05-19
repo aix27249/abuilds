@@ -1,17 +1,17 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-dev-tools
-pkgver=4.10.0
+pkgver=4.11.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Xfce developer tools"
 
-source=("http://archive.xfce.org/xfce/${pkgver%.*}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/xfce/xfce4-dev-tools/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="develop dev-util"
 
-build_deps="make automake intltool pkg-config glib"
+build_deps="make automake intltool pkg-config glib grep binutils kernel-headers"
 
 BUILD_SYSTEM="autotools"
 
