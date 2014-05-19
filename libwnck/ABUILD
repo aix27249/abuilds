@@ -2,19 +2,23 @@
 pkgname=libwnck
 pkgver=2.30.7
 pkgbranch=2.30
-pkgbuild=2
-shortdesc="Window Navigator Construction Kit"
-longdesc="Window Navigator Construction Kit"
+pkgbuild=3
 arch=('auto')
+
+shortdesc="Window Navigator Construction Kit"
+
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgbranch}/${pkgname}-${pkgver}.tar.bz2")
+
 tags=("libs x11-libs")
+
+build_deps="make gcc perl perl-xml-parser kernel-headers binutils pkg-config grep pkg-config"
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS=" --prefix=/usr \
-  --libdir=/usr/lib${LIBDIRSUFFIX} \
-  --mandir=/usr/man \
-  --disable-static \
-  --sysconfdir=/etc"
+             --libdir=/usr/lib${LIBDIRSUFFIX} \
+             --mandir=/usr/man \
+             --disable-static \
+             --sysconfdir=/etc"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
