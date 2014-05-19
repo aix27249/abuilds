@@ -2,17 +2,16 @@
 
 pkgname=xfce-utils
 pkgver=4.8.3
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
-tree=`echo $pkgver | cut -d . -f 1-2`
 
 shortdesc="Various tools for Xfce"
 
-source=("http://archive.xfce.org/src/xfce/${pkgname}/${tree}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool pkg-config"
+build_deps="make gcc intltool pkg-config kernel-headers perl sed gtk+2 perl-xml-parser gettext"
 
 BUILD_SYSTEM="autotools"
 
