@@ -1,17 +1,29 @@
 pkgname=iceauth
-pkgver=1.0.5
+pkgver=1.0.6
 pkgbuild=1
 arch=('auto')
 
-shortdesc=('iceauth')
-longdesc=('iceauth is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
+shortdesc=('Iceauth is part of X11')
+
+longdesc=('Iceauth is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
 tags=('x11-apps xserver')
 
+build_deps="make gcc coreutils pkg-config grep kernel-headers"
+
 source=("http://xorg.freedesktop.org/archive/individual/app/iceauth-${pkgver}.tar.bz2")
 
-
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static \
+            --with-fontrootdir=/usr/share/fonts \
+            --build=$ARCH-slackware-linux "
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
