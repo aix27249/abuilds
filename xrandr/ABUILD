@@ -1,5 +1,5 @@
 pkgname=xrandr
-pkgver=1.4.1
+pkgver=1.4.2
 pkgbuild=1
 arch=('auto')
 
@@ -9,9 +9,18 @@ longdesc=('xrandr is part of X11. For more information about the X.Org Foundatio
 tags=('x11-apps xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/app/xrandr-${pkgver}.tar.bz2")
-build_deps="libXrandr libX11"
+
+build_deps="make gcc pkg-config sed libXrandr libX11 randrproto kernel-headers"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static \
+            --with-fontrootdir=/usr/share/fonts \
+            --build=$ARCH-slackware-linux "
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
