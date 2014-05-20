@@ -12,8 +12,8 @@ source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/${pkgver%.*}/gtk+-${pkgver}
 
 tags="libs x11-libs"
 adddep="gtk-update-icon-cache"
-build_deps=("atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache
-	     cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk")
+build_deps=("make gcc atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache grep kernel-headers binutils
+             cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk pkg-config gtk-doc")
 
 before_build() {
 	go_src_dir
@@ -55,5 +55,5 @@ after_build() {
 		echo "Host mismatch: compile='$compile_host', SlackBuild='$host'" && exit 1
 	fi
 
-	install -Dm644 "${filedir}/settings.ini" "$pkgdir/etc/gtk-3.0/settings.ini"
+	install -Dm644 "${filedir}/settings.ini" "${pkgdir}/etc/gtk-3.0/settings.ini"
 }
