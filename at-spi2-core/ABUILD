@@ -8,7 +8,7 @@ arch=("auto")
 shortdesc=("Protocol definitions and daemon for D-Bus at-spi")
 tags=("app-accessibility libs")
 source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz")
-build_deps="dbus glib2 libXtst gobject-introspection intltool"
+build_deps="make gcc perl perl-xml-parser kernel-headers binutils grep dbus glib2 libXtst gobject-introspection intltool"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -17,5 +17,5 @@ BUILD_KEYS="--prefix=/usr \
   --sysconfdir=/etc \
   --libexecdir=/usr/lib$LIBDIRSUFFIX/at-spi2-core \
   --disable-xevie"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
