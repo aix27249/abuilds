@@ -9,10 +9,13 @@ shortdesc=("A GTK+ module that bridges ATK to D-Bus at-spi")
 tags=("app-accessibility libs")
 source=("http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz")
 
-build_deps="at-spi2-core atk glib2 dbus libX11"
-
+build_deps="make gcc at-spi2-core atk glib2 dbus libX11 kernel-headers binutils grep pkg-config"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --enable-p2p"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --sysconfdir=/etc \
+            --enable-p2p"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
