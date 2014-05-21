@@ -8,17 +8,25 @@ arch=('auto')
 shortdesc=('gst-plugins-base (base set of GStreamer plugins)')
 longdesc=('GStreamer Base Plug-ins is a well-groomed and well-maintained collection of GStreamer plug-ins and elements, spanning the range of possible types of elements one would want to write for GStreamer. It also contains helper libraries and base classes useful for writing elements. A wide range of video and audio decoders, encoders, and filters are included.')
 
-tags=('libs media-libs compat32')
+tags=('libs media-libs')
+
 source=("http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${pkgver}.tar.xz")
+
 build_deps="pkg-config gstreamer orc libXv alsa-lib cdparanoia libvisual libvorbis libtheora pango gobject-introspection"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--disable-static --enable-experimental --disable-gnome_vfs \
-	--with-package-name='GStreamer Base Plugins (AgiliaLinux)' \
-	--with-package-origin='http://www.agilialinux.ru/' "
+BUILD_KEYS="--prefix=/usr \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --disable-static \
+            --enable-experimental \
+            --disable-gnome_vfs \
+            --with-package-name='GStreamer Base Plugins (AgiliaLinux)' \
+            --with-package-origin='http://www.agilialinux.ru/' "
+
 BUILD_WORDS="make -j${numjobs} && sed -e 's/^SUBDIRS_EXT =.*/SUBDIRS_EXT =/' -i Makefile"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
