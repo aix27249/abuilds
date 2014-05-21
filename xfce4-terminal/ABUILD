@@ -2,7 +2,7 @@
 
 pkgname=xfce4-terminal
 pkgver=0.6.3
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Xfce4 Terminal Emulator"
@@ -11,7 +11,7 @@ source=(http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pk
 
 tags="xfce x11-terms"
 
-build_deps="make gcc intltool pkg-config perl-xml-parser exo>=0.10.2"
+build_deps="make gcc intltool pkg-config perl-xml-parser exo>=0.10.2 kernel-headers pkg-config gettext binutils sed perl grep vte libxfce4ui"
 
 BUILD_SYSTEM="autotools"
 
