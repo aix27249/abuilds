@@ -2,7 +2,7 @@
 
 pkgname=thunar
 pkgver=1.6.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Modern file manager for Xfce"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/xfce/${pkgname}/${pkgver%.*}/Thunar-${pkgve
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool perl perl-xml-parser gtk-doc xfce4-panel"
+build_deps="make gcc intltool perl perl-xml-parser gtk-doc xfce4-panel kernel-headers binutils gettext grep"
 
 BUILD_SYSTEM="autotools"
 
