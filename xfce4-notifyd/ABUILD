@@ -2,7 +2,7 @@
 
 pkgname=xfce4-notifyd
 pkgver=0.2.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Notification daemon for the Xfce desktop"
@@ -10,6 +10,8 @@ shortdesc="Notification daemon for the Xfce desktop"
 source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xfce xfce-extra"
+
+build_deps="make gcc intltool perl perl-xml-parser pkg-config grep binutils kernel-headers gettext"
 
 BUILD_SYSTEM="autotools"
 
