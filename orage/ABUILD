@@ -2,7 +2,7 @@
 
 pkgname=orage
 pkgver=4.8.4
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Calendar for Xfce Desktop Environment"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool perl pkg-config"
+build_deps="make gcc intltool perl pkg-config dbus-glib gettext grep sed binutils kernel-headers"
 adddep="sox"
 
 BUILD_SYSTEM="autotools"
