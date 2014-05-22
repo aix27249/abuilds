@@ -1,34 +1,19 @@
-#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=gtksourceview
-pkgver=3.8.2
-pkgbuild=1
-arch=('auto')
+pkgver=2.11.2
+pkgbuild=3
+arch=('noarch')
 
-shortdesc="GtkSourceView (Gtk text widget)"
+shortdesc="GtkSourceView is a text widget that extend the standard gtk+2.x text widget GtkTextView."
 
-longdesc=("GtkSourceView is a text widget that extend the standard gtk+2.x text widget GtkTextView. 
-http://projects.gnome.org/gtksourceview/index.html")
+source=("")
 
-source=("http://ftp.acc.umu.se/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+tags="virtual x11-libs"
 
-tags="libs x11-libs"
+adddep="gtksourceview2"
 
-build_deps="make gcc perl perl-xml-parser glib2 intltool gettext pkg-config binutils grep sed gtk-doc"
+build(){
+ echo "End build"
+}
 
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-shared \
---enable-nls"
-
-INSTALL_KEYS="DESTDIR=${pkgdir}"
