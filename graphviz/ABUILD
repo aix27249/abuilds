@@ -1,12 +1,15 @@
 pkgname=graphviz
-pkgver=2.30.1
+pkgver=2.38.0
 pkgbuild=2
 arch=('auto')
 
 shortdesc="Graphviz is open source graph visualization software"
+
 source=("http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-${pkgver}.tar.gz")
+
 tags="utils media-gfx"
-build_deps="swig lua perl python qt4"
+
+build_deps="swig lua perl python qt4 pkg-config gd grep sed gcc-g++"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -19,5 +22,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
