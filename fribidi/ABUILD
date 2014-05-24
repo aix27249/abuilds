@@ -1,13 +1,17 @@
 pkgname=fribidi
-pkgver=0.19.5
+pkgver=0.19.6
 pkgbuild=1
 arch=('auto')
+
 shortdesc="A Free Implementation of the Unicode Bidirectional Algorithm"
 source=("http://fribidi.org/download/${pkgname}-${pkgver}.tar.bz2")
+
 tags="media-libs libs"
-build_deps="glibc"
+
+build_deps="make gcc grep coreutils kernel-headers glibc binutils"
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -17,4 +21,5 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
