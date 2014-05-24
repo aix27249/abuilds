@@ -1,20 +1,25 @@
 pkgname=libbluray
-pkgver=0.3.0
+pkgver=0.5.0
 pkgbuild=1
 arch=('auto')
+
 shortdesc="Library to access Blu-Ray disks for video playback"
-source=("ftp://ftp.videolan.org/pub/videolan/$pkgname/$pkgver/$pkgname-$pkgver.tar.bz2")
+
+source=("http://ftp.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="libs media-video"
-build_deps="libxml2 freetype"
+
+build_deps="make gcc libxml2 freetype pkg-config binutils grep kernel-headers"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --disable-static \
+            --mandir=/usr/man \
+            --program-prefix= \
+            --program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
