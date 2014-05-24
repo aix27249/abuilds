@@ -6,10 +6,11 @@ arch=("auto")
 shortdesc=("fontconfig (Font library and tools)")
 longdesc=("Fontconfig is a library and tools designed to provide system-wide font configuration, customization, and application access. Fontconfig is written and maintained by Keith Packard.")
 
-tags=("xserver x11-utils compat32")
+tags=("xserver x11-utils")
 
 source=("http://www.fontconfig.org/release/$pkgname-$pkgver.tar.gz")
-build_deps="bzip2 expat freetype pkg-config"
+
+build_deps="make gcc binutils bzip2 expat freetype pkg-config grep kernel-headers sed"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -23,7 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 	--with-xmldir=/etc/fonts \
 	--with-default-fonts=/usr/share/fonts"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
 after_build() {
