@@ -9,8 +9,8 @@ longdesc=("VP8 is an open video codec, originally developed by On2 and released 
 
 source=("http://webm.googlecode.com/files/${pkgname}-v${pkgver}.tar.bz2")
 tags="libs media-libs"
-build_deps="yasm"
 
+build_deps="yasm"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
