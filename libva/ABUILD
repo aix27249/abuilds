@@ -7,11 +7,18 @@ arch="auto"
 shortdesc=("Video Acceleration (VA) API for Linux")
 longdesc=("The main motivation for VAAPI (Video Acceleration API) is to enable hardware accelerated video decode/encode at various entry-points (VLD, IDCT, Motion Compensation etc.) for the prevailing coding standards today (MPEG-2, MPEG-4 ASP/H.263, MPEG-4 AVC/H.264, and VC-1/VMW3). Extending XvMC was considered, but due to its original design for MPEG-2 MotionComp only, it made more sense to design an interface from scratch that can fully expose the video decode capabilities in today''s GPUs.
 The current video decode/encode interface is window system independent, so that potentially it can be used with graphics sub-systems other than X. In a nutshell it is basically a scheme to pass various types of data buffers from the application to the GPU for decoding or encoding. Feedback on the API is greatly welcomed, as this is intended to be a community collaborative effort.")
-source=("http://cgit.freedesktop.org/libva/snapshot/libva-${pkgver}.tar.bz2")
-tags="libs media-video"
-build_deps="mesa libgl libdrm libXfixes"
 
-# Build system
+source=("http://cgit.freedesktop.org/libva/snapshot/libva-${pkgver}.tar.bz2")
+
+tags="libs media-video"
+
+build_deps="autoconf gcc-g++ pkg-config binutils mesa libgl libdrm libXfixes binutils grep kernel-headers"
+
+before_build() {
+  go_src_dir
+  ./autogen.sh
+}
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 --bindir=/usr/bin \
@@ -25,10 +32,5 @@ BUILD_KEYS="--prefix=/usr \
 --localstatedir=/var \
 --enable-i965-driver"
 
-# Before-build script
-before_build() {
-	go_src_dir
-	./autogen.sh
-}
 
 
