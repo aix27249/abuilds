@@ -30,7 +30,7 @@ INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
   go_src_dir
-  mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
-  cp -a $pkgdir/usr/share/doc/$pkgname-$pkgver/* $pkgdir/usr/doc/$pkgname-$pkgver/
-  rm -rf $pkgdir/usr/share/doc
+  mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+  cp -a ${pkgdir}/usr/share/doc/${pkgname}-${pkgver}/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
+  rm -rf ${pkgdir}/usr/share/doc
 }
