@@ -1,14 +1,15 @@
 pkgname=schroedinger
 pkgver=1.0.11
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Schroedinger (Dirac video codec portable libraries)"
 
 source=("http://diracvideo.org/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
+tags="libs media-libs"
 
-tags="libs media-libs"     			#short and long tags / длинный и короткий тег
+build_deps="make orc gcc gcc-g++ coreutils grep pkg-config gtk-doc binutils"
 
 BUILD_SYSTEM="autotools"
 
@@ -23,5 +24,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
