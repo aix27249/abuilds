@@ -6,9 +6,13 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("Easily build and distribute Python packages.")
+
 longdesc=("Download, build, install, upgrade, and uninstall Python packages -- easily! Homepage: http://pypi.python.org/pypi/setuptools")
+
 tags=("dev-python develop")
+
 source=("https://bitbucket.org/pypa/setuptools/get/${pkgver}.tar.bz2")
+
 build_deps="python"
 
 BUILD_SYSTEM="python"
