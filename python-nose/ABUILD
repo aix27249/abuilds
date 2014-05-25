@@ -6,9 +6,11 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("A discovery-based unittest extension")
-tags=("dev-python develop")
-source=("http://pypi.python.org/packages/source/n/nose/nose-${pkgver}.tar.gz")
-build_deps="python pysetuptools python-sphinx"
 
+tags=("dev-python develop")
+
+source=("http://pypi.python.org/packages/source/n/nose/nose-${pkgver}.tar.gz")
+
+build_deps="python pysetuptools python-sphinx"
 
 BUILD_SYSTEM="python"
