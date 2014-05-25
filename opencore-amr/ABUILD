@@ -2,13 +2,17 @@ pkgname=opencore-amr
 pkgver=0.1.3
 pkgbuild=1
 arch="auto"
-shortdesc=("OpenCORE Framework implementation of Adaptive Multi Rate Narrowband and Wideband speech codec")
-longdesc=("Library of OpenCORE Framework implementation of Adaptive Multi Rate Narrowband and Wideband speech codec")
-source=("http://downloads.sourceforge.net/project/opencore-amr/opencore-amr/opencore-amr-${pkgver}.tar.gz")
-tags="libs media-libs"
-build_deps="glibc"
 
-# Build system
+shortdesc=("OpenCORE Framework implementation of Adaptive Multi Rate Narrowband and Wideband speech codec")
+
+longdesc=("Library of OpenCORE Framework implementation of Adaptive Multi Rate Narrowband and Wideband speech codec")
+
+source=("http://downloads.sourceforge.net/project/opencore-amr/opencore-amr/opencore-amr-${pkgver}.tar.gz")
+
+tags="libs media-libs"
+
+build_deps="make gcc gcc-g++ glibc coreutils grep kernel-headers"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 	--bindir=/usr/bin \
