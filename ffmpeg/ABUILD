@@ -1,20 +1,23 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org
 
 pkgname=ffmpeg
-pkgver=2.2
-pkgbuild=2
+pkgver=2.2.2
+pkgbuild=1
 arch=('auto')
+
 conflicts="libav"
+
 shortdesc="Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything."
 
 source=("http://ffmpeg.org/releases/${pkgname}-${pkgver}.tar.bz2")
+
 tags="libs media-video"
+
 build_deps=("yasm alsa-lib bzip2 fontconfig gsm lame libass libbluray libmodplug
       libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump
       schroedinger sdl speex v4l-utils x264 xvidcore zlib libvdpau")
 
-build()
-{
+build(){
   go_src_dir
   burn_patches
 
@@ -76,9 +79,8 @@ build()
   make doc/ff{mpeg,play,server}.1
 }
 
-after_build()
-{
+after_build(){
   go_src_dir
-  make DESTDIR="$pkgdir" install install-man
-  install -D -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
+  make DESTDIR="${pkgdir}" install install-man
+  install -D -m755 tools/qt-faststart "${pkgdir}/usr/bin/qt-faststart"
 }
