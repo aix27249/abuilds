@@ -1,5 +1,4 @@
 #ABUILD created by: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
 pkgname=jinja
 pkgver=2.7
 pkgbuild=1
@@ -7,13 +6,14 @@ arch=('auto')
 
 shortdesc="Jinja (Django template engine)"
 longdesc=("Jinja is a sandboxed template engine written in pure Python licensed under the BSD license. It provides a Django-like non-XML syntax and compiles templates into executable python code. It's basically a combination of Django templates and python code."
-	  ""
-	  "Homepage: http://jinja.pocoo.org/"
-)
+"Homepage: http://jinja.pocoo.org/")
 
 source=("http://pypi.python.org/packages/source/J/Jinja2/Jinja2-$pkgver.tar.gz")
+
 tags="libs dev-python"
+
 build_deps="pysetuptools python-markupsafe"
+
 adddep="python"
 
 BUILD_SYSTEM="python"
