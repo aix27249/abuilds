@@ -5,8 +5,10 @@ arch=('auto')
 
 shortdesc="A simple library to load images of various formats as SDL surfaces"
 source=("http://www.libsdl.org/projects/SDL_image/release/SDL_image-${pkgver}.tar.gz")
+
 tags="media-libs libs"
-build_deps="make sdl libpng libjpeg libtiff zlib"
+
+build_deps="make sdl libpng libjpeg libtiff zlib gcc pkg-config binutils grep kernel-headers"
 
 docs=CHANGES
 
