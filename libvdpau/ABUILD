@@ -7,7 +7,11 @@ shortdesc="VDPAU library"
 source=("http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz")
 
 tags="libs x11-libs"
+
+build_deps="make gcc gcc-g++ pkg-config binutils grep kernel-headers doxygen dri2proto"
+
 BUILD_SYSTEM="autotools"
+
 BUILD_KEYS="--prefix=/usr \
 	--sysconfdir=/etc \
 	--localstatedir=/var \
@@ -17,9 +21,7 @@ BUILD_KEYS="--prefix=/usr \
 	--mandir=/usr/man"
 
 after_build() {
-	set -e
-	( cd $pkgdir/usr/lib${LIBDIRSUFFIX} ; ln -s vdpau/libvdpau_trace.so.1 libvdpau_trace.so.1 )
-	( cd $pkgdir/usr/lib${LIBDIRSUFFIX} ; ln -s libvdpau_trace.so.1 libvdpau_trace.so )
-	set +e
+  ( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ln -s vdpau/libvdpau_trace.so.1 libvdpau_trace.so.1 )
+  ( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ln -s libvdpau_trace.so.1 libvdpau_trace.so )
 }
 
