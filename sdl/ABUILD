@@ -8,16 +8,12 @@ arch=('auto')
 shortdesc="sdl (Simple DirectMedia Layer library)"
 
 source=("http://www.libsdl.org/release/SDL-${pkgver}.tar.gz")
+
 tags="media-libs libs"
 
-build_deps="libtool alsa-lib mesa libXext libXrender libX11"
+build_deps="make gcc gcc-g++ libtool alsa-lib mesa libXext libXrender libX11"
 
 adddep="sdl_net sdl_mixer sdl_image"
-
-pkglist=
-
-docs=
-gendeps_blacklist=
 
 BUILD_SYSTEM="autotools"
 
