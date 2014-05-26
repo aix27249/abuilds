@@ -6,23 +6,25 @@ arch=('auto')
 shortdesc=('Userspace interface to kernel DRM (Direct Rendering) services')
 longdesc=('This library implements an interface to the kernel DRM services. It is used to support hardware accelerated 3-D rendering.')
 
-tags=('libs x11-libs compat32')
+tags=('libs x11-libs')
 
 source=("http://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-build_deps="glibc libpciaccess udev"
+
+build_deps="make gcc binutils glibc libpciaccess udev libxslt grep sed"
 
 before_build() {
-	go_src_dir
-	burn_patches
-	autoreconf --force --install
+  go_src_dir
+  burn_patches
+  autoreconf --force --install
 }
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX \
-	--enable-udev \
-	--enable-intel \
-	--enable-radeon \
-	--enable-nouveau"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --enable-udev \
+            --enable-intel \
+            --enable-radeon \
+            --enable-nouveau"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
