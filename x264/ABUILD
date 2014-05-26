@@ -9,20 +9,21 @@ longdesc=("x264 is a free library for encoding H264/AVC video streams. Homepage:
 source=("http://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-$pkgver-2245-stable.tar.bz2")
 
 custom_opts="skip_gendeps"
-tags="libs media-libs"
-build_deps="yasm binutils"
-adddep="glibc-solibs"
 
+tags="libs media-libs"
+
+build_deps="make gcc yasm binutils"
+
+adddep="glibc-solibs"
 
 BUILD_SYSTEM="autotools"
 
-
 BUILD_KEYS="--prefix=/usr \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--enable-shared \
-	--bit-depth=10"
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --enable-shared \
+            --bit-depth=10"
 
 after_build() {
-	# Create a symlink: otherwise, all x264-dependant packages become broken after update.
-	( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ln -sf libx264.so.* libx264.so )
+  # Create a symlink: otherwise, all x264-dependant packages become broken after update.
+  ( cd ${pkgdir}/usr/lib${LIBDIRSUFFIX} ; ln -sf libx264.so.* libx264.so )
 }
