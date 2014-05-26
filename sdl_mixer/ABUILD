@@ -9,7 +9,7 @@ source=("http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-${pkgver}.ta
 
 tags="media-libs libs"
 
-build_deps="make libtool gcc pkg-config sdl fluidsynth libvorbis libmikmod" #smpeg broken
+build_deps="make libtool gcc pkg-config sdl fluidsynth libvorbis libmikmod binutils grep kernel-headers"
 
 docs=CHANGES
 
