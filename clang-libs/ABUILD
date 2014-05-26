@@ -14,7 +14,7 @@ source=("http://llvm.org/releases/$pkgver/llvm-$pkgver.src.tar.gz"
 	"http://llvm.org/releases/$pkgver/clang-tools-extra-$pkgver.src.tar.gz"
 	"http://llvm.org/releases/$pkgver/compiler-rt-$pkgver.src.tar.gz")
 
-build_deps="libffi python ocaml python-sphinx"
+build_deps="gcc gcc-g++ libffi python ocaml python-sphinx coreutils tar sed grep python-docutils groff"
 pkglist="llvm_libs clang clang_libs llvm_ocaml clang_analyzer"
 adddep="perl"
 
