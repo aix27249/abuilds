@@ -1,6 +1,7 @@
 pkgname=rtmpdump
-pkgver=2.4
+pkgver=20140525
 pkgbuild=1
+strict_version=1
 arch=("auto")
 
 shortdesc=("A tool to download rtmp streams, also contains librtmp")
