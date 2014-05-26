@@ -6,7 +6,7 @@ pkgbuild=1
 arch=('auto')
 
 shortdesc="Docutils: Documentation Utilities"
-source=("http://downloads.sourceforge.net/$pkgbase/$pkgbase-$pkgver.tar.gz")
+source=("http://downloads.sourceforge.net/${pkgbase}/${pkgbase}-${pkgver}.tar.gz")
 
 tags="dev-python develop"
 
