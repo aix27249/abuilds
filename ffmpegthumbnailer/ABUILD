@@ -1,56 +1,19 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=ffmpegthumbnailer
-pkgver=2.0.7
+pkgver=2.0.8
 pkgbuild=1
 arch=('auto')
 
 shortdesc="fast and lightweight video thumbnailer"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("FFmpegthumbnailer is a lightweight video thumbnailer that can be used by file managers to create thumbnails for your video files. The thumbnailer uses ffmpeg to decode frames from the video files, so supported videoformats depend on the configuration flags of ffmpeg."
-)
 
-source=("http://ffmpegthumbnailer.googlecode.com/files/$pkgname-$pkgver.tar.gz")
+longdesc=("FFmpegthumbnailer is a lightweight video thumbnailer that can be used by file managers to create thumbnails for your video files. The thumbnailer uses ffmpeg to decode frames from the video files, so supported videoformats depend on the configuration flags of ffmpeg.")
 
-patch_opts=("")
+source=("http://ffmpegthumbnailer.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
+build_deps="make gcc coreutils gcc-g++ binutils sed grep pkg-config libjpeg-turbo libpng ffmpeg"
 
 BUILD_SYSTEM="autotools"
 
@@ -66,11 +29,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix= \
 --enable-gio"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
+INSTALL_KEYS="DESTDIR=${pkgdir}"
