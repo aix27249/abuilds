@@ -11,9 +11,9 @@ longdesc=("This archive contains bindings for the GObject, to be used in Python.
 
 tags=('dev-python libs')
 
+build_deps='make gcc binutils grep sed kernel-headers pkg-config python pycairo'
+
 source=("http://ftp.gnome.org/pub/GNOME/sources/pygobject/${basever}/pygobject-${pkgver}.tar.xz")
-
-
 
 BUILD_SYSTEM='autotools'
 BUILD_KEYS="--prefix=/usr \
