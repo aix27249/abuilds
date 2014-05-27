@@ -2,7 +2,7 @@
 
 pkgname=pycairo
 pkgver=1.10.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("pycairo (a set of Python bindings for the cairo graphics library)")
@@ -12,7 +12,10 @@ tags=("libs dev-python")
 
 source=("http://cairographics.org/releases/py2cairo-${pkgver}.tar.bz2")
 
+build_deps="python"
+
 BUILD_SYSTEM="waf"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
-INSTALL_KEYS="--destdir=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX}"
+INSTALL_KEYS="--destdir=${pkgdir}"
 
