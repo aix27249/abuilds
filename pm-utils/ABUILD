@@ -6,15 +6,23 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("pm-utils (Power Management Utilities)")
-longdesc=("The pm-utils package provides simple shell command line tools to suspend and hibernate computers that can be used to run vendor or distribution supplied scripts on suspend and resume. Homepage: http://pm-utils.freedesktop.org/")
-tags=("console sys-power")
-source=("http://pm-utils.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz")
-build_deps="glibc-solibs xmlto docbook-xml docbook-xsl procps"
 
+longdesc=("The pm-utils package provides simple shell command line tools to suspend and hibernate computers that can be used to run vendor or distribution supplied scripts on suspend and resume. Homepage: http://pm-utils.freedesktop.org/")
+
+tags=("console sys-power")
+
+source=("http://pm-utils.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz")
+
+build_deps="make gcc glibc-solibs xmlto docbook-xml docbook-xsl procps binutils kernel-headers"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --docdir=/usr/doc/${pkgname}-${pkgver} --sysconfdir=/etc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --docdir=/usr/doc/${pkgname}-${pkgver} \
+            --sysconfdir=/etc"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build() {
   # nm >=0.8.2 has native udev suspend/resume support
