@@ -1,25 +1,20 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=udisks
-pkgver=1.0.4
+pkgver=1.0.5
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Daemon providing interfaces to work with storage devices"
 longdesc=("udisks is an abstraction for enumerating block devices and performing operations on them. "
 "Any application can access the org.freedesktop.UDisks service on the system message bus. Some operations "
-"(such as formatting disks etc.) are restricted using PolicyKit. "
-)
+"(such as formatting disks etc.) are restricted using PolicyKit. ")
 
 source=("http://hal.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz")
 
 tags="sys-fs base"
 
-build_deps="make gcc intltool perl pkg-config"
-
-adddep=""
-
-docs=
+build_deps="make gcc intltool perl pkg-config gtk-doc grep sed kernel-headers binutils libxslt sg3_utils libatasmart"
 
 BUILD_SYSTEM="autotools"
 
