@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkg
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool perl pkg-config grep kernel-headers binutils librsvg"
+build_deps="make gcc intltool perl pkg-config grep kernel-headers binutils"
 
 BUILD_SYSTEM="autotools"
 
