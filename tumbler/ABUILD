@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=tumbler
-pkgver=0.1.29
+pkgver=0.1.30
 pkgbuild=1
 arch=('auto')
 
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool perl ffmpegthumbnailer gstreamer poppler libgsf freetype libopenraw"
+build_deps="make gcc intltool perl ffmpegthumbnailer gstreamer poppler libgsf freetype libopenraw gtk-doc grep binutils kernel-headers"
 
 BUILD_SYSTEM="autotools"
 
