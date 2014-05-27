@@ -2,7 +2,7 @@
 
 pkgname=xfce4-power-manager
 pkgver=1.2.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Power manager for Xfce desktop"
@@ -11,7 +11,8 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool pkg-config perl"
+build_deps="make gcc intltool pkg-config perl gettext binutils"
+
 adddep="upower udisks pm-utils"
 
 BUILD_SYSTEM="autotools"
