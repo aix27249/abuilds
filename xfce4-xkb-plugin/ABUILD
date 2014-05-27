@@ -2,7 +2,7 @@
 
 pkgname=xfce4-xkb-plugin
 pkgver=0.7.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Plugin to switch keyboard layouts for the Xfce4 panel"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkg
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool perl pkg-config"
+build_deps="make gcc intltool perl pkg-config grep kernel-headers binutils librsvg"
 
 BUILD_SYSTEM="autotools"
 
