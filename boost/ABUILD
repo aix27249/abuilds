@@ -12,7 +12,8 @@ longdesc=('Boost provides free peer-reviewed portable C++ source libraries. The 
 tags=('libs dev-libs')
 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}_${_boostver}.tar.bz2")
-build_deps="icu4c python bzip2 zlib"
+
+build_deps="gcc icu4c python bzip2 zlib"
 
 build() {
 	go_src_dir
