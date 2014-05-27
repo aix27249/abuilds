@@ -2,13 +2,19 @@ pkgname=libatasmart
 pkgver=0.19
 pkgbuild=1
 arch=('auto')
+
 shortdesc="ATA S.M.A.R.T. Reading and Parsing Library"
+
 source=("http://0pointer.de/public/${pkgname}-${pkgver}.tar.xz")
+
 tags="libs dev-libs"
-build_deps="glibc-solibs udev"
+
+build_deps="make gcc glibc-solibs udev kernel-headers binutils grep sed"
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -17,4 +23,4 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
