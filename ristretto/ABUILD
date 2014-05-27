@@ -2,7 +2,7 @@
 
 pkgname=ristretto
 pkgver=0.6.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
@@ -11,7 +11,8 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce media-gfx"
 
-build_deps="make gcc intltool pkg-config perl"
+build_deps="make gcc intltool pkg-config perl gettext libexif grep sed binutils kernel-headers"
+
 adddep="libexif exo"
 
 BUILD_SYSTEM="autotools"
