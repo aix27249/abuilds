@@ -2,7 +2,7 @@
 
 pkgname=libopenraw
 pkgver=0.0.9
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Library for decoding RAW files"
@@ -26,5 +26,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
