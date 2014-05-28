@@ -6,13 +6,21 @@ arch=('auto')
 shortdesc=('X11 Testing -- Resource extension library')
 longdesc=('libXtst is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
-tags=('x11-libs xserver compat32')
+tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXtst-${pkgver}.tar.bz2")
-build_deps="libXext libXi recordproto inputproto libXfixes util-macros"
 
+build_deps="make gcc libXext libXi recordproto inputproto libXfixes util-macros grep sed binutils kernel-headers"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static \
+            --with-fontrootdir=/usr/share/fonts"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
