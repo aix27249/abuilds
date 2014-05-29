@@ -2,14 +2,14 @@
 
 pkgname=pycairo
 pkgver=1.10.0
-pkgbuild=3
+pkgbuild=4
 arch=('noarch')
 
 shortdesc="Pycairo is set of Python bindings for the cairo graphics library. (Virtual package)"
 
 tags="dev-python virtual"
 
-adddep="python-gobject"
+adddep="python-cairo"
 
 build(){
  echo "End build"
