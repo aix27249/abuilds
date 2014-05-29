@@ -1,0 +1,39 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=gcr
+pkgver=3.12.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A library for bits of crypto UI and parsing"
+
+source=("http://download.gnome.org/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
+tags="sys-libs libs"
+
+build_deps="make gcc intltool pkg-config kernel-headers sed grep p11-kit gobject-introspection python vala libxslt gtk-doc gettext perl"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexec=/usr/lib${LIBDIRSUFFIX}/gcr \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-update-mime \
+--disable-schemas-compile"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  # gcr wants to lock some memory to prevent swapping out private keys
+  # https://bugs.archlinux.org/task/32616
+  # https://bugzilla.gnome.org/show_bug.cgi?id=688161
+  install -Dm644 ${filedir}/10-gcr.conf "${pkgdir}/etc/security/limits.d/10-gcr.conf"
+}
