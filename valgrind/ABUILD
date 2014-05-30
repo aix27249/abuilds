@@ -1,32 +1,31 @@
 pkgname=valgrind
-pkgver=3.8.1
+pkgver=3.9.0
 pkgbuild=1
 arch=('any')
+
 shortdesc="An instrumentation framework for building dynamic analysis tools."
 source=("http://valgrind.org/downloads/${pkgname}-${pkgver}.tar.bz2")
+
 tags="dev-util develop"
-build_deps="glibc perl"
 
-build() 
-{
-  go_src_dir
-  burn_patches
+build_deps="make gcc gcc-g++ glibc perl grep sed gdb binutils kernel-headers"
 
-  if [ "$ARCH" = "x86_64" ]; then 
-    conf_opts="--enable-only64bit"
-  fi
+if [ "$ARCH" = "x86_64" ]; then
+   conf_opts="--enable-only64bit"
+fi
 
-  ./configure --prefix=/usr \
-    --sysconfdir=/etc \
-    --localstatedir=/var \
-    --libdir=/usr/lib${LIBDIRSUFFIX} \
-    --docdir=/usr/doc/${pkgname}-${pkgver} \
-    --disable-static \
-    --mandir=/usr/man \
-    --program-prefix= \
-    --program-suffix= \
-    $conf_opts
+BUILD_SYSTEM="autotools"
 
-  make -j${numjobs} || exit 1
-  make install DESTDIR=$pkgdir || exit 1
-}
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+$conf_opts"
+
