@@ -1,19 +1,15 @@
 pkgname=orc
-pkgver=0.4.18
+pkgver=0.4.19
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The Oil Runtime Compiler (and OIL stands for Optimized Inner Loops)"
 
-source=("http://code.entropywave.com/download/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-<<<<<<< HEAD
+source=("http://gstreamer.freedesktop.org/src/orc/${pkgname}-${pkgver}.tar.gz")
 
+tags="develop dev-util"
 
-tags="develop dev-util"     			#short and long tags / длинный и короткий тег
-=======
-tags="develop dev-util compat32"
-build_deps="glibc"
->>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
+build_deps="make gcc intltool pkg-config grep sed binutils kernel-headers glibc valgrind"
 
 BUILD_SYSTEM="autotools"
 
@@ -29,5 +25,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix= \
 --docdir=/usr/doc/${pkgname}-${pkgver}"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
