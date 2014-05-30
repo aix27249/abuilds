@@ -1,18 +1,16 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=libXv
 pkgver=1.0.8
-pkgbuild=1
-arch=('auto')
+pkgbuild=2
+arch=('noarch')
 
 shortdesc=('X11 Video extension library')
-longdesc=('libXv is part of X11. For more information about the X.Org Foundation (the providers of the X.Org implementation of the X Window System), see their website: http://www.x.org')
 
-tags=('x11-libs xserver compat32')
+tags=('x11-libs virtual')
 
-source=("http://xorg.freedesktop.org/archive/individual/lib/libXv-${pkgver}.tar.bz2")
-build_deps="libXext videoproto pkg-config"
+adddep="libxv"
 
-
-BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
+build(){
+  echo "End build"
+}
