@@ -13,7 +13,7 @@ tags=('libs media-libs')
 
 source=("http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${pkgver}.tar.xz")
 
-build_deps='make gcc gcc-g++ gtk-doc pkg-config gettext glibc-solibs libxml2 glib2 bison flex gobject-introspection perl grep sed coreutils binutils'
+build_deps='make gcc gcc-g++ pkg-config gtk-doc gettext glibc-solibs libxml2 glib2 bison flex gobject-introspection perl grep sed coreutils binutils'
 
 BUILD_SYSTEM='autotools'
 
