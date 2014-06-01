@@ -11,15 +11,15 @@ longdesc=("An interpreter for the PostScript language")
 tags=("app-text console")
 
 source=("http://downloads.ghostscript.com/public/ghostscript-${pkgver}.tar.bz2")
-build_deps="libXt cups fontconfig libjpeg libpng zlib jasper expat libtiff lcms dbus"
 
-# Fails to build with multiple jobs
+build_deps="make gcc grep sed binutils kernel-headers libXt cups fontconfig libjpeg-turbo libpng zlib jasper expat libtiff lcms dbus"
+
 numjobs=1
 
 before_build() {
-	go_src_dir
-	# force it to use system-libs
-	rm -rf jpeg libpng zlib jasper expat tiff freetype lcms
+  go_src_dir
+  # force it to use system-libs
+  rm -rf jpeg libpng zlib jasper expat tiff freetype lcms
 }
 
 BUILD_SYSTEM="autotools"
@@ -41,6 +41,7 @@ BUILD_KEYS="--prefix=/usr \
   --without-omni \
   --with-system-libtiff \
   --disable-compile-inits"
+
 INSTALL_KEYS="DESTDIR=${pkgdir} \
   cups_serverroot=${pkgdir}/etc/cups \
   cups_serverbin=${pkgdir}/usr/lib${LIBDIRSUFFIX}/cups \
