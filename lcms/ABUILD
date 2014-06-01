@@ -9,9 +9,9 @@ shortdesc="Lightweight color management development library/engine	"
 
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-tags="media-libs libs compat32"
+tags="media-libs libs"
 
-build_deps="make gcc"
+build_deps="make gcc gcc-g++ libtool binutils kernel-headers"
 
 docs="doc/LCMSAPI.TXT doc/TUTORIAL.TXT"
 
