@@ -2,7 +2,7 @@
 
 pkgname=a2ps
 pkgver=4.14
-pkgbuild=5
+pkgbuild=6
 arch=("auto")
 
 shortdesc=("a2ps (any to PostScript filter)")
@@ -10,24 +10,34 @@ longdesc=("GNU a2ps is an Any to PostScript filter. Of course it processes plain
 
 tags=("console net-print")
 
-source=("ftp://ftp.gnu.org/gnu/a2ps/${pkgname}-${pkgver}.tar.gz")
+source=("http://ftp.gnu.org/gnu/a2ps/${pkgname}-${pkgver}.tar.gz")
+
+build_deps="make automake libtool autoconf gcc gcc-g++ pkg-config gperf binutils flex m4 perl kernel-headers texinfo gzip bzip2 cups file gettext bison"
 
 adddep="psutils"
 
 before_build() {
-	libtoolize --force --copy || return 1
-	autoreconf -I m4 || return 1
+  go_src_dir
+  sed -i -e '/^AM_C_PROTOTYPES/d' -e '/^AUTOMAKE_OPTIONS.*ansi2knr/d' \
+         -e 's:AM_CONFIG_HEADER:AC_CONFIG_HEADERS:' -e 's:AM_PROG_CC_STDC:AC_PROG_CC:' \
+          configure.in {contrib/sample,lib,src}/Makefile.am m4/protos.m4
+  sed -i "s:^countdictstack: \0:" contrib/psset.in
+  libtoolize --force --copy
+  autoreconf --force --install -I m4
+  echo "End before_build"
 }
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--mandir=/usr/man \
-	--sysconfdir=/etc/a2ps \
-        --includedir=/usr/include \
-	--enable-nls"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --mandir=/usr/man \
+            --sysconfdir=/etc/a2ps \
+            --includedir=/usr/include \
+            --enable-nls"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
 after_build() {
-	sed -i "s:^countdictstack: \0:" ${pkgdir}/usr/bin/psset || return 1
+  sed -i "s:^countdictstack: \0:" ${pkgdir}/usr/bin/psset
+  echo "End after_build"
 }
 
