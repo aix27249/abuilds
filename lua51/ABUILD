@@ -1,0 +1,58 @@
+pkgname=lua51
+pkgver=5.1.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A powerful, fast, light-weight, embeddable scripting language."
+
+longdesc=("Lua combines simple procedural syntax with powerful data description constructs based on associative arrays and extensible semantics. Lua is dynamically typed, runs by interpreting bytecode for a register-based virtual machine, and has automatic memory management with incremental garbage collection, making it ideal for configuration, scripting, and rapid prototyping.")
+
+source=("http://www.lua.org/ftp/lua-${pkgver}.tar.gz")
+
+tags="develop dev-lang"
+
+build_deps="make readline gcc coreutils"
+
+before_build() {
+  go_src_dir
+  burn_patches
+  sed -i "s|lib/lua|lib${LIBDIRSUFFIX}/lua|" src/luaconf.h
+  sed -e 's:llua:llua5.1:' -e 's:/include:/include/lua5.1:' -i etc/lua.pc
+  sed -r -e '/^LUA_(SO|A|T)=/ s/lua/lua5.1/' -e '/^LUAC_T=/ s/luac/luac5.1/' \
+         -i src/Makefile
+  echo "End before_build"
+}
+
+build() {
+  go_src_dir
+  [[ $CARCH == x86_64 ]] && export CFLAGS="$CFLAGS -fPIC"
+  make MYCFLAGS="$CFLAGS" MYLDFLAGS="$LDFLAGS" linux
+
+  make \
+     TO_BIN='lua5.1 luac5.1' \
+     TO_LIB="liblua5.1.a liblua5.1.so liblua5.1.so.5.1 liblua5.1.so.${pkgver}" \
+     INSTALL_DATA='cp -d' \
+     INSTALL_TOP="${pkgdir}"/usr \
+     INSTALL_INC="${pkgdir}"/usr/include/lua5.1 \
+     INSTALL_MAN="${pkgdir}"/usr/man/man1 \
+     INSTALL_LIB="${pkgdir}"/usr/lib${LIBDIRSUFFIX} \
+     install
+  echo "End build"
+}
+
+after_build() {
+  go_src_dir
+  install -Dm644 etc/lua.pc "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig/lua5.1.pc
+  install -m644 doc/*.{gif,png,css,html} "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
+  ln -s liblua5.1.so "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/liblua.so.5.1
+  ln -s liblua5.1.so "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/liblua.so.${pkgver}
+  rm -r "${pkgdir}"/usr/share
+  rm -r "${pkgdir}"/usr/lib/lua
+  if [ "${LIBDIRSUFFIX}" = "64" ]; then
+     rm -rf "${pkgdir}"/usr/lib
+  fi
+  mv "${pkgdir}"/usr/man/man1/lua.1 "${pkgdir}"/usr/man/man1/lua51.1
+  mv "${pkgdir}"/usr/man/man1/luac.1 "${pkgdir}"/usr/man/man1/luac51.1
+
+  echo "End after_build"
+}
