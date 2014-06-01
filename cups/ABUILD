@@ -9,17 +9,17 @@ longdesc=('The Common UNIX Printing System provides a portable printing layer fo
 tags=('base net-print')
 
 source=("http://www.cups.org/software/${pkgver}/${pkgname}-${pkgver}-source.tar.bz2")
-build_deps="autoconf bc libusb gnutls linux-pam"
+
+build_deps="make gcc autoconf pkg-config bc libusb gnutls linux-pam krb5 binutils gzip coreutils sed kernel-headers"
 
 before_build() {
-	go_src_dir
+  go_src_dir
 
-	aclocal -I config-scripts
-	autoconf -I config-scripts
+  aclocal -I config-scripts
+  autoconf -I config-scripts
 
-	# Fix libdir
-	sed -i.orig -e 's#$exec_prefix/lib/cups#$libdir/cups#g' configure
-	set +e
+  # Fix libdir
+  sed -i.orig -e 's#$exec_prefix/lib/cups#$libdir/cups#g' configure
 }
 
 BUILD_SYSTEM="autotools"
@@ -42,99 +42,99 @@ BUILD_KEYS="--libdir=/usr/lib${LIBDIRSUFFIX} \
 INSTALL_KEYS="BUILDROOT=${pkgdir}"
 
 after_build() { 
-	mkdir -p $pkgdir/etc/cups
-	mkdir -p $pkgdir/var/spool
+  mkdir -p $pkgdir/etc/cups
+  mkdir -p $pkgdir/var/spool
 
-	# Why do we need this?
-	#mv $pkgdir/etc/dbus-1/system.d/cups.conf $pkgdir/etc/dbus-1/system.d/cups.conf.new
+  # Why do we need this?
+  #mv $pkgdir/etc/dbus-1/system.d/cups.conf $pkgdir/etc/dbus-1/system.d/cups.conf.new
 
-	# Remove preformatted manpages
-	( cd $pkgdir/usr/man
-	find . -type d -name "cat*" | xargs rm -rf
-	)
+  # Remove preformatted manpages
+  ( cd $pkgdir/usr/man
+  find . -type d -name "cat*" | xargs rm -rf
+  )
 
-	# I'm sorry, but PDF files are almost as bloated and annoying as
-	# MS Word documents.  We'll retain the HTML files in /usr/doc.
-	( cd $pkgdir/usr/share/doc
-	find . -name "*.pdf" -exec rm -f {} \; )
+  # I'm sorry, but PDF files are almost as bloated and annoying as
+  # MS Word documents.  We'll retain the HTML files in /usr/doc.
+  ( cd $pkgdir/usr/share/doc
+  find . -name "*.pdf" -exec rm -f {} \; )
 
-	# Apply no-clobber fix to conffiles:
-	( cd $pkgdir/etc/cups
-	for file in * ; do
-		if [ -f $file ]; then
-			mv $file $file.new
-		fi
-	done )
+  # Apply no-clobber fix to conffiles:
+  ( cd $pkgdir/etc/cups
+  for file in * ; do
+      if [ -f $file ]; then
+         mv $file $file.new
+      fi
+  done )
 
-	# For full CUPS SMB support, you'll need to install the cups-samba
-	# package from the source in this directory.  There's no easy way
-	# to add that to a package build, and the requests aren't pouring in,
-	# so you'll have to install it yourself.  It's easy to do.
+  # For full CUPS SMB support, you'll need to install the cups-samba
+  # package from the source in this directory.  There's no easy way
+  # to add that to a package build, and the requests aren't pouring in,
+  # so you'll have to install it yourself.  It's easy to do.
 
-	# However, this will get you the most useful SMB support for free.
-	# Thanks to Boris Kurktchiev for the tip.  :-)
-	( cd $pkgdir/usr/lib${LIBDIRSUFFIX}/cups/backend
-	if [ ! -e smb ]; then
-		ln -sf /usr/bin/smbspool smb
-	fi
-	)
+  # However, this will get you the most useful SMB support for free.
+  # Thanks to Boris Kurktchiev for the tip.  :-)
+  ( cd $pkgdir/usr/lib${LIBDIRSUFFIX}/cups/backend
+       if [ ! -e smb ]; then
+          ln -sf /usr/bin/smbspool smb
+       fi
+  )
 
-	# Use symlinks to certain binaries so that CUPS and LPRng can coexist:
-	SUFFIX=cups
-	for file in \
-		usr/bin/cancel \
-		usr/bin/lp \
-		usr/bin/lpq \
-		usr/bin/lpr \
-		usr/bin/lprm \
-		usr/bin/lpstat \
-		usr/sbin/lpc ; do
-	( cd $pkgdir
-	mv ${file} ${file}-${SUFFIX}
-	( cd `dirname ${file}` ; ln -sf `basename ${file}`-${SUFFIX} `basename ${file}` )
-	)
-done
+  # Use symlinks to certain binaries so that CUPS and LPRng can coexist:
+  SUFFIX=cups
+  for file in \
+      usr/bin/cancel \
+      usr/bin/lp \
+      usr/bin/lpq \
+      usr/bin/lpr \
+      usr/bin/lprm \
+      usr/bin/lpstat \
+      usr/sbin/lpc ; do
+      ( cd $pkgdir
+           mv ${file} ${file}-${SUFFIX}
+           ( cd `dirname ${file}` ; ln -sf `basename ${file}`-${SUFFIX} `basename ${file}` )
+      )
+  done
 
-# Now fix the associated man pages:
-mv $pkgdir/usr/man/man1/cancel.1.gz $pkgdir/usr/man/man1/cancel-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man1/lp.1.gz $pkgdir/usr/man/man1/lp-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man1/lpq.1.gz $pkgdir/usr/man/man1/lpq-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man1/lpr.1.gz $pkgdir/usr/man/man1/lpr-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man1/lprm.1.gz $pkgdir/usr/man/man1/lprm-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man1/lpstat.1.gz $pkgdir/usr/man/man1/lpstat-${SUFFIX}.1.gz
-mv $pkgdir/usr/man/man8/lpc.8.gz $pkgdir/usr/man/man8/lpc-${SUFFIX}.8.gz
-( cd $pkgdir/usr/man/man1
-ln -sf cancel-${SUFFIX}.1.gz cancel.1.gz
-ln -sf lp-${SUFFIX}.1.gz lp.1.gz
-ln -sf lpq-${SUFFIX}.1.gz lpq.1.gz
-ln -sf lpr-${SUFFIX}.1.gz lpr.1.gz
-ln -sf lprm-${SUFFIX}.1.gz lprm.1.gz
-ln -sf lpstat-${SUFFIX}.1.gz lpstat.1.gz
-)
-( cd $pkgdir/usr/man/man8
-ln -sf lpc-${SUFFIX}.8.gz lpc.8.gz
-)
+  # Now fix the associated man pages:
+  mv $pkgdir/usr/man/man1/cancel.1.gz $pkgdir/usr/man/man1/cancel-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man1/lp.1.gz $pkgdir/usr/man/man1/lp-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man1/lpq.1.gz $pkgdir/usr/man/man1/lpq-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man1/lpr.1.gz $pkgdir/usr/man/man1/lpr-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man1/lprm.1.gz $pkgdir/usr/man/man1/lprm-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man1/lpstat.1.gz $pkgdir/usr/man/man1/lpstat-${SUFFIX}.1.gz
+  mv $pkgdir/usr/man/man8/lpc.8.gz $pkgdir/usr/man/man8/lpc-${SUFFIX}.8.gz
+  ( cd $pkgdir/usr/man/man1
+    ln -sf cancel-${SUFFIX}.1.gz cancel.1.gz
+    ln -sf lp-${SUFFIX}.1.gz lp.1.gz
+    ln -sf lpq-${SUFFIX}.1.gz lpq.1.gz
+    ln -sf lpr-${SUFFIX}.1.gz lpr.1.gz
+    ln -sf lprm-${SUFFIX}.1.gz lprm.1.gz
+    ln -sf lpstat-${SUFFIX}.1.gz lpstat.1.gz
+  )
+  ( cd $pkgdir/usr/man/man8
+    ln -sf lpc-${SUFFIX}.8.gz lpc.8.gz
+  )
 
-chmod 755 ${pkgdir}/var/spool
-chmod 755 ${pkgdir}/etc
+  chmod 755 ${pkgdir}/var/spool
+  chmod 755 ${pkgdir}/etc
 
-# Remove dirty stuff from default init scripts
-rm -rf ${pkgdir}/etc/init.d
-rm -rf ${pkgdir}/etc/rc*.d
+  # Remove dirty stuff from default init scripts
+  rm -rf ${pkgdir}/etc/init.d
+  rm -rf ${pkgdir}/etc/rc*.d
 
-# PAM
-mkdir -p ${pkgdir}/etc/pam.d
-install -m644 ${filedir}/cups.pam ${pkgdir}/etc/pam.d/cups
+  # PAM
+  mkdir -p ${pkgdir}/etc/pam.d
+  install -m644 ${filedir}/cups.pam ${pkgdir}/etc/pam.d/cups
 
-# OpenRC init
-mkdir -p ${pkgdir}/etc/init.d
-install -m755 ${filedir}/cupsd.init ${pkgdir}/etc/init.d/cupsd
+  # OpenRC init
+  mkdir -p ${pkgdir}/etc/init.d
+  install -m755 ${filedir}/cupsd.init ${pkgdir}/etc/init.d/cupsd
 
-# Logrotate
-mkdir -p ${pkgdir}/etc/logrotate.d
-install -m644 ${filedir}/cups.logrotate ${pkgdir}/etc/logrotate.d/cups
+  # Logrotate
+  mkdir -p ${pkgdir}/etc/logrotate.d
+  install -m644 ${filedir}/cups.logrotate ${pkgdir}/etc/logrotate.d/cups
 
-# usplp: this module causes lots of problems to our users. Let's blacklist it by default
-install -d ${pkgdir}/etc/modprobe.d
-echo "blacklist usblp" > ${pkgdir}/etc/modprobe.d/cups.conf
+  # usplp: this module causes lots of problems to our users. Let's blacklist it by default
+  install -d ${pkgdir}/etc/modprobe.d
+  echo "blacklist usblp" > ${pkgdir}/etc/modprobe.d/cups.conf
 }
