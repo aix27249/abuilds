@@ -2,15 +2,16 @@
 
 pkgname=xfce4-screenshooter
 pkgver=1.8.1
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Xfce Screenshooter - Software to create screenshots."
 
 source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool pkg-config"
+build_deps="make gcc intltool pkg-config grep sed binutils kernel-headers libsoup"
 
 BUILD_SYSTEM="autotools"
 
