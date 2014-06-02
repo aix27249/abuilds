@@ -1,0 +1,56 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=keybinder2
+pkgver=0.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Library for registering global keyboard shortcuts"
+
+source="https://github.com/engla/keybinder/archive/master.zip"
+
+tags="develop dev-libs"
+
+build_deps="make gcc pkg-config python gnome-common autoconf grep sed python-gobject gnome-keyring lua51 gtk-doc pygtk binutils"
+
+pkglist="python-key"
+
+python-key() {
+  pkgname=python-keybinder2
+  shortdesc="Library for registering global keyboard shortcuts - Python 2 bindings"
+  adddep="keybinder2"
+}
+
+before_build(){
+  go_src_dir
+  ./autogen.sh \
+      --prefix=/usr
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-python"
+
+after_build() {
+  go_src_dir
+  mv -f "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/python2.7 "${srcdir}"
+  echo "End after_build"
+}
+
+python-key_prep(){
+  go_src_dir
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mv -f  "${srcdir}"/python2.7 "${pkgdir}"/usr/lib${LIBDIRSUFFIX}
+  echo "End python-key_prep"
+}
+
