@@ -2,7 +2,7 @@
 
 pkgname=xfce4-volumed
 pkgver=0.1.13
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Daemon managing the volume multimedia keys and displaying volume notifications"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 
 tags="xfce xfce-base"
 
-build_deps="make gcc glib pkg-config keybinder"
+build_deps="make gcc glib pkg-config keybinder2 coreutils"
 
 BUILD_SYSTEM="autotools"
 
