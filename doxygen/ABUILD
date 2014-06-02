@@ -10,7 +10,7 @@ tags=("develop app-doc")
 
 source=("http://ftp.stack.nl/pub/users/dimitri/${pkgname}-${pkgver}.src.tar.gz")
 
-build_deps="fontconfig glibc-solibs python qt4 graphviz flex ghostscript"
+build_deps="make gcc gcc-g++ perl bison fontconfig glibc-solibs python qt4 graphviz flex ghostscript binutils"
 
 before_build() {
   go_src_dir
