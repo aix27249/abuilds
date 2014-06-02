@@ -1,8 +1,6 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru
-
 pkgname=libsoup
-pkgver=2.38.1
-pkgbuild=2
+pkgver=2.45.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Gnome HTTP Library"
@@ -11,31 +9,21 @@ source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgnam
 
 tags="libs net-libs"
 
-build_deps="make gcc pkg-config libtool"
-provides=""
-adddep=""
+build_deps="make gcc perl perl-xml-parser pkg-config libtool gtk-doc gettext grep sed coreutils kernel-headers binutils"
 
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---disable-static \
---disable-tls-check"
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--program-prefix= \
+	--program-suffix= \
+	--disable-tls-check"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-# w/o for build claws-mail
-#after_build(){
-#  rm -f "$pkgdir"/usr/lib/libsoup-gnome-2.4.*
-#  rm -f "$pkgdir/usr/lib/pkgconfig/libsoup-gnome-2.4.pc"
-#  rm -rf "$pkgdir/usr/include/libsoup-gnome-2.4"
-#  rm -f "$pkgdir/usr/lib/girepository-1.0/SoupGNOME-2.4.typelib"{
-#echo "End after_build"
-#}
