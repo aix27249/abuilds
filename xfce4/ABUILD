@@ -1,22 +1,20 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=xfce4
-pkgver=4.10.0
+pkgver=4.10.1
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="This metapackage installs Xfce"
 
-source=("")
-
 tags="virtual xfce-base"
 
 adddep="exo garcon gtk-xfce-engine libxfce4ui libxfce4util libxfcegui4
 xfce4-terminal thunar xfce-utils xfce4-appfinder xfce4-mixer xfce4-panel
-xfce4-session xfce4-settings xfconf xfdesktop xfprint xfwm4 mousepad
+xfce4-session xfce4-settings xfconf xfdesktop xfwm4 mousepad
 orage thunar-volman tumbler xfce4-notifyd xfce4-power-manager
 xfwm4-themes xfce4-icon-theme ristretto agilia-xfce-theme xfce4-volumed
-xfce4-datetime-plugin xfce4-xkb-plugin xfce4-notes-plugin xfce4-clipman-plugin
+xfce4-datetime-plugin xfce4-xkb-plugin xfce4-clipman-plugin
 xfce4-screenshooter xfce4-taskmanager xfce4-fsguard-plugin"
 
 build(){
