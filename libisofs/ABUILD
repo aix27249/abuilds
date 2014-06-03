@@ -1,13 +1,17 @@
 #ABUILD created by: khvalera, khvalera at narod.ru 
+
 pkgname=libisofs
-pkgver=1.3.0
+pkgver=1.3.6
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Library to pack up hard disk files and directories into a ISO 9660 disk image"
+
 source=("http://files.libburnia-project.org/releases/${pkgname}-${pkgver}.tar.gz")
+
 tags="libs dev-libs"
-build_deps="make gcc libtool gcc-g++ sed acl zlib"
+
+build_deps="make gcc libtool gcc-g++ sed acl zlib grep binutils kernel-headers"
 
 BUILD_SYSTEM="autotools"
 
