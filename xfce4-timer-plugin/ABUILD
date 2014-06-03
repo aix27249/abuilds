@@ -2,7 +2,7 @@
 
 pkgname=xfce4-timer-plugin
 pkgver=1.5.0
-pkgbuild=1
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Plugin to track time for the Xfce panel"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkg
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool perl pkg-config"
+build_deps="make gcc intltool perl perl-xml-parser pkg-config grep sed binutils kernel-headers gettext"
 
 BUILD_SYSTEM="autotools"
 
