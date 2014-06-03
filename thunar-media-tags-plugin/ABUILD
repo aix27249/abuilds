@@ -2,7 +2,7 @@
 
 pkgname=thunar-media-tags-plugin
 pkgver=0.2.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A plugin for the Thunar File Manager, which adds ID3/OGG tag support to the bulk rename dialog."
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/thunar-plugins/${pkgname}/${pkgver%.*}/${pk
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool perl perl-xml-parser pkg-config taglib"
+build_deps="make gcc intltool perl perl-xml-parser pkg-config taglib grep sed binutils kernel-headers gettext"
 
 adddep="thunar"
 
