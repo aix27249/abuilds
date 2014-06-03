@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-mount-plugin
-pkgver=0.6.4
+pkgver=0.6.7
 pkgbuild=1
 arch=('auto')
 
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/panel-plugins/${pkgname}/${pkgver%.*}/${pkg
 
 tags="xfce xfce-extra"
 
-build_deps="make gcc intltool perl perl-xml-parser pkg-config"
+build_deps="make gcc intltool perl perl-xml-parser pkg-config sed grep binutils kernel-headers gettext"
 
 BUILD_SYSTEM="autotools"
 
