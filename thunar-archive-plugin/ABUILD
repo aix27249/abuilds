@@ -2,7 +2,7 @@
 
 pkgname=thunar-archive-plugin
 pkgver=0.3.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Create and deflate archives in thunar"
@@ -11,7 +11,7 @@ source=("http://archive.xfce.org/src/thunar-plugins/${pkgname}/${pkgver%.*}/${pk
 
 tags="xfce xfce-base"
 
-build_deps="make gcc intltool perl pkg-config"
+build_deps="make gcc intltool perl pkg-config grep sed binutils kernel-headers gettext"
 
 adddep="thunar"
 
