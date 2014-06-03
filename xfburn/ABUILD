@@ -2,7 +2,7 @@
 
 pkgname=xfburn
 pkgver=0.5.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Xfburn is a simple CD/DVD burning tool based on libburnia libraries."
@@ -27,6 +27,7 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
+--program-suffix= \
+--enable-gstreamer"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
