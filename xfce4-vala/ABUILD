@@ -1,6 +1,6 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=xfce4-vala
-pkgver=4.10.2
+pkgver=4.10.3
 pkgbuild=1
 arch=('auto')
 
@@ -11,8 +11,6 @@ source=("http://git.xfce.org/bindings/${pkgname}/snapshot/${pkgname}-${pkgver}.t
 tags="xfce xfce-extra"
 
 build_deps="vala"
-
-docs=
 
 before_build(){
   go_src_dir
