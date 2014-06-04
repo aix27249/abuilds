@@ -1,6 +1,6 @@
 pkgname=graphviz
 pkgver=2.38.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Graphviz is open source graph visualization software"
