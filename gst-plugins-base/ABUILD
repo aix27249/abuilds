@@ -2,7 +2,7 @@
 
 pkgname=gst-plugins-base
 pkgver=1.2.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('GStreamer Multimedia Framework Base Plugins')
