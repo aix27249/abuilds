@@ -1,5 +1,5 @@
 pkgname=libdrm
-pkgver=2.4.52
+pkgver=2.4.54
 pkgbuild=1
 arch=('auto')
 
@@ -9,22 +9,20 @@ longdesc=('This library implements an interface to the kernel DRM services. It i
 tags=('libs x11-libs')
 
 source=("http://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-
-build_deps="make gcc binutils glibc libpciaccess udev libxslt grep sed"
+build_deps="glibc libpciaccess udev"
 
 before_build() {
-  go_src_dir
-  burn_patches
-  autoreconf --force --install
+	go_src_dir
+	burn_patches
+	autoreconf --force --install
 }
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr \
-            --libdir=/usr/lib$LIBDIRSUFFIX \
-            --enable-udev \
-            --enable-intel \
-            --enable-radeon \
-            --enable-nouveau"
+BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX \
+	--enable-udev \
+	--enable-intel \
+	--enable-radeon \
+	--enable-nouveau"
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
