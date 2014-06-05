@@ -1,6 +1,6 @@
 # ABUILD for mesa package
 pkgname=mesa
-pkgver=10.1.0
+pkgver=10.1.4
 _git=false
 pkgbuild=1
 arch=('auto')
@@ -9,27 +9,24 @@ shortdesc=('mesa (a 3-D graphics library)')
 longdesc=('Mesa is a 3-D graphics library with an API very similar to that of another well-known 3-D graphics library. :-) The Mesa libraries are used by X to provide both software and hardware accelerated graphics. Mesa was written by Brian Paul.')
 
 tags=('x11-libs xserver')
-
-build_deps="make gcc gcc-g++ autoconf pkg-config perl binutils grep kernel-headers python libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto dri3proto presentproto glproto llvm llvm-libs libxcb>=1.10 libxshmfence"
-
+build_deps="libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto dri3proto presentproto glproto llvm libxcb libxshmfence"
 adddep="libgl"
-
-pkglist=libgl
+pkglist="libgl"
 
 if [ "${_git}" = "true" ] ; then
-   source=("git:git://anongit.freedesktop.org/mesa/mesa")
+	source=("git:git://anongit.freedesktop.org/mesa/mesa")
 else
-   source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver%.*}/MesaLib-${pkgver}.tar.bz2")
+	source=("ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2")
 fi
 
 adddep="mesa-demos"
 
 before_build() {
-  go_src_dir
-  if [ "${_git}" = "true" ] ; then
-     ./autogen.sh
-  fi
-  autoreconf -vfi
+	go_src_dir
+	if [ "${_git}" = "true" ] ; then
+		./autogen.sh
+	fi
+	autoreconf -vfi
 }
 
 BUILD_WORD="CFLAGS=\"$SLKCFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" CXXFLAGS=\"$SLKCXXFLAGS -L/usr/lib${LIBDIRSUFFIX}/llvm\" LDFLAGS=-L/usr/lib${LIBDIRSUFFIX}/llvm ./configure"
@@ -40,13 +37,16 @@ BUILD_KEYS="--prefix=/usr \
     --with-dri-driverdir=/usr/lib$LIBDIRSUFFIX/xorg/modules/dri \
     --with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
+    --with-egl-platforms=x11,drm,wayland \
     --enable-gallium-llvm \
     --enable-egl \
     --enable-gallium-egl \
     --with-egl-platforms=x11,drm \
     --enable-shared-glapi \
     --enable-dri \
+    --enable-dri3 \
     --enable-gbm \
+    --enable-gallium-gbm \
     --enable-glx \
     --enable-osmesa \
     --enable-gles1 \
@@ -55,20 +55,31 @@ BUILD_KEYS="--prefix=/usr \
     --enable-texture-float \
     --enable-xa \
     --enable-vdpau \
-    --enable-shared-dricore \
     --disable-glx-tls"
-    # --with-llvm-shared-libs
+
+    #--enable-opencl --enable-opencl-icd \
 
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
 libgl_prep() {
   mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-  mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/libGL.*  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+  mv -v ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/libGL.*  ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
 }
 
 libgl() {
   pkgname=libgl
   shortdesc="mesa libGL files"
   longdesc="mesa libGL files. It is a part of mesa, but splitted to separate package to allow proprietary drivers to provide their own implementations."
+}
+
+opencl_prep() {
+  mkdir -p ${pkgdir}/{etc,usr/lib${LIBDIRSUFFIX}}
+  mv -v ${p_pkgdir}/etc/OpenCL ${pkgdir}/etc/
+  mv -v ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/lib*OpenCL* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
+}
+
+opencl() {
+  pkgname=opencl-mesa
+  shortdesc="OpenCL support for AMD/ATI Radeon mesa drivers"
 }
