@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=perl-xmltoman
+pkgver=0.4
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Convert xml to man pages in groff format or html"
+
+source=("http://downloads.sourceforge.net/project/xmltoman/xmltoman/xmltoman-${pkgver}.tar.gz/xmltoman-${pkgver}.tar.gz")
+
+tags="libs dev-perl"
+
+build_deps="perl"
+
+adddep="perl"
+
+build() {
+  go_src_dir
+  make PREFIX=/usr
+  make install PREFIX=/usr DESTDIR="${pkgdir}"
+}
+
