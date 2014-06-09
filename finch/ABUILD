@@ -1,5 +1,5 @@
 pkgname=pidgin
-pkgver=2.10.7
+pkgver=2.10.9
 pkgbuild=1
 arch=('auto')
 shortdesc="multi-protocol instant messaging client"
@@ -9,8 +9,8 @@ tags="net-im xapps"
 adddep="libpurple==$pkgver"
 pkglist="finch libpurple"
 build_deps=("libXScrnSaver nss libSM libidn python hicolor-icon-theme intltool \
-    atk cairo dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer \
-    gtk+2 libICE libSM libX11 libXext libxml2 pango")
+    atk cairo dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer010 \
+    gtk+2 libICE libSM libX11 libXext libxml2 pango cyrus-sasl")
 
 
 finch() {
@@ -40,14 +40,12 @@ build()
 	--enable-cyrus-sasl \
 	--disable-schemas-install \
 	--disable-meanwhile \
-	--disable-perl \
 	--disable-gnutls \
 	--disable-avahi \
 	--disable-doxygen \
 	--disable-nm \
 	--disable-vv \
 	--disable-gtkspell \
-	--disable-gstreamer \
 	--with-extraversion=AgiliaLinux \
 	--with-system-ssl-certs=/usr/share/ca-certificates/ || exit 1
     make -j$numjobs || exit 1

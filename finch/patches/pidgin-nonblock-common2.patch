@@ -1,0 +1,22 @@
+Index: pidgin-2.7.6/libpurple/Makefile.am
+===================================================================
+--- pidgin-2.7.6.orig/libpurple/Makefile.am
++++ pidgin-2.7.6/libpurple/Makefile.am
+@@ -50,6 +50,8 @@ purple_coresources = \
+ 	desktopitem.c \
+ 	eventloop.c \
+ 	ft.c \
++	purple-fifo.c \
++	purple-io.c \
+ 	idle.c \
+ 	imgstore.c \
+ 	log.c \
+@@ -117,6 +119,8 @@ purple_coreheaders = \
+ 	desktopitem.h \
+ 	eventloop.h \
+ 	ft.h \
++	purple-fifo.h \
++	purple-io.h \
+ 	gaim-compat.h \
+ 	idle.h \
+ 	imgstore.h \
