@@ -1,37 +1,35 @@
 pkgname=polkit
-pkgver=0.101
-pkgbuild=3
+pkgver=0.104
+pkgbuild=1
 arch="auto"
 
 shortdesc=("Authorization Framework")
 source=("http://hal.freedesktop.org/releases/polkit-${pkgver}.tar.gz")
 
-<<<<<<< HEAD
 tags="libs sys-auth"
-=======
-# Tags
-tags="libs sys-auth compat32"
->>>>>>> 7ba93912bde6c49c0e0a10c5edeae88bd7a9b5ed
 
-build_deps="make gcc grep binutils intltool"
+build_deps="make gcc grep binutils intltool gettext perl perl-xml-parser gtk-doc pkg-config coreutils expat glib2 gobject-introspection"
 
 build(){
-go_src_dir
-./configure --prefix=/usr \
---sbindir=/usr/sbin \
---mandir=/usr/man \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---sysconfdir=/etc \
---localstatedir=/var \
---disable-gtk-doc-html \
---disable-static \
---libexecdir=/usr/lib${LIBDIRSUFFIX}/polkit-1
-make || echo "11111111"
-make DESTDIR=${pkgdir} install || echo "11111111"
+  go_src_dir
+  ./configure --prefix=/usr \
+              --sbindir=/usr/sbin \
+              --mandir=/usr/man \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --libexecdir=/usr/lib${LIBDIRSUFFIX}/polkit-1 \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --enable-gtk-doc \
+              --disable-gtk-doc-html \
+              --disable-static \
+              --enable-libsystemd-login=yes
+
+  make
+  make DESTDIR=${pkgdir} install || echo "11111111"
 }
 
 after_build() {
-  install -m644 "${filedir}/polkit.pam" "${pkgdir}/etc/pam.d/polkit-1" || return 1
+  install -m644 "${filedir}/polkit.pam" "${pkgdir}/etc/pam.d/polkit-1"
   echo "End after_build"
 }
 
