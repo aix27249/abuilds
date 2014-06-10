@@ -1,0 +1,30 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=libgusb
+pkgver=0.1.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GLib wrapper around libusb1"
+
+source=("http://people.freedesktop.org/~hughsient/releases/${pkgname}-${pkgver}.tar.xz")
+
+tags="dev-libs libs"
+
+build_deps="make gcc coreutils gtk-doc grep sed kernel-headers"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
