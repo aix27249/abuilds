@@ -1,20 +1,20 @@
 # Qt4 ABUILD
 pkgname=qt4
 pkgver=4.8.5
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
 longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
-tags=('libs x11-libs compat32')
+tags=('libs x11-libs')
 source=("http://download.qt-project.org/official_releases/qt/4.8/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
 pkglist="qtdoc"
 
 gendeps_blacklist="usr/lib$LIBDIRSUFFIX/qt/plugins/"
 removedep="mysql postgresql"
-build_deps=("alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
+build_deps=("make gcc alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
     libSM freetype libgl libXrandr libXv libXi alsa-lib xdg-utils hicolor-icon-theme \
-    desktop-file-utils mysql cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
+    desktop-file-utils mysql libmysqlclient cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
     libxml2 icu4c glib2 openssl-solibs diffutils postgresql")
 
 before_build() {
