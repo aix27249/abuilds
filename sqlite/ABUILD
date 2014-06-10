@@ -9,8 +9,9 @@ arch=('auto')
 shortdesc=("Sqlite (Small C library that implements a SQL database engine)")
 longdesc=("SQLite is a small C library that implements a self-contained, embeddable, zero-configuration SQL database engine. The SQLite distribution comes with a standalone command-line access program (sqlite) that can be used to administer an SQLite database and which serves as an example of how to use the SQLite library.")
 
-tags=('console dev-db compat32')
-build_deps="ncurses readline"
+tags=('console dev-db')
+
+build_deps="make gcc ncurses readline binutils coreutils sed grep kernel-headers"
 
 # What kind of drugs did they use to switch to such versioning system in 3.7.4? It's definitely out of my understanding abilities...
 source=("http://sqlite.org/2014/sqlite-autoconf-${_amalgamationver}.tar.gz")
