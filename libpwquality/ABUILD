@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=libpwquality
+pkgver=1.2.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Library for password quality checking and generating random passwords"
+
+source=("https://fedorahosted.org/releases/l/i/libpwquality/${pkgname}-${pkgver}.tar.bz2")
+
+tags="app-crypt libs"
+
+build_deps="make gcc pkg-config glib2 libtool binutils kernel-headers python gettext"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
