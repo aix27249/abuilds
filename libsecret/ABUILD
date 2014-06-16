@@ -1,47 +1,29 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=libsecret
 pkgver=0.16
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="library for storing and retrieving passwords and other secrets"
 
-source=("https://git.gnome.org/browse/snapshot/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
 tags="libs media-libs"
 
-#dependencies only needed to build package
-build_deps="gobject-introspection"
+build_deps="make gcc pkg-config perl perl-xml-parser intltool gobject-introspection docbook-xsl vala gettext binutils kernel-headers sed grep"
 
+BUILD_SYSTEM="autotools"
 
-build()
-{
-go_src_dir
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
-./autogen.sh --prefix=/usr \
+BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
---mandir=/usr/man 
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
 
-make DESTDIR=$pkgdir install
-
-}
-#BUILD_KEYS="--prefix=/usr \
-#--sysconfdir=/etc \
-#--localstatedir=/var \
-#--libdir=/usr/lib${LIBDIRSUFFIX} \
-#--disable-static \
-#--mandir=/usr/man \
-#--program-prefix= \
-#--program-suffix="
-#
-#INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#after_build()
-#{
-
-#}
+INSTALL_KEYS="DESTDIR=${pkgdir}"
