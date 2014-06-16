@@ -3,13 +3,17 @@ pkgname=libdvdread
 pkgver=4.2.0
 pkgbuild=1
 arch=('auto')
+
 shortdesc="The library for xine-dvdnav plugin."
+
 source=("http://dvdnav.mplayerhq.hu/releases/${pkgname}-${pkgver}.tar.bz2")
-patch_opts=("")
+
 tags="libs media-libs"
-build_deps="libdvdcss autoconf"
+
+build_deps="make gcc libdvdcss autoconf kernel-headers binutils sed grep"
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
@@ -19,4 +23,4 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
