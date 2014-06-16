@@ -1,12 +1,17 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+
 pkgname=libdvdcss
 pkgver=1.2.13
 pkgbuild=1
 arch=('auto')
+
 shortdesc="A portable abstraction library for DVD decryption"
+
 source=("http://download.videolan.org/pub/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="libs media-libs"
-build_deps="glibc"
+
+build_deps="make gcc kernel-headers binutils pkg-config grep glibc doxygen sed grep"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -18,4 +23,4 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
