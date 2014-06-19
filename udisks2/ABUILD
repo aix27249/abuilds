@@ -1,0 +1,40 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=udisks2
+pkgver=2.1.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Disk Management Service, version 2"
+
+source=("http://udisks.freedesktop.org/releases/udisks-${pkgver}.tar.bz2")
+
+tags="sys-fs base"
+
+build_deps="make gcc pkg-config glib2 polkit libatasmart util-linux-ng perl perl-xml-parser gtk-doc intltool gettext libxslt binutils kernel-headers udev"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/${pkgname} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-udevdir=/etc/udev"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build() {
+  go_src_dir
+  if [ -n "${LIBDIRSUFFIX}" ]; then
+     mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/${pkgname}
+     install -m755 "${pkgdir}"/usr/lib/${pkgname}/* "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/${pkgname}
+     rm -rf "${pkgdir}"/usr/lib
+  fi
+}
