@@ -1,42 +1,54 @@
 
 pkgname=libgphoto2
-pkgver=2.5.2
+pkgver=2.5.4
 pkgbuild=1
-shortdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
-longdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
 arch=('auto')
+
+shortdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
+
+longdesc="The core library of gphoto2, designed to allow access to digital camera by external programs."
+
 source=("http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz")
-tags=("libs media-libs compat32")
-build_deps="libexif libjpeg gd libtool libusb"
+
+tags=("libs media-libs")
+
+build_deps="make gcc gcc-g++ pkg-config libexif libjpeg gd libtool libusb gettext doxygen libxml2 binutils bison flex grep kernel-headers"
+
+custom_opts="no_copydoc"
 
 numjobs=1
 
 build() {
-	go_src_dir
-	burn_patches
-	set -e
-	udevscriptdir=/lib/udev ./configure --prefix=/usr \
-	  --with-drivers=all \
-	  --without-hal \
-	  --with-libexif=auto \
-	  --disable-static \
-	  --disable-rpath \
-	  --libdir=/usr/lib$LIBDIRSUFFIX \
-	  --docdir=/usr/doc/${pkgname}-${pkgver}
- 
-	LD_PRELOAD="" make -j${numjobs}
-	make DESTDIR="${pkgdir}" install
+  go_src_dir
+  burn_patches
+  udevscriptdir=/usr/bin ./configure --prefix=/usr \
+	--with-drivers=all \
+	--without-hal \
+	--with-libexif=auto \
+	--disable-static \
+	--disable-rpath \
+	--libdir=/usr/lib${LIBDIRSUFFIX}
 
-	rm -f ${pkgdir}/usr/lib$LIBDIRSUFFIX/libgphoto2/${pkgver}/*.a
-  
-	install -m755 -d "${pkgdir}/lib/udev/rules.d"
+  LD_PRELOAD="" make -j${numjobs}
+  make DESTDIR="${pkgdir}" install
+}
 
-	LD_LIBRARY_PATH="${pkgdir}/usr/lib${LIBDIRSUFFIX}:$LD_LIBRARY_PATH" \
-	CAMLIBS="${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/${pkgver}" \
-	"${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/print-camera-list" udev-rules version 175 > \
-	"${pkgdir}/lib/udev/rules.d/40-gphoto.rules"
-	
-	# Remove recursive symlink
-	rm -f "${pkgdir}/usr/include/gphoto2/gphoto2"
-	set +e
+after_build() {
+  go_src_dir
+
+  rm -f ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/${pkgver}/*.a
+
+  # Remove recursive symlink
+  rm -f "${pkgdir}/usr/include/gphoto2/gphoto2"
+
+  install -m755 -d "${pkgdir}/etc/udev/hwdb.d"
+  LD_LIBRARY_PATH="${pkgdir}/usr/lib${LIBDIRSUFFIX}" \
+                   CAMLIBS="${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/${pkgver}" \
+                   "${pkgdir}/usr/lib${LIBDIRSUFFIX}/libgphoto2/print-camera-list" hwdb > \
+                   "${pkgdir}/etc/udev/hwdb.d/20-gphoto.hwdb"
+
+  install -m755 -d "${pkgdir}"/usr/doc
+  mv "${pkgdir}"/usr/share/doc/libgphoto2 "${pkgdir}"/usr/doc/${pkgname}-${pkgver}
+  mv "${pkgdir}"/usr/share/doc/libgphoto2_port "${pkgdir}"/usr/doc/libgphoto2_port-0.10.0
+  rm -rf "${pkgdir}"/usr/share/doc
 }
