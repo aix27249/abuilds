@@ -1,18 +1,18 @@
-# Package metadata
 pkgname=gtkmm
 pkgver=2.24.4
 pkgbuild=1
 arch="auto"
 
-# Package description
 shortdesc=("C++ interface for GTK+2")
+
 longdesc=("gtkmm is the official C++ interface for the popular GUI library GTK+. Highlights include typesafe callbacks, and a comprehensive set of widgets that are easily extensible via inheritance.")
 
 source=("http://ftp.gnome.org/pub/GNOME/sources/gtkmm/${pkgver%.*}/gtkmm-${pkgver}.tar.xz")
-tags="libs dev-cpp"
-build_deps="gtk+2 pangomm atkmm"
 
-# Build system
+tags="libs dev-cpp"
+
+build_deps="make gcc gcc-g++ pkg-config binutils coreutils doxygen libxslt sed grep gtk+2 pangomm atkmm"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
