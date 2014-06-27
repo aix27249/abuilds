@@ -4,12 +4,15 @@ pkgbuild=1
 arch="auto"
 
 shortdesc=("C++ interface for pango")
-longdesc=("Pangomm is a C++ wrapper for the pango library. Originally part of gtkmm, pangomm provides convenient C++ interfaces for handling both the layout and internationalization of text in graphical applications.")
-source=("http://ftp.gnome.org/pub/GNOME/sources/pangomm/${pkgver%.*}/pangomm-${pkgver}.tar.xz")
-tags="libs dev-cpp"
-build_deps="pango glibmm cairomm pkg-config"
 
-# Build system
+longdesc=("Pangomm is a C++ wrapper for the pango library. Originally part of gtkmm, pangomm provides convenient C++ interfaces for handling both the layout and internationalization of text in graphical applications.")
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/pangomm/${pkgver%.*}/pangomm-${pkgver}.tar.xz")
+
+tags="libs dev-cpp"
+
+build_deps="make gcc gcc-g++ pango glibmm cairomm pkg-config doxygen libxslt perl binutils sed grep kernel-headers"
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
