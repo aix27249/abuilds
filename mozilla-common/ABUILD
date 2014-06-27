@@ -1,0 +1,18 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=mozilla-common
+pkgver=1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Common Initialization Profile for Mozilla.org products"
+
+tags="sys-libs libs"
+
+build_deps="binutils"
+
+build(){
+  install -d "${pkgdir}"/etc/profile.d/
+  install -m755 "${filedir}"/mozilla-common.{,c}sh "${pkgdir}"/etc/profile.d/
+  sed -e "s|/usr/lib|/usr/lib${LIBDIRSUFFIX}|" -i "${pkgdir}"/etc/profile.d/mozilla-common.{,c}sh
+}
