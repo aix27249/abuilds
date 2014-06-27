@@ -1,90 +1,49 @@
-#with help of http://projects.archlinux.org/svntogit/packages.git/tree/hyphen/trunk/PKGBUILD
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=hyphen
-pkgver=2.8.3
+pkgver=2.8.6
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Hyphen - hyphenation library to use converted TeX hyphenation patterns"
-#-ruler---|--------------------------------------------------------------------------|
 
 source=("http://downloads.sourceforge.net/sourceforge/hunspell/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs dev-libs"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="make gcc coreutils binutils libtool perl sed grep"
 
-provides=""
-conflicts=""
+build(){
+  go_src_dir
+  burn_patches
 
-adddep=""
-removedep=""
+  ./configure --prefix=/usr \
+              --disable-static \
+              --libdir=/usr/lib${LIBDIRSUFFIX}
 
-#for multi pkg abuild
-pkglist=
+  make -j${numjobs}
 
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
-
-build()
-{
-go_src_dir
-burn_patches
-
-./configure --prefix=/usr --disable-static --libdir=/usr/lib${LIBDIRSUFFIX}
-make -j${numjobs}
-
-make DESTDIR="$pkgdir/" install-libLTLIBRARIES
-make DESTDIR="$pkgdir/" install-binSCRIPTS
-make DESTDIR="$pkgdir/" install-includeHEADERS
-
+  make DESTDIR="${pkgdir}/" install-libLTLIBRARIES
+  make DESTDIR="${pkgdir}/" install-binSCRIPTS
+  make DESTDIR="${pkgdir}/" install-includeHEADERS
 }
 
+after_build(){
 
-#ran after function build() 
-#после сборки
-after_build()
-{
+  make DESTDIR="$pkgdir/" install-hyphDATA
 
-make DESTDIR="$pkgdir/" install-hyphDATA
+  pushd ${pkgdir}/usr/share/hyphen/
+  en_US_aliases="en_AG en_AU en_BS en_BW en_BZ en_CA en_DK en_GB en_GH en_HK en_IE en_IN en_JM en_NA en_NZ en_PH en_SG en_TT en_ZA en_ZW"
+  for lang in ${en_US_aliases}; do
+      ln -s hyph_en_US.dic hyph_$lang.dic
+  done
+  popd
 
-pushd ${pkgdir}/usr/share/hyphen/
-en_US_aliases="en_AG en_AU en_BS en_BW en_BZ en_CA en_DK en_GB en_GH en_HK en_IE en_IN en_JM en_NA en_NZ en_PH en_SG en_TT en_ZA en_ZW"
-for lang in $en_US_aliases; do
-    ln -s hyph_en_US.dic hyph_$lang.dic
-done
-popd
-
-# the symlinks
-install -dm755 ${pkgdir}/usr/share/hunspell
-pushd $pkgdir/usr/share/hunspell
-for file in $pkgdir/usr/share/hyphen/*; do
- ln -sv /usr/share/hyphen/$(basename $file) .
-done
-popd
+  # the symlinks
+  install -dm755 ${pkgdir}/usr/share/hunspell
+  pushd ${pkgdir}/usr/share/hunspell
+  for file in ${pkgdir}/usr/share/hyphen/*; do
+      ln -sv /usr/share/hyphen/$(basename ${file}) .
+  done
+  popd
 }
