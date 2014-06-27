@@ -2,7 +2,7 @@
 
 pkgname=reiserfsprogs
 pkgver=3.6.24
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("reiserfsprogs (Reiserfs filesystem utilities)")
@@ -12,9 +12,11 @@ tags=("base sys-fs")
 
 source=("http://ftp.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
-build_deps="util-linux-ng"
-
+build_deps="make coreutils gcc kernel-headers grep util-linux-ng"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --sbindir=/sbin --mandir=/usr/man --sysconfdir=/etc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --sbindir=/sbin \
+            --mandir=/usr/man \
+            --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
