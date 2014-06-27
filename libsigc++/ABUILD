@@ -6,12 +6,19 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("Callback framework for C++")
-longdesc=("libsigc++ implements a typesafe callback system for standard C++. It allows you to define signals and to connect those signals to any callback function, either global or a member function, regardless of whether it is static or virtual.")
-tags=("dev-libs libs")
-source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.3/${pkgname}-${pkgver}.tar.xz")
-build_deps="gcc glibc-solibs"
 
+longdesc=("libsigc++ implements a typesafe callback system for standard C++. It allows you to define signals and to connect those signals to any callback function, either global or a member function, regardless of whether it is static or virtual.")
+
+tags=("dev-libs libs")
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.3/${pkgname}-${pkgver}.tar.xz")
+
+build_deps="make gcc gcc-g++ glibc-solibs grep sed perl pkg-config coreutils kernel-headers libxslt"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --docdir=/usr/doc/${pkgname}-${pkgver} --sysconfdir=/etc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --docdir=/usr/doc/${pkgname}-${pkgver} \
+            --sysconfdir=/etc"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
