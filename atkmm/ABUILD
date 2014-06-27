@@ -4,16 +4,17 @@ pkgbuild=1
 arch=("auto")
 
 shortdesc=("C++ bindings for ATK")
-longdesc=("C++ bindings for ATK")
 
 tags=("libs dev-cpp")
-build_deps="atk glibmm libsigc++"
+
+build_deps="make gcc gcc-g++ pkg-config binutils coreutils doxygen atk glibmm libsigc++ libxslt perl"
 
 source=("http://ftp.acc.umu.se/pub/GNOME/sources/atkmm/2.22/atkmm-${pkgver}.tar.xz")
 
-
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --docdir=/usr/doc/${pkgname}-${pkgver}"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --docdir=/usr/doc/${pkgname}-${pkgver}"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
