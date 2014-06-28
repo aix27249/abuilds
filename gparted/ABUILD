@@ -1,24 +1,26 @@
 pkgname=gparted
-pkgver=0.18.0
+pkgver=0.19.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Partition table editor, frontend to GNU Parted"
-#longdesc="Partition table editor similar to PartitionMagic, frontend to GNU Parted"
 
 tags=("sys-fs xapps")
 
 source=(http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2)
 
-build_deps=" atk atkmm cairo cairomm gcc-libs gtk+2 gdk-pixbuf gtkmm glib2 glibmm pango pangomm parted perl-xml-parser"
-adddep=("e2fsprogs dosfstools jfsutils ntfsprogs reiserfsprogs xfsprogs xdg-utils")
+build_deps="make gcc gcc-g++ grep sed perl perl-xml-parser pkg-config coreutils gtkmm kernel-headers gettext gnome-doc-utils intltool atk atkmm cairo cairomm gcc-libs gtk+2 gdk-pixbuf glib2 glibmm pango pangomm parted perl-xml-parser"
+
+adddep=("e2fsprogs dosfstools jfsutils ntfsprogs reiserfsprogs xfsprogs xdg-utils polkit ntfs-3g gpart f2fs-tools mtools nilfs-utils parted")
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-doc \
---enable-online-resize \
- --disable-scrollkeeper"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --disable-doc \
+            --enable-online-resize \
+            --disable-scrollkeeper"
 
 after_build() {
  sed -i "/^Exec=/s|=.*|=xdg-su -c /usr/sbin/gparted %f|" \
-	 ${pkgdir}/usr/share/applications/gparted.desktop || exit 1
+         ${pkgdir}/usr/share/applications/gparted.desktop
 }
