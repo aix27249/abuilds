@@ -1,5 +1,5 @@
 pkgname=giflib
-pkgver=4.2.1
+pkgver=5.1.0
 pkgbuild=1
 arch=('auto')
 
@@ -7,8 +7,8 @@ shortdesc="A library for reading and writing GIF images."
 source=("http://downloads.sourceforge.net/sourceforge/giflib/giflib-${pkgver}.tar.bz2")
 
 tags="libs media-gfx"
-conflicts="libungif libungif-giflib"
-build_deps="xmlto docbook-xml docbook-xsl"
+
+build_deps="make gcc kernel-headers coreutils grep sed xmlto docbook-xml docbook-xsl libtool"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -19,14 +19,13 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-after_build()
-{
-	# libungif compatibility - instructions taken from Redhat specfile
-	MAJOR=`echo ${pkgver} | sed 's/\([0-9]\+\)\..*/\1/'`
-	gcc -shared -Wl,-soname,libungif.so.${MAJOR} -Llib/.libs -lgif -o libungif.so.${pkgver}
-	install -m755 libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/"
-	ln -sf libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so.4"
-	ln -sf libungif.so.4 "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so"
+after_build(){
+  # libungif compatibility - instructions taken from Redhat specfile
+  MAJOR=`echo ${pkgver} | sed 's/\([0-9]\+\)\..*/\1/'`
+  gcc -shared -Wl,-soname,libungif.so.${MAJOR} -Llib/.libs -lgif -o libungif.so.${pkgver}
+  install -m755 libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/"
+  ln -sf libungif.so.${pkgver} "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so.5"
+  ln -sf libungif.so.5 "${pkgdir}/usr/lib$LIBDIRSUFFIX/libungif.so"
 }
