@@ -1,0 +1,33 @@
+pkgname=orbit2
+pkgver=2.14.19
+pkgbuild=1
+arch=('auto')
+
+shortdesc="ORBit2 (CORBA ORB library) "
+longdesc=("ORBit is a high-performance CORBA (Common Object Request Broker Archi tecture)"
+"ORB (object request broker). It allows programs to send requests and receive replies"
+"from other programs, regardless of the locations of the two programs. CORBA is an"
+"architecture that enables communication between program objects, regardless of the"
+"programming language they''re written in or the operating system they run on.")
+
+source=("http://ftp.gnome.org/pub/gnome/sources/ORBit2/${pkgver%.*}/ORBit2-${pkgver}.tar.bz2")
+
+tags="libs gnome-base"
+
+build_deps="make gcc pkg-config coreutils sed grep autoconf"
+
+before_build(){
+  go_src_dir
+  autoreconf -fi
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
