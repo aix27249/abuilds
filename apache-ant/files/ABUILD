@@ -1,0 +1,58 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=
+pkgver=
+pkgbuild=1
+arch=('auto')
+
+shortdesc=""
+#longdesc=(""
+#)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+patch_opts=("")
+
+tags=""
+
+build_deps=""
+
+provides=""
+conflicts=""
+
+adddep=""
+removedep=""
+
+pkglist=
+
+#numjobs=1
+
+docs=
+gendeps_blacklist=
+
+#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
+custom_opts=""
+
+#before_build(){
+#
+#}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+#ran after function build()
+#после сборки
+#after_build(){
+
+#}

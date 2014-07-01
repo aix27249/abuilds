@@ -1,14 +1,19 @@
 pkgname=apache-ant
-pkgver=1.9.1
+pkgver=1.9.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A java-based build tool."
 
 source=("http://archive.apache.org/dist/ant/binaries/${pkgname}-${pkgver}-bin.tar.bz2")
+
 tags="develop dev-java"
-build_deps="jdk apache-ant"
+
+build_deps="bash"
+
 add_dep="jre"
+
+docs="/usr/share/licenses/apache-ant/NOTICE"
 
 build() {
   go_src_dir
@@ -28,11 +33,15 @@ build() {
 
   # Do not copy Windows .bat/.cmd files
   find ./bin -type f -a ! -name \*.bat -a ! -name \*.cmd \
-    -exec install -m755 {} ${pkgdir}/${ANT_HOME}/bin \;
+       -exec install -m755 {} ${pkgdir}/${ANT_HOME}/bin \;
 
   install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
   install -m644 LICENSE NOTICE ${pkgdir}/usr/share/licenses/${pkgname}
 
   mkdir -p ${pkgdir}/usr/bin
   ln -s /usr/share/java/apache-ant/bin/ant ${pkgdir}/usr/bin/
+}
+
+after_build(){
+  rm -rf ${pkgdir}/usr/share/licenses
 }
