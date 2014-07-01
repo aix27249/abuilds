@@ -1,0 +1,18 @@
+pkgname=ORBit2
+pkgver=2.14.17
+pkgbuild=5
+arch=('noarch')
+
+shortdesc="ORBit2 (CORBA ORB library) "
+
+source=("http://ftp.gnome.org/pub/gnome/sources/ORBit2/${pkgver%.*}/ORBit2-${pkgver}.tar.bz2")
+
+tags="virtual gnome-base"
+
+build_deps="bash"
+
+adddep="orbit2"
+
+build(){
+  echo "End build"
+}
