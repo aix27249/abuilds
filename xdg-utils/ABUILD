@@ -11,13 +11,18 @@ longdesc=('Xdg-utils is a set of command line tools that assist applications wit
 tags=('x11-base xserver')
 
 source=("git:git://anongit.freedesktop.org/xdg/xdg-utils")
-adddep=("bash xprop xset")
-build_deps="xmlto docbook-xsl links"
 
+adddep=("bash xprop xset")
+
+build_deps="make xmlto docbook-xsl links coreutils"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --mandir=/usr/man --sysconfdir=/etc --localstatedir=/var"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --mandir=/usr/man \
+            --sysconfdir=/etc \
+            --localstatedir=/var"
 
 after_build() {
-	install -m0755 ${filedir}/xdg-su ${pkgdir}/usr/bin/xdg-su
+  install -m0755 ${filedir}/xdg-su ${pkgdir}/usr/bin/xdg-su
 }
