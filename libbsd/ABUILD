@@ -5,9 +5,10 @@ arch=('auto')
 
 shortdesc="Provides useful functions commonly found on BSD systems"
 source="http://libbsd.freedesktop.org/releases/$pkgname-$pkgver.tar.xz"
-tags="libs dev-libs"
-build_deps="glibc"
 
+tags="libs dev-libs"
+
+build_deps="make gcc glibc diffutils grep coreutils"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
