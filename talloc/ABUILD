@@ -7,8 +7,11 @@ pkgbuild=1
 shortdesc="talloc is a hierarchical pool based memory allocator with destructors"
 longdesc="talloc is a hierarchical pool based memory allocator with destructors"
 arch=("auto")
+
 source=(http://samba.org/ftp/${pkgname}/${pkgname}-${pkgver}.tar.gz)
+
 tags=("libs dev-libs")
+
 build_deps="gcc python docbook-xsl"
 
 BUILD_SYSTEM="autotools"
