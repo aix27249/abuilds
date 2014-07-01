@@ -1,84 +1,18 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=GConf
 pkgver=2.32.0
-pkgbuild=2
-arch=('auto')
+pkgbuild=3
+arch=('noarch')
 
-shortdesc="An old configuration database system for GNOME"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("An old configuration database system for GNOME-based packages. Will be removed in 3.0 release"
-)
+shortdesc="An old configuration database system for GNOME-based packages."
 
-source=("http://ftp.gnome.org/pub/gnome/sources/GConf/2.32/GConf-${pkgver}.tar.bz2")
+tags="virtual gnome-base"
 
-patch_opts=("")
+build_deps="bash"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="gnome gnome-base compat32"
+adddep="gconf"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-go_src_dir
-# Patch from fedora - reloads gconf after installing schemas
-patch -Np1 -i "${filedir}/gconf-reload.patch"
-# http://bugzilla.gnome.org/show_bug.cgi?id=568845
-patch -Np1 -i "${filedir}/01_xml-gettext-domain.patch"
-}
-
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---libexecdir=/usr/lib${LIBDIRSUFFIX}/GConf \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-defaults-service"
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-install -m755 -d "${pkgdir}/etc/gconf/gconf.xml.system"
-install -m755 "${filedir}/gconf-merge-schema" "${pkgdir}/usr/bin/"
-install -d -m755 "${pkgdir}/usr/sbin"
-install -m755 "${filedir}/gconfpkg" "${pkgdir}/usr/sbin/"
+build(){
+  echo "End build"
 }
