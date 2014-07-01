@@ -10,9 +10,16 @@ tags=('x11-protos xserver')
 
 source=('http://xorg.freedesktop.org/archive/individual/proto/xf86miscproto-0.9.3.tar.bz2')
 
-build_deps='gcc'
+build_deps='make gcc grep coreutils kernel-headers'
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts --build=$ARCH-slackware-linux "
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --build=$ARCH-slackware-linux"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
