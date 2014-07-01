@@ -1,0 +1,40 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+
+pkgname=gconf
+pkgver=3.2.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An old configuration database system for GNOME"
+
+longdesc=("An old configuration database system for GNOME-based packages. Will be removed in 3.0 release")
+
+source=("http://ftp.gnome.org/pub/gnome/sources/GConf/${pkgver%.*}/GConf-${pkgver}.tar.xz")
+
+tags="gnome gnome-base"
+
+build_deps="make coreutils gcc gcc-g++ grep sed kernel-headers gettext intltool perl perl-xml-parser glib2 pkg-config gtk-doc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/GConf \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-defaults-service"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  install -m755 -d "${pkgdir}/etc/gconf/gconf.xml.system"
+  install -m755 "${filedir}/gconf-merge-schema" "${pkgdir}/usr/bin/"
+  install -d -m755 "${pkgdir}/usr/sbin"
+  install -m755 "${filedir}/gconfpkg" "${pkgdir}/usr/sbin/"
+}
