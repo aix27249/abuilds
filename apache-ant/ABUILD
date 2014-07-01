@@ -1,7 +1,7 @@
 pkgname=apache-ant
 pkgver=1.9.4
-pkgbuild=1
-arch=('auto')
+pkgbuild=2
+arch=('noarch')
 
 shortdesc="A java-based build tool."
 
