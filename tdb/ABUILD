@@ -5,20 +5,22 @@ arch=('auto')
 
 shortdesc="A Trivia Database similar to GDBM but allows simultaneous commits"
 source=("http://samba.org/ftp/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-tags="network sys-libs compat32"
+
+tags="network sys-libs"
+
 build_deps="python libxslt docbook-xsl"
+
 adddep="python"
 
-build()
-{
+build(){
   go_src_dir
   #Use system docbook.xsl
   #_manstyle="/usr/share/xml/docbook/xsl-stylesheets-1.75.2/manpages/docbook.xsl"
   #sed -i "s#http.*xsl#$_manstyle#" tdb.mk
   ./configure --prefix=/usr \
-    --localstatedir=/var \
-    --sysconfdir=/etc/samba \
-    --libdir=/usr/lib$LIBDIRSUFFIX
+              --localstatedir=/var \
+              --sysconfdir=/etc/samba \
+              --libdir=/usr/lib$LIBDIRSUFFIX
   make -j${numjobs}
   make DESTDIR=$pkgdir install
 }
