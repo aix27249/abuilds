@@ -9,10 +9,17 @@ longdesc=('libXxf86misc is part of X11. For more information about the X.Org Fou
 tags=('x11-libs xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/lib/libXxf86misc-${pkgver}.tar.bz2")
-build_deps="libX11 libXext xproto xextproto xf86miscproto"
 
+build_deps="make gcc pkg-config libX11 libXext xproto xextproto xf86miscproto grep sed coreutils kernel-headers"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-fontrootdir=/usr/share/fonts"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
