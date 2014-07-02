@@ -1,8 +1,7 @@
 #ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=aria2
-pkgver=1.14.1
+pkgver=1.18.5
 pkgbuild=1
 arch=('auto')
 
@@ -10,37 +9,9 @@ shortdesc="aria2 is a lightweight multi-protocol & multi-source, cross platform 
 
 source=("http://downloads.sourceforge.net/project/aria2/stable/aria2-${pkgver}/aria2-${pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="net-p2p console"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+build_deps="make gcc gcc-g++ gnutls libxml2 sqlite c-ares ca-certificates gettext grep cppunit coreutils"
 
 BUILD_SYSTEM="autotools"
 
@@ -61,7 +32,8 @@ BUILD_KEYS="--prefix=/usr \
 --enable-epoll \
 --enable-nls \
 --enable-threads=posix \
---enable-threads"
+--enable-threads \
+--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
