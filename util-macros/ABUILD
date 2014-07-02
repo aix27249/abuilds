@@ -1,16 +1,27 @@
 pkgname=util-macros
-pkgver=1.17.1
+pkgver=1.19.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('X.Org Autotools macros')
 
 tags=('x11-utils xserver')
-build_deps="mkpkg"
+
+build_deps="make coreutils"
 
 source=("http://xorg.freedesktop.org/archive/individual/util/util-macros-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build(){
+  go_src_dir
+  install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}"
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib${LIBDIRSUFFIX}/"
+}
