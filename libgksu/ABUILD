@@ -1,6 +1,6 @@
 pkgname=libgksu
 pkgver=2.0.12
-pkgbuild=9
+pkgbuild=10
 arch=('auto')
 
 shortdesc="su/sudo library"
