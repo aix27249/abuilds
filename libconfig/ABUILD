@@ -5,9 +5,12 @@ arch=('auto')
 
 shortdesc="C/C++ Configuration File Library"
 longdesc=("Libconfig is a simple library for processing structured configuration files. This file format is more compact and more readable than XML. And unlike XML, it is type-aware, so it is not necessary to do string parsing in application code. Libconfig is very compact  a fraction of the size of the expat XML parser library. This makes it well-suited for memory-constrained systems like handheld devices. The library includes bindings for both the C and C++ languages. It works on POSIX-compliant UNIX systems (GNU/Linux, Mac OS X, Solaris, FreeBSD) and Windows (2000, XP and later).")
+
 source=("http://www.hyperrealm.com/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
 tags="libs dev-libs"
-build_deps="gcc texinfo"
+
+build_deps="make gcc gcc-g++ bison texinfo binutils coreutils"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -20,4 +23,4 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
