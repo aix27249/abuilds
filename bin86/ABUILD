@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=bin86
+pkgver=0.16.21
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A complete 8086 assembler and loader"
+
+source=("http://v3.sk/~lkundrak/dev86/${pkgname}-${pkgver}.tar.gz")
+
+tags="dev-util develop"
+
+build_deps="make gcc"
+
+before_build(){
+  if [[ $ARCH = x86_64 ]]; then
+     go_src_dir
+     patch -Np1 < "${filedir}/bin86-0.16.17-x86_64-1.patch"
+  fi
+}
+
+build() {
+  go_src_dir
+  make PREFIX=/usr
+  install -d "${pkgdir}"/usr/{bin,share/man/man1}
+  make PREFIX="${pkgdir}/usr" MANDIR="${pkgdir}/usr/share/man/man1" install
+}
