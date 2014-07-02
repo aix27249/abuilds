@@ -1,6 +1,6 @@
 pkgname=cups
 pkgver=1.6.3
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('CUPS (Common UNIX Printing System)')
@@ -10,7 +10,7 @@ tags=('base net-print')
 
 source=("http://www.cups.org/software/${pkgver}/${pkgname}-${pkgver}-source.tar.bz2")
 
-build_deps="make gcc autoconf pkg-config bc libusb gnutls linux-pam krb5 binutils gzip coreutils sed kernel-headers"
+build_deps="make gcc autoconf pkg-config bc libusb gnutls linux-pam krb5 binutils gzip coreutils sed kernel-headers automake coreutils grep"
 
 before_build() {
   go_src_dir
@@ -41,7 +41,7 @@ BUILD_KEYS="--libdir=/usr/lib${LIBDIRSUFFIX} \
 
 INSTALL_KEYS="BUILDROOT=${pkgdir}"
 
-after_build() { 
+after_build() {
   mkdir -p $pkgdir/etc/cups
   mkdir -p $pkgdir/var/spool
 
@@ -96,14 +96,14 @@ after_build() {
   done
 
   # Now fix the associated man pages:
-  mv $pkgdir/usr/man/man1/cancel.1.gz $pkgdir/usr/man/man1/cancel-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man1/lp.1.gz $pkgdir/usr/man/man1/lp-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man1/lpq.1.gz $pkgdir/usr/man/man1/lpq-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man1/lpr.1.gz $pkgdir/usr/man/man1/lpr-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man1/lprm.1.gz $pkgdir/usr/man/man1/lprm-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man1/lpstat.1.gz $pkgdir/usr/man/man1/lpstat-${SUFFIX}.1.gz
-  mv $pkgdir/usr/man/man8/lpc.8.gz $pkgdir/usr/man/man8/lpc-${SUFFIX}.8.gz
-  ( cd $pkgdir/usr/man/man1
+  mv ${pkgdir}/usr/man/man1/cancel.1 ${pkgdir}/usr/man/man1/cancel-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man1/lp.1 ${pkgdir}/usr/man/man1/lp-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man1/lpq.1 $pkgdir/usr/man/man1/lpq-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man1/lpr.1 $pkgdir/usr/man/man1/lpr-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man1/lprm.1 $pkgdir/usr/man/man1/lprm-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man1/lpstat.1 $pkgdir/usr/man/man1/lpstat-${SUFFIX}.1
+  mv ${pkgdir}/usr/man/man8/lpc.8 $pkgdir/usr/man/man8/lpc-${SUFFIX}.8
+  ( cd ${pkgdir}/usr/man/man1
     ln -sf cancel-${SUFFIX}.1.gz cancel.1.gz
     ln -sf lp-${SUFFIX}.1.gz lp.1.gz
     ln -sf lpq-${SUFFIX}.1.gz lpq.1.gz
@@ -111,7 +111,7 @@ after_build() {
     ln -sf lprm-${SUFFIX}.1.gz lprm.1.gz
     ln -sf lpstat-${SUFFIX}.1.gz lpstat.1.gz
   )
-  ( cd $pkgdir/usr/man/man8
+  ( cd ${pkgdir}/usr/man/man8
     ln -sf lpc-${SUFFIX}.8.gz lpc.8.gz
   )
 
