@@ -2,7 +2,7 @@
 
 pkgname=flush
 pkgver=0.9.12
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 shortdesc="GTK-based BitTorrent client"
@@ -13,10 +13,7 @@ source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}/${pkgver
 
 tags="xapps net-p2p"
 
-build_deps="make gcc-g++ gcc boost"
-adddep=""
-
-docs=
+build_deps="make gcc-g++ gcc boost gtkmm grep pkg-config gettext coreutils libconfig libtorrent-rasterbar"
 
 BUILD_SYSTEM="autotools"
 
@@ -35,4 +32,4 @@ BUILD_KEYS="--prefix=/usr \
 --with-ssl \
 --with-boost"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
