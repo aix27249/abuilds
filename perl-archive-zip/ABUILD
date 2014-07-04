@@ -1,19 +1,17 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=perl-archive-zip
-pkgver=1.30
-pkgbuild=5
+pkgver=1.37
+pkgbuild=1
 arch=('noarch')
 
 shortdesc="Provide a perl interface to ZIP archive files"
 
-source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/Archive-Zip-${pkgver}.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/P/PH/PHRED/Archive-Zip-${pkgver}.tar.gz")
 
 tags="libs dev-perl"
 
-conflicts="perl-Archive-Zip"
-
-build_deps="perl"
+build_deps="make perl coreutils"
 
 adddep="perl"
 
