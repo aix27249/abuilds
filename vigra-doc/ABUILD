@@ -1,0 +1,47 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+
+pkgname=vigra
+pkgver=1.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Computer vision library"
+longdesc=("VIGRA stands for 'Vision with Generic Algorithms'. It's a novel computer vision library that puts its main emphasize on customizable algorithms and data structures. By using template techniques similar to those in the C++ Standard Template Library, you can easily adapt any VIGRA component to the needs of your application, without thereby giving up execution speed. As of version 1.7.1, VIGRA also provides extensive Python bindings on the basis of the popular numpy framework.")
+
+source=("https://github.com/ukoethe/vigra/releases/download/Version-${pkgver//./-}/${pkgname}-${pkgver}-src-with-docu.tar.gz")
+
+tags="libs media-libs"
+
+build_deps="cmake gcc libpng libtiff openexr hdf5 fftw python"
+
+pkglist="vigradoc"
+
+vigradoc(){
+  pkgname=vigra-doc
+  arch=('noarch')
+  custom_opts="no_copydoc"
+}
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DLIBDIR_SUFFIX=${LIBDIRSUFFIX} \
+-DWITH_VIGRANUMPY=1 \
+-DDOCINSTALL=doc/${pkgname}-${pkgver}  \
+../"
+
+after_build(){
+  install -dm755 "${srcdir}"/docs
+  cp -r "${pkgdir}"/usr/doc/${pkgname}-${pkgver}/{vigra,vigranumpy} "${srcdir}"/docs
+  rm -rf "${pkgdir}"/usr/doc/${pkgname}-${pkgver}/{vigra,vigranumpy}
+  echo "End after_build"
+}
+
+vigradoc_prep(){
+  install -dm755 "${pkgdir}"/usr/doc/vigra-${pkgver}
+  cp -r  "${srcdir}"/docs/* "${pkgdir}"/usr/doc/vigra-${pkgver}
+  echo "End doc"
+}
+
