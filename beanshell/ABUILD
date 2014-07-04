@@ -1,71 +1,25 @@
 #ABUILD created by/создан: Drakmail, coder at dps.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=beanshell
-pkgver=2.0b4
+pkgver=2.1.7
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="Small, free, embeddable, source level Java interpreter written in Java"
-#-ruler---|--------------------------------------------------------------------------|
 longdesc=("Small, free, embeddable, source level Java interpreter with 
-object based scripting language features written in Java"
-)
+object based scripting language features written in Java")
 
-source=("http://www.beanshell.org/bsh-${pkgver}.jar n")
+source=("https://beanshell2.googlecode.com/files/bsh-${pkgver}.jar n")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils dev-java"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
+build_deps="coreutils"
 
 adddep="jre"
-removedep=""
 
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-#before_build()
-#{
-#echo ""
-#}
-
-build()
-{
-go_src_dir
-burn_patches
-install -m755 -d ${pkgdir}/usr/share/java/
-install -D -m644 ${srcache}/${loc_source_arr} ${pkgdir}/usr/share/java/bsh.jar
-
-}
-
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
+build(){
+  go_src_dir
+  burn_patches
+  install -m755 -d ${pkgdir}/usr/share/java/
+  install -D -m644 ${srcache}/${loc_source_arr} ${pkgdir}/usr/share/java/bsh.jar
 }
