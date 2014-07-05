@@ -1,7 +1,7 @@
 
 pkgname=fftw
 pkgver=3.3.4
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("fftw (Fastest Fourier Transform in the West)")
@@ -23,8 +23,11 @@ build() {
   # use upstream default CFLAGS while keeping our -march/-mtune
   CFLAGS+=" -O3 -fomit-frame-pointer -malign-double -fstrict-aliasing -ffast-math"
 
-  CONFIGURE="./configure F77=gfortran --prefix=/usr \
-                 --enable-shared --enable-threads"
+  CONFIGURE="./configure F77=gfortran \
+                 --prefix=/usr \
+                 --libdir=/usr/lib$LIBDIRSUFFIX \
+                 --enable-shared \
+                 --enable-threads"
 
   # build double precision
   cd ${srcdir}/${pkgname}-${pkgver}-double
