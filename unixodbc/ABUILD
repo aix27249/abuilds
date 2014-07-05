@@ -5,8 +5,9 @@ arch=('auto')
 
 shortdesc="ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
 source=(http://www.unixodbc.org/unixODBC-$pkgver.tar.gz)
-tags="libs dev-db compat32"
-build_deps="readline"
+tags="libs dev-db"
+
+build_deps="make gcc readline coreutils binutils grep kernel-headers"
 
 BUILD_SYSTEM="autotools"
 
@@ -24,7 +25,7 @@ BUILD_KEYS="--prefix=/usr \
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
-	go_src_dir
-	mv ${pkgdir}/etc/odbc.ini ${pkgdir}/etc/odbc.ini.new
-	mv ${pkgdir}/etc/odbcinst.ini ${pkgdir}/etc/odbcinst.ini.new
+  go_src_dir
+  mv ${pkgdir}/etc/odbc.ini ${pkgdir}/etc/odbc.ini.new
+  mv ${pkgdir}/etc/odbcinst.ini ${pkgdir}/etc/odbcinst.ini.new
 }
