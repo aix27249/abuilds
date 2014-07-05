@@ -11,11 +11,16 @@ longdesc=("OpenEXR is an image file format and library developed by Industrial L
 tags=("libs media-libs")
 
 source=("http://download.savannah.nongnu.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-build_deps="cxxlibs glibc-solibs ilmbase"
+
+build_deps="make gcc gcc-g++ sed grep pkg-config cxxlibs glibc-solibs ilmbase"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --sysconfdir=/etc"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build() {
   mv ${pkgdir}/usr/{share/doc/OpenEXR-$pkgver/*,doc/$pkgname-$pkgver}
