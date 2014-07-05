@@ -12,7 +12,7 @@ tags=('libs media-sound')
 
 source=("http://download.kde.org/stable/phonon/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
-build_deps="cmake gcc gcc-g++"
+build_deps="cmake gcc gcc-g++ qt4 openssl"
 
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="  -DCMAKE_BUILD_TYPE=Release \
