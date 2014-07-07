@@ -30,3 +30,8 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  cp json_object_iterator.h ${pkgdir}/usr/include/json/json_object_iterator.h
+}
