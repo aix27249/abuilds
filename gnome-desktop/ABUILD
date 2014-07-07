@@ -12,7 +12,7 @@ source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname
 
 tags="gnome gnome-base"
 
-build_deps="make gcc gcc-g++ gettext perl pkg-config intltool binutils coreutils sed grep libffi"
+build_deps="make gcc gcc-g++ gettext perl pkg-config intltool binutils coreutils sed grep libffi xkeyboard-config iso-codes"
 
 BUILD_SYSTEM="autotools"
 
