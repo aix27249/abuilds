@@ -11,7 +11,7 @@ source=("git:git://github.com/ibus/ibus.git")
 
 tags="base sys-apps"
 
-build_deps="make automake autoconf gcc git dconf gtk-doc glib2 gnome-common pygtk libnotify python-gobject python-dbus libxkbcommon gettext python coreutils pkg-config binutils sed grep perl perl-xml-parser intltool wayland"
+build_deps="make automake autoconf gcc git dconf gconf gtk-doc glib2 gnome-common pygtk libnotify vala gobject-introspection python-gobject python-dbus libxkbcommon gettext python coreutils pkg-config binutils sed grep perl libidl perl-xml-parser intltool wayland"
 
 pkglist="lib"
 
