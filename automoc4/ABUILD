@@ -2,15 +2,17 @@
 
 pkgname=automoc4
 pkgver=0.9.88
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("Automatic moc for Qt4")
 longdesc=("This package contains the automoc4 binary which is used to run moc on the right source files in a Qt 4 or KDE 4 application. Moc is the meta object compiler which is a widely used tool with Qt and creates standard C++ files to provide syntactic sugar of the signal/slots mechanism. See also http://www.kde.org")
-tags=("libs kde-base")
-source=("http://download.kde.org/stable/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
-build_deps="cmake pkg-config glibc-solibs qt4"
 
+tags=("libs kde-base")
+
+source=("http://download.kde.org/stable/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+build_deps="cmake pkg-config glibc-solibs qt4"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
