@@ -2,7 +2,7 @@
 
 pkgname=dconf
 pkgver=0.18.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A configuration system of desktop environments"
@@ -23,7 +23,6 @@ BUILD_KEYS="--prefix=/usr \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --libexecdir=/usr/lib${LIBDIRSUFFIX}/dconf \
---disable-static \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
