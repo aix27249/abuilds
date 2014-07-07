@@ -1,17 +1,24 @@
 pkgname=libffi
 pkgver=3.0.13
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("A Portable Foreign Function Interface Library")
 
-tags=("dev-libs libs compat32")
+tags=("dev-libs libs")
 
 source=("ftp://sourceware.org/pub/libffi/libffi-${pkgver}.tar.gz")
 
-build_deps="glibc-solibs"
+build_deps="make gcc glibc-solibs binutils coreutils sed grep"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --disable-static --enable-shared"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --sysconfdir=/etc \
+            --disable-static \
+            --enable-shared"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
