@@ -1,26 +1,33 @@
 pkgname=pulseaudio
-pkgver=3
-pkgbuild=2
+pkgver=5.0
+pkgbuild=1
 arch=('auto')
+
 shortdesc="PulseAudio sound server"
-#source=("http://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.gz")
-source=("git:git://anongit.freedesktop.org/pulseaudio/pulseaudio")
-build_deps="json-c bluez"
-tags="libs media-sound compat32"
+
+source=("http://freedesktop.org/software/${pkgname}/releases/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs media-sound"
+
 pkglist="libpulse"
+
+build_deps="make gcc gcc-g++ json-c gettext perl binutils intltool coreutils orc kernel-headers"
+
 config_files="etc/pulse/daemon.conf
 etc/pulse/default.pa
 etc/pulse/system.pa"
 adddep="libpulse=$pkgver"
 
-libpulse()
-{
-	pkgname=libpulse
-	shortdesc="PulseAudio client libraries"
+libpulse(){
+  pkgname=libpulse
+  shortdesc="PulseAudio client libraries"
 }
 
 BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS//-Wl,--as-needed}\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS//-Wl,--as-needed}\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" CPPFLAGS=\"-D_FORTIFY_SOURCE=2 -O2\" ./configure"
+
+#BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CPPFLAGS=\"-D_FORTIFY_SOURCE=2 -O2\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -31,42 +38,48 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix= \
 --with-database=tdb \
---enable-bluez \
 --disable-rpath \
 --disable-default-build-tests \
 --disable-tcpwrap"
 INSTALL_KEYS="DESTDIR=$pkgdir"
-#--disable-hal \
-after_build()
-{
-	set -e
-	# Lower resample quality
-	sed -e '/resample-method/iresample-method=speex-float-0' \
-		-i "$pkgdir/etc/pulse/daemon.conf"
-	# Make module-console-kit optional
-	sed -e $'/module-console-kit/{i.nofail\n;a.fail\n;}' -i "$pkgdir/etc/pulse/default.pa"
-	install -Dm755 "$filedir/$pkgname.xinit" "$pkgdir/etc/X11/xinit/xinitrc.d/$pkgname"
-	rm "$pkgdir/etc/dbus-1/system.d/$pkgname-system.conf"
-	# Move to libpulse
-	mkdir -p "$srcdir"/libpulse/{etc/pulse,usr/{lib$LIBDIRSUFFIX,share/,man/man5/}}
-	mv {"$pkgdir","$srcdir/libpulse"}/etc/pulse/client.conf
-	mv "$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulse{,-simple,-mainloop-glib}.so* \
-		"$srcdir/libpulse/usr/lib$LIBDIRSUFFIX"
-		
-		mkdir -p ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio
-	mv	${pkgdir}/usr/lib${LIBDIRSUFFIX}/pulseaudio/libpulsedsp.so ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio 
-	mv	${pkgdir}/usr/lib${LIBDIRSUFFIX}/pulseaudio/libpulsecommon-*.so ${srcdir}/libpulse/usr/lib${LIBDIRSUFFIX}/pulseaudio
-		
-	mv {"$pkgdir","$srcdir/libpulse"}/usr/lib$LIBDIRSUFFIX/pkgconfig
-	mv {"$pkgdir","$srcdir/libpulse"}/usr/include
-	mv {"$pkgdir","$srcdir/libpulse"}/usr/man/man5/pulse-client.conf.5
-	mv {"$pkgdir","$srcdir/libpulse"}/usr/share/vala
-	set +e
+
+after_build(){
+  go_src_dir
+  # Speed up pulseaudio shutdown so that it exits immediately with
+  # the last user session (module-systemd-login keeps it alive)
+  sed -e '/exit-idle-time/iexit-idle-time=0' \
+          -i "${pkgdir}/etc/pulse/daemon.conf"
+
+  # Disable cork-request module, can result in e.g. media players unpausing
+  # when there's a Skype call incoming
+  sed -e 's|/usr/bin/pactl load-module module-x11-cork-request|#&|' \
+         -i "${pkgdir}/usr/bin/start-pulseaudio-x11"
+
+  rm "${pkgdir}/etc/dbus-1/system.d/pulseaudio-system.conf"
+
+  install -Dm644 shell-completion/pulseaudio-zsh-completion.zsh \
+          "${pkgdir}/usr/share/zsh/site-functions/_pulseaudio"
+
+  ### Split libpulse
+  mkdir -p "${srcdir}"/libpulse/{etc/pulse,usr/{bin,lib/pulseaudio}}
+
+  mv {"${pkgdir}","${srcdir}/libpulse"}/etc/pulse/client.conf
+
+  mv "${pkgdir}"/usr/bin/pa{cat,ctl,dsp,mon,play,rec,record} \
+     "${srcdir}/libpulse/usr/bin"
+
+  mv "${pkgdir}"/usr/lib/libpulse{,-simple,-mainloop-glib}.so* \
+      "${srcdir}/libpulse/usr/lib"
+
+  mv "${pkgdir}"/usr/lib/pulseaudio/libpulsedsp.so \
+     "${pkgdir}"/usr/lib/pulseaudio/libpulsecommon-*.so \
+     "${srcdir}/libpulse/usr/lib/pulseaudio"
+
+  mv {"${pkgdir}","$srcdir/libpulse"}/usr/lib/cmake
+  mv {"${pkgdir}","$srcdir/libpulse"}/usr/lib/pkgconfig
+  mv {"${pkgdir}","$srcdir/libpulse"}/usr/include
 }
 
-libpulse_prep()
-{
-	set -e
-	mv $srcdir/libpulse/* $pkgdir/
-	set +e
+libpulse_prep(){
+  mv ${srcdir}/libpulse/* ${pkgdir}/
 }
