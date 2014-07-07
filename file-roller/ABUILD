@@ -1,93 +1,31 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=file-roller
-pkgver=2.32.2
-pkgver_cut=`echo ${pkgver} | cut -c1-4`
+pkgver=3.9.2
 pkgbuild=1
 arch=('auto')
 
-shortdesc="менеджер архивов для GNOME"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("File-roller — это менеджер архивов для среды GNOME. Он позволяет:"
-	  " * создавать и модифицировать архивы"
-	  " * просматривать содержимое архивов"
-	  " * просматривать файлы из архива"
-	  " * извлекать файлы из архива"
-	  " File-roller поддерживает следующие форматы:"
-	  " * Tar (.tar) архивы, включая сжатые с помощью gzip (.tar.gz, .tgz), "
-	  "bzip (.tar.bz, .tbz), bzip2 (.tar.bz2, .tbz2), compress (.tar.Z, .taz), "
-	  "lzip (.tar.lz, .tlz), lzop (.tar.lzo, .tzo), lzma (.tar.lzma) и xz "
-	  "(.tar.xz)"
-	  " * Zip архивы (.zip)"
-	  " * Jar архивы (.jar, .ear, .war)"
-	  " * 7z архивы (.7z)"
-	  " * iso9660 образы CD (.iso)"
-	  " * Lha архивы (.lzh)"
-	  " * одиночные файлы, сжатые с помощью gzip (.gz), bzip (.bz), bzip2 (.bz2), "
-	  "compress (.Z), lzip (.lz), lzop (.lzo), lzma (.lzma) и xz (.xz)"
-	  "File-roller сам по себе не выполняет операций с архивами, а опирается на "
-	  "соответствующие стандартные утилиты. "
-)
+shortdesc="Create and modify archives"
 
-source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver_cut}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
-patch_opts=("")
+tags="xapps app-arch"
 
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
+build_deps="make gcc binutils itstool perl perl-xml-parser gettext gnome-doc-utils desktop-file-utils intltool p7zip bzip2 pkg-config file json-glib libnotify libarchive dconf docbook-xsl sed grep"
 
-tags="xapps app-arch"		#short and long tags / длинный и короткий тег
-build_deps="gnome-doc-utils" 	#work only in MOPS
+adddep="p7zip bzip2 unrar cpio gzip lha tar xz zlib rpm"
 
-provides=""
-conflicts=""
+BUILD_SYSTEM="autotools"
 
-adddep=""
-removedep=""
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-cd $srcdir/${pkgname}-${pkgver}
-burn_patches
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
+BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/file-roller \
 --disable-static \
 --mandir=/usr/man \
---disable-run-in-place \
---disable-nautilus-actions \
---disable-packagekit \
---enable-nls \
---disable-scrollkeeper \
---disable-deprecations \
---disable-schemas-install \
+--program-prefix= \
+--program-suffix= \
+--disable-schemas-compile"
 
-make -j${numjobs} || exit 1
-make install DESTDIR=${pkgdir} || exit 1
-}
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
-}
+INSTALL_KEYS="DESTDIR=${pkgdir}"
