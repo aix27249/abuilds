@@ -1,0 +1,50 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=libxkbcommon
+pkgver=0.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Keyboard handling library using XKB data"
+
+source=("http://xkbcommon.org/download/${pkgname}-${pkgver}.tar.xz")
+
+tags="x11-apps xserver"
+
+build_deps="make gcc doxygen bison coreutils pkg-config binutils sed grep"
+
+pkglist="x11"
+
+x11(){
+  pkgname=libxkbcommon-x11
+  shortdesc="Keyboard handling library using XKB data for X11 XCB clients"
+  adddep="libxkbcommon libxcb"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  ### Split libxkbcommon-x11
+  install -m 755 -d "${srcdir}"/x11/usr/{lib${LIBDIRSUFFIX}/pkgconfig,include/xkbcommon}
+  mv "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/*x11* "${srcdir}/x11/usr/lib${LIBDIRSUFFIX}"
+  mv "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig/*x11* "${srcdir}/x11/usr/lib${LIBDIRSUFFIX}/pkgconfig"
+  mv "${pkgdir}"/usr/include/xkbcommon/*x11* "${srcdir}/x11/usr/include/xkbcommon"
+}
+
+x11_prep(){
+  mv "${srcdir}"/x11/* "${pkgdir}"
+}
