@@ -1,0 +1,60 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=ibus
+pkgver=1.5.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Next Generation Input Bus for Linux"
+
+source=("git:git://github.com/ibus/ibus.git")
+
+tags="base sys-apps"
+
+build_deps="make automake autoconf gcc git dconf gtk-doc glib2 gnome-common pygtk libnotify python-gobject python-dbus libxkbcommon gettext python coreutils pkg-config binutils sed grep perl perl-xml-parser intltool wayland"
+
+pkglist="lib"
+
+lib(){
+  pkgname=libibus
+  shortdesc="IBus support library"
+}
+
+build() {
+  go_src_dir
+  ./autogen.sh --prefix=/usr \
+               --sysconfdir=/etc \
+               --localstatedir=/var \
+               --libdir=/usr/lib${LIBDIRSUFFIX} \
+               --libexecdir=/usr/lib${LIBDIRSUFFIX}/ibus \
+               --disable-static \
+               --mandir=/usr/man \
+               --program-prefix= \
+               --program-suffix= \
+               --disable-gconf \
+               --enable-dconf \
+               --enable-wayland \
+               --enable-gtk-doc \
+               --disable-memconf \
+               --enable-ui \
+               --enable-python-library
+  make
+  make DESTDIR="${pkgdir}" install
+  make -C src DESTDIR="${pkgdir}" uninstall
+  make -C bindings DESTDIR="${pkgdir}" uninstall
+  make DESTDIR="${pkgdir}" uninstall-pkgconfigDATA
+}
+
+after_build(){
+  rm -rf "${pkgdir}"/usr/lib/pkgconfig
+  rm -rf "${pkgdir}"/usr/lib/girepository-1.0
+  rm -rf "${pkgdir}"/usr/include
+  rm -rf "${pkgdir}"/usr/share/vala/vapi
+}
+
+lib_prep(){
+   go_src_dir
+   make -C src DESTDIR="${pkgdir}" install
+   make -C bindings DESTDIR="${pkgdir}" install
+   make DESTDIR="${pkgdir}" install-pkgconfigDATA
+}
