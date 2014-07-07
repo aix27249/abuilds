@@ -1,5 +1,5 @@
 pkgname=xf86-input-wacom
-pkgver=0.16.0
+pkgver=0.25.0
 pkgbuild=1
 arch=('auto')
 
@@ -10,9 +10,20 @@ tags=('x11-drivers xserver')
 
 source=("http://prdownloads.sourceforge.net/linuxwacom/xf86-input-wacom-${pkgver}.tar.bz2")
 
-BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static --with-xorg-conf-dir=/etc/X11/xorg.conf.d "
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
 config_files="etc/X11/xorg.conf.d/50-wacom.conf"
+
+build_deps="make gcc gcc-g++ coreutils grep binutils presentproto"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static \
+            --with-xorg-conf-dir=/etc/X11/xorg.conf.d "
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
 
