@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=libwacom
+pkgver=0.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Library to identify Wacom tablets and their features"
+
+source=("http://sourceforge.net/projects/linuxwacom/files/libwacom/${pkgname}-${pkgver}.tar.bz2")
+
+tags="dev-libs libs"
+
+build_deps="make gcc glib2 coreutils sed grep binutils"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
