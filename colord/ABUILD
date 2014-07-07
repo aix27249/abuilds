@@ -1,55 +1,17 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=colord
-pkgver=0.1.13
-pkgbuild=4
+pkgver=1.2.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="colord is a system service that makes it easy to manage, install and generate color profiles to accurately color manage input and output devices. "
-#longdesc=(""
-#)
 
-source=("http://www.freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.xz")
+source=("http://www.freedesktop.org/software/${pkgname}/releases/${pkgname}-${pkgver}.tar.xz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps media-gfx"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
+build_deps="make gcc libgusb grep binutils perl perl-xml-parser gettext pkg-config gtk-doc coreutils docbook-utils vala sane"
 
 BUILD_SYSTEM="autotools"
 
@@ -62,13 +24,11 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
+--program-suffix= \
+--disable-systemd-login \
+--enable-vala \
+--enable-sane \
+--with-daemon-user=colord"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-#after_build()
-#{
-
-#}
