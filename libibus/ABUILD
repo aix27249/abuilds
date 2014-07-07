@@ -46,10 +46,14 @@ build() {
 }
 
 after_build(){
-  rm -rf "${pkgdir}"/usr/lib/pkgconfig
-  rm -rf "${pkgdir}"/usr/lib/girepository-1.0
+  rm -rf "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  rm -rf "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/girepository-1.0
   rm -rf "${pkgdir}"/usr/include
   rm -rf "${pkgdir}"/usr/share/vala/vapi
+  if [ "${LIBDIRSUFFIX}" = "64" ]; then
+      mv "${pkgdir}"/usr/lib/* "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/
+      rmdir "${pkgdir}"/usr/lib
+  fi
 }
 
 lib_prep(){
