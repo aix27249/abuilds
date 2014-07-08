@@ -20,12 +20,12 @@ index df5d75f..63b3513 100644
  #include <unistd.h>
 +#include <algorithm>
  #include "epdfview.h"
-
+ 
  using namespace ePDFView;
 @@ -33,6 +34,24 @@ static PageLayout convertPageLayout (gint pageLayout);
  static PageMode convertPageMode (gint pageMode);
  static gchar *getAbsoluteFileName (const gchar *fileName);
-
+ 
 +namespace
 +{
 +    void
@@ -55,5 +55,6 @@ index df5d75f..63b3513 100644
  #else // !HAVE_POPPLER_0_17_0
          // Create the pixbuf from the data and render to it.
          GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (renderedPage->getData (),
---
+-- 
 1.7.7
+

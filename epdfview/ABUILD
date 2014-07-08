@@ -1,15 +1,16 @@
 pkgname=epdfview
 pkgver=0.1.8
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="A lightweight PDF viewer"
-longdesc=("ePDFView is a free lightweight PDF document viewer using Poppler and  GTK+ libraries. The aim of ePDFView is to make a simple PDF document viewer, in the lines of Evince but without using the Gnome libraries. Homepage: http://trac.emma-soft.com/epdfview"
-)
+longdesc=("ePDFView is a free lightweight PDF document viewer using Poppler and  GTK+ libraries. The aim of ePDFView is to make a simple PDF document viewer, in the lines of Evince but without using the Gnome libraries. Homepage: http://trac.emma-soft.com/epdfview")
 
-source=("http://trac.emma-soft.com/epdfview/chrome/site/releases/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.slackware.com/.1/blfs/conglomeration/epdfview/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xapps app-text"
+
+build_deps="make gcc gcc-g++ coreutils poppler pkg-config glib2 gettext"
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
@@ -21,18 +22,18 @@ BUILD_KEYS="--prefix=/usr \
 	--program-prefix= \
 	--program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build() {
-	go_src_dir
-	# icon
-	for size in 24 32 48; do
-		install -Dm644 data/icon_${pkgname}-${size}.png \
-			"${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/${pkgname}.png" || exit 1
-	done
+  go_src_dir
+  # icon
+  for size in 24 32 48; do
+      install -Dm644 data/icon_${pkgname}-${size}.png \
+      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/${pkgname}.png"
+  done
 
-	# doc
-	if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
-		rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
-	fi
+  # doc
+  if [ -d ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc ]; then
+     rm -rfv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/doc
+  fi
 }
