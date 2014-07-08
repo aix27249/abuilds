@@ -1,54 +1,19 @@
-#http://projects.archlinux.org/svntogit/packages.git/tree/libtextcat/trunk/PKGBUILD
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+
 pkgname=libtextcat
 pkgver=2.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Library that implements N-gram-based text categorization"
-#-ruler---|--------------------------------------------------------------------------|
 
 source=("http://software.wise-guys.nl/download/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs dev-libs"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="make gcc sed grep binutils coreutils"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-autoreconf -fi
+before_build(){
+  autoreconf -fi
 }
 
 BUILD_SYSTEM="autotools"
@@ -64,17 +29,13 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-install -dm755 ${pkgdir}/usr/share/libtextcat/{LM,ShortTexts}
-install -m644 ${filedir}/fpdb.conf ${pkgdir}/usr/share/libtextcat
-install -m644 langclass/conf.txt ${pkgdir}/usr/share/libtextcat
-install -m644 langclass/LM/*.lm ${pkgdir}/usr/share/libtextcat/LM
-install -m644 langclass/ShortTexts/*.txt ${pkgdir}/usr/share/libtextcat/ShortTexts
-
-sed -i 's|LM|/usr/share/libtextcat/LM|' ${pkgdir}/usr/share/libtextcat/conf.txt
+after_build(){
+  install -dm755 ${pkgdir}/usr/share/libtextcat/{LM,ShortTexts}
+  install -m644 ${filedir}/fpdb.conf ${pkgdir}/usr/share/libtextcat
+  install -m644 langclass/conf.txt ${pkgdir}/usr/share/libtextcat
+  install -m644 langclass/LM/*.lm ${pkgdir}/usr/share/libtextcat/LM
+  install -m644 langclass/ShortTexts/*.txt ${pkgdir}/usr/share/libtextcat/ShortTexts
+  sed -i 's|LM|/usr/share/libtextcat/LM|' ${pkgdir}/usr/share/libtextcat/conf.txt
 }
