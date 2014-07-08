@@ -7,32 +7,32 @@ shortdesc="Spell checker and morphological analyzer library and program"
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
 tags="app-text utils"
-build_deps="gcc readline"
 
-build() 
-{
-go_src_dir
-burn_patches
+build_deps="make gcc gcc-g++ readline sed grep gettext binutils coreutils"
 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix=
+build(){
+  go_src_dir
+  burn_patches
 
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
+  LDFLAGS="$SLKLDFLAGS" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --disable-static \
+              --mandir=/usr/man \
+              --program-prefix= \
+              --program-suffix=
+
+  make -j${numjobs}
+  make install DESTDIR=${pkgdir}
 }
 
 after_build() {
-    # add generic hunspell.so for development and projects not using pkgconfig flags - FS#30592
-    pushd $pkgdir/usr/lib
-    ln -s libhunspell-?.?.so libhunspell.so
-    popd
+  # add generic hunspell.so for development and projects not using pkgconfig flags - FS#30592
+  pushd ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  ln -s libhunspell-?.?.so libhunspell.so
+  popd
 }
