@@ -5,8 +5,7 @@ pkgver=4.12.4
 pkgbuild=1
 arch=('auto')
 
-# Conflicts with gnome-menus, so it is ok to configure it.
-config_files="etc/xdg/menus/applications.menu"
+config_files="etc/xdg/menus/kde-applications.menu"
 
 shortdesc=('kdelibs (KDE libraries)')
 longdesc=('System libraries and other resources required by KDE')
@@ -15,12 +14,14 @@ tags=('kde-base kde4')
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/kdelibs-${pkgver}.tar.xz")
 
+build_deps="cmake automoc4 perl gcc openssl phonon docbook-xsl bzip2 strigi polkit qca shared-mime-info udisks2 upower hspell mesa flex bison libattica enchant giflib grantlee jasper dbusmenu-qt utempter libXcursor media-player-info openexr"
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 fi
 
 BUILD_SYSTEM='cmake'
+
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DMAN_INSTALL_DIR=/usr/man \
@@ -30,6 +31,7 @@ BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SKIP_RPATH=ON \
     -DKAUTH_BACKEND=PolkitQt-1 \
     -DKDE_DISTRIBUTION_TEXT=\"AgiliaLinux\""
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
