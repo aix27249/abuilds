@@ -9,7 +9,7 @@ shortdesc=("An open source JPEG 2000 codec")
 
 tags=("libs media-libs")
 
-build_deps="make zlib gcc doxygen grep binutils coreutils kernel-headers autoconf"
+build_deps="make zlib gcc doxygen grep binutils coreutils kernel-headers autoconf sed grep"
 
 source=("http://sourceforge.net/projects/openjpeg.mirror/files/${pkgver}/openjpeg-${pkgver}.tar.gz")
 
