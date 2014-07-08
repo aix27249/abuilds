@@ -2,7 +2,7 @@
 
 pkgname=qca
 pkgver=2.0.3
-pkgbuild=3
+pkgbuild=4
 arch=("auto")
 
 shortdesc=("qca (Qt Cryptographic Architecture)")
@@ -10,9 +10,18 @@ longdesc=("QCA aims to provide a straightforward and cross-platform crypto API, 
 
 tags=("app-crypt libs")
 
+build_deps="make gcc-g++ qt4 ca-certificates coreutils"
+
 source=("http://delta.affinix.com/download/qca/2.0/${pkgname}-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --disable-tests --release --no-separate-debug-info --certstore-path=/etc/ssl/certs/ca-certificates.crt"
-INSTALL_KEYS="INSTALL_ROOT=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --disable-tests \
+            --release \
+            --no-separate-debug-info \
+            --certstore-path=/etc/ssl/certs/ca-certificates.crt"
+
+INSTALL_KEYS="INSTALL_ROOT=${pkgdir}"
 
