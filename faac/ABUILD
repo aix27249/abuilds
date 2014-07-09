@@ -1,17 +1,15 @@
 pkgname=faac
 pkgver=1.28
-pkgbuild=4
+pkgbuild=5
 arch=('auto')
 
 shortdesc="faac (Freeware Advanced Audio Coder)"
 
 source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("mp4v2-1.9.patch 1")
-
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
+build_deps="make gcc gcc-g++ binutils coreutils sed grep libtool"
 
 BUILD_SYSTEM="autotools"
 
@@ -26,14 +24,9 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix= \
 --with-mp4v2"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-#mv ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
-rm -rf ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs
-rm -f ${pkgdir}/usr/doc/${pkgname}-${pkgver}/faac.1
+after_build(){
+  mv "${srcdir}"/${pkgname}-${pkgver}/docs/* ${pkgdir}/usr/doc/${pkgname}-${pkgver}/
+  rm -f ${pkgdir}/usr/doc/${pkgname}-${pkgver}/faac.1
 }
