@@ -1,10 +1,15 @@
 pkgname=gmime
-pkgver=2.6.7
+pkgver=2.6.19
 pkgbuild=1
 arch=('auto')
+
 shortdesc="MIME message parser and creator library"
+
 source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
 tags="dev-libs libs"
+
+build_deps="make gcc pkg-config bash gtk-doc binutils libtool coreutils sed grep docbook-utils"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -16,4 +21,4 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix="
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
