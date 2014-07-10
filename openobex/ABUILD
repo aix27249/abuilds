@@ -33,5 +33,5 @@ build() {
 }
 
 after_build(){
-  install -m644 ${srcdir}/${pkgname}-${pkgver}-Source/build/apps/lib${LIBDIRSUFFIX}/libopenobex-apps-common.a "${pkgdir}/usr/lib${LIBDIRSUFFIX}/libopenobex-apps-common.a"
+  install -m644 ${srcdir}/${pkgname}-${pkgver}-Source/build/apps/lib/libopenobex-apps-common.a "${pkgdir}/usr/lib${LIBDIRSUFFIX}/libopenobex-apps-common.a"
 }
