@@ -2,7 +2,7 @@
 
 pkgname=bluez
 pkgver=5.21
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 
 shortdesc=("Bluetooth userspace utilities")
@@ -12,7 +12,7 @@ source=("http://www.kernel.org/pub/linux/bluetooth/bluez-${pkgver}.tar.gz")
 
 tags="network net-wireless"
 
-build_deps="make gcc coreutils binutils sed grep pkg-config"
+build_deps="make gcc coreutils binutils sed grep pkg-config libical"
 
 BUILD_SYSTEM="autotools"
 
@@ -24,6 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 --enable-tools \
 --disable-systemd \
 --enable-cups \
+--with-udevdir=/etc/udev \
 --enable-library"
 
 after_build() {
