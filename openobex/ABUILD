@@ -1,0 +1,37 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=openobex
+pkgver=1.7.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Implementation of the OBject EXchange (OBEX) protocol"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}-Source.tar.gz")
+
+tags="network dev-libs"
+
+build_deps="make gcc libxslt"
+
+before_build(){
+  go_src_dir
+  sed -i 's|MODE="660", GROUP="plugdev"|TAG+="uaccess"|' ${srcdir}/${pkgname}-${pkgver}-Source/udev/openobex.rules.in
+}
+
+build() {
+  mkdir build
+  cd build
+  cmake ../ -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_SKIP_RPATH=ON \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_INSTALL_SBINDIR=/usr/bin \
+            -DCMAKE_INSTALL_UDEVRULESDIR=/etc/udev/rules.d \
+            -DLIB_DIR=lib${LIBDIRSUFFIX} \
+            -DLIB_SUFFIX=${LIBDIRSUFFIX}
+
+  make all openobex-apps
+  make DESTDIR="${pkgdir}" install
+}
+
+after_build(){
+  install -m644 ${srcdir}/${pkgname}-${pkgver}-Source/build/apps/lib${LIBDIRSUFFIX}/libopenobex-apps-common.a "${pkgdir}/usr/lib${LIBDIRSUFFIX}/libopenobex-apps-common.a"
+}
