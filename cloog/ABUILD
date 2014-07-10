@@ -2,7 +2,7 @@
 
 pkgname=cloog
 pkgver=0.18.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Library that generates loops for scanning polyhedra")
@@ -13,8 +13,14 @@ source=("http://www.bastoul.net/cloog/pages/download/$pkgname-$pkgver.tar.gz")
 
 build_deps="isl gmp"
 
-
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib$LIBDIRSUFFIX --mandir=/usr/man --sysconfdir=/etc --with-isl=system --with-gmp=system"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib$LIBDIRSUFFIX \
+            --mandir=/usr/man \
+            --sysconfdir=/etc \
+            --with-isl=system \
+            --with-gmp=system"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
