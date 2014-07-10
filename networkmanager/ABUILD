@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=networkmanager
-pkgver=0.9.8.8
-pkgbuild=2
+pkgver=0.9.8.10
+pkgbuild=1
 arch=("auto")
 
 shortdesc=('Network Management daemon')
