@@ -17,7 +17,6 @@ BUILD_KEYS="--prefix=/usr \
 	--sysconfdir=/etc \
 	--localstatedir=/var \
 	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--disable-static \
 	--mandir=/usr/man \
 	--program-prefix= \
 	--program-suffix="
