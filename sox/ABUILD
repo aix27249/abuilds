@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
+pkgname=sox
+pkgver=14.4.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="The Swiss Army knife of sound processing tools"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="console media-sound"
+
+build_deps="make gcc binutils coreutils sed grep"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
