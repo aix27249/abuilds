@@ -1,0 +1,154 @@
+#!/sbin/runscript
+
+# OpenVPN start/stop script
+
+# This script does the following:
+#
+# - Starts an openvpn process for each .conf file and subdirectories
+#   it finds in /etc/openvpn.
+#
+# - If /etc/openvpn/xxx.sh exists for a xxx.conf file then it executes
+#   it before starting openvpn (useful for doing openvpn --mktun...).
+#
+# - If /etc/openvpn/yyy subdirectory exists then it analyzes every
+#   /etc/openvpn/yyy/xxx.conf and executes /etc/openvpn/yyy/xxx.sh file
+#
+# - In addition to start/stop you can do:
+#
+#   service openvpn reload - SIGHUP
+#   service openvpn reopen - SIGUSR1
+#   service openvpn status - SIGUSR2
+
+# Location of openvpn binary
+openvpn_def=/usr/sbin/openvpn
+
+# PID directory
+piddir_def=/var/run/openvpn
+
+# Our working directory (.conf files should be here)
+work_def=/etc/openvpn
+
+# Our options
+
+depend() {
+    need net
+    use dns
+}
+
+checkconfig() {
+    if [ -z $piddir ]; then
+       piddir=$piddir_def
+    fi
+    if [ -z $openvpn ]; then
+       openvpn=$openvpn_def
+    fi
+    if [ -z $work ]; then
+       work=$work_def
+    fi
+}
+
+start() {
+    checkconfig
+    ebegin "Starting OpenVPN"
+
+    # Load the TUN/TAP module
+    /sbin/modprobe tun >/dev/null 2>&1
+
+    if [ ! -d  $piddir ]; then
+        mkdir $piddir
+    fi
+
+    cd $work
+
+    # Start every .conf in $work and run .sh if exists
+    local errors=0
+    local successes=0
+    local retstatus=0
+
+# найдем и запустим все .conf в корне /etc/openvpn
+    for d in `/bin/ls *.conf 2>/dev/null`; do
+        bn=${d%%.conf}
+        ebegin "Setting up vpn: $c/$bn"
+        if [ -f "$bn.start" ]; then
+            . $bn.start
+        fi
+        if [ ! -d $piddir/$c ]; then
+            mkdir $piddir/$c
+        fi
+        rm -f $piddir/$c/$bn.pid
+        $openvpn --daemon openvpn-$c-$bn --writepid $piddir/$c/$bn.pid --config $work/$c/$d --cd $work/$c
+        result=$?
+        if [ $result = 0 ]; then
+            successes=1
+        else
+            errors=1
+        fi
+        eend $result
+    done
+
+# Найдем и запустим все .conf в подкаталогах /etc/openvpn
+    for c in `/bin/ls -d * 2>/dev/null`; do
+        if [ -d "$c" ]; then
+            cd $c
+            for d in `/bin/ls *.conf 2>/dev/null`; do
+                bn=${d%%.conf}
+                ebegin "Setting up vpn: $c/$bn"
+                if [ -f "$bn.start" ]; then
+                    . $bn.start
+                fi
+                if [ ! -d $piddir/$c ]; then
+                    mkdir $piddir/$c
+                fi
+                rm -f $piddir/$c/$bn.pid
+                $openvpn --daemon openvpn-$c-$bn --writepid $piddir/$c/$bn.pid --config $work/$c/$d --cd $work/$c
+                result=$?
+                if [ $result = 0 ]; then
+                    successes=1
+                else
+                    errors=1
+                fi
+                eend $result
+            done
+            cd ..
+        fi
+    done
+
+    # Decide status based on errors/successes.
+    # If at least one tunnel succeeded, we return success.
+    # If some tunnels succeeded and some failed, we return
+    #   success but give a warning.
+    if [ $successes = 1 ]; then
+        if [ $errors = 1 ]; then
+            ewarn "Note: At least one OpenVPN tunnel failed to start"
+        fi
+    else
+        retstatus=1
+        if [ $errors = 0 ]; then
+            ewarn "Note: No OpenVPN configuration files were found in $work"
+        fi
+    fi
+    eend $retstatus "Error starting OpenVPN"
+}
+
+stop() {
+    checkconfig
+    ebegin "Stopping OpenVPN"
+    for pidf in `find $piddir -name '*.pid' 2>/dev/null`; do
+        if [ -s $pidf ]; then
+            bn=${pidf%%.pid}
+            bn=${bn##$piddir/}
+            einfo "Spopping vp: $bn ..."
+            kill `cat $pidf` >/dev/null 2>&1
+            if [ -f "${work}/${bn}.stop" ]; then
+                . ${work}/${bn}.stop
+            fi
+            eend $?
+            rm -rf $pidf >/dev/null 2>&1
+            dn=`dirname $pidf`
+            if [ `ls -A "$dn"|wc -w` = 0 ]; then
+                rm -rf "$dn"
+            fi
+        fi
+    done
+    eend 0
+}

@@ -1,38 +1,44 @@
-#ABUILD created by: khvalera, khvalera at narod.ru 
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+
 pkgname=openvpn
-pkgver=2.3.3
+pkgver=2.3.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="An easy-to-use, robust, and highly configurable VPN (Virtual Private Network)"
-source=("http://swupdate.openvpn.net/community/releases/${pkgname}-${pkgver}.tar.gz")
+
+source=("http://swupdate.openvpn.net/community/releases//${pkgname}-${pkgver}.tar.gz")
+
 tags="network net-misc"
-build_deps="gcc ccache openssl"
+
+build_deps="make gcc sed grep ccache openssl binutils coreutils iproute2"
+
 adddep="lzo openssl-solibs linux-pam"
 
 BUILD_SYSTEM="autotools"
+
 BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
+
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc/openvpn \
 --localstatedir=/var \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --mandir=/usr/man \
+--enable-iproute2 \
 --enable-password-save"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
- go_src_dir
- mkdir -p ${pkgdir}/etc/${pkgname}
-
- cp -r contrib $pkgdir/usr/share/openvpn
- mv ${pkgdir}/usr/share/doc/openvpn/management-notes.txt ${pkgdir}/usr/doc/${pkgname}-${pkgver}
- rm -r ${pkgdir}/usr/share/doc/
-
- install -D -m755 ${filedir}/openvpn.init ${pkgdir}/etc/init.d/openvpn
- install -D -m644 ${filedir}/openvpn.conf ${pkgdir}/etc/conf.d/openvpn
- install -m755 ${filedir}/{up,down}.sh ${pkgdir}/etc/openvpn/
-
- install -D -m644 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+  go_src_dir
+  install -d -m755 "${pkgdir}"/etc/openvpn
+  # Install examples
+  install -d -m755 "${pkgdir}"/usr/share/openvpn
+  cp -r sample/sample-config-files "${pkgdir}"/usr/share/openvpn/examples
+  # Install contrib
+  install -d -m755 "${pkgdir}"/usr/share/openvpn/contrib
+  cp -r contrib "${pkgdir}"/usr/share/openvpn
+  install -D -m755 ${startdir}/files/openvpn ${pkgdir}/etc/init.d/openvpn
+  echo "End after_build"
 }
-
