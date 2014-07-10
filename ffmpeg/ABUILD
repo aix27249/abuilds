@@ -1,7 +1,7 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org
 
 pkgname=ffmpeg
-pkgver=2.2.2
+pkgver=2.2.4
 pkgbuild=1
 arch=('auto')
 
