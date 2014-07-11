@@ -1,6 +1,6 @@
 pkgname=libffi
-pkgver=3.0.13
-pkgbuild=2
+pkgver=3.1
+pkgbuild=1
 arch=("auto")
 
 shortdesc=("A Portable Foreign Function Interface Library")
