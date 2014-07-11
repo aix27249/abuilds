@@ -2,19 +2,21 @@
 
 pkgname=wimax-tools
 pkgver=1.4.5
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("WiMAX tools for Intel-based cards")
-longdesc=("WiMAX tools for Intel-based cards")
 
 tags=("network net-wireless")
 
-source=("http://www.linuxwimax.org/Download?action=AttachFile&do=get&target=wimax-tools-${pkgver}.tar.gz")
+source=("https://github.com/ago/wimax-tools/archive/v${pkgver}.tar.gz")
 
+build_deps="make gcc libnl1 coreutils doxygen pkg-config binutils kernel-headers"
 
 BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX}"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
