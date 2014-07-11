@@ -1,6 +1,6 @@
 pkgname=pycurl
 pkgver=7.19.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="PycURL (Virtual package)."
@@ -9,7 +9,7 @@ tags="virtual dev-python"
 
 build_deps="python curl"
 
-adddep="python-curl"
+adddep="python-pycurl"
 
 build(){
   echo ""
