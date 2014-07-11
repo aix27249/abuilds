@@ -1,7 +1,7 @@
 pkgname=pycurl
 pkgver=7.19.0
-pkgbuild=4
-arch=('auto')
+pkgbuild=5
+arch=('noarch')
 
 shortdesc="PycURL (Virtual package)."
 
