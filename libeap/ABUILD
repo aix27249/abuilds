@@ -1,19 +1,24 @@
 pkgname=libeap
 pkgver=1.5.1
-pkgbuild=1
-shortdesc="WiMAX EAP Library"
-longdesc="WiMAX EAP Library"
+pkgbuild=2
 arch=('auto')
-source=('http://hostap.epitest.fi/releases/wpa_supplicant-0.7.3.tar.gz')
+
+shortdesc="WiMAX EAP Library"
+
+source=('http://w1.fi/releases/wpa_supplicant-1.1.tar.gz')
+
 tags=("network net-libs")
+
+build_deps="make"
+
 build() {
-	go_src_dir
-	burn_patches
-	set -e
-	make -C src/eap_peer -j${numjobs}
-	make -C src/eap_peer DESTDIR=${pkgdir} LIBDIR=/usr/lib${LIBDIRSUFFIX} install
-	if [ "$LIBDIRSUFFIX" != "" ] ; then
-		mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib${LIBDIRSUFFIX}
-	fi
-	set +e
+  go_src_dir
+  burn_patches
+  make -C src/eap_peer -j${numjobs}
+  make -C src/eap_peer DESTDIR=${pkgdir} LIBDIR=/usr/lib${LIBDIRSUFFIX} install
+  if [ "$LIBDIRSUFFIX" != "" ] ; then
+     mv ${pkgdir}/usr/lib ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  fi
+  rm ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libeap.so
+  ln -sn libeap.so.0.0.0 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/libeap.so
 }
