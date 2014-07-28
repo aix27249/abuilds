@@ -11,7 +11,7 @@ source=("https://github.com/FreeRDP/FreeRDP/archive/${pkgver}.tar.gz")
 
 tags="network net-libs"
 
-build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libav libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg"
+build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg"
 
 adddep=""
 
