@@ -2,7 +2,7 @@
 
 pkgname=iproute2
 pkgver=3.14.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("IP routing utilities")
@@ -17,7 +17,8 @@ build_deps="make gcc glibc-solibs iptables"
 before_build(){
   go_src_dir
   # do not treat warnings as errors
-  sed -i 's/-Werror//' Makefile
+  sed -i 's|-Werror||' Makefile
+  sed -i 's|DOCDIR=$(DATADIR)/doc/iproute2|DOCDIR=/usr/doc/'"${pkgname}-${pkgver}"'|' Makefile
 }
 
 BUILD_SYSTEM="autotools"
@@ -25,7 +26,6 @@ BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
             --libdir=/usr/lib$LIBDIRSUFFIX \
             --mandir=/usr/man \
-            --docdir=/usr/doc/${pkgname}-${pkgver} \
             --sysconfdir=/etc"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
