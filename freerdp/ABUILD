@@ -1,32 +1,29 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=freerdp
-pkgver=1.0.1
-pkgbuild=2
+pkgver=1.0.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="FreeRDP is a client for Windows Terminal Services implementing the Remote Desktop Protocol"
 
-source=("https://github.com/downloads/FreeRDP/FreeRDP/FreeRDP-${pkgver}.tar.gz"
-        "https://github.com/FreeRDP/FreeRDP/commit/c10866db66c0d462ea7c2c38bb01740bcfb4fcb4.patch")
+source=("https://github.com/FreeRDP/FreeRDP/archive/${pkgver}.tar.gz")
 
 tags="network net-libs"
 
-build_deps="krb5 cmake damageproto alsa-lib openssl"
+build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libav libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg"
+
 adddep=""
 
-build() {
-  go_src_dir
-  patch -Np1 <${srcache}/c10866db66c0d462ea7c2c38bb01740bcfb4fcb4.patch 
-  cmake -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib${LIBDIRSUFFIX} || exit 1
-  make || exit 1
-  make DESTDIR="${pkgdir}" install || exit 1
-  echo "End build"
-}
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DWITH_PULSEAUDIO=ON \
+../"
 
-after_build()
-{
-  install -Dm644 resources/FreeRDP_Icon_256px.png ${pkgdir}/usr/share/pixmaps/${pkgname}.png || exit 1
+after_build(){
+  install -Dm644 resources/FreeRDP_Icon_256px.png ${pkgdir}/usr/share/pixmaps/${pkgname}.png
   echo "End after_build"
 }
