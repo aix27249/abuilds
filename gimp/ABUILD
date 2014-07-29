@@ -1,15 +1,18 @@
 #ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=gimp
-pkgver=2.8.6
+pkgver=2.8.10
 pkgbuild=1
 arch=('auto')
 
 shortdesc="GNU Image Manipulation Program."
-source=("ftp://ftp.gtk.org/pub/${pkgname}/v`echo $pkgver | cut -d . -f 1-2`/${pkgname}-${pkgver}.tar.bz2")
+
+source=("http://download.gimp.org/pub/gimp/v${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="xapps media-gfx"
-build_deps="pygtk lcms libXpm libwmf libXmu librsvg libmng dbus-glib \
+
+build_deps="make gcc pygtk lcms libXpm libwmf libXmu librsvg libmng dbus-glib \
             libexif gegl jasper desktop-file-utils hicolor-icon-theme babl gegl \
-            intltool curl ghostscript poppler curl"
+            intltool curl ghostscript poppler"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
@@ -30,4 +33,9 @@ BUILD_KEYS="--prefix=/usr \
 --without-gvfs \
 --without-gnomevfs"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  install -Dm 644 "${filedir}"/gimp.desktop ${pkgdir}/usr/share/applications/gimp.desktop
+  echo "End after_build"
+}
