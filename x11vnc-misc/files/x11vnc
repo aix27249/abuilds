@@ -5,9 +5,9 @@ name="x11vnc server daemon"
 PIDFILE=/var/run/x11vnc.pid
 
 depend() {
-   use logger dns
-   need net xdm
-   after xdm
+   use logger net
+   need net
+   after *
 }
 
 start() {
@@ -23,7 +23,7 @@ start() {
                     --background \
                     --exec x11vnc -- \
                     -display :0 \
-                    -auth ${X11VNC_AUTH} \
+                    ${X11VNC_AUTH} \
                     -rfbauth /etc/x11vnc/passwd \
                     -rfbport ${X11VNC_PORT} \
                     ${X11VNC_OPTIONS} \
