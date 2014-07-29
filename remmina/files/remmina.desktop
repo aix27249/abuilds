@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Name=Remmina Remote Desktop Client
+GenericName[ru]=Клиент удаленного рабочего стола (Remmina)
+GenericName[uk]=Клієнт Віддаленого Робочого Столу (Remmina)
+Comment=Connect to remote desktops
+Comment[ru]=Подключение к удаленным рабочим столам
+Comment[uk]=Підключення до віддалених робочих столів
+TryExec=remmina
+Exec=remmina
+Icon=remmina
+Terminal=false
+Type=Application
+Actions=
+Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
+
