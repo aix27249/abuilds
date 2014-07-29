@@ -2,7 +2,7 @@
 
 pkgname=splitvt
 pkgver=1.6.6
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("splitvt (run multiple shells in a single window)")
@@ -24,6 +24,6 @@ build() {
   ./configure || die "configure failed"
   make || die "make failed"
 
-  mkdir -p "$pkgdir/usr/bin" "$pkgdir/usr/man/man1"
+  mkdir -p "${pkgdir}/usr/bin" "${pkgdir}/usr/man/man1"
   make install || die "make install failed"
 }
