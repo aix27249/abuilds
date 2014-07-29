@@ -1,6 +1,6 @@
 pkgname=avahi
 pkgver=0.6.31
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="avahi (service discovery aka zeroconf) "
@@ -29,36 +29,35 @@ gtk() {
   pkgname=avahi-gtk
   adddep=avahi
   shortdesc="GTK UI bindings for Avahi"
-  longdesc="GTK UI bindings for Avahi"
 }
 
 qt() {
   pkgname=avahi-qt
   adddep=avahi
   shortdesc="Qt4 UI bindings for Avahi"
-  longdesc="Qt4 UI bindings for Avahi"
 }
 
 gtk_prep() {
-  mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
   mkdir -p ${pkgdir}/usr/bin
-  mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/libavahi-ui* ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+  mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/libavahi-ui* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
   for i in ${p_pkgdir}/usr/bin/* ; do
-      GCHK=`objdump -x $i | grep NEEDED | grep libgtk || exit 0`
+      GCHK=`objdump -x ${i} | grep NEEDED | grep libgtk || exit 0`
       if [ "$GCHK" != "" ] ; then
-         mv $i ${pkgdir}/usr/bin/
+         mv ${i} ${pkgdir}/usr/bin/
       fi
   done
+  mv -f ${p_pkgdir}/usr/bin/bvnc ${pkgdir}/usr/bin/
 }
 
 qt_prep() {
   mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX
   mkdir -p ${pkgdir}/usr/bin
-  mv ${p_pkgdir}/usr/lib$LIBDIRSUFFIX/libavahi-qt4* ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+  mv ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}/libavahi-qt4* ${pkgdir}/usr/lib${LIBDIRSUFFIX}/
   for i in ${p_pkgdir}/usr/bin/* ; do
-      GCHK=`objdump -x $i | grep NEEDED | grep libavahi-qt4 || exit 0`
+      GCHK=`objdump -x ${i} | grep NEEDED | grep libavahi-qt4 || exit 0`
       if [ "$GCHK" != "" ] ; then
-         mv $i ${pkgdir}/usr/bin/
+         mv ${i} ${pkgdir}/usr/bin/
       fi
   done
 }
@@ -93,8 +92,8 @@ build() {
               --enable-glib \
               --enable-dbus \
               --enable-python \
-              --enable-gtk \
-              --disable-gtk3 \
+              --disable-gtk \
+              --enable-gtk3 \
               --disable-qt3 \
               --enable-qt4 \
               --enable-core-docs \
@@ -112,9 +111,6 @@ build() {
   mkdir -p ${pkgdir}/var/run/avahi-autoipd
 
   # Remove extraneous icons from gnome menus
-  rm -fr $pkgdir/usr/share/applications/bssh.desktop
-  rm -fr $pkgdir/usr/share/applications/bvnc.desktop
-
-  # Why did we need this?
-  #mv $pkgdir/etc/dbus-1/system.d/avahi-dbus.conf $pkgdir/etc/dbus-1/system.d/avahi-dbus.conf.new
+#  rm -fr ${pkgdir}/usr/share/applications/bssh.desktop
+#  rm -fr ${pkgdir}/usr/share/applications/bvnc.desktop
 }
