@@ -1,6 +1,6 @@
 
 pkgname=nss
-pkgver=3.16.1
+pkgver=3.16.2
 pkgbuild=1
 arch=('auto')
 
