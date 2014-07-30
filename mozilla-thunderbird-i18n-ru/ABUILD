@@ -1,0 +1,116 @@
+pkgname=mozilla-thunderbird
+pkgver=31.0
+pkgbuild=1
+arch=('auto')
+
+r_arch=$(uname -m)
+
+shortdesc="Mozilla Thunderbird mail/news client"
+
+source=("https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/source/thunderbird-${pkgver}.source.tar.bz2")
+
+tags="xapps mail-client"
+
+build_deps="make gcc tar gcc-g++ jre-openjdk libvpx gstreamer nspr>=4.10.6 nss>=3.16.2 pkg-config sqlite pango gtk+2 libffi nss findutils autoconf binutils libzip python yasm mesa mozilla-common "
+
+adddep="desktop-file-utils hyphen"
+
+pkglist="en-US ru uk be"
+
+before_build(){
+  go_src_dir
+  burn_patches
+  cp "${filedir}/mozconfig" .mozconfig
+  sed -i ./.mozconfig -e "s,%libdir%,${LIBDIRSUFFIX},g"
+  # configure script misdetects the preprocessor without an optimization level
+  # https://bugs.archlinux.org/task/34644
+  sed -i '/ac_cpp=/s/$CPPFLAGS/& -O2/' mozilla/configure
+  export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/thunderbird"
+}
+
+build() {
+  go_src_dir
+  make -j1 -f client.mk build MOZ_MAKE_FLAGS="-j${numjobs}"
+  make -j1 -f client.mk DESTDIR=${pkgdir} install
+}
+
+after_build() {
+  go_src_dir
+  install -Dm644 "${filedir}"/vendor.js "${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird/defaults/preferences/vendor.js"
+  for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
+      install -Dm644 other-licenses/branding/thunderbird/mailicon${i/x*/}.png \
+                    "${pkgdir}/usr/share/icons/hicolor/${i}/apps/thunderbird.png"
+  done
+
+  rm -rf "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/thunderbird/{dictionaries,hyphenation}
+
+  ln -sf /usr/share/hunspell "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/thunderbird/dictionaries
+  ln -sf /usr/share/hyphen "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/thunderbird/hyphenation
+
+  # We don't want the development stuff
+  rm -r ${pkgdir}/usr/{include,lib${LIBDIRSUFFIX}/thunderbird-devel-*,share/idl}
+}
+
+be(){
+  _locale=be
+  pkgname=mozilla-thunderbird-i18n-${_locale}
+  arch=('auto')
+  shortdesc="Belarusian language pack for Thunderbird"
+  adddep="mozilla-thunderbird=${pkgver}"
+  custom_opts=no_strip
+}
+
+be_prep(){
+  go_src_dir
+  wget "https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/linux-${r_arch}/xpi/${_locale}.xpi"
+  install -Dm644 ./${_locale}.xpi \
+                 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird/extensions/langpack-${_locale}@thunderbird.mozilla.org.xpi"
+}
+
+en-US(){
+  _locale=en-US
+  pkgname=mozilla-thunderbird-i18n-${_locale}
+  arch=('auto')
+  shortdesc="English (United States) language pack for Thunderbird"
+  adddep="mozilla-thunderbird=${pkgver}"
+  custom_opts=no_strip
+}
+
+en-US_prep(){
+  go_src_dir
+  wget "https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/linux-${r_arch}/xpi/${_locale}.xpi"
+  install -Dm644 ./${_locale}.xpi \
+                 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird/extensions/langpack-${_locale}@thunderbird.mozilla.org.xpi"
+}
+
+ru(){
+  _locale=ru
+  pkgname=mozilla-thunderbird-i18n-${_locale}
+  arch=('auto')
+  shortdesc="Russian language pack for Thunderbird"
+  adddep="mozilla-thunderbird=${pkgver}"
+  custom_opts=no_strip
+}
+
+ru_prep(){
+  go_src_dir
+  wget "https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/linux-${r_arch}/xpi/${_locale}.xpi"
+  install -Dm644 ./${_locale}.xpi \
+                 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird/extensions/langpack-${_locale}@thunderbird.mozilla.org.xpi"
+}
+
+uk(){
+  _locale=uk
+  pkgname=mozilla-thunderbird-i18n-${_locale}
+  arch=('auto')
+  shortdesc="Ukrainian language pack for Thunderbird"
+  adddep="mozilla-thunderbird=${pkgver}"
+  custom_opts=no_strip
+}
+
+uk_prep(){
+  go_src_dir
+  wget "https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${pkgver}/linux-${r_arch}/xpi/${_locale}.xpi"
+  install -Dm644 ./${_locale}.xpi \
+                 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/thunderbird/extensions/langpack-${_locale}@thunderbird.mozilla.org.xpi"
+}
