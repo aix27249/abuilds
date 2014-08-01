@@ -2,7 +2,7 @@
 
 pkgname=gigolo
 pkgver=0.4.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Fontend to easily manage connections to remote filesystems using GIO/GVfs."
@@ -12,6 +12,8 @@ source=("http://archive.xfce.org/src/apps/${pkgname}/${pkgver%.*}/${pkgname}-${p
 tags="xfce xfce-extra"
 
 build_deps="python gcc intltool gtk+2 kernel-headers gettext perl grep perl-xml-parser"
+
+adddep="gvfs"
 
 docs="README.I18N"
 
