@@ -1,22 +1,22 @@
 pkgname=gvfs
-pkgver=1.9.0
-pkgbuild=2
+pkgver=1.16.4
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Userspace virtual filesystem implemented as a pluggable module for gio"
 
-source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.gnome.org/pub/GNOME/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
 tags="gnome gnome-base"
 
-build_deps="libsoup libgphoto2 avahi samba udisks libimobiledevice"
+build_deps="make gcc libsoup libgphoto2 avahi samba udisks libimobiledevice"
 
 before_build(){
- go_src_dir
- autoreconf
- libtoolize
- sed -i "s:<glib/gurifuncs.h>:<glib.h>:g" ${srcdir}/${pkgname}-${pkgver}/client/gvfsfusedaemon.c
- echo "End before_build"
+  go_src_dir
+  autoreconf -fi
+
+  sed -i "s:<glib/gurifuncs.h>:<glib.h>:g" ${srcdir}/${pkgname}-${pkgver}/client/gvfsfusedaemon.c
+  echo "End before_build"
 }
 
 BUILD_SYSTEM="autotools"
@@ -30,11 +30,13 @@ BUILD_KEYS="--prefix=/usr \
 --libexecdir=/usr/lib${LIBDIRSUFFIX}/gvfs \
 --disable-static \
 --mandir=/usr/man \
+--disable-obexftp \
 --with-bash-completion-dir=/etc/bash_completion.d"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 after_build(){
- cat ${filedir}/doinst.sh | sed -e "s:usr/lib/:usr/lib${LIBDIRSUFFIX}/:g" > ${pkgdir}/install/doinst.sh
- sed -i "s:AutoMount=true:AutoMount=false:g" ${pkgdir}/usr/share/gvfs/mounts/network.mount
+  cat ${filedir}/doinst.sh | sed -e "s:usr/lib/:usr/lib${LIBDIRSUFFIX}/:g" > ${pkgdir}/install/doinst.sh
+  sed -i "s:AutoMount=true:AutoMount=false:g" ${pkgdir}/usr/share/gvfs/mounts/network.mount
+  echo "End after_build"
 }
