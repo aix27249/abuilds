@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=networkmanager
-pkgver=0.9.8.10
+pkgver=0.9.9.95
 pkgbuild=1
 arch=("auto")
 
@@ -11,7 +11,7 @@ source=("http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${pkgver:0:3}/Net
 
 tags=("network net-misc")
 
-build_deps="make coreutils gcc gcc-g++ intltool pkg-config kernel-headers grep perl-xml-parser nss dhclient dhcpcd iptables gobject-introspection modemmanager docbook-xsl diffutils vim gtk-doc vala upower"
+build_deps="make coreutils gcc gcc-g++ intltool pkg-config kernel-headers grep perl-xml-parser nss dhclient dhcpcd libndp iptables gobject-introspection modemmanager docbook-xsl diffutils vim gtk-doc vala upower"
 
 adddep="ppp>=2.4.5 iptables dhcpcd wireless-tools wpa_supplicant rp-pppoe"
 
