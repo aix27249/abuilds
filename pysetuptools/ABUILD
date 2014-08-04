@@ -2,17 +2,17 @@
 
 pkgname=pysetuptools
 pkgver=1.1.5
-pkgbuild=1
-arch=("auto")
+pkgbuild=2
+arch=("noarch")
 
-shortdesc=("Easily build and distribute Python packages.")
+shortdesc=("Easily build and distribute Python packages (Virtual package.)")
 
-longdesc=("Download, build, install, upgrade, and uninstall Python packages -- easily! Homepage: http://pypi.python.org/pypi/setuptools")
+tags=("dev-python virtual")
 
-tags=("dev-python develop")
+adddep="python-setuptools"
 
-source=("https://bitbucket.org/pypa/setuptools/get/${pkgver}.tar.bz2")
+build_deps="bash"
 
-build_deps="python"
-
-BUILD_SYSTEM="python"
+build(){
+  echo "End build"
+}
