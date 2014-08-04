@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=gnome-keyring
-pkgver=3.6.3
+pkgver=3.10.1
 pkgbuild=1
 arch=('auto')
 
@@ -11,8 +11,7 @@ longdesc=("gnome-keyring is a daemon in the session, similar to ssh-agent, and o
  cations can use it to store passwords and other sensitive information. The prog
  ram can manage several keyrings, each with its own master password, and there i
  s also a session keyring which is never stored to disk, but forgotten when the
- session ends."
-)
+ session ends.")
 
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
