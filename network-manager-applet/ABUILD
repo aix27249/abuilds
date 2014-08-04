@@ -1,40 +1,46 @@
-# Package metadata
 pkgname=network-manager-applet
-pkgver=0.9.2.0
+pkgver=0.9.10.0
 pkgbuild=1
 arch="auto"
 
-# Package description
 shortdesc=("Gnome NetworkManager applet")
-longdesc=("Gnome NetworkManager applet")
 
-# Source URL
-source=("http://ftp.gnome.org/pub/GNOME/sources/network-manager-applet/0.9/network-manager-applet-${pkgver}.tar.bz2")
+source=("http://ftp.gnome.org/pub/GNOME/sources/network-manager-applet/${pkgver%.*.*}/network-manager-applet-${pkgver}.tar.xz")
 
-# Tags
 tags="xapps net-misc"
 
-adddep="NetworkManager>=0.9.0 ppp>=2.4.5 polkit-gnome gnome-icon-theme libnotify"
+adddep="networkmanager>=0.9.8.10 ppp>=2.4.5 polkit-gnome gnome-icon-theme libnotify"
 
-# Build system
-BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr \
---bindir=/usr/bin \
---sbindir=/usr/sbin \
---libexecdir=/usr/lib${LIBDIRSUFFIX}/networkmanager \
---includedir=/usr/include \
---mandir=/usr/man \
---infodir=/usr/info \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---sysconfdir=/etc \
---with-gtkver=2 \
---disable-static \
---disable-maintainer-mode \
---localstatedir=/var"
-INSTALL_KEYS="GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR=${pkgdir}"
+build_deps="make gcc intltool coreutils binutils gettext grep sed pkg-config libsecret"
+
+before_build(){
+  go_src_dir
+    sed -e 's,Gtk-3.0,Gtk-2.0,' -i src/libnm-gtk/Makefile.in
+}
+
+build() {
+  go_src_dir
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --libexecdir=/usr/lib${LIBDIRSUFFIX}/networkmanager \
+              --includedir=/usr/include \
+              --disable-static \
+              --disable-more-warnings \
+              --disable-maintainer-mode \
+              --disable-migration \
+              --with-modem-manager-1
+
+   # https://bugzilla.gnome.org/show_bug.cgi?id=655517
+   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+   make V=0
+   make DESTDIR="${pkgdir}" install
+}
 
 after_build() {
-	install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
-	gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain nm-applet ${pkgdir}/etc/gconf/schemas/*.schemas
-	rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+  install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
+  gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain nm-applet ${pkgdir}/etc/gconf/schemas/*.schemas
+  rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
 }
