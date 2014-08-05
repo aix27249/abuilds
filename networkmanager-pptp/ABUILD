@@ -1,0 +1,30 @@
+pkgname=networkmanager-pptp
+pkgver=0.9.10.0
+pkgbuild=1
+arch="auto"
+
+shortdesc=("NetworkManager PPTP plugin")
+longdesc=("NetworkManager PPTP plugin. Adds support for VPN connections.")
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/NetworkManager-pptp/${pkgver%.*.*}/NetworkManager-pptp-${pkgver}.tar.xz")
+
+tags="xapps net-misc"
+
+adddep="pptp ppp>=2.4.5"
+
+build_deps="make gcc ppp intltool networkmanager libgnome-keyring  network-manager-applet coreutils binutils gettext grep sed pkg-config"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+--bindir=/usr/bin \
+--sbindir=/usr/sbin \
+--libexecdir=/usr/lib${LIBDIRSUFFIX}/networkmanager \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--infodir=/usr/info \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--sysconfdir=/etc \
+--disable-maintainer-mode \
+--disable-static \
+--localstatedir=/var"
+
