@@ -1,6 +1,6 @@
 pkgname=gtk+3
-pkgver=3.8.2
-pkgbuild=3
+pkgver=3.8.9
+pkgbuild=1
 arch=('auto')
 
 shortdesc="GTK+ version 3 (multi-platform GUI toolkit)"
@@ -14,7 +14,7 @@ tags="libs x11-libs"
 
 adddep="gtk-update-icon-cache"
 
-build_deps=("make gcc atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache grep kernel-headers binutils
+build_deps=("make gcc gcc-g++ atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache grep kernel-headers binutils
              cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk pkg-config gtk-doc sed perl")
 
 before_build() {
@@ -37,16 +37,16 @@ build() {
       --mandir=/usr/man \
       --program-prefix= \
       --program-suffix= \
-      --with-xinput=yes \
       --enable-gtk2-dependency \
       --enable-x11-backend \
-      --build=$ARCH-slackware-linux || exit 1
+      --enable-broadway-backend \
+      --build=$ARCH-slackware-linux
 
   #https://bugzilla.gnome.org/show_bug.cgi?id=655517
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
-  make -j${numjobs} || make || exit 1
-  make DESTDIR="$pkgdir" install || exit 1
+  make -j${numjobs}
+  make DESTDIR="${pkgdir}" install
 }
 
 after_build() {
