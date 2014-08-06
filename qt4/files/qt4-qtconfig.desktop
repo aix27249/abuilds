@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/usr/bin/qtconfig
+Exec=/usr/bin/qtconfig-qt4
 Name=Qt4 Configuration
 Name[bg]=Настройки на Qt4
 Name[cs]=Nastavení Qt4

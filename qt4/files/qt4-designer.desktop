@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/usr/bin/designer
+Exec=/usr/bin/designer-qt4
 Name=Qt4 Designer
 Name[af]=Qt4 Ontwerper
 Name[ar]=مصمم Qt4
