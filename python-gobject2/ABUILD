@@ -1,0 +1,23 @@
+pkgname=python-gobject2
+pkgver=2.28.6
+pkgbuild=1
+arch=('auto')
+
+shortdesc=("pygobject (GObject bindings for Python)")
+
+longdesc=("This archive contains bindings for the GObject, to be used in Python. It is a fairly complete set of bindings, it's already rather useful, and is usable to write moderately complex programs. pygobject's home page: http://www.pygtk.org/")
+
+tags=('dev-python libs')
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/pygobject/${pkgver%.*}/pygobject-${pkgver}.tar.bz2")
+
+build_deps="make gcc binutils grep sed kernel-headers pkg-config python python-cairo glib2"
+
+BUILD_SYSTEM='autotools'
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-introspection"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
