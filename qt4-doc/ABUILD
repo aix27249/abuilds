@@ -1,7 +1,7 @@
 # Qt4 ABUILD
 pkgname=qt4
-pkgver=4.8.5
-pkgbuild=4
+pkgver=4.8.6
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
@@ -12,9 +12,9 @@ pkglist="qtdoc"
 
 gendeps_blacklist="usr/lib$LIBDIRSUFFIX/qt/plugins/"
 removedep="mysql postgresql"
-build_deps=("alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
+build_deps=("make gcc alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
     libSM freetype libgl libXrandr libXv libXi alsa-lib xdg-utils hicolor-icon-theme \
-    desktop-file-utils mysql cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
+    desktop-file-utils mysql libmysqlclient cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
     libxml2 icu4c glib2 openssl-solibs diffutils postgresql")
 
 before_build() {
