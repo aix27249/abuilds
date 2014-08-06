@@ -1,6 +1,6 @@
 pkgname=network-manager-applet
 pkgver=0.9.10.0
-pkgbuild=1
+pkgbuild=2
 arch="auto"
 
 shortdesc=("Gnome NetworkManager applet")
