@@ -2,7 +2,7 @@
 
 pkgname=gtk-xfce-engine
 pkgver=3.0.1
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="Xfce gtk theme engine with various different themes"
@@ -25,6 +25,7 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---disable-debug"
+--disable-debug \
+--disable-gtk3"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
