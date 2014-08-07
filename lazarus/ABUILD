@@ -1,11 +1,10 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=lazarus
-pkgver=1.0.12
+pkgver=1.0.14
 pkgbuild=1
 release=0
 arch=('auto')
-name_gr="lazarus"
 
 shortdesc="Delphi-like IDE for FreePascal"
 longdesc=("Lazarus is a free and open source Rapid Application Development tool for the "
@@ -16,8 +15,8 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pk
 
 tags="develop dev-util"
 
-build_deps="rpm fpc>=2.6.0 gtk+2"
-adddep="fpc-src>=2.6.0 fpc>=2.6.0 gtk+2 glibc binutils gdb"
+build_deps="rpm fpc>=2.6.4 gtk+2"
+adddep="fpc-src>=2.6.4 fpc>=2.6.4 gtk+2 glibc binutils gdb"
 
 custom_opts="no_postperm"
 
@@ -44,7 +43,7 @@ before_build(){
 #-----------------------------------------------------
 build() {
   go_src_dir
-  make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 bigide || exit 1
+  make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 bigide
   echo "End build"
 }
 
@@ -54,24 +53,24 @@ after_build(){
   PKGLAZLIBDIR=${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus
   mkdir -p ${PKGLAZLIBDIR} \
             ${pkgdir}/usr/bin \
-            ${pkgdir}/usr/man/man1 || exit 1 
-  cp -R . ${PKGLAZLIBDIR} || exit 1
-  cp -a install/man/man1/*.1 ${pkgdir}/usr/man/man1 || exit 1
+            ${pkgdir}/usr/man/man1
+  cp -R . ${PKGLAZLIBDIR}
+  cp -a install/man/man1/*.1 ${pkgdir}/usr/man/man1
   sed -e 's|\(Categories\).*|\1=IDE;Development;|' \
-      -i install/lazarus.desktop || exit 1
-  install -Dm644 install/lazarus.desktop ${pkgdir}/usr/share/applications/lazarus.desktop || exit 1
-  install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png || exit 1
-  install -Dm644 install/lazarus-mime.xml ${pkgdir}/usr/share/mime/packages/lazarus.xml || exit 1
+      -i install/lazarus.desktop
+  install -Dm644 install/lazarus.desktop ${pkgdir}/usr/share/applications/lazarus.desktop
+  install -Dm644 images/ide_icon48x48.png ${pkgdir}/usr/share/pixmaps/lazarus.png
+  install -Dm644 install/lazarus-mime.xml ${pkgdir}/usr/share/mime/packages/lazarus.xml
   find ${PKGLAZLIBDIR} -name *.bat -exec rm -rf {} \;
   rm -r ${PKGLAZLIBDIR}/install \
         ${PKGLAZLIBDIR}/debian \
         ${PKGLAZLIBDIR}/lazarus.app \
-        ${PKGLAZLIBDIR}/tools/install || exit 1
+        ${PKGLAZLIBDIR}/tools/install
   rm ${PKGLAZLIBDIR}/*.txt
-  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/docs ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs || exit 1
-  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazarus ${pkgdir}/usr/bin/lazarus || exit 1
-  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus || exit 1
-  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazbuild ${pkgdir}/usr/bin/lazbuild || exit 1
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/docs ${pkgdir}/usr/doc/${pkgname}-${pkgver}/docs
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazarus ${pkgdir}/usr/bin/lazarus
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/startlazarus ${pkgdir}/usr/bin/startlazarus
+  ln -s /usr/lib${LIBDIRSUFFIX}/lazarus/lazbuild ${pkgdir}/usr/bin/lazbuild
   mkdir -p ${pkgdir}/etc/lazarus
   config=tools/install/linux/environmentoptions.xml
   sed "s@__LAZARUSDIR__@/usr/lib${LIBDIRSUFFIX}/lazarus/@" -i ${config}
@@ -83,7 +82,7 @@ after_build(){
       </Desktop>' ${config}
   cp -r tools/install/linux/* ${pkgdir}/etc/lazarus
 
-  find ${PKGLAZLIBDIR} ! -group "${name_gr}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${name_gr}
+  find ${PKGLAZLIBDIR} ! -group "${pkgname}" -print0 | xargs -0 --no-run-if-empty chgrp -v ${pkgname}
   find ${PKGLAZLIBDIR} ! -perm 02775 -type d -print0 | xargs -0 --no-run-if-empty chmod -v 02775
   find ${PKGLAZLIBDIR} ! -perm 0664 ! -perm 0755 ! -perm 0775 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0664
   find ${PKGLAZLIBDIR} -perm 0755 -type f -print0 | xargs -0 --no-run-if-empty chmod -v 0775
