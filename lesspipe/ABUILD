@@ -1,0 +1,27 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=lesspipe
+pkgver=1.82
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="An input filter for the pager less'"
+
+source=("http://downloads.sourceforge.net/project/lesspipe/lesspipe/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+tags="base sys-apps"
+
+build_deps="make coreutils"
+
+adddep="perl less p7zip unrar gzip bzip2 infozip"
+
+build() {
+  go_src_dir
+  ./configure --prefix=/usr --yes
+  make
+  make install PREFIX=${pkgdir}/usr
+}
+
+after_build(){
+  go_src_dir
+  install -D ${filedir}/lesspipe.sh ${pkgdir}/etc/profile.d/lesspipe.sh
+}
