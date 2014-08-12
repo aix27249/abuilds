@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=clucene
+pkgver=2.3.3.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="C++ port of the high-performance text search engine Lucene"
+
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-core-${pkgver}.tar.gz")
+
+tags="libs dev-libs"
+
+build_deps="cmake gcc-g++"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DCMAKE_BUILD_TYPE=Release \
+-DENABLE_ASCII_MODE=OFF \
+-DENABLE_PACKAGING=OFF \
+-DBUILD_CONTRIBS_LIB:BOOL=ON \
+-DDISABLE_MULTITHREADING=OFF \
+../"
+
+after_build(){
+  rm -rfv ${pkgdir}/usr/include/CLucene/CLuceneConfig.cmake
+}
