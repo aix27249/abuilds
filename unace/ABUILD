@@ -1,69 +1,24 @@
-#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
-#----------------------------- General vars --------------------------------------
-#http://repos.archlinux.org/wsvn/community/unace/trunk/
-#------------------------- Основные переменные -----------------------------------
 pkgname=unace
 pkgver=2.5
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="unACE - extraction tool for ace format."
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("unACE - распаковщик формата ace. Прочтите лицензию для пользования этим ПО"
-""
-"Please, read the lisence before using this software"
-)
 
 source=("http://ftp.debian.org/debian/pool/non-free/u/unace-nonfree/unace-nonfree_2.5.orig.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="utils app-arch"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="make"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs="licence"
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-build()
-{
-go_src_dir
-burn_patches
-[ "${ARCH}" == "x86_64" ] && patch -p1 < ${filedir}/04-64bit.dpatch
-make -j${numjobs} || exit 1
+build(){
+  go_src_dir
+  burn_patches
+  [ "${ARCH}" == "x86_64" ] && patch -p1 < ${filedir}/04-64bit.dpatch
+  make -j${numjobs}
 }
 
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-install -D -m755 unace ${pkgdir}/usr/bin/unace || exit 1
+after_build(){
+  install -D -m755 unace ${pkgdir}/usr/bin/unace
 }
