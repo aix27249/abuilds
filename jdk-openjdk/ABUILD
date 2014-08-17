@@ -1,6 +1,6 @@
 java_ver=7
-updatever=u25
-icedtea_ver=2.3.9
+updatever=u65
+icedtea_ver=2.5.1
 
 pkgname=jdk-openjdk
 pkgver=${java_ver}.${updatever}_${icedtea_ver}
@@ -8,31 +8,21 @@ pkgbuild=1
 arch=('auto')
 
 shortdesc="Free Java environment based on OpenJDK with IcedTea replacing binary plugs - SDK"
-
 tags="libs sys-libs"
 
-CORBA_CHANGESET=47a6bf94ce11
-JAXP_CHANGESET=d2142901bcb7
-JAXWS_CHANGESET=b1877762d45c
-JDK_CHANGESET=8e91101e36f0
-LANGTOOLS_CHANGESET=fd956199cb82
-OPENJDK_CHANGESET=12b96a57263c
-HOTSPOT_CHANGESET=ad5a321edea2
+_icedtea_url=http://icedtea.classpath.org/download
+_url=${_icedtea_url}/drops/icedtea7/${icedtea_ver}
+source=("${_icedtea_url}/source/icedtea-${icedtea_ver}.tar.gz"
+        "${_url}/openjdk.tar.bz2 n"
+        "${_url}/corba.tar.bz2 n"
+        "${_url}/jaxp.tar.bz2 n"
+        "${_url}/jaxws.tar.bz2 n"
+        "${_url}/jdk.tar.bz2 n"
+        "${_url}/langtools.tar.bz2 n"
+        "${_url}/hotspot.tar.bz2 n")
 
-_url=http://icedtea.classpath.org/hg/release/icedtea7-forest-2.3
-source=("http://icedtea.classpath.org/download/source/icedtea-${icedtea_ver}.tar.gz"
-        "${_url}/archive/${OPENJDK_CHANGESET}.tar.gz n"             # openjdk.tar.gz
-        "${_url}/corba/archive/${CORBA_CHANGESET}.tar.gz n"         # corba.tar.gz
-        "${_url}/jaxp/archive/${JAXP_CHANGESET}.tar.gz n"           # jaxp.tar.gz
-        "${_url}/jaxws/archive/${JAXWS_CHANGESET}.tar.gz n"         # jaxws.tar.gz
-        "${_url}/jdk/archive/${JDK_CHANGESET}.tar.gz n"             # jdk.tar.gz
-        "${_url}/langtools/archive/${LANGTOOLS_CHANGESET}.tar.gz n" # langtools.tar.gz
-        "${_url}/hotspot/archive/${HOTSPOT_CHANGESET}.tar.gz n")    # hotspot.tar.gz
-
-pkglist="jre jdk jdk-source"
-
+pkglist="jre jdk jdk_source"
 build_deps="jdk-openjdk jre-openjdk make gcc gcc-g++ apache-ant libpng gtk+2 alsa-lib infozip cpio rhino lcms2 libXtst"
-
 jvmdir=/usr/lib${LIBDIRSUFFIX}/jvm/java-${java_ver}-openjdk
 
 #=========================================================
@@ -49,7 +39,7 @@ jdk() {
 }
 
 #=========================================================
-jdk-source() {
+jdk_source() {
   pkgname=jdk-openjdk-source
   arch=('noarch')
   shortdesc="OpenJDK source package"
@@ -67,23 +57,21 @@ build() {
  [ -f /etc/profile.d/jdk.sh ] && . /etc/profile.d/jdk.sh
  cp ${patchdir}/*.diff ${srcdir}/icedtea-${icedtea_ver}/patches
  export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff \
-                              patches/openjdk7_nonreparenting-wm.diff"
-                              #01_fix_openjdk_cmds_path.diff \
-                              #02_fix_corba_cmds_path.diff \
-                              #patches/disable_Werror.diff
+                              patches/openjdk7_nonreparenting-wm.diff \
+                              patches/giflib_5.1.diff"
 
  ./configure \
         --disable-bootstrap \
         --disable-tests \
         --with-pkgversion="AgiliaLinux build ${pkgver}-${pkgbuild}-${ARCH}" \
         --with-jdk-home=${jvmdir} \
-        --with-openjdk-src-zip=${srcache}/${OPENJDK_CHANGESET}.tar.gz \
-        --with-hotspot-src-zip=${srcache}/${HOTSPOT_CHANGESET}.tar.gz \
-        --with-corba-src-zip=${srcache}/${CORBA_CHANGESET}.tar.gz \
-        --with-jaxp-src-zip=${srcache}/${JAXP_CHANGESET}.tar.gz \
-        --with-jaxws-src-zip=${srcache}/${JAXWS_CHANGESET}.tar.gz \
-        --with-jdk-src-zip=${srcache}/${JDK_CHANGESET}.tar.gz \
-        --with-langtools-src-zip=${srcache}/${LANGTOOLS_CHANGESET}.tar.gz \
+        --with-openjdk-src-zip=${srcache}/openjdk.tar.bz2 \
+        --with-hotspot-src-zip=${srcache}/hotspot.tar.bz2 \
+        --with-corba-src-zip=${srcache}/corba.tar.bz2 \
+        --with-jaxp-src-zip=${srcache}/jaxp.tar.bz2 \
+        --with-jaxws-src-zip=${srcache}/jaxws.tar.bz2 \
+        --with-jdk-src-zip=${srcache}/jdk.tar.bz2 \
+        --with-langtools-src-zip=${srcache}/langtools.tar.bz2 \
         --enable-nss \
         --with-rhino \
         --with-abs-install-dir=${jvmdir}
@@ -102,16 +90,19 @@ jre_prep(){
   install -d -m755 ${pkgdir}/${jvmdir}/jre/
   cp -a bin lib ${pkgdir}/${jvmdir}/jre
 
-  mv ${pkgdir}/${jvmdir}/jre/lib/fontconfig.Ubuntu.properties.src ${pkgdir}/${jvmdir}/jre/lib/fontconfig.properties.src
-  mv ${pkgdir}/${jvmdir}/jre/lib/fontconfig.Ubuntu.bfc ${pkgdir}/${jvmdir}/jre/lib/fontconfig.bfc
-  rm -f ${pkgdir}/${jvmdir}/jre/lib/fontconfig.*.bfc
-  rm -f ${pkgdir}/${jvmdir}/jre/lib/fontconfig.*.properties.src
+  mv "${pkgdir}/${jvmdir}"/jre/lib/fontconfig.{Ubuntu.properties.src,properties}
+  mv "${pkgdir}/${jvmdir}"/jre/lib/fontconfig.{Ubuntu.bfc,bfc}
+  mv "${pkgdir}/${jvmdir}"/jre/lib/management/jmxremote.password{.template,}
+  mv "${pkgdir}/${jvmdir}"/jre/lib/management/snmp.acl{.template,}
+  rm -f "${pkgdir}/${jvmdir}"/jre/lib/fontconfig.*.bfc
+  rm -f "${pkgdir}/${jvmdir}"/jre/lib/fontconfig.*.properties.src
+  rm -f "${pkgdir}/${jvmdir}"/jre/lib/fontconfig.properties.src
 
   # Install man pages
   pushd ../../j2re-image/man
-  install -m755 -d ${pkgdir}/usr/share/man/{,ja/}man1/
-  install -m644 man1/*.1 ${pkgdir}/usr/share/man/man1
-  install -m644 ja_JP.UTF-8/man1/*.1 ${pkgdir}/usr/share/man/ja/man1
+    install -m755 -d ${pkgdir}/usr/share/man/{,ja/}man1/
+    install -m644 man1/*.1 ${pkgdir}/usr/share/man/man1
+    install -m644 ja_JP.UTF-8/man1/*.1 ${pkgdir}/usr/share/man/ja/man1
   popd
 
   # Install icons and menu entries
@@ -198,7 +189,7 @@ jdk_prep(){
 }
 
 #=========================================================
-jdk-source_prep() {
+jdk_source_prep() {
   go_src_dir
   install -Dm644 openjdk.build/j2sdk-image/src.zip ${pkgdir}/usr/share/${pkgname}/${pkgname}-${pkgver}-${pkgbuild}.zip
 }
