@@ -1,5 +1,5 @@
 pkgname=gtk+3
-pkgver=3.8.9
+pkgver=3.12.2
 pkgbuild=1
 arch=('auto')
 
@@ -11,11 +11,9 @@ config_files="etc/gtk-3.0/settings.ini"
 source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/${pkgver%.*}/gtk+-${pkgver}.tar.xz")
 
 tags="libs x11-libs"
-
 adddep="gtk-update-icon-cache"
-
-build_deps=("make gcc gcc-g++ atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache grep kernel-headers binutils
-             cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk pkg-config gtk-doc sed perl")
+build_deps=("atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache
+	     cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk")
 
 before_build() {
   go_src_dir
@@ -29,24 +27,24 @@ before_build() {
 
 build() {
   CXX=/bin/false ./configure \
-      --prefix=/usr \
-      --sysconfdir=/etc \
-      --localstatedir=/var \
-      --libdir=/usr/lib${LIBDIRSUFFIX} \
-      --disable-static \
-      --mandir=/usr/man \
-      --program-prefix= \
-      --program-suffix= \
-      --enable-gtk2-dependency \
-      --enable-x11-backend \
-      --enable-broadway-backend \
-      --build=$ARCH-slackware-linux
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static \
+    --mandir=/usr/man \
+    --program-prefix= \
+    --program-suffix= \
+    --with-xinput=yes \
+    --enable-gtk2-dependency \
+    --enable-x11-backend \
+    --build=$ARCH-slackware-linux || exit 1
 
   #https://bugzilla.gnome.org/show_bug.cgi?id=655517
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
-  make -j${numjobs}
-  make DESTDIR="${pkgdir}" install
+  make -j${numjobs} || make || exit 1
+  make DESTDIR="$pkgdir" install || exit 1
 }
 
 after_build() {
@@ -54,8 +52,8 @@ after_build() {
   host="$ARCH-slackware-linux"
   compile_host=$(grep 'host_triplet =' gtk/Makefile | sed -e "s/.* = //")
   if [ "x$compile_host" != "x$host" ]; then
-     echo "Host mismatch: compile='$compile_host', SlackBuild='$host'" && exit 1
+    echo "Host mismatch: compile='$compile_host', SlackBuild='$host'" && exit 1
   fi
 
-  install -Dm644 "${filedir}/settings.ini" "${pkgdir}/etc/gtk-3.0/settings.ini"
+  install -Dm644 "${filedir}/settings.ini" "$pkgdir/etc/gtk-3.0/settings.ini"
 }
