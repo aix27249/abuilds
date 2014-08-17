@@ -1,5 +1,5 @@
 pkgname=freetype
-pkgver=2.4.12
+pkgver=2.5.3
 pkgbuild=1
 shortdesc="TrueType font rendering library"
 longdesc="TrueType font rendering library"
