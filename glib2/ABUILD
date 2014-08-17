@@ -1,6 +1,6 @@
 pkgname=glib2
-pkgver=2.36.4
-pkgtree=`echo $pkgver | cut -d . -f 1-2`
+pkgver=2.40.0
+pkgtree=${pkgver%.*}
 pkgbuild=1
 arch=('auto')
 
@@ -14,33 +14,31 @@ before_build() {
   autoreconf
 }
 
-
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--sysconfdir=/etc \
-	--with-pcre=system \
-	--disable-fam \
-	--mandir=/usr/man"
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --with-pcre=system \
+  --disable-fam \
+  --mandir=/usr/man"
 INSTALL_KEYS="DESTDIR=${pkgdir} completiondir=/usr/share/bash-completion/completions"
 
 after_build() {
-	# Install profile scripts:
-	mkdir -p $pkgdir/etc/profile.d/
-	cp -a $filedir/libglib2.{csh,sh} $pkgdir/etc/profile.d/
-	chown root:root $pkgdir/etc/profile.d/*
-	chmod 755 $pkgdir/etc/profile.d/*
-	mv $pkgdir/etc/profile.d/libglib2.csh $pkgdir/etc/profile.d/libglib2.csh.new
-	mv $pkgdir/etc/profile.d/libglib2.sh $pkgdir/etc/profile.d/libglib2.sh.new
+  # Install profile scripts:
+  mkdir -p $pkgdir/etc/profile.d/
+  cp -a $filedir/libglib2.{csh,sh} $pkgdir/etc/profile.d/
+  chown root:root $pkgdir/etc/profile.d/*
+  chmod 755 $pkgdir/etc/profile.d/*
+  mv $pkgdir/etc/profile.d/libglib2.csh $pkgdir/etc/profile.d/libglib2.csh.new
+  mv $pkgdir/etc/profile.d/libglib2.sh $pkgdir/etc/profile.d/libglib2.sh.new
 
-	# bash-completion
-	for _i in "$pkgdir/usr/share/bash-completion/completions/"*; do
-		chmod -x "$_i"
-	done
+  # bash-completion
+  for _i in "$pkgdir/usr/share/bash-completion/completions/"*; do
+    chmod -x "$_i"
+  done
 
-	# doinst.sh manages permissions in /etc/profile.d, we need some methods to not to use this
-	mkdir -p $pkgdir/install
-	zcat $filedir/doinst.sh.gz > $pkgdir/install/doinst.sh
-
+  # doinst.sh manages permissions in /etc/profile.d, we need some methods to not to use this
+  mkdir -p $pkgdir/install
+  zcat $filedir/doinst.sh.gz > $pkgdir/install/doinst.sh
 }
 
