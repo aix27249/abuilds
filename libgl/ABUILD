@@ -1,6 +1,6 @@
 # ABUILD for mesa package
 pkgname=mesa
-pkgver=10.1.5
+pkgver=10.2.5
 _git=false
 pkgbuild=1
 arch=('auto')
@@ -9,11 +9,8 @@ shortdesc=('mesa (a 3-D graphics library)')
 longdesc=('Mesa is a 3-D graphics library with an API very similar to that of another well-known 3-D graphics library. :-) The Mesa libraries are used by X to provide both software and hardware accelerated graphics. Mesa was written by Brian Paul.')
 
 tags=('x11-libs xserver')
-
-build_deps="make gcc gcc-g++ pkg-config kernel-headers coreutils binutils sed grep libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto dri3proto presentproto glproto llvm libxcb libxshmfence"
-
+build_deps="libdrm libvdpau libXxf86vm libXdamage libxml2 dri2proto dri3proto presentproto glproto llvm libxcb libxshmfence"
 adddep="libgl"
-
 pkglist="libgl"
 
 if [ "${_git}" = "true" ] ; then
