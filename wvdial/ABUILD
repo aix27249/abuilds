@@ -2,7 +2,7 @@
 
 pkgname=wvdial
 pkgver=1.61
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A dialer program to connect to the Internet"
