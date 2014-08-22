@@ -1,5 +1,5 @@
 pkgname=skype
-pkgver=4.2.0.11
+pkgver=4.3.0.37
 pkgbuild=1
 arch=('auto')
 
