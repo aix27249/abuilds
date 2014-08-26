@@ -1,6 +1,6 @@
 pkgname=skype
 pkgver=4.3.0.37
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="VoIP client software for high-quality voice communication"
@@ -10,9 +10,9 @@ source=("http://download.skype.com/linux/${pkgname}-${pkgver}.tar.bz2")
 build_deps="linuxdoc-tools coreutils"
 
 if [ "$ARCH" = "x86_64" ] ; then
-  adddep=("alsa-lib32 libXScrnSaver32 libXv32 libXcursor32 dbus32 glibc-solibs32 glibc-i18n32 qt432 libtiff32 libffi32 openssl-solibs32")
+  adddep=("pulseaudio alsa-lib32 libXScrnSaver32 libXv32 libXcursor32 dbus32 glibc-solibs32 glibc-i18n32 qt432 libtiff32 libffi32 openssl-solibs32")
 else
-  adddep=("alsa-lib libXScrnSaver libXv libXcursor dbus qt4 glibc-solibs libffi libtiff openssl-solibs")
+  adddep=("pulseaudio alsa-lib libXScrnSaver libXv libXcursor dbus qt4 glibc-solibs libffi libtiff openssl-solibs")
 fi
 
 tags="xapps proprietary net-im"
