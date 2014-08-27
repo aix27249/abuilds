@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=clucene
 pkgver=2.3.3.4
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="C++ port of the high-performance text search engine Lucene"
@@ -10,7 +10,7 @@ source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-core-${pkgver}.t
 
 tags="libs dev-libs"
 
-build_deps="cmake gcc-g++"
+build_deps="cmake gcc-g++ boost"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
@@ -25,5 +25,5 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 ../"
 
 after_build(){
-  rm -rfv ${pkgdir}/usr/include/CLucene/CLuceneConfig.cmake
+  find "${pkgdir}" -name *.cmake -exec rm {} \;
 }
