@@ -1,95 +1,17 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=python-three
 pkgver=3.2.2
-pkgbuild=1
-arch=('auto')
+pkgbuild=2
+arch=('noarch')
 
-shortdesc="Next generation of the python high-level scripting language"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Next generation of the python high-level scripting language"
-)
+shortdesc="Next generation of the python high-level scripting language (Virtual package.)"
 
-source=("http://www.python.org/ftp/python/${pkgver}/Python-${pkgver}.tar.xz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-python"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="bash"
 
-provides=""
-conflicts=""
+adddep="python3"
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-	go_src_dir
-	sed -i -e "s|^#.* /usr/local/bin/python|#!/usr/bin/python|" Lib/cgi.py
-	rm -r Modules/expat
-	rm -r Modules/zlib
-	rm -r Modules/_ctypes/{darwin,libffi}*
-
-	#lib64 related stuff
-	if [ "$ARCH" = "x86_64" ] ; then
-		# Install to lib64 instead of lib:
-		patch -p1 < $filedir/python3.x86_64.diff
-	fi
+build(){
+  echo "End build"
 }
 
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-shared \
---with-threads \
---with-computed-gotos \
---enable-ipv6 \
---with-valgrind \
---with-wide-unicode \
---with-system-expat \
---with-system-ffi"
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-	ln -sf ../../libpython${pkgdir}mu.so \
-	"${pkgdir}/usr/lib$LIBDIRSUFFIX/python${pkgver%.*}/config-${pkgver%.*}mu/libpython${pkgver%.*}mu.so" || exit 1
-	sed -i "s|$srcdir/Python-${pkgver}:||" "$pkgdir/usr/lib$LIBDIRSUFFIX/python${pkgver%.*}/config-${pkgver%.*}mu/Makefile" || exit 1
-}
