@@ -1,0 +1,27 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=mdds
+pkgver=0.10.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A collection of multi-dimensional data structures and indexing algorithms"
+
+source=("http://kohei.us/files/mdds/src/${pkgname}_${pkgver}.tar.bz2")
+
+tags="sys-devel develop"
+
+build_deps="make boost"
+
+before_build(){
+  # this is only used in tests
+  sed -i -e '/^CPPFLAGS_NODEBUG=/s/=.*/="${CXXFLAGS}"/' configure
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
