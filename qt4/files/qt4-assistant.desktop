@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/usr/bin/assistant-qt4
+Exec=/usr/bin/assistant
 Name=Qt4 Assistant
 Name[af]=Qt4 Assistent
 Name[ar]=مساعد Qt4
