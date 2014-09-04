@@ -2,7 +2,7 @@
 
 pkgname=xfce4-volumed
 pkgver=0.1.13
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="Daemon managing the volume multimedia keys and displaying volume notifications"
@@ -13,6 +13,8 @@ tags="xfce xfce-base"
 
 build_deps="make gcc glib pkg-config keybinder2 coreutils"
 
+adddep="gst-plugins-base010"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"${SLKLDFLAGS}\" CFLAGS=\"${SLKCFLAGS}\" CXXFLAGS=\"${SLKCFLAGS}\" ./configure"
@@ -22,7 +24,6 @@ BUILD_KEYS="--prefix=/usr \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --libexecdir=/usr/lib/xfce4 \
---disable-static \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
