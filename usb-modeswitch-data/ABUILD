@@ -1,0 +1,21 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=usb-modeswitch-data
+pkgver=20140529
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Contains database and file rules for usb-modeswitch"
+
+source=("http://www.draisberghof.de/usb_modeswitch/${pkgname}-${pkgver}.tar.bz2")
+
+tags="network net-dialup"
+
+build_deps="make gcc"
+
+build(){
+  go_src_dir
+  make DESTDIR="${pkgdir}" install RULESDIR="${pkgdir}"/etc/udev/rules.d
+  sed -i -e 's|LABEL="modeswitch_rules_end"||' "${pkgdir}"/etc/udev/rules.d/40-usb_modeswitch.rules
+}
+
