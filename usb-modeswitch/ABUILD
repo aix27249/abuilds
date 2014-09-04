@@ -1,34 +1,29 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
 pkgname=usb-modeswitch
-pkgver=1.2.1
+pkgver=2.2.0
 pkgbuild=1
-_pkgdata=20111023
 arch=('auto')
 
 shortdesc="USB_ModeSwitch is (surprise!) a mode switching tool for controlling flip flop (multiple device) USB gear"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=(" ")
 
-source=("http://www.draisberghof.de/usb_modeswitch/$pkgname-$pkgver.tar.bz2"
-"http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-${_pkgdata}.tar.bz2")
+source=("http://www.draisberghof.de/usb_modeswitch/${pkgname}-${pkgver}.tar.bz2"
+        "http://www.draisberghof.de/usb_modeswitch/device_reference.txt")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="network net-dialup"
 
-build()
-{
+build_deps="make gcc libusb1 tcl"
 
-go_src_dir
-make DESTDIR=$pkgdir install
+adddep="libusb1 tcl usb-modeswitch-data"
 
-go_src_dir
-cd ../usb-modeswitch-data-${_pkgdata}
-make DESTDIR=$pkgdir install
+config_files='/etc/usb_modeswitch.conf'
 
+build(){
+  go_src_dir
+  make clean
+  make DESTDIR=${pkgdir} install
 }
 
-
+after_build(){
+  cp "${srcache}"/device_reference.txt "${pkgdir}"/etc/usb_modeswitch.setup
+}
