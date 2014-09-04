@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=gtkmm3
+pkgver=3.12.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="gtkmm is the official C++ interface for the popular GUI library for gtk3."
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/gtkmm/${pkgver%.*}/gtkmm-${pkgver}.tar.xz")
+
+tags="libs dev-cpp"
+
+build_deps="make gcc coreutils binutils gtk+3 pangomm atkmm mm-common doxygen libxslt sed grep glibmm>=2.40.0"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
