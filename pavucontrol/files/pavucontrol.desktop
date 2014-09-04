@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Name=PulseAudio Volume Control
+Name[ru]=Регулятор Громкости PulseAudio
+Name[uk]=Регулятор Гучності PulseAudio
+GenericName=Volume Control
+GenericName[ru]=Регулятор Громкости
+GenericName[uk]=Регулятор Гучності
+Comment=Adjust the volume level
+Comment[ru]=Регулируйте уровень громкости
+Comment[uk]=Регулюйте рівень гучності
+Exec=pavucontrol
+Icon=multimedia-volume-control
+StartupNotify=true
+Type=Application
+Categories=AudioVideo;Audio;

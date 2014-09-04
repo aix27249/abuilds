@@ -1,46 +1,19 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pavucontrol
-pkgver=1.0
+pkgver=2.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="PulseAudio Volume Control 1.0"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control tool (mixer) for the PulseAudio sound server. In contrast to classic mixer tools this one allows you to control both the volume of hardware devices and of each playback" "stream separately."
-)
 
-source=("http://0pointer.de/lennart/projects/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+longdesc=("PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control tool (mixer) for the PulseAudio sound server. In contrast to classic mixer tools this one allows you to control both the volume of hardware devices and of each playback" "stream separately.")
 
-patch_opts=("")
+source=("http://freedesktop.org/software/pulseaudio/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
+tags="xapps media-sound"
 
-tags="xapps media-sound"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
+build_deps="make gcc intltool lynx gtk+3 coreutils kernel-headers gtkmm3 libcanberra gettext"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+adddep="pulseaudio"
 
 BUILD_SYSTEM="autotools"
 
@@ -50,16 +23,15 @@ BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-gtk3 \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
+--program-suffix= \
+--enable-gtk3"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
+after_build(){
+  install -Dm644 "${filedir}/pavucontrol.desktop" \
+          "${pkgdir}/usr/share/applications/pavucontrol.desktop"
+  echo "End after_build"
 }
