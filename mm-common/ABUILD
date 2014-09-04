@@ -1,0 +1,26 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=mm-common
+pkgver=0.9.6
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Common build files of the C++ bindings"
+
+source=("http://download.gnome.org/sources/mm-common/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
+tags="gnome-base gnome"
+
+build_deps="make coreutils"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
