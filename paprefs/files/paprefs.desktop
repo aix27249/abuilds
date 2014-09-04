@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Name=PulseAudio Preferences
+Name[de]=PulseAudio-Einstellungen
+Name[ru]=Настройка PulseAudio
+Name[ru]=Настройка PulseAudio
+Name[uk]=Налаштування PulseAudio
+GenericName=Sound Server Preferences
+GenericName[de]=Audio-Dienst-Einstellungen
+GenericName[ru]=Настройки Сервера Звука
+GenericName[uk]=Налаштування Сервера Звуку
+Comment=View and modify the configuration of the local sound server
+Comment[de]=Anzeigen und Ändern der Konfiguration des lokalen Audio-Dienstes
+Comment[ru]=Просмотр и изменение настроек локального звукового сервера
+Comment[uk]=Перегляд і зміна налаштувань локального звукового сервера
+Exec=paprefs
+Icon=preferences-desktop
+StartupNotify=true
+Type=Application
+Categories=Settings;
