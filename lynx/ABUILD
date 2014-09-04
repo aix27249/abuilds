@@ -1,0 +1,30 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=lynx
+pkgver=2.8.8
+pkgbuild=1
+arch=('auto')
+relver=${pkgver}rel.1
+
+shortdesc="A text browser for the World Wide Web"
+
+source=("http://mirrors.go-parts.com/lynx/release/${pkgname}${relver}.tar.bz2")
+#source=("http://lynx.isc.org/current/${pkgname}${relver}.tar.bz2")
+
+tags="network net-misc"
+
+build_deps="make gcc pkg-config openssl gettext"
+
+config_files='/etc/lynx.cfg'
+
+build() {
+  cd ${srcdir}/${pkgname}${pkgver//./-}
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --with-ssl=/usr \
+              --enable-nls \
+              --enable-ipv6 \
+              --mandir=/usr/man
+  make
+  make DESTDIR=${pkgdir} install
+}
