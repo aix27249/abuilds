@@ -2,7 +2,7 @@
 
 pkgname=tumbler
 pkgver=0.1.30
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="D-Bus service for applications to request thumbnails"
