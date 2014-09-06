@@ -1,29 +1,33 @@
 pkgname=imlib2
-pkgver=1.4.5
+pkgver=1.4.6
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support"
 source=("http://downloads.sourceforge.net/enlightenment/$pkgname-$pkgver.tar.bz2")
+
 tags="libs media-libs"
-build_deps="libtiff giflib bzip2 freetype libXext libjpeg-turbo"
+
+build_deps="make gcc binutils coreutils sed grep libtiff giflib bzip2 freetype libXext libjpeg-turbo"
 
 before_build() {
   # disable optimizations, they cause problems (e.g. FS#12268)
   if [[ $ARCH = "i686" ]]; then
-    export EXTRAOPTS="--disable-mmx"
+     export EXTRAOPTS="--disable-mmx"
   elif [[ $ARCH = "x86_64" ]]; then
-    export EXTRAOPTS="--disable-amd64"
+     export EXTRAOPTS="--disable-amd64"
   fi
+  sed -i 's/@my_libs@//' imlib2-config.in
 }
 
 echo $EXTRAOPTS
+
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc/imlib2 \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---x-libraries=/usr/lib \
-$EXTRAOPTS"
+            --sysconfdir=/etc/imlib2 \
+            --localstatedir=/var \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --disable-static \
+            --mandir=/usr/man \
+            --x-libraries=/usr/lib \
+            $EXTRAOPTS"
