@@ -1,0 +1,33 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=imlib
+pkgver=1.9.15
+pkgbuild=6
+arch=('auto')
+
+shortdesc="General image handling library for X11 and Gtk"
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/imlib/1.9/${pkgname}-${pkgver}.tar.bz2")
+
+tags="media-libs libs"
+
+build_deps="make autoconf binutils giflib libpng libtiff libXext"
+
+build(){
+  go_src_dir
+  burn_patches
+  sed '/AC_PATH_XTRA/d' -i configure.in
+  mv configure.in configure.ac
+  libtoolize --force
+  cp /usr/bin/libtool .
+  autoreconf --force --install
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --mandir=/usr/share/man \
+              --enable-shm \
+              --disable-static
+
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+  make DESTDIR="${pkgdir}" install
+}
