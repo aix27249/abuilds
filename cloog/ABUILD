@@ -2,7 +2,7 @@
 
 pkgname=cloog
 pkgver=0.18.0
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("Library that generates loops for scanning polyhedra")
