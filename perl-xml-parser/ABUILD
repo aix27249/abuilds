@@ -2,7 +2,7 @@
 
 pkgname=perl-xml-parser
 pkgver=2.41
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Expat-based XML parser module for Perl")
@@ -13,14 +13,14 @@ build_deps="expat perl"
 source=("http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-${pkgver}.tar.gz")
 
 build() {
-	go_src_dir
-	burn_patches
-	unset LANG
-	perl Makefile.PL INSTALLDIRS=vendor
-	make -j${numjobs}
-	make install DESTDIR=${pkgdir}
+  go_src_dir
+  burn_patches
+  unset LANG
+  perl Makefile.PL INSTALLDIRS=vendor
+  make -j${numjobs}
+  make install DESTDIR=${pkgdir}
 
-	# remove perllocal.pod and .packlist.
-	find "${pkgdir}" -name perllocal.pod -delete
-	find "${pkgdir}" -name .packlist -delete
+  # remove perllocal.pod and .packlist.
+  find "${pkgdir}" -name perllocal.pod -delete
+  find "${pkgdir}" -name .packlist -delete
 }
