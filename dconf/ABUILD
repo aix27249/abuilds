@@ -1,8 +1,8 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 
 pkgname=dconf
-pkgver=0.18.0
-pkgbuild=2
+pkgver=0.20.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A configuration system of desktop environments"
