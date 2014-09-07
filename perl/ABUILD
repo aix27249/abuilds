@@ -2,7 +2,7 @@
 
 pkgname=perl
 pkgver=5.20.0
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("perl (Practical Extraction and Report Language)")
@@ -26,12 +26,8 @@ build() {
      arch_opts=""
   fi
   CFLAGS="${SLKCFLAGS}"
-  ./Configure -des -Dusethreads \
-                   -Duseshrplib \
-                   -Doptimize="${CFLAGS}" \
-                   -Dprefix=/usr \
-                   -Dinstallprefix=${pkgdir}/usr \
-                   -Dvendorprefix=/usr \
+  ./Configure -des -Dusethreads -Duseshrplib -Doptimize="${CFLAGS}" \
+                   -Dprefix=/usr -Dinstallprefix=${pkgdir}/usr -Dvendorprefix=/usr \
                    -Dprivlib=/usr/share/perl5/core_perl \
                    -Darchlib=/usr/lib${LIBDIRSUFFIX}/perl5/core_perl \
                    -Dsitelib=/usr/share/perl5/site_perl \
@@ -42,8 +38,7 @@ build() {
                    -Dsitescript=/usr/bin/site_perl \
                    -Dvendorscript=/usr/bin/vendor_perl \
                    -Dinc_version_list=none \
-                   -Dman1ext=1perl \
-                   -Dman3ext=3perl \
+                   -Dman1ext=1perl -Dman3ext=3perl \
                    ${arch_opts} \
                    -Dlddlflags="-shared ${LDFLAGS}" \
                    -Dldflags="${LDFLAGS}"
@@ -53,18 +48,17 @@ build() {
 
   ### Perl Settings ###
   # Change man page extensions for site and vendor module builds.
-  # Set no mail address since bug reports should go to the bug tracker
-  # and not someone's email.
+  # Use archlinux email address instead of my own.
   sed -e '/^man1ext=/ s/1perl/1p/' -e '/^man3ext=/ s/3perl/3pm/' \
-      -e "/^cf_email=/ s/'.*'/''/" \
-      -e "/^perladmin=/ s/'.*'/''/" \
+      -e "/^cf_email=/ s/'.*'/'kevin@archlinux.org'/" \
+      -e "/^perladmin=/ s/'.*'/'kevin@archlinux.org'/" \
       -i ${pkgdir}/usr/lib${LIBDIRSUFFIX}/perl5/core_perl/Config_heavy.pl
 
   ### CPAN Settings ###
   # Set CPAN default config to use the site directories.
   sed -e '/(makepl_arg =>/   s/""/"INSTALLDIRS=site"/' \
       -e '/(mbuildpl_arg =>/ s/""/"installdirs=site"/' \
-      -i "${pkgdir}"/usr/share/perl5/core_perl/CPAN/FirstTime.pm
+      -i ${pkgdir}/usr/share/perl5/core_perl/CPAN/FirstTime.pm
 
   # Profile script to set paths to perl scripts.
   install -D -m755 "${filedir}"/perlbin.sh \
@@ -75,21 +69,24 @@ build() {
           "${pkgdir}"/etc/profile.d/perlbin.csh
 
   sed -e "s|{LIBDIR}|"${LIBDIRSUFFIX}"|g" -i "${pkgdir}"/etc/profile.d/perlbin.sh \
-                                          -i "${pkgdir}"/etc/profile.d/perlbin.csh
+      -i "${pkgdir}"/etc/profile.d/perlbin.csh
 
   (cd ${pkgdir}/usr/bin; mv perl${pkgver} perl)
   (cd ${pkgdir}/usr/bin/core_perl;  ln -sf c2ph pstruct; ln -sf s2p psed)
+  grep -Rl "${pkgdir}" ${pkgdir}/usr | \
+       xargs sed -i "s^${pkgdir}^^g"
 
   # Remove all pod files *except* those under /usr/share/perl5/core_perl/pod/
   # (FS#16488)
-  rm -f "${pkgdir}"/usr/share/perl5/core_perl/*.pod
-  for d in "${pkgdir}"/usr/share/perl5/core_perl/*; do
-      if [ -d ${d} -a $(basename ${d}) != "pod" ]; then
+  rm -f ${pkgdir}/usr/share/perl5/core_perl/*.pod
+  for d in ${pkgdir}/usr/share/perl5/core_perl/*; do
+      if [ -d ${d} -a $(basename $d) != "pod" ]; then
          find ${d} -name *.pod -delete
       fi
   done
-  find "${pkgdir}"/usr/lib${LIBDIRSUFFIX} -name *.pod -delete
-  find "${pkgdir}" -name .packlist -delete
+  find ${pkgdir}/usr/lib${LIBDIRSUFFIX} -name *.pod -delete
+  find ${pkgdir} -name .packlist -delete
   ln -s /usr/lib/perl5/core_perl/CORE/libperl.so "${pkgdir}"/usr/lib/libperl.so
+
 }
 
