@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=xfce4-panel
-pkgver=4.11.0
+pkgver=4.11.1
 pkgbuild=1
 arch=('auto')
 
@@ -26,8 +26,9 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix= \
 --enable-gio-unix \
---enable-gtk-doc \
---disable-debug"
+--enable-gtk-doc"
+#\
+#--disable-debug"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
