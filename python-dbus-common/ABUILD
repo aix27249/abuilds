@@ -3,7 +3,7 @@
 pkgname=python-dbus
 srcname=dbus-python
 pkgver=1.2.0
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc="dbus-python (Python 2  bindings for dbus)"
@@ -14,6 +14,7 @@ source=("http://dbus.freedesktop.org/releases/${srcname}/${srcname}-${pkgver}.ta
 
 build_deps="coreutils gcc sed grep binutils python-docutils dbus-glib python python3"
 
+adddep="python python-dbus-common"
 
 pkglist="python-dbus3 python-dbus-common"
 
