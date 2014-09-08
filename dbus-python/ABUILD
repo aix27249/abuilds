@@ -2,17 +2,17 @@
 
 pkgname=dbus-python
 pkgver=0.83.2
-pkgbuild=1
-arch=("auto")
+pkgbuild=2
+arch=("noarch")
 
-shortdesc=("dbus-python (Python bindings for dbus)")
-longdesc=("This package includes python bindings for the D-Bus messagebus.")
+shortdesc=("Python bindings for dbus (Virtual package)")
 
-tags=("libs dev-python")
+tags="virtual dev-python"
 
-source=("http://dbus.freedesktop.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+build_deps="binutils"
 
-BUILD_SYSTEM="autotools"
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+adddep="python-dbus"
 
+build(){
+    echo "End build"
+}
