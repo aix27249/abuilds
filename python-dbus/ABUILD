@@ -3,23 +3,69 @@
 pkgname=python-dbus
 srcname=dbus-python
 pkgver=1.2.0
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
-shortdesc=("dbus-python (Python bindings for dbus)")
-longdesc=("This package includes python bindings for the D-Bus messagebus.")
+shortdesc="dbus-python (Python 2  bindings for dbus)"
 
 tags=("libs dev-python")
 
 source=("http://dbus.freedesktop.org/releases/${srcname}/${srcname}-${pkgver}.tar.gz")
 
-build_deps="coreutils gcc sed grep binutils python-docutils dbus-glib python"
+build_deps="coreutils gcc sed grep binutils python-docutils dbus-glib python python3"
 
-BUILD_SYSTEM="autotools"
+adddep="python python-dbus-common"
 
-BUILD_KEYS="--prefix=/usr \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --docdir=/usr/doc/${pkgname}-${pkgver}"
+pkglist="python-dbus3 python-dbus-common"
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+before_build(){
+  go_src_dir
+  mkdir build-python2 build-python3 ${srcdir}/python-dbus-common
+  autoreconf -fi
+}
 
+build() {
+  go_src_dir
+  cd build-python2
+  ../configure --prefix=/usr \
+               --libdir=/usr/lib${LIBDIRSUFFIX} \
+               --docdir=/usr/doc/${pkgname}-${pkgver}
+  make
+
+  make DESTDIR="${pkgdir}" install
+  cp -R "${pkgdir}/usr/include" "${srcdir}"/python-dbus-common/include
+  mkdir ${srcdir}/python-dbus-common/lib${LIBDIRSUFFIX}
+  cp -R "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" \
+         "${srcdir}"/python-dbus-common/lib${LIBDIRSUFFIX}/pkgconfig
+  rm -rf "${pkgdir}/usr/include"
+  rm -rf "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig"
+}
+
+python-dbus3() {
+  pkgname=python3-dbus
+  shortdesc=("dbus-python (Python 3  bindings for dbus)")
+  adddep="python3 python-dbus-common"
+}
+
+python-dbus3_prep(){
+  go_src_dir
+  cd build-python3
+  PYTHON=python3 ../configure --prefix=/usr \
+                              --libdir=/usr/lib${LIBDIRSUFFIX} \
+                              --docdir=/usr/doc/${pkgname}-${pkgver}
+  make
+  make DESTDIR="${pkgdir}" install
+  rm -rf "${pkgdir}/usr/include"
+  rm -rf "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig"
+}
+
+
+python-dbus-common() {
+  pkgname=python-dbus-common
+  shortdesc="Common dbus-python files shared between python-dbus and python3-dbus"
+}
+
+python-dbus-common_prep() {
+  go_src_dir
+  cp -R "${srcdir}"/python-dbus-common/ ${pkgdir}/usr/
+}
