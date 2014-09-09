@@ -1,6 +1,6 @@
 pkgname=imlib2
 pkgver=1.4.6
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support"
