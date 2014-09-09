@@ -1,5 +1,5 @@
 pkgname=qpdfview
-pkgver=0.4.8beta1
+pkgver=0.4.11.1
 pkgbuild=2
 arch=('auto')
 
