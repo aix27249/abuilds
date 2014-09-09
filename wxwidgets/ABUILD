@@ -2,7 +2,7 @@
 
 pkgname=wxwidgets
 pkgver=3.0.1
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("wxWidgets: cross-platform GUI library")
