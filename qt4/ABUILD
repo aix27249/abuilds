@@ -1,13 +1,16 @@
 # Qt4 ABUILD
 pkgname=qt4
 pkgver=4.8.6
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
 longdesc=('Qt is a complete and well-developed object-oriented framework for developing graphical user interface (GUI) applications using C++.')
+
 tags=('libs x11-libs')
-source=("http://download.qt-project.org/official_releases/qt/4.8/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
+
+source=("http://download.qt-project.org/official_releases/qt/${pkgver%.*}/${pkgver}/qt-everywhere-opensource-src-${pkgver}.tar.gz")
+
 pkglist="qtdoc"
 
 gendeps_blacklist="usr/lib$LIBDIRSUFFIX/qt/plugins/"
