@@ -1,23 +1,26 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
 
 pkgname=glm
-pkgver=0.9.4.3
+pkgver=0.9.5.4
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="C++ mathematics library for 3D software based on the OpenGL Shading Language (GLSL) specification"
-source=("http://sourceforge.net/projects/ogl-math/files/${pkgname}-${pkgver}/${pkgname}-${pkgver}.zip")
-tags="develop dev-libs"
-build_deps="mkpkg"
 
-build()
-{
+source=("http://sourceforge.net/projects/ogl-math/files/${pkgname}-${pkgver}/${pkgname}-${pkgver}.zip")
+
+tags="develop dev-libs"
+
+build_deps="coreutils"
+
+build(){
     go_src_dir
-    mkdir -p $pkgdir/usr/include/glm
-    mkdir -p $pkgdir/usr/doc/${pkgname}-${pkgver}
-    cp -r glm $pkgdir/usr/include
-    cp -r doc/. $pkgdir/usr/doc/${pkgname}-${pkgver}
-    rm -f $pkgdir/usr/include/glm/CMakeLists.txt
-    find $pkgdir -type f -exec chmod 644 {} \;
-    find $pkgdir -type d -exec chmod 755 {} \;
+    mkdir -p ${pkgdir}/usr/include/glm
+    mkdir -p ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+    cp -r glm ${pkgdir}/usr/include
+    cp -r doc/. ${pkgdir}/usr/doc/${pkgname}-${pkgver}
+    rm -f ${pkgdir}/usr/include/glm/CMakeLists.txt
+    find ${pkgdir} -type f -exec chmod 644 {} \;
+    find ${pkgdir} -type d -exec chmod 755 {} \;
+    install -Dm644 util/FindGLM.cmake ${pkgdir}/usr/share/cmake-3.0/Modules/FindGLM.cmake
 }
