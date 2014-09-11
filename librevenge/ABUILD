@@ -1,0 +1,28 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=librevenge
+pkgver=0.0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="library for REVerses ENGineered formats filters"
+
+source=("http://sourceforge.net/projects/libwpd/files/librevenge/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+tags="dev-libs libs"
+
+build_deps="make gcc gcc-g++ coreutils binutils boost doxygen cppunit sed grep"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
