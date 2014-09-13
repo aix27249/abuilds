@@ -1,83 +1,82 @@
-# Maintainer: CyberMix <mos.mix@gmail.com>
-
-_doc_root=/srv/nginx
-_server_root=/etc/nginx
-_conf_path=${_server_root}/conf
-_tmp_path=/var/spool/nginx
-_log_path=/var/log/nginx
-_user=nobody
-_group=nobody
-
 pkgname=nginx
-pkgver=1.5.1
+pkgver=1.7.4
 pkgbuild=1
 shortdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 longdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('auto')
-depends=('pcre' 'zlib' 'openssl')
+build_deps=('pcre' 'zlib' 'openssl')
 tags=("server www-servers")
 
-backup=("etc/nginx/conf/nginx.conf"
-	"etc/nginx/conf/koi-win"
-	"etc/nginx/conf/koi-utf"
-	"etc/nginx/conf/win-utf"
-	"etc/nginx/conf/mime.types"
-	"etc/nginx/conf/fastcgi_params"
-	"etc/logrotate.d/nginx")
-source=(http://nginx.org/download/nginx-${pkgver}.tar.gz)
+config_files=("etc/nginx/nginx.conf"
+  "etc/nginx/conf/koi-win"
+  "etc/nginx/conf/koi-utf"
+  "etc/nginx/conf/win-utf"
+  "etc/nginx/conf/mime.types"
+  "etc/nginx/conf/fastcgi_params"
+  "etc/logrotate.d/nginx")
+source="http://nginx.org/download/nginx-${pkgver}.tar.gz"
 
-build() {
-	local _src_dir=$srcdir/nginx-${pkgver}
-	local _build_dir=$_src_dir/objs
+nginx_home=/var/lib/nginx
+nginx_tmp_path=${nginx_home}
+nginx_log_path=/var/log/nginx
 
-	cd $_src_dir
-	./configure \
-		--prefix=${_server_root} \
-		--sbin-path=/usr/sbin/nginx \
-		--pid-path=/var/run/nginx.pid \
-		--lock-path=/var/lock/nginx.lock \
-		--http-client-body-temp-path=${_tmp_path}/client_body_temp \
-		--http-proxy-temp-path=${_tmp_path}/proxy_temp \
-		--http-fastcgi-temp-path=${_tmp_path}/fastcgi_temp \
-		--http-log-path=${_log_path}/access.log \
-		--error-log-path=${_log_path}/error.log \
-		--user=${_user} --group=${_group} \
-		--with-imap --with-imap_ssl_module --with-http_ssl_module \
-		--with-http_stub_status_module \
-		--with-http_dav_module \
-		--with-http_gzip_static_module \
-		--with-ipv6
+NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
+geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
+split_clients upstream_ip_hash userid uwsgi"
+NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip gzip_static
+image_filter mp4 perl random_index realip secure_link spdy stub_status sub xslt"
+NGINX_MODULES_OPT_ENABLED=("gunzip gzip_static perl xslt")
+NGINX_MODULES=''
+for mod in $NGINX_MODULES_OPT_ENABLED; do
+    NGINX_MODULES="$NGINX_MODULES --with-http_${mod}_module"
+done
 
-	make
-	make DESTDIR=$pkgdir install
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr/ \
+    --conf-path=/etc/nginx/nginx.conf \
+    --pid-path=/run/nginx.pid \
+    --lock-path=/run/lock/nginx.lock \
+    --user=www-data \
+    --group=www-data \
+    --http-log-path=${nginx_log_path}/access.log \
+    --error-log-path=${nginx_log_path}/error.log \
+    --http-client-body-temp-path=${nginx_tmp_path}/client-body \
+    --http-proxy-temp-path=${nginx_tmp_path}/proxy \
+    --http-fastcgi-temp-path=${nginx_tmp_path}/fastcgi \
+    --http-scgi-temp-path=${nginx_tmp_path}/scgi \
+    --http-uwsgi-temp-path=${nginx_tmp_path}/uwsgi \
+    --with-ipv6 \
+    --with-pcre-jit \
+    --with-file-aio \
+    --with-http_ssl_module \
+    $NGINX_MODULES"
 
-	install -d $pkgdir/etc/logrotate.d/
-	cat <<EOF > $pkgdir/etc/logrotate.d/nginx
-	$_log_path/*log {
-		create 640 http log
-		compress
-		postrotate
-			/bin/kill -USR1 \`cat /var/run/nginx.pid 2>/dev/null\` 2> /dev/null || true
-		endscript
-	}
-EOF
+after_build() {
+  go_src_dir
+  install -Dm644 contrib/vim/ftdetect/nginx.vim \
+	"$pkgdir"/usr/share/vim/vimfiles/ftdetect/nginx.vim
+  install -Dm644 contrib/vim/syntax/nginx.vim \
+	"$pkgdir"/usr/share/vim/vimfiles/syntax/nginx.vim
+  install -Dm644 contrib/vim/indent/nginx.vim \
+	"$pkgdir"/usr/share/vim/vimfiles/indent/nginx.vim
 
-	sed -i -e "s/\<user\s\+\w\+;/user $_user;/g" $pkgdir/$_conf_path/nginx.conf
+  sed -e 's|\<user\s\+\w\+;|user www-data;|g' \
+	-e '44s|html|/usr/share/nginx/html|' \
+	-e '54s|html|/usr/share/nginx/html|' \
+	-i "$pkgdir"/etc/nginx/nginx.conf
 
-	install -d $pkgdir/$_tmp_path
+  install -d "$pkgdir"/${nginx_tmp_path}
+  install -dm700 "$pkgdir"/${nginx_tmp_path}/proxy
 
-	# move default document root outside server root
-	install -d $pkgdir/$_doc_root
-	mv $pkgdir/$_server_root/html/* $pkgdir/$_doc_root/
-	rm -rf $pkgdir/$_server_root/html
-	rm -f $pkgdir/$_doc_root/index.html
+  chmod 750 "$pkgdir"/var/log/nginx
+  chown www-data:www-data "$pkgdir"/var/log/nginx
 
-	# let's create links for relative paths in config file
-	ln -s $_log_path $pkgdir/$_server_root/logs
-	ln -s $_doc_root $pkgdir/$_server_root/html
+  install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 
-	mkdir -p $pkgdir/etc/conf.d
-	echo "NGINX_CONFIG=/etc/nginx/conf/nginx.conf" >$pkgdir/etc/conf.d/nginx
-	rm -rf $pkgdir/var/run
+  install -D -m644 "$filedir"/nginx.logrotate "$pkgdir"/etc/logrotate.d/nginx
+  install -D -m755 "$filedir"/nginx.initd $pkgdir/etc/init.d/nginx
+  mkdir -p $pkgdir/usr/share/nginx
+  mv $pkgdir/usr/html $pkgdir/usr/share/nginx/html
+  rm -rf $pkgdir/var/run
 }
 
