@@ -1,19 +1,23 @@
 pkgname=nginx
 pkgver=1.7.4
-pkgbuild=1
+pkgbuild=2
 shortdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 longdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('auto')
 build_deps=('pcre' 'zlib' 'openssl')
 tags=("server www-servers")
 
-config_files=("etc/nginx/nginx.conf"
-  "etc/nginx/conf/koi-win"
-  "etc/nginx/conf/koi-utf"
-  "etc/nginx/conf/win-utf"
-  "etc/nginx/conf/mime.types"
-  "etc/nginx/conf/fastcgi_params"
-  "etc/logrotate.d/nginx")
+config_files="etc/nginx/nginx.conf
+etc/nginx/sites-available/default
+etc/nginx/koi-win
+etc/nginx/koi-utf
+etc/nginx/win-utf
+etc/nginx/mime.types
+etc/nginx/scgi_params
+etc/nginx/uwsgi_params
+etc/nginx/fastcgi_params
+etc/nginx/fastcgi.conf
+etc/logrotate.d/nginx"
 source="http://nginx.org/download/nginx-${pkgver}.tar.gz"
 
 nginx_home=/var/lib/nginx
@@ -60,10 +64,11 @@ after_build() {
   install -Dm644 contrib/vim/indent/nginx.vim \
 	"$pkgdir"/usr/share/vim/vimfiles/indent/nginx.vim
 
-  sed -e 's|\<user\s\+\w\+;|user www-data;|g' \
-	-e '44s|html|/usr/share/nginx/html|' \
-	-e '54s|html|/usr/share/nginx/html|' \
-	-i "$pkgdir"/etc/nginx/nginx.conf
+  mkdir -p $pkgdir/etc/nginx/sites-{available,enabled}
+  install -Dm644 $filedir/nginx.conf $pkgdir/etc/nginx/nginx.conf
+  install -Dm644 $filedir/default.conf $pkgdir/etc/nginx/sites-available/default
+  ln -s ../sites-available/default $pkgdir/etc/nginx/sites-enabled/default
+  rm $pkgdir/etc/nginx/*.default
 
   install -d "$pkgdir"/${nginx_tmp_path}
   install -dm700 "$pkgdir"/${nginx_tmp_path}/proxy
