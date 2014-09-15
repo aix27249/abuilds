@@ -1,6 +1,6 @@
 pkgname=vlc
-pkgver=2.1.4
-buildver=3
+pkgver=2.1.5
+buildver=1
 pkgbuild=${buildver}
 arch=('auto')
 
