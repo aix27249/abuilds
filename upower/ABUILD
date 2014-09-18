@@ -1,5 +1,5 @@
 pkgname=upower
-pkgver=0.9.23
+pkgver=0.99.1
 pkgbuild=1
 arch=('auto')
 
@@ -10,9 +10,11 @@ source=("http://upower.freedesktop.org/releases/${pkgname}-${pkgver}.tar.xz")
 
 tags="base sys-power"
 
-build_deps="make gcc grep pkg-config sed binutils perl intltool docbook-xsl"
+build_deps="make gcc grep pkg-config sed binutils perl intltool docbook-xsl gtk-doc gobject-introspection libimobiledevice"
 
 adddep="libusb polkit dbus-glib libimobiledevice"
+
+config_files="/etc/UPower/UPower.conf"
 
 BUILD_SYSTEM="autotools"
 
