@@ -1,16 +1,16 @@
 pkgname=mkpkg
-pkgver=1.3.3
+pkgver=1.3.4
 pkgbuild=1
 arch=('noarch')
 shortdesc="mkpkg: AgiliaLinux package building tool"
 
-#source="https://github.com/aix27249/mkpkg/tarball/${pkgver}"
-source="https://github.com/khvalera/mkpkg/tarball/${pkgver}"
+source="https://github.com/aix27249/mkpkg/archive/${pkgver}.tar.gz"
 
 tags="dev-util develop"
+
 build_deps="cmake sed"
 
-adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash sed grep"
+adddep="mpkg-console>=0.16 mkpkg-vercmp>=1.0 fakeroot python bash sed grep tar rpm wget"
 
 config_files="etc/mkpkg.conf"
 
