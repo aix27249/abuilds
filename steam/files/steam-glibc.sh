@@ -51,10 +51,10 @@ function check_lib(){
 }
 
 if [ ${ARCH} = "x86_64" ]; then
- check_lib "libc6_2.15-0ubuntu10.5_i386.deb" "i386-linux-gnu" ~/.local/share/Steam/ubuntu12_32
- check_lib "libc6_2.15-0ubuntu10.5_amd64.deb" "x86_64-linux-gnu" ~/.local/share/Steam/ubuntu12_64
+ check_lib "libc6_2.15-0ubuntu10.7_i386.deb" "i386-linux-gnu" ~/.local/share/Steam/ubuntu12_32
+ check_lib "libc6_2.15-0ubuntu10.7_amd64.deb" "x86_64-linux-gnu" ~/.local/share/Steam/ubuntu12_64
 else
- check_lib "libc6_2.15-0ubuntu10.5_i386.deb" "i386-linux-gnu" ~/.local/share/Steam/ubuntu12_32
+ check_lib "libc6_2.15-0ubuntu10.7_i386.deb" "i386-linux-gnu" ~/.local/share/Steam/ubuntu12_32
 fi
 
 

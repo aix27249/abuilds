@@ -1,7 +1,6 @@
 #ABUILD created by: SirAnthony, anthony at adsorbtion.org 
-#----------------------------- General vars --------------------------------------
 pkgname=steam
-pkgver=1.0.0.43
+pkgver=1.0.0.49
 pkgbuild=1
 arch=('auto')
 
@@ -9,8 +8,9 @@ shortdesc="Digital distribution client - bootstrap package"
 
 source=("http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${pkgver}.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
 tags="games games-util x86"
+
+build_deps="bash coreutils tar sed"
 
 if [ "${ARCH}" = "i686" ]; then
 adddep="bash xterm glibc-i18n libX11 libxcb libXau libXdmcp glibc-solibs cxxlibs mesa
@@ -27,7 +27,6 @@ adddep="bash xterm glibc-i18n32 libX1132 libxcb32 libXau32 libXdmcp32 glibc-soli
 #libjpeg-turbo32 gcc-libs32 flash-player32
 fi
 
-#-------------------------------------------------------------------
 bootstrap(){
   echo "Start repacking bootstrap"
   dirbs="${srcdir}/steam/bootstrap"
@@ -40,7 +39,6 @@ bootstrap(){
   cp -f bootstraplinux_ubuntu12_32.tar.xz ${srcdir}/steam/bootstraplinux_ubuntu12_32.tar.xz
 }
 
-#----------------------------- Make PKG --------------------------------------
 build(){
   bootstrap
 
