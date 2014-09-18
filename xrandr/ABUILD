@@ -1,5 +1,5 @@
 pkgname=xrandr
-pkgver=1.4.2
+pkgver=1.4.3
 pkgbuild=1
 arch=('auto')
 
@@ -13,14 +13,18 @@ source=("http://xorg.freedesktop.org/archive/individual/app/xrandr-${pkgver}.tar
 build_deps="make gcc pkg-config sed libXrandr libX11 randrproto kernel-headers"
 
 BUILD_SYSTEM='autotools'
+
 BUILD_KEYS="--prefix=/usr \
             --libdir=/usr/lib${LIBDIRSUFFIX} \
             --sysconfdir=/etc \
             --localstatedir=/var \
             --infodir=/usr/info \
             --mandir=/usr/man \
-            --disable-static \
-            --with-fontrootdir=/usr/share/fonts \
             --build=$ARCH-slackware-linux "
+
 INSTALL_KEYS="DESTDIR=${pkgdir}"
 
+after_build(){
+  go_src_dir
+  rm -f "${pkgdir}/usr/bin/xkeystone"
+}
