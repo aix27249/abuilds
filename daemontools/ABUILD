@@ -1,0 +1,27 @@
+pkgname=daemontools
+pkgver=0.76
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("Collection of tools for managing UNIX services")
+tags=("sys-process utils")
+source=("http://cr.yp.to/daemontools/$pkgname-$pkgver.tar.gz"
+	"http://smarden.org/pape/djb/manpages/daemontools-0.76-man.tar.gz")
+
+build_deps="gcc"
+
+build(){
+  cd $srcdir/admin/$pkgname-$pkgver
+  burn_patches
+  package/compile
+}
+
+after_build(){
+  cd $srcdir/admin/$pkgname-$pkgver
+  mkdir -pv $pkgdir/usr/bin $pkgdir/etc/service
+  cp -a command/* $pkgdir/usr/bin
+  mkdir -p $pkgdir/usr/man/man8
+  cp -a $srcdir/daemontools-man/* $pkgdir/usr/man/man8
+  install -Dm755 $filedir/svscan.init $pkgdir/etc/init.d/svscan
+}
+
