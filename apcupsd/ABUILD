@@ -1,6 +1,6 @@
 pkgname=apcupsd
 pkgver=3.14.12
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Power mangement and controlling most of APC's UPS models"
@@ -40,7 +40,7 @@ INSTALL_KEYS="DESTDIR=${pkgdir}"
 after_build(){
   install -Dm755 ${filedir}/apcupsd ${pkgdir}/etc/init.d/apcupsd
   install -Dm755 ${filedir}/apcupsd.powerfail ${pkgdir}/etc/init.d/apcupsd.powerfail
-  install -Dm644 ${filedir}/apcupsd.conf ${pkgdir}/etc/conf.d/apcupsd
+  install -Dm644 ${filedir}/apcupsd.conf ${pkgdir}/etc/apcupsd
   install -Dm644 ${filedir}/apcupsd-udev.rules \
 	  ${pkgdir}/etc/udev/rules.d/60-${pkgname}.rules
   rm -rf ${pkgdir}/etc/rc.d ${pkgdir}/usr/share/hal
