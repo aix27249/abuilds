@@ -1,6 +1,6 @@
 pkgname=qpdfview
-pkgver=0.4.11.1
-pkgbuild=2
+pkgver=0.4.12beta1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="a tabbed document viewer using Qt"
@@ -9,22 +9,21 @@ source=("https://launchpad.net/qpdfview/trunk/${pkgver}/+download/qpdfview-${pkg
 
 tags="xapps app-text"
 
-build_deps="poppler libspectre"
+build_deps="poppler libspectre qt4"
 
 docs="CHANGES CONTRIBUTORS"
-before_build()
-{
-go_src_dir
-# translations
-if [[ ! -f ./translations/${pkgname}_ru.qm \
-&& -f ./translations/${pkgname}_ru.ts ]]; then
- lrelease qpdfview.pro || exit 1
-fi
-}
 
+before_build(){
+  go_src_dir
+  # translations
+  if [[ ! -f ./translations/${pkgname}_ru.qm \
+     && -f ./translations/${pkgname}_ru.ts ]]; then
+     lrelease qpdfview.pro
+  fi
+}
 
 BUILD_SYSTEM="qmake"
 BUILD_KEYS="*.pro PREFIX=/usr \
-	PLUGIN_INSTALL_PATH=/usr/lib${LIBDIRSUFFIX}/${pkgname}"
+      PLUGIN_INSTALL_PATH=/usr/lib${LIBDIRSUFFIX}/${pkgname}"
 
 
