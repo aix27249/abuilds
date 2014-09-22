@@ -1,6 +1,6 @@
 pkgname=libgksu
 pkgver=2.0.12
-pkgbuild=10
+pkgbuild=11
 arch=('auto')
 
 shortdesc="su/sudo library"
@@ -9,17 +9,19 @@ longdesc=("This is library which provides simple program interface for su/sudo")
 source=("http://people.debian.org/~kov/gksu/${pkgname}-${pkgver}.tar.gz")
 
 tags="x11-libs libs"
-build_deps="gcc automake binutils gettext pkg-config intltool grep sed kernel-headers"
+build_deps="gcc automake binutils gettext pkg-config intltool grep sed kernel-headers perl"
 
 build() {
   go_src_dir
   burn_patches
+
+  sed -e "s|=gksu.png|=gksu|" -i gksu-properties/gksu-properties.desktop.in
+
   touch NEWS README
 
   intltoolize --force --copy --automake
 
   autoreconf -fi
-
   if [ "$LIBDIRSUFFIX" = "64" ] ; then
      patch -p1 --verbose < ${filedir}/libgksu-fix-helper-path.patch
   fi
@@ -40,7 +42,6 @@ build() {
   install -m755 -d "${pkgdir}/usr/share/gconf/schemas"
   gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" --domain libgksu ${pkgdir}/etc/gconf/schemas/*.schemas
   rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
-
   # Locale
   for i in po/*.po ; do
       L_FILE=`echo ${i} | sed -e 's/\.po$//g'`
