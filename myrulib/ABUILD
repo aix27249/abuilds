@@ -1,6 +1,6 @@
 pkgname=myrulib
-pkgver=0.29.17
-pkgbuild=7
+pkgver=0.29.18
+pkgbuild=1
 arch=('auto')
 
 shortdesc="free software for organizing your home library of electronic books"
@@ -8,15 +8,6 @@ shortdesc="free software for organizing your home library of electronic books"
 source=("http://lintest.ru/pub/${pkgname}-${pkgver}.tar.gz")
 
 build_deps='expat wxwidgets qt4 gcc'
-
-adddep="wxwidgets==2.8.12 \
-bzip2>=1.0.6 \
-freetype>=2.4.12 \
-icu4c>=51.2 \
-libjpeg>=6b_1.3.0 \
-libpng>=1.6.3"
-
-custom_opts="skip_gendeps"
 
 tags="app-text xapps"
 
@@ -33,6 +24,7 @@ BUILD_KEYS="--prefix=/usr \
 --with-bzip2  \
 --with-sqlite  \
 --with-icu      \
+--with-wxsqlite \
 --with-reader    \
 --with-syslog     \
 --with-locale      \
