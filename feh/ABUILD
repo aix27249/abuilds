@@ -1,17 +1,23 @@
 pkgname=feh
-pkgver=2.9.2
+pkgver=2.12
 pkgbuild=1
 arch=('auto')
 
 shortdesc="imlib2 based image viewer"
 longdesc=("feh is a fast, lightweight image viewer which uses imlib2. It is commandline-driven and supports multiple images through slideshows, thumbnail browsing or multiple windows, and montages or index prints (using TrueType fonts to display file info). Advanced features include fast dynamic zooming, progressive loading, loading via HTTP (with reload support for watching webcams), recursive file opening (slideshow of a directory hierarchy), and mouse wheel/keyboard control.")
+
 source=("https://derf.homelinux.org/projects/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
 tags="media-gfx xapps"
+
 build_deps="giblib curl libXinerama libexif imagemagick"
 
 build() {
   go_src_dir
   burn_patches
+  sed -e 's|$IMAGEDIR$/feh.png|feh|' -i share/applications/feh.pre
   make PREFIX=/usr exif=1 help=1 stat64=1
   make PREFIX=/usr DESTDIR="${pkgdir}" install
+
+  install -Dm644 "${pkgdir}"/usr/share/feh/images/feh.png "${pkgdir}"/usr/share/pixmaps/feh.png
 }
