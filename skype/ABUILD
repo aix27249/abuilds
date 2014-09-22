@@ -1,6 +1,6 @@
 pkgname=skype
 pkgver=4.3.0.37
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="VoIP client software for high-quality voice communication"
@@ -39,6 +39,7 @@ build() {
   done
   install -Dm 644 icons/SkypeBlue_48x48.png \
                   "${pkgdir}/usr/share/pixmaps/skype.png"
+  sed -e "s|skype.png|skype|" -i  skype.desktop
   # Desktop file
   install -Dm 644 skype.desktop \
                   "${pkgdir}/usr/share/applications/skype.desktop"
