@@ -2,14 +2,14 @@
 
 pkgname=openjpeg
 pkgver=1.5.2
-pkgbuild=2
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("An open source JPEG 2000 codec")
 
 tags=("libs media-libs")
 
-build_deps="make zlib gcc doxygen grep binutils coreutils kernel-headers autoconf sed grep"
+build_deps="make zlib gcc doxygen grep binutils coreutils kernel-headers autoconf"
 
 source=("http://sourceforge.net/projects/openjpeg.mirror/files/${pkgver}/openjpeg-${pkgver}.tar.gz")
 
