@@ -1,5 +1,5 @@
 pkgname=libsoup
-pkgver=2.45.3
+pkgver=2.46.0
 pkgbuild=1
 arch=('auto')
 
