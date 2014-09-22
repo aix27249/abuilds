@@ -1,13 +1,18 @@
 pkgname=gnome-icon-theme
-pkgver=2.31.0
+pkgver=3.12.0
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="GNOME Desktop icon theme"
+
 longdesc=("This package contains the default icon theme used by the GNOME desktop. The icons are used in the panel menu, and in nautilus and other applications, to represent the different applications, files, directories, and devices. ")
-source=("http://ftp.df.lth.se/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.bz2")
+
+source=("http://ftp.df.lth.se/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+
 tags="x11-themes themes"
-build_deps="intltool"
+
+build_deps="make intltool coreutils pkg-config gettext perl perl-xml-parser icon-naming-utils"
+
 adddep="gtk-update-icon-cache icon-naming-utils hicolor-icon-theme"
 
 BUILD_SYSTEM="autotools"
@@ -18,4 +23,4 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
