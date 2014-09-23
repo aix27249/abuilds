@@ -2,7 +2,7 @@
 
 pkgname=colord
 pkgver=1.2.0
-pkgbuild=2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="colord is a system service that makes it easy to manage, install and generate color profiles to accurately color manage input and output devices. "
