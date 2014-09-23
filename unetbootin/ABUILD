@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=unetbootin
-pkgver=585
+pkgver=608
 pkgbuild=1
 arch=('auto')
 
@@ -11,7 +11,7 @@ source=("http://downloads.sourceforge.net/project/${pkgname}/UNetbootin/${pkgver
 
 tags="sys-fs xapps"
 
-build_deps="qt4"
+build_deps="gcc-g++ qt4"
 
 adddep="polkit"
 
