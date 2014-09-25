@@ -1,6 +1,6 @@
 #ABUILD created by: medved, medved55rus at gmail.com 
 pkgname=gimp
-pkgver=2.8.10
+pkgver=2.8.14
 pkgbuild=1
 arch=('auto')
 
@@ -10,7 +10,7 @@ source=("http://download.gimp.org/pub/gimp/v${pkgver%.*}/${pkgname}-${pkgver}.ta
 
 tags="xapps media-gfx"
 
-build_deps="make gcc pygtk lcms libXpm libwmf libXmu librsvg libmng dbus-glib \
+build_deps="make gcc lcms libXpm libwmf libXmu librsvg libmng dbus-glib \
             libexif gegl jasper desktop-file-utils hicolor-icon-theme babl gegl \
             intltool curl ghostscript poppler"
 
@@ -25,7 +25,7 @@ BUILD_KEYS="--prefix=/usr \
 --enable-mp \
 --enable-gimp-console \
 --enable-gimp-remote \
---enable-python \
+--disable-python \
 --with-gif-compression=lzw \
 --with-libcurl \
 --without-aa \
