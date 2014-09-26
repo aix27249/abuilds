@@ -1,0 +1,53 @@
+#!/sbin/runscript
+# Copyright 1999-2007 Gentoo Foundation
+# Modified for AgiliaLinux 2010-2012 by aix27249
+# Distributed under the terms of the GNU General Public License v2
+
+opts="${opts} reload"
+
+depend() {
+	use net
+}
+
+checkconfig() {
+	if [ ! -d "$PGDATA" ] ; then
+		if [ ! -f $PGDATA/postgresql.conf ]; then
+			echo "PostgreSQL: создание кластера баз данных..."
+			sudo -u $PGUSER /usr/bin/initdb -U $PGUSER -D $PGDATA 1> /dev/null
+		fi
+	fi
+}
+
+start() {
+	checkconfig || return 1
+
+	ebegin "Starting PostgreSQL"
+
+	if [ -f "$PGDATA/postmaster.pid" ] ; then
+		rm -f "$PGDATA/postmaster.pid"
+	fi
+
+	start-stop-daemon --start \
+		--pidfile "${PGDATA}/postmaster.pid" \
+		--user ${PGUSER} --group ${PGGROUP} \
+		--exec /usr/bin/postmaster \
+		-- \
+		-D "${PGDATA}" \
+		--silent-mode=true \
+		${PGOPTS}
+
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping PostgreSQL"
+	start-stop-daemon --stop --pidfile "${PGDATA}/postmaster.pid" \
+		--retry -TERM/${WAIT_FOR_DISCONNECT}/-INT/${WAIT_FOR_CLEANUP}/-QUIT
+	eend $?
+}
+
+reload() {
+	ebegin "Reloading PostgreSQL configuration"
+	start-stop-daemon --stop --pidfile "${PGDATA}/postmaster.pid" --signal HUP
+	eend $?
+}
