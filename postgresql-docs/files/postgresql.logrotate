@@ -1,0 +1,8 @@
+/var/log/pgsql/serverlog {
+    postrotate
+      rc-service postgresql reload 2>&1 > /dev/null
+    endscript
+    size=100k
+    rotate 5
+    create 0640 pgsql wheel
+}
