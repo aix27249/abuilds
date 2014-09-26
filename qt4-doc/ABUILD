@@ -1,7 +1,7 @@
 # Qt4 ABUILD
 pkgname=qt4
 pkgver=4.8.6
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc=('Qt (a multi-platform C++ graphical user interface toolkit)')
@@ -18,7 +18,7 @@ removedep="mysql postgresql"
 build_deps=("make gcc alsa-lib libtiff libjpeg libpng libmng sqlite ca-certificates dbus fontconfig libICE \
     libSM freetype libgl libXrandr libXv libXi alsa-lib xdg-utils hicolor-icon-theme \
     desktop-file-utils mysql libmysqlclient cups gtk+2 mesa zlib libXinerama libXcursor libXfixes \
-    libxml2 icu4c glib2 openssl-solibs diffutils postgresql")
+    libxml2 icu4c glib2 openssl-solibs diffutils postgresql-libs")
 
 before_build() {
   CXXFLAGS=$SLKCFLAGS
