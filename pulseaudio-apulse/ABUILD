@@ -1,0 +1,19 @@
+pkgname=pulseaudio-apulse
+pkgver=0.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PulseAudio emulation for ALSA"
+source=("https://github.com/i-rinat/apulse/archive/v${pkgver}.tar.gz")
+tags="media-sound utils"
+build_deps="cmake glib alsa-lib"
+provides="pulseaudio"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DAPULSEPATH=/usr/lib${LIBDIRSUFFIX} \
+../"
+
