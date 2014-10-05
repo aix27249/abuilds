@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=seamonkey
-pkgver=2.25
+pkgver=2.29.1
 pkgbuild=1
 arch=("auto")
 build_deps=('pkg-config python yasm mesa autoconf nss nspr sqlite gtk+2 libnotify infozip infozip libvpx')
