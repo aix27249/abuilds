@@ -28,7 +28,7 @@ ac_add_options --enable-pango
 ac_add_options --enable-svg
 ac_add_options --enable-smil
 ac_add_options --enable-places
-ac_add_options --enable-shared-js
+#ac_add_options --enable-shared-js
 ac_add_options --enable-storage
 ac_add_options --enable-url-classifier
 ac_add_options --enable-xft
@@ -42,6 +42,7 @@ ac_add_options --enable-xinerama
 ac_add_options --enable-libxul
 #ac_add_options --with-libxul-sdk=/usr/lib%%LIBDIR%%/xulrunner-devel
 ac_add_options --enable-official-branding
+ac_add_options --enable-gstreamer
 
 # System libs
 ac_add_options --with-pthreads
@@ -76,7 +77,6 @@ ac_add_options --disable-pulseaudio
 ac_add_options --disable-tests
 ac_add_options --disable-updater
 #ac_add_options --disable-xprint
-ac_add_options --disable-gstreamer
 
 
 export MOZ_JEMALLOC=1
