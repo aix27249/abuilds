@@ -1,5 +1,5 @@
 pkgname=libpng
-pkgver=1.6.9
+pkgver=1.6.13
 _apngver=${pkgver}
 pkgbuild=1
 arch=('auto')
@@ -11,25 +11,25 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pk
 
 tags="media-libs libs"
 
-build_deps="make gcc zlib kernel-headers pkg-config gcc-g++"
+build_deps="zlib"
 
 before_build() {
-  go_src_dir
-  # Add animated PNG (apng) support
-  # We need to patch the patch
-  cp ${srcache}/libpng-${_apngver}-apng.patch .
-  patch -p1 -i libpng-${_apngver}-apng.patch
+        go_src_dir
+	# Add animated PNG (apng) support
+	# We need to patch the patch
+	cp ${srcache}/libpng-${_apngver}-apng.patch .
+	patch -p1 -i libpng-${_apngver}-apng.patch
 }
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --mandir=/usr/man \
-            --docdir=/usr/doc"
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--mandir=/usr/man \
+	--docdir=/usr/doc"
 
 after_build() {
-  go_src_dir
-  cd contrib/pngminus
-  make PNGLIB="-L${pkgdir}/usr/lib${LIBDIRSUFFIX} -lpng" -f makefile.std png2pnm pnm2png
-  install -m755 png2pnm pnm2png ${pkgdir}/usr/bin/
+	go_src_dir
+	cd contrib/pngminus
+	make PNGLIB="-L${pkgdir}/usr/lib${LIBDIRSUFFIX} -lpng" -f makefile.std png2pnm pnm2png
+	install -m755 png2pnm pnm2png ${pkgdir}/usr/bin/
 }
