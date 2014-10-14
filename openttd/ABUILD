@@ -1,13 +1,7 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=openttd
-pkgver=1.3.3
+pkgver=1.4.3
 pkgbuild=1
 arch=('noarch')
-
-shortdesc="OpenTTD is an Open Source clone of Transport Tycoon Deluxe"
-#-ruler---|--------------------------------------------------------------------------|
-#longdesc=("OpenTTD is an open source clone of the Microprose game Transport Tycoon Deluxe, a popular game originally written by Chris Sawyer. It attempts to mimic the original game as closely as possible while extending it with new features. OpenTTD is licensed under the GNU General Public License version 2.0. Homepage: http://www.openttd.org")
 
 if [ -z "`echo $pkgver | grep "_"`" ]; then
  srcver=${pkgver}/${pkgname}-${pkgver}
@@ -17,50 +11,16 @@ else
  srcver=${pkgver/_rc/-RC}/openttd-${pkgver/_rc/-RC}
 fi
 
+shortdesc="OpenTTD is an Open Source clone of Transport Tycoon Deluxe"
 source=("http://binaries.openttd.org/releases/${srcver}-source.tar.xz")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-#tags="virtual games-simulation"
 tags="games games-simulation"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
+build_deps="libpng sdl icu4c fontconfig lzo hicolor-icon-theme desktop-file-utils xz"
 conflicts="${pkgname}-data"
-
 adddep="${pkgname}-bin==${pkgver} openttd-opensfx openttd-opengfx" #${pkgname}-data
-removedep=""
+pkglist="bin"
 
-#for multi pkg abuild
-pkglist="bin" # data"
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" \
-	./configure" # --help"
-
 BUILD_KEYS="--prefix-dir=/usr \
 --binary-dir=/bin \
 --data-dir=/share/${pkgname} \
@@ -71,59 +31,25 @@ BUILD_KEYS="--prefix-dir=/usr \
 --with-png \
 --with-fontconfig \
 --with-freetype \
---without-icu"
-
-#--man-dir=/man \
-#--icon-dir=/share/icons \
-
+--with-icu"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
 
- if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/docs ]; then
-  rm -vrf $pkgdir/usr/doc/${pkgname}-${pkgver}/docs || exit 1
- fi
-
+after_build() {
+  if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/docs ]; then
+    rm -vrf $pkgdir/usr/doc/${pkgname}-${pkgver}/docs || exit 1
+  fi
 }
 
 # Bin
-bin(){
-	pkgname="${p_pkgname}-bin"
-	arch=('auto')
-	shortdesc="Binary files for OpenTTD"
-	#longdesc=("OpenTTD is an Open Source clone of Transport Tycoon Deluxe")
-	tags="games games-simulation"
-}
-bin_prep(){
- mkdir -p ${pkgdir}/usr
- mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
+bin() {
+  pkgname="${p_pkgname}-bin"
+  arch=('auto')
+  shortdesc="Binary files for OpenTTD"
+  tags="games games-simulation"
 }
 
-#-----------------------------
-#-----------------------------
-
-# Data
-data(){
-	pkgname="${p_pkgname}-data"
-	arch=('noarch')
-	shortdesc="Data files for OpenTTD"
-	longdesc=("OpenTTD is an Open Source clone of Transport Tycoon Deluxe")
-	tags="games games-simulation"
-	adddep="${p_pkgname}-bin" #==${pkgver}"
-	#docs=""
-	#provides=""
-}
-data_prep(){
- mkdir -p ${pkgdir}/usr/
- mv ${p_pkgdir}/usr/man ${pkgdir}/usr || exit 1
- mv ${p_pkgdir}/usr/share ${pkgdir}/usr || exit 1
-
- mv ${p_pkgdir}/usr/doc ${pkgdir}/usr
- if [ -d $pkgdir/usr/doc/${p_pkgname}-${pkgver}/docs ]; then
-  rm -vrf $pkgdir/usr/doc/${p_pkgname}-${pkgver}/docs || exit 1
- fi
+bin_prep() {
+  mkdir -p ${pkgdir}/usr
+  mv ${p_pkgdir}/usr/bin ${pkgdir}/usr
 }
