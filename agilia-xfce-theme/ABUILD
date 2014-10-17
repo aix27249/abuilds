@@ -2,23 +2,23 @@
 
 pkgname=agilia-xfce-theme
 pkgver=11.0
-pkgbuild=3
+pkgbuild=4
 arch=('noarch')
 
 shortdesc="AgiliaLinux Xfce settings"
 longdesc=("This package contains theme settings, panel and desktop settings")
 
-source=("")
-
 tags="xfce x11-themes"
 
 adddep="prudence-theme openzone-cursors xfce-utils"
 
+build_deps="coreutils"
+
 build(){
- cp -R ${filedir}/etc ${pkgdir}
- chmod +x ${pkgdir}/etc/profile.d/gtk-xfce.sh
- mkdir -p ${pkgdir}/etc/X11/xinit/
- cd ${pkgdir}/etc/X11/xinit/
- ln -s ../../xdg/xfce4/xinitrc xinitrc.xfce4
- ln -s xinitrc.xfce4 xinitrc
+  cp -R ${filedir}/etc ${pkgdir}
+  chmod +x ${pkgdir}/etc/profile.d/gtk-xfce.sh
+  mkdir -p ${pkgdir}/etc/X11/xinit/
+  cd ${pkgdir}/etc/X11/xinit/
+  ln -s ../../xdg/xfce4/xinitrc xinitrc.xfce4
+  ln -s xinitrc.xfce4 xinitrc
 }
