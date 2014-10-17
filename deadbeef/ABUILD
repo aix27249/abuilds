@@ -1,5 +1,5 @@
 pkgname=deadbeef
-pkgver=0.6.1
+pkgver=0.6.2
 pkgbuild=1
 arch=('auto')
 
@@ -9,7 +9,7 @@ source=("http://downloads.sourceforge.net/project/deadbeef/${pkgname}-${pkgver}.
 
 tags="media-sound xapps"
 
-build_deps="make gcc gcc-g++ perl perl-xml-parser yasm gettext intltool pkg-config bison binutils coreutils"
+build_deps="make gcc gcc-g++ perl perl-xml-parser yasm gettext intltool pkg-config bison binutils coreutils ffmpeg gtk+2 pulseaudio"
 
 BUILD_SYSTEM="autotools"
 
@@ -25,9 +25,6 @@ BUILD_KEYS="--prefix=/usr \
 	--enable-wildmidi \
 	--enable-converter \
 	--enable-ffap \
-	--disable-pulse \
-	--disable-gtk3 \
-	--disable-portable \
-	--disable-ffmpeg"
+	--disable-gtk3"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
