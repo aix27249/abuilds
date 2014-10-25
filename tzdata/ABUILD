@@ -1,5 +1,5 @@
 pkgname=tzdata
-pkgver=2013h
+pkgver=2014h
 pkgbuild=1
 shortdesc="Sources for time zone and daylight saving time data"
 arch=("noarch")
@@ -13,7 +13,7 @@ custom_opts="no_strip"
 timezones=('africa' 'antarctica' 'asia' 'australasia'
            'europe' 'northamerica' 'southamerica'
            'pacificnew' 'etcetera' 'backward'
-           'systemv' 'factory' 'solar87' 'solar88' 'solar89')
+           'systemv' 'factory')
 
 
 build() {
