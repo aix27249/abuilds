@@ -1,20 +1,17 @@
 pkgname=tzdata
-pkgver=2014h
+pkgver=2014i
 pkgbuild=1
 shortdesc="Sources for time zone and daylight saving time data"
 arch=("noarch")
 tags=("libs sys-libs")
 source=("http://www.iana.org/time-zones/repository/releases/${pkgname}${pkgver}.tar.gz")
 
-build_deps="glibc-solibs"
-
-custom_opts="no_strip"
+build_deps="mkpkg glibc-solibs"
 
 timezones=('africa' 'antarctica' 'asia' 'australasia'
            'europe' 'northamerica' 'southamerica'
            'pacificnew' 'etcetera' 'backward'
-           'systemv' 'factory')
-
+           'systemv' 'factory' 'backzone')
 
 build() {
   cd ${srcdir}
@@ -22,5 +19,5 @@ build() {
   zic -y ./yearistype -d ${pkgdir}/usr/share/zoneinfo/posix ${timezones[@]}
   zic -y ./yearistype -d ${pkgdir}/usr/share/zoneinfo/right -L leapseconds ${timezones[@]}
   zic -y ./yearistype -d ${pkgdir}/usr/share/zoneinfo -p America/New_York
-  install -m444 -t ${pkgdir}/usr/share/zoneinfo iso3166.tab zone.tab
+  install -m444 -t ${pkgdir}/usr/share/zoneinfo iso3166.tab zone.tab zone1970.tab
 }
