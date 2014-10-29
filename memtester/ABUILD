@@ -1,0 +1,19 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=memtester
+pkgver=4.3.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A userspace utility for testing the memory subsystem for faults"
+
+source=("http://pyropus.ca/software/memtester/old-versions/${pkgname}-${pkgver}.tar.gz")
+
+tags="dev-util utils"
+
+build_deps="make"
+
+build(){
+  go_src_dir
+  make
+  make INSTALLPATH=${pkgdir}/usr install
+}
