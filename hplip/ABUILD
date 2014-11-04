@@ -1,22 +1,22 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-# Modified by aix27249
-
 pkgname=hplip
-pkgver=3.13.9
+pkgver=3.14.10
 pkgbuild=1
 arch=('auto')
 
 shortdesc="HPLIP is an HP developed solution for printing, scanning, and faxing."
 
-source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz")
+source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz"
+"http://hplipopensource.com/hplip-web/plugin/hplip-${pkgver}-plugin.run" n)
 
 tags="net-print drivers"
 
-build_deps="sane cups"
+build_deps="make sane cups python autoconf"
 
 adddep="PyQt pycairo pygobject dbus-python pil sip foomatic-db foomatic-db-engine ghostscript wget"
 
 custom_opts="no_ccache no_copydoc"
+
+pkglist="hplip-plugin"
 
 build(){
  go_src_dir
@@ -61,20 +61,64 @@ build(){
  --enable-network-build \
  --enable-scan-build \
  --enable-fax-build \
- --enable-udev-acl-rules  || exit 1
+ --enable-udev-acl-rules
 
- make DESTDIR=${pkgdir} install || exit 1
+ make DESTDIR=${pkgdir} install
+ make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="${pkgdir}/" install
 
- # remove config provided by sane and autostart of hp-daemon
- rm -rf "${pkgdir}"/etc/{sane.d,xdg} || exit 1
- # remove HAL .fdi file because HAL is no longer used
- rm -rf "${pkgdir}"/usr/share/hal || exit 1
 }
 
 after_build(){
- make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="${pkgdir}/" install || exit 1
- rm -rf ${pkgdir}/etc/{sane.d,xdg} || exit 1
- rm -rf "${pkgdir}"/usr/share/hal || exit 1
+ # remove config provided by sane and autostart of hp-daemon
+ rm -rf "${pkgdir}"/etc/{sane.d,xdg}
+ # remove HAL .fdi file because HAL is no longer used
+ rm -rf "${pkgdir}"/usr/share/hal
+
  mkdir -p "${pkgdir}/usr/doc"
  ln -sf /usr/share/doc/hplip-${pkgver} "${pkgdir}/usr/doc/hplip-${pkgver}"
+}
+
+hplip-plugin(){
+  pkgname=hplip-plugin
+  shortdesc="Binary plugin for HPs hplip printer driver library"
+}
+
+hplip-plugin_prep(){
+  cd ${srcdir}
+
+  sh ${srcache}/hplip-$pkgver-plugin.run --tar xvf
+
+  if [ $ARCH = "i686" ]; then
+      _arch='x86_32'
+  elif [ $ARCH = "x86_64" ]; then
+      _arch='x86_64'
+  fi
+
+  # Create folders
+  install -d ${pkgdir}/usr/share/hplip/{data/firmware,fax/plugins,prnt/plugins,scan/plugins}
+  install -d ${pkgdir}/var/lib/hp
+
+  # Copy files
+  install -m644 plugin.spec                  ${pkgdir}/usr/share/hplip/
+  install -m755 hp_laserjet_*.fw.gz          ${pkgdir}/usr/share/hplip/data/firmware/
+  install -m755 fax_marvell-"$_arch".so      ${pkgdir}/usr/share/hplip/fax/plugins/
+  install -m755 hbpl1-"$_arch".so            ${pkgdir}/usr/share/hplip/prnt/plugins/
+  install -m755 lj-"$_arch".so               ${pkgdir}/usr/share/hplip/prnt/plugins/
+  install -m755 bb_*-"$_arch".so             ${pkgdir}/usr/share/hplip/scan/plugins/
+  # Create hplip.state used by hplip-tools
+  cat << EOF > hplip.state
+[plugin]
+installed = 1
+eula = 1
+version = ${pkgver}
+EOF
+  install -m644 hplip.state ${pkgdir}/var/lib/hp
+
+  # Create symlinks
+  for f in $(find ${pkgdir}/usr/share/hplip -type f -name "*.so"); do
+      cd ${pkgdir}/usr/share/hplip
+      cd $(dirname ${f})
+      link_name="$(basename ${f} | cut -d- -f1).so"
+      ln -s $(basename ${f}) ${link_name}
+  done
 }
