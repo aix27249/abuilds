@@ -1,43 +1,124 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
-pkgname=hplip-plugin
-pkgver=3.11.10
+pkgname=hplip
+pkgver=3.14.10
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Binary plugin for HPs hplip printer driver library"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=(" ")
+shortdesc="HPLIP is an HP developed solution for printing, scanning, and faxing."
 
-source=("http://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-$pkgver-plugin.run")
+source=("http://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz"
+"http://hplipopensource.com/hplip-web/plugin/hplip-${pkgver}-plugin.run" n)
 
-#short and long tags / длинный и короткий тег
 tags="net-print drivers"
 
-build()
-{
-go_src_dir
+build_deps="make sane cups python autoconf"
 
-sh $srcache/hplip-$pkgver-plugin.run --tar xvf
+adddep="PyQt pycairo pygobject dbus-python pil sip foomatic-db foomatic-db-engine ghostscript wget"
 
-sed -i 's!$HOMEDIR!'$pkgdir'/usr/share/hplip!g' plugin.spec
-sed -i 's!$RULESDIR!'$pkgdir'/etc/udev/rules.d!g' plugin.spec
+custom_opts="no_ccache no_copydoc"
 
-sed -i 's!if mode == INTERACTIVE_MODE:!installPlugin()\nsys.exit(0)\n\0!' \
-plugin_install.py
-sed -i 's!sys.exit(1)!raise!' \
-plugin_install.py
+pkglist="hplip-plugin"
 
-python plugin_install.py
+build(){
+ go_src_dir
+ burn_patches
+ # fix rc script path - FS#31921
+ sed -i 's|\/etc\/init.d\/cupsys|\/etc\/rc.d\/cupsd|g' setup.py
+ sed -i 's|\/usr\/lib\/systemd\/system|\/usr\/lib'${LIBDIRSUFFIX}'\/systemd\/system|g' Makefile.am
 
-while IFS= read -r -d '' link; do
-    linkdir="`dirname $link`"
-    linkdir="`readlink -e $linkdir`"
-    linktarget="`readlink -e $link`"
-    relpath="`python -c 'import sys,os.path; print os.path.relpath(sys.argv[1],sys.argv[2])' $linktarget $linkdir`"
-    ln -sf "$relpath" "$link"
-  done < <(find "$pkgdir" -type l -print0)
+ # https://bugs.archlinux.org/task/30085 - hack found in Gentoo
+ # Use system foomatic-rip for hpijs driver instead of foomatic-rip-hplip
+ # The hpcups driver does not use foomatic-rip
+ local i
+ for i in ppd/hpijs/*.ppd.gz ; do
+   rm -f ${i}.temp
+   gunzip -c ${i} | sed 's/foomatic-rip-hplip/foomatic-rip/g' | \
+   gzip > ${i}.temp || return 1
+   mv ${i}.temp ${i}
+ done
+
+ export AUTOMAKE='automake --foreign'
+ autoreconf --force --install
+
+ ./configure --prefix=/usr \
+ --with-cupsbackenddir=/usr/lib${LIBDIRSUFFIX}/cups/backend \
+ --with-cupsfilterdir=/usr/lib${LIBDIRSUFFIX}/cups/filter \
+ --libdir=/usr/lib${LIBDIRSUFFIX} \
+ --mandir=/usr/man \
+ --sysconfdir=/etc \
+ --localstatedir=/var \
+ --enable-pp-build \
+ --enable-hpcups-install \
+ --enable-foomatic-drv-install \
+ --enable-foomatic-ppd-install \
+ --enable-foomatic-rip-hplip-install \
+ --enable-cups-drv-install \
+ --enable-cups-ppd-install \
+ --enable-new-hpcups \
+ --enable-hpijs-install \
+ --enable-qt4 \
+ --enable-doc-build \
+ --enable-dbus-build \
+ --enable-network-build \
+ --enable-scan-build \
+ --enable-fax-build \
+ --enable-udev-acl-rules
+
+ make DESTDIR=${pkgdir} install
+ make rulesdir=/lib${LIBDIRSUFFIX}/udev/rules.d DESTDIR="${pkgdir}/" install
 
 }
 
+after_build(){
+ # remove config provided by sane and autostart of hp-daemon
+ rm -rf "${pkgdir}"/etc/{sane.d,xdg}
+ # remove HAL .fdi file because HAL is no longer used
+ rm -rf "${pkgdir}"/usr/share/hal
+
+ mkdir -p "${pkgdir}/usr/doc"
+ ln -sf /usr/share/doc/hplip-${pkgver} "${pkgdir}/usr/doc/hplip-${pkgver}"
+}
+
+hplip-plugin(){
+  pkgname=hplip-plugin
+  shortdesc="Binary plugin for HPs hplip printer driver library"
+}
+
+hplip-plugin_prep(){
+  cd ${srcdir}
+
+  sh ${srcache}/hplip-$pkgver-plugin.run --tar xvf
+
+  if [ $ARCH = "i686" ]; then
+      _arch='x86_32'
+  elif [ $ARCH = "x86_64" ]; then
+      _arch='x86_64'
+  fi
+
+  # Create folders
+  install -d ${pkgdir}/usr/share/hplip/{data/firmware,fax/plugins,prnt/plugins,scan/plugins}
+  install -d ${pkgdir}/var/lib/hp
+
+  # Copy files
+  install -m644 plugin.spec                  ${pkgdir}/usr/share/hplip/
+  install -m755 hp_laserjet_*.fw.gz          ${pkgdir}/usr/share/hplip/data/firmware/
+  install -m755 fax_marvell-"$_arch".so      ${pkgdir}/usr/share/hplip/fax/plugins/
+  install -m755 hbpl1-"$_arch".so            ${pkgdir}/usr/share/hplip/prnt/plugins/
+  install -m755 lj-"$_arch".so               ${pkgdir}/usr/share/hplip/prnt/plugins/
+  install -m755 bb_*-"$_arch".so             ${pkgdir}/usr/share/hplip/scan/plugins/
+  # Create hplip.state used by hplip-tools
+  cat << EOF > hplip.state
+[plugin]
+installed = 1
+eula = 1
+version = ${pkgver}
+EOF
+  install -m644 hplip.state ${pkgdir}/var/lib/hp
+
+  # Create symlinks
+  for f in $(find ${pkgdir}/usr/share/hplip -type f -name "*.so"); do
+      cd ${pkgdir}/usr/share/hplip
+      cd $(dirname ${f})
+      link_name="$(basename ${f} | cut -d- -f1).so"
+      ln -s $(basename ${f}) ${link_name}
+  done
+}
