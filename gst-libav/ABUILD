@@ -1,0 +1,33 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=gst-libav
+pkgver=1.4.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Gstreamer libav Plugin"
+
+source=("http://gstreamer.freedesktop.org/src/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+
+tags="libs media-plugins"
+
+build_deps="make ffmpeg coreutils kernel-headers sed grep gstreamer gtk-doc orc binutils"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--with-libav-extra-configure="--enable-runtime-cpudetect" \
+--with-package-name='GStreamer Bad Plugins (AgiliaLinux)' \
+--with-package-origin='http://www.agilialinux.ru/'"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
