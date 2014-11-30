@@ -1,23 +1,22 @@
 pkgname=gobject-introspection
-pkgver=1.40.0
+pkgver=1.42.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="GObject Introspection"
 longdesc=("The goal of the project is to describe the APIs and  collect them in a uniform, machine readable format.")
 
-source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver:0:4}/${pkgname}-${pkgver}.tar.xz")
+source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 
-build_deps="make gcc glib2 python python-mako libffi libpthread-stubs renderproto kbproto sed grep pkg-config binutils coreutils"
-
+build_deps="glib2 python python-mako libffi libpthread-stubs renderproto kbproto"
 tags="libs dev-libs"
 
 BUILD_SYSTEM="autotools"
 
 BUILD_KEYS="--prefix=/usr \
-            --sysconfdir=/etc \
-            --localstatedir=/var \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --disable-static \
-            --mandir=/usr/man \
-            --enable-doctool"
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--libdir=/usr/lib${LIBDIRSUFFIX} \
+	--disable-static \
+	--mandir=/usr/man \
+	--enable-doctool"
