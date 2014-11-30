@@ -1,6 +1,6 @@
 pkgname=virt-manager
 pkgver=1.1.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="desktop application for managing virtual machines"
