@@ -1,5 +1,5 @@
 pkgname=gtk+3
-pkgver=3.12.2
+pkgver=3.14.5
 pkgbuild=1
 arch=('auto')
 
@@ -7,18 +7,16 @@ shortdesc="GTK+ version 3 (multi-platform GUI toolkit)"
 longdesc=("This is GTK+, a multi-platform toolkit for creating graphical user interfaces. Offering a complete set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites.")
 
 config_files="etc/gtk-3.0/settings.ini"
-
 source=("http://ftp.gnome.org/pub/gnome/sources/gtk+/${pkgver%.*}/gtk+-${pkgver}.tar.xz")
 
 tags="libs x11-libs"
 adddep="gtk-update-icon-cache"
-build_deps=("atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache
-	     cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk")
+build_deps=("atk pango libXcursor libXinerama libXrandr libXi libXcomposite gtk-update-icon-cache 
+  python cups libXdamage shared-mime-info cairo gdk-pixbuf gobject-introspection at-spi2-atk")
 
 before_build() {
   go_src_dir
   burn_patches
-
   # Autoconf changes linux to linux-gnu.
   # Our host is $ARCH-slackware-linux not $ARCH-slackware-linux-gnu:
   sed -i -e 's#linux|linux-gnu|#linux|linux|#' build-aux/config.sub
