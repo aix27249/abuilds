@@ -1,6 +1,6 @@
 pkgname=atk
-pkgver=2.8.0
-pkgbuild=2
+pkgver=2.14.0
+pkgbuild=1
 arch=('auto')
 
 shortdesc="A library providing a set of interfaces for accessibility"
