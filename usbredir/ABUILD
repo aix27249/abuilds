@@ -1,0 +1,18 @@
+
+pkgname=usbredir
+pkgver=0.6
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("USB traffic redirection protocol")
+tags=("net-misc xapps")
+source=("http://spice-space.org/download/usbredir/$pkgname-$pkgver.tar.bz2")
+build_deps=("libusb")
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --mandir=/usr/man \
+  --sysconfdir=/etc"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
