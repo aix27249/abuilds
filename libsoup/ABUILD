@@ -1,20 +1,18 @@
+#ABUILD created by: khvalera, khvalera at narod.ru
+
 pkgname=libsoup
-pkgver=2.46.0
+pkgver=2.48.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Gnome HTTP Library"
-
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
-
 tags="libs net-libs"
 
-build_deps="make gcc perl perl-xml-parser pkg-config libtool gtk-doc gettext grep sed coreutils kernel-headers binutils"
+build_deps="make gcc pkg-config libtool"
 
 BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 	--sysconfdir=/etc \
 	--localstatedir=/var \
