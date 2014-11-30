@@ -1,0 +1,40 @@
+pkgname=vte3
+pkgver=0.38.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GNOME terminal widget"
+longdesc=("The VTE library inserts terminal capability strings into a trie, and then uses it to determine if data received from a pseudo-terminal is a control sequence  or just random data. The sample program interpret illustrates more or less what the widget sees after it filters incoming data.")
+source=("http://ftp.gnome.org/pub/GNOME/sources/vte/${pkgver%.*}/vte-${pkgver}.tar.xz")
+tags="libs x11-libs"
+build_deps="gtk+2 python-gobject intltool gobject-introspection gtk-doc"
+adddep="python vte-common"
+pkglist="vte-common"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-static \
+  --libexecdir=/usr/lib${LIBDIRSUFFIX}/vte \
+  --enable-introspection \
+  --enable-vala=no \
+  --enable-gnome-pty-helper \
+  --with-gtk=3.0"
+
+after_build(){
+  rm "$pkgdir"/usr/lib/vte/gnome-pty-helper
+  rm "$pkgdir"/etc/profile.d/vte.sh
+}
+
+vte-common(){
+  pkgname=vte-common
+  shortdesc="Common VTE files"
+}
+
+vte-common_prep(){
+  go_src_dir
+  make -C gnome-pty-helper DESTDIR=$pkgdir install
+  install -Dm644 src/vte.sh "$pkgdir"/etc/profile.d/vte.sh
+}
