@@ -1,6 +1,6 @@
 pkgname=virt-viewer
 pkgver=1.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Displaying the graphical console of a virtual machine"
