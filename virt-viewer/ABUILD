@@ -1,21 +1,23 @@
 pkgname=virt-viewer
-pkgver=0.5.7
+pkgver=1.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Displaying the graphical console of a virtual machine"
 longdesc=("The console is accessed using the VNC protocol. The guest can be referred to based on its name, ID, or UUID. If the guest is not already running, then the viewer can be told to wait until is starts before attempting to connect to the console The viewer can connect to remote hosts to lookup the console information and then also connect to the remote console using the same network transport.")
-source=("http://virt-manager.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+source=("http://virt-manager.org/download/sources/virt-viewer/${pkgname}-${pkgver}.tar.gz")
 tags="app-emulation xapps"
-build_deps="intltool libvirt gtk-vnc"
+build_deps="intltool libvirt gtk-vnc spice-gtk intltool spice-protocol"
 
 BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man"
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --with-gtk=3.0 \
+  --without-ovirt \
+  --mandir=/usr/man"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
