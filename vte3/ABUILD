@@ -1,30 +1,40 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
 pkgname=vte3
-pkgver=0.36.3
+pkgver=0.38.2
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Virtual Terminal Emulator widget for use with GTK3"
-
-source=("http://download.gnome.org/sources/vte/${pkgver::4}/vte-${pkgver}.tar.xz")
-
+shortdesc="GNOME terminal widget"
+longdesc=("The VTE library inserts terminal capability strings into a trie, and then uses it to determine if data received from a pseudo-terminal is a control sequence  or just random data. The sample program interpret illustrates more or less what the widget sees after it filters incoming data.")
+source=("http://ftp.gnome.org/pub/GNOME/sources/vte/${pkgver%.*}/vte-${pkgver}.tar.xz")
 tags="libs x11-libs"
-
-build_deps="make coreutils gcc sed grep intltool gobject-introspection gtk+3 gtk-doc glib2 gettext perl perl-xml-parser"
+build_deps="gtk+2 python-gobject intltool gobject-introspection gtk-doc"
+adddep="python vte-common"
+pkglist="vte-common"
 
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---libexecdir=/usr/lib${LIBDIRSUFFIX}/vte \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
---enable-introspection"
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-static \
+  --libexecdir=/usr/lib${LIBDIRSUFFIX}/vte \
+  --enable-introspection \
+  --enable-vala=no \
+  --enable-gnome-pty-helper \
+  --with-gtk=3.0"
 
-INSTALL_KEYS="DESTDIR=${pkgdir}"
+after_build(){
+  rm "$pkgdir"/usr/lib/vte/gnome-pty-helper
+  rm "$pkgdir"/etc/profile.d/vte.sh
+}
+
+vte-common(){
+  pkgname=vte-common
+  shortdesc="Common VTE files"
+}
+
+vte-common_prep(){
+  go_src_dir
+  make -C gnome-pty-helper DESTDIR=$pkgdir install
+  install -Dm644 src/vte.sh "$pkgdir"/etc/profile.d/vte.sh
+}
