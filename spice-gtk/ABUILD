@@ -1,6 +1,6 @@
 
 pkgname=spice-gtk
-pkgver=0.24
+pkgver=0.25
 pkgbuild=1
 arch=("auto")
 
@@ -9,7 +9,7 @@ tags=("net-misc xapps")
 source=("http://spice-space.org/download/gtk/spice-gtk-${pkgver}.tar.bz2")
 build_deps=("gstreamer openssl gtk+3 cairo zlib python pkg-config cyrus-sasl
   dbus-glib python-gobject celt051 gobject-introspection intltool usbutils
-  usbredir")
+  usbredir spice-protocol")
 
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
