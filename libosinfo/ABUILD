@@ -1,0 +1,24 @@
+#ABUILD created by: SirAnthony, anthony at adsorbtion.org 
+pkgname=libosinfo
+pkgver=0.2.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="GObject based library API for managing information about operating systems, hypervisors and the (virtual) hardware devices they can support"
+source=("https://fedorahosted.org/releases/l/i/$pkgname/$pkgname-$pkgver.tar.gz")
+tags="libs sys-libs"
+build_deps="glib2 libxslt gobject-introspection intltool python libsoup"
+adddep="pciutils usbutils"
+
+BUILD_SYSTEM="autotools"
+BUILD_KEYS="--prefix=/usr \
+  --sysconfdir=/usr/share \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --mandir=/usr/man \
+  --disable-tests \
+  --enable-udev \
+  --with-udev-rulesdir=/usr/lib/udev/rules.d \
+  --with-usb-ids-path=/usr/share/usb.ids \
+  --with-pci-ids-path=/usr/share/pci.ids"
