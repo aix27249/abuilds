@@ -1,0 +1,20 @@
+pkgname=spice-protocol
+pkgver=0.12.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Headers for SPICE protocol"
+source=("http://spice-space.org/download/releases/$pkgname-$pkgver.tar.bz2")
+tags="app-emulation xapps"
+build_deps="make"
+
+BUILD_SYSTEM="autotools"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+BUILD_KEYS="--prefix=/usr \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --disable-static \
+  --mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
