@@ -1,0 +1,12 @@
+pkgname=libvirt-python
+pkgver=1.2.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libvirt python binding"
+source=("http://libvirt.org/sources/python/libvirt-python-${pkgver}.tar.gz")
+tags="app-emulation xapps"
+build_deps=("python libvirt")
+adddep=("python libvirt")
+
+BUILD_SYSTEM="python"
