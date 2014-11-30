@@ -1,25 +1,18 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru
+#ABUILD created by: khvalera, khvalera at narod.ru
 
 pkgname=gtksourceview3
-pkgver=3.8.2
+pkgver=3.14.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="GtkSourceView (Gtk text widget)"
-
 longdesc=("GtkSourceView is a text widget that extend the standard gtk+2.x text widget GtkTextView. 
 http://projects.gnome.org/gtksourceview/index.html")
-
 source=("http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/${pkgver%.*}/gtksourceview-${pkgver}.tar.xz")
-
 tags="libs x11-libs"
 
 build_deps="make gcc perl perl-xml-parser glib2 intltool gettext pkg-config binutils grep sed gtk-doc"
-
 BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
 BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
