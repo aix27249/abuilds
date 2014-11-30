@@ -1,17 +1,24 @@
 pkgname=virt-manager
-pkgver=0.10.0
+pkgver=1.1.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="desktop application for managing virtual machines"
 longdesc=("It presents a summary view of running domains and their live performance & resource utilization statistics. A detailed view presents graphs showing performance & utilization over time. Ultimately it will allow creation of new domains, and configuration & adjustment of a domain's resource allocation & virtual hardware. Finally an embedded VNC client viewer presents a full graphical console to the guest domain.")
-source=("http://virt-manager.et.redhat.com/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+source=("http://virt-manager.org/download/sources/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 tags="app-emulation xapps"
-build_deps=("python-dbus libvirt libxml2 gtk-vnc rarian yajl x11-ssh-askpass
-	librsvg python graphite2 libvirt-glib python-gobject")
-#spice-gtk
+build_deps=("python-dbus libvirt libxml2 gtk-vnc yajl spice-gtk
+  librsvg python graphite2 libvirt-glib python-gobject")
 
-adddep="urlgrabber virt-viewer libvirt python-ipaddr gnome-icon-theme"
+adddep=("urlgrabber libvirt python-ipaddr gnome-icon-theme libvirt-python
+  libvirt-glib python-gobject libosinfo")
 conflicts="virtinst"
 
 BUILD_SYSTEM="python"
+
+after_build(){
+   virt_path=${pkgdir}/usr/share/virt-manager
+   for file in clone convert install manager xml; do
+       sed -e 's/python2/python/' -i ${virt_path}/virt-$file
+   done
+}
