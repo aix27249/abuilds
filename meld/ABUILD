@@ -2,7 +2,7 @@
 
 pkgname=meld
 pkgver=3.12.2
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Visual diff and merge tool")
@@ -10,6 +10,6 @@ tags=("xapps dev-util")
 
 source=("http://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz")
 build_deps="intltool desktop-file-utils hicolor-icon-theme itstool"
-adddep="python python-gobject2 python-cairo gtksourceview gsettings-desktop-schemas"
+adddep="python python-gobject2 python-cairo gtksourceview3 gsettings-desktop-schemas"
 
 BUILD_SYSTEM=python
