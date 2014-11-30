@@ -1,10 +1,10 @@
 pkgname=pango
-pkgver=1.34.1
+pkgver=1.36.8
 pkgbuild=1
 arch=('auto')
 shortdesc="A library for layout and rendering of text"
 source=("ftp://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
-tags="libs x11-libs compat32"
+tags="libs x11-libs"
 build_deps="harfbuzz cairo libXft fontconfig gobject-introspection"
 
 BUILD_SYSTEM="autotools"
