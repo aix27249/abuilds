@@ -1,26 +1,42 @@
 pkgname=gtk-vnc
-pkgver=0.5.2
+pkgver=0.5.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="gtk-vnc is a VNC viewer widget for GTK"
 longdesc=("It is built using coroutines allowing it to be completely asynchronous while remaining single threaded. It provides a core C library, and bindings for Python (PyGTK).")
-
 source=("http://ftp.gnome.org/pub/gnome/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 tags="net-libs network"
-build_deps="gtk+2 gtk+3 libgcrypt pygtk python-gobject gobject-introspection cyrus-sasl"
+build_deps="gtk+2 gtk+3 libgcrypt python-pygtk python-gobject gobject-introspection cyrus-sasl gtk-doc"
 
-BUILD_SYSTEM="autotools"
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---enable-nls \
---enable-rebuilds \
---with-python \
---with-sasl"
+build() {
+  cd ${srcdir}
+  rm -rf gtk2-build gtk3-build
+  cp -a $pkgname-$pkgver gtk2-build
+  mv $pkgname-$pkgver gtk3-build
+  conf_opts="--prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static \
+    --mandir=/usr/man \
+    --enable-vala=no \
+    --enable-nls \
+    --enable-rebuilds \
+    --with-python \
+    --with-sasl"
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+  ( cd gtk2-build
+    ./configure $conf_opts --with-gtk=2.0
+     make )
+
+  ( cd gtk3-build
+    ./configure $conf_opts --with-gtk=3.0
+    make )
+}
+
+after_build() {
+  cd ${srcdir}
+  make -C gtk2-build DESTDIR="${pkgdir}" install
+  make -C gtk3-build DESTDIR="${pkgdir}" install
+}
