@@ -1,0 +1,17 @@
+Description: Add keywords entry to desktop files.
+Author: Mateusz Łukasik <mati75@linuxmint.pl>
+
+--- a/data/spacefm-find.desktop.in
++++ b/data/spacefm-find.desktop.in
+@@ -9,3 +9,4 @@ Type=Application
+ Terminal=false
+ MimeType=inode/directory;
+ _Comment=Search for files and folders
++_Keywords=file;search;spacefm;find;
+--- a/data/spacefm.desktop.in
++++ b/data/spacefm.desktop.in
+@@ -10,3 +10,4 @@ Terminal=false
+ MimeType=inode/directory;inode/mount-point;x-scheme-handler/ssh;x-scheme-handler/smb;x-scheme-handler/nfs;x-scheme-handler/ftp;
+ _GenericName=File Manager
+ _Comment=Browse the file system
++_Keywords=file;manager;file-manager;

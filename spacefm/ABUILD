@@ -1,5 +1,5 @@
 pkgname=spacefm
-pkgver=0.9.3
+pkgver=0.9.4
 pkgbuild=2
 arch=('auto')
 
@@ -23,6 +23,7 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
+--with-gtk2 \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
