@@ -1,19 +1,17 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=freerdp
-pkgver=1.0.2
+pkgver=1.2.0-beta1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="FreeRDP is a client for Windows Terminal Services implementing the Remote Desktop Protocol"
 
-source=("https://github.com/FreeRDP/FreeRDP/archive/${pkgver}.tar.gz")
+source=("https://github.com/FreeRDP/FreeRDP/archive/${pkgver}+android9.tar.gz")
 
 tags="network net-libs"
 
-build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg"
-
-adddep=""
+build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg libpulse"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
