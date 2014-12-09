@@ -1,8 +1,8 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru
 
 pkgname=remmina
-pkgver=1.0.0
-pkgbuild=3
+pkgver=1.1.2
+pkgbuild=1
 arch=('auto')
 
 shortdesc="The GTK+ Remote Desktop Client"
@@ -10,11 +10,11 @@ shortdesc="The GTK+ Remote Desktop Client"
 longdesc=("Remmina is a remote desktop connection client able to display and control a remote desktop session."
 "It supports multiple network protocols in an integrated and consistant user interface. Currently RDP, VNC, NX, XDMCP and SSH protocols are supported.")
 
-source=("https://github.com/downloads/FreeRDP/Remmina/Remmina-${pkgver}.tar.gz")
+source=("https://github.com/FreeRDP/Remmina/archive/v${pkgver}.tar.gz")
 
 tags="network net-misc"
 
-build_deps="autoconf automake ccache gcc pkg-config atk gdk-pixbuf libgcrypt gtk+3 glib libssh pango perl-xml-parser freerdp avahi-gtk gnome-keyring telepathy-glib vte3 glibc-solibs gnutls xprop setxkbmap libXdmcp libjpeg libunique libpthread-stubs xorg-server-xephyr libgnome-keyring gettext"
+build_deps="autoconf automake ccache gcc pkg-config atk gdk-pixbuf libgcrypt gtk+3 glib libssh pango perl-xml-parser freerdp avahi-gtk gnome-keyring libvncserver telepathy-glib vte3 glibc-solibs gnutls xprop setxkbmap libXdmcp libjpeg libunique libpthread-stubs xorg-server-xephyr libgnome-keyring gettext"
 
 conflicts="remmina-plugins"
 
@@ -22,9 +22,11 @@ docs="remmina/AUTHORS remmina/COPYING remmina/ChangeLog remmina/NEWS remmina-plu
 
 before_build(){
   go_src_dir
-  sed "s|/lib/remmina/plugins|/lib"${LIBDIRSUFFIX}"/remmina/plugins|" -i CMakeLists.txt
-  sed 's|${CMAKE_INSTALL_PREFIX}/share/remmina")|${CMAKE_INSTALL_PREFIX}/share")|' -i CMakeLists.txt
-  export LDFLAGS="-lX11 -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lpthread -lgnutls"
+  for i in "${source[@]}"; do
+      if [[ $i == *.patch ]]; then
+         patch -F100 -p1 -i "${srcdir}/${i}"
+      fi
+  done
   echo "End before_build"
 }
 
@@ -38,15 +40,16 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 
 after_build(){
   go_src_dir
-  install -Dm 644 remmina/include/remmina/*.h ${pkgdir}/usr/include/remmina
+  rm -rf ${pkgdir}/build
+  #install -Dm 644 remmina/include/remmina/*.h ${pkgdir}/usr/include/remmina
 
-  sed "s|@prefix@|/usr|" -i remmina/remmina.pc.in
-  sed "s|@exec_prefix@|${prefix}|" -i remmina/remmina.pc.in
-  sed "s|@libdir@|/usr/lib"${LIBDIRSUFFIX}"|" -i remmina/remmina.pc.in
-  sed "s|@includedir@|/usr/include/remmina|" -i remmina/remmina.pc.in
-  sed "s|@VERSION@|"${pkgver}"|" -i remmina/remmina.pc.in
-  install -Dm 644 remmina/remmina.pc.in ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/remmina.pc
-  install -Dm 644 "${filedir}"/remmina.desktop ${pkgdir}/usr/share/applications/remmina.desktop
+  #sed "s|@prefix@|/usr|" -i remmina/remmina.pc.in
+  #sed "s|@exec_prefix@|${prefix}|" -i remmina/remmina.pc.in
+  #sed "s|@libdir@|/usr/lib"${LIBDIRSUFFIX}"|" -i remmina/remmina.pc.in
+  #sed "s|@includedir@|/usr/include/remmina|" -i remmina/remmina.pc.in
+  #sed "s|@VERSION@|"${pkgver}"|" -i remmina/remmina.pc.in
+  #install -Dm 644 remmina/remmina.pc.in ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/remmina.pc
+  #install -Dm 644 "${filedir}"/remmina.desktop ${pkgdir}/usr/share/applications/remmina.desktop
 
   echo "End after_build"
 }
