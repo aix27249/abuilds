@@ -2,13 +2,14 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=QupZilla
-pkgver=1.5
+pkgver=1.8.6
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A fast, simple, good looking, yet powerfull and highly configurable image viewer."
 
-source=("git:git://github.com/QupZilla/qupzilla.git")
+source=("git:git://github.com/QupZilla/qupzilla-plugins.git"
+"git:git://github.com/QupZilla/qupzilla.git")
 
 
 #----------------------------- AgiliaLinux vars --------------------------------------
@@ -16,7 +17,7 @@ source=("git:git://github.com/QupZilla/qupzilla.git")
 #short and long tags / длинный и короткий тег
 tags="app-misc xapps"
 custom_opts="no_ccache"
-
+build_deps="make git qt4 pkg-config"
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 
@@ -36,6 +37,9 @@ export ENABLE_OPACITY_EFFECT="true"
 export KDE="false"
 export DISABLE_DBUS="true"
  
+ go_src_dir
+ cd ..
+ cd QupZilla_git_qupzilla.git.src
  qmake
     make clean
     make -j4
