@@ -1,0 +1,45 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+pkgname=mpv
+pkgver=0.7.2 
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Video player based on MPlayer/mplayer2"
+
+source=("git:git://github.com/mpv-player/mpv.git")
+
+tags="xapps media-video"
+build_deps="libXxf86dga libXxf86vm libmad libXinerama sdl lame libtheora xvidcore libmng libXScrnSaver smbclient
+aalib libcaca lua x264 faac faad2 libXvMC enca libvdpau opencore-amr libdca a52dec schroedinger libvpx ffmpeg
+fribidi infozip mesa yasm git fontconfig mpg123 ladspa libass libbluray libcdio-paranoia subversion"
+
+
+build(){
+
+go_src_dir
+pwd
+./bootstrap.py
+
+./waf configure --prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--confdir=/etc/mpv \
+--enable-zsh-comp \
+--enable-libmpv-shared
+
+./waf build
+
+
+./waf install --destdir="$pkgdir"
+ 
+   install -d "$pkgdir"/usr/share/doc/mpv/examples
+     install -m644 etc/{input,example}.conf \
+         "$pkgdir"/usr/share/doc/mpv/examples
+           install -m644 DOCS/{encoding.rst,tech-overview.txt} \
+               "$pkgdir"/usr/share/doc/mpv
+               
+                 install -m755 TOOLS/mpv_identify.sh "$pkgdir"/usr/bin
+
+}
+
