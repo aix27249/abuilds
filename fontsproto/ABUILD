@@ -1,6 +1,6 @@
 pkgname=fontsproto
-pkgver=2.1.2
-pkgbuild=2
+pkgver=2.1.3
+pkgbuild=1
 arch=('auto')
 
 shortdesc=('X11 font extension wire protocol')
@@ -8,10 +8,18 @@ shortdesc=('X11 font extension wire protocol')
 tags=('x11-protos xserver')
 
 source=("http://xorg.freedesktop.org/archive/individual/proto/fontsproto-${pkgver}.tar.bz2")
-build_deps="util-macros"
+
+build_deps="make util-macros xmlto sed coreutils grep"
 
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --docdir=/usr/doc"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --docdir=/usr/doc"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
 
