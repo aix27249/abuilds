@@ -1,0 +1,23 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=libepoxy
+pkgver=1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A library for handling OpenGL function pointer management for you"
+
+source=("https://github.com/anholt/${pkgname}/archive/v${pkgver}.tar.gz")
+
+tags="media-libs libs"
+
+build_deps="make autoconf python mesa binutils"
+
+build(){
+  go_src_dir
+  ./autogen.sh --prefix=/usr \
+               --sysconfdir=/etc \
+               --localstatedir=/var \
+               --libdir=/usr/lib${LIBDIRSUFFIX}
+#  make -k check
+  make DESTDIR="${pkgdir}" install
+}
