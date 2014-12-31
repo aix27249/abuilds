@@ -1,22 +1,29 @@
 pkgname=xf86-video-ati
 
-pkgver=7.2.0
-pkgbuild=3
+pkgver=7.5.0
+pkgbuild=1
 arch=('auto')
 
-shortdesc=('xf86-video-ati')
+shortdesc=('X.org ati video driver')
+
 longdesc=('xf86-video-ati is an opensource X11 driver for ATI cards.')
 
 tags=('x11-drivers xserver')
 
-build_deps="  fontsproto xproto kernel-headers gcc randrproto diffutils pkg-config"
-source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-ati-${pkgver}.tar.gz")
-#source=("git:git://anongit.freedesktop.org/xorg/driver/xf86-video-ati")           
+build_deps="make grep sed coreutils fontsproto xproto kernel-headers gcc randrproto diffutils pkg-config libdrm presentproto"
 
-before_build() {
-	go_src_dir
-}
+source=("http://xorg.freedesktop.org/archive/individual/driver/xf86-video-ati-${pkgver}.tar.gz")
+
 BUILD_SYSTEM='autotools'
-BUILD_KEYS="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --sysconfdir=/etc --localstatedir=/var --infodir=/usr/info --mandir=/usr/man --disable-static"
-INSTALL_KEYS="DESTDIR=$pkgdir"
+
+BUILD_KEYS="--prefix=/usr \
+            --libdir=/usr/lib${LIBDIRSUFFIX} \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --infodir=/usr/info \
+            --mandir=/usr/man \
+            --disable-static \
+            --disable-glamor"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
