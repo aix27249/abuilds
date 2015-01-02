@@ -2,7 +2,7 @@
 
 pkgname=xfce4-mixer
 pkgver=4.11.0
-pkgbuild=3
+pkgbuild=4
 arch=('auto')
 
 shortdesc="The volume control plugin for the Xfce panel"
@@ -13,7 +13,7 @@ tags="xfce xfce-base"
 
 build_deps="make gcc intltool perl perl-xml-parser pkg-config grep binutils kernel-headers gettext gst-plugins-base010 libunique"
 
-adddep="gst-plugins-base010 gst-plugins-base010-libs"
+adddep="gst-plugins-base010"
 
 BUILD_SYSTEM="autotools"
 
