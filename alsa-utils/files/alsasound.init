@@ -17,8 +17,6 @@ modprobe_l_replacer() {
 	( cd /lib/modules/`uname -r` ; find -name '*.ko' | sed 's/^\.\///g')
 }
 
-
-
 # A function to load default ALSA mixer settings:
 load_alsa_mixer() {
 	if [ -r ${alsastatedir}/asound.state ]; then
