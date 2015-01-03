@@ -1,71 +1,45 @@
-#----------------------------- General vars --------------------------------------
-#http://repos.archlinux.org/wsvn/community/gsmartcontrol/repos/community-x86_64/PKGBUILD
-#------------------------- Основные переменные -----------------------------------
 pkgname=gsmartcontrol
-pkgver=0.8.6
+pkgver=0.8.7
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A graphical user interface for the smartctl hard disk drive health inspection tool"
-#-ruler---|--------------------------------------------------------------------------|
 
-source=("http://download.berlios.de/gsmartcontrol/$pkgname-$pkgver.tar.bz2")
+source=("http://downloads.sourceforge.net/project/gsmartcontrol/${pkgver}/gsmartcontrol-${pkgver}.tar.bz2")
 
-patch_opts=("")
+tags="xapps app-admin"
 
-#----------------------------- MOPS vars --------------------------------------
-#--------------------- Специфичные для MOPSLinux ------------------------------
+build_deps="make gcc gcc-g++ coreutils gtkmm grep"
 
-tags="xapps app-admin"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#work only in MOPS
+adddep="smartmontools gnome-icon-theme"
 
-provides=""
-conflicts=""
-
-adddep="smartmontools"
-removedep=""
-
-#author=Unnamed_Hero
-#email=sorry@email.hide
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+before_build(){
+  go_src_dir
+  # Modify desktop file
+  sed -i "s|^Exec=.*|Exec="@prefix@/bin/gsmartcontrol_polkit"|" \
+         data/gsmartcontrol.desktop.in
 }
 
-#set configure options, make and make install 
-#конфигурация, сборка, подготовка пакета
-build() 
-{
-go_src_dir
-burn_patches
+BUILD_SYSTEM="autotools"
 
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure --prefix=/usr \
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix= 
-                  
-make -j${numjobs} || exit 1
-make install DESTDIR=$pkgdir || exit 1
-}
+--program-suffix="
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-    install -m755 ${filedir}/gsmartcontrol-root ${pkgdir}/usr/bin
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  # Install launcher script
+  install -m755 "${filedir}"/gsmartcontrol_polkit \
+                "${pkgdir}/usr/bin/gsmartcontrol_polkit"
+
+  # Install policy file
+  install -Dm644 "${filedir}"/org.archlinux.pkexec.gsmartcontrol.policy \
+                "${pkgdir}/usr/share/polkit-1/actions/org.archlinux.pkexec.gsmartcontrol.policy"
 }
