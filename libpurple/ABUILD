@@ -1,101 +1,93 @@
 pkgname=pidgin
-pkgver=2.10.9
+pkgver=2.10.11
 pkgbuild=1
 arch=('auto')
 shortdesc="multi-protocol instant messaging client"
 longdesc=("Pidgin is an easy to use and free chat client used by millions. Connect to AIM, MSN, Yahoo, and more chat networks all at once")
-source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-tags="net-im xapps"
-adddep="libpurple==$pkgver"
-pkglist="finch libpurple"
-build_deps=("libXScrnSaver nss libSM libidn python hicolor-icon-theme intltool \
-    atk cairo dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer010 \
-    gtk+2 libICE libSM libX11 libXext libxml2 pango cyrus-sasl")
 
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="net-im xapps"
+
+adddep="libpurple==$pkgver"
+
+pkglist="finch libpurple"
+
+build_deps=("libXScrnSaver nss libSM libidn python hicolor-icon-theme intltool atk cairo farstream01 \
+             dbus dbus-glib fontconfig freetype gdk-pixbuf glib2 glibc-solibs gstreamer010 gtk+2 \
+             libICE libSM libX11 libXext libxml2 pango cyrus-sasl gtkspell ca-certificates avahi networkmanager")
 
 finch() {
-	pkgname=finch
-	shortdesc=('Console IM client based on libpurple')
-	longdesc=('Free and open-source chat client for text console based on ncurses and libpurple. Standart version to use with libpurple. For standalone version useful in console-only environments see package finch-standalone')
-	tags="net-im console"
-	adddep="libpurple==$pkgver"
+  pkgname=finch
+  shortdesc=('Console IM client based on libpurple')
+  longdesc=('Free and open-source chat client for text console based on ncurses and libpurple. Standart version to use with libpurple. For standalone version useful in console-only environments see package finch-standalone')
+  tags="net-im console"
+  adddep="libpurple==${pkgver}"
 }
 
 libpurple() {
-	pkgname=libpurple
-	shortdesc=('IM library')
-	longdesc=('libpurple is a library intended to be used by programmers seeking to write an IM client that connects to many IM networks. Currently supported are: AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk, Napster, Zephyr, Gadu-Gadu, Bonjour, Groupwise, Sametime, SILC, SIMPLE, QQ, MySpaceIM, and MXit. ')
-	tags="net-libs libs"
-	adddep="ca-certificates"
+  pkgname=libpurple
+  shortdesc=('IM library')
+  longdesc=('libpurple is a library intended to be used by programmers seeking to write an IM client that connects to many IM networks. Currently supported are: AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk, Napster, Zephyr, Gadu-Gadu, Bonjour, Groupwise, Sametime, SILC, SIMPLE, QQ, MySpaceIM, and MXit. ')
+  tags="net-libs libs"
+  adddep="ca-certificates"
 }
 
 
-build()
-{
-    go_src_dir
-    burn_patches
-    ./configure --prefix=/usr \
-	--libdir=/usr/lib$LIBDIRSUFFIX \
-	--sysconfdir=/etc \
-	--enable-cyrus-sasl \
-	--disable-schemas-install \
-	--disable-meanwhile \
-	--disable-gnutls \
-	--disable-avahi \
-	--disable-doxygen \
-	--disable-nm \
-	--disable-vv \
-	--disable-gtkspell \
-	--with-extraversion=AgiliaLinux \
-	--with-system-ssl-certs=/usr/share/ca-certificates/ || exit 1
-    make -j$numjobs || exit 1
+build(){
+  go_src_dir
+  burn_patches
+  ./configure --prefix=/usr \
+              --libdir=/usr/lib$LIBDIRSUFFIX \
+              --sysconfdir=/etc \
+              --enable-cyrus-sasl \
+              --disable-schemas-install \
+              --disable-meanwhile \
+              --disable-gnutls \
+              --disable-doxygen \
+              --enable-nm \
+              --with-extraversion=AgiliaLinux \
+              --with-system-ssl-certs=/usr/share/ca-certificates/
+  make -j${numjobs}
 
+  # making pidgin
+  go_src_dir
+  #for linking
+  make -C libpurple DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
-    # making pidgin
-    go_src_dir
-    #for linking
-    make -C libpurple DESTDIR="${pkgdir}" install-libLTLIBRARIES
+  make -C pidgin DESTDIR="${pkgdir}" install
+  make -C doc DESTDIR="${pkgdir}" install
 
-    make -C pidgin DESTDIR="${pkgdir}" install
-    make -C doc DESTDIR="${pkgdir}" install
-
-    #clean up libpurple stuff (it in libpurple package, yeah? :)
-    make -C libpurple DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
-    install -D -m 0644 pidgin.desktop \
-	"${pkgdir}"/usr/share/applications/pidgin.desktop
-
-    rm -f "${pkgdir}"/usr/share/man/man1/finch.1
-    echo "DONE!"
+  #clean up libpurple stuff (it in libpurple package, yeah? :)
+  make -C libpurple DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
+  rm -f "${pkgdir}"/usr/share/man/man1/finch.1
+  echo "End build"
 }
 
-libpurple_prep()
-{
-    set -e
-    echo "Making libpurple"
-    # making libpurple
-
-    for dir in libpurple share/sounds share/ca-certs m4macros po;
-    do
-        echo "Making in ${dir}"
-        make -C "${dir}" DESTDIR="$pkgdir" install
-    done
-    set +e
+libpurple_prep(){
+  set -e
+  echo "Making libpurple"
+  # making libpurple
+  for dir in libpurple share/sounds share/ca-certs m4macros po; do
+     echo "Making in ${dir}"
+     make -C "${dir}" DESTDIR="${pkgdir}" install
+  done
+  set +e
 }
 
-finch_prep()
-{
-    set -e
-    echo "Making finch"
-    # making finch
+finch_prep(){
+  set -e
+  echo "Making finch"
+  # making finch
 
-    #for linking
-    make -C libpurple DESTDIR="$pkgdir" install-libLTLIBRARIES
+  #for linking
+  make -C libpurple DESTDIR="${pkgdir}" install-libLTLIBRARIES
 
-    make -C finch DESTDIR="$pkgdir" install
-    make -C doc DESTDIR="$pkgdir" install
+  make -C finch DESTDIR="${pkgdir}" install
+  make -C doc DESTDIR="${pkgdir}" install
 
-    #clean up libpurple
-    make -C libpurple DESTDIR="$pkgdir" uninstall-libLTLIBRARIES
-    rm -f "$pkgdir/usr/share/man/man1/pidgin.1"
-    set +e
+  #clean up libpurple
+  make -C libpurple DESTDIR="${pkgdir}" uninstall-libLTLIBRARIES
+  rm -f "${pkgdir}/usr/share/man/man1/pidgin.1"
+  set +e
 }
