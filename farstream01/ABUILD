@@ -1,0 +1,37 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=farstream01
+pkgver=0.1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Audio/Video Communications Framework (legacy version)"
+
+source=("git://git.collabora.co.uk/git/farstream.git#commit=54e28e95bed4f04bc95dae509c3724399c79fa29")
+
+tags="media-libs libs"
+
+build_deps="make gcc sed grep gobject-introspection libnice binutils gstreamer010 gtk-doc python-gobject2 git gst-python010"
+
+before_build(){
+  go_src_dir
+  sed -i -e 's/AC_INIT(Farstream, 0.1.2.1/AC_INIT(Farstream, 0.1.2/' configure.ac
+}
+
+build() {
+  go_src_dir
+  burn_patches
+  NOCONFIGURE=1 ./autogen.sh
+  ./configure \
+      --prefix=/usr \
+      --sysconfdir=/etc \
+      --localstatedir=/var \
+      --libdir=/usr/lib${LIBDIRSUFFIX} \
+      --disable-static \
+      --mandir=/usr/man \
+      --program-prefix= \
+      --program-suffix= \
+      --with-package-name='AgiliaLinux farstream package' \
+      --with-package-origin='http://www.agilialinux.ru'
+  make -j${numjobs}
+  make DESTDIR="${pkgdir}" install
+}
