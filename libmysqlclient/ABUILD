@@ -1,32 +1,27 @@
 pkgname=mysql
-pkgver=5.5.38
+pkgver=5.5.40
 pkgbuild=1
 arch=("auto")
 
 source="http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-5.5/${pkgname}-${pkgver}.tar.gz"
 
 shortdesc="mysql (SQL-based relational database server)"
-
 longdesc="MySQL is a fast, multi-threaded, multi-user, and robust SQL (Structured Query Language) database server. It comes with a nice API which makes it easy to integrate into other applications. The home page for MySQL is http://www.mysql.com/"
 
 tags="server dev-db"
-
 config_files="etc/my.cnf
-
 etc/conf.d/mysql"
-
 pkglist="mysql_static libmysqlclient"
-
-build_deps="gcc cmake openssl zlib"
-
+build_deps="gcc cmake openssl zlib libaio"
 adddeps="psmisc"
 
-build() {
+build() {  
   go_src_dir
   cmake ../${pkgname}-${pkgver} \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_BUILD_TYPE=RELEASE \
 	-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+	-DLIB_DIR=lib${LIBDIRSUFFIX} \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DMYSQL_DATADIR=/var/lib/mysql \
 	-DSYSCONFDIR=/etc \
@@ -69,8 +64,8 @@ after_build(){
   done
 
   # Remove client (avaliable in libmysqlclient package)
-  rm "${pkgdir}"/usr/bin/{mysql_config,mysql_client_test_embedded,mysqltest_embedded}
-  rm "${pkgdir}"/usr/lib/libmysql*
+  rm "$pkgdir"/usr/bin/{mysql_config,mysql_client_test_embedded,mysqltest_embedded}
+  rm "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/libmysql*
 
   # wonder if anyone needs those?
   rm -r ${pkgdir}/usr/{mysql-test,sql-bench,data}
@@ -91,6 +86,7 @@ after_build(){
   # Copy small one to /etc/my.cnf: in many other distros this is default, and users will feel better if they see it:
   cp ${pkgdir}/usr/share/mysql/my-small.cnf ${pkgdir}/etc/my.cnf || exit 1
 
+
   # This is where the socket is stored
   mkdir -p ${pkgdir}/var/run/mysql
   chown  -R mysql.mysql ${pkgdir}/var/run/mysql
@@ -99,8 +95,9 @@ after_build(){
   chmod 0755 ${pkgdir}/var/lib/mysql
 
   # lib64 is handled bad now, we need a fix location:
-  if [ "$LIBDIRSUFFIX" = "64" ]; then
-     rm -rf ${pkgdir}/usr/lib
+  if [ "$LIBDIRSUFFIX" = "64" ] ; then
+    mv ${pkgdir}/usr/lib/* ${pkgdir}/usr/lib64/
+    rmdir ${pkgdir}/usr/lib
   fi
 }
 
@@ -116,7 +113,7 @@ mysql_static() {
 }
 
 mysql_static_prep() {
-  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mkdir -p $pkgdir/usr/lib${LIBDIRSUFFIX}
 }
 
 libmysqlclient() {
