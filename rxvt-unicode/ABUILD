@@ -1,6 +1,6 @@
 pkgname=rxvt-unicode
-pkgver=9.19
-pkgbuild=2
+pkgver=9.21
+pkgbuild=1
 arch=('auto')
 
 shortdesc="An unicode enabled rxvt-clone terminal emulator (urxvt)"
@@ -8,7 +8,7 @@ shortdesc="An unicode enabled rxvt-clone terminal emulator (urxvt)"
 source=("http://dist.schmorp.de/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
 tags="xapps x11-terms"
-
+build_deps="perl"
 
 build()
 {
