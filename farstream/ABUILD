@@ -1,0 +1,30 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=farstream
+pkgver=0.2.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Farstream (formerly Farsight) - Audio/Video Communications Framework"
+
+source=("http://freedesktop.org/software/${pkgname}/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-libs libs"
+
+build_deps="make gcc sed grep gobject-introspection libnice binutils"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-package-name='AgiliaLinux farstream package' \
+--with-package-origin='http://www.agilialinux.ru/'"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
