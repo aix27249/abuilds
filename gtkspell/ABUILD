@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=gtkspell
+pkgver=2.0.16
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Provides word-processor-style highlighting and replacement of misspelled words in a GtkTextView widget"
+
+source=("http://gtkspell.sourceforge.net/download/${pkgname}-${pkgver}.tar.gz")
+
+tags="app-text libs"
+
+build_deps="make intltool gtk-doc coreutils enchant"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
