@@ -1,56 +1,16 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libnice
-pkgver=0.1.0
+pkgver=0.1.7
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The GLib ICE implementation"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("libnice is an implementation of the IETF's draft Interactice Connectivity Establishment standard (ICE). It provides GLib-based library, libnice and GStreamer elements. ICE is useful for applications that want to establish peer-to-peer UDP data streams. It automates the process of traversing NATs and provides security against some attacks. Existing standards that use ICE include Session Initiation Protocol (SIP) and XMPP Jingle. http://nice.freedesktop.org/wiki/"
-)
+longdesc=("libnice is an implementation of the IETF's draft Interactice Connectivity Establishment standard (ICE). It provides GLib-based library, libnice and GStreamer elements. ICE is useful for applications that want to establish peer-to-peer UDP data streams. It automates the process of traversing NATs and provides security against some attacks. Existing standards that use ICE include Session Initiation Protocol (SIP) and XMPP Jingle. http://nice.freedesktop.org/wiki/")
 
 source=("http://nice.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-libs"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="make gcc binutils sed grep coreutils"
 
 BUILD_SYSTEM="autotools"
 
@@ -65,11 +25,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
