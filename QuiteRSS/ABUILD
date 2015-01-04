@@ -1,5 +1,5 @@
 pkgname=QuiteRSS
-pkgver=0.14.3
+pkgver=0.17.3
 pkgbuild=1
 arch=('auto')
 
@@ -9,7 +9,7 @@ source=("http://quiterss.org/files/${pkgver}/${pkgname}-${pkgver}-src.tar.bz2")
 
 tags="network net-news"
 
-build_deps=""
+build_deps="qt4"
 
 build()
 {
