@@ -1,7 +1,7 @@
 pkgname=libav
 pkgver=0.8.4
-pkgbuild=2
-arch=('auto')
+pkgbuild=3
+arch=('noarch')
 
 shortdesc="libav is a complete, cross-platform solution to record, convert and stream audio and video (Virtual package)"
 
