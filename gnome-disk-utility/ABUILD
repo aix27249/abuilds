@@ -1,7 +1,5 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-
 pkgname=gnome-disk-utility
-pkgver=3.12.1
+pkgver=3.14.0
 pkgbuild=1
 arch=('auto')
 
