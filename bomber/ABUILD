@@ -1,5 +1,5 @@
 pkgname=bomber
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
@@ -8,6 +8,7 @@ shortdesc="arcade bombing game for KDE"
 source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 tags="kde-misc kde4"
+build_deps="kdelibs"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
