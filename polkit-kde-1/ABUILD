@@ -3,35 +3,18 @@
 # Package metadata
 pkgname=polkit-kde-1
 pkgver=0.99.0
-pkgbuild=3
+pkgbuild=5
 arch="auto"
 
-# Package description
 shortdesc=("polkit-1 authentication agent for KDE")
-longdesc=("polkit-1 authentication agent for KDE")
 
-# Source URL
 source=("ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/polkit-kde-agent-1-${pkgver}.tar.bz2")
 
-# Tags
 tags="kde4 kde-base"
+build_deps="kdelibs"
 
-# Manually-added dependencies
-adddep=""
-
-# Build system
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 -DCMAKE_BUILD_TYPE=Release"
-
-# Before-build script
-before_build() {
-	echo ""
-}
-
-
-after_build() {
-	echo ""
-}
 
