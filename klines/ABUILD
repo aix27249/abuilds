@@ -1,10 +1,11 @@
 pkgname=klines
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="a simple but highly addictive, one player game for KDE"
 
+build_deps="kdelibs"
 source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 tags="kde-misc kde4"
