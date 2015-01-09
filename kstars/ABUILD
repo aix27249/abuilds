@@ -1,8 +1,9 @@
 pkgname=kstars
-pkgver=4.10.5
+pkgver=4.14.3
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
+ build_deps="kdelibs" 
 
 shortdesc=('Desktop Planetarium')
 
