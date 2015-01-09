@@ -1,7 +1,8 @@
 pkgname=ksquares
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
-arch=('auto')
+arch=('auto') 
+build_deps="kdelibs" 
 
 shortdesc="a fun and exciting game for desktop environment"
 
