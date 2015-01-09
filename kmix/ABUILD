@@ -1,10 +1,11 @@
 pkgname=kmix
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
 shortdesc=("KDE volume control program")
 
+build_deps="kdelibs"
 tags=("kde4 kde-base")
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
