@@ -1,5 +1,5 @@
 pkgname=kde-workspace
-pkgver=4.11.5
+pkgver=4.11.14
 #strict_version='yes'
 pkgbuild=3
 arch=('auto')
@@ -10,7 +10,8 @@ tags=('kde-base kde4')
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
-adddep="kde-base-artwork"
+#adddep="kde-base-artwork"
+build_deps="qt4 kdelibs ConsoleKit freetype qimageblitz"
 
 config_files="etc/kdm/kdmrc
 etc/kdm/backgroundrc
@@ -35,6 +36,7 @@ BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DWITH_QEdge=OFF \
     -DWITH_Googlegadgets=OFF \
     -DSYSCONF_INSTALL_DIR=/etc \
+    -DFREETYPE_LIBRARY=/usr/lib${LIBDIRSUFFIX}/libfreetype.so -DFREETYPE_INCLUDE_DIRS=/usr/include/freetype2 \
     -DLIB_SUFFIX=${LIBDIRSUFFIX}"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
