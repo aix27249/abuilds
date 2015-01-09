@@ -1,12 +1,12 @@
 pkgname=kcalc
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="KDE's default calculator"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
-
+build_deps="doxygen kdelibs"
 tags="kde4 sci-mathematics"
 
 BUILD_SYSTEM="cmake"
