@@ -2,7 +2,7 @@
 
 pkgname=libmusicbrainz3
 pkgver=3.0.3
-pkgbuild=1
+pkgbuild=2
 arch=("auto")
 
 shortdesc=("Library That Provides Access to the MusicBrainz Server")
@@ -11,7 +11,8 @@ tags=("libs media-libs")
 
 source=("ftp://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-$pkgver.tar.gz")
 
-build_deps="neon libdiscid"
+build_deps="neon" 
+#libdiscid"
 
 
 BUILD_SYSTEM="cmake"
