@@ -1,5 +1,5 @@
 pkgname=kblackbox
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
@@ -8,6 +8,7 @@ shortdesc="a game of hide and seek played on a grid of boxes where the computer 
 source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 tags="kde-misc kde4"
+build_deps="doxygen kdelibs"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
