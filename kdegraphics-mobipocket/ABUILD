@@ -1,0 +1,18 @@
+pkgname=kdegraphics-mobipocket
+pkgver=4.14.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="mobipocket da"
+
+build_deps="kdelibs"
+source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
+
+tags="kde4 media-gfx"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
