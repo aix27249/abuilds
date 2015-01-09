@@ -1,12 +1,14 @@
-# ABUILD by K900
 pkgname=analitza
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
-shortdesc="Math library for KAlgebra"
-tags=('libs sci-mathematics')
-source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
+shortdesc="Math library for KAlgebra"
+
+tags=('libs sci-mathematics')
+
+build_deps="kdelibs"
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 
 BUILD_SYSTEM="cmake"
