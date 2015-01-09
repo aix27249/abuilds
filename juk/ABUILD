@@ -1,10 +1,11 @@
 pkgname=juk
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
 shortdesc=("A jukebox, tagger and music collection manager")
 
+build_deps="doxygen kdelibs"
 tags=("kde4 kde-base")
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
