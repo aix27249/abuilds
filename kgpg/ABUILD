@@ -1,13 +1,13 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kgpg
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KDE's GUI for GnuPG encryption system."
+shortdesc="KDE's GUI for GnuPG encryption system"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
+build_deps="kdelibs"
 tags="kde4 app-crypt"
 
 BUILD_SYSTEM="cmake"
