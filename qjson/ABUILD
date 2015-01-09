@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=qjson
-pkgver=0.7.1
+pkgver=0.8.1
 pkgbuild=1
 arch=('auto')
 
@@ -21,7 +21,7 @@ patch_opts=("")
 tags="develop dev-libs"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="qt4"
 
 provides=""
 conflicts=""
