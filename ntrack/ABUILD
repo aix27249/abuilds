@@ -1,14 +1,16 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 pkgname=ntrack
-pkgver=016
+pkgver=017
 pkgbuild=1
 arch=('auto')
 
-shortdesc="A lightweight network state tracking library"
+shortdesc="Network Connectivity Tracking library"
 
-source="http://launchpad.net/${pkgname}/main/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz"
+source=("https://launchpadlibrarian.net/189578825/ntrack-017.tar.gz")
 
-tags="libs net-misc"
+tags=("kde4 kde-base")
+build_deps="gcc"
+
 
 BUILD_SYSTEM="autotools"
 
@@ -23,4 +25,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
