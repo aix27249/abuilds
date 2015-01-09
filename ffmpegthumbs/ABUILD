@@ -1,5 +1,5 @@
 pkgname=ffmpegthumbs
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
@@ -7,6 +7,7 @@ shortdesc=("FFmpeg-based thumbnail creator for video files")
 
 tags=("kde4 kde-base")
 
+build_deps="kdelibs"
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 BUILD_SYSTEM="cmake"
