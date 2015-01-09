@@ -1,7 +1,8 @@
 pkgname=kspaceduel
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
-arch=('auto')
+arch=('auto') 
+build_deps="kdelibs" 
 
 shortdesc="In KSpaceduel each of two possible players controls a satellite spaceship orbiting the sun"
 
