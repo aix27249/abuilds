@@ -1,5 +1,5 @@
 pkgname=kdepim-runtime
-pkgver=4.10.5
+pkgver=4.14.3
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
@@ -7,7 +7,7 @@ arch=('auto')
 shortdesc=('KDE PIM Runtime Environment')
 
 tags=('kde-base kde4')
-
+build_deps="kdelibs"
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 
