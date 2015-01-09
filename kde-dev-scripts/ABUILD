@@ -1,0 +1,19 @@
+pkgname=kde-dev-scripts
+pkgver=4.14.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Scripts and setting files useful during development of KDE software"
+source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+
+build_deps="kdelibs"
+tags="kde4 kde-base"
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
