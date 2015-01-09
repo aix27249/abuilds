@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ebook-tools
-pkgver=0.2.1
+pkgver=0.2.2
 pkgbuild=2
 arch=('auto')
 
@@ -9,6 +9,7 @@ shortdesc="Tools for ePub and other ebook formats."
 source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 
 tags="libs media-libs"
+build_deps="gcc"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
