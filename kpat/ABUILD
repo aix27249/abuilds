@@ -1,7 +1,7 @@
 pkgname=kpat
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
-arch=('auto')
+arch=('auto') build_deps="kdelibs"
 
 shortdesc="KPat (aka KPatience) is a relaxing card sorting game"
 
