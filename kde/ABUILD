@@ -1,0 +1,44 @@
+pkgname=kde
+pkgver=4.14.3
+pkgbuild=1
+arch=noarch
+shortdesc=('the second mandatory package  for KDE')
+tags=('kde-misc virtual')
+build_deps="qt4"
+adddep="
+akonadi analitza ark audiocd-kio baloo baloo-widgets blinken bovo ubuntu-font-family \
+cantor cdrdao dolphin-plugins ebook-tools eigen2 eigen3 ffmpegthumbs filelight \
+freerdp granatier gwenview herqq k3b kaccessible kactivities kajongg kamera kapman kapptemplate \
+kate kblocks kbounce kbreakout kbruch kcachegrind kcalc kcharselect kcolorchooser kde-base-artwork kde-baseapps \
+kde-dev-scripts kde-dev-utils kde-l10n-ru kde-wallpapers kde-workspace kdeartwork \
+kdebase-runtime kdegraphics-mobipocket kdegraphics-strigi-analyzer kdegraphics-thumbnailers \
+kdelibs kdenetwork-filesharing kdenetwork-strigi-analyzers kdepim kdepim-runtime kdepimlibs kdeplasma-addons \
+kdesdk-kioslaves kdesdk-strigi-analyzers kdesdk-thumbnailers kdewebdev kdf kdiamond kfilemetadata kfloppy kfourinline \
+kgamma kgeography kget kgoldrunner kgpg pinentry kig kigo kiriki kiten kjumpingcube klettres klickety klines kmag \
+kmahjongg kmines kmix kmousetool kmouth kmplot knavalbattle knetwalk kolf kolourpaint kompare konquest konsole korundum \
+kpat kppp kqtquickcharts krdc kremotecontrol kreversi krfb kross-interpreters kruler krusader ksaneplugin kscd \
+kshisen ksirk ksquares kstars ksudoku ksystemlog ktimer ktouch ktuberling kturtle ktux kubrick kuser kwalletmanager \
+libiodbc libkcddb libkcompactdisc libkdcraw libkdegames libkexiv2 libkipi libkmahjongg libkomparediff2 libksane \
+libmusicbrainz3 libmysqlclient libraw libzip lskat marble mplayerthumbs mysql nepomuk-core nepomuk-widgets ntrack \
+okteta okular oxygen-icons pairs palapeli perlkde perlqt phonon-vlc picmi \
+polkit-kde-1 poxml print-manager pykde4 qimageblitz qjson qt-gstreamer qtruby rocs rxvt-unicode shared-desktop-ontologies \
+smokegen smokekde smokeqt soprano step superkaramba svgpart sweeper tidy umbrello xapian-core zeroconf-ioslave"
+
+build() {
+echo "Building virtual package: $pkgname"
+echo "${shortdesc}"
+
+cd $pkgdir
+ 
+  
+  mkdir -p $pkgdir/etc/skel/{Desktop,Media,Documents,Download} || exit 1
+  mkdir -p $pkgdir/etc/polkit-1/rules.d || exit 1
+  cp  $startdir/hand/udisk2.rules $pkgdir/etc/polkit-1/rules.d
+        find $startdir/hand -type f -iname ".*" -exec cp {} $pkgdir/etc/skel \; || exit 1
+        find $startdir/hand -type l -iname ".*" -exec cp {} $pkgdir/etc/skel \; || exit 1
+    cp  $startdir/hand/* $pkgdir/etc/skel || exit 1
+     find $pkgdir -type d -exec chmod 755 {} \; || exit 1
+     find $pkgdir -type f -exec chmod 644 {} \; || exit 1
+
+
+}
