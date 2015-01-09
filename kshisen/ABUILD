@@ -1,7 +1,7 @@
 pkgname=kshisen
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
-arch=('auto')
+arch=('auto') build_deps="kdelibs"
 
 shortdesc="a solitaire-like game played using the standard set of Mahjong tiles"
 
