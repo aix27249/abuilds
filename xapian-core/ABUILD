@@ -1,0 +1,33 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+pkgname=xapian-core
+pkgver=1.2.19
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Open source search engine library"
+
+source=("http://oligarchy.co.uk/xapian/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+tags="base app-admin"
+
+build_deps="gcc"
+
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+
+
+
