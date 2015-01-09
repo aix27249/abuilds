@@ -1,11 +1,11 @@
 pkgname=freetype
-pkgver=2.5.3
+pkgver=2.5.5
 pkgbuild=1
 shortdesc="TrueType font rendering library"
 longdesc="TrueType font rendering library"
 arch=('auto')
 source=("http://downloads.sourceforge.net/sourceforge/freetype/freetype-${pkgver}.tar.bz2")
-tags=("libs media-libs compat32")
+tags=("libs media-libs")
 
 build_deps="bzip2 zlib"
 adddep="bash"
