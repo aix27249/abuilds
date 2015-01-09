@@ -1,11 +1,12 @@
 pkgname=kig
-pkgver=4.10.5
+pkgver=4.14.3
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('Interactive Geometry')
 
+build_deps="kdelibs"
 tags=('kde-misc kde4')
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
