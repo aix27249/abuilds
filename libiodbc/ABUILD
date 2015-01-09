@@ -4,13 +4,14 @@
 # Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
 
 pkgname=libiodbc
-pkgver=3.52.7
+pkgver=3.52.9
 pkgbuild=3
 shortdesc='Independent Open DataBase Connectivity for Linux'
 longdesc='Independent Open DataBase Connectivity for Linux'
 arch=('auto')
 url="http://www.iodbc.org/dataspace/iodbc/wiki/iODBC/"
 license=('LGPL')
+build_deps="glibc-solibs "
 depends=('glibc')
 source=("http://downloads.sourceforge.net/iodbc/${pkgname}-${pkgver}.tar.gz")
 md5sums=('ddbd274cb31d65be6a78da58fc09079a')
