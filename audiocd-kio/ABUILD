@@ -1,11 +1,12 @@
 pkgname=audiocd-kio
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
 shortdesc=("AudioCD KIO for KDE")
 
 tags=("kde4 kde-base")
+build_deps="kdelibs"
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/audiocd-kio-${pkgver}.tar.xz")
 
