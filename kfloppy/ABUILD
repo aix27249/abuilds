@@ -1,5 +1,5 @@
 pkgname=kfloppy
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
@@ -7,6 +7,7 @@ shortdesc="Floppy disk formatting for KDE"
 
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
+build_deps="kdelibs"
 tags="kde4 app-misc"
 
 BUILD_SYSTEM="cmake"
