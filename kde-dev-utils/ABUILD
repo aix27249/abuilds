@@ -1,0 +1,21 @@
+pkgname=kde-dev-utils
+pkgver=4.14.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Small utilities for developers using KDE/Qt libs/frameworks"
+
+source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+
+#short and long tags / длинный и короткий тег
+build_deps="kdelibs"
+tags="kde4 kde-base"
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
