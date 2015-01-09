@@ -1,0 +1,26 @@
+
+pkgname=libzip
+pkgver=0.11.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A C library for reading, creating, and modifying zip archives"
+source=("http://www.nih.at/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+
+
+build_deps=('zlib')
+tags="libs media-libs"
+
+build() {
+
+go_src_dir
+burn_patches
+  ./configure --prefix=/usr
+  make
+    make DESTDIR="${pkgdir}" install
+    ln -s /usr/lib/libzip/include/zipconf.h "${pkgdir}/usr/include/zipconf.h"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+
+
