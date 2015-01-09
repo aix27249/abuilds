@@ -1,11 +1,11 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kactivities
-pkgver=4.10.5
-pkgbuild=1
+pkgver=4.12.2
+pkgbuild=3
 arch=('auto')
 
 shortdesc="An API for interacting with Activities in KDE"
 
+build_deps="kdepimlibs"
 source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.xz"
 
 tags="libs kde-base"
