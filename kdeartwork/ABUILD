@@ -1,12 +1,13 @@
 pkgname=kdeartwork
-pkgver=4.10.5
+pkgver=4.14.3
 strict_version='yes'
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('Additional themes, screensavers, sounds, wallpapers, and window styles')
 
 tags=('kde-base kde4')
+build_deps="kdelibs"
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
