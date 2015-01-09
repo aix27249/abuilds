@@ -1,5 +1,5 @@
 pkgname=phonon-vlc
-pkgver=0.4.1
+pkgver=0.8.2
 pkgbuild=1
 arch=("auto")
 
@@ -7,8 +7,8 @@ shortdesc=("Phonon libVLC backend")
 longdesc=("Phonon libVLC backend")
 
 tags=("kde4 kde-base")
-
-source=("http://download.kde.org/stable/phonon/phonon-backend-vlc/${pkgver}/phonon-backend-vlc-${pkgver}.tar.bz2")
+build_deps="kdelibs"
+source=("http://download.kde.org/stable/phonon/phonon-backend-vlc/${pkgver}/src/phonon-backend-vlc-${pkgver}.tar.xz")
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIBDIRSUFFIX"
