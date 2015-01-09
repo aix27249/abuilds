@@ -1,11 +1,12 @@
 pkgname=dragon
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
 shortdesc=("A KDE multimedia player where the focus is on simplicity, instead of features")
 
 tags=("kde4 kde-base")
+build_deps="kdelibs"
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
