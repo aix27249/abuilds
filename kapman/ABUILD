@@ -1,5 +1,5 @@
 pkgname=kapman
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
@@ -7,6 +7,7 @@ shortdesc="a clone of the well known game Pac-Man"
 
 source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
+build_deps="doxygen kdelibs"
 tags="kde-misc kde4"
 
 BUILD_SYSTEM="cmake"
