@@ -1,20 +1,19 @@
 pkgname=kdepim
-pkgver=4.10.5
+pkgver=4.14.3
 strict_version='yes'
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('KDE Personal Information Manager package: KMail, Kontact, and another apps')
 
 tags=('kde-base kde4')
-
+build_deps="kdelibs grantlee"
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
-
+adddep="gnupg gnutls"
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 fi
-
 
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
