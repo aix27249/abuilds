@@ -1,10 +1,11 @@
 pkgname=knetwalk
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=('auto')
 
 shortdesc="turn the board pieces to get computers connected"
 
+build_deps="kdelibs"
 source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 tags="kde-misc kde4"
