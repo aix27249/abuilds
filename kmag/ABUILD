@@ -1,8 +1,7 @@
-#ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kmag
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
-arch=('auto')
+arch=('auto') build_deps="kdelibs"
 
 shortdesc="A screen magnifier for KDE"
 
