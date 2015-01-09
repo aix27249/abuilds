@@ -1,0 +1,22 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+#----------------------------- General vars --------------------------------------
+#------------------------- Основные переменные -----------------------------------
+pkgname=kapptemplate
+pkgver=4.14.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="KAppTemplate is a shell script to create the necessary framework to develop KDE applications"
+source=("http://download.kde.org/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+
+#short and long tags / длинный и короткий тег
+tags="kde4 kde-base"
+build_deps="doxygen kdelibs"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
