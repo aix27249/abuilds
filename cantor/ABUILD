@@ -1,5 +1,5 @@
 pkgname=cantor
-pkgver=4.10.5
+pkgver=4.14.3
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
@@ -9,6 +9,7 @@ shortdesc=('KDE Frontend to Mathematical Software')
 tags=('kde-misc kde4')
 
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+build_deps="kdelibs"
 
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
