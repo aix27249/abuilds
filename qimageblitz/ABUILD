@@ -3,7 +3,7 @@
 pkgname=qimageblitz
 pkgver=0.0.6
 strict_version='yes'
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc=('QImageBlitz (Graphical effect and filter library for KDE4)')
@@ -11,10 +11,10 @@ longdesc=('Blitz is a graphical effect and filter library for KDE4.0 that contai
 
 tags=('kde-base libs')
 
-source=("svn:svn://anonsvn.kde.org/home/kde/tags/${pkgname}/${pkgver}")
+source=("http://download.kde.org/stable/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
 
-build_deps='aaa_elflibs cxxlibs fontconfig glibc-solibs util-linux-ng libxcb libICE libSM libX11 libXau libXdmcp libXext libXrender qt4'
+build_deps='cxxlibs fontconfig glibc-solibs util-linux-ng libxcb libICE libSM libX11 libXau libXdmcp libXext libXrender qt4'
 
 before_build() {
  echo ""
