@@ -1,5 +1,5 @@
 pkgname=nepomuk-core
-pkgver=4.10.5
+pkgver=4.14.3
 pkgbuild=1
 arch=("auto")
 
@@ -7,6 +7,7 @@ shortdesc=("Contains the central Nepomuk services like file indexing, file syste
 
 tags=("kde4 kde-base")
 
+build_deps="kdepimlibs doxygen shared-desktop-ontologie"
 source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 
 adddep="MPlayer"
