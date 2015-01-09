@@ -2,7 +2,7 @@
 
 pkgname=freerdp
 pkgver=1.2.0-beta1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="FreeRDP is a client for Windows Terminal Services implementing the Remote Desktop Protocol"
@@ -11,7 +11,7 @@ source=("https://github.com/FreeRDP/FreeRDP/archive/${pkgver}+android9.tar.gz")
 
 tags="network net-libs"
 
-build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg libpulse"
+build_deps="cmake krb5 docbook-xsl damageproto openssl xmlto alsa-lib cups glibc-solibs libX11 libXcursor libXext libXinerama libxkbfile libXv openssl-solibs ffmpeg"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
