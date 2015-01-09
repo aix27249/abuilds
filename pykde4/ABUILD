@@ -1,8 +1,8 @@
 pkgname=pykde4
-pkgver=4.10.5
+pkgver=4.14.3
 #strict_version='yes'
 pkgbuild=1
-arch=('auto')
+arch=('auto') build_deps="kdelibs"
 
 shortdesc=('Python bindings for KDE libraries')
 
@@ -12,9 +12,11 @@ source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar
 
 build_deps="sip>=4.14 PyQt>=4.9"
 
+
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 fi
+
 
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
@@ -23,5 +25,4 @@ BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DSYSCONF_INSTALL_DIR=/etc \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DCMAKE_SKIP_RPATH=ON"
-
 INSTALL_KEYS="DESTDIR=$pkgdir"
