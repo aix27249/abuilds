@@ -2,7 +2,7 @@
 
 pkgname=aspell-ru
 pkgver=0.99f7_1
-pkgbuild=6
+pkgbuild=7
 arch=("auto")
 
 shortdesc=("Russian dictionary for aspell")
@@ -14,7 +14,10 @@ source=("ftp://ftp.gnu.org/gnu/aspell/dict/ru/aspell6-ru-${pkgver/_/-}.tar.bz2")
 build_deps="aspell"
 
 
-BUILD_SYSTEM="autotools"
-BUILD_KEYS=""
-INSTALL_KEYS="DESTDIR=$pkgdir"
+build()
+{
+go_src_dir
+./configure
+make DESTDIR=${pkgdir} install
+}
 
