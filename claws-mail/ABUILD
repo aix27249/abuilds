@@ -1,6 +1,6 @@
 pkgname=claws-mail
 pkgver=3.11.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="Claws Mail is an email client (and news reader), based on GTK+"
@@ -65,4 +65,15 @@ done
 
 }
 
+after_build()
+{
 
+mkdir -p ${pkgdir}/usr/share/applications/kde4/services/ServiceMenus || exit 1
+cd $srcdir/${pkgname}-${pkgver} || exit 1
+cp ./claws-mail.desktop ${pkgdir}/usr/share/applications/kde4 || exit 1
+cp ${filedir}/claws-mail-kdeservicemenu.pl ${pkgdir}/usr/bin || exit 1
+cp ${filedir}/claws-mail-attach-files.desktop ${pkgdir}/usr/share/applications/kde4/services/ServiceMenus || exit 1
+chmod 644 ${pkgdir}/usr/share/applications/kde4/services/ServiceMenus/claws-mail-attach-files.desktop
+chmod 755 ${pkgdir}/usr/bin/claws-mail-kdeservicemenu.pl
+
+}
