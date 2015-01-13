@@ -2,22 +2,22 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=smtube
-pkgver=1.8
+pkgver=4.12
 pkgbuild=1
 arch=('auto')
 
 shortdesc=" smtube - a small youtube browse"
 
-source=("http://jaist.dl.sourceforge.net/project/smplayer/SMTube/${pkgname}-${pkgver}.tar.bz2")
-#short and long tags / длинный и короткий тег
-tags="media-video
-xapps"
+source=("http://heanet.dl.sourceforge.net/project/smplayer/SMTube/14.12.0/smtube-14.12.0.tar.bz2")
+#        http://sourceforge.net/project/smplayer/files/SMTube/14.12.0/${pkgname}-${pkgver}.tar.bz2")
 
-#dependencies only needed to build package
-build_deps=""
+tags="media-video xapps"
+
+build_deps="qt4"
 
 
 build()
+
 {
 
 go_src_dir
