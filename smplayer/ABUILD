@@ -1,17 +1,16 @@
 pkgname=smplayer
-pkgver=14.3.0
-pkgbuild=4
+pkgver=14.9.0
+pkgbuild=1
 arch="auto"
 
 shortdesc=("SMPlayer is a GUI media player based on Qt 4, using mplayer as its backend")
 
-#shortdesc=("SMplayer (Qt4 Mplayer front-end)")
-#longdesc=("SMPlayer intends to be a complete front-end for MPlayer, from basic features  like  playing  videos, DVDs, and  VCDs  to more advanced features like support for MPlayer filters and more.")
 
 source=("http://downloads.sourceforge.net/smplayer/smplayer-${pkgver}.tar.bz2")
 
 tags="xapps media-video"
 
+build_deps="qt4"
 adddep="MPlayer"
 
 
