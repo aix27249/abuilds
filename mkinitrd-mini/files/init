@@ -1,0 +1,173 @@
+#!/bin/ash
+#
+# /init:  init script to load kernel modules from an initramfs
+#         This requires that your kernel supports initramfs!!!
+
+ROOTDEV=$(cat /rootdev)
+ROOTFS=$(cat /rootfs)
+LUKSDEV=$(cat /luksdev)
+LUKSKEY=$(cat /lukskey)
+RESUMEDEV=$(cat /resumedev)
+INIT=/sbin/init
+
+PATH="/sbin:/bin:/usr/sbin:/usr/bin"
+
+# Mount /proc and /sys:
+mount -n proc /proc -t proc
+mount -n sysfs /sys -t sysfs
+
+if grep devtmpfs /proc/filesystems 1>/dev/null 2>/dev/null ; then
+  DEVTMPFS=1
+  mount -n devtmpfs /dev -t devtmpfs
+fi	
+
+# Parse command line
+for ARG in $(cat /proc/cmdline); do
+  case $ARG in
+    0|1|2|3|4|5|6|S|s|single)
+      RUNLEVEL=$ARG
+    ;;
+    init=*)
+      INIT=$(echo $ARG | cut -f2 -d=)
+    ;;
+    luksdev=/dev/*)
+      LUKSDEV=$(echo $ARG | cut -f2 -d=)
+    ;;
+    lukskey=*)
+      LUKSKEY=$(echo $ARG | cut -f2- -d=)
+    ;;
+    rescue)
+      RESCUE=1
+    ;;
+    resume=*)
+      RESUMEDEV=$(echo $ARG | cut -f2 -d=)
+    ;;
+    root=/dev/*)
+      ROOTDEV=$(echo $ARG | cut -f2 -d=)
+    ;;
+    root=LABEL=*)
+      ROOTDEV=$(echo $ARG | cut -f2- -d=)
+    ;;
+    root=UUID=*)
+      ROOTDEV=$(echo $ARG | cut -f2- -d=)
+    ;;
+  esac
+done
+
+
+
+
+if [ "$RESCUE" = "" ]; then 
+
+  if [ -x /sbin/cryptsetup ]; then
+
+    # Determine if we have to use a LUKS keyfile:
+    if [ ! -z "$LUKSKEY" ]; then
+      mkdir  /mountkey
+      KEYPART=$(echo $LUKSKEY |cut -f1 -d:)
+      LUKSPATH="/mountkey$(echo $LUKSKEY |cut -f2 -d:)"
+      # Catch possible mount failure:
+      if blkid -t TYPE=vfat $KEYPART 1>/dev/null 2>&1 ; then
+        MOUNTOPTS="-t vfat -o shortname=mixed"
+      else
+        MOUNTOPTS="-t auto"
+      fi
+      mount $MOUNTOPTS $(findfs $KEYPART) /mountkey 2>/dev/null
+      # Check if we can actually use this file:
+      if [ ! -f $LUKSPATH ]; then
+        LUKSKEY=""
+      else
+        echo ">>> Using LUKS key file: '$LUKSKEY'"
+        LUKSKEY="-d $LUKSPATH"
+      fi
+    fi
+
+    LUKSLIST_DEFERRED=""
+    LUKSLIST=$(echo $LUKSDEV | tr -s ':' ' ')
+    for LUKSDEV in $LUKSLIST ; do
+      if /sbin/cryptsetup isLuks ${LUKSDEV} 1>/dev/null 2>/dev/null ; then
+        if echo $ROOTDEV | grep -q "LABEL=" || echo $ROOTDEV | grep -q "UUID=" ; then
+          CRYPTDEV="luks$(basename $LUKSDEV)"
+        elif [ "x$ROOTDEV" = "x$(basename $ROOTDEV)" ]; then
+          CRYPTDEV="$ROOTDEV"
+        else
+          CRYPTDEV="luks$(basename $LUKSDEV)"
+        fi
+        echo "Unlocking LUKS encrypted device '${LUKSDEV}' as luks mapped device '$CRYPTDEV':"
+        /sbin/cryptsetup ${LUKSKEY} luksOpen ${LUKSDEV} ${CRYPTDEV} </dev/tty0 >/dev/tty0 2>&1
+        if [ "$ROOTDEV" = "$LUKSDEV" -o "$ROOTDEV" = "$CRYPTDEV" ] ; then
+          ROOTDEV="/dev/mapper/$CRYPTDEV"
+        fi
+      else
+        LUKSLIST_DEFERRED="${LUKSLIST_DEFERRED} ${LUKSDEV}"
+      fi
+    done
+  fi
+
+  
+  # Unlock any LUKS encrypted devices that were deferred above but have now
+  # become available due to the vgscan (i.e. filesystems on LVM Logical Volumes)
+
+  if [ -x /sbin/cryptsetup -a -n "${LUKSLIST_DEFERRED}" ]; then
+    for LUKSDEV in ${LUKSLIST_DEFERRED} ; do
+      if /sbin/cryptsetup isLuks ${LUKSDEV} 1>/dev/null 2>/dev/null ; then
+        if echo $ROOTDEV | grep -q "LABEL=" || echo $ROOTDEV | grep -q "UUID=" ; then
+          CRYPTDEV="luks$(basename $LUKSDEV)"
+        elif [ "x$ROOTDEV" = "x$(basename $ROOTDEV)" ]; then
+          CRYPTDEV="$ROOTDEV"
+        else
+          CRYPTDEV="luks$(basename $LUKSDEV)"
+        fi
+        echo "Unlocking LUKS encrypted device '${LUKSDEV}' as luks mapped device '$CRYPTDEV':"
+        /sbin/cryptsetup ${LUKSKEY} luksOpen ${LUKSDEV} ${CRYPTDEV} </dev/tty0 >/dev/tty0 2>&1
+        if [ "$ROOTDEV" = "$LUKSDEV" -o "$ROOTDEV" = "$CRYPTDEV" ] ; then
+          ROOTDEV="/dev/mapper/$CRYPTDEV"
+        fi
+      else
+        echo "LUKS device '${LUKSDEV}' unavailable for unlocking!"
+      fi
+    done
+  fi
+
+
+  # Resume state from swap
+  if [ "$RESUMEDEV" != "" ]; then
+    if ls -l $RESUMEDEV | grep -q "^l" ; then
+      RESUMEDEV=$(ls -l $RESUMEDEV | awk '{ print $NF }')
+    fi
+    echo "Trying to resume from $RESUMEDEV"
+    RESMAJMIN=$(ls -l $RESUMEDEV | tr , : | awk '{ print $5$6 }')
+    echo $RESMAJMIN > /sys/power/resume
+  fi
+  
+  # Switch to real root partition:
+  echo 0x0100 > /proc/sys/kernel/real-root-dev
+  mount $ROOTDEV /mnt
+  
+  if [ ! -r /mnt/sbin/init ]; then
+    echo "ERROR:  No /sbin/init found on rootdev (or not mounted).  Trouble ahead."
+    echo "        You can try to fix it. Type 'exit' when things are done." 
+    echo
+    /bin/sh
+  fi
+else
+  echo
+  echo "RESCUE mode"
+  echo
+  echo "        You can try to fix or rescue your system now. If you want"
+  echo "        to boot into your fixed system, mount your root filesystem"
+  echo "        read-only under /mnt:"
+  echo
+  echo "            # mount -o ro -t filesystem root_device /mnt"
+  echo
+  echo "        Type 'exit' when things are done."
+  echo
+  /bin/sh
+fi
+
+
+unset ERR
+mount -o move /proc /mnt/proc
+mount -o move /sys /mnt/sys
+[ "$DEVTMPFS" = "1" ] && mount -o move /dev /mnt/dev
+exec switch_root /mnt $INIT $RUNLEVEL
