@@ -1,6 +1,6 @@
 # Package metadata
 pkgname=openrc
-pkgver=0.11.8
+pkgver=0.12.4
 pkgbuild=1
 arch=('auto')
 
