@@ -1,5 +1,5 @@
 pkgname=kde-workspace
-pkgver=4.11.14
+pkgver=4.11.15
 #strict_version='yes'
 pkgbuild=3
 arch=('auto')
@@ -8,7 +8,7 @@ shortdesc=('KDE Base Workspace')
 
 tags=('kde-base kde4')
 
-source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+source=("ftp://ftp.kde.org/pub/kde/stable/applications/14.12.1/src/${pkgname}-${pkgver}.tar.xz")
 
 #adddep="kde-base-artwork"
 build_deps="qt4 kdelibs ConsoleKit freetype qimageblitz"
@@ -32,7 +32,6 @@ BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DMAN_INSTALL_DIR=/usr/man \
     -DWITH_Xmms=OFF \
     -DWITH_Nepomuk=ON \
-    -DWITH_PolkitQt=OFF \
     -DWITH_QEdge=OFF \
     -DWITH_Googlegadgets=OFF \
     -DSYSCONF_INSTALL_DIR=/etc \
@@ -40,6 +39,7 @@ BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
     -DLIB_SUFFIX=${LIBDIRSUFFIX}"
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
+#    -DWITH_PolkitQt=OFF \
 
 after_build() {
 	set -e
