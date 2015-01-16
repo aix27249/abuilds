@@ -1,9 +1,6 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pidgin-sipe
-pkgver=1.18
-pkgbuild=2
+pkgver=1.19
+pkgbuild=3
 arch=('auto')
 
 shortdesc="An Open Implementation of SIP/Simple protocol for Live Communications Server 2003/2005/2007 - Pidgin plugin"
@@ -11,17 +8,16 @@ shortdesc="An Open Implementation of SIP/Simple protocol for Live Communications
 source=("git:git://repo.or.cz/w/siplcs.git/")
 
 
-#short and long tags / длинный и короткий тег
 tags="network net-im"
 custom_opts="no_ccache"
-build_deps="perl-xml-parser libpurple  intltool"
+build_deps="perl-xml-parser libpurple intltool"
 
 
 build()
 {
 go_src_dir
 
-export CFLAGS="${CFLAGS}  -Wno-error=uninitialized"
+#export CFLAGS="${CFLAGS}  -Wno-error=uninitialized"
 
 ./autogen.sh
 
