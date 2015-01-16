@@ -1,5 +1,5 @@
 pkgname=kdepim
-pkgver=4.14.3
+pkgver=4.14.4
 strict_version='yes'
 pkgbuild=2
 arch=('auto')
@@ -8,7 +8,7 @@ shortdesc=('KDE Personal Information Manager package: KMail, Kontact, and anothe
 
 tags=('kde-base kde4')
 build_deps="kdelibs grantlee"
-source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+source=("ftp://ftp.kde.org/pub/kde/stable/applications/14.12.1/src/${pkgname}-${pkgver}.tar.xz")
 adddep="gnupg gnutls"
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
