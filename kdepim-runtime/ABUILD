@@ -1,5 +1,5 @@
 pkgname=kdepim-runtime
-pkgver=4.14.3
+pkgver=4.14.4
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
@@ -8,7 +8,7 @@ shortdesc=('KDE PIM Runtime Environment')
 
 tags=('kde-base kde4')
 build_deps="kdelibs"
-source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+source=("ftp://ftp.kde.org/pub/kde/stable/applications/14.12.1/src/${pkgname}-${pkgver}.tar.xz")
 
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
