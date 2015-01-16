@@ -1,6 +1,5 @@
 pkgname=kdepimlibs
-pkgver=4.14.3
-#strict_version='yes'
+pkgver=4.14.4
 pkgbuild=2
 arch=('auto')
 
@@ -9,8 +8,7 @@ longdesc=('This module includes libraries that are central to the development an
 
 tags=('kde-base kde4')
 
-#source=("svn:svn://anonsvn.kde.org/home/kde/trunk/KDE/${pkgname}")
-source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
+source=("ftp://ftp.kde.org/pub/kde/stable/applications/14.12.1/src/${pkgname}-${pkgver}.tar.xz")
 
 build_deps="akonadi kdelibs libical qjson"
 
