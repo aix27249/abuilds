@@ -1,0 +1,36 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=js185
+pkgver=1.0.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="JavaScript interpreter and libraries (legacy)"
+
+source=("http://ftp.mozilla.org/pub/mozilla.org/js/${pkgname}-${pkgver}.tar.gz")
+
+tags="dev-libs libs"
+
+build_deps="make python perl gcc-g++ findutils binutils"
+
+build() {
+  go_src_dir
+  cd js/src
+  # _FORTIFY_SOURCE causes configure error
+  unset CPPFLAGS
+
+  ./configure --prefix=/usr \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --with-system-nspr \
+              --enable-threadsafe
+  make
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm755 shell/js "${pkgdir}/usr/bin/js"
+  find "${pkgdir}"/usr/{lib/pkgconfig,include} -type f -exec chmod -x {} +
+
+  # Bad symlinks (absolute, including DESTDIR!)
+  cd "${pkgdir}/usr/lib${LIBDIRSUFFIX}"
+  ln -sf libmozjs185.so.1.0.0 libmozjs185.so.1.0
+  ln -sf libmozjs185.so.1.0 libmozjs185.so
+}
+
