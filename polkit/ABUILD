@@ -1,14 +1,16 @@
 pkgname=polkit
-pkgver=0.104
+pkgver=0.112
 pkgbuild=1
 arch="auto"
 
-shortdesc=("Authorization Framework")
-source=("http://hal.freedesktop.org/releases/polkit-${pkgver}.tar.gz")
+shortdesc=("Application development toolkit for controlling system-wide privileges")
+
+source=("http://www.freedesktop.org/software/polkit/releases/${pkgname}-${pkgver}.tar.gz"
+"git:https://github.com/khvalera/polkit-mount")
 
 tags="libs sys-auth"
 
-build_deps="make gcc grep binutils intltool gettext perl perl-xml-parser gtk-doc pkg-config coreutils expat glib2 gobject-introspection"
+build_deps="make gcc grep binutils intltool gettext perl perl-xml-parser gtk-doc pkg-config coreutils expat glib2 gobject-introspection js185"
 
 build(){
   go_src_dir
@@ -22,14 +24,20 @@ build(){
               --enable-gtk-doc \
               --disable-gtk-doc-html \
               --disable-static \
-              --enable-libsystemd-login=yes
+              --enable-introspection \
+              --with-polkitd-user=root \
+              --enable-libsystemd-login=no
 
   make
-  make DESTDIR=${pkgdir} install || echo "11111111"
+  make DESTDIR=${pkgdir} install
 }
 
 after_build() {
-  install -m644 "${filedir}/polkit.pam" "${pkgdir}/etc/pam.d/polkit-1"
+  go_src_dir
+  install -m644 "${filedir}"/polkit.pam "${pkgdir}"/etc/pam.d/polkit-1
+  install -m644 ../polkit_git_polkit-mount.src/60-mount.rules "${pkgdir}"/etc/polkit-1/rules.d
+  chown 102 "${pkgdir}"/etc/polkit-1/rules.d
+  chown 102 "${pkgdir}"/usr/share/polkit-1/rules.d
   echo "End after_build"
 }
 
