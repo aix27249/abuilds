@@ -1,16 +1,18 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 pkgname=librevenge
-pkgver=0.0.1
+pkgver=0.0.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="library for REVerses ENGineered formats filters"
 
-source=("http://sourceforge.net/projects/libwpd/files/librevenge/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz")
+source=("http://sourceforge.net/projects/libwpd/files/librevenge/$pkgname-$pkgver/$pkgname-$pkgver.tar.xz")
 
-tags="dev-libs libs"
 
-build_deps="make gcc gcc-g++ coreutils binutils boost doxygen cppunit sed grep"
+tags="libs app-text"
+
+build_deps="gcc doxygen cppunit"
+
 
 BUILD_SYSTEM="autotools"
 
@@ -26,3 +28,9 @@ BUILD_KEYS="--prefix=/usr \
 --program-suffix="
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+#ran after function build()
+#после сборки
+#after_build(){
+
+#}
