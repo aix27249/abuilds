@@ -1,0 +1,31 @@
+pkgname=libatomic_ops
+pkgver=7.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Provides semi-portable access to hardware provided atomic memory operations"
+
+_tag=$pkgname-${pkgver//./_}
+source=("https://github.com/ivmai/libatomic_ops/archive/$_tag.zip")
+
+
+tags="dev-libs libs"
+
+build_deps="gcc"
+
+build(){
+go_src_dir
+./autogen.sh 
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man
+
+
+make
+make DESTDIR=${pkgdir} install
+}
+
