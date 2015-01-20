@@ -1,6 +1,6 @@
 pkgname=kde
 pkgver=4.14.3
-pkgbuild=2
+pkgbuild=3
 arch=noarch
 shortdesc=('the second mandatory package  for KDE')
 tags=('kde-misc virtual')
@@ -20,7 +20,7 @@ kpat kppp kqtquickcharts krdc kremotecontrol kreversi krfb kross-interpreters kr
 kshisen ksirk ksquares kstars ksudoku ksystemlog ktimer ktouch ktuberling kturtle ktux kubrick kuser kwalletmanager \
 libiodbc libkcddb libkcompactdisc libkdcraw libkdegames libkexiv2 libkipi libkmahjongg libkomparediff2 libksane \
 libmusicbrainz3 libmysqlclient libraw libzip lskat marble mplayerthumbs mysql nepomuk-core nepomuk-widgets ntrack \
-okteta okular oxygen-icons pairs palapeli perlkde perlqt phonon-vlc picmi \
+okteta okular oxygen-icons pairs palapeli perlkde perlqt phonon-vlc picmi hicolor-icon-theme udisks2 \
 polkit-kde-1 poxml print-manager pykde4 qimageblitz qjson qt-gstreamer qtruby rocs rxvt-unicode shared-desktop-ontologies \
 smokegen smokekde smokeqt soprano step superkaramba svgpart sweeper tidy umbrello xapian-core zeroconf-ioslave upower"
 
