@@ -1,0 +1,24 @@
+pkgname=squashfs-fluxbox
+pkgver=1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Script for acceleration and compression"
+#longdesc=(""
+#)
+
+source=("My hand")
+
+
+tags="base app-admin"
+
+build_deps="mkpkg"
+
+
+
+build(){
+  mkdir -p  $pkgdir/sbin
+  cp $startdir/hand/* $pkgdir/sbin
+}
+
+
