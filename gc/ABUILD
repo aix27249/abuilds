@@ -1,0 +1,32 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+pkgname=gc
+pkgver=7.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A garbage collector for C and C++"
+
+source=("http://www.hboehm.info/gc/gc_source/${pkgname}-${pkgver}.tar.gz")
+
+
+tags="dev-libs libs"
+
+build_deps="gcc"
+
+
+build()
+{
+
+go_src_dir
+burn_patches
+
+ autoreconf -fi
+   ./configure --prefix=/usr --sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+ --enable-cplusplus --enable-static
+
+     make
+make DESTDIR=${pkgdir} install
+
+}
