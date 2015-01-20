@@ -1,7 +1,7 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 pkgname=gc
 pkgver=7.4.2
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A garbage collector for C and C++"
