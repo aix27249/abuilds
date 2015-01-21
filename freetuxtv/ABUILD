@@ -1,0 +1,29 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=freetuxtv
+pkgver=0.6.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="WebTV player to watch ADSL TV on the PC."
+
+source=("http://freetuxtv.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="media-video xapps"
+
+build_deps="make gcc grep sed coreutils binutils gtk+3 perl perl-xml-parser gettext vlc"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-gtk=2.0"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
