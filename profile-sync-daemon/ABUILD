@@ -1,0 +1,27 @@
+pkgname=profile-sync-daemon
+pkgver=5.64
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Syncs browser profiles to tmpfs reducing SSD/HDD calls and speeding-up browsers."
+
+source=("http://repo-ck.com/source/$pkgname/$pkgname-$pkgver.tar.xz")
+
+
+tags="base app-admin"
+
+build_deps="gcc"
+
+
+build(){
+  go_src_dir
+  burn_patches
+  make
+   make DESTDIR="$pkgdir" install-openrc-all
+mkdir -p ${pkgdir}/etc/init.d
+cp $filedir/* ${pkgdir}/etc/init.d
+
+chmod 755 ${pkgdir}/etc/init.d/*
+
+}
+
