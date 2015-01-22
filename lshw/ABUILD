@@ -1,93 +1,34 @@
-#ABUILD created by/создан: NK, nk-man at yandex.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=lshw
-pkgver=B.02.16
+pkgver=B.02.17
 pkgbuild=1
 arch=('auto')
 
-shortdesc="a small tool to provide detailed information on the hardware configuration of the machine"
-#longdesc=(""
-#)
+shortdesc="A small tool to provide detailed information on the hardware configuration of the machine."
 
 source=("http://ezix.org/software/files/${pkgname}-${pkgver}.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="sys-apps utils"
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="make gcc gtk+2 sqlite"
 
-provides=""
-conflicts=""
+pkglist=gtk
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=""
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip no_ccache
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой.
-#before_build()
-#{
-#
-#}
-
-build()
-{
-go_src_dir
-burn_patches
-
-make && make DESTDIR=$pkgdir install || exit 1
-make gui && make DESTDIR=$pkgdir install-gui || exit 1
+build(){
+  go_src_dir
+  make SBINDIR=/usr/bin && make SBINDIR=/usr/bin DESTDIR=${pkgdir} install
+  rm -f ${pkgdir}/usr/share/lshw/{pci,usb}.ids
 }
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-
-d_ic(){
-# desktop icon
-if [[	! -d $pkgdir/usr/share/applications && \
-	! -f $pkgdir/usr/share/applications/lshw-gtk.desktop && \
-	-f ${pkgdir}/usr/share/lshw/artwork/logo.svg && \
-	-x ${pkgdir}//usr/sbin/gtk-lshw	]]
-then
-# dir
-mkdir -p $pkgdir/usr/share/applications/
-# icon
-cat << EOF > $pkgdir/usr/share/applications/lshw-gtk.desktop
-[Desktop Entry]
-Name=LSHW
-Comment=HardWare LiSter
-Categories=System;
-Icon=/usr/share/lshw/artwork/logo.svg
-Exec=xdg-su -c /usr/sbin/gtk-lshw
-Type=Application
-Terminal=false
-EOF
-fi
+gtk(){
+  pkgname=lshw-gtk
+  adddep="lshw"
 }
 
-d_ic
-
+gtk_prep() {
+  go_src_dir
+  make SBINDIR=/usr/bin gui && make SBINDIR=/usr/bin DESTDIR=${pkgdir} install-gui
+  install -Dm0644 src/gui/integration/gtk-lshw.desktop ${pkgdir}/usr/share/applications/gtk-lshw.desktop
+  sed -i 's|Exec=/usr/bin/gtk-lshw|Exec=xdg-su -c /usr/bin/gtk-lshw|' ${pkgdir}/usr/share/applications/gtk-lshw.desktop
+  install -Dm0644 src/gui/integration/gtk-lshw.pam ${pkgdir}/etc/pam.d/gtk-lshw
+  install -Dm0644 src/gui/integration/console.apps ${pkgdir}/usr/doc/${pkgname}-${pkgver}/console.apps
 }
