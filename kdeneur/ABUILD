@@ -1,5 +1,5 @@
 pkgname=kdeneur
-pkgver=0.17.0
+pkgver=0.17.0+hg1229
 pkgbuild=2
 arch=('auto')
 
@@ -9,6 +9,7 @@ source=("https://launchpadlibrarian.net/154884174/${pkgname}_${pkgver}.orig.tar.
 
 tags="x11-apps xapps"
 
+build_deps="aspell"
 
 
 build()
