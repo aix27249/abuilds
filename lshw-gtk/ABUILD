@@ -1,0 +1,34 @@
+pkgname=lshw
+pkgver=B.02.17
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A small tool to provide detailed information on the hardware configuration of the machine."
+
+source=("http://ezix.org/software/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="sys-apps utils"
+
+build_deps="make gcc gtk+2 sqlite"
+
+pkglist=gtk
+
+build(){
+  go_src_dir
+  make SBINDIR=/usr/bin && make SBINDIR=/usr/bin DESTDIR=${pkgdir} install
+  rm -f ${pkgdir}/usr/share/lshw/{pci,usb}.ids
+}
+
+gtk(){
+  pkgname=lshw-gtk
+  adddep="lshw"
+}
+
+gtk_prep() {
+  go_src_dir
+  make SBINDIR=/usr/bin gui && make SBINDIR=/usr/bin DESTDIR=${pkgdir} install-gui
+  install -Dm0644 src/gui/integration/gtk-lshw.desktop ${pkgdir}/usr/share/applications/gtk-lshw.desktop
+  sed -i 's|Exec=/usr/bin/gtk-lshw|Exec=xdg-su -c /usr/bin/gtk-lshw|' ${pkgdir}/usr/share/applications/gtk-lshw.desktop
+  install -Dm0644 src/gui/integration/gtk-lshw.pam ${pkgdir}/etc/pam.d/gtk-lshw
+  install -Dm0644 src/gui/integration/console.apps ${pkgdir}/usr/doc/${pkgname}-${pkgver}/console.apps
+}
