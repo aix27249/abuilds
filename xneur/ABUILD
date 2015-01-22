@@ -1,19 +1,14 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=xneur
-pkgver=0.17.0
-pkgbuild=3
+pkgver=0.17.0+hg1228
+pkgbuild=1
 arch=('auto')
 
 shortdesc="X Neural Switcher - auto keyboard layout switcher"
 
-#source=("http://ppa.launchpad.net/andrew-crew-kuznetsov/crew/ubuntu/pool/main/x/xneur/${pkgname}_${pkgver}.orig.tar.gz")
-source=("https://launchpadlibrarian.net/154875835/${pkgname}_${pkgver}.orig.tar.gz")
+source=("http://ppa.launchpad.net/andrew-crew-kuznetsov/crew/ubuntu/pool/main/x/xneur/${pkgname}_${pkgver}.orig.tar.gz")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
+build_deps="aspell"
 tags="x11-apps xapps"
 
 
@@ -30,6 +25,7 @@ go_src_dir
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --without-xosd \
+--without-libnotify \
 --with-sound=aplay \
 --without-debug
 
