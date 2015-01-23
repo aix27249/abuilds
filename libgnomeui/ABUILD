@@ -1,56 +1,16 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=libgnomeui
-pkgver=2.24.4
+pkgver=2.24.5
 pkgbuild=1
 arch=('auto')
 
 shortdesc="The GNOME User Interface Libraries"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("This package contains the shared library for the base GNOME library functions (User Interface functions)."
-)
+longdesc=("This package contains the shared library for the base GNOME library functions (User Interface functions).")
 
 source=("ftp://ftp.gnome.org/pub/GNOME/sources/$pkgname/2.24/$pkgname-$pkgver.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs gnome-base"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
+build_deps="make libbonoboui pkg-config gcc coreutils sed grep gtk-doc perl perl-xml-parser intltool"
 
 BUILD_SYSTEM="autotools"
 
@@ -66,11 +26,5 @@ BUILD_KEYS="--prefix=/usr \
 --program-prefix= \
 --program-suffix="
 
-INSTALL_KEYS="DESTDIR=$pkgdir"
+INSTALL_KEYS="DESTDIR=${pkgdir}"
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-echo ""
-}
