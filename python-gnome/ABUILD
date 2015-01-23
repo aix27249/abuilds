@@ -1,0 +1,78 @@
+pkgname=python-gnome
+pkgver=2.28.1
+pkgbuild=9
+arch=('auto')
+
+shortdesc="Gnome-Python (GNOME Python bindings)"
+
+source=("ftp://ftp.gnome.org/pub/gnome/sources/gnome-python/${pkgver%.*}/gnome-python-${pkgver}.tar.bz2")
+
+tags="develop dev-python"
+
+build_deps="make libgnome pkg-config gcc python-gobject2 python-pygtk python coreutils sed grep"
+
+adddep="python-bonobo python-gconf python-libgnome python-libgnomecanvas python-gnomevfs"
+
+pkglist="bonobo gconf libgnome canvas vfs"
+
+bonobo(){
+  pkgname=python-bonobo
+  shortdesc="Python bindings for interacting with Bonobo"
+}
+
+gconf(){
+  pkgname=python-gconf
+  shortdesc="Python bindings for interacting with GConf"
+}
+
+libgnome(){
+  pkgname=python-libgnome
+  shortdesc="Python bindings for libgnome"
+}
+
+canvas(){
+  pkgname=python-libgnomecanvas
+  shortdesc="Python bindings for the GNOME Canvas"
+}
+
+vfs(){
+  pkgname=python-gnomevfs
+  shortdesc="Python bindings for interacting with gnome-vfs"
+}
+
+build(){
+  go_src_dir
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --disable-static \
+              --mandir=/usr/man \
+              --program-prefix= \
+              --program-suffix=
+  make
+}
+
+after_build(){
+  make install-pkgconfigDATA DESTDIR=${pkgdir}
+}
+
+bonobo_prep(){
+  make -C bonobo install DESTDIR=${pkgdir}
+}
+
+gconf_prep(){
+  make -C gconf install DESTDIR=${pkgdir}
+}
+
+libgnome_prep(){
+  make -C gnome install DESTDIR=${pkgdir}
+}
+
+canvas_prep(){
+  make -C gnomecanvas install DESTDIR=${pkgdir}
+}
+
+vfs_prep(){
+  make -C gnomevfs install DESTDIR=${pkgdir}
+}
