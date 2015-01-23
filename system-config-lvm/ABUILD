@@ -1,0 +1,42 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru 
+pkgname=system-config-lvm
+pkgver=1.1.18
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A utility for graphical configuration of Logical Volumes"
+
+source=("http://kojipkgs.fedoraproject.org/packages/system-config-lvm/1.1.18/1.fc19/src/system-config-lvm-1.1.18-1.fc19.src.rpm")
+
+tags="base sys-fs"
+
+build_deps="make intltool python-gnome perl"
+
+before_build(){
+  go_src_dir
+  tar xzf ${pkgname}-${pkgver}.tar.gz
+  cd system-config-lvm-1.1.18
+  ./autogen.sh
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  sed -i "s|Exec=/usr/bin/system-config-lvm|Exec=xdg-su -c /usr/sbin/system-config-lvm|" ${pkgdir}/usr/share/applications/system-config-lvm.desktop
+  sed -i "s|Exec=/usr/bin/system-config-lvm|Exec=xdg-su -c /usr/sbin/system-config-lvm|" ${pkgdir}/usr/share/applications/system-config-lvm.desktop
+  sed -i "s|Categories=Application;SystemSetup;X-Red-Hat-Base;|Categories=Application;GNOME;System;Filesystem;|" ${pkgdir}/usr/share/applications/system-config-lvm.desktop
+  sed -i "s|/usr/bin/python2|/usr/bin/python|g" ${pkgdir}/usr/share/system-config-lvm/system-config-lvm.py
+}
