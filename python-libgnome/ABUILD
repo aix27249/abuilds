@@ -9,7 +9,7 @@ source=("ftp://ftp.gnome.org/pub/gnome/sources/gnome-python/${pkgver%.*}/gnome-p
 
 tags="develop dev-python"
 
-build_deps="make libgnome pkg-config gcc python-gobject2 python-pygtk python coreutils sed grep"
+build_deps="make libgnome pkg-config gcc python-gobject2 python-pygtk python coreutils sed grep libgnomeui libgnome-keyring pygtk python-pyorbit"
 
 adddep="python-bonobo python-gconf python-libgnome python-libgnomecanvas python-gnomevfs"
 
