@@ -1,131 +1,78 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
-pkgname=gnome-python
+pkgname=python-gnome
 pkgver=2.28.1
-pkgbuild=8
+pkgbuild=9
 arch=('auto')
 
 shortdesc="Gnome-Python (GNOME Python bindings)"
 
-source=("ftp://ftp.gnome.org/pub/gnome/sources/gnome-python/2.28/gnome-python-${pkgver}.tar.bz2")
+source=("ftp://ftp.gnome.org/pub/gnome/sources/gnome-python/${pkgver%.*}/gnome-python-${pkgver}.tar.bz2")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="develop dev-python"
 
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
+build_deps="make libgnome pkg-config gcc python-gobject2 python-pygtk python coreutils sed grep"
 
 adddep="python-bonobo python-gconf python-libgnome python-libgnomecanvas python-gnomevfs"
-removedep=""
 
-
-#for multi pkg abuild
 pkglist="bonobo gconf libgnome canvas vfs"
 
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-bonobo()
-{
-	pkgname=python-bonobo
-	shortdesc="Python bindings for interacting with Bonobo"
-}
-gconf()
-{
-	pkgname=python-gconf
-	shortdesc="Python bindings for interacting with GConf"
-}
-libgnome()
-{
-	pkgname=python-libgnome
-	shortdesc="Python bindings for libgnome"
-}
-canvas()
-{
-	pkgname=python-libgnomecanvas
-	shortdesc="Python bindings for the GNOME Canvas"
-}
-vfs()
-{
-	pkgname=python-gnomevfs
-	shortdesc="Python bindings for interacting with gnome-vfs"
+bonobo(){
+  pkgname=python-bonobo
+  shortdesc="Python bindings for interacting with Bonobo"
 }
 
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
+gconf(){
+  pkgname=python-gconf
+  shortdesc="Python bindings for interacting with GConf"
 }
 
-build()
-{
-	go_src_dir
-	set -e
-	./configure --prefix=/usr \
-	--sysconfdir=/etc \
-	--localstatedir=/var \
-	--libdir=/usr/lib${LIBDIRSUFFIX} \
-	--disable-static \
-	--mandir=/usr/man \
-	--program-prefix= \
-	--program-suffix=
-	make
-	set +e
+libgnome(){
+  pkgname=python-libgnome
+  shortdesc="Python bindings for libgnome"
 }
-#ran after function build() 
-#после сборки
-after_build()
-{
-	set -e
-	make install-pkgconfigDATA DESTDIR=${pkgdir}
-	set +e
+
+canvas(){
+  pkgname=python-libgnomecanvas
+  shortdesc="Python bindings for the GNOME Canvas"
+}
+
+vfs(){
+  pkgname=python-gnomevfs
+  shortdesc="Python bindings for interacting with gnome-vfs"
+}
+
+build(){
+  go_src_dir
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --libdir=/usr/lib${LIBDIRSUFFIX} \
+              --disable-static \
+              --mandir=/usr/man \
+              --program-prefix= \
+              --program-suffix=
+  make
+}
+
+after_build(){
+  make install-pkgconfigDATA DESTDIR=${pkgdir}
 }
 
 bonobo_prep(){
-	set -e
-	make -C bonobo install DESTDIR=${pkgdir}
-	set -e
+  make -C bonobo install DESTDIR=${pkgdir}
 }
 
 gconf_prep(){
-	set -e
-	make -C gconf install DESTDIR=${pkgdir}
-	set +e
+  make -C gconf install DESTDIR=${pkgdir}
 }
 
 libgnome_prep(){
-	set -e
-	make -C gnome install DESTDIR=${pkgdir}
-	set +e
+  make -C gnome install DESTDIR=${pkgdir}
 }
 
 canvas_prep(){
-	set -e
-	make -C gnomecanvas install DESTDIR=${pkgdir}
-	set +e
+  make -C gnomecanvas install DESTDIR=${pkgdir}
 }
 
 vfs_prep(){
-	set -e
-	make -C gnomevfs install DESTDIR=${pkgdir}
-	set +e
+  make -C gnomevfs install DESTDIR=${pkgdir}
 }
