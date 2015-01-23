@@ -1,61 +1,16 @@
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pyorbit
 pkgver=2.24.0
-pkgbuild=2
-arch=('auto')
+pkgbuild=3
+arch=('noarch')
 
-shortdesc="PyORBit (Python bindings for the ORBit2 CORBA ORB)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("PyORBit is a binding for the ORBit2 CORBA ORB. It aims to be compatible with the Python language mapping standard, implementing both the client side and server side bindings. PyORBit is capable of calling methods of in-process ORBit servers implemented in C, and being called by C code."
-)
+shortdesc="PyORBit (Virtual package)"
 
-source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.24/${pkgname}-${pkgver}.tar.bz2")
+tags="virtual dev-python"
 
-patch_opts=("")
+build_deps="bash"
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
+adddep="python-pyorbit"
 
-tags="libs dev-python"     			#short and long tags / длинный и короткий тег
-build_deps="" 			#
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-
-#numjobs=1 #Set number of jobs while compliling, otherwise it'll be autodetected
-
-docs=				#additional files should be copied into /usr/docs/${pkgname} dir from sources
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-BUILD_SYSTEM="autotools"
-
-BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix="
-
-#ran after function build() 
-#после сборки
-after_build()
-{
- echo ""
+build(){
+  echo ""
 }
