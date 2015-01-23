@@ -1,0 +1,24 @@
+pkgname=python-pyorbit
+pkgver=2.24.0
+pkgbuild=3
+arch=('auto')
+
+shortdesc="PyORBit (Python bindings for the ORBit2 CORBA ORB)"
+longdesc=("PyORBit is a binding for the ORBit2 CORBA ORB. It aims to be compatible with the Python language mapping standard, implementing both the client side and server side bindings. PyORBit is capable of calling methods of in-process ORBit servers implemented in C, and being called by C code.")
+
+source=("http://ftp.gnome.org/pub/GNOME/sources/pyorbit/${pkgver%.*}/pyorbit-${pkgver}.tar.bz2")
+
+tags="libs dev-python" 
+
+build_deps="make pkg-config gcc python coreutils sed grep"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
