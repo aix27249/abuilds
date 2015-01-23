@@ -1,5 +1,5 @@
 pkgname=automake
-pkgver=1.14.1
+pkgver=1.15
 pkgbuild=1
 arch=('noarch')
 
