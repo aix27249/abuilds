@@ -1,5 +1,5 @@
 pkgname=squashfs-fluxbox
-pkgver=1
+pkgver=1.1
 pkgbuild=1
 arch=('auto')
 
