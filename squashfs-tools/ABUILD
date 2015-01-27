@@ -2,8 +2,8 @@
 
 # Package metadata
 pkgname=squashfs-tools
-pkgver=4.2
-pkgbuild=1
+pkgver=4.3
+pkgbuild=2
 arch="auto"
 
 # Package description
