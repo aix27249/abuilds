@@ -1,6 +1,6 @@
 pkgname=abiword
-pkgver=3.0.0
-pkgbuild=4
+pkgver=3.0.1
+pkgbuild=1
 arch=('auto')
 
 shortdesc="AbiWord (a lightweight and featureful Word Processor)"
