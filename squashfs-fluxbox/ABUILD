@@ -1,7 +1,7 @@
 pkgname=squashfs-fluxbox
-pkgver=1.1
+pkgver=1.1.1
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="Script for acceleration and compression"
 #longdesc=(""
@@ -19,6 +19,7 @@ build_deps="mkpkg"
 build(){
   mkdir -p  $pkgdir/sbin
   cp $startdir/hand/* $pkgdir/sbin
+  chmod 755 $pkgdir/sbin/*
 }
 
 
