@@ -1,59 +1,57 @@
 pkgname=icedtea-web
-pkgver=1.4
+pkgver=1.5.2
 pkgbuild=1
 arch=('auto')
+
 adddep='jre-openjdk'
+
 shortdesc="Open source implementation of Java Web Start and Mozilla plugin"
 
 source="http://icedtea.classpath.org/download/source/${pkgname}-$pkgver.tar.gz"
 
 build_deps="jre-openjdk jdk-openjdk junit npapi-sdk gtk+2 rhino"
+
 tags="libs dev-java"
 
 pkglist="docs"
 
-
 build() {
-	go_src_dir
-	burn_patches
-	set -e
+  go_src_dir
+  burn_patches
 
-	# Doesn't apply, so skip it for now
-	# patch -RNp1 -i ${filedir}/fix_firefox_crash.diff
+  # Doesn't apply, so skip it for now
+  # patch -RNp1 -i ${filedir}/fix_firefox_crash.diff
 
-	. /etc/profile.d/jre-openjdk.sh
-	. /etc/profile.d/jdk-openjdk.sh
+  . /etc/profile.d/jre-openjdk.sh
+  . /etc/profile.d/jdk-openjdk.sh
 
-	./configure --prefix=${JAVA_HOME} \
-	--with-jdk-home=${JAVA_HOME} \
-	--docdir=/usr/doc/$pkgname \
-	--datarootdir=/usr/share \
+  ./configure --prefix=${JAVA_HOME} \
+  --with-jdk-home=${JAVA_HOME} \
+  --docdir=/usr/doc/$pkgname \
+  --datarootdir=/usr/share \
 
 
-	make -j$numjobs || echo "MAKE FAIL"
-	make DESTDIR=$pkgdir install-exec-local install-data-local || echo "INSTALL FAIL"
+  make -j$numjobs || echo "MAKE FAIL"
+  make DESTDIR=${pkgdir} install-exec-local install-data-local || echo "INSTALL FAIL"
 
-	# Install desktop files
-	mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
-	install -m644 javaws.png ${pkgdir}/usr/share/pixmaps
-	install -m644 {javaws,itweb-settings}.desktop ${pkgdir}/usr/share/applications
+  # Install desktop files
+  mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
+  install -m644 javaws.png ${pkgdir}/usr/share/pixmaps
+  install -m644 {javaws,itweb-settings}.desktop ${pkgdir}/usr/share/applications
 
-	echo "DESKTOP OK"
-	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
-	ln -s ${JAVA_HOME}/lib/IcedTeaPlugin.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
-	echo "SYMLINK OK"
-	set +e
+  echo "DESKTOP OK"
+  mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
+  ln -s ${JAVA_HOME}/lib/IcedTeaPlugin.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
+  echo "SYMLINK OK"
 }
 
 docs() {
-	pkgname=icedtea-web-docs
-	shortdesc="icedtea-web documentation"
-	arch="noarch"
+  pkgname=icedtea-web-docs
+  shortdesc="icedtea-web documentation"
+  arch="noarch"
 }
 
 docs_prep() {
-	set -e
-	mkdir -p ${pkgdir}/usr
-	mv ${p_pkgdir}/usr/doc ${pkgdir}/usr/doc
-	set +e
+  mkdir -p ${pkgdir}/usr
+  mv ${p_pkgdir}/usr/doc ${pkgdir}/usr/doc
 }
