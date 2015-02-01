@@ -1,6 +1,6 @@
 java_ver=7
-updatever=u65
-icedtea_ver=2.5.1
+updatever=u75
+icedtea_ver=2.5.4
 
 pkgname=jdk-openjdk
 pkgver=${java_ver}.${updatever}_${icedtea_ver}
@@ -73,8 +73,8 @@ build() {
         --with-jdk-src-zip=${srcache}/jdk.tar.bz2 \
         --with-langtools-src-zip=${srcache}/langtools.tar.bz2 \
         --enable-nss \
-        --with-rhino \
-        --with-abs-install-dir=${jvmdir}
+        --with-rhino
+
  export LANG=en_US.UTF-8
  export LC_ALL=en_US.UTF-8
 
