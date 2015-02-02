@@ -1,7 +1,7 @@
 #ABUILD created by/создан: khvalera, khvalera at narod.ru 
 
 pkgname=xfce4-session
-pkgver=4.11.0
+pkgver=4.11.1
 pkgbuild=1
 arch=('auto')
 
@@ -28,8 +28,8 @@ BUILD_KEYS="--prefix=/usr \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
---enable-libgnome-keyring \
 --enable-legacy-sm \
---disable-debug"
+--enable-upower \
+--enable-polkit"
 
 INSTALL_KEYS="DESTDIR=${pkgdir}"
