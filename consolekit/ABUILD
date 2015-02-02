@@ -1,0 +1,45 @@
+pkgname=consolekit
+pkgver=0.9.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A framework for defining and tracking users, login sessions, and seats"
+
+source=("https://github.com/ConsoleKit2/ConsoleKit2/releases/download/${pkgver}/ConsoleKit2-${pkgver}.tar.bz2")
+
+tags="libs sys-auth"
+
+build_deps="make polkit dbus udev coreutils grep sed binutils gettext"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--sbindir=/usr/sbin \
+--includedir=/usr/include \
+--mandir=/usr/man \
+--infodir=/usr/info \
+--localstatedir=/var \
+--enable-docbook-docs \
+--with-logrotate-dir=/etc/logrotate.d \
+--libexecdir=/usr/lib/ConsoleKit \
+--enable-pam-module \
+--enable-udev-acl \
+--with-pam-module-dir=/lib${LIBDIRSUFFIX}/security"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  install -D -m644 "${filedir}"/consolekit.logrotate "${pkgdir}"/etc/logrotate.d/consolekit
+  install -D -m644 data/90-consolekit "${pkgdir}"/etc/X11/xinit/xinitrc.d/90-consolekit
+
+  install -D -m644 "${filedir}"/consolekit.tmpfiles.conf "${pkgdir}"/usr/lib/tmpfiles.d/consolekit.conf
+
+  rm -rf "${pkgdir}"/var/run
+  install -d -m700 ${pkgdir}/etc/polkit-1/rules.d/
+  install -D -m644 ${filedir}/75-consolekit.rules ${pkgdir}/etc/polkit-1/rules.d/
+  chown 102 ${pkgdir}/etc/polkit-1/rules.d
+}
