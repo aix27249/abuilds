@@ -1,77 +1,17 @@
-#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=ConsoleKit
 pkgver=0.4.5
-pkgbuild=3
-arch=('auto')
+pkgbuild=4
+arch=('noarch')
 
-shortdesc="A framework for defining and tracking users, login sessions, and seats"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("ConsoleKit is a framework for keeping track of the various users, sessions, and seats present on a system. It provides a mechanism for software to react to changes of any of these items or of any of the metadata associated with them.")
+shortdesc="A framework for defining and tracking users, login sessions, and seats (Virtual package)"
 
-source=("http://www.freedesktop.org/software/ConsoleKit/dist/${pkgname}-${pkgver}.tar.bz2")
+tags="virtual sys-auth"
 
-#short and long tags / длинный и короткий тег
-tags="libs sys-auth"
+build_deps="bash"
 
-build_deps="polkit"
+adddep="consolekit"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-	go_src_dir
-	# This commit prevents startx users from being authorized, which caused huge amounts of hate, butthurt and frustration from our users. 
-	# The best way to make them not so angry is to get rid of it by reverting the patch :)
-	cat $filedir/ck-startx-fix.patch | patch -p1 -R --verbose || exit 1
+build(){
+  echo "End build"
 }
 
-BUILD_SYSTEM="autotools"
-
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
-
-# Note that libexecdir is hardcoded to /usr/lib/ConsoleKit, and it is very hard to fix it.
-BUILD_KEYS="--prefix=/usr \
---bindir=/usr/bin \
---sbindir=/usr/sbin \
---includedir=/usr/include \
---mandir=/usr/man \
---infodir=/usr/info \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---sysconfdir=/etc \
---localstatedir=/var \
---libexecdir=/usr/lib/ConsoleKit \
---enable-pam-module \
---with-pam-module-dir=/lib$LIBDIRSUFFIX/security"
-
-INSTALL_KEYS="DESTDIR=$pkgdir"
-
-#ran after function build() 
-#после сборки
-after_build()
-{
-install -m755 ${filedir}/pam-foreground-compat.ck ${pkgdir}/usr/lib/ConsoleKit/run-session.d/ || exit 1
-}
