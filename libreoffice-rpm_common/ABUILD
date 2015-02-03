@@ -1,7 +1,6 @@
 pkgname=libreoffice-rpm
-pkgver=4.0.1
+pkgver=4.3.5
 pkgbuild=1
-buld_ver=2
 if [ `uname -m` = "x86_64" ]
 then
 B_ARCH="x86_64"
@@ -16,13 +15,15 @@ arch=("noarch")
 
 shortdesc="LibreOffice is the free power-packed Open Source personal productivity suite, that gives you six feature-rich applications for all your document production and data processing needs:"
 
-source=("http://ftp5.gwdg.de/pub/tdf/libreoffice/testing/${pkgver}/rpm/${B_ARCH}/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm.tar.gz n"
-"http://ftp5.gwdg.de/pub/tdf/libreoffice/testing/${pkgver}/rpm/${B_ARCH}/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz n "
-"http://ftp5.gwdg.de/pub/tdf/libreoffice/testing/${pkgver}/rpm/${B_ARCH}/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz n ")
+source=("http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm.tar.gz n"
+"http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz n "
+"http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${pkgver}/rpm/${L_ARCH}/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz n ")
 
 tags="virtual app-office"
 
 provides="libreoffice"
+
+build_deps="rpm"
 
 adddeps=" graphite2 hsqldb-java jre libreoffice-rpm_common libreoffice-rpm_langpack_ru libreoffice-rpm_helppack_ru"
 
@@ -40,6 +41,7 @@ custom_opts="skip_gendeps"
 build()
 {
 
+chmod 777 $filedir/cpi
 go_src_dir
 cd ${pkgdir}
 
@@ -57,11 +59,14 @@ tags="xapps app-office"
 libreoffice-rpm_common_prep() {
 
 cd ${pkgdir}
-cat $srcache/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm.tar.gz | tar xz
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm.tar.gz | tar xz
 find $pkgdir -iname "*suse*.rpm" -exec rm -f {} \;
 find $pkgdir -iname "*mandriva*.rpm" -exec rm -f {} \;
 find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
 find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
+cd $pkgdir/usr/bin
+ln -s libreoffice4.3 libreoffice
+cd ${pkgdir}
 rm -rf LibreOf*rpm*
 rm -rf $pkgdir/usr/lib
 
@@ -79,7 +84,7 @@ tags="xapps app-office"
 libreoffice-rpm_langpack_ru_prep() {
 
 cd ${pkgdir}
-cat $srcache/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz | tar xz
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_langpack_ru.tar.gz | tar xz
 find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
 find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
 rm -rf LibreOf*rpm_langpack_ru*
@@ -98,7 +103,7 @@ tags="xapps app-office"
 libreoffice-rpm_helppack_ru_prep() {
 
 cd ${pkgdir}
-cat $srcache/LibreOffice_${pkgver}.${buld_ver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz | tar xz
+cat $srcache/LibreOffice_${pkgver}_Linux_${L_ARCH}_rpm_helppack_ru.tar.gz | tar xz
 find $pkgdir -name "*.rpm" -exec $filedir/cpi {} \;
 find $pkgdir -name "*.rpm" -type f  -exec rm -f {} \;
 rm -rf LibreOf*rpm*helppack_ru*
