@@ -1,0 +1,107 @@
+pkgname=nss
+pkgver=3.17.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla Network Security Services"
+
+longdesc=("Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications. Applications built with NSS can support SSL v2 and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3 certificates, and other security standards. For detailed information on standards supported, see Overview of NSS")
+
+source=("http://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs net-libs"
+
+build_deps="make pkg-config perl nspr sqlite zlib python"
+
+conflicts="seamonkey-solibs"
+
+pkglist=ca-certificates-mozilla
+
+build(){
+  go_src_dir
+  burn_patches
+
+  # Respect LDFLAGS
+  sed -e 's/\$(MKSHLIB) -o/\$(MKSHLIB) \$(LDFLAGS) -o/g' \
+      -i nss/coreconf/rules.mk
+
+  # Generate certdata.c from certdata.txt
+  mkdir ../certs
+  ln -sr nss/lib/ckfw/builtins/certdata.txt ../certs/
+  ln -sr nss/lib/ckfw/builtins/nssckbi.h ../certs/
+  cd ../certs
+  python "${filedir}"/certdata2pem.py
+  cd ..
+  sh "${filedir}"/bundle.sh
+
+  cd "${srcdir}"/nss-${pkgver}/nss
+  export BUILD_OPT=1
+  export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+  export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+  export NSS_USE_SYSTEM_SQLITE=1
+  export NSPR_INCLUDE_DIR=`pkg-config --cflags-only-I nspr | sed 's/-I//'`
+  export NSPR_LIB_DIR=`pkg-config --libs-only-L nspr | sed 's/-L.//'`
+  export XCFLAGS="${CFLAGS} -fPIC"
+  export CXXFLAGS="${CXXFLAGS} -fPIC"
+
+  [ "$ARCH" = "x86_64" ] && export USE_64=1
+
+  make -j 1 -C coreconf
+  make -j 1 -C lib/dbm
+  make -j 1
+}
+
+after_build() {
+  cd "${srcdir}"/nss-${pkgver}
+  install -d "${pkgdir}"/usr/{bin,lib${LIBDIRSUFFIX}/pkgconfig,include/nss}
+  NSS_VMAJOR=`grep "#define.*NSS_VMAJOR" nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VMINOR=`grep "#define.*NSS_VMINOR" nss/lib/nss/nss.h | awk '{print $3}'`
+  NSS_VPATCH=`grep "#define.*NSS_VPATCH" nss/lib/nss/nss.h | awk '{print $3}'`
+
+  sed "${filedir}/nss.pc.in" -e "s,%libdir%,/usr/lib${LIBDIRSUFFIX},g" \
+                                -e "s,%prefix%,/usr,g" \
+                                -e "s,%exec_prefix%,/usr/bin,g" \
+                                -e "s,%includedir%,/usr/include/nss,g" \
+                                -e "s,%NSPR_VERSION%,${pkgver},g" \
+                                -e "s,%NSS_VERSION%,${pkgver},g" > \
+                        "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nss.pc" || return 1
+  ln -sf nss.pc "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/mozilla-nss.pc" || return 1
+  chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/*.pc || return 1
+
+  sed "${filedir}/nss-config.in" -e "s,@libdir@,/usr/lib${LIBDIRSUFFIX},g" \
+                                    -e "s,@prefix@,/usr/bin,g" \
+                                    -e "s,@exec_prefix@,/usr/bin,g" \
+                                    -e "s,@includedir@,/usr/include/nss,g" \
+                                    -e "s,@MOD_MAJOR_VERSION@,${NSS_VMAJOR},g" \
+                                    -e "s,@MOD_MINOR_VERSION@,${NSS_VMINOR},g" \
+                                    -e "s,@MOD_PATCH_VERSION@,${NSS_VPATCH},g" \
+                            > "${pkgdir}/usr/bin/nss-config" || return 1
+  chmod 755 "${pkgdir}/usr/bin/nss-config" || return 1
+
+  cd dist/*.OBJ/bin
+  install -t "${pkgdir}/usr/bin" *util shlibsign signtool signver ssltap
+
+  cd ../lib
+  install -t "${pkgdir}/usr/lib${LIBDIRSUFFIX}" *.so
+  install -t "${pkgdir}/usr/lib${LIBDIRSUFFIX}" -m644 libcrmf.a *.chk
+
+  cd ../../public/nss
+  install -t "${pkgdir}/usr/include/nss" -m644 *.h
+
+  rm "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/libnssckbi.so
+  ln -s pkcs11/p11-kit-trust.so "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/libnssckbi.so
+}
+
+ca-certificates-mozilla() {
+  pkgname=ca-certificates-mozilla
+  shortdesc="Mozilla's set of trusted CA certificates"
+  arch=('noarch')
+  adddep=ca-certificates
+}
+
+ca-certificates-mozilla_prep() {
+  certdir="${pkgdir}/usr/share/ca-certificates/trust-source"
+  install -Dm644 "${srcdir}"/ca-bundle.trust.crt "${certdir}/mozilla.trust.crt"
+  install -Dm644 "${srcdir}"/ca-bundle.neutral-trust.crt "${certdir}/mozilla.neutral-trust.crt"
+  install -Dm644 "${srcdir}"/ca-bundle.supplement.p11-kit "${certdir}/mozilla.supplement.p11-kit"
+}
