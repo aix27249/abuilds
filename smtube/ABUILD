@@ -1,26 +1,18 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=smtube
-pkgver=4.12
+pkgver=15.1.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc=" smtube - a small youtube browse"
+shortdesc="A small youtube browser"
 
-source=("http://heanet.dl.sourceforge.net/project/smplayer/SMTube/14.12.0/smtube-14.12.0.tar.bz2")
-#        http://sourceforge.net/project/smplayer/files/SMTube/14.12.0/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/smplayer/${pkgname}-${pkgver}.tar.bz2")
 
 tags="media-video xapps"
 
-build_deps="qt4"
+build_deps="make qt4"
 
-
-build()
-
-{
-
-go_src_dir
-make DESTDIR=$pkgdir PREFIX=/usr  install
-
+build(){
+  go_src_dir
+  make PREFIX=/usr
+  make DESTDIR=${pkgdir} PREFIX=/usr install
 }
