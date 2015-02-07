@@ -1,0 +1,27 @@
+pkgname=oxygen-molecule-theme
+pkgver=3.2
+pkgbuild=1
+shortdesc="Oxygen-Molecule KDE & GTK+ unified theme"
+arch=('noarch')
+
+tags="themes x11-themes"
+build_deps="gtk+2 qt4 oxygen-icons"
+source=("http://kde-look.org/CONTENT/content-files/103741-Oxygen-Molecule_${pkgver}_theme.tar.gz")
+
+build() {
+go_src_dir
+    # install the theme
+	install -dm755 "$pkgdir/usr/share/themes"
+	tar -xzf kde44-oxygen-molecule.tar.gz -C "${pkgdir}/usr/share/themes"
+
+    # fix permissions
+    find "$pkgdir" -type f -exec chmod 644 {} \;
+    find "$pkgdir" -type d -exec chmod 755 {} \;
+
+    # install color scheme
+	install -Dm644 Oxygen-Molecule_3.0.colors "${pkgdir}/usr/share/apps/color-schemes/Oxygen-Molecule-3.0.colors"
+
+    # documentation
+    install -Dm644 COPYING "$pkgdir/usr/share/doc/$pkgname/COPYING"
+    install -Dm644 "Oxygen-Molecule 3.2 setup guide.pdf" "$pkgdir/usr/share/doc/$pkgname/Oxygen-Molecule-setup-guide.pdf"
+}
