@@ -1,26 +1,16 @@
-#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=QupZilla
-pkgver=1.8.6
+pkgver=1.8.7
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A fast, simple, good looking, yet powerfull and highly configurable image viewer."
 
-source=("git:git://github.com/QupZilla/qupzilla-plugins.git"
-"git:git://github.com/QupZilla/qupzilla.git")
+source=("https://github.com/QupZilla/qupzilla/releases/download/v1.8.6/QupZilla-1.8.6.tar.xz")
+#git:git://github.com/QupZilla/qupzilla.git")
 
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="app-misc xapps"
 custom_opts="no_ccache"
 build_deps="make git qt4 pkg-config"
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
 
 build()
 {
@@ -31,24 +21,13 @@ else
 export USE_LIBPATH="/usr/lib64"
 fi
 
-export USE_WEBGL="true"
-export NONBLOCK_JS_DIALOGS="true"
-export ENABLE_OPACITY_EFFECT="true"
-export KDE="false"
-export DISABLE_DBUS="true"
- 
- go_src_dir
- cd ..
- cd QupZilla_git_qupzilla.git.src
- qmake
-    make clean
+qmake
     make -j4
- 
     make INSTALL_ROOT="$pkgdir/" install
  
-    mkdir  -p $pkgdir/etc/bash-completion.d
-install -Dm644 $srcdir//QupZilla_git_qupzilla.git.src/linux/completion/qupzilla \
-    $pkgdir/etc/bash-completion.d/
+    mkdir  -p $pkgdir/etc/bash_completion.d
+#install -Dm644 $srcdir//QupZilla_git_qupzilla.git.src/linux/completion/qupzilla \
+#    $pkgdir/etc/bash_completion.d/
  
 }
 
