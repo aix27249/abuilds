@@ -3,24 +3,25 @@
 #------------------------- Основные переменные -----------------------------------
 pkgname=claws-mail-themes
 pkgver=1
-pkgbuild=1
+pkgbuild=2
 arch=('noarch')
 
 shortdesc="Themes for claws-mail"
 
-source=("/http://www.claws-mail.org/themes/claws-mail-themes-20120129.tar.gz")
+source=("http://www.claws-mail.org/themes/claws-mail-themes-20140629.tar.gz")
 
 tags="x11-themes themes"
-
+build_deps="claws-mail"
 adddep="claws-mail"
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
 build()
 {
-
-mkdir -p $pkgdir/usr/share/claws-mail || exit 1
-tar xzf $srcache/$loc_source_arr -C $pkgdir/usr/share/claws-mail || exit 1
+go_src_dir
+mkdir -p $pkgdir/usr/share/claws-mail/themes || exit 1
+#tar xzf $srcache/$loc_source_arr -C $pkgdir/usr/share/claws-mail || exit 1
+mv -f *  $pkgdir/usr/share/claws-mail/themes
 cd $pkgdir
 find . -type d -exec chmod 755 {} \; || exit 1
 find . -type f -exec chmod 644 {} \; || exit 1
