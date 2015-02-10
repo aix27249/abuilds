@@ -1,73 +1,53 @@
 pkgname=smplayer
-pkgver=14.9.0
+pkgver=14.9.0.6690
 pkgbuild=1
 arch="auto"
 
 shortdesc=("SMPlayer is a GUI media player based on Qt 4, using mplayer as its backend")
-
 
 source=("http://downloads.sourceforge.net/smplayer/smplayer-${pkgver}.tar.bz2")
 
 tags="xapps media-video"
 
 build_deps="qt4"
+
 adddep="MPlayer"
 
-
 before_build(){
-go_src_dir
+  go_src_dir
 
- # Fix invalid PNG icons to work with libpng 1.6
- # http://sourceforge.net/p/smplayer/bugs/571/
- #find -name '*.png' -exec optipng -quiet -force -fix {} +
+  # Fix invalid PNG icons to work with libpng 1.6
+  # http://sourceforge.net/p/smplayer/bugs/571/
+  #find -name '*.png' -exec optipng -quiet -force -fix {} +
 
- # NO_DEBUG_ON_CONSOLE
- sed -i 's:#\(DEFINES += NO_DEBUG_ON_CONSOLE\):\1:' src/smplayer.pro
+  # NO_DEBUG_ON_CONSOLE
+  sed -i 's:#\(DEFINES += NO_DEBUG_ON_CONSOLE\):\1:' src/smplayer.pro
 
- # Docs
- smdoc="/share/doc/packages/smplayer"
- if [ -n "`cat ./Makefile | grep DOC_PATH | grep $smdoc`" ]; then
-  sed -i "/^DOC_PATH=/s|$smdoc|/doc/${pkgname}-${pkgver}|" ./Makefile || exit 1
- fi
-
+  # Docs
+  smdoc="/share/doc/packages/smplayer"
+  if [ -n "`cat ./Makefile | grep DOC_PATH | grep $smdoc`" ]; then
+     sed -i "/^DOC_PATH=/s|$smdoc|/doc/${pkgname}-${pkgver}|" ./Makefile || exit 1
+  fi
 }
-
 
 build() {
-	go_src_dir
-	burn_patches
+  go_src_dir
+  burn_patches
 
-	set -e
+  sed -i "s|translations/smplayer_gl.ts|#translations/smplayer_gl.ts|" \
+         src/smplayer.pro
 
-	sed -i "s|translations/smplayer_gl.ts|#translations/smplayer_gl.ts|" \
-		src/smplayer.pro
- 
-	make PREFIX=/usr -j${numjobs}
-	make PREFIX=/usr DESTDIR=${pkgdir} install
+  make PREFIX=/usr -j${numjobs}
+  make PREFIX=/usr DESTDIR=${pkgdir} install
 
-	if [ ! -d ${pkgdir}/usr/share/pixmaps ]; then
-	 install -dm755 ${pkgdir}/usr/share/pixmaps
-	 ln -s /usr/share/icons/hicolor/64x64/apps/smplayer.png ${pkgdir}/usr/share/pixmaps/
-	fi
+  if [ ! -d ${pkgdir}/usr/share/pixmaps ]; then
+     install -dm755 ${pkgdir}/usr/share/pixmaps
+     ln -s /usr/share/icons/hicolor/64x64/apps/smplayer.png ${pkgdir}/usr/share/pixmaps/
+  fi
 
-	sed -i 's|Exec=smplayer %U|Exec=smplayer %F|' \
-		${pkgdir}/usr/share/applications/smplayer.desktop
+  sed -i 's|Exec=smplayer %U|Exec=smplayer %F|' \
+         ${pkgdir}/usr/share/applications/smplayer.desktop
 
-	sed -i 's|Exec=smplayer -add-to-playlist %U|Exec=smplayer -add-to-playlist %F|' \
-		${pkgdir}/usr/share/applications/smplayer_enqueue.desktop
-
-	set +e
-}
-
-
-after_build(){
-echo ""
-
-#if [[ ! -z `cat ${pkgdir}/usr/share/applications/smplayer_enqueue.desktop | grep "=Добавить в"` ]]; then
-# sed -i \
-#	-e "/^Name\[ru]=/s|Добавить в очередь SMPlayer|SMPlayer Добавить в очередь|" \
-#	-e "/^Name\[uk]=/s|Додати до черги SMPlayer|SMPlayer Додати до черги|" \
-# ${pkgdir}/usr/share/applications/smplayer_enqueue.desktop
-#fi
-
+  sed -i 's|Exec=smplayer -add-to-playlist %U|Exec=smplayer -add-to-playlist %F|' \
+         ${pkgdir}/usr/share/applications/smplayer_enqueue.desktop
 }
