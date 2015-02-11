@@ -1,12 +1,12 @@
 pkgname=kde
-pkgver=4.14.3
-pkgbuild=3
+pkgver=4.14.4
+pkgbuild=1
 arch=noarch
 shortdesc=('the second mandatory package  for KDE')
 tags=('kde-misc virtual')
 build_deps="qt4"
 adddep="
-akonadi analitza ark audiocd-kio baloo baloo-widgets blinken bovo ubuntu-font-family \
+akonadi analitza ark audiocd-kio baloo baloo-widgets blinken bovo ubuntu-font-family ntp oxygen-molecule-theme \
 cantor cdrdao dolphin-plugins ebook-tools eigen2 eigen3 ffmpegthumbs filelight \
 freerdp granatier gwenview herqq k3b kaccessible kactivities kajongg kamera kapman kapptemplate \
 kate kblocks kbounce kbreakout kbruch kcachegrind kcalc kcharselect kcolorchooser kde-base-artwork kde-baseapps \
