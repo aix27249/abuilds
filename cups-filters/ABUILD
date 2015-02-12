@@ -1,0 +1,34 @@
+#ABUILD created by/создан: Ben, ivan29m at rambler.ru 
+pkgname=cups-filters
+pkgver=1.0.63
+pkgbuild=1
+arch=('auto')
+
+shortdesc="OpenPrinting CUPS Filters"
+
+source=("http://www.openprinting.org/download/cups-filters/$pkgname-$pkgver.tar.xz")
+
+
+tags="console net-print"
+
+build_deps="ghostscript"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+
+after_build(){
+chgrp -R lp ${pkgdir}/etc/cups
+}
