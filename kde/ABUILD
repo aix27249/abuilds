@@ -1,6 +1,6 @@
 pkgname=kde
 pkgver=4.14.4
-pkgbuild=1
+pkgbuild=2
 arch=noarch
 shortdesc=('the second mandatory package  for KDE')
 tags=('kde-misc virtual')
@@ -10,7 +10,7 @@ akonadi analitza ark audiocd-kio baloo baloo-widgets blinken bovo ubuntu-font-fa
 cantor cdrdao dolphin-plugins ebook-tools eigen2 eigen3 ffmpegthumbs filelight \
 freerdp granatier gwenview herqq k3b kaccessible kactivities kajongg kamera kapman kapptemplate \
 kate kblocks kbounce kbreakout kbruch kcachegrind kcalc kcharselect kcolorchooser kde-base-artwork kde-baseapps \
-kde-dev-scripts kde-dev-utils kde-l10n-ru kde-wallpapers kde-workspace kdeartwork \
+kde-dev-scripts kde-dev-utils kde-l10n-ru kde-wallpapers kde-workspace kdeartwork aspell-ru \
 kdebase-runtime kdegraphics-mobipocket kdegraphics-strigi-analyzer kdegraphics-thumbnailers \
 kdelibs kdenetwork-filesharing kdenetwork-strigi-analyzers kdepim kdepim-runtime kdepimlibs kdeplasma-addons \
 kdesdk-kioslaves kdesdk-strigi-analyzers kdesdk-thumbnailers kdewebdev kdf kdiamond kfilemetadata kfloppy kfourinline \
@@ -20,7 +20,7 @@ kpat kppp kqtquickcharts krdc kremotecontrol kreversi krfb kross-interpreters kr
 kshisen ksirk ksquares kstars ksudoku ksystemlog ktimer ktouch ktuberling kturtle ktux kubrick kuser kwalletmanager \
 libiodbc libkcddb libkcompactdisc libkdcraw libkdegames libkexiv2 libkipi libkmahjongg libkomparediff2 libksane \
 libmusicbrainz3 libmysqlclient libraw libzip lskat marble mplayerthumbs mysql nepomuk-core nepomuk-widgets ntrack \
-okteta okular oxygen-icons pairs palapeli perlkde perlqt phonon-vlc picmi hicolor-icon-theme udisks2 \
+okteta okular oxygen-icons pairs palapeli perlkde perlqt phonon-vlc picmi hicolor-icon-theme udisks2 cups cups-filters \
 polkit-kde-1 poxml print-manager pykde4 qimageblitz qjson qt-gstreamer qtruby rocs rxvt-unicode shared-desktop-ontologies \
 smokegen smokekde smokeqt soprano step superkaramba svgpart sweeper tidy umbrello xapian-core zeroconf-ioslave upower"
 
