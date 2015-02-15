@@ -1,0 +1,6 @@
+# Gentoo specific usb group
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GROUP="usb"
+# Keep this for Linux 2.6.32 kernels with accept4() support like .60 wrt #457868
+SUBSYSTEM=="mem", KERNEL=="null|zero|full|random|urandom", MODE="0666"
+# sound devices (oss)
+SUBSYSTEM=="snd", GROUP="audio"
