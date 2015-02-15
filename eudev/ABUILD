@@ -1,7 +1,7 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 pkgname=eudev
 pkgver=2.1.1
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="The userspace dev tools (udev) forked by Gentoo"
@@ -60,6 +60,7 @@ go_src_dir
 ###
 ###	# remove docs
 	rm -rf ${pkgdir}/usr/share/gtk-doc
+	rm -rf ${pkgdir}/etc/udev/hwdb.d
 ###
 ###
 ###	# Copy additional rules
