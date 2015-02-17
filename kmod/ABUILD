@@ -1,5 +1,5 @@
 pkgname=kmod
-pkgver=14
+pkgver=19
 pkgbuild=1
 arch=('auto')
 
@@ -18,10 +18,10 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$S
 BUILD_KEYS="--sysconfdir=/etc \
 	--prefix=/usr \
 	--bindir=/bin \
-	--with-rootprefix=/ \
 	--with-rootlibdir=/lib$LIBDIRSUFFIX \
 	--libdir=/lib$LIBDIRSUFFIX \
-	--with-zlib"
+	--with-zlib \
+	--with-xz"
 
 after_build() {
 	mkdir -p $pkgdir/sbin
