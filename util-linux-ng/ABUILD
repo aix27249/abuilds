@@ -1,13 +1,13 @@
 # util-linux-ng ABUILD
 pkgname=util-linux-ng
-pkgver=2.23.2
+pkgver=2.25.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc=('util-linux-ng (a huge collection of essential utilities)')
 longdesc=('The util-linux package is a huge collection of random utilities that are essential to run a Linux system. This is a fork of the original util-linux, based on version 2.13-pre7. http://kernel.org/~kzak/util-linux-ng/')
 
-tags=('base sys-apps compat32')
+tags=('base sys-apps')
 
 source=("ftp://ftp.kernel.org/pub/linux/utils/util-linux/v${pkgver%.*}/util-linux-${pkgver}.tar.xz")
 conflicts="eject"
