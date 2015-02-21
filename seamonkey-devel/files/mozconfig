@@ -28,7 +28,7 @@ ac_add_options --enable-pango
 ac_add_options --enable-svg
 ac_add_options --enable-smil
 ac_add_options --enable-places
-#ac_add_options --enable-shared-js
+ac_add_options --enable-shared-js
 ac_add_options --enable-storage
 ac_add_options --enable-url-classifier
 ac_add_options --enable-xft
