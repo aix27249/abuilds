@@ -2,7 +2,7 @@
 
 # Package metadata
 pkgname=seamonkey
-pkgver=2.29.1
+pkgver=2.32.1
 pkgbuild=1
 arch=("auto")
 build_deps=('pkg-config python yasm mesa autoconf nss nspr sqlite gtk+2 libnotify infozip infozip libvpx')
@@ -16,7 +16,7 @@ tags=("xapps www-client")
 
 docs="LEGAL"
 pkglist="devel"
-
+numjobs=1
 
 before_build() {
   go_src_dir
