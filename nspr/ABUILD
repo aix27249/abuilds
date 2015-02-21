@@ -1,53 +1,50 @@
+#----------------------------- General vars --------------------------------------
 pkgname=nspr
-pkgver=4.10.6
+pkgver=4.10.8
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Netscape Portable Runtime"
-
 longdesc=("This library provides platform independent non-GUI operating system facilities")
-
 source=("http://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${pkgver}/src/${pkgname}-${pkgver}.tar.gz")
-
 tags="net-libs libs"
-
-build_deps="make gcc coreutils glibc-solibs perl binutils"
-
+build_deps="glibc-solibs"
 conflicts="seamonkey-solibs"
 
 [ "$ARCH" = "x86_64" ] && confflags="--enable-64bit"
-
 BUILD_SYSTEM="autotools"
 BUILD_KEYS="--prefix=/usr \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --includedir=/usr/include/nspr \
-            --enable-optimize \
-            --disable-debug \
-            ${confflags}"
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --includedir=/usr/include/nspr \
+  --enable-optimize \
+  --disable-debug \
+  ${confflags}"
 INSTALL_KEYS="DESTDIR="${pkgdir}""
 
-before_build(){
+before_build()
+{
   go_src_dir
   cd nspr
 }
 
-after_build(){
+after_build() 
+{
   go_src_dir
   NSPR_LIBS=`nspr/config/nspr-config --libs`
   NSPR_CFLAGS=`nspr/config/nspr-config --cflags`
   NSPR_VERSION=`nspr/config/nspr-config --version`
-  install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig"
+  install -m755 -d "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig" || return 1
   sed "${filedir}/nspr.pc.in" -e "s,%libdir%,/usr/lib${LIBDIRSUFFIX}," \
         -e "s,%prefix%,/usr," \
         -e "s,%exec_prefix%,/usr/bin," \
         -e "s,%includedir%,/usr/include/nspr," \
         -e "s,%NSPR_VERSION%,${NSPR_VERSION}," \
         -e "s,%FULL_NSPR_LIBS%,${NSPR_LIBS}," \
-        -e "s,%FULL_NSPR_CFLAGS%,${NSPR_CFLAGS}," > "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nspr.pc"
-  chmod 644 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nspr.pc"
-  ln -sf nspr.pc "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/mozilla-nspr.pc"
+        -e "s,%FULL_NSPR_CFLAGS%,${NSPR_CFLAGS}," > "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nspr.pc" || return 1
+  chmod 644 "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/nspr.pc" || return 1
+  ln -sf nspr.pc "${pkgdir}/usr/lib${LIBDIRSUFFIX}/pkgconfig/mozilla-nspr.pc" || return 1
 
-  chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a
+  chmod 644 ${pkgdir}/usr/lib${LIBDIRSUFFIX}/*.a || return 1
 
   rm -rf "${pkgdir}/usr/bin/compile-et.pl" \
         "${pkgdir}/usr/bin/prerr.properties" \
