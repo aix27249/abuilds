@@ -1,0 +1,110 @@
+#ABUILD created by/создан: khvalera, khvalera at narod.ru
+
+pkgname=libcanberra
+pkgver=0.30
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A simple abstract interface for playing event sounds"
+
+longdesc=("libcanberra defines a simple abstract interface for playing event sounds.")
+
+source=("http://0pointer.de/lennart/projects/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+
+tags="libs media-sound"
+
+build_deps="make gcc pkg-config kernel-headers gtk-doc libpulse gstreamer git gtk+2 gtk+3 libvorbis udev gstreamer libxslt docbook-xsl"
+
+pkglist="libcanberra-gstreamer libcanberra-pulse libcanberra-gtk+3"
+
+numjobs=1
+
+plugindir=usr/lib${LIBDIRSUFFIX}/${pkgname}-${pkgver}
+
+libcanberra-gstreamer(){
+  pkgname=libcanberra-gstreamer
+  pkgdesc="GStreamer plugin for libcanberra"
+  adddep="libcanberra=${pkgver} gstreamer"
+}
+
+# Чтоб не ташить зависимость от gtk+3 в кеды и флюхбокс !
+libcanberra-gtk+3(){
+  pkgname=libcanberra-gtk+3
+  pkgdesc="GStreamer plugin for gtk+3"
+  adddep="libcanberra=${pkgver} gtk+3"
+}
+
+
+libcanberra-pulse(){
+  pkgname=libcanberra-pulse
+  pkgdesc="PulseAudio plugin for libcanberra"
+  adddep="libcanberra=${pkgver} libpulse"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--docdir=/usr/doc/${pkgname}-${pkgver} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-alsa \
+--enable-null \
+--enable-gstreamer \
+--with-builtin=dso \
+--enable-debug \
+--disable-lynx \
+--disable-tdb \
+--enable-gtk-doc"
+
+INSTALL_KEYS="DESTDIR=${pkgdir}"
+
+after_build(){
+  go_src_dir
+  rm "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/*.la
+  rm "${pkgdir}"/usr/lib${LIBDIRSUFFIX}/gtk-{2,3}.0/modules/*.la
+  install -D "${filedir}"/libcanberra.xinit \
+              "${pkgdir}/etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module"
+  # Split plugins
+  for _p in pulse gstreamer; do
+      mkdir ../${_p}-plugin
+      mv "${pkgdir}/${plugindir}"/libcanberra-${_p}.* ../${_p}-plugin
+  done
+
+  echo "End after_build"
+}
+
+libcanberra-gstreamer_prep(){
+  cd "${srcdir}"
+  install -d "${pkgdir}/${plugindir}"
+  mv gstreamer-plugin/* "${pkgdir}/${plugindir}"
+
+  echo "End libcanberra-gstreamer"
+}
+
+libcanberra-pulse_prep(){
+  cd "${srcdir}"
+  install -d "${pkgdir}/${plugindir}"
+  mv pulse-plugin/* "${pkgdir}/${plugindir}"
+
+  echo "End libcanberra-pulse"
+}
+
+libcanberra-gtk+3_prep(){
+  cd ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/gtk-3.0
+  mv ${p_pkgname}-gtk3* ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mv gtk-3.0   ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  
+  mkdir -p ${pkgdir}/usr/bin
+    cd ${p_pkgdir}/usr/bin
+    mv *play ${pkgdir}/usr/bin
+
+}
+
