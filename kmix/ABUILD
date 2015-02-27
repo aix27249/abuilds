@@ -1,6 +1,6 @@
 pkgname=kmix
 pkgver=4.14.3
-pkgbuild=1
+pkgbuild=3
 arch=("auto")
 
 shortdesc=("KDE volume control program")
