@@ -2,7 +2,7 @@
 
 pkgname=libcanberra
 pkgver=0.30
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="A simple abstract interface for playing event sounds"
@@ -15,7 +15,7 @@ tags="libs media-sound"
 
 build_deps="make gcc pkg-config kernel-headers gtk-doc libpulse gstreamer git gtk+2 gtk+3 libvorbis udev gstreamer libxslt docbook-xsl"
 
-pkglist="libcanberra-gstreamer libcanberra-pulse"
+pkglist="libcanberra-gstreamer libcanberra-pulse libcanberra-gtk+3"
 
 numjobs=1
 
@@ -26,6 +26,14 @@ libcanberra-gstreamer(){
   pkgdesc="GStreamer plugin for libcanberra"
   adddep="libcanberra=${pkgver} gstreamer"
 }
+
+# Чтоб не ташить зависимость от gtk+3 в кеды и флюхбокс !
+libcanberra-gtk+3(){
+  pkgname=libcanberra-gtk+3
+  pkgdesc="GStreamer plugin for gtk+3"
+  adddep="libcanberra=${pkgver} gtk+3"
+}
+
 
 libcanberra-pulse(){
   pkgname=libcanberra-pulse
@@ -87,3 +95,16 @@ libcanberra-pulse_prep(){
 
   echo "End libcanberra-pulse"
 }
+
+libcanberra-gtk+3_prep(){
+  cd ${p_pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mkdir -p ${pkgdir}/usr/lib${LIBDIRSUFFIX}/gtk-3.0
+  mv ${p_pkgname}-gtk3* ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  mv gtk-3.0   ${pkgdir}/usr/lib${LIBDIRSUFFIX}
+  
+  mkdir -p ${pkgdir}/usr/bin
+    cd ${p_pkgdir}/usr/bin
+    mv *play ${pkgdir}/usr/bin
+
+}
+
