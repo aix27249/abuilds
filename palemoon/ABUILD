@@ -1,0 +1,55 @@
+pkgname=palemoon
+pkgver=25.2.1
+pkgbuild=2
+arch=('auto')
+
+shortdesc="Open source web browser based on Firefox focusing on efficiency."
+
+#source=("http://github.com/MoonchildProductions/Pale-Moon/${pkgname}/${pkgname}.src.tar.gz")
+source=("ftp://source:get@ftp.palemoon.org/palemoon-25.2.1-source.7z")
+tags="app-misc xapps"
+
+build_deps="gcc autoconf2.13"
+
+
+build(){
+  cd ${startdir}/${pkgname}.src
+	export MOZBUILD_STATE_PATH="$srcdir/mozbuild"
+	export MOZCONFIG="$srcdir/mozconfig"
+	echo  MOZBUILD_STATE_PATH=$MOZBUILD_STATE_PATH
+	echo  MOZCONFIG=$MOZCONFIG
+	sed 's#%SRCDIR%#'"$srcdir"'#g' ${filedir}/mozconfig.in > mozconfig
+	
+	chmod -R +x build/autoconf/* python/*
+	find . -name '*.sh' -exec chmod +x {} \;
+#
+	CPPFLAGS="$CPPFLAGS -O2"
+	python mach build || echo "Next =>"
+	python mach build
+	 cd pmbuild
+  make package
+  cd dist
+  install -d "$pkgdir"/usr/{bin,lib}
+  cp -r palemoon/ "$pkgdir/usr/lib/$pkgname"
+  ln -s "../lib/$pkgname/palemoon" "$pkgdir/usr/bin/palemoon"
+  install -Dm644 "${filedir}/palemoon.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+
+  # icons
+  install -Dm644 palemoon/browser/chrome/icons/default/default16.png \
+    "$pkgdir/usr/share/icons/hicolor/16x16/apps/$pkgname.png"
+  install -Dm644 palemoon/browser/chrome/icons/default/default32.png \
+    "$pkgdir/usr/share/icons/hicolor/32x32/apps/$pkgname.png"
+  install -Dm644 palemoon/browser/chrome/icons/default/default48.png \
+    "$pkgdir/usr/share/icons/hicolor/48x48/apps/$pkgname.png"
+  install -Dm644 palemoon/browser/icons/mozicon128.png \
+    "$pkgdir/usr/share/icons/hicolor/128x128/apps/$pkgname.png"
+
+  # use system-provided dictionaries
+  rm -rf "$pkgdir"/usr/lib/$pkgname/{dictionaries,hyphenation}
+ln -s /usr/lib/aspell-0.60 "$pkgdir/usr/lib/$pkgname/dictionaries"
+
+  rm -f "$pkgdir/usr/lib/$pkgname/palemoon-bin"
+
+}
+
+
