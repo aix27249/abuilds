@@ -1,0 +1,19 @@
+pkgname=lz4
+pkgver=r127
+pkgbuild=2
+arch="auto"
+
+# Package description
+shortdesc=("LZ4 - Extremely fast compression")
+
+# Source URL
+source=("https://codeload.github.com/Cyan4973/lz4/tar.gz/r127/lz4-r127.tar.gz")
+# Tags
+tags="sys-fs console"
+
+build_deps="gcc"
+
+build() {
+	go_src_dir
+	make PREFIX=${pkgdir}/usr install
+}
