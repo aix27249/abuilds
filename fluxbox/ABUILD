@@ -1,33 +1,37 @@
 pkgname=fluxbox
-pkgver=1.3.5
-pkgbuild=5
+pkgver=1.3.7
+pkgbuild=1
 arch=('auto')
 
 shortdesc="Fluxbox is yet another windowmanager for X"
 
-source=("git:git://git.fluxbox.org/fluxbox.git")
+#source=("git:git://git.fluxbox.org/fluxbox.git")
+source=("http://sourceforge.net/projects/fluxbox/files/fluxbox/1.3.7/fluxbox-1.3.7.tar.xz")
 custom_opts="no_ccache"
 
 tags="x11-apps xapps"
 custom_opts="no_ccache"
+build_deps="gcc libXinerama xineramaproto"
 
 build()
 {
 
 go_src_dir
 
-./autogen.sh || exit 1 
+#./autogen.sh || exit 1 
 
 ./configure \
 --prefix=/usr \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
+--enable-remember \
+--enable-regexp  \
 --enable-slit \
---enable-regexp \
 --enable-systray \
 --enable-toolbar \
 --enable-ewmh \
 --enable-nls \
+--enable-timedcache \
 --disable-debug \
 --disable-test \
 --enable-timedcache \
@@ -35,12 +39,14 @@ go_src_dir
 --enable-xrender \
 --enable-xpm   \
 --enable-imlib2  \
+--enable-freetype2 \
 --enable-xmb \
 --enable-xinerama \
---enable-shape  \
---enable-randr \
+--enable-xext  \
+--enable-xrandr \
 --enable-fribidi  \
 --mandir=/usr/man || exit 1 
+
 
 make -j${numjobs} DESTDIR=$pkgdir install || exit 1
 
