@@ -1,7 +1,5 @@
-#ABUILD created by: SirAnthony, anthony at adsorbtion.org
-
 pkgname=ffmpeg
-pkgver=2.2.4
+pkgver=2.6.1
 pkgbuild=1
 arch=('auto')
 
@@ -15,7 +13,7 @@ tags="libs media-video"
 
 build_deps=("yasm alsa-lib bzip2 fontconfig gsm lame libass libbluray libmodplug
       libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump
-      schroedinger sdl speex v4l-utils x264 xvidcore zlib libvdpau")
+      schroedinger sdl x265  speex v4l-utils x264 xvidcore zlib libvdpau")
 
 build(){
   go_src_dir
@@ -69,6 +67,8 @@ build(){
 	--enable-version3 \
 	--enable-x11grab \
 	--enable-zlib \
+	--enable-nonfree \
+	--enable-libx265 \
 	--disable-debug \
 	--disable-indev=oss \
 	--disable-indev=jack \
