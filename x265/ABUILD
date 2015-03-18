@@ -1,0 +1,30 @@
+pkgname=x265
+pkgver=1.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="free H265/HEVC video encoder"
+
+source=("https://bitbucket.org/multicoreware/x265/downloads/${pkgname}_${pkgver}.tar.gz")
+
+tags="libs media-video"
+
+build_deps="gcc cmake"
+
+adddep=""
+
+build(){
+
+go_src_dir
+  cd build/linux
+    [[ $CARCH == x86_64 ]] && LDFLAGS+=',-z,noexecstack'
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../../source -DHIGH_BIT_DEPTH=1
+
+make
+    make DESTDIR="${pkgdir}" install  
+
+}
