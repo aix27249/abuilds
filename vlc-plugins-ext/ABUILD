@@ -1,5 +1,5 @@
 pkgname=vlc
-pkgver=2.1.5
+pkgver=2.2.0
 buildver=1
 pkgbuild=${buildver}
 arch=('auto')
@@ -14,8 +14,8 @@ tags="xapps media-video"
 custom_opts="no_ccache"
 
 build_deps="lua  libvorbis libogg libtheora speex flac   faad2 faac libvdpau ffmpeg libmad \
-orc x264 lame libdvbpsi schroedinger libdca  libass libebml libmatroska  libmodplug gettext \
- libdvdcss libdvdread libdvdnav libcddb libcdio  libgpg-error libgcrypt  libnotify \
+orc x264 x265 lame libdvbpsi schroedinger libdca  libass libebml libmatroska  libmodplug gettext \
+ libdvdcss libdvdread libdvdnav libcddb libcdio  libgpg-error libgcrypt \
 libdvbpsi gnutls libxml2 libpng libjpeg libtiff sdl freetype taglib  libcaca  libupnp \
 expat sqlite qt4 yasm libbluray fluidsynth  gcc-g++ git opus "
 
@@ -25,33 +25,23 @@ removedep="mesa  libgl  udev libdrm fontconfig freetype xulrunner  util-linux-ng
 
 adddep="xset ffmpeg"
 
+BUILD_SYSTEM="autotools"
 
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
-build()
-{
-
-go_src_dir
-
-./configure \
---prefix=/usr \
+BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
---libdir=/usr/lib${LIBDIRSUFFIX}
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-libfreerdp \
+--enable-x265 \
+--docdir=/usr/doc/${pkgname}-${pkgver}"
 
-make -j4 || exit 1
-make install DESTDIR=${pkgdir} || exit 1
-
-}
-
-
-after_build()
-{
-find  ${pkgdir} -name \*.la -exec rm -f {} \;
-mkdir -p ${pkgdir}/usr/doc/$pkgname-$pkgver
-cp -a ${pkgdir}/usr/share/doc/vlc/* ${pkgdir}/usr/doc/$pkgname-$pkgver/
-rm -rf ${pkgdir}/usr/share/doc
-}
+INSTALL_KEYS="DESTDIR=$pkgdir"
 
 vlc-plugins-ext() {
 	pkgname=vlc-plugins-ext
