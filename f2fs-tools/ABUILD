@@ -1,13 +1,11 @@
-#ABUILD created by/создан: khvalera, khvalera at narod.ru 
-
 pkgname=f2fs-tools
-pkgver=1.3.0
+pkgver=1.4.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Tools for Flash-Friendly File System (F2FS)"
 
-source=("http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/f2fs-tools-1.3.0.tar.gz")
+source=("http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/f2fs-tools-1.4.1.tar.gz")
 
 tags="base sys-fs"
 
