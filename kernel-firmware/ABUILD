@@ -2,7 +2,7 @@
 
 pkgname=kernel
 # Kernel version may contain '-' symbol, so let's protect from it by using kernel_ver everywhere.
-pkgver=3.13.5
+pkgver=3.19.2
 
 kernel_ver=`echo ${pkgver} | sed -e s/_/-/g`
 if [ "${kernel_ver}" = "`echo ${kernel_ver} | sed 's/\.0$//g'`" ] ; then
@@ -12,7 +12,7 @@ else
 fi
 kernel_base=`echo ${kernel_ver} | cut -d . -f 1-2`
 ver_group=`echo ${kernel_ver} | cut -d . -f 1-1`
-pkgbuild=5
+pkgbuild=1
 arch=("auto")
 
 shortdesc=("Linux kernel")
@@ -60,43 +60,30 @@ sources() {
   tags=('develop sys-kernel')
 }
 
-apply_aufs_from_git() {
-  go_src_dir
-
-  # Checking out AUFS patch. Note that we do it outside kernel tree. Add AUBRANCH to it if you want to check out specific branch instead of master tree
-  ( cd .. ; AUBRANCH=${AUBRANCH:-$kernel_base} sh ${filedir}/aufs_checkout.sh )
-
-  echo "Remove Kbuild, as it should never be copied (see aufs readme)"
-  rm ../aufs3-standalone/include/uapi/linux/Kbuild
-
-  # Copy aufs tree
-  cp -rv ../aufs3-standalone/Documentation .
-  cp -rv ../aufs3-standalone/fs .
-  cp -rv ../aufs3-standalone/include/ .
-
-  # Applying AUFS patches
-  cat ../aufs3-standalone/aufs3-kbuild.patch | patch -p1 --verbose
-  cat ../aufs3-standalone/aufs3-base.patch | patch -p1 --verbose
-  cat ../aufs3-standalone/aufs3-mmap.patch | patch -p1 --verbose # Regarding to aufs readme, it is optional, but it won't compile if you miss it.
-  cat ../aufs3-standalone/aufs3-loopback.patch | patch -p1 --verbose # Seems to be deprecated
-  cat ../aufs3-standalone/aufs3-standalone.patch | patch -p1 --verbose
-
-  # Clean up
-  rm -rf ../aufs3-standalone
-  return 0
-}
 
 build() {
   go_src_dir
 
-  # Applying generic patches. If you want to apply something personal, just put it into patches directory
+  
+
+#xz -dc $filedir/patch-3.18.3-4.xz | patch -p1 || echo " patches not found"
+  
   burn_patches
+  
+echo " git не работает у меня приходиться так"
+rm $filedir/aufs/include/uapi/linux/Kbuild || echo " Его нету "
 
-  # Check if we are using prepared patches:
-  if [ ! -f ${patchdir}/aufs*-standalone.patch ] ; then
-     apply_aufs_from_git
-  fi
-
+    cp -rv $filedir/aufs/Documentation .
+      cp -rv $filedir/aufs/fs .
+        cp -rv $filedir/aufs/include/ .
+         
+           # Applying AUFS patches
+             cat $filedir/aufs/aufs3-kbuild.patch | patch -p1 --verbose
+               cat $filedir/aufs/aufs3-base.patch | patch -p1 --verbose
+                 cat $filedir/aufs/aufs3-mmap.patch | patch -p1 --verbose # Regarding to aufs readme, it is optional, but it won't compile if you miss it.
+                   cat $filedir/aufs/aufs3-loopback.patch | patch -p1 --verbose # Seems to be deprecated
+                     cat $filedir/aufs/aufs3-standalone.patch | patch -p1 --verbose
+                      
   # Now copy kernel config
   if [ "${ARCH}" = "x86_64" ] ; then
      cat ${filedir}/$kernel_base.defconfig-x86_64 > .config
@@ -118,7 +105,6 @@ build() {
 
 modules() {
   make modules_install INSTALL_MOD_PATH=${pkgdir}
-
   # Remove firmware from modules package. I don't know why it installs together with modules...
   rm -rf ${pkgdir}/lib/firmware
   rm ${pkgdir}/lib/modules/${kernel_ver}/{source,build}
