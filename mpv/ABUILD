@@ -1,6 +1,6 @@
 #ABUILD created by/создан: Ben, ivan29m at rambler.ru 
 pkgname=mpv
-pkgver=0.7.2 
+pkgver=0.8.4
 pkgbuild=1
 arch=('auto')
 
@@ -18,8 +18,7 @@ build(){
 
 go_src_dir
 pwd
-./bootstrap.py
-
+#./bootstrap.py
 ./waf configure --prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --disable-static \
