@@ -1,70 +1,28 @@
-#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=mozplugger
-pkgver=1.14.1
+pkgver=2.1.6
 pkgbuild=1
 arch=('auto')
 
-shortdesc="mozilla player handler"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("Mozilla plugin for handle players on media stremas such as WMP streams. Also usable in other browsers, which support Netscape plugins"
-)
+shortdesc="A Mozilla & Firefox multimedia plugin."
 
-source=("http://mozplugger.mozdev.org/files/$pkgname-$pkgver.tar.gz")
+source=("http://mozplugger.mozdev.org/files/mozplugger-$pkgver.tar.gz")
 
-patch_opts=("")
 
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
-tags="network www-plugins"
+tags="console media-plugins "
 
-#dependencies only needed to build package
-build_deps=""
+build_deps="gcc"
 
-provides=""
-conflicts=""
 
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
-
-build()
-{
-go_src_dir
-make linux
-make install root="$pkgdir"
+build(){
+  go_src_dir
+   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+    make
+     install -Dm644 ${filedir}/mozpluggerrc "$pkgdir/etc/mozpluggerrc"
+       install -d "$pkgdir/usr/bin/"
+         install -m755 mozplugger-{helper,controller,linker,update} "$pkgdir/usr/bin/"
+           install -Dm755 mozplugger.so "$pkgdir/usr/lib/mozilla/plugins/mozplugger.so"
+             install -Dm644 mozplugger.7 "$pkgdir/usr/share/man/man7/mozplugger.7"
+  
 }
 
 
-#ran after function build() 
-#после сборки
-after_build()
-{
-# It can't do that OK, so, do that manually!
-cd $pkgdir
-mv usr/lib usr/lib${LIBDIRSUFFIX}
-}
