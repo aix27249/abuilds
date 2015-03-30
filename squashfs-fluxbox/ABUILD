@@ -1,6 +1,6 @@
 pkgname=squashfs-fluxbox
 pkgver=1.1.1
-pkgbuild=5
+pkgbuild=6
 arch=('noarch')
 
 shortdesc="Script for acceleration and compression"
