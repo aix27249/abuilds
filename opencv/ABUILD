@@ -2,7 +2,7 @@
 #----------------------------- General vars --------------------------------------
 #------------------------- Основные переменные -----------------------------------
 pkgname=opencv
-pkgver=2.3.1a
+pkgver=2.4.11
 pkgbuild=3
 arch=('auto')
 
@@ -11,7 +11,7 @@ shortdesc="OpenCV (Open Source Computer Vision) "
 longdesc=("a library of programming functions for real time computer vision. "
 )
 
-source=("http://downloads.sourceforge.net/opencvlibrary/OpenCV-${pkgver}.tar.bz2")
+source=("http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/${pkgver}/opencv-${pkgver}.zip")
 
 
 #----------------------------- AgiliaLinux vars --------------------------------------
@@ -20,26 +20,8 @@ source=("http://downloads.sourceforge.net/opencvlibrary/OpenCV-${pkgver}.tar.bz2
 tags="libs media-libs"
 
 #dependencies only needed to build package
-build_deps=""
+build_deps="gcc"
 
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
-pkglist=
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
 
 #----------------------------- Make PKG --------------------------------------
 #-------------------------- Сборка пакета ------------------------------------
